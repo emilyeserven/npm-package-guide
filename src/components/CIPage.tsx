@@ -11,7 +11,7 @@ export function CIPage({ pageId }: { pageId: string }) {
   const page = ciPages.find(p => p.id === pageId)
   if (!page) return <div>CI page not found</div>
 
-  let html = `<h2 class="section-title">${page.title}</h2>`
+  let html = `<h1 class="section-title">${page.title}</h1>`
 
   if (page.isOverview) {
     html += `<div class="section-intro">${page.intro}</div>`
@@ -36,25 +36,25 @@ export function CIPage({ pageId }: { pageId: string }) {
 
     html += `
       <div class="explainer">
-        <h4 class="explainer-heading">💡 ${page.explainerTitle}</h4>
+        <h2 class="explainer-heading">💡 ${page.explainerTitle}</h2>
         <div class="explainer-body">${page.explainerBody}</div>
       </div>`
 
   } else if (page.isTestingPage) {
     // TOC
     html += `<div class="section-toc"><div class="section-toc-title">On this page</div>`
-    html += `<a href="#toc-unit">Unit Tests</a>`
-    html += `<a href="#toc-e2e">E2E Tests</a>`
-    if (page.storybookNote) html += `<a href="#toc-component">Component Tests (Storybook)</a>`
-    html += `<a href="#toc-coverage">Test Coverage</a>`
-    html += `<a href="#toc-good-tests">What makes a good test?</a>`
+    html += `<a class="toc-link" data-toc="toc-unit">Unit Tests</a>`
+    html += `<a class="toc-link" data-toc="toc-e2e">E2E Tests</a>`
+    if (page.storybookNote) html += `<a class="toc-link" data-toc="toc-component">Component Tests (Storybook)</a>`
+    html += `<a class="toc-link" data-toc="toc-coverage">Test Coverage</a>`
+    html += `<a class="toc-link" data-toc="toc-good-tests">What makes a good test?</a>`
     html += `</div>`
 
     html += `<div class="section-intro">${page.intro}</div>`
 
     // Unit tests
     html += `<div class="ci-step">`
-    html += `<div class="ci-step-heading" id="toc-unit">${page.unitSection!.heading}</div>`
+    html += `<h2 class="ci-step-heading" id="toc-unit">${page.unitSection!.heading}</h2>`
     html += `<div class="ci-step-text">${page.unitSection!.text}</div>`
     html += `<div class="yaml-heading">GitHub Actions Example</div>`
     html += `<div class="ci-yaml">${page.unitSection!.yaml}</div>`
@@ -63,7 +63,7 @@ export function CIPage({ pageId }: { pageId: string }) {
 
     // E2E tests
     html += `<div class="ci-step">`
-    html += `<div class="ci-step-heading" id="toc-e2e">${page.e2eSection!.heading}</div>`
+    html += `<h2 class="ci-step-heading" id="toc-e2e">${page.e2eSection!.heading}</h2>`
     html += `<div class="ci-step-text">${page.e2eSection!.text}</div>`
     html += `<div class="yaml-heading">GitHub Actions Example</div>`
     html += `<div class="ci-yaml">${page.e2eSection!.yaml}</div>`
@@ -72,16 +72,16 @@ export function CIPage({ pageId }: { pageId: string }) {
 
     // Storybook note
     if (page.storybookNote) {
-      html += `<div class="ci-step" id="toc-component"><div class="ci-step-heading">📖 Component Tests (Storybook)</div><div class="ci-step-text">${page.storybookNote}</div></div>`
+      html += `<div class="ci-step" id="toc-component"><h2 class="ci-step-heading">📖 Component Tests (Storybook)</h2><div class="ci-step-text">${page.storybookNote}</div></div>`
     }
 
     html += `<div class="ci-step">`
-    html += `<div class="ci-step-heading" id="toc-coverage">📊 Test Coverage</div>`
+    html += `<h2 class="ci-step-heading" id="toc-coverage">📊 Test Coverage</h2>`
     html += `<div class="ci-step-text">${page.coverageText}</div>`
     html += `</div>`
 
     html += `<div class="ci-step">`
-    html += `<div class="ci-step-heading" id="toc-good-tests">✅ What makes a good test?</div>`
+    html += `<h2 class="ci-step-heading" id="toc-good-tests">✅ What makes a good test?</h2>`
     html += `<div class="ci-step-text"><ul class="good-tests-list">`
     page.goodTests!.forEach(item => {
       html += `<li>${item}</li>`
@@ -110,7 +110,7 @@ export function CIPage({ pageId }: { pageId: string }) {
     // TOC
     html += `<div class="section-toc"><div class="section-toc-title">On this page</div>`
     page.tools!.forEach(tool => {
-      html += `<a href="#toc-${tool.name}">${tool.emoji} ${tool.name}</a>`
+      html += `<a class="toc-link" data-toc="toc-${tool.name}">${tool.emoji} ${tool.name}</a>`
     })
     html += `</div>`
 
@@ -118,7 +118,7 @@ export function CIPage({ pageId }: { pageId: string }) {
 
     page.tools!.forEach(tool => {
       html += `<div class="ci-step">`
-      html += `<div class="ci-step-heading" id="toc-${tool.name}">${tool.emoji} ${tool.name}</div>`
+      html += `<h2 class="ci-step-heading" id="toc-${tool.name}">${tool.emoji} ${tool.name}</h2>`
       html += `<div class="ci-step-text">${tool.desc}</div>`
       html += `<div class="ci-step-text"><strong>Why it matters:</strong> ${tool.why}</div>`
       html += `<div class="yaml-heading">GitHub Actions Example</div>`
@@ -134,7 +134,7 @@ export function CIPage({ pageId }: { pageId: string }) {
     if (headingMatches.length > 1) {
       html += `<div class="section-toc"><div class="section-toc-title">On this page</div>`
       headingMatches.forEach(m => {
-        html += `<a href="#${m[1]}">${m[2]}</a>`
+        html += `<a class="toc-link" data-toc="${m[1]}">${m[2]}</a>`
       })
       html += `</div>`
     }

@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from '@tanstack/react-router'
-import { getNavTitle } from '../data/navigation'
 import { PMDropdown } from './PMDropdown'
 import { useTheme } from '../hooks/useTheme'
 
@@ -12,7 +11,6 @@ export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) 
   const navigate = useNavigate()
   const params = useParams({ strict: false }) as { sectionId?: string }
   const sectionId = params.sectionId || 'roadmap'
-  const currentTitle = getNavTitle(sectionId)
   const isHome = sectionId === 'roadmap'
   const { theme, toggleTheme } = useTheme()
 
@@ -27,7 +25,7 @@ export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) 
         <button className="header-menu-btn" onClick={onMenuToggle} aria-label="Open navigation">
           <span className="header-menu-icon"><span></span><span></span><span></span></span>
         </button>
-        <span className="header-section-name">{currentTitle}</span>
+        <span className="header-section-name">Web App vs. NPM Package Guide</span>
         <div className="header-pm-switcher">
           {!isHome && (
             <button className="header-home-btn" onClick={handleHomeClick}>

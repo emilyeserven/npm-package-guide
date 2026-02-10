@@ -39,7 +39,7 @@ export function ChecklistPage() {
 
   return (
     <>
-      <h2 className="checklist-title">✅ Publish Checklist</h2>
+      <h1 className="checklist-title">✅ Publish Checklist</h1>
       <HtmlContent html={subHtml} className="checklist-sub" as="p" />
       <button className="checklist-copy-btn" id="copy-checklist" onClick={handleCopy}>📋 Copy as Markdown</button>
 

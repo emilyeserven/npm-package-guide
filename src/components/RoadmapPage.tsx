@@ -7,7 +7,7 @@ import { PrevNextNav } from './PrevNextNav'
 
 export function RoadmapPage() {
   let html = `<div class="page-header">
-    <h1>Web App vs. NPM Package</h1>
+    <h1>Web App vs. NPM Package Guide</h1>
     <p class="subtitle">A guide for backend engineers stepping into the frontend world.</p>
     <p class="hint">💡 Look for the green "Explain it to me" dropdowns for backend-friendly analogies.</p>
   </div>`
