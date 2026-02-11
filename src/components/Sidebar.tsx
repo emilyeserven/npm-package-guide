@@ -37,11 +37,20 @@ export function Sidebar({ open, onClose }: SidebarProps) {
 
   const topItems = [
     { id: 'roadmap', title: '🚀 Start Here' },
-    { id: 'bigpicture', title: '🗺️ Big Picture' },
   ]
 
-  const conceptItems = sections.filter(s => s.group === 'concepts').map(s => ({ id: s.id, title: s.title }))
-  const comparisonItems = sections.filter(s => s.group !== 'concepts' && s.id !== 'bigpicture').map(s => ({ id: s.id, title: s.title }))
+  // Order matches the Start Page roadmap steps
+  const buildingPackageOrder = [
+    'bigpicture', 'monorepo', 'npm-vs-pnpm',
+    'build', 'tsconfig', 'deps', 'dist',
+    'packagejson', 'typescript', 'versioning', 'workflow',
+  ]
+  const buildingPackageItems = buildingPackageOrder
+    .map(id => {
+      const s = sections.find(s => s.id === id)
+      return s ? { id: s.id, title: s.title } : null
+    })
+    .filter((item): item is { id: string; title: string } => item !== null)
 
   const resourceItems = [
     { id: 'checklist', title: '✅ Publish Checklist' },
@@ -60,17 +69,12 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           <SidebarItem key={item.id} {...item} active={currentId === item.id} onClick={handleNav} />
         ))}
 
-        <div className="sidebar-group-label">Overall Concepts</div>
-        {conceptItems.map(item => (
+        <div className="sidebar-group-label">Building a Package: Step by Step</div>
+        {buildingPackageItems.map(item => (
           <SidebarItem key={item.id} {...item} active={currentId === item.id} onClick={handleNav} />
         ))}
 
-        <div className="sidebar-group-label">Web App vs NPM Package</div>
-        {comparisonItems.map(item => (
-          <SidebarItem key={item.id} {...item} active={currentId === item.id} onClick={handleNav} />
-        ))}
-
-        <div className="sidebar-group-label">CI Pipeline &amp; Checks</div>
+        <div className="sidebar-group-label">Bonus: CI Pipeline &amp; Checks</div>
         {ciPages.map(item => (
           <SidebarItem key={item.id} id={item.id} title={item.title} active={currentId === item.id} onClick={handleNav} />
         ))}
@@ -80,7 +84,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           <SidebarItem key={item.id} id={item.id} title={item.title} active={currentId === item.id} onClick={handleNav} />
         ))}
 
-        <div className="sidebar-group-label">Resources</div>
+        <div className="sidebar-group-label">Bonus: Learning Resources</div>
         {resourceItems.map(item => (
           <SidebarItem key={item.id} {...item} active={currentId === item.id} onClick={handleNav} />
         ))}
