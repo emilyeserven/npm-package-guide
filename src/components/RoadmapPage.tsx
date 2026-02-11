@@ -91,14 +91,19 @@ export function RoadmapPage() {
   html += `<div class="step-title">Bonus: Learning Resources</div>`
   html += `<div class="step-desc">Documentation, articles, courses, and tools to go deeper on frontend development, npm packages, and the JavaScript ecosystem.</div>`
   html += `<div class="bonus-subpage">`
+  html += `<h3 class="bonus-subpage-title">✅ Publish Checklist</h3>`
+  html += `<div class="bonus-subpage-desc">Go through this before every npm publish — trust us, it saves headaches.</div>`
+  html += `<button class="step-jump" data-jump="checklist">→ Deep dive: ✅ Publish Checklist</button>`
+  html += `</div>`
+  html += `<div class="bonus-subpage">`
   html += `<h3 class="bonus-subpage-title">📚 Learning Resources</h3>`
   html += `<div class="bonus-subpage-desc">Curated documentation, articles, free and paid courses, starter templates, and monorepo tools for the JavaScript ecosystem.</div>`
   html += `<button class="step-jump" data-jump="overall-resources">→ Deep dive: 📚 Learning Resources</button>`
   html += `</div>`
   html += `<div class="bonus-subpage">`
-  html += `<h3 class="bonus-subpage-title">✅ Publish Checklist</h3>`
-  html += `<div class="bonus-subpage-desc">Go through this before every npm publish — trust us, it saves headaches.</div>`
-  html += `<button class="step-jump" data-jump="checklist">→ Deep dive: ✅ Publish Checklist</button>`
+  html += `<h3 class="bonus-subpage-title">📖 Glossary</h3>`
+  html += `<div class="bonus-subpage-desc">Key terms you'll encounter when building and publishing npm packages, with links to the relevant sections in this guide.</div>`
+  html += `<button class="step-jump" data-jump="glossary">→ Deep dive: 📖 Glossary</button>`
   html += `</div>`
   html += `<div class="bonus-subpage">`
   html += `<h3 class="bonus-subpage-title">🔗 Section References</h3>`
