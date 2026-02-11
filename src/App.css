@@ -1333,6 +1333,7 @@
     color: var(--muted);
     cursor: pointer;
     transition: all 0.15s;
+    flex-shrink: 0;
   }
 
   .ai-prompt-copy:hover { border-color: var(--indigo); color: var(--indigo); }
@@ -1565,62 +1566,6 @@
   }
 
   .good-tests-list li:last-child { margin-bottom: 0; }
-
-  /* AI prompt blocks */
-  .ai-prompt-block {
-    margin-bottom: 16px;
-  }
-
-  .ai-prompt-block:last-child { margin-bottom: 0; }
-
-  .ai-prompt-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
-  }
-
-  .ai-prompt-label {
-    font-weight: 700;
-    font-size: 13px;
-    color: var(--ink);
-  }
-
-  .ai-prompt-copy {
-    font-family: inherit;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    background: #fff;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s;
-    flex-shrink: 0;
-  }
-
-  .ai-prompt-copy:hover {
-    border-color: var(--indigo);
-    color: var(--indigo);
-  }
-
-  .ai-prompt-copy.copied {
-    border-color: #10b981;
-    color: #10b981;
-    background: #ecfdf5;
-  }
-
-  .ai-prompt-text {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    background: #f1f5f9;
-    padding: 10px 14px;
-    border-radius: 8px;
-    line-height: 1.6;
-    color: var(--muted);
-    white-space: pre-wrap;
-  }
 
   .ci-full-example {
     margin-top: 28px;
@@ -1979,11 +1924,6 @@
     border-color: var(--border);
     background: var(--surface-raised);
   }
-
-  body.dark .ai-prompt-text {
-    background: var(--surface-raised);
-  }
-
 
   body.dark .checklist-copy-btn {
     border-color: var(--border);
