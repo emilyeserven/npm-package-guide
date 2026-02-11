@@ -4,7 +4,6 @@ import {
   getCoreRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-  flexRender,
   createColumnHelper,
   type SortingState,
   type ColumnFiltersState,
@@ -15,6 +14,7 @@ import { sections } from '../data/sections'
 import { ciPages } from '../data/ciPages'
 import { bonusSections } from '../data/bonusSections'
 import { PrevNextNav } from './PrevNextNav'
+import { DataTable } from './DataTable'
 
 interface ReferenceRow {
   name: string
@@ -171,6 +171,7 @@ export function ExternalResourcesPage() {
     return data.filter(r => tagFilter.some(b => r.tags.includes(b)))
   }, [data, tagFilter])
 
+  // eslint-disable-next-line react-hooks/incompatible-library -- not using React Compiler
   const table = useReactTable({
     data: filteredData,
     columns,
@@ -298,52 +299,7 @@ export function ExternalResourcesPage() {
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
-          <table className="w-full border-collapse text-sm">
-            <thead>
-              {table.getHeaderGroups().map(headerGroup => (
-                <tr key={headerGroup.id} className="border-b border-slate-200 dark:border-slate-700">
-                  {headerGroup.headers.map(header => (
-                    <th
-                      key={header.id}
-                      className={clsx(
-                        'text-left px-3 py-2.5 text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider bg-slate-50 dark:bg-slate-800/50',
-                        header.column.getCanSort() && 'cursor-pointer select-none hover:text-blue-500 dark:hover:text-blue-400'
-                      )}
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
-                      <span className="flex items-center gap-1">
-                        {flexRender(header.column.columnDef.header, header.getContext())}
-                        {header.column.getCanSort() && (
-                          <span className="text-gray-300 dark:text-slate-600 text-xs">
-                            {{ asc: ' ↑', desc: ' ↓' }[header.column.getIsSorted() as string] ?? ' ↕'}
-                          </span>
-                        )}
-                      </span>
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.length === 0 ? (
-                <tr>
-                  <td colSpan={3} className="text-center text-gray-400 dark:text-slate-500 py-6">No references match your filters.</td>
-                </tr>
-              ) : (
-                table.getRowModel().rows.map(row => (
-                  <tr key={row.id} className="border-b border-slate-100 dark:border-slate-800 last:border-b-0 hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
-                    {row.getVisibleCells().map(cell => (
-                      <td key={cell.id} className="px-3 py-2.5 align-top">
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </td>
-                    ))}
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+        <DataTable table={table} columnCount={3} emptyMessage="No references match your filters." />
       </div>
       <PrevNextNav currentId="external-resources" />
     </>

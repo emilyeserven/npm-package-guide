@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react'
 import { ciPages } from '../data/ciPages'
-import { enrichFootnoteRefs } from '../helpers/renderFootnotes'
-import { enrichGlossaryTerms } from '../helpers/glossaryEnrich'
+import { enrichContent } from '../helpers/enrichContent'
+import { buildTocHtml } from '../helpers/buildTocHtml'
 import { HtmlContent } from './HtmlContent'
 import { Footnotes } from './Footnotes'
 import { PrevNextNav } from './PrevNextNav'
@@ -74,13 +74,14 @@ export function CIPage({ pageId }: { pageId: string }) {
 
   } else if (page.isTestingPage) {
     // TOC
-    html += `<div class="section-toc"><div class="section-toc-title">On this page</div>`
-    html += `<a class="toc-link" data-toc="toc-unit">Unit Tests</a>`
-    html += `<a class="toc-link" data-toc="toc-e2e">E2E Tests</a>`
-    if (page.storybookNote) html += `<a class="toc-link" data-toc="toc-component">Component Tests (Storybook)</a>`
-    html += `<a class="toc-link" data-toc="toc-coverage">Test Coverage</a>`
-    html += `<a class="toc-link" data-toc="toc-good-tests">What makes a good test?</a>`
-    html += `</div>`
+    const testingToc = [
+      { id: 'toc-unit', label: 'Unit Tests', level: 1 },
+      { id: 'toc-e2e', label: 'E2E Tests', level: 1 },
+      ...(page.storybookNote ? [{ id: 'toc-component', label: 'Component Tests (Storybook)', level: 1 }] : []),
+      { id: 'toc-coverage', label: 'Test Coverage', level: 1 },
+      { id: 'toc-good-tests', label: 'What makes a good test?', level: 1 },
+    ]
+    html += buildTocHtml(testingToc)
 
     html += `<div class="section-intro">${page.intro}</div>`
 
@@ -140,11 +141,12 @@ export function CIPage({ pageId }: { pageId: string }) {
 
   } else if (page.isMaintenancePage) {
     // TOC
-    html += `<div class="section-toc"><div class="section-toc-title">On this page</div>`
-    page.tools!.forEach(tool => {
-      html += `<a class="toc-link" data-toc="toc-${tool.name}">${tool.emoji} ${tool.name}</a>`
-    })
-    html += `</div>`
+    const maintenanceToc = page.tools!.map(tool => ({
+      id: `toc-${tool.name}`,
+      label: `${tool.emoji} ${tool.name}`,
+      level: 1,
+    }))
+    html += buildTocHtml(maintenanceToc)
 
     html += `<div class="section-intro">${page.intro}</div>`
 
@@ -163,13 +165,8 @@ export function CIPage({ pageId }: { pageId: string }) {
     // Standard sub-page
     const introHtml = page.intro
     const headingMatches = [...introHtml.matchAll(/id='(toc-[^']+)'[^>]*>([^<]+)/g)]
-    if (headingMatches.length > 1) {
-      html += `<div class="section-toc"><div class="section-toc-title">On this page</div>`
-      headingMatches.forEach(m => {
-        html += `<a class="toc-link" data-toc="${m[1]}">${m[2]}</a>`
-      })
-      html += `</div>`
-    }
+    const standardToc = headingMatches.map(m => ({ id: m[1], label: m[2], level: 1 }))
+    html += buildTocHtml(standardToc, 2)
 
     html += `<div class="section-intro">${page.intro}</div>`
     html += `<div class="yaml-heading">GitHub Actions Example</div>`
@@ -177,7 +174,7 @@ export function CIPage({ pageId }: { pageId: string }) {
     html += `<div class="ci-tip">${page.tip}</div>`
   }
 
-  const enrichedHtml = enrichGlossaryTerms(enrichFootnoteRefs(html, page.links), pageId)
+  const enrichedHtml = enrichContent(html, page.links, pageId)
 
   return (
     <div ref={contentRef} onClick={handleClick}>

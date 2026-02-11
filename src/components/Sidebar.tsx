@@ -1,8 +1,9 @@
-import { useNavigate, useParams } from '@tanstack/react-router'
+import { useParams } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { sections } from '../data/sections'
 import { ciPages } from '../data/ciPages'
 import { bonusSections } from '../data/bonusSections'
+import { useNavigateToSection } from '../hooks/useNavigateToSection'
 
 interface SidebarProps {
   open: boolean
@@ -30,18 +31,13 @@ function SidebarItem({ id, title, active, onClick }: { id: string; title: string
 }
 
 export function Sidebar({ open, onClose }: SidebarProps) {
-  const navigate = useNavigate()
+  const navigateToSection = useNavigateToSection()
   const params = useParams({ strict: false }) as { sectionId?: string }
   const currentId = params.sectionId || 'roadmap'
 
   const handleNav = (id: string) => {
     onClose()
-    if (id === 'roadmap') {
-      navigate({ to: '/' })
-    } else {
-      navigate({ to: '/$sectionId', params: { sectionId: id } })
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    navigateToSection(id)
   }
 
   const topItems = [

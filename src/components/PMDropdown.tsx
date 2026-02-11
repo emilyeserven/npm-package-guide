@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { usePM } from '../hooks/usePMContext'
+import { useNavigateToSection } from '../hooks/useNavigateToSection'
 
 export function PMDropdown() {
   const [open, setOpen] = useState(false)
   const { currentPM, setPM } = usePM()
-  const navigate = useNavigate()
+  const navigateToSection = useNavigateToSection()
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -62,8 +62,7 @@ export function PMDropdown() {
           className="flex items-center w-full px-3 py-1.5 text-sm text-slate-700 dark:text-slate-300 bg-transparent border-none cursor-pointer transition-colors duration-150 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400"
           onClick={() => {
             setOpen(false)
-            navigate({ to: '/$sectionId', params: { sectionId: 'npm-vs-pnpm' } })
-            window.scrollTo({ top: 0, behavior: 'smooth' })
+            navigateToSection('npm-vs-pnpm')
           }}
         >
           <span className="w-5" />npm vs pnpm

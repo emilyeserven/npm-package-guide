@@ -1,7 +1,8 @@
-import { useNavigate, useParams } from '@tanstack/react-router'
+import { useParams } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { PMDropdown } from './PMDropdown'
 import { useTheme } from '../hooks/useTheme'
+import { useNavigateToSection } from '../hooks/useNavigateToSection'
 
 interface FloatingHeaderProps {
   scrolled: boolean
@@ -9,15 +10,14 @@ interface FloatingHeaderProps {
 }
 
 export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) {
-  const navigate = useNavigate()
+  const navigateToSection = useNavigateToSection()
   const params = useParams({ strict: false }) as { sectionId?: string }
   const sectionId = params.sectionId || 'roadmap'
   const isHome = sectionId === 'roadmap'
   const { theme, toggleTheme } = useTheme()
 
   const handleHomeClick = () => {
-    navigate({ to: '/' })
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    navigateToSection('roadmap')
   }
 
   return (
