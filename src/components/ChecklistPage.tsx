@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import clsx from 'clsx'
+import parse from 'html-react-parser'
 import { checklistItems } from '../data/checklistItems'
 import { cmd } from '../helpers/cmd'
 import { HtmlContent } from './HtmlContent'
@@ -86,8 +87,9 @@ export function ChecklistPage() {
                 'text-sm leading-relaxed flex-1 min-w-0',
                 isChecked ? 'line-through text-gray-400 dark:text-slate-500' : 'text-slate-800 dark:text-slate-300'
               )}
-              dangerouslySetInnerHTML={{ __html: item.text }}
-            />
+            >
+              {parse(item.text)}
+            </span>
             <span className={`check-badge ${item.badge}`}>{item.cat}</span>
           </label>
         )

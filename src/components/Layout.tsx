@@ -3,6 +3,7 @@ import { Outlet } from '@tanstack/react-router'
 import { FloatingHeader } from './FloatingHeader'
 import { Sidebar } from './Sidebar'
 import { GlossaryTooltip } from './GlossaryTooltip'
+import { FootnoteTooltip } from './FootnoteTooltip'
 
 export function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -45,6 +46,7 @@ export function Layout() {
       />
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <GlossaryTooltip />
+      <FootnoteTooltip />
     </>
   )
 }
