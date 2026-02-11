@@ -54,7 +54,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
 
   const resourceItems = [
     { id: 'checklist', title: '✅ Publish Checklist' },
-    { id: 'all-references', title: '📚 All References' },
+    { id: 'external-resources', title: '📚 External Resources' },
     { id: 'glossary', title: '📖 Glossary' },
   ]
 

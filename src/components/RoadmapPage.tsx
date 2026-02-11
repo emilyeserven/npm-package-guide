@@ -96,9 +96,9 @@ export function RoadmapPage() {
   html += `<button class="step-jump" data-jump="checklist">→ Deep dive: ✅ Publish Checklist</button>`
   html += `</div>`
   html += `<div class="bonus-subpage">`
-  html += `<h3 class="bonus-subpage-title">📚 All References</h3>`
+  html += `<h3 class="bonus-subpage-title">📚 External Resources</h3>`
   html += `<div class="bonus-subpage-desc">Curated documentation, articles, courses, tools, and section references — all in one searchable, sortable table.</div>`
-  html += `<button class="step-jump" data-jump="all-references">→ Deep dive: 📚 All References</button>`
+  html += `<button class="step-jump" data-jump="external-resources">→ Deep dive: 📚 External Resources</button>`
   html += `</div>`
   html += `<div class="bonus-subpage">`
   html += `<h3 class="bonus-subpage-title">📖 Glossary</h3>`

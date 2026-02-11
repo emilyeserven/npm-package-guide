@@ -73,7 +73,7 @@ function buildReferenceData(): ReferenceRow[] {
 
 const columnHelper = createColumnHelper<ReferenceRow>()
 
-export function AllReferencesPage() {
+export function ExternalResourcesPage() {
   const data = useMemo(() => buildReferenceData(), [])
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -186,7 +186,7 @@ export function AllReferencesPage() {
   return (
     <>
       <div>
-        <h1 className="section-title">All References</h1>
+        <h1 className="section-title">External Resources</h1>
         <p style={{ color: 'var(--muted)', fontSize: '14px', marginBottom: '20px', lineHeight: 1.6 }}>
           Documentation, articles, courses, tools, and section references in one place. Use the search and filters to find what you need.
         </p>
@@ -304,7 +304,7 @@ export function AllReferencesPage() {
           </table>
         </div>
       </div>
-      <PrevNextNav currentId="all-references" />
+      <PrevNextNav currentId="external-resources" />
     </>
   )
 }

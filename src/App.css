@@ -1189,8 +1189,14 @@
     height: 11px;
   }
 
+  .glossary-cell-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 4px;
+  }
+
   .glossary-section-link {
-    margin-left: 4px;
     font-size: 12px;
     white-space: nowrap;
   }
@@ -2037,7 +2043,7 @@
     background: #6366f1;
   }
 
-  /* All References table */
+  /* External Resources table */
   .ref-controls {
     display: flex;
     gap: 12px;

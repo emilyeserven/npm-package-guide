@@ -6,7 +6,7 @@ Educational single-page application (SPA) comparing web apps vs NPM packages, bu
 
 ## Tech Stack
 
-- **Framework:** React 19 + TanStack Router (hash-based routing for GitHub Pages) + TanStack Table (All References, Glossary)
+- **Framework:** React 19 + TanStack Router (hash-based routing for GitHub Pages) + TanStack Table (External Resources, Glossary)
 - **Language:** TypeScript (strict mode)
 - **Build Tool:** Vite 7
 - **Package Manager:** pnpm
@@ -37,7 +37,7 @@ Educational single-page application (SPA) comparing web apps vs NPM packages, bu
 - **HTML rendering:** Components use `HtmlContent` (wraps `dangerouslySetInnerHTML`) to render HTML strings from data files.
 - **Package manager context:** `usePM()` hook + `cmd()` helper handle npm/pnpm command display switching throughout the app.
 - **Functional components only:** No class components. Props typed with TypeScript interfaces.
-- **Interactive tables:** The All References page (`AllReferencesPage.tsx`) and Glossary page (`GlossaryPage.tsx`) use TanStack Table for sortable, filterable, searchable tables.
+- **Interactive tables:** The External Resources page (`ExternalResourcesPage.tsx`) and Glossary page (`GlossaryPage.tsx`) use TanStack Table for sortable, filterable, searchable tables.
 
 ## TypeScript Configuration
 
