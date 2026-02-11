@@ -23,7 +23,7 @@ export function SectionPage({ sectionId }: { sectionId: string }) {
   if (s.intro) {
     const introHeadings = [...s.intro.matchAll(/id='(toc-[^']+)'[^>]*>([^<]+)/g)]
     if (introHeadings.length > 0) {
-      introHeadings.forEach(m => tocEntries.unshift({ id: m[1], label: m[2], level: 2 }))
+      introHeadings.forEach(m => tocEntries.unshift({ id: m[1], label: m[2], level: 1 }))
     }
   }
 
