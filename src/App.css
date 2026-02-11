@@ -1498,10 +1498,10 @@
     --blue-bg: rgba(59, 130, 246, 0.1);
     --blue-border: rgba(59, 130, 246, 0.25);
     --blue-divider: rgba(59, 130, 246, 0.15);
-    --purple: #a78bfa;
-    --purple-bg: rgba(139, 92, 246, 0.15);
-    --purple-border: rgba(139, 92, 246, 0.35);
-    --purple-divider: rgba(139, 92, 246, 0.25);
+    --purple: #c4b5fd;
+    --purple-bg: rgba(196, 181, 253, 0.15);
+    --purple-border: rgba(196, 181, 253, 0.35);
+    --purple-divider: rgba(196, 181, 253, 0.25);
     --green-bg: rgba(22, 163, 74, 0.1);
     --green-border: rgba(22, 163, 74, 0.25);
     --green-text: #4ade80;
@@ -1773,13 +1773,13 @@
   body.dark .badge-config { background: rgba(236, 72, 153, 0.15); color: #f9a8d4; }
   body.dark .badge-deps { background: rgba(245, 158, 11, 0.15); color: #fcd34d; }
   body.dark .badge-docs { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; }
-  body.dark .badge-prepublish { background: rgba(139, 92, 246, 0.2); color: #b49dfa; }
+  body.dark .badge-prepublish { background: rgba(196, 181, 253, 0.2); color: #c4b5fd; }
   body.dark .badge-legal { background: rgba(100, 116, 139, 0.15); color: #94a3b8; }
 
   body.dark .rb-free { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; }
   body.dark .rb-paid { background: rgba(245, 158, 11, 0.15); color: #fcd34d; }
   body.dark .rb-docs { background: rgba(59, 130, 246, 0.15); color: #93c5fd; }
-  body.dark .rb-article { background: rgba(139, 92, 246, 0.2); color: #b49dfa; }
+  body.dark .rb-article { background: rgba(196, 181, 253, 0.2); color: #c4b5fd; }
   body.dark .rb-course { background: rgba(236, 72, 153, 0.15); color: #f9a8d4; }
   body.dark .rb-video { background: rgba(249, 115, 22, 0.15); color: #fdba74; }
   body.dark .rb-repo { background: rgba(100, 116, 139, 0.15); color: #94a3b8; }
