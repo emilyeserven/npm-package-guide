@@ -403,7 +403,7 @@
 
   .sidebar-item.active {
     background: var(--indigo);
-    color: #fff;
+    color: var(--surface);
     font-weight: 600;
   }
 
@@ -748,7 +748,7 @@
 
   .pm-toggle-btn.active {
     background: var(--indigo);
-    color: #fff;
+    color: var(--surface);
     border-radius: 6px;
   }
 
@@ -790,7 +790,7 @@
     height: 36px;
     border-radius: 50%;
     background: var(--indigo);
-    color: #fff;
+    color: var(--surface);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -853,7 +853,7 @@
     gap: 6px;
     font-size: 13px;
     font-weight: 700;
-    color: #fff;
+    color: var(--surface);
     cursor: pointer;
     background: var(--indigo);
     border: none;
@@ -1074,7 +1074,7 @@
   sup.fn-ref {
     font-size: 10px;
     font-weight: 700;
-    color: #fff;
+    color: var(--surface);
     background: var(--indigo);
     border-radius: 4px;
     padding: 0 4px;
@@ -1416,7 +1416,7 @@
     height: 28px;
     border-radius: 50%;
     background: var(--indigo);
-    color: #fff;
+    color: var(--surface);
     display: flex;
     align-items: center;
     justify-content: center;
