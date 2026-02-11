@@ -54,9 +54,10 @@ export function enrichFootnoteRefs(html: string, links?: SectionLink[]): string 
     const idx = parseInt(num) - 1
     if (idx >= 0 && idx < links.length) {
       const link = links[idx]
-      const escapedLabel = link.label.replace(/"/g, '&quot;')
-      const escapedUrl = link.url.replace(/"/g, '&quot;')
-      return `data-fn="${num}" data-fn-url="${escapedUrl}" title="${escapedLabel}"`
+      const esc = (s: string) => s.replace(/"/g, '&quot;')
+      let attrs = `data-fn="${num}" data-fn-url="${esc(link.url)}" data-fn-label="${esc(link.label)}" data-fn-source="${esc(link.source)}"`
+      if (link.note) attrs += ` data-fn-note="${esc(link.note)}"`
+      return attrs
     }
     return _match
   })
