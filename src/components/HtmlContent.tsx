@@ -26,12 +26,17 @@ export function HtmlContent({ html, className, as: Tag = 'div' }: HtmlContentPro
       })
     })
 
-    // Footnote references
+    // Footnote references — open URL in new window if available, otherwise scroll to footnote
     el.querySelectorAll<HTMLElement>('.fn-ref').forEach(fnRef => {
       fnRef.style.cursor = 'pointer'
       fnRef.addEventListener('click', () => {
-        const fn = document.getElementById('fn-' + fnRef.dataset.fn)
-        if (fn) fn.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        const url = fnRef.dataset.fnUrl
+        if (url) {
+          window.open(url, '_blank', 'noopener,noreferrer')
+        } else {
+          const fn = document.getElementById('fn-' + fnRef.dataset.fn)
+          if (fn) fn.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
       })
     })
 

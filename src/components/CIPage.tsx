@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from 'react'
 import { ciPages } from '../data/ciPages'
+import { enrichFootnoteRefs } from '../helpers/renderFootnotes'
 import { HtmlContent } from './HtmlContent'
 import { Footnotes } from './Footnotes'
 import { PrevNextNav } from './PrevNextNav'
@@ -175,9 +176,11 @@ export function CIPage({ pageId }: { pageId: string }) {
     }
   }, [page])
 
+  const enrichedHtml = enrichFootnoteRefs(html, page.links)
+
   return (
     <div ref={contentRef} onClick={handleClick}>
-      <HtmlContent html={html} />
+      <HtmlContent html={enrichedHtml} />
       {page.links && page.links.length > 0 && <Footnotes links={page.links} contentHtml={html} />}
       <PrevNextNav currentId={pageId} />
     </div>
