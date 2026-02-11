@@ -19,9 +19,49 @@ interface ReferenceRow {
   name: string
   url: string
   desc: string
-  badges: string[]
-  category: string
-  source: 'learning' | 'section'
+  tags: string[]
+}
+
+// Map section IDs to topic tags for section references
+const sectionTopicMap: Record<string, string[]> = {
+  bigpicture: [],
+  monorepo: ['monorepo'],
+  'npm-vs-pnpm': ['tooling'],
+  tsconfig: ['typescript'],
+  build: ['bundling', 'tooling'],
+  dist: ['publishing'],
+  deps: ['publishing'],
+  typescript: ['typescript'],
+  packagejson: ['publishing', 'modules'],
+  versioning: ['versioning'],
+  workflow: ['publishing'],
+  'ci-overview': ['ci-cd'],
+  'ci-linting': ['ci-cd', 'linting'],
+  'ci-build': ['ci-cd', 'bundling'],
+  'ci-testing': ['ci-cd', 'testing'],
+  'ci-repo-maintenance': ['ci-cd', 'tooling'],
+  storybook: ['tooling', 'testing'],
+}
+
+// Generate short relevance descriptions for section references
+const sectionDescMap: Record<string, string> = {
+  bigpicture: 'Foundational context for understanding the npm ecosystem',
+  monorepo: 'Managing multiple packages in a monorepo setup',
+  'npm-vs-pnpm': 'Choosing and configuring a package manager',
+  tsconfig: 'TypeScript configuration for package builds',
+  build: 'Bundling and output configuration for packages',
+  dist: 'Controlling what gets included in a published package',
+  deps: 'Managing package dependencies correctly',
+  typescript: 'Adding type safety and declarations to packages',
+  packagejson: 'Configuring package metadata and entry points',
+  versioning: 'Version management and release automation',
+  workflow: 'Local development and publishing workflows',
+  'ci-overview': 'Automating quality checks with CI',
+  'ci-linting': 'Code quality enforcement for packages',
+  'ci-build': 'Automated build verification',
+  'ci-testing': 'Automated testing for packages',
+  'ci-repo-maintenance': 'Keeping dependencies and exports clean',
+  storybook: 'Component documentation and visual testing',
 }
 
 function buildReferenceData(): ReferenceRow[] {
@@ -29,16 +69,12 @@ function buildReferenceData(): ReferenceRow[] {
 
   // Learning Resources
   overallResources.forEach(group => {
-    // Strip emoji prefix from category for cleaner display
-    const category = group.category.replace(/^\S+\s+/, '')
     group.items.forEach(item => {
       rows.push({
         name: item.name,
         url: item.url,
         desc: item.desc,
-        badges: item.badges,
-        category,
-        source: 'learning',
+        tags: item.tags,
       })
     })
   })
@@ -51,18 +87,16 @@ function buildReferenceData(): ReferenceRow[] {
   const allSectionsWithLinks = [...sections, ...ciPages, ...bonusSections]
   allSectionsWithLinks.forEach(s => {
     if (s.links && s.links.length > 0) {
-      // Strip emoji prefix from section title
-      const category = s.title.replace(/^\S+\s+/, '')
+      const topicTags = sectionTopicMap[s.id] ?? []
+      const sectionDesc = sectionDescMap[s.id] ?? ''
       s.links.forEach(l => {
         if (seen.has(l.url) || overallUrls.has(l.url)) return
         seen.add(l.url)
         rows.push({
           name: l.label,
           url: l.url,
-          desc: '',
-          badges: ['docs'],
-          category,
-          source: 'section',
+          desc: sectionDesc,
+          tags: ['docs', 'free', ...topicTags],
         })
       })
     }
@@ -78,13 +112,12 @@ export function ExternalResourcesPage() {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [globalFilter, setGlobalFilter] = useState('')
-  const [badgeFilter, setBadgeFilter] = useState<string[]>([])
-  const [sourceFilter, setSourceFilter] = useState<string | null>(null)
+  const [tagFilter, setTagFilter] = useState<string[]>([])
 
-  // Collect all unique badges
-  const allBadges = useMemo(() => {
+  // Collect all unique tags
+  const allTags = useMemo(() => {
     const set = new Set<string>()
-    data.forEach(r => r.badges.forEach(b => set.add(b)))
+    data.forEach(r => r.tags.forEach(b => set.add(b)))
     return Array.from(set).sort()
   }, [data])
 
@@ -108,12 +141,7 @@ export function ExternalResourcesPage() {
       cell: info => <span className="resource-desc">{info.getValue()}</span>,
       filterFn: 'includesString',
     }),
-    columnHelper.accessor('category', {
-      header: 'Category',
-      cell: info => <span className="ref-category-cell">{info.getValue()}</span>,
-      filterFn: 'includesString',
-    }),
-    columnHelper.accessor('badges', {
+    columnHelper.accessor('tags', {
       header: 'Tags',
       cell: info => (
         <span className="resource-badges">
@@ -128,22 +156,16 @@ export function ExternalResourcesPage() {
       enableSorting: false,
       filterFn: (row, _columnId, filterValue: string[]) => {
         if (!filterValue || filterValue.length === 0) return true
-        return filterValue.some(f => row.original.badges.includes(f))
+        return filterValue.some(f => row.original.tags.includes(f))
       },
     }),
   ], [])
 
-  // Apply badge and source filters as column filters
+  // Apply tag filter
   const filteredData = useMemo(() => {
-    let result = data
-    if (badgeFilter.length > 0) {
-      result = result.filter(r => badgeFilter.some(b => r.badges.includes(b)))
-    }
-    if (sourceFilter) {
-      result = result.filter(r => r.source === sourceFilter)
-    }
-    return result
-  }, [data, badgeFilter, sourceFilter])
+    if (tagFilter.length === 0) return data
+    return data.filter(r => tagFilter.some(b => r.tags.includes(b)))
+  }, [data, tagFilter])
 
   const table = useReactTable({
     data: filteredData,
@@ -163,25 +185,23 @@ export function ExternalResourcesPage() {
       const search = filterValue.toLowerCase()
       return (
         row.original.name.toLowerCase().includes(search) ||
-        row.original.desc.toLowerCase().includes(search) ||
-        row.original.category.toLowerCase().includes(search)
+        row.original.desc.toLowerCase().includes(search)
       )
     },
   })
 
-  const toggleBadge = (badge: string) => {
-    setBadgeFilter(prev =>
-      prev.includes(badge) ? prev.filter(b => b !== badge) : [...prev, badge]
+  const toggleTag = (tag: string) => {
+    setTagFilter(prev =>
+      prev.includes(tag) ? prev.filter(b => b !== tag) : [...prev, tag]
     )
   }
 
   const clearFilters = () => {
     setGlobalFilter('')
-    setBadgeFilter([])
-    setSourceFilter(null)
+    setTagFilter([])
   }
 
-  const hasActiveFilters = globalFilter || badgeFilter.length > 0 || sourceFilter
+  const hasActiveFilters = globalFilter || tagFilter.length > 0
 
   return (
     <>
@@ -207,41 +227,19 @@ export function ExternalResourcesPage() {
               </button>
             )}
           </div>
-
-          {/* Source filter */}
-          <div className="ref-source-filters">
-            <button
-              className={`ref-source-btn ${sourceFilter === null ? 'active' : ''}`}
-              onClick={() => setSourceFilter(null)}
-            >
-              All
-            </button>
-            <button
-              className={`ref-source-btn ${sourceFilter === 'learning' ? 'active' : ''}`}
-              onClick={() => setSourceFilter(sourceFilter === 'learning' ? null : 'learning')}
-            >
-              Learning Resources
-            </button>
-            <button
-              className={`ref-source-btn ${sourceFilter === 'section' ? 'active' : ''}`}
-              onClick={() => setSourceFilter(sourceFilter === 'section' ? null : 'section')}
-            >
-              Section References
-            </button>
-          </div>
         </div>
 
-        {/* Badge filters */}
+        {/* Tag filters */}
         <div className="ref-badge-filters">
-          {allBadges.map(b => {
+          {allTags.map(b => {
             const badge = badgeMap[b]
             if (!badge) return null
-            const isActive = badgeFilter.includes(b)
+            const isActive = tagFilter.includes(b)
             return (
               <button
                 key={b}
                 className={`ref-badge-btn resource-badge ${badge.cls} ${isActive ? 'ref-badge-active' : ''}`}
-                onClick={() => toggleBadge(b)}
+                onClick={() => toggleTag(b)}
               >
                 {badge.label}
               </button>
@@ -275,7 +273,7 @@ export function ExternalResourcesPage() {
                         {flexRender(header.column.columnDef.header, header.getContext())}
                         {header.column.getCanSort() && (
                           <span className="ref-sort-icon">
-                            {{ asc: ' \u2191', desc: ' \u2193' }[header.column.getIsSorted() as string] ?? ' \u2195'}
+                            {{ asc: ' ↑', desc: ' ↓' }[header.column.getIsSorted() as string] ?? ' ↕'}
                           </span>
                         )}
                       </span>
@@ -287,7 +285,7 @@ export function ExternalResourcesPage() {
             <tbody>
               {table.getRowModel().rows.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="ref-empty">No references match your filters.</td>
+                  <td colSpan={3} className="ref-empty">No references match your filters.</td>
                 </tr>
               ) : (
                 table.getRowModel().rows.map(row => (
