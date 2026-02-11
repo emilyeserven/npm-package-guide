@@ -7,6 +7,7 @@ import { CIPage } from './components/CIPage'
 import { BonusSectionPage } from './components/BonusSectionPage'
 import { OverallResourcesPage } from './components/OverallResourcesPage'
 import { SectionLinksPage } from './components/SectionLinksPage'
+import { GlossaryPage } from './components/GlossaryPage'
 import { ciPageIds } from './data/ciPages'
 import { bonusIds } from './data/bonusSections'
 
@@ -27,6 +28,7 @@ function SectionRouter() {
   if (sectionId === 'roadmap') return <RoadmapPage />
   if (sectionId === 'checklist') return <ChecklistPage />
   if (sectionId === 'overall-resources') return <OverallResourcesPage />
+  if (sectionId === 'glossary') return <GlossaryPage />
   if (sectionId === 'section-links') return <SectionLinksPage />
   if (ciPageIds.includes(sectionId)) return <CIPage pageId={sectionId} />
   if (bonusIds.includes(sectionId)) return <BonusSectionPage sectionId={sectionId} />
