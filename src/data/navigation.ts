@@ -3,9 +3,16 @@ import { ciPages, ciPageIds } from './ciPages'
 import { bonusSections, bonusIds } from './bonusSections'
 
 export function getNavOrder(): string[] {
-  const conceptIds = sections.filter(s => s.group === "concepts").map(s => s.id)
-  const comparisonIds = sections.filter(s => s.group !== "concepts" && s.id !== "bigpicture").map(s => s.id)
-  return ["roadmap", "bigpicture", ...conceptIds, ...comparisonIds, ...ciPageIds, ...bonusIds, "checklist", "overall-resources", "section-links"]
+  // Order matches the Start Page roadmap steps and sidebar sections
+  return [
+    "roadmap",
+    "bigpicture", "monorepo", "npm-vs-pnpm",
+    "build", "tsconfig", "deps", "dist",
+    "packagejson", "typescript", "versioning", "workflow",
+    ...ciPageIds,
+    ...bonusIds,
+    "checklist", "overall-resources", "section-links",
+  ]
 }
 
 export function getNavTitle(id: string): string {
