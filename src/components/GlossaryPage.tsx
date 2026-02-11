@@ -9,6 +9,7 @@ import {
   createColumnHelper,
 } from '@tanstack/react-table'
 import type { SortingState, ColumnFiltersState } from '@tanstack/react-table'
+import clsx from 'clsx'
 import { glossaryTerms } from '../data/glossaryTerms'
 import type { GlossaryTerm } from '../data/glossaryTerms'
 import { getNavTitle } from '../data/navigation'
@@ -47,9 +48,9 @@ export function GlossaryPage() {
         return (
           <div>
             <span dangerouslySetInnerHTML={{ __html: row.definition }} />
-            <div className="glossary-cell-links">
+            <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
               <a
-                className="glossary-link"
+                className="text-xs text-blue-600 dark:text-blue-400 no-underline hover:underline"
                 href={row.url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -57,7 +58,7 @@ export function GlossaryPage() {
               />
               {row.sectionId && (
                 <button
-                  className="glossary-section-link inline-nav-link"
+                  className="inline-nav-link text-xs bg-transparent border-none cursor-pointer p-0"
                   onClick={() => {
                     navigate({ to: '/$sectionId', params: { sectionId: row.sectionId! } })
                     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -103,21 +104,26 @@ export function GlossaryPage() {
   return (
     <>
       <h1 className="section-title">📖 Glossary</h1>
-      <p style={{ color: 'var(--muted)', fontSize: '14px', marginBottom: '16px', lineHeight: 1.6 }}>
+      <p className="text-sm text-gray-500 dark:text-slate-400 mb-4 leading-relaxed">
         Key terms you'll encounter when building and publishing npm packages. Each term includes links to learn more.
       </p>
 
-      <div className="glossary-controls">
+      <div className="flex flex-col gap-3 mb-5 max-sm:gap-2">
         <input
-          className="glossary-search"
+          className="w-full h-10 px-3.5 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-500 outline-none transition-colors duration-150 focus:border-blue-500 dark:focus:border-blue-400"
           type="text"
           placeholder="Search terms..."
           value={globalFilter}
           onChange={e => setGlobalFilter(e.target.value)}
         />
-        <div className="glossary-filters">
+        <div className="flex flex-wrap gap-1.5">
           <button
-            className={`glossary-filter-btn ${activeCategoryFilter === '' ? 'active' : ''}`}
+            className={clsx(
+              'px-3 py-1.5 text-xs font-medium rounded-lg border cursor-pointer transition-all duration-150',
+              activeCategoryFilter === ''
+                ? 'bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30 text-blue-600 dark:text-blue-400'
+                : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-blue-300 dark:hover:border-blue-500/40'
+            )}
             onClick={() => setColumnFilters([])}
           >
             All
@@ -125,7 +131,12 @@ export function GlossaryPage() {
           {categories.map(cat => (
             <button
               key={cat}
-              className={`glossary-filter-btn ${activeCategoryFilter === cat ? 'active' : ''}`}
+              className={clsx(
+                'px-3 py-1.5 text-xs font-medium rounded-lg border cursor-pointer transition-all duration-150',
+                activeCategoryFilter === cat
+                  ? 'bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30 text-blue-600 dark:text-blue-400'
+                  : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-blue-300 dark:hover:border-blue-500/40'
+              )}
               onClick={() => setColumnFilters([{ id: 'category', value: cat }])}
             >
               {cat}
@@ -134,20 +145,23 @@ export function GlossaryPage() {
         </div>
       </div>
 
-      <div className="glossary-table-wrapper">
-        <table className="glossary-table">
+      <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
+        <table className="w-full border-collapse text-sm">
           <thead>
             {table.getHeaderGroups().map(headerGroup => (
-              <tr key={headerGroup.id}>
+              <tr key={headerGroup.id} className="border-b border-slate-200 dark:border-slate-700">
                 {headerGroup.headers.map(header => (
                   <th
                     key={header.id}
-                    className={header.column.getCanSort() ? 'sortable' : ''}
+                    className={clsx(
+                      'text-left px-3 py-2.5 text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider bg-slate-50 dark:bg-slate-800/50',
+                      header.column.getCanSort() && 'cursor-pointer select-none hover:text-blue-500 dark:hover:text-blue-400'
+                    )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
                     {flexRender(header.column.columnDef.header, header.getContext())}
                     {header.column.getCanSort() && (
-                      <span className="sort-indicator">
+                      <span className="text-gray-300 dark:text-slate-600 text-xs ml-1">
                         {{ asc: ' ▲', desc: ' ▼' }[header.column.getIsSorted() as string] ?? ' ⇅'}
                       </span>
                     )}
@@ -158,9 +172,9 @@ export function GlossaryPage() {
           </thead>
           <tbody>
             {table.getRowModel().rows.map(row => (
-              <tr key={row.id}>
+              <tr key={row.id} className="border-b border-slate-100 dark:border-slate-800 last:border-b-0 hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
                 {row.getVisibleCells().map(cell => (
-                  <td key={cell.id}>
+                  <td key={cell.id} className="px-3 py-2.5 align-top">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
@@ -168,7 +182,7 @@ export function GlossaryPage() {
             ))}
             {table.getRowModel().rows.length === 0 && (
               <tr>
-                <td colSpan={3} style={{ textAlign: 'center', color: 'var(--muted)', padding: '24px' }}>
+                <td colSpan={3} className="text-center text-gray-400 dark:text-slate-500 py-6">
                   No terms match your search.
                 </td>
               </tr>

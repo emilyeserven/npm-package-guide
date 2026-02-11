@@ -10,7 +10,7 @@ Educational single-page application (SPA) comparing web apps vs NPM packages, bu
 - **Language:** TypeScript (strict mode)
 - **Build Tool:** Vite 7
 - **Package Manager:** pnpm
-- **Styling:** Custom CSS with CSS variables (no CSS framework)
+- **Styling:** Tailwind CSS v4 (via `@tailwindcss/vite` plugin) + `clsx` for conditional classes
 - **Hosting:** GitHub Pages at `/npm-package-guide/` subpath
 
 ## Commands

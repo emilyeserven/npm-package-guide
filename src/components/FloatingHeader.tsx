@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from '@tanstack/react-router'
+import clsx from 'clsx'
 import { PMDropdown } from './PMDropdown'
 import { useTheme } from '../hooks/useTheme'
 
@@ -20,16 +21,32 @@ export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) 
   }
 
   return (
-    <div className={`floating-header ${scrolled ? 'scrolled' : ''}`}>
-      <div className="floating-header-inner">
-        <button className="header-menu-btn" onClick={onMenuToggle} aria-label="Open navigation">
-          <span className="header-menu-icon"><span></span><span></span><span></span></span>
+    <div className={clsx(
+      'floating-header fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 px-5 transition-shadow duration-200',
+      scrolled && 'shadow-md dark:shadow-lg'
+    )}>
+      <div className="mx-auto max-w-4xl flex items-center h-13 gap-3.5">
+        <button
+          className="flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg cursor-pointer shrink-0 transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 hover:shadow-md hover:shadow-blue-500/10"
+          onClick={onMenuToggle}
+          aria-label="Open navigation"
+        >
+          <span className="flex flex-col gap-1">
+            <span className="block w-3.5 h-0.5 bg-current rounded-sm" />
+            <span className="block w-3.5 h-0.5 bg-current rounded-sm" />
+            <span className="block w-3.5 h-0.5 bg-current rounded-sm" />
+          </span>
         </button>
-        <span className="header-section-name">Web App vs. NPM Package Guide</span>
-        <div className="header-pm-switcher">
+        <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 whitespace-nowrap overflow-hidden text-ellipsis min-w-0 max-sm:text-sm">
+          Web App vs. NPM Package Guide
+        </span>
+        <div className="ml-auto relative shrink-0 flex items-center gap-2">
           {!isHome && (
-            <button className="header-home-btn" onClick={handleHomeClick}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <button
+              className="flex items-center gap-1.5 font-sans text-xs font-semibold h-9 px-2.5 rounded-lg bg-transparent text-gray-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 cursor-pointer transition-all duration-150 whitespace-nowrap hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400"
+              onClick={handleHomeClick}
+            >
+              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                 <polyline points="9 22 9 12 15 12 15 22"/>
               </svg>
@@ -37,16 +54,16 @@ export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) 
             </button>
           )}
           <button
-            className="theme-toggle"
+            className="flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg cursor-pointer shrink-0 transition-all duration-150 text-base leading-none p-0 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 hover:shadow-md hover:shadow-blue-500/10"
             onClick={toggleTheme}
             aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
           >
             {theme === 'light' ? (
-              <svg viewBox="0 0 24 24">
+              <svg className="w-4.5 h-4.5 stroke-current fill-none" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
               </svg>
             ) : (
-              <svg viewBox="0 0 24 24">
+              <svg className="w-4.5 h-4.5 stroke-current fill-none" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="5" />
                 <line x1="12" y1="1" x2="12" y2="3" />
                 <line x1="12" y1="21" x2="12" y2="23" />
