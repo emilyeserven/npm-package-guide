@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import clsx from 'clsx'
 import { checklistItems } from '../data/checklistItems'
 import { cmd } from '../helpers/cmd'
 import { HtmlContent } from './HtmlContent'
@@ -39,30 +40,54 @@ export function ChecklistPage() {
 
   return (
     <>
-      <h1 className="checklist-title">✅ Publish Checklist</h1>
-      <HtmlContent html={subHtml} className="checklist-sub" as="p" />
-      <button className="checklist-copy-btn" id="copy-checklist" onClick={handleCopy}>📋 Copy as Markdown</button>
+      <h1 className="text-[28px] font-bold tracking-tight mb-1">✅ Publish Checklist</h1>
+      <HtmlContent html={subHtml} className="text-sm text-gray-500 dark:text-slate-400 mb-5 leading-relaxed" as="p" />
+      <button
+        className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 cursor-pointer transition-all duration-150 mb-5 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400"
+        id="copy-checklist"
+        onClick={handleCopy}
+      >
+        📋 Copy as Markdown
+      </button>
 
       {checklistItems.map((item, i) => {
         const isChecked = checkedItems[i] || false
         return (
-          <label key={i} className={`check-item ${isChecked ? 'checked' : ''}`}>
+          <label
+            key={i}
+            className={clsx(
+              'flex items-start gap-3 px-4 py-3 rounded-xl border cursor-pointer transition-all duration-150 mb-2',
+              isChecked
+                ? 'bg-green-50/60 dark:bg-green-500/5 border-green-200 dark:border-green-500/20'
+                : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500/40'
+            )}
+          >
             <input
               type="checkbox"
+              className="mt-0.5 w-4 h-4 accent-blue-500 shrink-0"
               checked={isChecked}
               onChange={(e) => handleCheck(i, e.target.checked)}
             />
-            <span className="label" dangerouslySetInnerHTML={{ __html: item.text }} />
+            <span
+              className={clsx(
+                'text-[13.5px] leading-relaxed flex-1 min-w-0',
+                isChecked ? 'line-through text-gray-400 dark:text-slate-500' : 'text-slate-800 dark:text-slate-300'
+              )}
+              dangerouslySetInnerHTML={{ __html: item.text }}
+            />
             <span className={`check-badge ${item.badge}`}>{item.cat}</span>
           </label>
         )
       })}
 
-      <div className="progress-row">
-        <div className="progress-track">
-          <div className="progress-fill" style={{ width: `${pct}%` }} />
+      <div className="flex items-center gap-3 mt-5 mb-2">
+        <div className="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-blue-500 dark:bg-blue-400 rounded-full transition-all duration-300"
+            style={{ width: `${pct}%` }}
+          />
         </div>
-        <span className="progress-label">{checked} / {total}</span>
+        <span className="text-xs font-semibold text-gray-500 dark:text-slate-400 whitespace-nowrap">{checked} / {total}</span>
       </div>
 
       <PrevNextNav currentId="checklist" />

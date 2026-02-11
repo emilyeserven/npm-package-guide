@@ -9,6 +9,7 @@ import {
   type SortingState,
   type ColumnFiltersState,
 } from '@tanstack/react-table'
+import clsx from 'clsx'
 import { overallResources, badgeMap, typeTags, topicTags } from '../data/overallResources'
 import { sections } from '../data/sections'
 import { ciPages } from '../data/ciPages'
@@ -129,7 +130,7 @@ export function ExternalResourcesPage() {
       header: 'Name',
       cell: info => (
         <a
-          className="resource-link"
+          className="text-blue-600 dark:text-blue-400 font-medium text-[13px] no-underline hover:underline"
           href={info.row.original.url}
           target="_blank"
           rel="noopener noreferrer"
@@ -141,13 +142,13 @@ export function ExternalResourcesPage() {
     }),
     columnHelper.accessor('desc', {
       header: 'Description',
-      cell: info => <span className="resource-desc">{info.getValue()}</span>,
+      cell: info => <span className="text-[13px] text-slate-600 dark:text-slate-400">{info.getValue()}</span>,
       filterFn: 'includesString',
     }),
     columnHelper.accessor('tags', {
       header: 'Tags',
       cell: info => (
-        <span className="resource-badges">
+        <span className="flex flex-wrap gap-1">
           {info.getValue().map(b => {
             const badge = badgeMap[b]
             return badge
@@ -210,22 +211,25 @@ export function ExternalResourcesPage() {
     <>
       <div>
         <h1 className="section-title">External Resources</h1>
-        <p style={{ color: 'var(--muted)', fontSize: '14px', marginBottom: '20px', lineHeight: 1.6 }}>
+        <p className="text-sm text-gray-500 dark:text-slate-400 mb-5 leading-relaxed">
           Documentation, articles, courses, tools, and section references in one place. Use the search and filters to find what you need.
         </p>
 
         {/* Search */}
-        <div className="ref-controls">
-          <div className="ref-search-wrap">
+        <div className="mb-4">
+          <div className="relative">
             <input
-              className="ref-search"
+              className="w-full h-10 pl-3.5 pr-9 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-500 outline-none transition-colors duration-150 focus:border-blue-500 dark:focus:border-blue-400"
               type="text"
               placeholder="Search references..."
               value={globalFilter}
               onChange={e => setGlobalFilter(e.target.value)}
             />
             {globalFilter && (
-              <button className="ref-search-clear" onClick={() => setGlobalFilter('')}>
+              <button
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center bg-transparent border-none text-gray-400 dark:text-slate-500 cursor-pointer text-sm hover:text-slate-600 dark:hover:text-slate-300"
+                onClick={() => setGlobalFilter('')}
+              >
                 &#x2715;
               </button>
             )}
@@ -233,10 +237,10 @@ export function ExternalResourcesPage() {
         </div>
 
         {/* Tag filters */}
-        <div className="ref-filter-groups">
-          <div className="ref-filter-group">
-            <span className="ref-filter-label">Type</span>
-            <div className="ref-badge-filters">
+        <div className="flex flex-col gap-2.5 mb-5">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-[11px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Type</span>
+            <div className="flex flex-wrap gap-1.5">
               {typeTagList.map(b => {
                 const badge = badgeMap[b]
                 if (!badge) return null
@@ -244,7 +248,10 @@ export function ExternalResourcesPage() {
                 return (
                   <button
                     key={b}
-                    className={`ref-badge-btn resource-badge ${badge.cls} ${isActive ? 'ref-badge-active' : ''}`}
+                    className={clsx(
+                      `resource-badge ${badge.cls} cursor-pointer border-none transition-all duration-150`,
+                      isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
+                    )}
                     onClick={() => toggleTag(b)}
                   >
                     {badge.label}
@@ -253,9 +260,9 @@ export function ExternalResourcesPage() {
               })}
             </div>
           </div>
-          <div className="ref-filter-group">
-            <span className="ref-filter-label">Topic</span>
-            <div className="ref-badge-filters">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-[11px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Topic</span>
+            <div className="flex flex-wrap gap-1.5">
               {topicTagList.map(b => {
                 const badge = badgeMap[b]
                 if (!badge) return null
@@ -263,7 +270,10 @@ export function ExternalResourcesPage() {
                 return (
                   <button
                     key={b}
-                    className={`ref-badge-btn resource-badge ${badge.cls} ${isActive ? 'ref-badge-active' : ''}`}
+                    className={clsx(
+                      `resource-badge ${badge.cls} cursor-pointer border-none transition-all duration-150`,
+                      isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
+                    )}
                     onClick={() => toggleTag(b)}
                   >
                     {badge.label}
@@ -273,33 +283,39 @@ export function ExternalResourcesPage() {
             </div>
           </div>
           {hasActiveFilters && (
-            <button className="ref-clear-btn" onClick={clearFilters}>
+            <button
+              className="self-start text-[12px] font-medium text-gray-500 dark:text-slate-400 bg-transparent border-none cursor-pointer px-0 hover:text-blue-500 dark:hover:text-blue-400"
+              onClick={clearFilters}
+            >
               Clear filters
             </button>
           )}
         </div>
 
         {/* Results count */}
-        <div className="ref-count">
+        <div className="text-[12px] text-gray-400 dark:text-slate-500 mb-2.5 font-medium">
           {table.getRowModel().rows.length} of {data.length} references
         </div>
 
         {/* Table */}
-        <div className="ref-table-wrap">
-          <table className="ref-table">
+        <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
+          <table className="w-full border-collapse text-[13px]">
             <thead>
               {table.getHeaderGroups().map(headerGroup => (
-                <tr key={headerGroup.id}>
+                <tr key={headerGroup.id} className="border-b border-slate-200 dark:border-slate-700">
                   {headerGroup.headers.map(header => (
                     <th
                       key={header.id}
-                      className={header.column.getCanSort() ? 'ref-sortable' : ''}
+                      className={clsx(
+                        'text-left px-3 py-2.5 text-[11.5px] font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider bg-slate-50 dark:bg-slate-800/50',
+                        header.column.getCanSort() && 'cursor-pointer select-none hover:text-blue-500 dark:hover:text-blue-400'
+                      )}
                       onClick={header.column.getToggleSortingHandler()}
                     >
-                      <span className="ref-th-inner">
+                      <span className="flex items-center gap-1">
                         {flexRender(header.column.columnDef.header, header.getContext())}
                         {header.column.getCanSort() && (
-                          <span className="ref-sort-icon">
+                          <span className="text-gray-300 dark:text-slate-600 text-[10px]">
                             {{ asc: ' ↑', desc: ' ↓' }[header.column.getIsSorted() as string] ?? ' ↕'}
                           </span>
                         )}
@@ -312,13 +328,13 @@ export function ExternalResourcesPage() {
             <tbody>
               {table.getRowModel().rows.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="ref-empty">No references match your filters.</td>
+                  <td colSpan={3} className="text-center text-gray-400 dark:text-slate-500 py-6">No references match your filters.</td>
                 </tr>
               ) : (
                 table.getRowModel().rows.map(row => (
-                  <tr key={row.id}>
+                  <tr key={row.id} className="border-b border-slate-100 dark:border-slate-800 last:border-b-0 hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
                     {row.getVisibleCells().map(cell => (
-                      <td key={cell.id}>
+                      <td key={cell.id} className="px-3 py-2.5 align-top">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}
