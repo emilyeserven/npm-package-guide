@@ -70,14 +70,13 @@ export const overallResources: ResourceGroup[] = [
 ];
 
 export const badgeMap: Record<string, { cls: string; label: string }> = {
-  // Format
+  // Type
   docs: { cls: "rb-docs", label: "Docs" },
   article: { cls: "rb-article", label: "Article" },
   course: { cls: "rb-course", label: "Course" },
   video: { cls: "rb-video", label: "Video" },
   repo: { cls: "rb-repo", label: "Repo" },
   interactive: { cls: "rb-interactive", label: "Interactive" },
-  // Pricing
   free: { cls: "rb-free", label: "Free" },
   paid: { cls: "rb-paid", label: "Paid" },
   // Topic
@@ -92,3 +91,6 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   testing: { cls: "rb-testing", label: "Testing" },
   linting: { cls: "rb-linting", label: "Linting" },
 };
+
+export const typeTags = new Set(["docs", "article", "course", "video", "repo", "interactive", "free", "paid"]);
+export const topicTags = new Set(["publishing", "typescript", "versioning", "ci-cd", "monorepo", "modules", "tooling", "bundling", "testing", "linting"]);

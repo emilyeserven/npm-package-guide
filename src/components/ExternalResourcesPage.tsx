@@ -9,7 +9,7 @@ import {
   type SortingState,
   type ColumnFiltersState,
 } from '@tanstack/react-table'
-import { overallResources, badgeMap } from '../data/overallResources'
+import { overallResources, badgeMap, typeTags, topicTags } from '../data/overallResources'
 import { sections } from '../data/sections'
 import { ciPages } from '../data/ciPages'
 import { bonusSections } from '../data/bonusSections'
@@ -114,11 +114,14 @@ export function ExternalResourcesPage() {
   const [globalFilter, setGlobalFilter] = useState('')
   const [tagFilter, setTagFilter] = useState<string[]>([])
 
-  // Collect all unique tags
-  const allTags = useMemo(() => {
+  // Collect unique tags split by category
+  const { typeTagList, topicTagList } = useMemo(() => {
     const set = new Set<string>()
     data.forEach(r => r.tags.forEach(b => set.add(b)))
-    return Array.from(set).sort()
+    return {
+      typeTagList: Array.from(set).filter(t => typeTags.has(t)).sort(),
+      topicTagList: Array.from(set).filter(t => topicTags.has(t)).sort(),
+    }
   }, [data])
 
   const columns = useMemo(() => [
@@ -230,21 +233,45 @@ export function ExternalResourcesPage() {
         </div>
 
         {/* Tag filters */}
-        <div className="ref-badge-filters">
-          {allTags.map(b => {
-            const badge = badgeMap[b]
-            if (!badge) return null
-            const isActive = tagFilter.includes(b)
-            return (
-              <button
-                key={b}
-                className={`ref-badge-btn resource-badge ${badge.cls} ${isActive ? 'ref-badge-active' : ''}`}
-                onClick={() => toggleTag(b)}
-              >
-                {badge.label}
-              </button>
-            )
-          })}
+        <div className="ref-filter-groups">
+          <div className="ref-filter-group">
+            <span className="ref-filter-label">Type</span>
+            <div className="ref-badge-filters">
+              {typeTagList.map(b => {
+                const badge = badgeMap[b]
+                if (!badge) return null
+                const isActive = tagFilter.includes(b)
+                return (
+                  <button
+                    key={b}
+                    className={`ref-badge-btn resource-badge ${badge.cls} ${isActive ? 'ref-badge-active' : ''}`}
+                    onClick={() => toggleTag(b)}
+                  >
+                    {badge.label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+          <div className="ref-filter-group">
+            <span className="ref-filter-label">Topic</span>
+            <div className="ref-badge-filters">
+              {topicTagList.map(b => {
+                const badge = badgeMap[b]
+                if (!badge) return null
+                const isActive = tagFilter.includes(b)
+                return (
+                  <button
+                    key={b}
+                    className={`ref-badge-btn resource-badge ${badge.cls} ${isActive ? 'ref-badge-active' : ''}`}
+                    onClick={() => toggleTag(b)}
+                  >
+                    {badge.label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
           {hasActiveFilters && (
             <button className="ref-clear-btn" onClick={clearFilters}>
               Clear filters
