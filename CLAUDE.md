@@ -6,7 +6,7 @@ Educational single-page application (SPA) comparing web apps vs NPM packages, bu
 
 ## Tech Stack
 
-- **Framework:** React 19 + TanStack Router (hash-based routing for GitHub Pages) + TanStack Table (glossary)
+- **Framework:** React 19 + TanStack Router (hash-based routing for GitHub Pages) + TanStack Table (All References, Glossary)
 - **Language:** TypeScript (strict mode)
 - **Build Tool:** Vite 7
 - **Package Manager:** pnpm
@@ -37,8 +37,7 @@ Educational single-page application (SPA) comparing web apps vs NPM packages, bu
 - **HTML rendering:** Components use `HtmlContent` (wraps `dangerouslySetInnerHTML`) to render HTML strings from data files.
 - **Package manager context:** `usePM()` hook + `cmd()` helper handle npm/pnpm command display switching throughout the app.
 - **Functional components only:** No class components. Props typed with TypeScript interfaces.
-- **Glossary as interactive table:** The glossary page (`GlossaryPage.tsx`) uses TanStack Table for a sortable, filterable, searchable table. Each term has an optional `sectionId` in `glossaryTerms.ts` that links to the corresponding guide section.
-- **Start Page ordering:** The Bonus: Learning Resources card on the Start Page (`RoadmapPage.tsx`) lists items in the same order as the sidebar: Checklist, Learning Resources, Glossary, Section References.
+- **Interactive tables:** The All References page (`AllReferencesPage.tsx`) and Glossary page (`GlossaryPage.tsx`) use TanStack Table for sortable, filterable, searchable tables.
 
 ## TypeScript Configuration
 
@@ -56,6 +55,15 @@ ESLint uses flat config format (`eslint.config.js`), extending:
 - `tseslint.configs.recommended`
 - `reactHooks.configs.flat.recommended`
 - `reactRefresh.configs.vite`
+
+## Page Ordering
+
+Pages must appear in the same order in all three places:
+1. **Navigation sidebar** (`src/components/Sidebar.tsx`) — the `resourceItems`, `buildingPackageOrder`, and CI/bonus groups
+2. **Start Page** (`src/components/RoadmapPage.tsx`) — the roadmap steps and bonus cards
+3. **`getNavOrder()` in `src/data/navigation.ts`** — the ordered array that drives Previous/Next links
+
+When adding, removing, or reordering pages, update all three locations to stay in sync. The Previous and Next links (`src/components/PrevNextNav.tsx`) are derived from `getNavOrder()`, so any change to page order must include updating that array.
 
 ## Pre-Push Checklist
 

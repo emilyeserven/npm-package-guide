@@ -11,16 +11,15 @@ export function getNavOrder(): string[] {
     "packagejson", "typescript", "versioning", "workflow",
     ...ciPageIds,
     ...bonusIds,
-    "checklist", "overall-resources", "glossary", "section-links",
+    "checklist", "all-references", "glossary",
   ]
 }
 
 export function getNavTitle(id: string): string {
   if (id === "roadmap") return "\u{1F680} Start Here"
   if (id === "checklist") return "\u2705 Publish Checklist"
-  if (id === "overall-resources") return "\u{1F4DA} Learning Resources"
+  if (id === "all-references") return "\u{1F4DA} All References"
   if (id === "glossary") return "\u{1F4D6} Glossary"
-  if (id === "section-links") return "\u{1F517} Section References"
   const ci = ciPages.find(p => p.id === id)
   if (ci) return ci.title
   const bonus = bonusSections.find(b => b.id === id)
