@@ -2128,11 +2128,33 @@
     color: var(--ink);
   }
 
+  .ref-filter-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .ref-filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ref-filter-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    min-width: 42px;
+    flex-shrink: 0;
+  }
+
   .ref-badge-filters {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-bottom: 12px;
     align-items: center;
   }
 
