@@ -1316,6 +1316,16 @@
     overflow-x: auto;
   }
 
+  .section-note {
+    font-size: 13px;
+    color: var(--indigo);
+    background: var(--indigo-light);
+    padding: 10px 14px;
+    border-radius: 8px;
+    line-height: 1.6;
+    margin: 16px 0;
+  }
+
   .ci-tip {
     font-size: 13px;
     color: var(--indigo);
@@ -1682,6 +1692,11 @@
 
   body.dark .ci-yaml {
     background: var(--code-bg);
+  }
+
+  body.dark .section-note {
+    background: var(--indigo-light);
+    color: var(--indigo);
   }
 
   body.dark .ci-tip {
