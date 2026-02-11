@@ -890,8 +890,8 @@
   }
 
   .bonus-subpage {
-    margin-top: 12px;
-    padding-left: 14px;
+    margin-top: 18px;
+    padding: 8px 0 8px 14px;
     border-left: 2px solid #e2e8f0;
   }
 
