@@ -888,10 +888,37 @@
     display: none !important;
   }
 
+  .bonus-subpage {
+    margin-top: 12px;
+    padding-left: 14px;
+    border-left: 2px solid #e2e8f0;
+  }
+
+  .bonus-subpage-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 2px 0;
+  }
+
+  .bonus-subpage-desc {
+    font-size: 13px;
+    color: var(--body);
+    line-height: 1.5;
+    margin-bottom: 4px;
+  }
+
   .step-substep {
     margin-top: 10px;
     padding-left: 14px;
     border-left: 2px solid #e2e8f0;
+  }
+
+  .step-substep-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 2px 0;
   }
 
   .step-substep-text {
@@ -1633,6 +1660,10 @@
 
   body.dark .bonus-step {
     border-top-color: var(--border);
+  }
+
+  body.dark .bonus-subpage {
+    border-left-color: var(--border);
   }
 
   body.dark .step-substep {
