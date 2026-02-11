@@ -47,17 +47,15 @@ export function GlossaryPage() {
         return (
           <div>
             <span dangerouslySetInnerHTML={{ __html: row.definition }} />
-            {' '}
-            <a
-              className="glossary-link"
-              href={row.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              dangerouslySetInnerHTML={{ __html: `${row.source} docs${externalLinkIcon}` }}
-            />
-            {row.sectionId && (
-              <>
-                {' '}
+            <div className="glossary-cell-links">
+              <a
+                className="glossary-link"
+                href={row.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                dangerouslySetInnerHTML={{ __html: `${row.source} docs${externalLinkIcon}` }}
+              />
+              {row.sectionId && (
                 <button
                   className="glossary-section-link inline-nav-link"
                   onClick={() => {
@@ -67,8 +65,8 @@ export function GlossaryPage() {
                 >
                   → {getNavTitle(row.sectionId)}
                 </button>
-              </>
-            )}
+              )}
+            </div>
           </div>
         )
       },

@@ -96,19 +96,14 @@ export function RoadmapPage() {
   html += `<button class="step-jump" data-jump="checklist">→ Deep dive: ✅ Publish Checklist</button>`
   html += `</div>`
   html += `<div class="bonus-subpage">`
-  html += `<h3 class="bonus-subpage-title">📚 Learning Resources</h3>`
-  html += `<div class="bonus-subpage-desc">Curated documentation, articles, free and paid courses, starter templates, and monorepo tools for the JavaScript ecosystem.</div>`
-  html += `<button class="step-jump" data-jump="overall-resources">→ Deep dive: 📚 Learning Resources</button>`
+  html += `<h3 class="bonus-subpage-title">📚 External Resources</h3>`
+  html += `<div class="bonus-subpage-desc">Curated documentation, articles, courses, tools, and section references — all in one searchable, sortable table.</div>`
+  html += `<button class="step-jump" data-jump="external-resources">→ Deep dive: 📚 External Resources</button>`
   html += `</div>`
   html += `<div class="bonus-subpage">`
   html += `<h3 class="bonus-subpage-title">📖 Glossary</h3>`
   html += `<div class="bonus-subpage-desc">Key terms you'll encounter when building and publishing npm packages, with links to the relevant sections in this guide.</div>`
   html += `<button class="step-jump" data-jump="glossary">→ Deep dive: 📖 Glossary</button>`
-  html += `</div>`
-  html += `<div class="bonus-subpage">`
-  html += `<h3 class="bonus-subpage-title">🔗 Section References</h3>`
-  html += `<div class="bonus-subpage-desc">All the "Read More" links from the deep-dive sections, collected in one place for quick reference.</div>`
-  html += `<button class="step-jump" data-jump="section-links">→ Deep dive: 🔗 Section References</button>`
   html += `</div>`
   html += `</div></div>`
 
