@@ -7,6 +7,7 @@ export interface RoadmapStep {
   detail: string
   jumpTo: string | null
   substep?: {
+    title: string
     text: string
     jumpTo: string
   }
@@ -41,7 +42,8 @@ export const roadmapSteps: RoadmapStep[] = [
     detail: "Packages should output ESM at minimum (and optionally CJS). Apps just need browser-optimized bundles. Your build tool compiles src/ into dist/.",
     jumpTo: "build",
     substep: {
-      text: "Configure your tsconfig.json — the TypeScript compiler settings that control how your code gets compiled.",
+      title: "Configure your tsconfig.json",
+      text: "The TypeScript compiler settings that control how your code gets compiled.",
       jumpTo: "tsconfig"
     }
   },

@@ -39,7 +39,8 @@ export function RoadmapPage() {
         || ciPages.find(p => p.id === step.substep!.jumpTo)
       const subLabel = subTarget ? subTarget.title : step.substep.jumpTo
       html += `<div class="step-substep">`
-      html += `<div class="step-substep-text">↳ ${step.substep.text}</div>`
+      html += `<h3 class="step-substep-title">↳ ${step.substep.title}</h3>`
+      html += `<div class="step-substep-text">${step.substep.text}</div>`
       html += `<button class="step-jump" data-jump="${step.substep.jumpTo}" style="margin-top: 4px;">→ Deep dive: ${subLabel}</button>`
       html += `</div>`
     }
@@ -53,18 +54,33 @@ export function RoadmapPage() {
   html += `<div class="step-title">Bonus: CI Pipeline & Checks</div>`
   html += `<div class="step-desc">Automate linting, build verification, and testing so they run on every push and pull request. A single YAML file can catch bugs before they're ever merged.</div>`
   ciPages.forEach(cp => {
-    html += `<button class="step-jump" data-jump="${cp.id}">→ ${cp.title}</button>`
+    const plainIntro = cp.intro.replace(/<[^>]*>/g, '')
+    const shortDesc = plainIntro.length > 150
+      ? plainIntro.substring(0, 150).replace(/\s+\S*$/, '') + '…'
+      : plainIntro
+    html += `<div class="bonus-subpage">`
+    html += `<h3 class="bonus-subpage-title">${cp.title}</h3>`
+    html += `<div class="bonus-subpage-desc">${shortDesc}</div>`
+    html += `<button class="step-jump" data-jump="${cp.id}">→ Deep dive: ${cp.title}</button>`
+    html += `</div>`
   })
   html += `</div></div>`
 
   // Bonus: Storybook etc.
   bonusSections.forEach(bs => {
+    const plainIntro = bs.intro.replace(/<[^>]*>/g, '')
+    const shortDesc = plainIntro.length > 150
+      ? plainIntro.substring(0, 150).replace(/\s+\S*$/, '') + '…'
+      : plainIntro
     html += `<div class="step-card bonus-step">`
     html += `<div class="step-number bonus-number">★</div>`
     html += `<div class="step-content">`
     html += `<div class="step-title">Bonus: ${bs.title.replace(/^\S+\s+/, '')}</div>`
-    html += `<div class="step-desc">${bs.intro.substring(0, 200).replace(/<[^>]*>/g, '')}…</div>`
+    html += `<div class="bonus-subpage">`
+    html += `<h3 class="bonus-subpage-title">${bs.title}</h3>`
+    html += `<div class="bonus-subpage-desc">${shortDesc}</div>`
     html += `<button class="step-jump" data-jump="${bs.id}">→ Deep dive: ${bs.title}</button>`
+    html += `</div>`
     html += `</div></div>`
   })
 
