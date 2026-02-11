@@ -67,5 +67,6 @@ When adding, removing, or reordering pages, update all three locations to stay i
 
 ## Pre-Push Checklist
 
-- Always run `pnpm lint` and `pnpm build` before pushing to ensure CI will pass.
+- Run `pnpm install` before running lint or build to ensure dependencies are installed.
+- Run `pnpm lint` first, then `pnpm build`. Lint catches issues faster and cheaper than a full build.
 - When fixing lint errors, try `pnpm lint --fix` first to auto-fix what ESLint can handle, then manually fix any remaining issues.
