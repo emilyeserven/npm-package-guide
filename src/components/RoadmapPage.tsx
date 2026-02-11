@@ -39,7 +39,7 @@ export function RoadmapPage() {
         || ciPages.find(p => p.id === step.substep!.jumpTo)
       const subLabel = subTarget ? subTarget.title : step.substep.jumpTo
       html += `<div class="step-substep">`
-      html += `<h3 class="step-substep-title">↳ ${step.substep.title}</h3>`
+      html += `<h3 class="step-substep-title">${step.substep.title}</h3>`
       html += `<div class="step-substep-text">${step.substep.text}</div>`
       html += `<button class="step-jump" data-jump="${step.substep.jumpTo}" style="margin-top: 4px;">→ Deep dive: ${subLabel}</button>`
       html += `</div>`
@@ -83,6 +83,15 @@ export function RoadmapPage() {
     html += `</div>`
     html += `</div></div>`
   })
+
+  // Bonus: Learning Resources
+  html += `<div class="step-card bonus-step">`
+  html += `<div class="step-number bonus-number">★</div>`
+  html += `<div class="step-content">`
+  html += `<div class="step-title">Bonus: Learning Resources</div>`
+  html += `<div class="step-desc">Documentation, articles, courses, and tools to go deeper on frontend development, npm packages, and the JavaScript ecosystem.</div>`
+  html += `<button class="step-jump" data-jump="overall-resources">→ Deep dive: 📚 Learning Resources</button>`
+  html += `</div></div>`
 
   return (
     <>
