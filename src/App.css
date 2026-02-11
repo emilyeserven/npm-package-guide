@@ -874,9 +874,10 @@
   }
 
   .bonus-step {
-    margin-top: 12px;
+    margin-top: 28px;
     border-top: 2px dashed #cbd5e1;
     padding-top: 24px;
+    border-bottom: none;
   }
 
   .bonus-number {
@@ -909,7 +910,7 @@
   }
 
   .step-substep {
-    margin-top: 10px;
+    margin-top: 16px;
     padding-left: 14px;
     border-left: 2px solid #e2e8f0;
   }
