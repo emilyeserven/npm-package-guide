@@ -1,7 +1,8 @@
 import { sections } from '../data/sections'
 import { codeExample } from '../data/codeExample'
-import { enrichFootnoteRefs } from '../helpers/renderFootnotes'
-import { enrichGlossaryTerms } from '../helpers/glossaryEnrich'
+import { enrichContent } from '../helpers/enrichContent'
+import { buildTocHtml } from '../helpers/buildTocHtml'
+import type { TocEntry } from '../helpers/buildTocHtml'
 import { HtmlContent } from './HtmlContent'
 import { Footnotes } from './Footnotes'
 import { PrevNextNav } from './PrevNextNav'
@@ -11,7 +12,7 @@ export function SectionPage({ sectionId }: { sectionId: string }) {
   if (!s) return <div>Section not found</div>
 
   // Build TOC entries
-  const tocEntries: { id: string; label: string; level: number }[] = []
+  const tocEntries: TocEntry[] = []
   if (s.customColumns) {
     tocEntries.push({ id: 'toc-col1', label: s.col1Label!.replace(/^\S+\s+/, ''), level: 1 })
     tocEntries.push({ id: 'toc-col2', label: s.col2Label!.replace(/^\S+\s+/, ''), level: 1 })
@@ -29,15 +30,7 @@ export function SectionPage({ sectionId }: { sectionId: string }) {
   }
 
   let html = `<h1 class="section-title">${s.title}</h1>`
-
-  // TOC if 3+ entries
-  if (tocEntries.length >= 3) {
-    html += `<div class="section-toc"><div class="section-toc-title">On this page</div>`
-    tocEntries.forEach(e => {
-      html += `<a class="toc-link" data-toc="${e.id}">${e.label}</a>`
-    })
-    html += `</div>`
-  }
+  html += buildTocHtml(tocEntries)
 
   if (s.intro) {
     html += `<div class="section-intro">${s.intro}</div>`
@@ -72,7 +65,7 @@ export function SectionPage({ sectionId }: { sectionId: string }) {
     html += `<div class="code-block">${codeExample}</div>`
   }
 
-  const enrichedHtml = enrichGlossaryTerms(enrichFootnoteRefs(html, s.links), sectionId)
+  const enrichedHtml = enrichContent(html, s.links, sectionId)
 
   return (
     <>

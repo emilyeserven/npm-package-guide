@@ -1,7 +1,7 @@
 import { roadmapSteps } from '../data/roadmapSteps'
-import { sections } from '../data/sections'
 import { ciPages } from '../data/ciPages'
 import { bonusSections } from '../data/bonusSections'
+import { findNavItem } from '../helpers/findNavItem'
 import { HtmlContent } from './HtmlContent'
 import { PrevNextNav } from './PrevNextNav'
 
@@ -23,21 +23,13 @@ export function RoadmapPage() {
     html += `<div class="step-desc">${step.desc}</div>`
     html += `<div class="step-detail">${step.detail}</div>`
     if (step.jumpTo) {
-      let label: string
-      if (step.jumpTo === 'checklist') {
-        label = '✅ Publish Checklist'
-      } else {
-        const target = sections.find(s => s.id === step.jumpTo)
-          || ciPages.find(p => p.id === step.jumpTo)
-          || bonusSections.find(b => b.id === step.jumpTo)
-        label = target ? target.title : step.jumpTo
-      }
+      const label = step.jumpTo === 'checklist'
+        ? '✅ Publish Checklist'
+        : (findNavItem(step.jumpTo)?.title ?? step.jumpTo)
       html += `<button class="step-jump" data-jump="${step.jumpTo}">→ Deep dive: ${label}</button>`
     }
     if (step.substep) {
-      const subTarget = sections.find(s => s.id === step.substep!.jumpTo)
-        || ciPages.find(p => p.id === step.substep!.jumpTo)
-      const subLabel = subTarget ? subTarget.title : step.substep.jumpTo
+      const subLabel = findNavItem(step.substep.jumpTo)?.title ?? step.substep.jumpTo
       html += `<div class="step-substep">`
       html += `<h3 class="step-substep-title">${step.substep.title}</h3>`
       html += `<div class="step-substep-text">${step.substep.text}</div>`

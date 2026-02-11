@@ -1,6 +1,6 @@
-import { sections } from './sections'
-import { ciPages, ciPageIds } from './ciPages'
-import { bonusSections, bonusIds } from './bonusSections'
+import { ciPageIds } from './ciPages'
+import { bonusIds } from './bonusSections'
+import { findNavItem } from '../helpers/findNavItem'
 
 export function getNavOrder(): string[] {
   // Order matches the Start Page roadmap steps and sidebar sections
@@ -15,15 +15,14 @@ export function getNavOrder(): string[] {
   ]
 }
 
+const staticTitles: Record<string, string> = {
+  roadmap: "\u{1F680} Start Here",
+  checklist: "\u2705 Publish Checklist",
+  "external-resources": "\u{1F4DA} External Resources",
+  glossary: "\u{1F4D6} Glossary",
+}
+
 export function getNavTitle(id: string): string {
-  if (id === "roadmap") return "\u{1F680} Start Here"
-  if (id === "checklist") return "\u2705 Publish Checklist"
-  if (id === "external-resources") return "\u{1F4DA} External Resources"
-  if (id === "glossary") return "\u{1F4D6} Glossary"
-  const ci = ciPages.find(p => p.id === id)
-  if (ci) return ci.title
-  const bonus = bonusSections.find(b => b.id === id)
-  if (bonus) return bonus.title
-  const s = sections.find(s => s.id === id)
-  return s ? s.title : id
+  if (staticTitles[id]) return staticTitles[id]
+  return findNavItem(id)?.title ?? id
 }

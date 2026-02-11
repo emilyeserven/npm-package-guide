@@ -1,6 +1,7 @@
 import { bonusSections } from '../data/bonusSections'
-import { enrichFootnoteRefs } from '../helpers/renderFootnotes'
-import { enrichGlossaryTerms } from '../helpers/glossaryEnrich'
+import { enrichContent } from '../helpers/enrichContent'
+import { buildTocHtml } from '../helpers/buildTocHtml'
+import type { TocEntry } from '../helpers/buildTocHtml'
 import { HtmlContent } from './HtmlContent'
 import { Footnotes } from './Footnotes'
 import { PrevNextNav } from './PrevNextNav'
@@ -12,7 +13,7 @@ export function BonusSectionPage({ sectionId }: { sectionId: string }) {
   let html = `<h1 class="section-title">${section.title}</h1>`
 
   // Build TOC
-  const tocEntries: { id: string; label: string; level: number }[] = []
+  const tocEntries: TocEntry[] = []
   if (section.content) {
     section.content.forEach((block, i) => {
       tocEntries.push({ id: 'toc-bonus-' + i, label: block.heading, level: 1 })
@@ -20,11 +21,7 @@ export function BonusSectionPage({ sectionId }: { sectionId: string }) {
   }
   if (section.explainerTitle) tocEntries.push({ id: 'toc-explainer', label: section.explainerTitle, level: 2 })
 
-  if (tocEntries.length >= 3) {
-    html += `<div class="section-toc"><div class="section-toc-title">On this page</div>`
-    tocEntries.forEach(e => { html += `<a class="toc-link" data-toc="${e.id}">${e.label}</a>` })
-    html += `</div>`
-  }
+  html += buildTocHtml(tocEntries)
 
   html += `<div class="section-intro">${section.intro}</div>`
 
@@ -43,7 +40,7 @@ export function BonusSectionPage({ sectionId }: { sectionId: string }) {
       </div>`
   }
 
-  const enrichedHtml = enrichGlossaryTerms(enrichFootnoteRefs(html, section.links), sectionId)
+  const enrichedHtml = enrichContent(html, section.links, sectionId)
 
   return (
     <>

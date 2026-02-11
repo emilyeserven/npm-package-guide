@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { useNavigate } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { getNavTitle } from '../data/navigation'
+import { useNavigateToSection } from '../hooks/useNavigateToSection'
 
 interface TooltipData {
   term: string
@@ -19,7 +19,7 @@ export function GlossaryTooltip() {
   const [visible, setVisible] = useState(false)
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const tooltipRef = useRef<HTMLDivElement>(null)
-  const navigate = useNavigate()
+  const navigateToSection = useNavigateToSection()
 
   const cancelHide = useCallback(() => {
     if (hideTimer.current) {
@@ -140,8 +140,7 @@ export function GlossaryTooltip() {
             className="inline-flex items-center text-xs text-blue-500 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 border-none rounded-full px-2.5 py-0.5 cursor-pointer font-medium whitespace-nowrap hover:bg-blue-500 hover:text-white dark:hover:bg-blue-500 dark:hover:text-white transition-colors duration-150"
             onClick={() => {
               hide()
-              navigate({ to: '/$sectionId', params: { sectionId: data.sectionId! } })
-              window.scrollTo({ top: 0, behavior: 'smooth' })
+              navigateToSection(data.sectionId!)
             }}
           >
             → {getNavTitle(data.sectionId)}
