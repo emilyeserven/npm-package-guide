@@ -225,11 +225,13 @@ export function ExternalResourcesPage() {
               placeholder="Search references..."
               value={globalFilter}
               onChange={e => setGlobalFilter(e.target.value)}
+              data-testid="resources-search"
             />
             {globalFilter && (
               <button
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center bg-transparent border-none text-gray-400 dark:text-slate-500 cursor-pointer text-sm hover:text-slate-600 dark:hover:text-slate-300"
                 onClick={() => setGlobalFilter('')}
+                data-testid="resources-search-clear"
               >
                 &#x2715;
               </button>
@@ -254,6 +256,7 @@ export function ExternalResourcesPage() {
                       isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
                     )}
                     onClick={() => toggleTag(b)}
+                    data-testid={`resources-tag-${b}`}
                   >
                     {badge.label}
                   </button>
@@ -276,6 +279,7 @@ export function ExternalResourcesPage() {
                       isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
                     )}
                     onClick={() => toggleTag(b)}
+                    data-testid={`resources-tag-${b}`}
                   >
                     {badge.label}
                   </button>
@@ -287,6 +291,7 @@ export function ExternalResourcesPage() {
             <button
               className="self-start text-xs font-medium text-gray-500 dark:text-slate-400 bg-transparent border-none cursor-pointer px-0 hover:text-blue-500 dark:hover:text-blue-400"
               onClick={clearFilters}
+              data-testid="resources-clear-filters"
             >
               Clear filters
             </button>
@@ -294,7 +299,7 @@ export function ExternalResourcesPage() {
         </div>
 
         {/* Results count */}
-        <div className="text-xs text-gray-400 dark:text-slate-500 mb-2.5 font-medium">
+        <div className="text-xs text-gray-400 dark:text-slate-500 mb-2.5 font-medium" data-testid="resources-count">
           {table.getRowModel().rows.length} of {data.length} references
         </div>
 

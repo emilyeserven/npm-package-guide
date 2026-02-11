@@ -113,6 +113,7 @@ export function GlossaryPage() {
           placeholder="Search terms..."
           value={globalFilter}
           onChange={e => setGlobalFilter(e.target.value)}
+          data-testid="glossary-search"
         />
         <div className="flex flex-wrap gap-1.5">
           <button
@@ -123,6 +124,7 @@ export function GlossaryPage() {
                 : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-blue-300 dark:hover:border-blue-500/40'
             )}
             onClick={() => setColumnFilters([])}
+            data-testid="glossary-filter-all"
           >
             All
           </button>
@@ -136,6 +138,7 @@ export function GlossaryPage() {
                   : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-blue-300 dark:hover:border-blue-500/40'
               )}
               onClick={() => setColumnFilters([{ id: 'category', value: cat }])}
+              data-testid={`glossary-filter-${cat.toLowerCase().replace(/\s+/g, '-')}`}
             >
               {cat}
             </button>

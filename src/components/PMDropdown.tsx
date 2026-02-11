@@ -21,6 +21,7 @@ export function PMDropdown() {
       <button
         className="flex items-center gap-1.5 font-sans text-xs font-semibold h-9 px-2.5 rounded-lg bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 cursor-pointer transition-all duration-150 whitespace-nowrap hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400"
         onClick={(e) => { e.stopPropagation(); setOpen(!open) }}
+        data-testid="pm-dropdown-toggle"
       >
         <span>{currentPM}</span>
         <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -43,6 +44,7 @@ export function PMDropdown() {
               : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
           )}
           onClick={() => { setPM('npm'); setOpen(false) }}
+          data-testid="pm-option-npm"
         >
           <span className="w-5 text-xs text-blue-500 dark:text-blue-400">{currentPM === 'npm' ? '✓' : ''}</span> npm
         </button>
@@ -54,6 +56,7 @@ export function PMDropdown() {
               : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
           )}
           onClick={() => { setPM('pnpm'); setOpen(false) }}
+          data-testid="pm-option-pnpm"
         >
           <span className="w-5 text-xs text-blue-500 dark:text-blue-400">{currentPM === 'pnpm' ? '✓' : ''}</span> pnpm
         </button>
@@ -64,6 +67,7 @@ export function PMDropdown() {
             setOpen(false)
             navigateToSection('npm-vs-pnpm')
           }}
+          data-testid="pm-compare-link"
         >
           <span className="w-5" />npm vs pnpm
         </button>

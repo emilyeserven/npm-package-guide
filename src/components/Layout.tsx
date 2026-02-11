@@ -41,6 +41,7 @@ export function Layout() {
       <div
         className="sidebar-overlay fixed inset-0 bg-slate-900/30 dark:bg-black/50 backdrop-blur-sm z-90 opacity-0 pointer-events-none transition-opacity duration-250"
         onClick={() => setSidebarOpen(false)}
+        data-testid="sidebar-overlay"
       />
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <GlossaryTooltip />

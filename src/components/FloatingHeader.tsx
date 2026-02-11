@@ -30,6 +30,7 @@ export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) 
           className="flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg cursor-pointer shrink-0 transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 hover:shadow-md hover:shadow-blue-500/10"
           onClick={onMenuToggle}
           aria-label="Open navigation"
+          data-testid="menu-toggle"
         >
           <span className="flex flex-col gap-1">
             <span className="block w-3.5 h-0.5 bg-current rounded-sm" />
@@ -45,6 +46,7 @@ export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) 
             <button
               className="flex items-center gap-1.5 font-sans text-xs font-semibold h-9 px-2.5 rounded-lg bg-transparent text-gray-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 cursor-pointer transition-all duration-150 whitespace-nowrap hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400"
               onClick={handleHomeClick}
+              data-testid="home-button"
             >
               <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
@@ -57,6 +59,7 @@ export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) 
             className="flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg cursor-pointer shrink-0 transition-all duration-150 text-base leading-none p-0 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 hover:shadow-md hover:shadow-blue-500/10"
             onClick={toggleTheme}
             aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            data-testid="theme-toggle"
           >
             {theme === 'light' ? (
               <svg className="w-4.5 h-4.5 stroke-current fill-none" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

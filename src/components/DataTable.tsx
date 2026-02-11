@@ -9,7 +9,7 @@ interface DataTableProps<T> {
 
 export function DataTable<T>({ table, columnCount, emptyMessage }: DataTableProps<T>) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
+    <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700" data-testid="data-table">
       <table className="w-full border-collapse text-sm">
         <thead>
           {table.getHeaderGroups().map(headerGroup => (
