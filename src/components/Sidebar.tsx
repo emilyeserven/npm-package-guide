@@ -96,7 +96,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           <SidebarItem key={item.id} id={item.id} title={item.title} active={currentId === item.id} onClick={handleNav} />
         ))}
 
-        <div className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Bonus</div>
+        <div className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Bonus: Developer Experience</div>
         {bonusSections.map(item => (
           <SidebarItem key={item.id} id={item.id} title={item.title} active={currentId === item.id} onClick={handleNav} />
         ))}

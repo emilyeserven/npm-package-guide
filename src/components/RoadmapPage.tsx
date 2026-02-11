@@ -75,7 +75,7 @@ export function RoadmapPage() {
     html += `<div class="step-card bonus-step">`
     html += `<div class="step-number bonus-number">★</div>`
     html += `<div class="step-content">`
-    html += `<div class="step-title">Bonus: ${bs.title.replace(/^\S+\s+/, '')}</div>`
+    html += `<div class="step-title">Bonus: Developer Experience</div>`
     html += `<div class="bonus-subpage">`
     html += `<h3 class="bonus-subpage-title">${bs.title}</h3>`
     html += `<div class="bonus-subpage-desc">${shortDesc}</div>`
