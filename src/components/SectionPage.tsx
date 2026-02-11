@@ -1,6 +1,7 @@
 import { sections } from '../data/sections'
 import { codeExample } from '../data/codeExample'
 import { enrichFootnoteRefs } from '../helpers/renderFootnotes'
+import { enrichGlossaryTerms } from '../helpers/glossaryEnrich'
 import { HtmlContent } from './HtmlContent'
 import { Footnotes } from './Footnotes'
 import { PrevNextNav } from './PrevNextNav'
@@ -71,7 +72,7 @@ export function SectionPage({ sectionId }: { sectionId: string }) {
     html += `<div class="code-block">${codeExample}</div>`
   }
 
-  const enrichedHtml = enrichFootnoteRefs(html, s.links)
+  const enrichedHtml = enrichGlossaryTerms(enrichFootnoteRefs(html, s.links), sectionId)
 
   return (
     <>

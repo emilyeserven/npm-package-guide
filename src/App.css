@@ -287,6 +287,12 @@
     @apply flex items-center gap-3 py-3 border-b border-slate-100 dark:border-slate-800 text-sm flex-wrap;
   }
   .resource-row:last-child { @apply border-b-0; }
+
+  /* Glossary term inline annotation (used in enriched HTML strings) */
+  .glossary-term {
+    @apply border-b border-dashed border-current cursor-help transition-[border-bottom-style] duration-150;
+  }
+  .glossary-term:hover { border-bottom-style: solid; }
 }
 
 /* ── Badge variants (data-driven class names) ─────────────────────── */

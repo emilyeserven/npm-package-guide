@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from 'react'
 import { ciPages } from '../data/ciPages'
 import { enrichFootnoteRefs } from '../helpers/renderFootnotes'
+import { enrichGlossaryTerms } from '../helpers/glossaryEnrich'
 import { HtmlContent } from './HtmlContent'
 import { Footnotes } from './Footnotes'
 import { PrevNextNav } from './PrevNextNav'
@@ -176,7 +177,7 @@ export function CIPage({ pageId }: { pageId: string }) {
     html += `<div class="ci-tip">${page.tip}</div>`
   }
 
-  const enrichedHtml = enrichFootnoteRefs(html, page.links)
+  const enrichedHtml = enrichGlossaryTerms(enrichFootnoteRefs(html, page.links), pageId)
 
   return (
     <div ref={contentRef} onClick={handleClick}>

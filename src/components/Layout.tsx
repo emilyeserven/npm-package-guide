@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Outlet } from '@tanstack/react-router'
 import { FloatingHeader } from './FloatingHeader'
 import { Sidebar } from './Sidebar'
+import { GlossaryTooltip } from './GlossaryTooltip'
 
 export function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -42,6 +43,7 @@ export function Layout() {
         onClick={() => setSidebarOpen(false)}
       />
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <GlossaryTooltip />
     </>
   )
 }

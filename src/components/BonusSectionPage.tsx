@@ -1,5 +1,6 @@
 import { bonusSections } from '../data/bonusSections'
 import { enrichFootnoteRefs } from '../helpers/renderFootnotes'
+import { enrichGlossaryTerms } from '../helpers/glossaryEnrich'
 import { HtmlContent } from './HtmlContent'
 import { Footnotes } from './Footnotes'
 import { PrevNextNav } from './PrevNextNav'
@@ -42,7 +43,7 @@ export function BonusSectionPage({ sectionId }: { sectionId: string }) {
       </div>`
   }
 
-  const enrichedHtml = enrichFootnoteRefs(html, section.links)
+  const enrichedHtml = enrichGlossaryTerms(enrichFootnoteRefs(html, section.links), sectionId)
 
   return (
     <>
