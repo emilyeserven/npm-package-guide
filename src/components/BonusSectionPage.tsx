@@ -1,4 +1,5 @@
 import { bonusSections } from '../data/bonusSections'
+import { enrichFootnoteRefs } from '../helpers/renderFootnotes'
 import { HtmlContent } from './HtmlContent'
 import { Footnotes } from './Footnotes'
 import { PrevNextNav } from './PrevNextNav'
@@ -41,9 +42,11 @@ export function BonusSectionPage({ sectionId }: { sectionId: string }) {
       </div>`
   }
 
+  const enrichedHtml = enrichFootnoteRefs(html, section.links)
+
   return (
     <>
-      <HtmlContent html={html} />
+      <HtmlContent html={enrichedHtml} />
       {section.links && section.links.length > 0 && <Footnotes links={section.links} contentHtml={html} />}
       <PrevNextNav currentId={sectionId} />
     </>

@@ -487,11 +487,8 @@
     line-height: 1.65;
     padding: 9px 0 9px 16px;
     position: relative;
-    border-bottom: 1px solid var(--border-light);
     color: var(--body);
   }
-
-  .col-item:last-child { border-bottom: none; }
 
   .section-list {
     margin-bottom: 20px;
@@ -556,11 +553,11 @@
 
   /* Explainer */
   .explainer {
-    margin-top: 24px;
+    margin-top: 20px;
   }
 
   .explainer-heading {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--ink);
     margin-top: 0;
@@ -1011,11 +1008,9 @@
   }
 
   .links-heading {
-    font-size: 11px;
+    font-size: 18px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--muted);
+    color: var(--ink);
     margin-bottom: 10px;
   }
 
@@ -1180,29 +1175,37 @@
     transform: translateY(-1px);
   }
 
-  .link-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 6px 12px;
-    border-radius: 8px;
-    background: #fff;
-    border: 1px solid #e2e8f0;
-    font-size: 12.5px;
-    font-weight: 500;
+  .further-reading-item {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 4px 0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .further-reading-link {
     color: var(--indigo);
     text-decoration: none;
-    transition: all 0.15s ease;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.15s;
   }
 
-  .link-chip:hover {
-    background: var(--indigo-light);
-    border-color: var(--indigo);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(99, 102, 241, 0.15);
+  .further-reading-link:hover {
+    text-decoration: underline;
   }
 
-  .link-chip .link-source {
+  .external-link-icon {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  .further-reading-item .link-source {
     font-size: 10px;
     font-weight: 600;
     color: var(--pill-text);
@@ -1223,7 +1226,7 @@
   .ci-step:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
   .ci-step-heading {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
     margin-top: 0;
     margin-bottom: 8px;
@@ -1232,7 +1235,7 @@
 
   /* Section subheading — used for inline headers in long content */
   .section-subheading {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--ink);
     margin-top: 20px;
@@ -1635,9 +1638,6 @@
   body.dark .col--monolith .col-label { border-bottom-color: #ea580c; }
   body.dark .col--monorepo .col-label { border-bottom-color: #10b981; }
 
-  body.dark .col-item {
-    border-bottom-color: var(--border);
-  }
 
   body.dark .check-item {
     border-bottom-color: var(--border);
@@ -1717,15 +1717,6 @@
     background: var(--surface-raised);
   }
 
-  body.dark .link-chip {
-    background: var(--surface-raised);
-    border-color: var(--border);
-  }
-
-  body.dark .link-chip:hover {
-    background: var(--indigo-light);
-    border-color: var(--indigo);
-  }
 
   body.dark .checklist-copy-btn {
     border-color: var(--border);

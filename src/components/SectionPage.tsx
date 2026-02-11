@@ -1,5 +1,6 @@
 import { sections } from '../data/sections'
 import { codeExample } from '../data/codeExample'
+import { enrichFootnoteRefs } from '../helpers/renderFootnotes'
 import { HtmlContent } from './HtmlContent'
 import { Footnotes } from './Footnotes'
 import { PrevNextNav } from './PrevNextNav'
@@ -70,9 +71,11 @@ export function SectionPage({ sectionId }: { sectionId: string }) {
     html += `<div class="code-block">${codeExample}</div>`
   }
 
+  const enrichedHtml = enrichFootnoteRefs(html, s.links)
+
   return (
     <>
-      <HtmlContent html={html} />
+      <HtmlContent html={enrichedHtml} />
       {s.links && s.links.length > 0 && <Footnotes links={s.links} contentHtml={html} />}
       <PrevNextNav currentId={sectionId} />
     </>

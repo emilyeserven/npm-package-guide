@@ -22,7 +22,7 @@ export function renderFootnotesHtml(links: SectionLink[], contentHtml: string): 
 
   if (footnoted.length > 0) {
     html += `<div class="links-section">`
-    html += `<div class="links-heading">📝 Footnotes</div>`
+    html += `<h2 class="links-heading">📝 Footnotes</h2>`
     html += `<div class="links-list">`
     footnoted.forEach(link => {
       html += `<div class="footnote-item" id="fn-${link.num}">`
@@ -37,13 +37,27 @@ export function renderFootnotesHtml(links: SectionLink[], contentHtml: string): 
 
   if (furtherReading.length > 0) {
     html += `<div class="links-section">`
-    html += `<div class="links-heading">📚 Further Reading</div>`
+    html += `<h2 class="links-heading">📚 Further Reading</h2>`
     html += `<div class="links-list">`
     furtherReading.forEach(link => {
-      html += `<a class="link-chip" href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label} <span class="link-source">${link.source}</span></a>`
+      html += `<div class="further-reading-item"><a class="further-reading-link" href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}<svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a> <span class="link-source">${link.source}</span></div>`
     })
     html += `</div></div>`
   }
 
   return html
+}
+
+export function enrichFootnoteRefs(html: string, links?: SectionLink[]): string {
+  if (!links || links.length === 0) return html
+  return html.replace(/data-fn="(\d+)"\s+title="[^"]*"/g, (_match, num) => {
+    const idx = parseInt(num) - 1
+    if (idx >= 0 && idx < links.length) {
+      const link = links[idx]
+      const escapedLabel = link.label.replace(/"/g, '&quot;')
+      const escapedUrl = link.url.replace(/"/g, '&quot;')
+      return `data-fn="${num}" data-fn-url="${escapedUrl}" title="${escapedLabel}"`
+    }
+    return _match
+  })
 }
