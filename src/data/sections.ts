@@ -60,7 +60,7 @@ export const sections: Section[] = [
     col2Class: "col--monorepo",
     col2: [
       "A monorepo is one Git repo containing multiple packages, each with its own package.json. They can depend on each other and be published independently \u2014 this is the recommended structure for npm packages.",
-      "This is NOT a monolith. Each package has clear boundaries, its own API surface, its own tests. Think of it like microservices in one repo \u2014 the code is colocated for convenience, but the separation is real and enforced.",
+      "This is NOT a monolith. Each package has clear boundaries, its own API surface" + fnRef(6) + ", its own tests. Think of it like microservices in one repo \u2014 the code is colocated for convenience, but the separation is real and enforced.",
       "For packages, monorepos improve modularity from the start. Instead of one giant package, you split into focused scoped packages (e.g., @myorg/utils, @myorg/components, @myorg/cli) that are easier to test, version, and maintain independently. Use pnpm workspaces" + fnRef(1) + " or npm workspaces" + fnRef(2) + " to manage them."
     ],
     gotcha: "\u26A0\uFE0F A monorepo is not a monolith! The whole point is improved modularity. Each package should have a single responsibility, its own tests, and a clean public API. If your packages are tightly coupled and can't be used independently, you've built a monolith with extra folders \u2014 not a real monorepo.",
@@ -71,7 +71,8 @@ export const sections: Section[] = [
       { label: "npm Workspaces docs", url: "https://docs.npmjs.com/cli/v10/using-npm/workspaces", source: "npm" },
       { label: "Turborepo \u2014 Getting Started", url: "https://turbo.build/repo/docs", source: "Turborepo" },
       { label: "Nx \u2014 Getting Started", url: "https://nx.dev/getting-started/intro", source: "Nx" },
-      { label: "Lerna \u2014 Modern monorepo management", url: "https://lerna.js.org/", source: "Lerna" }
+      { label: "Lerna \u2014 Modern monorepo management", url: "https://lerna.js.org/", source: "Lerna" },
+      { label: "API surface", url: "https://en.wikipedia.org/wiki/Application_programming_interface", source: "Wikipedia", note: "The set of public functions, classes, and types a package exposes to consumers" }
     ]
   },
   {
@@ -90,7 +91,7 @@ export const sections: Section[] = [
     col2Label: "\u{1F7E0} pnpm",
     col2Class: "col--pkg",
     col2: [
-      "pnpm is a drop-in replacement for npm that's significantly faster (2-3x in benchmarks) and uses much less disk space by symlinking packages from a shared store instead of copying them.",
+      "pnpm is a drop-in replacement for npm that's significantly faster (2-3x in benchmarks) and uses much less disk space by symlinking" + fnRef(6) + " packages from a shared store instead of copying them.",
       "It uses a strict node_modules structure that prevents phantom dependencies \u2014 you can only import what you've explicitly declared. This catches real bugs that npm silently ignores.",
       "pnpm's workspace support is more mature and performant than npm's, which is why it's the recommended package manager for monorepos. Most major open-source projects (Vue, Vite, Turborepo) use pnpm. See the pnpm CLI docs" + fnRef(4) + " and the install guide" + fnRef(5) + " to get started."
     ],
@@ -102,7 +103,8 @@ export const sections: Section[] = [
       { label: "pnpm vs npm \u2014 Feature Comparison", url: "https://pnpm.io/feature-comparison", source: "pnpm" },
       { label: "npm CLI docs", url: "https://docs.npmjs.com/cli/v10/commands", source: "npm" },
       { label: "pnpm CLI docs", url: "https://pnpm.io/cli/add", source: "pnpm" },
-      { label: "Install pnpm", url: "https://pnpm.io/installation", source: "pnpm" }
+      { label: "Install pnpm", url: "https://pnpm.io/installation", source: "pnpm" },
+      { label: "Symbolic link (symlink)", url: "https://en.wikipedia.org/wiki/Symbolic_link", source: "Wikipedia", note: "A symlink is a file that points to another file or directory — pnpm uses these to avoid duplicating packages on disk" }
     ]
   },
   {
@@ -150,14 +152,15 @@ export const sections: Section[] = [
     ],
     gotcha: "\u26A0\uFE0F ESM vs CJS is like Python 2 vs 3 \u2014 two module systems that don't always play nice together. Always ship ESM at minimum. tsup can output both formats with one config.<br><br>\u{1F433} <strong>Docker note:</strong> Docker is primarily relevant to web apps, not npm packages. Apps are often containerized for deployment (Docker image \u2192 push to registry \u2192 deploy to cloud). Packages don't need Docker \u2014 they're published to npm, not deployed as running services. If you're coming from backend development where everything runs in Docker, know that in the JS ecosystem, Docker is for apps (and sometimes for CI environments), not for libraries.",
     explainerTitle: "What's a bundler?",
-    explainerBody: "A bundler takes all your source files (JS, TS, CSS, images) and combines them into optimized output files. It's like a compiler for the frontend world \u2014 it resolves imports, removes dead code, and produces files ready for production. Vite is the current favorite for apps because it's extremely fast during development (using native ES modules) and produces optimized builds for production. Webpack is older but has a massive ecosystem of plugins. Both can be configured for library output too \u2014 Vite even has a dedicated 'library mode' \u2014 but tools like tsup and Rollup tend to require less config for that use case.<br><br>\u{1F4CE} <strong>Related:</strong> Your build tool works hand-in-hand with your <button class='inline-nav-link' data-nav='tsconfig'>\u2699\uFE0F tsconfig.json</button> \u2014 the TypeScript compiler configuration. To verify your build runs successfully in CI, see the <button class='inline-nav-link' data-nav='ci-build'>\u{1F528} Build Verification</button> section.",
+    explainerBody: "A bundler takes all your source files (JS, TS, CSS, images) and combines them into optimized output files. It's like a compiler for the frontend world \u2014 it resolves imports, removes dead code" + fnRef(7) + ", and produces files ready for production. Vite is the current favorite for apps because it's extremely fast during development (using native ES modules) and produces optimized builds for production. Webpack is older but has a massive ecosystem of plugins. Both can be configured for library output too \u2014 Vite even has a dedicated 'library mode' \u2014 but tools like tsup and Rollup tend to require less config for that use case.<br><br>\u{1F4CE} <strong>Related:</strong> Your build tool works hand-in-hand with your <button class='inline-nav-link' data-nav='tsconfig'>\u2699\uFE0F tsconfig.json</button> \u2014 the TypeScript compiler configuration. To verify your build runs successfully in CI, see the <button class='inline-nav-link' data-nav='ci-build'>\u{1F528} Build Verification</button> section.",
     links: [
       { label: "Vite \u2014 Getting Started", url: "https://vite.dev/guide/", source: "Vite" },
       { label: "Vite \u2014 Library Mode", url: "https://vite.dev/guide/build.html#library-mode", source: "Vite" },
       { label: "Webpack \u2014 Getting Started", url: "https://webpack.js.org/guides/getting-started/", source: "Webpack" },
       { label: "tsup \u2014 Bundle TypeScript libraries", url: "https://tsup.egoist.dev/", source: "tsup" },
       { label: "ES Modules: import/export", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import", source: "MDN" },
-      { label: "Rollup \u2014 Module bundler for libraries", url: "https://rollupjs.org/introduction/", source: "Rollup" }
+      { label: "Rollup \u2014 Module bundler for libraries", url: "https://rollupjs.org/introduction/", source: "Rollup" },
+      { label: "Tree shaking \u2014 dead code elimination", url: "https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking", source: "MDN", note: "The process of removing unused code from the final bundle to reduce file size" }
     ]
   },
   {
@@ -223,7 +226,7 @@ export const sections: Section[] = [
     ],
     pkg: [
       "You MUST ship type declaration files" + fnRef(1) + " (.d.ts) alongside your JavaScript. These tell consumers what types your functions accept and return.",
-      "Your types ARE your public API contract. If a function signature changes, that's a breaking change. See the publishing guide" + fnRef(2) + " for how to ship them correctly.",
+      "Your types ARE your public API contract" + fnRef(4) + ". If a function signature changes, that's a breaking change" + fnRef(5) + ". See the publishing guide" + fnRef(2) + " for how to ship them correctly.",
       "Tools like tsup auto-generate .d.ts files from your TypeScript source. Without them, consumers get no autocomplete or type checking."
     ],
     gotcha: "\u26A0\uFE0F Forgetting to ship .d.ts files is the #1 complaint about npm packages. It's like publishing a REST API with no documentation \u2014 technically usable, but painful.",
@@ -232,7 +235,9 @@ export const sections: Section[] = [
     links: [
       { label: "TypeScript declaration files", url: "https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html", source: "TypeScript" },
       { label: "Publishing types with your package", url: "https://www.typescriptlang.org/docs/handbook/declaration-files/publishing.html", source: "TypeScript" },
-      { label: "tsconfig.json reference", url: "https://www.typescriptlang.org/tsconfig/", source: "TypeScript" }
+      { label: "tsconfig.json reference", url: "https://www.typescriptlang.org/tsconfig/", source: "TypeScript" },
+      { label: "Design by contract", url: "https://en.wikipedia.org/wiki/Design_by_contract", source: "Wikipedia", note: "A 'public API contract' defines the mutual obligations between your package and its consumers — what you export, what types you guarantee, and what behavior they can rely on" },
+      { label: "Backward compatibility", url: "https://en.wikipedia.org/wiki/Backward_compatibility", source: "Wikipedia", note: "A 'breaking change' violates backward compatibility — consumers must update their code to upgrade" }
     ]
   },
   {
@@ -273,13 +278,14 @@ export const sections: Section[] = [
     ],
     gotcha: "\u26A0\uFE0F Semver trust is everything. MAJOR = breaking changes, MINOR = new features, PATCH = bug fixes. If you accidentally break something in a minor release, developers lose trust fast \u2014 it's like changing a REST API response shape without bumping the API version. CI automation helps prevent human error here. Use the npm semver calculator" + fnRef(2) + " to understand version ranges.",
     explainerTitle: "What's semver and how does CI help?",
-    explainerBody: "Semantic Versioning (semver) is a contract with your users. Given version MAJOR.MINOR.PATCH: bump MAJOR when you make incompatible API changes (like renaming a function), bump MINOR when you add functionality in a backward-compatible way, and bump PATCH for backward-compatible bug fixes. When someone installs '^2.1.0', they trust that any 2.x.x update won't break their code. In practice, most teams automate this with CI. A tool like 'changesets' lets developers declare version intent in their PRs, then a CI pipeline (GitHub Actions, etc.) handles the actual version bump, changelog generation, and npm publish when PRs are merged. 'semantic-release' takes a different approach \u2014 it reads Conventional Commit" + fnRef(5) + " messages to determine the version automatically. Either way, CI removes the human error of forgetting to bump or mis-categorizing a change.",
+    explainerBody: "Semantic Versioning (semver) is a contract with your users. Given version MAJOR.MINOR.PATCH: bump MAJOR when you make incompatible API changes (like renaming a function), bump MINOR when you add functionality in a backward-compatible way, and bump PATCH for backward-compatible bug fixes. When someone installs '^2.1.0', they trust that any 2.x.x update won't break their code. In practice, most teams automate this with CI. A tool like 'changesets' lets developers declare version intent in their PRs, then a CI pipeline (GitHub Actions, etc.) handles the actual version bump, changelog" + fnRef(6) + " generation, and npm publish when PRs are merged. 'semantic-release' takes a different approach \u2014 it reads Conventional Commit" + fnRef(5) + " messages to determine the version automatically. Either way, CI removes the human error of forgetting to bump or mis-categorizing a change.",
     links: [
       { label: "Semantic Versioning spec", url: "https://semver.org/", source: "semver" },
       { label: "npm semver calculator", url: "https://semver.npmjs.com/", source: "npm" },
       { label: "changesets \u2014 version management for monorepos", url: "https://github.com/changesets/changesets", source: "GitHub" },
       { label: "semantic-release \u2014 automated versioning", url: "https://semantic-release.gitbook.io/semantic-release", source: "Docs" },
-      { label: "Conventional Commits spec", url: "https://www.conventionalcommits.org/", source: "Docs" }
+      { label: "Conventional Commits spec", url: "https://www.conventionalcommits.org/", source: "Docs" },
+      { label: "Changelog", url: "https://en.wikipedia.org/wiki/Changelog", source: "Wikipedia", note: "A file documenting notable changes for each version — helps consumers decide when and whether to upgrade" }
     ]
   },
   {

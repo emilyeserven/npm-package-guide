@@ -52,7 +52,7 @@ export interface CiPage {
 // Data
 // ---------------------------------------------------------------------------
 
-const ciOverviewIntro = "A CI (Continuous Integration) pipeline runs automated checks every time you push code or open a pull request. In the JavaScript ecosystem, GitHub Actions" + fnRef(1) + " is the most common CI tool — it runs your checks in the cloud so bugs, broken builds, and style issues are caught before code is merged. Think of it like a gatekeeper that runs your test suite, linting, and build process automatically, just like you might have Jenkins or GitLab CI running tests for a backend project.<br><br>For <strong>web apps</strong>, you test user-facing behavior: does the button work? Does the page load correctly? For <strong>npm packages</strong>, you test your public API: do exported functions return correct values? Do edge cases work? Package tests should import from your built output (or at least your public exports), not internal files — this catches issues consumers would actually hit."
+const ciOverviewIntro = "A CI (Continuous Integration)" + fnRef(2) + " pipeline runs automated checks every time you push code or open a pull request. In the JavaScript ecosystem, GitHub Actions" + fnRef(1) + " is the most common CI tool — it runs your checks in the cloud so bugs, broken builds, and style issues are caught before code is merged. Think of it like a gatekeeper that runs your test suite, linting, and build process automatically, just like you might have Jenkins or GitLab CI running tests for a backend project.<br><br>For <strong>web apps</strong>, you test user-facing behavior: does the button work? Does the page load correctly? For <strong>npm packages</strong>, you test your public API: do exported functions return correct values? Do edge cases work? Package tests should import from your built output (or at least your public exports), not internal files — this catches issues consumers would actually hit."
 
 export const ciPages: CiPage[] = [
   {
@@ -90,7 +90,8 @@ export const ciPages: CiPage[] = [
       - <span class="key">name</span>: E2E Tests
         <span class="key">run</span>: <span class="string">${cmd("npx playwright test", "pnpm playwright test")}</span>`,
     links: [
-      { label: "GitHub Actions — Quickstart", url: "https://docs.github.com/en/actions/quickstart", source: "GitHub" }
+      { label: "GitHub Actions — Quickstart", url: "https://docs.github.com/en/actions/quickstart", source: "GitHub" },
+      { label: "Continuous integration", url: "https://en.wikipedia.org/wiki/Continuous_integration", source: "Wikipedia", note: "The practice of automatically building and testing code every time changes are pushed" }
     ]
   },
   {
@@ -98,7 +99,7 @@ export const ciPages: CiPage[] = [
     title: "🧹 Linting & Formatting",
     intro: "A <strong>linter</strong> (ESLint" + fnRef(1) + ") and a <strong>formatter</strong> (Prettier" + fnRef(2) + ") serve different purposes, and understanding the difference matters." +
       "<h2 class='section-subheading' id='toc-linting'>Linting (ESLint)</h4>" +
-      "ESLint statically analyzes your code for bugs, bad patterns, and code quality issues like unused variables, missing return types, or potential runtime errors. It doesn't run your code — it reads it and flags problems." +
+      "ESLint statically analyzes" + fnRef(5) + " your code for bugs, bad patterns, and code quality issues like unused variables, missing return types, or potential runtime errors. It doesn't run your code — it reads it and flags problems." +
       "<h2 class='section-subheading' id='toc-formatting'>Formatting (Prettier)</h4>" +
       "Prettier is a formatter — it only cares about how code <em>looks</em>: indentation, line length, quote style, trailing commas. It doesn't catch bugs." +
       "<h2 class='section-subheading' id='toc-eslint-stylistic'>eslint-stylistic — an alternative</h4>" +
@@ -111,7 +112,8 @@ export const ciPages: CiPage[] = [
       { label: "ESLint — Getting Started", url: "https://eslint.org/docs/latest/use/getting-started", source: "ESLint", note: "Official setup guide for ESLint" },
       { label: "Prettier — Install", url: "https://prettier.io/docs/en/install", source: "Prettier", note: "The traditional code formatter for JS/TS projects" },
       { label: "eslint-stylistic — Formatting with ESLint", url: "https://eslint.style/", source: "eslint-stylistic", note: "Drop-in replacement for Prettier using ESLint rules" },
-      { label: "Why I don't use Prettier (Anthony Fu)", url: "https://antfu.me/posts/why-not-prettier", source: "Blog", note: "Case for eslint-stylistic over Prettier from a core Vite maintainer" }
+      { label: "Why I don't use Prettier (Anthony Fu)", url: "https://antfu.me/posts/why-not-prettier", source: "Blog", note: "Case for eslint-stylistic over Prettier from a core Vite maintainer" },
+      { label: "Static program analysis", url: "https://en.wikipedia.org/wiki/Static_program_analysis", source: "Wikipedia", note: "Analyzing source code without running it — catching bugs at 'compile time' rather than at runtime" }
     ]
   },
   {
@@ -171,7 +173,7 @@ export const ciPages: CiPage[] = [
       {
         name: "knip",
         emoji: "✂️",
-        desc: "Knip" + fnRef(1) + " finds <strong>unused files, dependencies, and exports</strong> in your project. It scans your codebase and tells you which packages in your package.json aren't actually imported anywhere, which exported functions are never used, and which entire files are dead code. Think of it like a tree-shaker for your repo — it identifies what can be safely removed.",
+        desc: "Knip" + fnRef(1) + " finds <strong>unused files, dependencies, and exports</strong> in your project. It scans your codebase and tells you which packages in your package.json aren't actually imported anywhere, which exported functions are never used, and which entire files are dead code" + fnRef(3) + ". Think of it like a tree-shaker for your repo — it identifies what can be safely removed.",
         why: "Unused dependencies slow down installs, bloat your bundle, and create security surface area. Unused exports in packages confuse consumers and increase maintenance burden. Knip catches all of this automatically.",
         yaml: "- name: Check unused code\n  run: " + cmd("npx knip", "pnpm knip"),
       },
@@ -186,7 +188,8 @@ export const ciPages: CiPage[] = [
     tip: "Add both tools to your CI pipeline as a separate step. They're fast (seconds, not minutes) and catch issues that are tedious to find manually. For monorepos, these tools are practically essential.",
     links: [
       { label: "knip — Find unused files, dependencies and exports", url: "https://knip.dev/", source: "knip" },
-      { label: "syncpack — Consistent dependency versions", url: "https://jamiemason.github.io/syncpack/", source: "syncpack" }
+      { label: "syncpack — Consistent dependency versions", url: "https://jamiemason.github.io/syncpack/", source: "syncpack" },
+      { label: "Dead code", url: "https://en.wikipedia.org/wiki/Dead_code", source: "Wikipedia", note: "Code that is never executed or whose results are never used — removing it reduces maintenance burden and bundle size" }
     ]
   }
 ]
