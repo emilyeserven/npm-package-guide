@@ -171,6 +171,7 @@ export function ExternalResourcesPage() {
     return data.filter(r => tagFilter.some(b => r.tags.includes(b)))
   }, [data, tagFilter])
 
+  // eslint-disable-next-line react-hooks/incompatible-library -- not using React Compiler
   const table = useReactTable({
     data: filteredData,
     columns,

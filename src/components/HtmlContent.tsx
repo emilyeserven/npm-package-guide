@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react'
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigateToSection } from '../hooks/useNavigateToSection'
 
 interface HtmlContentProps {
   html: string
@@ -9,7 +9,7 @@ interface HtmlContentProps {
 
 export function HtmlContent({ html, className, as: Tag = 'div' }: HtmlContentProps) {
   const ref = useRef<HTMLElement>(null)
-  const navigate = useNavigate()
+  const navigateToSection = useNavigateToSection()
 
   useEffect(() => {
     const el = ref.current
@@ -20,8 +20,7 @@ export function HtmlContent({ html, className, as: Tag = 'div' }: HtmlContentPro
       btn.addEventListener('click', () => {
         const navTarget = btn.dataset.nav
         if (navTarget) {
-          navigate({ to: '/$sectionId', params: { sectionId: navTarget } })
-          window.scrollTo({ top: 0, behavior: 'smooth' })
+          navigateToSection(navTarget)
         }
       })
     })
@@ -100,8 +99,7 @@ export function HtmlContent({ html, className, as: Tag = 'div' }: HtmlContentPro
       btn.addEventListener('click', () => {
         const target = btn.dataset.jump || btn.dataset.nav
         if (target) {
-          navigate({ to: '/$sectionId', params: { sectionId: target } })
-          window.scrollTo({ top: 0, behavior: 'smooth' })
+          navigateToSection(target)
         }
       })
     })
@@ -118,7 +116,7 @@ export function HtmlContent({ html, className, as: Tag = 'div' }: HtmlContentPro
         }
       })
     })
-  }, [html, navigate])
+  }, [html, navigateToSection])
 
   return (
     // @ts-expect-error dynamic tag
