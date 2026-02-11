@@ -2237,6 +2237,4 @@
     .sidebar { width: 280px; }
     .header-section-name { font-size: 13px; }
     .ref-controls { flex-direction: column; }
-    .ref-table th:nth-child(2),
-    .ref-table td:nth-child(2) { display: none; }
   }
