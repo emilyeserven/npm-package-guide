@@ -94,7 +94,7 @@ export function GlossaryTooltip() {
 
   if (!data) return null
 
-  // Position: below the term, centered horizontally
+  // Position: below the term, centered horizontally (fixed to viewport)
   const { rect } = data
   const tooltipWidth = 340
   let left = rect.left + rect.width / 2 - tooltipWidth / 2
@@ -105,13 +105,13 @@ export function GlossaryTooltip() {
   // Show above if near bottom of viewport
   const spaceBelow = window.innerHeight - rect.bottom
   const showAbove = spaceBelow < 200
-  const top = showAbove ? rect.top + window.scrollY - 8 : rect.bottom + window.scrollY + 8
+  const top = showAbove ? rect.top - 8 : rect.bottom + 8
 
   return (
     <div
       ref={tooltipRef}
       className={clsx(
-        'gt-tooltip absolute z-[1200] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-3 shadow-lg text-[13px] leading-relaxed text-slate-800 dark:text-slate-300 transition-[opacity,transform] duration-150',
+        'gt-tooltip fixed z-[1200] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-3 shadow-lg text-[13px] leading-relaxed text-slate-800 dark:text-slate-300 transition-[opacity,translate] duration-150',
         visible
           ? 'opacity-100 translate-y-0 pointer-events-auto'
           : 'opacity-0 translate-y-1 pointer-events-none'

@@ -42,13 +42,23 @@ export function ChecklistPage() {
     <>
       <h1 className="text-3xl font-bold tracking-tight mb-1">✅ Publish Checklist</h1>
       <HtmlContent html={subHtml} className="text-sm text-gray-500 dark:text-slate-400 mb-5 leading-relaxed" as="p" />
-      <button
-        className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 cursor-pointer transition-all duration-150 mb-5 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400"
-        id="copy-checklist"
-        onClick={handleCopy}
-      >
-        📋 Copy as Markdown
-      </button>
+      <div className="flex items-center gap-2 mb-5">
+        <button
+          className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 cursor-pointer transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400"
+          id="copy-checklist"
+          onClick={handleCopy}
+        >
+          📋 Copy as Markdown
+        </button>
+        {checked > 0 && (
+          <button
+            className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 cursor-pointer transition-all duration-150 hover:border-red-400 dark:hover:border-red-400 hover:text-red-500 dark:hover:text-red-400"
+            onClick={() => setCheckedItems({})}
+          >
+            Deselect All
+          </button>
+        )}
+      </div>
 
       {checklistItems.map((item, i) => {
         const isChecked = checkedItems[i] || false
