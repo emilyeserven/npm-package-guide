@@ -7,7 +7,7 @@ import { HtmlContent } from './HtmlContent'
 import { PrevNextNav } from './PrevNextNav'
 
 export function SectionLinksPage() {
-  let html = `<h2 class="section-title">🔗 Section References</h2>`
+  let html = `<h1 class="section-title">🔗 Section References</h1>`
   html += `<p style="color: var(--muted); font-size: 14px; margin-bottom: 24px; line-height: 1.6;">All the "Read More" links from the deep-dive sections, collected in one place for quick reference.</p>`
   html += `<div class="resources-section">`
 

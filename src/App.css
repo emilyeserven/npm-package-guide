@@ -563,6 +563,7 @@
     font-size: 16px;
     font-weight: 700;
     color: var(--ink);
+    margin-top: 0;
     margin-bottom: 8px;
   }
 
@@ -1224,6 +1225,7 @@
   .ci-step-heading {
     font-size: 18px;
     font-weight: 700;
+    margin-top: 0;
     margin-bottom: 8px;
     color: var(--ink);
   }
@@ -1257,17 +1259,27 @@
     margin-bottom: 8px;
   }
 
-  .section-toc a {
+  .section-toc .toc-link {
     display: block;
     font-size: 13px;
     color: var(--indigo);
     text-decoration: none;
     padding: 3px 0;
+    cursor: pointer;
     transition: color 0.15s;
   }
 
-  .section-toc a:hover {
+  .section-toc .toc-link:hover {
     color: var(--ink);
+  }
+
+  .section-toc .toc-link.toc-indent {
+    padding-left: 12px;
+    font-size: 12px;
+  }
+
+  [id^="toc-"] {
+    scroll-margin-top: 68px;
   }
 
   /* YAML heading label */

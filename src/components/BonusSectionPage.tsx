@@ -7,20 +7,20 @@ export function BonusSectionPage({ sectionId }: { sectionId: string }) {
   const section = bonusSections.find(s => s.id === sectionId)
   if (!section) return <div>Section not found</div>
 
-  let html = `<h2 class="section-title">${section.title}</h2>`
+  let html = `<h1 class="section-title">${section.title}</h1>`
 
   // Build TOC
-  const tocEntries: { id: string; label: string }[] = []
+  const tocEntries: { id: string; label: string; level: number }[] = []
   if (section.content) {
     section.content.forEach((block, i) => {
-      tocEntries.push({ id: 'toc-bonus-' + i, label: block.heading })
+      tocEntries.push({ id: 'toc-bonus-' + i, label: block.heading, level: 1 })
     })
   }
-  if (section.explainerTitle) tocEntries.push({ id: 'toc-explainer', label: section.explainerTitle })
+  if (section.explainerTitle) tocEntries.push({ id: 'toc-explainer', label: section.explainerTitle, level: 2 })
 
   if (tocEntries.length >= 3) {
     html += `<div class="section-toc"><div class="section-toc-title">On this page</div>`
-    tocEntries.forEach(e => { html += `<a href="#${e.id}">${e.label}</a>` })
+    tocEntries.forEach(e => { html += `<a class="toc-link${e.level === 2 ? ' toc-indent' : ''}" data-toc="${e.id}">${e.label}</a>` })
     html += `</div>`
   }
 
@@ -28,7 +28,7 @@ export function BonusSectionPage({ sectionId }: { sectionId: string }) {
 
   if (section.content) {
     section.content.forEach((block, i) => {
-      html += `<h4 class="section-subheading" id="toc-bonus-${i}">${block.heading}</h4>`
+      html += `<h2 class="section-subheading" id="toc-bonus-${i}">${block.heading}</h2>`
       html += `<div class="ci-step-text">${block.text}</div>`
     })
   }
@@ -36,7 +36,7 @@ export function BonusSectionPage({ sectionId }: { sectionId: string }) {
   if (section.explainerTitle) {
     html += `
       <div class="explainer">
-        <h4 class="explainer-heading" id="toc-explainer">💡 ${section.explainerTitle}</h4>
+        <h2 class="explainer-heading" id="toc-explainer">💡 ${section.explainerTitle}</h2>
         <div class="explainer-body">${section.explainerBody}</div>
       </div>`
   }

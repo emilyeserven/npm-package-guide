@@ -97,13 +97,13 @@ export const ciPages: CiPage[] = [
     id: "ci-linting",
     title: "🧹 Linting & Formatting",
     intro: "A <strong>linter</strong> (ESLint" + fnRef(1) + ") and a <strong>formatter</strong> (Prettier" + fnRef(2) + ") serve different purposes, and understanding the difference matters." +
-      "<h4 class='section-subheading' id='toc-linting'>Linting (ESLint)</h4>" +
+      "<h2 class='section-subheading' id='toc-linting'>Linting (ESLint)</h4>" +
       "ESLint statically analyzes your code for bugs, bad patterns, and code quality issues like unused variables, missing return types, or potential runtime errors. It doesn't run your code — it reads it and flags problems." +
-      "<h4 class='section-subheading' id='toc-formatting'>Formatting (Prettier)</h4>" +
+      "<h2 class='section-subheading' id='toc-formatting'>Formatting (Prettier)</h4>" +
       "Prettier is a formatter — it only cares about how code <em>looks</em>: indentation, line length, quote style, trailing commas. It doesn't catch bugs." +
-      "<h4 class='section-subheading' id='toc-eslint-stylistic'>eslint-stylistic — an alternative</h4>" +
+      "<h2 class='section-subheading' id='toc-eslint-stylistic'>eslint-stylistic — an alternative</h4>" +
       "Historically, most projects used both tools together (ESLint for logic, Prettier for style). But there's a newer alternative: <strong>eslint-stylistic</strong>" + fnRef(3) + " — an ESLint plugin that handles formatting rules directly inside ESLint, so you can drop Prettier entirely and run a single tool for both code quality and style. This simplifies your toolchain and avoids the occasional ESLint-vs-Prettier config conflicts." + fnRef(4) +
-      "<h4 class='section-subheading' id='toc-ide'>IDE Integration</h4>" +
+      "<h2 class='section-subheading' id='toc-ide'>IDE Integration</h4>" +
       "Most editors (VS Code, WebStorm, Cursor) can hook into your linter and formatter to show errors inline and auto-fix on save. This means formatting and many lint fixes happen automatically as you type — you almost never need to think about style manually. Set up \"format on save\" and ESLint auto-fix in your editor and your code stays clean without any effort.",
     yaml: "- name: Lint\n  run: " + cmd("npx eslint . --max-warnings 0", "pnpm eslint . --max-warnings 0"),
     tip: "Use --max-warnings 0 to fail the build on any warning. This keeps your codebase clean over time instead of slowly accumulating 'harmless' warnings that hide real issues. Your CI should always run the same lint check that your IDE runs locally — no surprises.",

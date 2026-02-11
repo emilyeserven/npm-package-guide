@@ -45,6 +45,19 @@ export function HtmlContent({ html, className, as: Tag = 'div' }: HtmlContentPro
         }
       })
     })
+
+    // TOC links (scroll to anchor instead of changing hash)
+    el.querySelectorAll<HTMLElement>('.toc-link').forEach(link => {
+      link.style.cursor = 'pointer'
+      link.addEventListener('click', (e) => {
+        e.preventDefault()
+        const tocId = link.dataset.toc
+        if (tocId) {
+          const target = document.getElementById(tocId)
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      })
+    })
   }, [html, navigate])
 
   return (
