@@ -1029,35 +1029,137 @@
   .rb-interactive { background: #ccfbf1; color: #0f766e; }
 
   /* Glossary */
-  .glossary-list {
-    margin: 0 0 24px;
-    padding: 0;
+  /* Glossary controls */
+  .glossary-controls {
+    margin-bottom: 20px;
   }
 
-  .glossary-entry {
-    padding: 12px 0;
+  .glossary-search {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--ink);
+    outline: none;
+    margin-bottom: 12px;
+  }
+
+  .glossary-search:focus {
+    border-color: var(--indigo);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  }
+
+  .glossary-search::placeholder {
+    color: var(--muted);
+  }
+
+  .glossary-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .glossary-filter-btn {
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    color: var(--body);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .glossary-filter-btn:hover {
+    border-color: var(--indigo);
+    color: var(--indigo);
+  }
+
+  .glossary-filter-btn.active {
+    background: var(--indigo);
+    border-color: var(--indigo);
+    color: #fff;
+  }
+
+  /* Glossary table */
+  .glossary-table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+  }
+
+  .glossary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .glossary-table thead {
+    background: var(--pill-bg);
     border-bottom: 1px solid var(--border-light);
   }
 
-  .glossary-entry:last-child {
+  .glossary-table th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .glossary-table th.sortable {
+    cursor: pointer;
+  }
+
+  .glossary-table th.sortable:hover {
+    color: var(--indigo);
+  }
+
+  .sort-indicator {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .glossary-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--body);
+    vertical-align: top;
+  }
+
+  .glossary-table tbody tr:last-child td {
     border-bottom: none;
   }
 
-  .glossary-term {
+  .glossary-table tbody tr:hover {
+    background: var(--pill-bg);
+  }
+
+  .glossary-table td:first-child {
+    white-space: nowrap;
     font-size: 14px;
-    font-weight: 700;
     color: var(--ink);
-    margin-bottom: 4px;
+    width: 1%;
   }
 
-  .glossary-def {
-    font-size: 13.5px;
-    line-height: 1.65;
-    color: var(--body);
-    margin: 0;
+  .glossary-table td:last-child {
+    white-space: nowrap;
+    font-size: 12px;
+    color: var(--muted);
+    width: 1%;
   }
 
-  .glossary-def code {
+  .glossary-table td code {
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     background: var(--pill-bg);
@@ -1085,6 +1187,12 @@
   .glossary-link .external-link-icon {
     width: 11px;
     height: 11px;
+  }
+
+  .glossary-section-link {
+    margin-left: 4px;
+    font-size: 12px;
+    white-space: nowrap;
   }
 
   /* Links / Resources */
@@ -1769,8 +1877,39 @@
     border-bottom-color: var(--border);
   }
 
-  body.dark .glossary-entry {
+  body.dark .glossary-table-wrapper {
+    border-color: var(--border);
+  }
+
+  body.dark .glossary-table thead {
+    background: rgba(255, 255, 255, 0.04);
     border-bottom-color: var(--border);
+  }
+
+  body.dark .glossary-table td {
+    border-bottom-color: var(--border);
+  }
+
+  body.dark .glossary-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  body.dark .glossary-search {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--ink);
+  }
+
+  body.dark .glossary-filter-btn {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--body);
+  }
+
+  body.dark .glossary-filter-btn.active {
+    background: var(--indigo);
+    border-color: var(--indigo);
+    color: #fff;
   }
 
   body.dark .links-section {
