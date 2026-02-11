@@ -8,10 +8,10 @@
     --blue-bg: #eff6ff;
     --blue-border: #bfdbfe;
     --blue-divider: #dbeafe;
-    --purple: #8b5cf6;
-    --purple-bg: #faf5ff;
-    --purple-border: #e9d5ff;
-    --purple-divider: #f3e8ff;
+    --pkg: #2563eb;
+    --pkg-bg: #eff6ff;
+    --pkg-border: #bfdbfe;
+    --pkg-divider: #dbeafe;
     --green-bg: #f0fdf4;
     --green-border: #bbf7d0;
     --green-text: #166534;
@@ -478,7 +478,7 @@
   }
 
   .col--webapp .col-label { border-bottom-color: var(--blue); }
-  .col--pkg .col-label { border-bottom-color: var(--purple); }
+  .col--pkg .col-label { border-bottom-color: var(--pkg); }
   .col--monolith .col-label { border-bottom-color: #c2410c; }
   .col--monorepo .col-label { border-bottom-color: #047857; }
 
@@ -1539,10 +1539,10 @@
     --blue-bg: rgba(59, 130, 246, 0.1);
     --blue-border: rgba(59, 130, 246, 0.25);
     --blue-divider: rgba(59, 130, 246, 0.15);
-    --purple: #c4b5fd;
-    --purple-bg: rgba(196, 181, 253, 0.15);
-    --purple-border: rgba(196, 181, 253, 0.35);
-    --purple-divider: rgba(196, 181, 253, 0.25);
+    --pkg: #93c5fd;
+    --pkg-bg: rgba(147, 197, 253, 0.15);
+    --pkg-border: rgba(147, 197, 253, 0.35);
+    --pkg-divider: rgba(147, 197, 253, 0.25);
     --green-bg: rgba(22, 163, 74, 0.1);
     --green-border: rgba(22, 163, 74, 0.25);
     --green-text: #4ade80;
@@ -1676,7 +1676,7 @@
   }
 
   body.dark .col--webapp .col-label { border-bottom-color: var(--blue); }
-  body.dark .col--pkg .col-label { border-bottom-color: var(--purple); }
+  body.dark .col--pkg .col-label { border-bottom-color: var(--pkg); }
   body.dark .col--monolith .col-label { border-bottom-color: #ea580c; }
   body.dark .col--monorepo .col-label { border-bottom-color: #10b981; }
 
