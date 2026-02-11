@@ -16,7 +16,7 @@ function getInitialTheme(): Theme {
   try {
     const stored = localStorage.getItem('theme')
     if (stored === 'dark' || stored === 'light') return stored
-  } catch {}
+  } catch { /* ignored */ }
   if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) return 'dark'
   return 'light'
 }
@@ -28,7 +28,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     document.body.classList.toggle('dark', theme === 'dark')
     try {
       localStorage.setItem('theme', theme)
-    } catch {}
+    } catch { /* ignored */ }
   }, [theme])
 
   const toggleTheme = () => setTheme(t => (t === 'light' ? 'dark' : 'light'))
@@ -40,6 +40,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useTheme() {
   return useContext(ThemeContext)
 }

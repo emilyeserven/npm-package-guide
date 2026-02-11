@@ -54,3 +54,8 @@ ESLint uses flat config format (`eslint.config.js`), extending:
 - `tseslint.configs.recommended`
 - `reactHooks.configs.flat.recommended`
 - `reactRefresh.configs.vite`
+
+## Pre-Push Checklist
+
+- Always run `pnpm lint` and `pnpm build` before pushing to ensure CI will pass.
+- When fixing lint errors, try `pnpm lint --fix` first to auto-fix what ESLint can handle, then manually fix any remaining issues.
