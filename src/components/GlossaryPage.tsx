@@ -50,7 +50,7 @@ export function GlossaryPage() {
             <span dangerouslySetInnerHTML={{ __html: row.definition }} />
             <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
               <a
-                className="text-[12px] text-blue-600 dark:text-blue-400 no-underline hover:underline"
+                className="text-xs text-blue-600 dark:text-blue-400 no-underline hover:underline"
                 href={row.url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -58,7 +58,7 @@ export function GlossaryPage() {
               />
               {row.sectionId && (
                 <button
-                  className="inline-nav-link text-[12px] bg-transparent border-none cursor-pointer p-0"
+                  className="inline-nav-link text-xs bg-transparent border-none cursor-pointer p-0"
                   onClick={() => {
                     navigate({ to: '/$sectionId', params: { sectionId: row.sectionId! } })
                     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -108,7 +108,7 @@ export function GlossaryPage() {
         Key terms you'll encounter when building and publishing npm packages. Each term includes links to learn more.
       </p>
 
-      <div className="flex flex-col gap-3 mb-5 max-[600px]:gap-2">
+      <div className="flex flex-col gap-3 mb-5 max-sm:gap-2">
         <input
           className="w-full h-10 px-3.5 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-500 outline-none transition-colors duration-150 focus:border-blue-500 dark:focus:border-blue-400"
           type="text"
@@ -119,7 +119,7 @@ export function GlossaryPage() {
         <div className="flex flex-wrap gap-1.5">
           <button
             className={clsx(
-              'px-3 py-1.5 text-[12px] font-medium rounded-lg border cursor-pointer transition-all duration-150',
+              'px-3 py-1.5 text-xs font-medium rounded-lg border cursor-pointer transition-all duration-150',
               activeCategoryFilter === ''
                 ? 'bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30 text-blue-600 dark:text-blue-400'
                 : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-blue-300 dark:hover:border-blue-500/40'
@@ -132,7 +132,7 @@ export function GlossaryPage() {
             <button
               key={cat}
               className={clsx(
-                'px-3 py-1.5 text-[12px] font-medium rounded-lg border cursor-pointer transition-all duration-150',
+                'px-3 py-1.5 text-xs font-medium rounded-lg border cursor-pointer transition-all duration-150',
                 activeCategoryFilter === cat
                   ? 'bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30 text-blue-600 dark:text-blue-400'
                   : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-blue-300 dark:hover:border-blue-500/40'
@@ -146,7 +146,7 @@ export function GlossaryPage() {
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
-        <table className="w-full border-collapse text-[13px]">
+        <table className="w-full border-collapse text-sm">
           <thead>
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id} className="border-b border-slate-200 dark:border-slate-700">
@@ -154,14 +154,14 @@ export function GlossaryPage() {
                   <th
                     key={header.id}
                     className={clsx(
-                      'text-left px-3 py-2.5 text-[11.5px] font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider bg-slate-50 dark:bg-slate-800/50',
+                      'text-left px-3 py-2.5 text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider bg-slate-50 dark:bg-slate-800/50',
                       header.column.getCanSort() && 'cursor-pointer select-none hover:text-blue-500 dark:hover:text-blue-400'
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
                     {flexRender(header.column.columnDef.header, header.getContext())}
                     {header.column.getCanSort() && (
-                      <span className="text-gray-300 dark:text-slate-600 text-[10px] ml-1">
+                      <span className="text-gray-300 dark:text-slate-600 text-xs ml-1">
                         {{ asc: ' ▲', desc: ' ▼' }[header.column.getIsSorted() as string] ?? ' ⇅'}
                       </span>
                     )}

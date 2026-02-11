@@ -34,7 +34,7 @@ export function Layout() {
         scrolled={scrolled}
         onMenuToggle={() => setSidebarOpen(true)}
       />
-      <div className="mx-auto max-w-[840px] px-5 pt-[72px] pb-15 max-[600px]:px-3.5 max-[600px]:pt-16 max-[600px]:pb-10">
+      <div className="mx-auto max-w-4xl px-5 pt-18 pb-15 max-sm:px-3.5 max-sm:pt-16 max-sm:pb-10">
         <Outlet />
       </div>
       <div

@@ -130,7 +130,7 @@ export function ExternalResourcesPage() {
       header: 'Name',
       cell: info => (
         <a
-          className="text-blue-600 dark:text-blue-400 font-medium text-[13px] no-underline hover:underline"
+          className="text-blue-600 dark:text-blue-400 font-medium text-sm no-underline hover:underline"
           href={info.row.original.url}
           target="_blank"
           rel="noopener noreferrer"
@@ -142,7 +142,7 @@ export function ExternalResourcesPage() {
     }),
     columnHelper.accessor('desc', {
       header: 'Description',
-      cell: info => <span className="text-[13px] text-slate-600 dark:text-slate-400">{info.getValue()}</span>,
+      cell: info => <span className="text-sm text-slate-600 dark:text-slate-400">{info.getValue()}</span>,
       filterFn: 'includesString',
     }),
     columnHelper.accessor('tags', {
@@ -239,7 +239,7 @@ export function ExternalResourcesPage() {
         {/* Tag filters */}
         <div className="flex flex-col gap-2.5 mb-5">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[11px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Type</span>
+            <span className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Type</span>
             <div className="flex flex-wrap gap-1.5">
               {typeTagList.map(b => {
                 const badge = badgeMap[b]
@@ -261,7 +261,7 @@ export function ExternalResourcesPage() {
             </div>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[11px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Topic</span>
+            <span className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Topic</span>
             <div className="flex flex-wrap gap-1.5">
               {topicTagList.map(b => {
                 const badge = badgeMap[b]
@@ -284,7 +284,7 @@ export function ExternalResourcesPage() {
           </div>
           {hasActiveFilters && (
             <button
-              className="self-start text-[12px] font-medium text-gray-500 dark:text-slate-400 bg-transparent border-none cursor-pointer px-0 hover:text-blue-500 dark:hover:text-blue-400"
+              className="self-start text-xs font-medium text-gray-500 dark:text-slate-400 bg-transparent border-none cursor-pointer px-0 hover:text-blue-500 dark:hover:text-blue-400"
               onClick={clearFilters}
             >
               Clear filters
@@ -293,13 +293,13 @@ export function ExternalResourcesPage() {
         </div>
 
         {/* Results count */}
-        <div className="text-[12px] text-gray-400 dark:text-slate-500 mb-2.5 font-medium">
+        <div className="text-xs text-gray-400 dark:text-slate-500 mb-2.5 font-medium">
           {table.getRowModel().rows.length} of {data.length} references
         </div>
 
         {/* Table */}
         <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
-          <table className="w-full border-collapse text-[13px]">
+          <table className="w-full border-collapse text-sm">
             <thead>
               {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id} className="border-b border-slate-200 dark:border-slate-700">
@@ -307,7 +307,7 @@ export function ExternalResourcesPage() {
                     <th
                       key={header.id}
                       className={clsx(
-                        'text-left px-3 py-2.5 text-[11.5px] font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider bg-slate-50 dark:bg-slate-800/50',
+                        'text-left px-3 py-2.5 text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider bg-slate-50 dark:bg-slate-800/50',
                         header.column.getCanSort() && 'cursor-pointer select-none hover:text-blue-500 dark:hover:text-blue-400'
                       )}
                       onClick={header.column.getToggleSortingHandler()}
@@ -315,7 +315,7 @@ export function ExternalResourcesPage() {
                       <span className="flex items-center gap-1">
                         {flexRender(header.column.columnDef.header, header.getContext())}
                         {header.column.getCanSort() && (
-                          <span className="text-gray-300 dark:text-slate-600 text-[10px]">
+                          <span className="text-gray-300 dark:text-slate-600 text-xs">
                             {{ asc: ' ↑', desc: ' ↓' }[header.column.getIsSorted() as string] ?? ' ↕'}
                           </span>
                         )}

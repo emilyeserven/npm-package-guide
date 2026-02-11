@@ -16,7 +16,7 @@ function SidebarItem({ id, title, active, onClick }: { id: string; title: string
   return (
     <button
       className={clsx(
-        'flex items-center w-full text-left px-3.5 py-2 text-[13.5px] rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150',
+        'flex items-center w-full text-left px-3.5 py-2 text-sm rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150',
         active
           ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold'
           : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
@@ -69,10 +69,10 @@ export function Sidebar({ open, onClose }: SidebarProps) {
 
   return (
     <div className={clsx(
-      'sidebar fixed top-0 left-0 bottom-0 w-[320px] max-[600px]:w-[280px] bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 z-100 flex flex-col transition-transform duration-250 -translate-x-full',
+      'sidebar fixed top-0 left-0 bottom-0 w-80 max-sm:w-70 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 z-100 flex flex-col transition-transform duration-250 -translate-x-full',
       open && 'translate-x-0'
     )}>
-      <div className="flex items-center justify-between px-4 h-[52px] border-b border-slate-200 dark:border-slate-700 shrink-0">
+      <div className="flex items-center justify-between px-4 h-13 border-b border-slate-200 dark:border-slate-700 shrink-0">
         <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">Navigation</span>
         <button
           className="flex items-center justify-center w-7 h-7 bg-transparent border-none cursor-pointer text-lg text-gray-400 dark:text-slate-500 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-150"
@@ -86,22 +86,22 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           <SidebarItem key={item.id} {...item} active={currentId === item.id} onClick={handleNav} />
         ))}
 
-        <div className="text-[11px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Building a Package: Step by Step</div>
+        <div className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Building a Package: Step by Step</div>
         {buildingPackageItems.map(item => (
           <SidebarItem key={item.id} {...item} active={currentId === item.id} onClick={handleNav} />
         ))}
 
-        <div className="text-[11px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Bonus: CI Pipeline &amp; Checks</div>
+        <div className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Bonus: CI Pipeline &amp; Checks</div>
         {ciPages.map(item => (
           <SidebarItem key={item.id} id={item.id} title={item.title} active={currentId === item.id} onClick={handleNav} />
         ))}
 
-        <div className="text-[11px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Bonus</div>
+        <div className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Bonus</div>
         {bonusSections.map(item => (
           <SidebarItem key={item.id} id={item.id} title={item.title} active={currentId === item.id} onClick={handleNav} />
         ))}
 
-        <div className="text-[11px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Bonus: Learning Resources</div>
+        <div className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Bonus: Learning Resources</div>
         {resourceItems.map(item => (
           <SidebarItem key={item.id} {...item} active={currentId === item.id} onClick={handleNav} />
         ))}

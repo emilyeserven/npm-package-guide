@@ -40,10 +40,10 @@ export function ChecklistPage() {
 
   return (
     <>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1">✅ Publish Checklist</h1>
+      <h1 className="text-3xl font-bold tracking-tight mb-1">✅ Publish Checklist</h1>
       <HtmlContent html={subHtml} className="text-sm text-gray-500 dark:text-slate-400 mb-5 leading-relaxed" as="p" />
       <button
-        className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 cursor-pointer transition-all duration-150 mb-5 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400"
+        className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 cursor-pointer transition-all duration-150 mb-5 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400"
         id="copy-checklist"
         onClick={handleCopy}
       >
@@ -70,7 +70,7 @@ export function ChecklistPage() {
             />
             <span
               className={clsx(
-                'text-[13.5px] leading-relaxed flex-1 min-w-0',
+                'text-sm leading-relaxed flex-1 min-w-0',
                 isChecked ? 'line-through text-gray-400 dark:text-slate-500' : 'text-slate-800 dark:text-slate-300'
               )}
               dangerouslySetInnerHTML={{ __html: item.text }}
