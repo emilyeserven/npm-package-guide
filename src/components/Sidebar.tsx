@@ -23,6 +23,7 @@ function SidebarItem({ id, title, active, onClick }: { id: string; title: string
           : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
       )}
       onClick={() => onClick(id)}
+      data-testid={`sidebar-item-${id}`}
     >
       <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">{text}</span>
       {icon && <span className="ml-2 text-base leading-none opacity-70 shrink-0">{icon}</span>}
@@ -64,7 +65,9 @@ export function Sidebar({ open, onClose }: SidebarProps) {
   ]
 
   return (
-    <div className={clsx(
+    <div
+      data-testid="sidebar"
+      className={clsx(
       'sidebar fixed top-0 left-0 bottom-0 w-80 max-sm:w-70 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 z-100 flex flex-col transition-transform duration-250 -translate-x-full',
       open && 'translate-x-0'
     )}>
@@ -73,6 +76,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         <button
           className="flex items-center justify-center w-7 h-7 bg-transparent border-none cursor-pointer text-lg text-gray-400 dark:text-slate-500 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-150"
           onClick={onClose}
+          data-testid="sidebar-close"
         >
           &#x2715;
         </button>

@@ -47,6 +47,7 @@ export function ChecklistPage() {
           className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 cursor-pointer transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400"
           id="copy-checklist"
           onClick={handleCopy}
+          data-testid="copy-checklist"
         >
           📋 Copy as Markdown
         </button>
@@ -54,6 +55,7 @@ export function ChecklistPage() {
           <button
             className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 cursor-pointer transition-all duration-150 hover:border-red-400 dark:hover:border-red-400 hover:text-red-500 dark:hover:text-red-400"
             onClick={() => setCheckedItems({})}
+            data-testid="deselect-all"
           >
             Deselect All
           </button>
@@ -77,6 +79,7 @@ export function ChecklistPage() {
               className="mt-0.5 w-4 h-4 accent-blue-500 shrink-0"
               checked={isChecked}
               onChange={(e) => handleCheck(i, e.target.checked)}
+              data-testid={`checklist-item-${i}`}
             />
             <span
               className={clsx(
@@ -97,7 +100,7 @@ export function ChecklistPage() {
             style={{ width: `${pct}%` }}
           />
         </div>
-        <span className="text-xs font-semibold text-gray-500 dark:text-slate-400 whitespace-nowrap">{checked} / {total}</span>
+        <span className="text-xs font-semibold text-gray-500 dark:text-slate-400 whitespace-nowrap" data-testid="checklist-progress">{checked} / {total}</span>
       </div>
 
       <PrevNextNav currentId="checklist" />
