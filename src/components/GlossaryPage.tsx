@@ -8,12 +8,14 @@ import {
 } from '@tanstack/react-table'
 import type { SortingState, ColumnFiltersState } from '@tanstack/react-table'
 import clsx from 'clsx'
+import parse from 'html-react-parser'
 import { glossaryTerms } from '../data/glossaryTerms'
 import type { GlossaryTerm } from '../data/glossaryTerms'
 import { getNavTitle } from '../data/navigation'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { PrevNextNav } from './PrevNextNav'
 import { DataTable } from './DataTable'
+import { ExternalLinkIcon } from './ExternalLinkIcon'
 
 interface FlatGlossaryRow extends GlossaryTerm {
   category: string
@@ -26,8 +28,6 @@ const flatData: FlatGlossaryRow[] = glossaryTerms.flatMap(group =>
 const categories = glossaryTerms.map(g => g.category)
 
 const columnHelper = createColumnHelper<FlatGlossaryRow>()
-
-const externalLinkIcon = `<svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`
 
 export function GlossaryPage() {
   const navigateToSection = useNavigateToSection()
@@ -47,15 +47,16 @@ export function GlossaryPage() {
         const row = info.row.original
         return (
           <div>
-            <span dangerouslySetInnerHTML={{ __html: row.definition }} />
+            <span>{parse(row.definition)}</span>
             <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
               <a
                 className="text-xs text-blue-600 dark:text-blue-400 no-underline hover:underline"
                 href={row.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                dangerouslySetInnerHTML={{ __html: `${row.source} docs${externalLinkIcon}` }}
-              />
+              >
+                {row.source} docs<ExternalLinkIcon />
+              </a>
               {row.sectionId && (
                 <button
                   className="inline-nav-link text-xs bg-transparent border-none cursor-pointer p-0"
