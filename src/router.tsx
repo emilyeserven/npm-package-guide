@@ -20,6 +20,7 @@ const indexRoute = createRoute({
   component: RoadmapPage,
 })
 
+// eslint-disable-next-line react-refresh/only-export-components
 function SectionRouter() {
   const { sectionId } = sectionRoute.useParams()
 

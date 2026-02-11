@@ -20,7 +20,7 @@ function SidebarItem({ id, title, active, onClick }: { id: string; title: string
   )
 }
 
-export function Sidebar({ open: _open, onClose }: SidebarProps) {
+export function Sidebar({ open, onClose }: SidebarProps) {
   const navigate = useNavigate()
   const params = useParams({ strict: false }) as { sectionId?: string }
   const currentId = params.sectionId || 'roadmap'
@@ -50,7 +50,7 @@ export function Sidebar({ open: _open, onClose }: SidebarProps) {
   ]
 
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${open ? 'open' : ''}`}>
       <div className="sidebar-header">
         <span className="sidebar-title">Navigation</span>
         <button className="sidebar-close" onClick={onClose}>&#x2715;</button>

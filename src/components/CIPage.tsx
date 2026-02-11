@@ -10,6 +10,36 @@ export function CIPage({ pageId }: { pageId: string }) {
   const contentRef = useRef<HTMLDivElement>(null)
 
   const page = ciPages.find(p => p.id === pageId)
+
+  const handleClick = useCallback((e: React.MouseEvent) => {
+    const target = e.target as HTMLElement
+
+    // Accordion toggle
+    const accordionBtn = target.closest('.accordion-toggle') as HTMLElement | null
+    if (accordionBtn) {
+      const key = accordionBtn.dataset.explainer
+      if (key) {
+        setExpandedAccordions(prev => ({ ...prev, [key]: !prev[key] }))
+      }
+      return
+    }
+
+    // AI prompt copy
+    const copyBtn = target.closest('.ai-prompt-copy') as HTMLElement | null
+    if (copyBtn && page?.aiPrompts) {
+      const idx = parseInt(copyBtn.dataset.promptIdx || '0')
+      const prompt = page.aiPrompts[idx].prompt
+      navigator.clipboard.writeText(prompt).then(() => {
+        copyBtn.textContent = '✓ Copied!'
+        copyBtn.classList.add('copied')
+        setTimeout(() => {
+          copyBtn.textContent = '📋 Copy'
+          copyBtn.classList.remove('copied')
+        }, 2000)
+      })
+    }
+  }, [page])
+
   if (!page) return <div>CI page not found</div>
 
   let html = `<h1 class="section-title">${page.title}</h1>`
@@ -145,36 +175,6 @@ export function CIPage({ pageId }: { pageId: string }) {
     html += `<div class="ci-yaml">${page.yaml}</div>`
     html += `<div class="ci-tip">${page.tip}</div>`
   }
-
-  // Handle accordion toggle and AI prompt copy via ref
-  const handleClick = useCallback((e: React.MouseEvent) => {
-    const target = e.target as HTMLElement
-
-    // Accordion toggle
-    const accordionBtn = target.closest('.accordion-toggle') as HTMLElement | null
-    if (accordionBtn) {
-      const key = accordionBtn.dataset.explainer
-      if (key) {
-        setExpandedAccordions(prev => ({ ...prev, [key]: !prev[key] }))
-      }
-      return
-    }
-
-    // AI prompt copy
-    const copyBtn = target.closest('.ai-prompt-copy') as HTMLElement | null
-    if (copyBtn && page.aiPrompts) {
-      const idx = parseInt(copyBtn.dataset.promptIdx || '0')
-      const prompt = page.aiPrompts[idx].prompt
-      navigator.clipboard.writeText(prompt).then(() => {
-        copyBtn.textContent = '✓ Copied!'
-        copyBtn.classList.add('copied')
-        setTimeout(() => {
-          copyBtn.textContent = '📋 Copy'
-          copyBtn.classList.remove('copied')
-        }, 2000)
-      })
-    }
-  }, [page])
 
   const enrichedHtml = enrichFootnoteRefs(html, page.links)
 
