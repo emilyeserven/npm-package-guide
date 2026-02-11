@@ -22,7 +22,7 @@ export function BonusSectionPage({ sectionId }: { sectionId: string }) {
 
   if (tocEntries.length >= 3) {
     html += `<div class="section-toc"><div class="section-toc-title">On this page</div>`
-    tocEntries.forEach(e => { html += `<a class="toc-link${e.level === 2 ? ' toc-indent' : ''}" data-toc="${e.id}">${e.label}</a>` })
+    tocEntries.forEach(e => { html += `<a class="toc-link" data-toc="${e.id}">${e.label}</a>` })
     html += `</div>`
   }
 

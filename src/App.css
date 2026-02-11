@@ -56,7 +56,7 @@
     @apply block text-sm text-blue-500 dark:text-blue-400 no-underline py-0.5 cursor-pointer transition-colors duration-150;
   }
   .toc-link:hover { @apply text-slate-900 dark:text-slate-100; }
-  .toc-link.toc-indent { @apply pl-3 text-xs; }
+
   [id^="toc-"] { scroll-margin-top: 68px; }
 
   /* Columns layout */
