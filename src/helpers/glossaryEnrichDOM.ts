@@ -102,7 +102,8 @@ export function enrichGlossaryTermsDOM(container: HTMLElement, currentSectionId?
           }
           span.textContent = matchedText
 
-          const parent = textNode.parentNode!
+          const parent = textNode.parentNode
+          if (!parent) break
           if (before) parent.insertBefore(document.createTextNode(before), textNode)
           parent.insertBefore(span, textNode)
           if (after) parent.insertBefore(document.createTextNode(after), textNode)
