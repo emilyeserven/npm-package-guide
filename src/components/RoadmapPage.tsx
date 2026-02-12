@@ -1,7 +1,7 @@
 import { useNavigate } from '@tanstack/react-router'
 import { roadmapSteps } from '../data/roadmapSteps'
 import { contentPages } from '../content/registry'
-import { findNavItem } from '../helpers/findNavItem'
+import { getNavTitle } from '../data/navigation'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { PrevNextNav } from './PrevNextNav'
 
@@ -99,9 +99,7 @@ export function RoadmapPage() {
               <div className="step-detail text-xs text-gray-400 dark:text-slate-400 leading-relaxed bg-slate-50 dark:bg-slate-800 rounded-lg py-2.5 px-3.5 mb-2 border border-slate-100 dark:border-slate-700" dangerouslySetInnerHTML={{ __html: step.detail }} />
               {step.jumpTo && (
                 <JumpButton jumpTo={step.jumpTo}>
-                  {'\u2192'} Deep dive: {step.jumpTo === 'checklist'
-                    ? '\u2705 Publish Checklist'
-                    : (findNavItem(step.jumpTo)?.title ?? step.jumpTo)}
+                  {'\u2192'} Deep dive: {getNavTitle(step.jumpTo)}
                 </JumpButton>
               )}
               {step.substep && (
@@ -109,7 +107,7 @@ export function RoadmapPage() {
                   <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5">{step.substep.title}</h3>
                   <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed">{step.substep.text}</div>
                   <JumpButton jumpTo={step.substep.jumpTo} style={{ marginTop: 4 }}>
-                    {'\u2192'} Deep dive: {findNavItem(step.substep.jumpTo)?.title ?? step.substep.jumpTo}
+                    {'\u2192'} Deep dive: {getNavTitle(step.substep.jumpTo)}
                   </JumpButton>
                 </div>
               )}

@@ -10,6 +10,7 @@ interface LinkRef {
 export interface ContentPage {
   id: string
   title: string
+  guide?: string
   group?: string
   links?: SectionLink[]
   linkRefIds?: string[]
@@ -36,6 +37,7 @@ for (const [, mod] of Object.entries(mdxModules)) {
   contentPages.set(id, {
     id,
     title: (fm.title as string) ?? id,
+    guide: fm.guide as string | undefined,
     group: fm.group as string | undefined,
     links: resolvedLinks,
     linkRefIds: refIds,

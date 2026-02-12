@@ -1,6 +1,7 @@
 ---
 id: "bigpicture"
 title: "Big Picture 🗺️"
+guide: "npm-package"
 usedFootnotes: [1, 2, 3]
 linkRefs:
   - id: "npm-about"
@@ -9,6 +10,11 @@ linkRefs:
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-webapp">Web App</TocLink>
+  <TocLink id="toc-pkg">NPM Package</TocLink>
+</Toc>
 
 <SectionSubheading id="toc-webapp">{'\u{1F310}'} Web App</SectionSubheading>
 <SectionList>
