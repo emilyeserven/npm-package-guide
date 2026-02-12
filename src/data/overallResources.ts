@@ -55,6 +55,8 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   // Guide
   "guide:npm-package": { cls: "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-300", label: "NPM Package Guide" },
   "guide:architecture": { cls: "bg-cyan-50 text-cyan-700 dark:bg-cyan-500/15 dark:text-cyan-300", label: "Architecture Guide" },
+  "guide:testing": { cls: "bg-green-50 text-green-700 dark:bg-green-500/15 dark:text-green-300", label: "Testing Guide" },
+  "guide:prompt-engineering": { cls: "bg-purple-50 text-purple-700 dark:bg-purple-500/15 dark:text-purple-300", label: "Prompt Eng. Guide" },
   // Topic
   publishing: { cls: "bg-yellow-100 text-yellow-800 dark:bg-yellow-500/15 dark:text-yellow-300", label: "Publishing" },
   typescript: { cls: "bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300", label: "TypeScript" },
@@ -69,6 +71,7 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   architecture: { cls: "bg-cyan-100 text-cyan-800 dark:bg-cyan-500/15 dark:text-cyan-300", label: "Architecture" },
   frameworks: { cls: "bg-rose-100 text-rose-800 dark:bg-rose-500/15 dark:text-rose-300", label: "Frameworks" },
   databases: { cls: "bg-emerald-50 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300", label: "Databases" },
+  "prompt-engineering": { cls: "bg-purple-100 text-purple-800 dark:bg-purple-500/15 dark:text-purple-300", label: "Prompt Engineering" },
   // Glossary categories
   "cat:package-management": { cls: "bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300", label: "Package Management" },
   "cat:dependencies": { cls: "bg-violet-100 text-violet-800 dark:bg-violet-500/20 dark:text-violet-300", label: "Dependencies" },
@@ -79,8 +82,11 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   "cat:web-architecture": { cls: "bg-cyan-100 text-cyan-800 dark:bg-cyan-500/15 dark:text-cyan-300", label: "Web Architecture" },
   "cat:databases": { cls: "bg-emerald-50 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300", label: "Databases" },
   "cat:full-stack-frameworks": { cls: "bg-rose-100 text-rose-800 dark:bg-rose-500/15 dark:text-rose-300", label: "Full-Stack Frameworks" },
+  "cat:testing-fundamentals": { cls: "bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300", label: "Testing Fundamentals" },
+  "cat:prompt-engineering": { cls: "bg-purple-100 text-purple-800 dark:bg-purple-500/15 dark:text-purple-300", label: "Prompt Engineering" },
+  "cat:ai-coding-tools": { cls: "bg-indigo-100 text-indigo-800 dark:bg-indigo-500/15 dark:text-indigo-300", label: "AI Coding Tools" },
 };
 
 export const typeTags = new Set(["docs", "article", "course", "video", "repo", "interactive", "free", "paid"]);
-export const topicTags = new Set(["publishing", "typescript", "versioning", "ci-cd", "monorepo", "modules", "tooling", "bundling", "testing", "linting", "architecture", "frameworks", "databases"]);
-export const guideTags = new Set(["guide:npm-package", "guide:architecture"]);
+export const topicTags = new Set(["publishing", "typescript", "versioning", "ci-cd", "monorepo", "modules", "tooling", "bundling", "testing", "linting", "architecture", "frameworks", "databases", "prompt-engineering"]);
+export const guideTags = new Set(["guide:npm-package", "guide:architecture", "guide:testing", "guide:prompt-engineering"]);
