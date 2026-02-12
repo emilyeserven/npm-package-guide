@@ -91,6 +91,57 @@ The `getNavOrder(currentId)` function returns the correct guide's order based on
 
 When adding, removing, or reordering pages, update all four locations for the affected guide to stay in sync.
 
+## Adapting Claude Artifacts into Guides
+
+Claude artifacts are typically monolithic JSX or HTML files with embedded data and inline styles. This section describes how to decompose them into the multi-page MDX architecture used by this app. The Architecture Guide conversion is the canonical example: the original single-component `ArchitecturePage.tsx` (504 lines) was split into 8 MDX pages, 4 interactive components, and a centralized data file.
+
+### Conversion steps
+
+| Step | Action |
+|------|--------|
+| 1. Identify content boundaries | Find natural page breaks in the monolithic component. Each distinct topic or section heading becomes its own MDX page. |
+| 2. Extract data to `src/data/` | Move inline constants, arrays, and objects into a new typed `.ts` file. Define interfaces for data shapes. Export a `NAV_ORDER` array and `PAGE_IDS` set for use by `navigation.ts`. |
+| 3. Create MDX pages in `src/content/<guide>/` | One `.mdx` file per page with frontmatter (`id`, `title`). Use existing MDX components (`SectionIntro`, `Toc`, `TocLink`, `ColItem`, `Explainer`, etc.). Pages are auto-discovered by `src/content/registry.ts` — no manual import needed. |
+| 4. Extract interactive components to `src/components/mdx/` | Stateful or interactive UI (explorers, diagrams, accordions) becomes a standalone component that reads data from `src/data/` via a prop (e.g., `<StackExplorer stackId="mern" />`). Register it in `src/components/mdx/index.ts`. |
+| 5. Create Start page in `src/components/` | Build the learning path using HTML template literals + `HtmlContent`. Reference `contentPages` from the registry for page titles. Include `<PrevNextNav>`. |
+| 6. Add router entry in `src/router.tsx` | Add the start page ID to `SectionRouter`. MDX pages auto-route via `contentPages`. |
+| 7. Update navigation in 4 places | See the **Page Ordering** section above. |
+
+### MDX page template
+
+```mdx
+---
+id: "guide-page-id"
+title: "Page Title"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-first">First section</TocLink>
+</Toc>
+
+<SectionIntro>
+Brief intro paragraph.
+</SectionIntro>
+
+<h2 className="section-subheading" id="toc-first">First section</h2>
+
+<div className="section-list">
+<ColItem>Content here.</ColItem>
+</div>
+```
+
+### Common pitfalls
+
+- Use `className`, not `class` — MDX is JSX, not HTML.
+- Use self-closing JSX tags: `<br />`, `<img />`, not `<br>`, `<img>`.
+- Normalize inline styles and CSS classes into Tailwind utility classes. Prefer Tailwind's built-in scale over arbitrary values (e.g., use `text-sm` instead of `text-[13px]`).
+- Keep data in `src/data/`, not inline in MDX files or components.
+- Only Start page components use `HtmlContent` / `dangerouslySetInnerHTML`. MDX pages use MDX components directly.
+- Export `NAV_ORDER` and `PAGE_IDS` from the data file so `navigation.ts` can import them.
+- Register any new interactive MDX components in `src/components/mdx/index.ts` or they won't be available in MDX files.
+
 ## Pre-Push Checklist
 
 - Run `pnpm install` before running lint or build to ensure dependencies are installed.
