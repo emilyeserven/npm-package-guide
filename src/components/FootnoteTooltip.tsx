@@ -14,6 +14,8 @@ export function FootnoteTooltip() {
   const [data, setData] = useState<FnTooltipData | null>(null)
   const [visible, setVisible] = useState(false)
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const visibleFnRef = useRef<string | null>(null)
+  const showTimeRef = useRef(0)
 
   const cancelHide = useCallback(() => {
     if (hideTimer.current) {
@@ -26,6 +28,7 @@ export function FootnoteTooltip() {
     cancelHide()
     hideTimer.current = setTimeout(() => {
       setVisible(false)
+      visibleFnRef.current = null
       setTimeout(() => setData(null), 150)
     }, 150)
   }, [cancelHide])
@@ -33,29 +36,36 @@ export function FootnoteTooltip() {
   const hide = useCallback(() => {
     cancelHide()
     setVisible(false)
+    visibleFnRef.current = null
     setTimeout(() => setData(null), 150)
   }, [cancelHide])
 
   useEffect(() => {
-    function onMouseOver(e: MouseEvent) {
-      const target = (e.target as HTMLElement).closest?.('.fn-ref') as HTMLElement | null
-      if (!target) return
-
+    function showTooltip(target: HTMLElement) {
       cancelHide()
       const label = target.dataset.fnLabel
       const url = target.dataset.fnUrl
       if (!label) return
 
+      const fnNum = target.dataset.fn || ''
       const rect = target.getBoundingClientRect()
       setData({
         label,
         url: url || '',
         source: target.dataset.fnSource || '',
         note: target.dataset.fnNote || undefined,
-        fnNum: target.dataset.fn || '',
+        fnNum,
         rect,
       })
+      visibleFnRef.current = fnNum
+      showTimeRef.current = Date.now()
       requestAnimationFrame(() => setVisible(true))
+    }
+
+    function onMouseOver(e: MouseEvent) {
+      const target = (e.target as HTMLElement).closest?.('.fn-ref') as HTMLElement | null
+      if (!target) return
+      showTooltip(target)
     }
 
     function onMouseOut(e: MouseEvent) {
@@ -65,15 +75,36 @@ export function FootnoteTooltip() {
     }
 
     function onClick(e: MouseEvent) {
-      const target = (e.target as HTMLElement).closest?.('.fn-ref') as HTMLElement | null
-      if (!target) return
-      const url = target.dataset.fnUrl
-      if (url) {
-        window.open(url, '_blank', 'noopener,noreferrer')
-      } else {
-        const fn = document.getElementById('fn-' + target.dataset.fn)
-        if (fn) fn.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      const el = e.target as HTMLElement
+      const target = el.closest?.('.fn-ref') as HTMLElement | null
+
+      // Tapping outside footnote ref and tooltip dismisses the tooltip
+      if (!target && !el.closest?.('.fn-tooltip')) {
+        if (visibleFnRef.current) hide()
+        return
       }
+      if (!target) return
+
+      const fnNum = target.dataset.fn || ''
+
+      // If tooltip is already showing for this footnote (and not from the
+      // same tap's synthetic mouseover), navigate to the link
+      const shownByThisTap = Date.now() - showTimeRef.current < 300
+      if (visibleFnRef.current === fnNum && !shownByThisTap) {
+        const url = target.dataset.fnUrl
+        if (url) {
+          window.open(url, '_blank', 'noopener,noreferrer')
+        } else {
+          const fn = document.getElementById('fn-' + fnNum)
+          if (fn) fn.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+        return
+      }
+
+      // First tap: show tooltip instead of navigating
+      e.preventDefault()
+      e.stopPropagation()
+      showTooltip(target)
     }
 
     function onKeyDown(e: KeyboardEvent) {
