@@ -3,7 +3,7 @@ id: "arch-what-is-a-stack"
 title: "📚 What is a Stack?"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-what">What is a tech stack?</TocLink>
@@ -17,42 +17,42 @@ title: "📚 What is a Stack?"
 A **tech stack** is the combination of technologies used to build a web application. Think of it like a recipe &mdash; each ingredient plays a specific role, and together they make the whole dish work. Understanding stacks helps you evaluate tradeoffs, communicate with your team, and make better architectural decisions.
 </SectionIntro>
 
-<h2 className="section-subheading" id="toc-what">{'\u{1F4D6}'} What is a tech stack?</h2>
+<SectionSubheading id="toc-what">{'\u{1F4D6}'} What is a tech stack?</SectionSubheading>
 
-<div className="section-list">
+<SectionList>
 <ColItem>Every web application needs the same fundamental pieces: something to **show to users**, something to **handle requests**, something to **run server code**, and something to **store data**.</ColItem>
 <ColItem>A "stack" is just the specific set of technologies you pick to fill those roles. Different combinations have different strengths &mdash; some prioritize speed, others prioritize simplicity, and others prioritize the ecosystem.</ColItem>
 <ColItem>The name usually comes from the initials of the technologies. **MERN** = **M**ongoDB + **E**xpress + **R**eact + **N**ode.js. **LAMP** = **L**inux + **A**pache + **M**ySQL + **P**HP.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-layers">{'\u{1F5C2}\uFE0F'} The four essential layers</h2>
+<SectionSubheading id="toc-layers">{'\u{1F5C2}\uFE0F'} The four essential layers</SectionSubheading>
 
 Every web application stack has four essential layers. Each layer has a specific job, and together they handle the full lifecycle of a user interaction &mdash; from clicking a button to seeing updated data on the screen.
 
 <LayerDiagram />
 
-<div className="section-list" style={{marginTop: "16px"}}>
+<SectionList>
 <ColItem>**Frontend** &mdash; Builds the user interface. This is what people see and interact with in the browser: buttons, forms, pages, animations.</ColItem>
 <ColItem>**Server Framework** &mdash; Handles HTTP requests, processes business logic, and sends responses. It's the traffic controller between the frontend and the database.</ColItem>
 <ColItem>**Runtime / Platform** &mdash; The engine that executes your server-side code. Node.js runs JavaScript, Python runs Django, Ruby runs Rails.</ColItem>
 <ColItem>**Database** &mdash; Stores data permanently so it survives server restarts. Users, posts, orders &mdash; anything your app needs to remember.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-naming">{'\u{1F520}'} How stacks are named</h2>
+<SectionSubheading id="toc-naming">{'\u{1F520}'} How stacks are named</SectionSubheading>
 
-<div className="section-list">
+<SectionList>
 <ColItem>Most stack names are **acronyms** made from the first letter of each technology: **M**ongoDB + **E**xpress + **R**eact + **N**ode.js = **MERN**.</ColItem>
 <ColItem>Some stacks have well-known names (MERN, MEAN, LAMP). Others are just described by their components &mdash; "Django + React" or "Rails + PostgreSQL."</ColItem>
 <ColItem>The name doesn't tell you everything. Two teams using "MERN" might set it up very differently. The stack is a starting point, not a rigid blueprint.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-swapping">{'\u{1F504}'} Swapping layers</h2>
+<SectionSubheading id="toc-swapping">{'\u{1F504}'} Swapping layers</SectionSubheading>
 
-<div className="section-list">
+<SectionList>
 <ColItem>A key architecture principle: **layers should be independent**. You can swap one technology for another without rewriting the rest of your app &mdash; if the layers communicate through well-defined interfaces (APIs).</ColItem>
 <ColItem>This guide's **PFRN stack** demonstrates this by taking the popular MERN stack and swapping MongoDB &rarr; PostgreSQL and Express &rarr; Fastify, while keeping React and Node.js the same.</ColItem>
 <ColItem>Understanding this principle helps you evaluate new technologies without fear. You're not locked into your first choice forever.</ColItem>
-</div>
+</SectionList>
 
 <Explainer title="Stacks &mdash; a backend analogy">
 If you've worked with microservices, think of a stack like a service's dependency list: you have a database, a framework, a runtime, and something that talks to the outside world. Just like you can swap Redis for Memcached in a caching layer without changing your API contract, you can swap MongoDB for PostgreSQL without rewriting your React frontend. The "stack" is just the label for that combination of dependencies, and understanding the layers helps you reason about which pieces you can change independently.

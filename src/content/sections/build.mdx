@@ -27,7 +27,7 @@ links:
     note: "The process of removing unused code from the final bundle to reduce file size"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-webapp">Web App</TocLink>
@@ -36,19 +36,19 @@ links:
   <TocLink id="toc-gotcha">Watch out</TocLink>
 </Toc>
 
-<h2 className="section-subheading" id="toc-webapp">{'\u{1F310}'} Web App</h2>
-<div className="section-list">
+<SectionSubheading id="toc-webapp">{'\u{1F310}'} Web App</SectionSubheading>
+<SectionList>
 <ColItem>You use a 'bundler' to combine all your code into optimized files the browser can run. The two most common ones are Vite<FnRef n={1} /> (fast, modern, recommended for new projects) and Webpack<FnRef n={3} /> (older, very configurable, still widely used).</ColItem>
 <ColItem>The output is HTML, CSS, and JavaScript files deployed to a web server or CDN — similar to deploying a backend to a cloud provider.</ColItem>
 <ColItem>You only need to target browsers, so one output format is fine. Vite and Webpack handle all the optimization for you.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-pkg">{'\u{1F4E6}'} NPM Package</h2>
-<div className="section-list">
+<SectionSubheading id="toc-pkg">{'\u{1F4E6}'} NPM Package</SectionSubheading>
+<SectionList>
 <ColItem>You need to output your code in multiple formats because you don't know what system will consume it.</ColItem>
 <ColItem>ESM<FnRef n={5} /> (ES Modules) = modern 'import/export' syntax. CJS (CommonJS) = older 'require()' syntax used by Node.js.</ColItem>
 <ColItem>Common choices for packages: tsup<FnRef n={4} /> (easiest to start with), Rollup<FnRef n={6} />, or unbuild. Vite<FnRef n={2} /> and Webpack can also be configured for library output, though tsup and Rollup are purpose-built for it and require less setup.</ColItem>
-</div>
+</SectionList>
 
 <Explainer title="What's a bundler?">
 A bundler takes all your source files (JS, TS, CSS, images) and combines them into optimized output files. It's like a compiler for the frontend world — it resolves imports, removes dead code<FnRef n={7} />, and produces files ready for production. Vite is the current favorite for apps because it's extremely fast during development (using native ES modules) and produces optimized builds for production. Webpack is older but has a massive ecosystem of plugins. Both can be configured for library output too — Vite even has a dedicated 'library mode' — but tools like tsup and Rollup tend to require less config for that use case.<br/><br/>📎 **Related:** Your build tool works hand-in-hand with your <NavLink to="tsconfig">⚙️ tsconfig.json</NavLink> — the TypeScript compiler configuration. To verify your build runs successfully in CI, see the <NavLink to="ci-build">🔨 Build Verification</NavLink> section.

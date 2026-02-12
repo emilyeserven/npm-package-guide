@@ -1,7 +1,7 @@
 import { roadmapSteps } from '../data/roadmapSteps'
 import { contentPages } from '../content/registry'
 import { findNavItem } from '../helpers/findNavItem'
-import { HtmlContent } from './HtmlContent'
+import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { PrevNextNav } from './PrevNextNav'
 
 const ciPageOrder = [
@@ -23,116 +23,117 @@ const bonusDescriptions: Record<string, string> = {
   architecture: 'An interactive guide to web tech stacks — explore each layer of a modified MERN stack and compare popular alternatives like LAMP, Django, and Rails.',
 }
 
+const jumpBtnCls = 'inline-flex items-center gap-1.5 text-sm font-bold text-white cursor-pointer bg-blue-500 dark:bg-blue-400 dark:text-slate-900 border-none font-sans py-2 px-3.5 rounded-lg transition-all duration-150 mt-1 shadow-md shadow-blue-500/25 hover:bg-blue-600 dark:hover:bg-blue-500 hover:-translate-y-px hover:shadow-lg hover:shadow-blue-500/30'
+
+function JumpButton({ jumpTo, children, style }: { jumpTo: string; children: React.ReactNode; style?: React.CSSProperties }) {
+  const navigate = useNavigateToSection()
+  return (
+    <button className={jumpBtnCls} style={style} onClick={() => navigate(jumpTo)}>
+      {children}
+    </button>
+  )
+}
+
+function BonusSubpage({ title, desc, jumpTo, jumpLabel }: { title: string; desc: string; jumpTo: string; jumpLabel: string }) {
+  return (
+    <div className="mt-4.5 py-2 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
+      <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5">{title}</h3>
+      <div className="text-sm text-slate-800 dark:text-slate-300 leading-normal mb-1">{desc}</div>
+      <JumpButton jumpTo={jumpTo}>{'\u2192'} Deep dive: {jumpLabel}</JumpButton>
+    </div>
+  )
+}
+
+function BonusCard({ title, desc, children }: { title: string; desc?: string; children: React.ReactNode }) {
+  return (
+    <div className="step-card bonus-step flex gap-4 py-4.5 relative mt-7 pt-6 border-t-2 border-dashed border-slate-300 dark:border-slate-600">
+      <div className="step-number bonus-number w-9 h-9 rounded-full text-white flex items-center justify-center text-sm font-bold shrink-0 relative">{'\u2605'}</div>
+      <div className="flex-1 min-w-0">
+        <div className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">{title}</div>
+        {desc && <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2">{desc}</div>}
+        {children}
+      </div>
+    </div>
+  )
+}
+
 export function RoadmapPage() {
-  let html = `<div class="page-header">
-    <h1>Web App vs. NPM Package Guide</h1>
-    <p class="subtitle">A guide for backend engineers stepping into the frontend world.</p>
-    <p class="hint">💡 Look for the green "Explain it to me" dropdowns for backend-friendly analogies.</p>
-  </div>`
-
-  html += `<h2 class="section-title">🚀 Building a Package: Step by Step</h2>`
-  html += `<p class="roadmap-intro">New to npm packages? Follow these steps in order. Each step links to a deeper explanation in the other tabs. This is the order you'd actually set things up in a real project.</p>`
-
-  roadmapSteps.forEach(step => {
-    html += `<div class="step-card ${step.jumpTo ? 'has-jump' : ''}">`
-    html += `<div class="step-number">${step.num}</div>`
-    html += `<div class="step-content">`
-    html += `<div class="step-title">${step.title}</div>`
-    html += `<div class="step-desc">${step.desc}</div>`
-    html += `<div class="step-detail">${step.detail}</div>`
-    if (step.jumpTo) {
-      const label = step.jumpTo === 'checklist'
-        ? '✅ Publish Checklist'
-        : (findNavItem(step.jumpTo)?.title ?? step.jumpTo)
-      html += `<button class="step-jump" data-jump="${step.jumpTo}">→ Deep dive: ${label}</button>`
-    }
-    if (step.substep) {
-      const subLabel = findNavItem(step.substep.jumpTo)?.title ?? step.substep.jumpTo
-      html += `<div class="step-substep">`
-      html += `<h3 class="step-substep-title">${step.substep.title}</h3>`
-      html += `<div class="step-substep-text">${step.substep.text}</div>`
-      html += `<button class="step-jump" data-jump="${step.substep.jumpTo}" style="margin-top: 4px;">→ Deep dive: ${subLabel}</button>`
-      html += `</div>`
-    }
-    html += `</div></div>`
-  })
-
-  // Bonus: CI Pipeline
-  html += `<div class="step-card bonus-step">`
-  html += `<div class="step-number bonus-number">★</div>`
-  html += `<div class="step-content">`
-  html += `<div class="step-title">Bonus: CI Pipeline & Checks</div>`
-  html += `<div class="step-desc">Automate linting, build verification, and testing so they run on every push and pull request. A single YAML file can catch bugs before they're ever merged.</div>`
-  ciPageOrder.forEach(id => {
-    const page = contentPages.get(id)
-    if (!page) return
-    const shortDesc = ciDescriptions[id] ?? ''
-    html += `<div class="bonus-subpage">`
-    html += `<h3 class="bonus-subpage-title">${page.title}</h3>`
-    html += `<div class="bonus-subpage-desc">${shortDesc}</div>`
-    html += `<button class="step-jump" data-jump="${page.id}">→ Deep dive: ${page.title}</button>`
-    html += `</div>`
-  })
-  html += `</div></div>`
-
-  // Bonus: Storybook etc.
-  bonusPageOrder.forEach(id => {
-    const page = contentPages.get(id)
-    if (!page) return
-    const shortDesc = bonusDescriptions[id] ?? ''
-    html += `<div class="step-card bonus-step">`
-    html += `<div class="step-number bonus-number">★</div>`
-    html += `<div class="step-content">`
-    html += `<div class="step-title">Bonus: Developer Experience</div>`
-    html += `<div class="bonus-subpage">`
-    html += `<h3 class="bonus-subpage-title">${page.title}</h3>`
-    html += `<div class="bonus-subpage-desc">${shortDesc}</div>`
-    html += `<button class="step-jump" data-jump="${page.id}">→ Deep dive: ${page.title}</button>`
-    html += `</div>`
-    html += `</div></div>`
-  })
-
-  // Bonus: Architecture Guide (static — not in contentPages)
-  {
-    const archDesc = bonusDescriptions['architecture'] ?? ''
-    html += `<div class="step-card bonus-step">`
-    html += `<div class="step-number bonus-number">★</div>`
-    html += `<div class="step-content">`
-    html += `<div class="step-title">Bonus: Developer Experience</div>`
-    html += `<div class="bonus-subpage">`
-    html += `<h3 class="bonus-subpage-title">\u{1F3D7}\uFE0F Architecture Guide</h3>`
-    html += `<div class="bonus-subpage-desc">${archDesc}</div>`
-    html += `<button class="step-jump" data-jump="arch-start">→ Deep dive: \u{1F3D7}\uFE0F Architecture Guide</button>`
-    html += `</div>`
-    html += `</div></div>`
-  }
-
-  // Bonus: Learning Resources
-  html += `<div class="step-card bonus-step">`
-  html += `<div class="step-number bonus-number">★</div>`
-  html += `<div class="step-content">`
-  html += `<div class="step-title">Bonus: Learning Resources</div>`
-  html += `<div class="step-desc">Documentation, articles, courses, and tools to go deeper on frontend development, npm packages, and the JavaScript ecosystem.</div>`
-  html += `<div class="bonus-subpage">`
-  html += `<h3 class="bonus-subpage-title">✅ Publish Checklist</h3>`
-  html += `<div class="bonus-subpage-desc">Go through this before every npm publish — trust us, it saves headaches.</div>`
-  html += `<button class="step-jump" data-jump="checklist">→ Deep dive: ✅ Publish Checklist</button>`
-  html += `</div>`
-  html += `<div class="bonus-subpage">`
-  html += `<h3 class="bonus-subpage-title">📚 External Resources</h3>`
-  html += `<div class="bonus-subpage-desc">Curated documentation, articles, courses, tools, and section references — all in one searchable, sortable table.</div>`
-  html += `<button class="step-jump" data-jump="external-resources">→ Deep dive: 📚 External Resources</button>`
-  html += `</div>`
-  html += `<div class="bonus-subpage">`
-  html += `<h3 class="bonus-subpage-title">📖 Glossary</h3>`
-  html += `<div class="bonus-subpage-desc">Key terms you'll encounter when building and publishing npm packages, with links to the relevant sections in this guide.</div>`
-  html += `<button class="step-jump" data-jump="glossary">→ Deep dive: 📖 Glossary</button>`
-  html += `</div>`
-  html += `</div></div>`
-
   return (
     <>
-      <HtmlContent html={html} />
+      <div>
+        <div className="mb-7">
+          <h1 className="text-3xl font-bold tracking-tight mb-1">Web App vs. NPM Package Guide</h1>
+          <p className="text-gray-500 dark:text-slate-400 text-sm mb-1">A guide for backend engineers stepping into the frontend world.</p>
+          <p className="text-gray-400 dark:text-slate-500 text-sm mb-0">{'\u{1F4A1}'} Look for the green &quot;Explain it to me&quot; dropdowns for backend-friendly analogies.</p>
+        </div>
+
+        <h2 className="text-2xl font-bold mb-5 tracking-tight">{'\u{1F680}'} Building a Package: Step by Step</h2>
+        <p className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-6">
+          New to npm packages? Follow these steps in order. Each step links to a deeper explanation in the other tabs. This is the order you&apos;d actually set things up in a real project.
+        </p>
+
+        {roadmapSteps.map(step => (
+          <div key={step.num} className="step-card flex gap-4 py-4.5 border-b border-slate-200 dark:border-slate-700 relative last:border-b-0">
+            <div className="step-number w-9 h-9 rounded-full bg-blue-500 dark:bg-blue-400 text-white dark:text-slate-900 flex items-center justify-center text-sm font-bold shrink-0 relative">
+              {step.num}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1" dangerouslySetInnerHTML={{ __html: step.title }} />
+              <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2" dangerouslySetInnerHTML={{ __html: step.desc }} />
+              <div className="step-detail text-xs text-gray-400 dark:text-slate-400 leading-relaxed bg-slate-50 dark:bg-slate-800 rounded-lg py-2.5 px-3.5 mb-2 border border-slate-100 dark:border-slate-700" dangerouslySetInnerHTML={{ __html: step.detail }} />
+              {step.jumpTo && (
+                <JumpButton jumpTo={step.jumpTo}>
+                  {'\u2192'} Deep dive: {step.jumpTo === 'checklist'
+                    ? '\u2705 Publish Checklist'
+                    : (findNavItem(step.jumpTo)?.title ?? step.jumpTo)}
+                </JumpButton>
+              )}
+              {step.substep && (
+                <div className="mt-4 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5">{step.substep.title}</h3>
+                  <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed">{step.substep.text}</div>
+                  <JumpButton jumpTo={step.substep.jumpTo} style={{ marginTop: 4 }}>
+                    {'\u2192'} Deep dive: {findNavItem(step.substep.jumpTo)?.title ?? step.substep.jumpTo}
+                  </JumpButton>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+
+        <BonusCard title="Bonus: CI Pipeline & Checks" desc="Automate linting, build verification, and testing so they run on every push and pull request. A single YAML file can catch bugs before they're ever merged.">
+          {ciPageOrder.map(id => {
+            const page = contentPages.get(id)
+            if (!page) return null
+            return <BonusSubpage key={id} title={page.title} desc={ciDescriptions[id] ?? ''} jumpTo={page.id} jumpLabel={page.title} />
+          })}
+        </BonusCard>
+
+        {bonusPageOrder.map(id => {
+          const page = contentPages.get(id)
+          if (!page) return null
+          return (
+            <BonusCard key={id} title="Bonus: Developer Experience">
+              <BonusSubpage title={page.title} desc={bonusDescriptions[id] ?? ''} jumpTo={page.id} jumpLabel={page.title} />
+            </BonusCard>
+          )
+        })}
+
+        <BonusCard title="Bonus: Developer Experience">
+          <BonusSubpage
+            title={'\u{1F3D7}\uFE0F Architecture Guide'}
+            desc={bonusDescriptions['architecture'] ?? ''}
+            jumpTo="arch-start"
+            jumpLabel={'\u{1F3D7}\uFE0F Architecture Guide'}
+          />
+        </BonusCard>
+
+        <BonusCard title="Bonus: Learning Resources" desc="Documentation, articles, courses, and tools to go deeper on frontend development, npm packages, and the JavaScript ecosystem.">
+          <BonusSubpage title={'\u2705 Publish Checklist'} desc="Go through this before every npm publish — trust us, it saves headaches." jumpTo="checklist" jumpLabel={'\u2705 Publish Checklist'} />
+          <BonusSubpage title={'\u{1F4DA} External Resources'} desc="Curated documentation, articles, courses, tools, and section references — all in one searchable, sortable table." jumpTo="external-resources" jumpLabel={'\u{1F4DA} External Resources'} />
+          <BonusSubpage title={'\u{1F4D6} Glossary'} desc="Key terms you'll encounter when building and publishing npm packages, with links to the relevant sections in this guide." jumpTo="glossary" jumpLabel={'\u{1F4D6} Glossary'} />
+        </BonusCard>
+      </div>
       <PrevNextNav currentId="roadmap" />
     </>
   )

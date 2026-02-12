@@ -9,7 +9,7 @@ import {
   type ColumnFiltersState,
 } from '@tanstack/react-table'
 import clsx from 'clsx'
-import { overallResources, badgeMap, typeTags, topicTags } from '../data/overallResources'
+import { overallResources, badgeBase, badgeMap, typeTags, topicTags } from '../data/overallResources'
 import { contentPages } from '../content/registry'
 import { PrevNextNav } from './PrevNextNav'
 import { DataTable } from './DataTable'
@@ -150,7 +150,7 @@ export function ExternalResourcesPage() {
           {info.getValue().map(b => {
             const badge = badgeMap[b]
             return badge
-              ? <span key={b} className={`resource-badge ${badge.cls}`}>{badge.label}</span>
+              ? <span key={b} className={`${badgeBase} ${badge.cls}`}>{badge.label}</span>
               : null
           })}
         </span>
@@ -209,7 +209,7 @@ export function ExternalResourcesPage() {
   return (
     <>
       <div>
-        <h1 className="section-title">External Resources</h1>
+        <h1 className="text-2xl font-bold mb-5 tracking-tight">External Resources</h1>
         <p className="text-sm text-gray-500 dark:text-slate-400 mb-5 leading-relaxed">
           Documentation, articles, courses, tools, and section references in one place. Use the search and filters to find what you need.
         </p>
@@ -250,7 +250,7 @@ export function ExternalResourcesPage() {
                   <button
                     key={b}
                     className={clsx(
-                      `resource-badge ${badge.cls} cursor-pointer border-none transition-all duration-150`,
+                      `${badgeBase} ${badge.cls} cursor-pointer border-none transition-all duration-150`,
                       isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
                     )}
                     onClick={() => toggleTag(b)}
@@ -273,7 +273,7 @@ export function ExternalResourcesPage() {
                   <button
                     key={b}
                     className={clsx(
-                      `resource-badge ${badge.cls} cursor-pointer border-none transition-all duration-150`,
+                      `${badgeBase} ${badge.cls} cursor-pointer border-none transition-all duration-150`,
                       isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
                     )}
                     onClick={() => toggleTag(b)}

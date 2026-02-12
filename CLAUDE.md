@@ -60,6 +60,16 @@ The site contains two independent guides, each with its own Start Here page, nav
 - **Package manager context:** `usePM()` hook + `cmd()` helper handle npm/pnpm command display switching throughout the app.
 - **Functional components only:** No class components. Props typed with TypeScript interfaces.
 - **Interactive tables:** The External Resources page (`ExternalResourcesPage.tsx`) and Glossary page (`GlossaryPage.tsx`) use TanStack Table for sortable, filterable, searchable tables.
+- **Styling:** Use inline Tailwind utility classes on JSX elements. Avoid defining component-level classes with `@apply` in `App.css`. CSS is only for things that genuinely require it: pseudo-elements (`::before`, `::after`), complex nested selectors, body-level toggles, animations/transitions, and third-party library attribute selectors (e.g., cmdk `[cmdk-input]`). Using `@apply` within those CSS-only rules is acceptable.
+
+## Footnotes & References
+
+Content pages can include two kinds of external links at the bottom, managed via the `links` array in each content page's frontmatter/registry entry:
+
+- **Footnotes** are numbered references tied to specific content via `<FnRef>` markers (e.g., `<FnRef n={1} />`). They appear in a "Footnotes" section with their number, link, source, and optional note. The `data-fn` attributes on `<FnRef>` elements are used by `FootnoteTooltip.tsx` for hover/click tooltip behavior.
+- **References** ("Further Reading") are supplemental links not tied to specific content — any link in the `links` array that is NOT referenced by a `<FnRef>` in the MDX body becomes a "Further Reading" entry.
+
+Both should include descriptions (`note` field in `SectionLink`) when possible to help readers understand relevance.
 
 ## TypeScript Configuration
 

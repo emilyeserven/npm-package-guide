@@ -17,7 +17,7 @@ links:
     source: "pnpm"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-webapp">Web App</TocLink>
@@ -26,19 +26,19 @@ links:
   <TocLink id="toc-gotcha">Watch out</TocLink>
 </Toc>
 
-<h2 className="section-subheading" id="toc-webapp">{'\u{1F310}'} Web App</h2>
-<div className="section-list">
+<SectionSubheading id="toc-webapp">{'\u{1F310}'} Web App</SectionSubheading>
+<SectionList>
 <ColItem>Install whatever packages you need — they all get bundled into your final app.</ColItem>
 <ColItem>The distinction between 'dependencies' and 'devDependencies' in package.json is mostly organizational. Everything gets bundled anyway.</ColItem>
 <ColItem>Bundle size matters for performance, but it's your call how to balance that.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-pkg">{'\u{1F4E6}'} NPM Package</h2>
-<div className="section-list">
+<SectionSubheading id="toc-pkg">{'\u{1F4E6}'} NPM Package</SectionSubheading>
+<SectionList>
 <ColItem>Every dependency you add becomes a dependency for EVERYONE who installs your package. Keep them minimal.</ColItem>
 <ColItem>There are 3 types that matter: 'dependencies'<FnRef n={1} /> (shipped with your package), 'devDependencies' (only for building/testing), and 'peerDependencies'<FnRef n={2} /> (the consumer must provide these).</ColItem>
 <ColItem>peerDependencies are crucial: if your package uses React, list React as a peerDependency so consumers use THEIR copy, not a second one.</ColItem>
-</div>
+</SectionList>
 
 <Explainer title="What's peerDependencies?">
 Imagine you write a plugin for Express.js. You don't want to bundle your own copy of Express — you want to use whatever version the developer already has. That's what peerDependencies does. You're saying: 'I need this to work, but YOU provide it.' For frontend packages, React is the most common peerDependency.

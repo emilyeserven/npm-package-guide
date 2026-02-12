@@ -3,7 +3,7 @@ id: "arch-stack-lamp"
 title: "💡 LAMP Stack"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-overview">Overview</TocLink>
@@ -16,21 +16,21 @@ title: "💡 LAMP Stack"
 The **LAMP** stack &mdash; **Linux**, **Apache**, **MySQL**, **PHP** &mdash; powered most of the early internet and remains one of the most deployed stacks worldwide. WordPress (43% of all websites), Facebook (originally), and Wikipedia all run on it. Unlike JavaScript stacks, LAMP uses PHP on the server and renders HTML directly &mdash; no separate frontend framework needed.
 </SectionIntro>
 
-<h2 className="section-subheading" id="toc-overview">{'\u{1F4CB}'} Overview</h2>
+<SectionSubheading id="toc-overview">{'\u{1F4CB}'} Overview</SectionSubheading>
 
-<div className="section-list">
+<SectionList>
 <ColItem>**Server-rendered HTML** &mdash; PHP generates complete HTML pages on the server. No JavaScript framework needed for basic interactivity &mdash; the page arrives ready to use.</ColItem>
 <ColItem>**Universally available hosting** &mdash; Virtually every web host supports LAMP out of the box. Shared hosting for a few dollars a month can run a full LAMP application.</ColItem>
 <ColItem>**Battle-tested for decades** &mdash; LAMP has been powering the web since the mid-1990s. The tooling, documentation, and community knowledge are unmatched.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-explore">{'\u{1F50D}'} Explore each component</h2>
+<SectionSubheading id="toc-explore">{'\u{1F50D}'} Explore each component</SectionSubheading>
 
 Click any component to see what it does, why it matters, and a backend-friendly analogy.
 
 <StackExplorer stackId="lamp" />
 
-<h2 className="section-subheading" id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</h2>
+<SectionSubheading id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</SectionSubheading>
 
 <StackProsCons stackId="lamp" />
 

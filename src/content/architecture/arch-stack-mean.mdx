@@ -3,7 +3,7 @@ id: "arch-stack-mean"
 title: "🔷 MEAN Stack"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-overview">Overview</TocLink>
@@ -16,21 +16,21 @@ title: "🔷 MEAN Stack"
 The **MEAN** stack &mdash; **MongoDB**, **Express**, **Angular**, **Node.js** &mdash; is like MERN but swaps React for Angular. While React is a library that lets you choose your own tools, Angular is a full framework with routing, forms, HTTP, and more built in. Everything else stays the same.
 </SectionIntro>
 
-<h2 className="section-subheading" id="toc-overview">{'\u{1F4CB}'} Overview</h2>
+<SectionSubheading id="toc-overview">{'\u{1F4CB}'} Overview</SectionSubheading>
 
-<div className="section-list">
+<SectionList>
 <ColItem>**Full framework frontend** &mdash; Angular includes routing, form handling, HTTP client, dependency injection, and testing utilities out of the box. No need to choose separate libraries.</ColItem>
 <ColItem>**TypeScript-first** &mdash; Angular was built with TypeScript from the start, making it a natural fit for teams that want strong typing everywhere.</ColItem>
 <ColItem>**Enterprise-friendly** &mdash; Angular's opinionated structure keeps large codebases consistent across many developers, which is why it's popular in enterprise teams.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-explore">{'\u{1F50D}'} Explore each component</h2>
+<SectionSubheading id="toc-explore">{'\u{1F50D}'} Explore each component</SectionSubheading>
 
 Click any component to see what it does, why it matters, and a backend-friendly analogy.
 
 <StackExplorer stackId="mean" />
 
-<h2 className="section-subheading" id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</h2>
+<SectionSubheading id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</SectionSubheading>
 
 <StackProsCons stackId="mean" />
 

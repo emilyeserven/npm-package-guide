@@ -3,7 +3,7 @@ id: "arch-how-it-connects"
 title: "🔄 How it all Connects"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-cycle">The request-response cycle</TocLink>
@@ -16,28 +16,28 @@ title: "🔄 How it all Connects"
 Understanding how data flows through a stack is just as important as understanding the individual layers. Every user interaction &mdash; clicking a button, submitting a form, loading a page &mdash; triggers the same fundamental cycle: a request travels from the browser through the server to the database, and a response travels back.
 </SectionIntro>
 
-<h2 className="section-subheading" id="toc-cycle">{'\u{1F501}'} The request-response cycle</h2>
+<SectionSubheading id="toc-cycle">{'\u{1F501}'} The request-response cycle</SectionSubheading>
 
-<div className="section-list">
+<SectionList>
 <ColItem>Every web interaction follows the same basic pattern: the **frontend** sends a request, the **server** processes it (often querying the **database**), and a response flows back to update the screen.</ColItem>
 <ColItem>This pattern is **the same regardless of which stack you use**. Whether it's React talking to Fastify, Angular talking to Express, or PHP rendering HTML directly &mdash; the fundamental flow doesn't change.</ColItem>
 <ColItem>The stack determines **how** each step happens (JSON API vs. server-rendered HTML, SQL vs. NoSQL queries), but the **order** and **purpose** of each step stays constant.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-diagram">{'\u{1F4CA}'} Data flow diagram</h2>
+<SectionSubheading id="toc-diagram">{'\u{1F4CA}'} Data flow diagram</SectionSubheading>
 
 This diagram traces a single user action through every layer of the PFRN stack. The same pattern applies to any stack &mdash; only the technology names change.
 
 <DataFlowDiagram />
 
-<h2 className="section-subheading" id="toc-key">{'\u2705'} Key takeaways</h2>
+<SectionSubheading id="toc-key">{'\u2705'} Key takeaways</SectionSubheading>
 
-<div className="section-list">
+<SectionList>
 <ColItem>**The frontend never talks to the database directly.** All data goes through the server framework, which acts as a gatekeeper — validating requests, enforcing permissions, and shaping responses.</ColItem>
 <ColItem>**The server is the bottleneck and the guardian.** It's where authentication, authorization, rate limiting, and data validation happen. A fast server framework (like Fastify) makes a measurable difference here.</ColItem>
 <ColItem>**The database is the source of truth.** No matter how many servers or frontends you have, they all ultimately read from and write to the same database. Choosing a database with strong integrity (like PostgreSQL) protects your data at the most fundamental level.</ColItem>
 <ColItem>**Layers communicate through contracts.** The frontend doesn't care if the backend uses PostgreSQL or MongoDB — it just expects JSON in a certain shape. This is why you can swap layers independently.</ColItem>
-</div>
+</SectionList>
 
 <Explainer title="Data flow &mdash; a backend analogy">
 If you've traced a request through a microservice architecture — load balancer → API gateway → service → database → response — the stack data flow is the simplified, single-service version of that. The frontend is your client (like a mobile app or another service), the server framework is your API handler, and the database is your persistence layer. The key insight is the same: each layer has a defined responsibility and communicates through a well-defined interface. Understanding this flow helps you debug issues ("is the problem in the frontend, the server, or the database?") and reason about performance ("which layer is the bottleneck?").

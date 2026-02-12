@@ -3,7 +3,7 @@ id: "arch-fw-remix"
 title: "💿 Remix"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <SectionNote>
 Remix merged into React Router v7 in 2024. New projects should use <NavLink to="arch-fw-react-router">React Router Framework Mode</NavLink> directly. This page covers Remix&apos;s contributions and ideas, which live on in React Router v7.
@@ -20,21 +20,21 @@ Remix merged into React Router v7 in 2024. New projects should use <NavLink to="
 **Remix** was a pioneering full-stack React framework created by the React Router team (Ryan Florence and Michael Jackson). It championed web standards, progressive enhancement, and nested routing. Its ideas now live on in React Router v7 Framework Mode &mdash; understanding Remix helps you understand the patterns behind modern React frameworks.
 </SectionIntro>
 
-<h2 className="section-subheading" id="toc-overview">{'\u{1F4CB}'} Overview</h2>
+<SectionSubheading id="toc-overview">{'\u{1F4CB}'} Overview</SectionSubheading>
 
-<div className="section-list">
+<SectionList>
 <ColItem>**Web standards pioneer** &mdash; Remix built everything on Fetch API Request/Response, standard HTML forms, and HTTP caching. Skills learned transfer to any platform.</ColItem>
 <ColItem>**Loader/action pattern** &mdash; Remix pioneered co-located server-side data fetching (loaders) and mutation handling (actions) for React, with automatic revalidation.</ColItem>
 <ColItem>**Per-route error boundaries** &mdash; if a nested route crashes, only that section shows an error &mdash; the rest stays functional. This pattern was later adopted by Next.js and others.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-explore">{'\u{1F50D}'} Explore key capabilities</h2>
+<SectionSubheading id="toc-explore">{'\u{1F50D}'} Explore key capabilities</SectionSubheading>
 
 Click any capability to learn how Remix approached it.
 
 <FrameworkExplorer frameworkId="remix" />
 
-<h2 className="section-subheading" id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</h2>
+<SectionSubheading id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</SectionSubheading>
 
 <FrameworkProsCons frameworkId="remix" />
 

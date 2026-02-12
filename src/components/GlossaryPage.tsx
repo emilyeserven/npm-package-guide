@@ -102,7 +102,7 @@ export function GlossaryPage() {
 
   return (
     <>
-      <h1 className="section-title">📖 Glossary</h1>
+      <h1 className="text-2xl font-bold mb-5 tracking-tight">📖 Glossary</h1>
       <p className="text-sm text-gray-500 dark:text-slate-400 mb-4 leading-relaxed">
         Key terms you'll encounter when building and publishing npm packages. Each term includes links to learn more.
       </p>
