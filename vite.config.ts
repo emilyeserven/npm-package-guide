@@ -8,7 +8,10 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 export default defineConfig({
   plugins: [
     tailwindcss(),
-    mdx({ remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter] }),
+    mdx({
+      providerImportSource: '@mdx-js/react',
+      remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
+    }),
     react(),
   ],
   base: '/npm-package-guide/',
