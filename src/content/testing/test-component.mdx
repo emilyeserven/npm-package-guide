@@ -1,0 +1,41 @@
+---
+id: "test-component"
+title: "\uD83E\uDDF1 Component Testing"
+links:
+  - label: "React Testing Library"
+    url: "https://testing-library.com/docs/react-testing-library/intro/"
+    source: "Testing Library"
+    note: "The standard for testing React components by simulating how users interact with your UI."
+  - label: "Testing Library guiding principles"
+    url: "https://testing-library.com/docs/guiding-principles"
+    source: "Testing Library"
+    note: "The philosophy behind testing user behavior instead of implementation details."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What are component tests?</TocLink>
+  <TocLink id="toc-detail">What to test &amp; what not to test</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+Component tests render a React component (or small component tree) and assert on **what the user sees and can interact with** &mdash; not internal state or implementation details. They bridge the gap between unit tests and full E2E tests.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">{'\uD83E\uDDF1'} What are component tests?</SectionSubheading>
+
+<SectionList>
+<ColItem>Component tests use a **simulated DOM** (like jsdom) to render your component, then query for elements the same way a user would &mdash; by role, label, or text content.</ColItem>
+<ColItem>They verify **rendered output and interactions**: does the button appear? Does clicking it call the callback? Does the error message show when validation fails?</ColItem>
+<ColItem>The key principle: **test what the user sees**, not how the component is built internally. If you refactor the component and behavior stays the same, no tests should break.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-detail">{'\uD83D\uDD0D'} What to test &amp; what not to test</SectionSubheading>
+
+<TestTypeDetail type="component" />
+
+<Explainer title="Component tests &mdash; a backend analogy">
+Think of component tests like testing a single API endpoint. You send a request (render with props), the endpoint processes it (component renders), and you assert on the response (DOM output). You don't check what SQL queries ran internally &mdash; you check that the response body is correct. Similarly, component tests check what rendered on screen, not what state variables were set.
+</Explainer>

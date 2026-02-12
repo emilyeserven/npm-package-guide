@@ -1,0 +1,41 @@
+---
+id: "test-unit"
+title: "\uD83E\uDDE9 Unit Testing"
+links:
+  - label: "Vitest documentation"
+    url: "https://vitest.dev"
+    source: "Vitest"
+    note: "The recommended test runner for Vite-based projects. Fast, Jest-compatible API."
+  - label: "Jest documentation"
+    url: "https://jestjs.io/docs/getting-started"
+    source: "Jest"
+    note: "The most widely used JavaScript test framework with a huge ecosystem of matchers and plugins."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What are unit tests?</TocLink>
+  <TocLink id="toc-detail">What to test &amp; what not to test</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+Unit tests verify a single function, hook, or module **in complete isolation**. All external dependencies are mocked or stubbed, so each test checks exactly one piece of logic. They're the fastest and cheapest tests you can write.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">{'\uD83E\uDDE9'} What are unit tests?</SectionSubheading>
+
+<SectionList>
+<ColItem>A unit test targets the **smallest testable piece** of your code &mdash; a pure function, a utility helper, a data transformer, or a custom hook.</ColItem>
+<ColItem>Because everything external is mocked, unit tests run in **milliseconds** and rarely flake. They form the wide base of the testing pyramid.</ColItem>
+<ColItem>The goal is to verify **inputs produce expected outputs** without worrying about rendering, DOM, or network calls.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-detail">{'\uD83D\uDD0D'} What to test &amp; what not to test</SectionSubheading>
+
+<TestTypeDetail type="unit" />
+
+<Explainer title="Unit tests &mdash; a backend analogy">
+Backend unit tests are the exact same concept. Testing a `calculateTax(amount, region)` function with different inputs and asserting on the output is a unit test in any language. The frontend version just targets things like `formatCurrency()`, `validateEmail()`, or custom React hooks instead of service methods.
+</Explainer>

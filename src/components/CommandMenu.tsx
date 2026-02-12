@@ -33,6 +33,10 @@ const archFrameworkOrder = [
   'arch-fw-nextjs', 'arch-fw-react-router', 'arch-fw-tanstack-start', 'arch-fw-remix',
 ]
 
+const testingFundamentals = ['test-overview', 'test-unit', 'test-component', 'test-e2e']
+const testingPractices = ['test-comparison', 'test-best-practices']
+const testingTooling = ['test-review-checklist', 'test-tools']
+
 function PageItem({ id, onSelect }: { id: string; onSelect: (id: string) => void }) {
   const title = getNavTitle(id)
   const match = title.match(/^(\S+)\s+(.+)$/)
@@ -128,6 +132,28 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
 
         <Command.Group heading="Putting It Together">
           <PageItem id="arch-how-it-connects" onSelect={handleSelect} />
+        </Command.Group>
+
+        <Command.Group heading="Testing Guide">
+          <PageItem id="test-start" onSelect={handleSelect} />
+        </Command.Group>
+
+        <Command.Group heading="Testing Fundamentals">
+          {testingFundamentals.map(id => (
+            <PageItem key={id} id={id} onSelect={handleSelect} />
+          ))}
+        </Command.Group>
+
+        <Command.Group heading="Comparing Tests">
+          {testingPractices.map(id => (
+            <PageItem key={id} id={id} onSelect={handleSelect} />
+          ))}
+        </Command.Group>
+
+        <Command.Group heading="Checklists & Tools">
+          {testingTooling.map(id => (
+            <PageItem key={id} id={id} onSelect={handleSelect} />
+          ))}
         </Command.Group>
 
         <Command.Group heading="Resources">

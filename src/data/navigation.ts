@@ -1,5 +1,6 @@
 import { findNavItem } from '../helpers/findNavItem'
 import { ARCH_NAV_ORDER, ARCH_PAGE_IDS } from './archData'
+import { TESTING_NAV_ORDER, TESTING_PAGE_IDS } from './testingData'
 
 const ciPageIds = [
   'ci-overview', 'ci-linting', 'ci-build', 'ci-testing', 'ci-repo-maintenance',
@@ -20,6 +21,9 @@ const npmNavOrder = [
 export function getNavOrder(currentId?: string): string[] {
   if (currentId && ARCH_PAGE_IDS.has(currentId)) {
     return [...ARCH_NAV_ORDER]
+  }
+  if (currentId && TESTING_PAGE_IDS.has(currentId)) {
+    return [...TESTING_NAV_ORDER]
   }
   // Order matches the Start Page roadmap steps and sidebar sections
   return [...npmNavOrder]
@@ -45,6 +49,15 @@ const staticTitles: Record<string, string> = {
   "arch-fw-tanstack-start": "\u{1F525} TanStack Start",
   "arch-fw-remix": "\u{1F4BF} Remix",
   "arch-how-it-connects": "\u{1F504} How it all Connects",
+  "test-start": "\u{1F9EA} Start Here",
+  "test-overview": "\u{1F53A} Testing Pyramid",
+  "test-unit": "\u{1F9E9} Unit Testing",
+  "test-component": "\u{1F9F1} Component Testing",
+  "test-e2e": "\u{1F310} E2E Testing",
+  "test-comparison": "\u{1F4CA} At a Glance",
+  "test-best-practices": "\u2705 Best Practices",
+  "test-review-checklist": "\u{1F4CB} Quick Test Review",
+  "test-tools": "\u{1F9F0} Popular Tools",
 }
 
 export function getNavTitle(id: string): string {

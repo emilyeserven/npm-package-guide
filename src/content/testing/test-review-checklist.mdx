@@ -1,0 +1,23 @@
+---
+id: "test-review-checklist"
+title: "\uD83D\uDCCB Quick Test Review"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-checklist">Review checklist</TocLink>
+  <TocLink id="toc-explainer">How to use this checklist</TocLink>
+</Toc>
+
+<SectionIntro>
+Use this checklist when reviewing pull requests that include tests. Click items to check them off as you go &mdash; these are the things to scan for first.
+</SectionIntro>
+
+<SectionSubheading id="toc-checklist">{'\uD83D\uDCCB'} Review checklist</SectionSubheading>
+
+<TestChecklist />
+
+<Explainer title="How to use this checklist">
+This isn't about checking every box on every PR. It's a **mental model** for what good tests look like. After a few reviews, these checks become instinctive. The most important ones: readable test names, behavior-focused assertions, and no unnecessary mocks. If a PR gets those three right, it's probably in good shape.
+</Explainer>
