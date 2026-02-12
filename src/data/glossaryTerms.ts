@@ -259,4 +259,117 @@ export const glossaryTerms: GlossaryCategory[] = [
       },
     ]
   },
+  {
+    category: "Web Architecture",
+    terms: [
+      {
+        term: "Tech Stack",
+        definition: "A combination of technologies (frontend, server framework, runtime, database) used together to build a web application. Common examples include MERN, LAMP, and Django stacks.",
+        url: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works",
+        source: "MDN",
+        sectionId: "arch-what-is-a-stack"
+      },
+      {
+        term: "Server Framework",
+        definition: "A library that handles HTTP requests, routing, and business logic on the server. Examples include Express, Fastify, Django, and Rails.",
+        url: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/First_steps/Web_frameworks",
+        source: "MDN",
+        sectionId: "arch-what-is-a-stack"
+      },
+      {
+        term: "ORM",
+        definition: "Object-Relational Mapping — a technique that lets you query and manipulate a database using objects in your programming language instead of raw SQL. Examples include Django's ORM, Rails' ActiveRecord, and Prisma.",
+        url: "https://docs.djangoproject.com/en/5.1/topics/db/models/",
+        source: "Django",
+        sectionId: "arch-stack-django"
+      },
+      {
+        term: "Server-Side Rendering",
+        definition: "Generating HTML on the server for each request, then sending the complete page to the browser. Improves initial load time and SEO compared to client-side rendering.",
+        url: "https://nextjs.org/docs/app/building-your-application/rendering/server-components",
+        source: "Next.js",
+        sectionId: "arch-fw-nextjs"
+      },
+      {
+        term: "Static Site Generation",
+        definition: "Pre-building HTML pages at build time rather than on each request. The fastest delivery method since pages are served as static files from a CDN.",
+        url: "https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation",
+        source: "Next.js",
+        sectionId: "arch-fw-nextjs"
+      },
+      {
+        term: "Progressive Enhancement",
+        definition: "A design approach where the core functionality works without JavaScript, then JavaScript adds richer interactivity. Forms submit normally, then JS enhances them with instant feedback.",
+        url: "https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement",
+        source: "MDN",
+        sectionId: "arch-fw-react-router"
+      },
+    ]
+  },
+  {
+    category: "Databases",
+    terms: [
+      {
+        term: "SQL",
+        definition: "Structured Query Language — the standard language for querying and managing relational databases like PostgreSQL, MySQL, and SQLite.",
+        url: "https://www.postgresql.org/docs/current/sql.html",
+        source: "PostgreSQL",
+        sectionId: "arch-stack-pfrn"
+      },
+      {
+        term: "NoSQL",
+        definition: "A category of databases that don't use traditional SQL tables. Document stores (MongoDB), key-value stores (Redis), and graph databases (Neo4j) are all NoSQL.",
+        url: "https://www.mongodb.com/resources/basics/databases/nosql-explained",
+        source: "MongoDB",
+        sectionId: "arch-stack-mern"
+      },
+      {
+        term: "Schema",
+        definition: "The structure definition of a database — what tables exist, what columns they have, and what data types are allowed. Relational databases enforce schemas; NoSQL databases often don't.",
+        url: "https://www.postgresql.org/docs/current/ddl.html",
+        source: "PostgreSQL",
+        sectionId: "arch-stack-pfrn"
+      },
+      {
+        term: "ACID",
+        definition: "Atomicity, Consistency, Isolation, Durability — properties that guarantee database transactions are processed reliably. Relational databases like PostgreSQL are fully ACID-compliant.",
+        url: "https://www.postgresql.org/docs/current/transaction-iso.html",
+        source: "PostgreSQL",
+        sectionId: "arch-stack-lamp"
+      },
+    ]
+  },
+  {
+    category: "Full-Stack Frameworks",
+    terms: [
+      {
+        term: "React Server Components",
+        definition: "A React feature that renders components entirely on the server, sending only the HTML result to the browser. Reduces client-side JavaScript and enables direct database access from components.",
+        url: "https://react.dev/reference/rsc/server-components",
+        source: "React",
+        sectionId: "arch-fw-nextjs"
+      },
+      {
+        term: "File-System Routing",
+        definition: "A convention where a framework maps your project's file and folder structure directly to URL routes, eliminating the need for manual route configuration.",
+        url: "https://nextjs.org/docs/app/building-your-application/routing",
+        source: "Next.js",
+        sectionId: "arch-fw-nextjs"
+      },
+      {
+        term: "Loader/Action Pattern",
+        definition: "A data fetching pattern where loaders provide data for GET requests and actions handle mutations (POST/PUT/DELETE). After a mutation, affected loaders automatically re-run.",
+        url: "https://reactrouter.com/start/framework/data-loading",
+        source: "React Router",
+        sectionId: "arch-fw-react-router"
+      },
+      {
+        term: "Hotwire",
+        definition: "A Rails frontend approach combining Turbo (fast page navigation via HTML-over-the-wire) and Stimulus (lightweight JavaScript behaviors), minimizing the need for heavy JS frameworks.",
+        url: "https://hotwired.dev/",
+        source: "Hotwired",
+        sectionId: "arch-stack-rails"
+      },
+    ]
+  },
 ]

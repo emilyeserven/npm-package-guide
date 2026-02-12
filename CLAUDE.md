@@ -16,9 +16,9 @@ The site contains two independent guides, each with its own Start Here page, nav
 ### Architecture Guide
 - **Start page:** `arch-start` (`src/components/ArchStartPage.tsx`)
 - **Content pages:** MDX files in `src/content/architecture/`
-- **Data:** `src/data/archData.ts` (stack data, layer data, data flow)
-- **Interactive MDX components:** `src/components/mdx/StackExplorer.tsx`, `StackProsCons.tsx`, `DataFlowDiagram.tsx`, `LayerDiagram.tsx`
-- **Page IDs:** `arch-start`, `arch-what-is-a-stack`, `arch-stack-{mern,pfrn,mean,lamp,django,rails}`, `arch-how-it-connects`
+- **Data:** `src/data/archData.ts` (stack data, layer data, data flow, framework data)
+- **Interactive MDX components:** `src/components/mdx/StackExplorer.tsx`, `StackProsCons.tsx`, `DataFlowDiagram.tsx`, `LayerDiagram.tsx`, `FrameworkExplorer.tsx`, `FrameworkProsCons.tsx`
+- **Page IDs:** `arch-start`, `arch-what-is-a-stack`, `arch-stack-{mern,pfrn,mean,lamp,django,rails}`, `arch-frameworks-intro`, `arch-fw-{nextjs,react-router,tanstack-start,remix}`, `arch-how-it-connects`
 
 ## Tech Stack
 
@@ -61,6 +61,7 @@ The site contains two independent guides, each with its own Start Here page, nav
 - **Functional components only:** No class components. Props typed with TypeScript interfaces.
 - **Interactive tables:** The External Resources page (`ExternalResourcesPage.tsx`) and Glossary page (`GlossaryPage.tsx`) use TanStack Table for sortable, filterable, searchable tables.
 - **Styling:** Use inline Tailwind utility classes on JSX elements. Avoid defining component-level classes with `@apply` in `App.css`. CSS is only for things that genuinely require it: pseudo-elements (`::before`, `::after`), complex nested selectors, body-level toggles, animations/transitions, and third-party library attribute selectors (e.g., cmdk `[cmdk-input]`). Using `@apply` within those CSS-only rules is acceptable.
+- **Dark mode:** The app uses class-based dark mode via a `useTheme()` hook (`src/hooks/useTheme.tsx`) that toggles `.dark` on `<body>`. Tailwind's custom variant `@custom-variant dark (&:where(.dark, .dark *))` enables `dark:` utility classes. For components using Tailwind classes, use `dark:` variants directly (e.g., `dark:bg-slate-800 dark:text-slate-100`). For interactive components with dynamic inline styles (where colors come from data like `comp.color`), use the `useTheme()` hook + `ds()` helper from `src/helpers/darkStyle.ts` to select light/dark values. Standard dark palette: backgrounds `#1e293b` (slate-800), text `#e2e8f0` (slate-200), borders `#334155` (slate-700). All new interactive MDX components must support dark mode.
 
 ## Footnotes & References
 
@@ -151,6 +152,7 @@ Brief intro paragraph.
 - Only Start page components use `HtmlContent` / `dangerouslySetInnerHTML`. MDX pages use MDX components directly.
 - Export `NAV_ORDER` and `PAGE_IDS` from the data file so `navigation.ts` can import them.
 - Register any new interactive MDX components in `src/components/mdx/index.ts` or they won't be available in MDX files.
+- Interactive components with inline styles must support dark mode. Use `useTheme()` and `ds()` helper for theme-conditional values. Add `darkAccent` fields to data interfaces when components use dynamic accent colors.
 
 ## Pre-Push Checklist
 

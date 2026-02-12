@@ -1,6 +1,17 @@
 ---
 id: "arch-fw-react-router"
 title: "🔀 React Router Framework"
+usedFootnotes: [1, 2]
+links:
+  - label: "React Router documentation"
+    url: "https://reactrouter.com/start/framework/installation"
+    source: "React Router"
+  - label: "MDN — Fetch API"
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API"
+    source: "MDN"
+  - label: "MDN — Progressive enhancement"
+    url: "https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement"
+    source: "MDN"
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
@@ -13,13 +24,13 @@ title: "🔀 React Router Framework"
 </Toc>
 
 <SectionIntro>
-**React Router v7** introduced &ldquo;Framework Mode&rdquo; &mdash; transforming the most popular React routing library into a full-stack framework. It&apos;s the spiritual successor to Remix (which merged into React Router), built on web standards like the Fetch API, FormData, and HTTP caching. It&apos;s the web-standards-first alternative to Next.js.
+**React Router v7** introduced &ldquo;Framework Mode&rdquo;<FnRef n={1} /> &mdash; transforming the most popular React routing library into a full-stack framework. It&apos;s the spiritual successor to Remix (which merged into React Router), built on web standards like the Fetch API, FormData, and HTTP caching. It&apos;s the web-standards-first alternative to Next.js.
 </SectionIntro>
 
 <SectionSubheading id="toc-overview">{'\u{1F4CB}'} Overview</SectionSubheading>
 
 <SectionList>
-<ColItem>**Web standards first** &mdash; built on Fetch API Request/Response, FormData, and HTTP caching headers. Skills you learn transfer to the platform and other frameworks.</ColItem>
+<ColItem>**Web standards first** &mdash; built on Fetch API<FnRef n={2} /> Request/Response, FormData, and HTTP caching headers. Skills you learn transfer to the platform and other frameworks.</ColItem>
 <ColItem>**Progressive enhancement** &mdash; forms and navigation work without JavaScript by default, then enhance with JS for a richer experience.</ColItem>
 <ColItem>**Nested routing pioneer** &mdash; React Router has 10+ years of battle-testing. Each route segment gets its own data loader, action handler, and error boundary.</ColItem>
 </SectionList>

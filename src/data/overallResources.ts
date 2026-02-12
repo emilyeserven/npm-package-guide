@@ -92,7 +92,10 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   bundling: { cls: "bg-orange-50 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300", label: "Bundling" },
   testing: { cls: "bg-green-50 text-green-800 dark:bg-green-500/15 dark:text-green-300", label: "Testing" },
   linting: { cls: "bg-fuchsia-50 text-fuchsia-800 dark:bg-fuchsia-500/15 dark:text-fuchsia-300", label: "Linting" },
+  architecture: { cls: "bg-cyan-100 text-cyan-800 dark:bg-cyan-500/15 dark:text-cyan-300", label: "Architecture" },
+  frameworks: { cls: "bg-rose-100 text-rose-800 dark:bg-rose-500/15 dark:text-rose-300", label: "Frameworks" },
+  databases: { cls: "bg-emerald-50 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300", label: "Databases" },
 };
 
 export const typeTags = new Set(["docs", "article", "course", "video", "repo", "interactive", "free", "paid"]);
-export const topicTags = new Set(["publishing", "typescript", "versioning", "ci-cd", "monorepo", "modules", "tooling", "bundling", "testing", "linting"]);
+export const topicTags = new Set(["publishing", "typescript", "versioning", "ci-cd", "monorepo", "modules", "tooling", "bundling", "testing", "linting", "architecture", "frameworks", "databases"]);

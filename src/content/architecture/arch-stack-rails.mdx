@@ -1,6 +1,18 @@
 ---
 id: "arch-stack-rails"
 title: "🛤️ Rails Stack"
+usedFootnotes: [1, 2]
+links:
+  - label: "Ruby on Rails guides"
+    url: "https://guides.rubyonrails.org/"
+    source: "Rails"
+  - label: "Hotwire documentation"
+    url: "https://hotwired.dev/"
+    source: "Hotwired"
+  - label: "The Rails Doctrine"
+    url: "https://rubyonrails.org/doctrine"
+    source: "Rails"
+    note: "Core principles behind Rails' design philosophy, including Convention over Configuration"
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
@@ -13,7 +25,7 @@ title: "🛤️ Rails Stack"
 </Toc>
 
 <SectionIntro>
-The **Rails stack** is built around Ruby on Rails &mdash; a framework famous for "convention over configuration" and developer happiness. GitHub, Shopify, and Basecamp were built with it. Rails makes hundreds of decisions for you so you can focus on building features instead of setting up boilerplate.
+The **Rails stack** is built around Ruby on Rails &mdash; a framework famous for "convention over configuration"<FnRef n={1} /> and developer happiness. GitHub, Shopify, and Basecamp were built with it. Rails makes hundreds of decisions for you so you can focus on building features instead of setting up boilerplate.
 </SectionIntro>
 
 <SectionSubheading id="toc-overview">{'\u{1F4CB}'} Overview</SectionSubheading>
@@ -21,7 +33,7 @@ The **Rails stack** is built around Ruby on Rails &mdash; a framework famous for
 <SectionList>
 <ColItem>**Convention over configuration** &mdash; Rails decides how to organize files, name database tables, and structure routes. Follow the conventions and things just work.</ColItem>
 <ColItem>**Ship fast** &mdash; Rails can scaffold entire features (models, views, controllers, database migrations) with a single command. Rapid development is a core philosophy.</ColItem>
-<ColItem>**Hotwire for modern frontends** &mdash; Rails' Hotwire approach (Turbo + Stimulus) delivers interactive UIs with minimal JavaScript, or you can integrate React for complex frontends.</ColItem>
+<ColItem>**Hotwire for modern frontends** &mdash; Rails' Hotwire<FnRef n={2} /> approach (Turbo + Stimulus) delivers interactive UIs with minimal JavaScript, or you can integrate React for complex frontends.</ColItem>
 </SectionList>
 
 <SectionSubheading id="toc-explore">{'\u{1F50D}'} Explore each component</SectionSubheading>

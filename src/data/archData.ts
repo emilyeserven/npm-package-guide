@@ -7,6 +7,7 @@ export interface StackComponent {
   icon: string
   color: string
   accent: string
+  darkAccent: string
   purpose: string
   description: string
   keyFeatures: string[]
@@ -25,6 +26,7 @@ export interface StackPageData {
   overview: string
   color: string
   accent: string
+  darkAccent: string
   components: StackComponent[]
   pros: string[]
   cons: string[]
@@ -55,6 +57,7 @@ export interface FrameworkPageData {
   overview: string
   color: string
   accent: string
+  darkAccent: string
   builtOn: string[]
   capabilities: FrameworkCapability[]
   pros: string[]
@@ -65,11 +68,11 @@ export interface FrameworkPageData {
 
 /* ───────────────────────── LAYER COLORS (shared) ───────────────────────── */
 
-export const LAYER_COLORS: Record<string, { color: string; accent: string }> = {
-  frontend: { color: "#7c3aed", accent: "#ede9fe" },
-  server:   { color: "#059669", accent: "#d1fae5" },
-  runtime:  { color: "#ca8a04", accent: "#fef9c3" },
-  database: { color: "#2563eb", accent: "#dbeafe" },
+export const LAYER_COLORS: Record<string, { color: string; accent: string; darkAccent: string }> = {
+  frontend: { color: "#7c3aed", accent: "#ede9fe", darkAccent: "#2e1065" },
+  server:   { color: "#059669", accent: "#d1fae5", darkAccent: "#022c22" },
+  runtime:  { color: "#ca8a04", accent: "#fef9c3", darkAccent: "#422006" },
+  database: { color: "#2563eb", accent: "#dbeafe", darkAccent: "#172554" },
 }
 
 /* ───────────────────────── DATA FLOW ───────────────────────── */
@@ -94,10 +97,11 @@ export const STACK_PAGES: StackPageData[] = [
     overview: "The MERN stack \u2014 MongoDB, Express, React, and Node.js \u2014 is the most popular all-JavaScript full-stack combination. Every layer uses JavaScript, meaning you only need one language for the entire application. It\u2019s the go-to choice for tutorials, bootcamps, and rapid prototyping.",
     color: "#e11d48",
     accent: "#fff1f2",
+    darkAccent: "#4c0519",
     components: [
       {
         id: "frontend", name: "React", role: "Frontend",
-        icon: "\u{1F3A8}", color: "#7c3aed", accent: "#ede9fe",
+        icon: "\u{1F3A8}", color: "#7c3aed", accent: "#ede9fe", darkAccent: "#2e1065",
         purpose: "The frontend library builds everything the user sees and interacts with \u2014 buttons, forms, pages, animations. It takes raw data from the server and turns it into a visual, interactive experience in the browser.",
         description: "React (by Meta) lets you build UIs out of reusable \u2018components\u2019 \u2014 small building blocks like a search bar, a card, or a navigation menu. You compose these together like LEGO bricks to build complex interfaces. React uses a \u2018virtual DOM\u2019 to efficiently update only the parts of the page that change, making it fast even for complex UIs.",
         keyFeatures: [
@@ -110,7 +114,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "server", name: "Express", role: "Server Framework",
-        icon: "\u26A1", color: "#059669", accent: "#d1fae5",
+        icon: "\u26A1", color: "#059669", accent: "#d1fae5", darkAccent: "#022c22",
         purpose: "The server framework handles incoming requests from the browser, processes them, and sends back responses. It\u2019s the traffic controller between your frontend and your database.",
         description: "Express is the most popular Node.js server framework. Created in 2010, it\u2019s minimal and unopinionated \u2014 it gives you the basics (routing, middleware) and lets you add whatever else you need via plugins. Think of it as a blank canvas: flexible, but you need to set up everything yourself.",
         keyFeatures: [
@@ -123,7 +127,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "runtime", name: "Node.js", role: "Runtime",
-        icon: "\u{1F527}", color: "#ca8a04", accent: "#fef9c3",
+        icon: "\u{1F527}", color: "#ca8a04", accent: "#fef9c3", darkAccent: "#422006",
         purpose: "The runtime is the engine that executes your server-side code. Without it, JavaScript could only run in a browser \u2014 Node.js lets you run JavaScript on a server.",
         description: "Node.js is a JavaScript runtime built on Chrome\u2019s V8 engine. It\u2019s event-driven and non-blocking, meaning it can handle many simultaneous connections efficiently \u2014 perfect for real-time apps like chat. Node.js is what makes the \u2018all JavaScript, all the time\u2019 dream possible: one language for frontend, backend, and tooling.",
         keyFeatures: [
@@ -136,7 +140,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "database", name: "MongoDB", role: "Database",
-        icon: "\u{1F5C4}\uFE0F", color: "#2563eb", accent: "#dbeafe",
+        icon: "\u{1F5C4}\uFE0F", color: "#2563eb", accent: "#dbeafe", darkAccent: "#172554",
         purpose: "The database stores all your application\u2019s data \u2014 users, posts, orders \u2014 so it persists even when the server restarts. Without a database, everything vanishes when you close the app.",
         description: "MongoDB is a NoSQL database that stores data as flexible JSON-like documents \u2014 think of it like tossing papers into labeled folders. You don\u2019t need to define a rigid structure (schema) upfront, making it perfect for rapid prototyping and projects where the data shape evolves frequently.",
         keyFeatures: [
@@ -171,10 +175,11 @@ export const STACK_PAGES: StackPageData[] = [
     overview: "The PFRN stack is a modified version of MERN that swaps MongoDB for PostgreSQL (a more structured database) and Express for Fastify (a faster server framework), while keeping React and Node.js the same. This shows a key architecture principle: you can swap individual layers without rewriting everything else.",
     color: "#7c3aed",
     accent: "#f5f3ff",
+    darkAccent: "#1e1b4b",
     components: [
       {
         id: "frontend", name: "React", role: "Frontend",
-        icon: "\u{1F3A8}", color: "#7c3aed", accent: "#ede9fe",
+        icon: "\u{1F3A8}", color: "#7c3aed", accent: "#ede9fe", darkAccent: "#2e1065",
         purpose: "The frontend library builds everything the user actually sees and interacts with \u2014 buttons, forms, pages, animations. It takes raw data from the server and turns it into a visual, interactive experience in the browser.",
         description: "React (by Meta) lets you build UIs out of reusable \u2018components\u2019 \u2014 small building blocks like a search bar, a card, or a navigation menu. You compose these together like LEGO bricks to build complex interfaces. It uses a \u2018virtual DOM\u2019 to efficiently update only the parts of the page that change. React stays the same in both the traditional and modified stack \u2014 it\u2019s backend-agnostic. Your React components don\u2019t care if data comes from MongoDB or PostgreSQL, or whether the server runs Express or Fastify. The API contract (the shape of data exchanged) is what matters.",
         keyFeatures: [
@@ -188,7 +193,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "server", name: "Fastify", role: "Server Framework",
-        icon: "\u26A1", color: "#059669", accent: "#d1fae5",
+        icon: "\u26A1", color: "#059669", accent: "#d1fae5", darkAccent: "#022c22",
         purpose: "The server framework is the \u2018traffic controller\u2019 of your app. When someone visits a URL or submits a form, the server decides what to do: fetch data from the database, process it, and send back a response. It\u2019s the bridge between your frontend and your database.",
         description: "Fastify is a newer, faster alternative to Express. It\u2019s built for performance and comes with more built-in features like request validation (checking that incoming data looks right) and automatic API documentation. Think of it like a modern kitchen that comes pre-equipped with high-end appliances.",
         keyFeatures: [
@@ -205,7 +210,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "runtime", name: "Node.js", role: "Runtime",
-        icon: "\u{1F527}", color: "#ca8a04", accent: "#fef9c3",
+        icon: "\u{1F527}", color: "#ca8a04", accent: "#fef9c3", darkAccent: "#422006",
         purpose: "The runtime is the engine that makes everything else possible. JavaScript was originally built only for browsers. Node.js lets you run JavaScript on a server \u2014 meaning you can use one language for your entire application, frontend and backend.",
         description: "Node.js is a JavaScript runtime built on Chrome\u2019s V8 engine. It\u2019s event-driven and non-blocking, which means it can handle many simultaneous connections efficiently \u2014 great for real-time apps like chat. It\u2019s the foundation that both Express and Fastify run on. Swapping Express for Fastify doesn\u2019t change this layer at all, because both are Node.js frameworks. Node.js is what unifies the entire stack under one language.",
         keyFeatures: [
@@ -219,7 +224,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "database", name: "PostgreSQL", role: "Database",
-        icon: "\u{1F5C4}\uFE0F", color: "#2563eb", accent: "#dbeafe",
+        icon: "\u{1F5C4}\uFE0F", color: "#2563eb", accent: "#dbeafe", darkAccent: "#172554",
         purpose: "The database is your app\u2019s long-term memory. It stores all your data \u2014 users, posts, orders, anything \u2014 so it persists even when the server restarts. Without it, every piece of information would vanish the moment you close the app.",
         description: "PostgreSQL is a relational (SQL) database. It stores data in structured tables with rows and columns \u2014 like a spreadsheet. You define the shape of your data upfront (a \u2018schema\u2019). This makes relationships between data very clean and enforces data integrity, meaning it\u2019s much harder to accidentally save bad data.",
         keyFeatures: [
@@ -258,10 +263,11 @@ export const STACK_PAGES: StackPageData[] = [
     overview: "The MEAN stack swaps React for Angular \u2014 Google\u2019s full-featured frontend framework. While React is a library that lets you choose your own tools, Angular is an all-in-one framework with routing, forms, HTTP, and more built in. Everything else stays the same as MERN.",
     color: "#dc2626",
     accent: "#fef2f2",
+    darkAccent: "#450a0a",
     components: [
       {
         id: "frontend", name: "Angular", role: "Frontend",
-        icon: "\u{1F3A8}", color: "#dc2626", accent: "#fef2f2",
+        icon: "\u{1F3A8}", color: "#dc2626", accent: "#fef2f2", darkAccent: "#450a0a",
         purpose: "The frontend framework builds the user interface. Unlike React (a library), Angular is a complete framework with routing, forms, HTTP client, and more built in \u2014 no need to choose and install separate packages.",
         description: "Angular (by Google) is a full-featured frontend framework written in TypeScript. While React gives you building blocks and lets you choose your own tools, Angular is an all-in-one solution \u2014 it includes routing, form handling, an HTTP client, dependency injection, and more out of the box. This makes it opinionated but consistent across teams.",
         keyFeatures: [
@@ -274,7 +280,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "server", name: "Express", role: "Server Framework",
-        icon: "\u26A1", color: "#059669", accent: "#d1fae5",
+        icon: "\u26A1", color: "#059669", accent: "#d1fae5", darkAccent: "#022c22",
         purpose: "The server framework handles incoming requests from the browser, processes them, and sends back responses. It\u2019s the traffic controller between your frontend and your database.",
         description: "Express is the most popular Node.js server framework. Created in 2010, it\u2019s minimal and unopinionated \u2014 it gives you the basics (routing, middleware) and lets you add whatever else you need via plugins. Think of it as a blank canvas: flexible, but you need to set up everything yourself.",
         keyFeatures: [
@@ -287,7 +293,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "runtime", name: "Node.js", role: "Runtime",
-        icon: "\u{1F527}", color: "#ca8a04", accent: "#fef9c3",
+        icon: "\u{1F527}", color: "#ca8a04", accent: "#fef9c3", darkAccent: "#422006",
         purpose: "The runtime is the engine that executes your server-side code. Without it, JavaScript could only run in a browser \u2014 Node.js lets you run JavaScript on a server.",
         description: "Node.js is a JavaScript runtime built on Chrome\u2019s V8 engine. It\u2019s event-driven and non-blocking, meaning it can handle many simultaneous connections efficiently \u2014 perfect for real-time apps like chat. Node.js is what makes the \u2018all JavaScript, all the time\u2019 dream possible.",
         keyFeatures: [
@@ -300,7 +306,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "database", name: "MongoDB", role: "Database",
-        icon: "\u{1F5C4}\uFE0F", color: "#2563eb", accent: "#dbeafe",
+        icon: "\u{1F5C4}\uFE0F", color: "#2563eb", accent: "#dbeafe", darkAccent: "#172554",
         purpose: "The database stores all your application\u2019s data so it persists even when the server restarts. MongoDB\u2019s flexible document model pairs well with JavaScript\u2019s object-based data format.",
         description: "MongoDB is a NoSQL database that stores data as flexible JSON-like documents. You don\u2019t need to define a rigid structure (schema) upfront, making it quick to get started. The data format naturally matches JavaScript objects, so there\u2019s minimal translation between your code and your database.",
         keyFeatures: [
@@ -335,10 +341,11 @@ export const STACK_PAGES: StackPageData[] = [
     overview: "The LAMP stack powered most of the early internet and remains one of the most deployed stacks worldwide. WordPress (43% of all websites), Facebook (originally), and Wikipedia all run on it. Unlike JavaScript stacks, LAMP uses PHP on the server and renders HTML directly \u2014 no separate frontend framework needed.",
     color: "#ea580c",
     accent: "#fff7ed",
+    darkAccent: "#431407",
     components: [
       {
         id: "frontend", name: "PHP Templates", role: "Frontend (Server-Rendered)",
-        icon: "\u{1F3A8}", color: "#7c3aed", accent: "#ede9fe",
+        icon: "\u{1F3A8}", color: "#7c3aed", accent: "#ede9fe", darkAccent: "#2e1065",
         purpose: "PHP generates HTML on the server and sends complete pages to the browser. There\u2019s no separate frontend framework \u2014 the server builds the entire page before the user sees it.",
         description: "In a LAMP stack, the \u2018frontend\u2019 is server-rendered HTML generated by PHP. When a user requests a page, PHP executes on the server, queries the database, builds the HTML, and sends the finished page to the browser. This is fundamentally different from React/Angular where the browser builds the page. PHP can be embedded directly in HTML files, mixing presentation and logic in one place.",
         keyFeatures: [
@@ -351,7 +358,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "server", name: "Apache", role: "Web Server",
-        icon: "\u{1F310}", color: "#059669", accent: "#d1fae5",
+        icon: "\u{1F310}", color: "#059669", accent: "#d1fae5", darkAccent: "#022c22",
         purpose: "The web server listens for HTTP requests, decides how to handle them, and sends responses back. Apache serves static files directly and passes dynamic requests to PHP for processing.",
         description: "Apache HTTP Server is one of the oldest and most popular web servers, powering a huge portion of the internet since 1995. It uses a module-based architecture and supports .htaccess files for per-directory configuration, making it flexible for shared hosting environments where you can\u2019t edit the main server config.",
         keyFeatures: [
@@ -364,7 +371,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "database", name: "MySQL", role: "Database",
-        icon: "\u{1F5C4}\uFE0F", color: "#2563eb", accent: "#dbeafe",
+        icon: "\u{1F5C4}\uFE0F", color: "#2563eb", accent: "#dbeafe", darkAccent: "#172554",
         purpose: "The relational database stores all your application\u2019s data in structured tables with rows and columns, enforcing consistency through a defined schema.",
         description: "MySQL is the world\u2019s most popular open-source relational database. It stores data in structured tables with defined columns and data types. Unlike MongoDB\u2019s flexible documents, MySQL requires you to define your data structure upfront \u2014 but this means your data is always consistent and valid.",
         keyFeatures: [
@@ -377,7 +384,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "runtime", name: "Linux", role: "Operating System",
-        icon: "\u{1F427}", color: "#ca8a04", accent: "#fef9c3",
+        icon: "\u{1F427}", color: "#ca8a04", accent: "#fef9c3", darkAccent: "#422006",
         purpose: "The operating system is the foundation that runs everything else. Linux provides the file system, networking, process management, and security that Apache, MySQL, and PHP all depend on.",
         description: "Linux is the open-source operating system that runs the majority of web servers worldwide. It\u2019s free, stable, highly configurable, and available everywhere from tiny embedded devices to massive cloud servers. In the LAMP stack, Linux is the foundation layer that all other components run on.",
         keyFeatures: [
@@ -412,10 +419,11 @@ export const STACK_PAGES: StackPageData[] = [
     overview: "The Django stack pairs Python\u2019s most popular web framework with a modern JavaScript frontend. Django follows the \u2018batteries included\u2019 philosophy \u2014 it comes with an admin panel, ORM, authentication, and security protections built in. If you know Python, Django gets you from zero to production faster than almost anything else.",
     color: "#16a34a",
     accent: "#f0fdf4",
+    darkAccent: "#052e16",
     components: [
       {
         id: "frontend", name: "React / Vue", role: "Frontend",
-        icon: "\u{1F3A8}", color: "#7c3aed", accent: "#ede9fe",
+        icon: "\u{1F3A8}", color: "#7c3aed", accent: "#ede9fe", darkAccent: "#2e1065",
         purpose: "The frontend framework builds the user interface as a single-page application (SPA) that communicates with the Django backend through a REST or GraphQL API.",
         description: "In a Django stack, the frontend is typically a separate React or Vue.js application. Django serves as a pure API backend, and the frontend makes HTTP requests to fetch and send data. This separation gives you the full power of a modern JavaScript UI framework while keeping Python on the backend.",
         keyFeatures: [
@@ -428,7 +436,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "server", name: "Django", role: "Server Framework",
-        icon: "\u26A1", color: "#059669", accent: "#d1fae5",
+        icon: "\u26A1", color: "#059669", accent: "#d1fae5", darkAccent: "#022c22",
         purpose: "The \u2018batteries included\u2019 web framework handles routing, database queries, authentication, and admin interfaces \u2014 with most features built in rather than bolted on.",
         description: "Django is a high-level Python web framework that follows the \u2018batteries included\u2019 philosophy. It comes with a built-in admin panel, ORM (database abstraction), authentication system, form handling, and security protections. Django encourages rapid development by providing sensible defaults for everything.",
         keyFeatures: [
@@ -441,7 +449,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "runtime", name: "Python", role: "Language & Runtime",
-        icon: "\u{1F40D}", color: "#ca8a04", accent: "#fef9c3",
+        icon: "\u{1F40D}", color: "#ca8a04", accent: "#fef9c3", darkAccent: "#422006",
         purpose: "The programming language that powers the server. Python\u2019s clean syntax, vast standard library, and dominance in data science make it an excellent choice for backend development.",
         description: "Python is a general-purpose programming language known for its readable, clean syntax. It\u2019s the most popular language for data science, machine learning, and automation \u2014 and Django makes it equally powerful for web development. Unlike JavaScript stacks, Python backends require a separate language for the frontend.",
         keyFeatures: [
@@ -454,7 +462,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "database", name: "PostgreSQL", role: "Database",
-        icon: "\u{1F5C4}\uFE0F", color: "#2563eb", accent: "#dbeafe",
+        icon: "\u{1F5C4}\uFE0F", color: "#2563eb", accent: "#dbeafe", darkAccent: "#172554",
         purpose: "The relational database stores all your application data in structured tables, enforcing data integrity through schemas, constraints, and relationships.",
         description: "PostgreSQL is an advanced open-source relational database known for its reliability, feature richness, and standards compliance. It supports complex queries, full-text search, JSON data, and advanced features like window functions and CTEs. Django\u2019s ORM works especially well with PostgreSQL.",
         keyFeatures: [
@@ -489,10 +497,11 @@ export const STACK_PAGES: StackPageData[] = [
     overview: "The Rails stack is built around Ruby on Rails \u2014 a framework famous for \u2018convention over configuration\u2019 and developer happiness. GitHub, Shopify, and Basecamp were built with it. Rails makes hundreds of decisions for you so you can focus on building features instead of setting up boilerplate.",
     color: "#b91c1c",
     accent: "#fef2f2",
+    darkAccent: "#450a0a",
     components: [
       {
         id: "frontend", name: "Hotwire / React", role: "Frontend",
-        icon: "\u{1F3A8}", color: "#7c3aed", accent: "#ede9fe",
+        icon: "\u{1F3A8}", color: "#7c3aed", accent: "#ede9fe", darkAccent: "#2e1065",
         purpose: "The frontend approach handles what the user sees and interacts with. Rails offers Hotwire for server-driven interactivity or React for rich client-side applications.",
         description: "Rails offers two frontend approaches: Hotwire (Turbo + Stimulus) sends HTML from the server and uses minimal JavaScript for interactivity \u2014 great for CRUD apps and content sites. For complex UIs, React can be integrated as a separate SPA that talks to Rails as an API backend.",
         keyFeatures: [
@@ -505,7 +514,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "server", name: "Ruby on Rails", role: "Server Framework",
-        icon: "\u26A1", color: "#b91c1c", accent: "#fef2f2",
+        icon: "\u26A1", color: "#b91c1c", accent: "#fef2f2", darkAccent: "#450a0a",
         purpose: "The \u2018convention over configuration\u2019 framework makes hundreds of decisions for you, so you can focus on building features instead of setting up boilerplate.",
         description: "Ruby on Rails (or just \u2018Rails\u2019) is a web framework famous for developer productivity and happiness. It follows \u2018convention over configuration\u2019 \u2014 if you follow Rails\u2019 conventions, most things just work without explicit setup. Rails includes an ORM (ActiveRecord), routing, testing framework, email handling, and more.",
         keyFeatures: [
@@ -518,7 +527,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "runtime", name: "Ruby", role: "Language & Runtime",
-        icon: "\u{1F48E}", color: "#ca8a04", accent: "#fef9c3",
+        icon: "\u{1F48E}", color: "#ca8a04", accent: "#fef9c3", darkAccent: "#422006",
         purpose: "The programming language designed for developer happiness. Ruby\u2019s elegant, readable syntax and powerful metaprogramming make it uniquely expressive.",
         description: "Ruby is a dynamic programming language designed by Yukihiro \u2018Matz\u2019 Matsumoto with a focus on simplicity and productivity. It has an elegant syntax that reads naturally and is often described as \u2018a joy to write.\u2019 Ruby\u2019s metaprogramming capabilities power much of Rails\u2019 \u2018magic\u2019 \u2014 the convention-based behavior that makes things work automatically.",
         keyFeatures: [
@@ -531,7 +540,7 @@ export const STACK_PAGES: StackPageData[] = [
       },
       {
         id: "database", name: "PostgreSQL", role: "Database",
-        icon: "\u{1F5C4}\uFE0F", color: "#2563eb", accent: "#dbeafe",
+        icon: "\u{1F5C4}\uFE0F", color: "#2563eb", accent: "#dbeafe", darkAccent: "#172554",
         purpose: "The relational database stores all your application data. Rails\u2019 ActiveRecord ORM makes PostgreSQL feel natural to use from Ruby code.",
         description: "PostgreSQL is the default and recommended database for Rails applications. Rails\u2019 ActiveRecord ORM maps Ruby objects to database tables, so you rarely write raw SQL. PostgreSQL\u2019s advanced features like JSONB columns, full-text search, and array types are all accessible through ActiveRecord.",
         keyFeatures: [
@@ -570,6 +579,7 @@ export const FRAMEWORK_PAGES: FrameworkPageData[] = [
     overview: "Next.js is the most popular React framework. It adds server-side rendering, file-system routing, API routes, and optimized builds on top of React. Developed by Vercel, it\u2019s become the default way to build production React apps \u2014 used by Netflix, TikTok, and Notion.",
     color: "#000000",
     accent: "#f5f5f5",
+    darkAccent: "#171717",
     builtOn: ["React", "Node.js"],
     capabilities: [
       {
@@ -645,6 +655,7 @@ export const FRAMEWORK_PAGES: FrameworkPageData[] = [
     overview: "React Router v7 introduced \u2018Framework Mode\u2019 \u2014 transforming the most popular React routing library into a full-stack framework. It\u2019s the spiritual successor to Remix (which merged into React Router), built on web standards like the Fetch API, FormData, and HTTP caching. It\u2019s the web-standards-first alternative to Next.js.",
     color: "#f44250",
     accent: "#fff5f5",
+    darkAccent: "#450a0a",
     builtOn: ["React", "Node.js"],
     capabilities: [
       {
@@ -720,6 +731,7 @@ export const FRAMEWORK_PAGES: FrameworkPageData[] = [
     overview: "TanStack Start is the newest entry, built by Tanner Linsley (creator of TanStack Query, TanStack Router, and TanStack Table). It combines TanStack Router\u2019s type-safe routing with Vinxi (a Vite-based server framework) to create a full-stack React framework with best-in-class TypeScript support.",
     color: "#e8590c",
     accent: "#fff4ed",
+    darkAccent: "#431407",
     builtOn: ["React", "Vite/Vinxi", "Node.js"],
     capabilities: [
       {
@@ -795,6 +807,7 @@ export const FRAMEWORK_PAGES: FrameworkPageData[] = [
     overview: "Remix was a pioneering full-stack React framework created by the React Router team (Ryan Florence and Michael Jackson). It championed web standards, progressive enhancement, and nested routing. In 2024, Remix merged into React Router v7 as \u2018Framework Mode\u2019 \u2014 so Remix\u2019s ideas live on, but new projects should use React Router v7 directly.",
     color: "#3992ff",
     accent: "#f0f7ff",
+    darkAccent: "#172554",
     builtOn: ["React", "Node.js"],
     capabilities: [
       {

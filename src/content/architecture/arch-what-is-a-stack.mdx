@@ -1,6 +1,17 @@
 ---
 id: "arch-what-is-a-stack"
 title: "📚 What is a Stack?"
+usedFootnotes: [1, 2]
+links:
+  - label: "How the web works"
+    url: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works"
+    source: "MDN"
+  - label: "Introduction to the server side"
+    url: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/First_steps/Introduction"
+    source: "MDN"
+  - label: "What is a web server?"
+    url: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Web_mechanics/What_is_a_web_server"
+    source: "MDN"
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
@@ -27,13 +38,13 @@ A **tech stack** is the combination of technologies used to build a web applicat
 
 <SectionSubheading id="toc-layers">{'\u{1F5C2}\uFE0F'} The four essential layers</SectionSubheading>
 
-Every web application stack has four essential layers. Each layer has a specific job, and together they handle the full lifecycle of a user interaction &mdash; from clicking a button to seeing updated data on the screen.
+Every web application stack has four essential layers. Each layer has a specific job, and together they handle the full lifecycle of a user interaction<FnRef n={1} /> &mdash; from clicking a button to seeing updated data on the screen.
 
 <LayerDiagram />
 
 <SectionList>
 <ColItem>**Frontend** &mdash; Builds the user interface. This is what people see and interact with in the browser: buttons, forms, pages, animations.</ColItem>
-<ColItem>**Server Framework** &mdash; Handles HTTP requests, processes business logic, and sends responses. It's the traffic controller between the frontend and the database.</ColItem>
+<ColItem>**Server Framework** &mdash; Handles HTTP requests<FnRef n={2} />, processes business logic, and sends responses. It's the traffic controller between the frontend and the database.</ColItem>
 <ColItem>**Runtime / Platform** &mdash; The engine that executes your server-side code. Node.js runs JavaScript, Python runs Django, Ruby runs Rails.</ColItem>
 <ColItem>**Database** &mdash; Stores data permanently so it survives server restarts. Users, posts, orders &mdash; anything your app needs to remember.</ColItem>
 </SectionList>
