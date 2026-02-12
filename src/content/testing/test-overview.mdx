@@ -1,0 +1,41 @@
+---
+id: "test-overview"
+title: "\uD83D\uDD3A Testing Pyramid"
+links:
+  - label: "The Practical Test Pyramid"
+    url: "https://martinfowler.com/articles/practical-test-pyramid.html"
+    source: "Martin Fowler"
+    note: "The foundational article on structuring your test suite with the right balance of unit, integration, and E2E tests."
+  - label: "Testing Trophy"
+    url: "https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications"
+    source: "Kent C. Dodds"
+    note: "An alternative model that emphasizes integration tests over unit tests for frontend applications."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-pyramid">The Testing Pyramid</TocLink>
+  <TocLink id="toc-ratio">The ideal ratio</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+The testing pyramid is a model that helps you decide **how many tests of each type to write**. More tests at the bottom (fast, cheap, isolated), fewer at the top (slow, expensive, realistic). Click any level below to learn more about that test type.
+</SectionIntro>
+
+<SectionSubheading id="toc-pyramid">{'\uD83D\uDD3A'} The Testing Pyramid</SectionSubheading>
+
+<TestingPyramid />
+
+<SectionSubheading id="toc-ratio">{'\uD83D\uDCCA'} The ideal ratio</SectionSubheading>
+
+<SectionList>
+<ColItem>**~70% Unit Tests** &mdash; Fast, cheap, and focused. Cover all your utility functions, data transformers, hooks, and business logic. These are the foundation of your test suite.</ColItem>
+<ColItem>**~20% Component Tests** &mdash; Medium speed and cost. Verify that your UI components render correctly, respond to interactions, and call the right callbacks.</ColItem>
+<ColItem>**~10% E2E Tests** &mdash; Slow but high confidence. Cover only the critical user paths: signup, login, checkout, and other key workflows.</ColItem>
+</SectionList>
+
+<Explainer title="Testing pyramid &mdash; a backend analogy">
+If you've written tests for a backend service, you already know this model. **Unit tests** are like testing individual service methods or helper functions. **Component tests** are like testing a single API endpoint with a mocked database. **E2E tests** are like spinning up the full service, hitting it with HTTP requests, and asserting on the responses &mdash; including the database. The pyramid just says: write more of the cheap ones, fewer of the expensive ones.
+</Explainer>

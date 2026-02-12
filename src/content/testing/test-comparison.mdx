@@ -1,0 +1,76 @@
+---
+id: "test-comparison"
+title: "\uD83D\uDCCA At a Glance"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-table">Comparison table</TocLink>
+  <TocLink id="toc-when">When to use each type</TocLink>
+</Toc>
+
+<SectionIntro>
+A side-by-side comparison of the three test types. Use this as a quick reference when deciding where a new test belongs.
+</SectionIntro>
+
+<SectionSubheading id="toc-table">{'\uD83D\uDCCA'} Comparison table</SectionSubheading>
+
+<div className="overflow-x-auto my-4">
+<table className="w-full text-sm border-collapse">
+<thead>
+<tr>
+<th className="text-left p-2.5 bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"></th>
+<th className="text-left p-2.5 bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Unit</th>
+<th className="text-left p-2.5 bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Component</th>
+<th className="text-left p-2.5 bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">E2E</th>
+</tr>
+</thead>
+<tbody className="text-slate-600 dark:text-slate-400">
+<tr>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700 font-semibold text-slate-900 dark:text-slate-200">Speed</td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700"><span className="inline-block px-2 py-0.5 rounded text-xs font-semibold bg-green-500/15 text-green-600 dark:text-green-400">~1&ndash;5 ms</span></td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700"><span className="inline-block px-2 py-0.5 rounded text-xs font-semibold bg-yellow-500/15 text-yellow-600 dark:text-yellow-400">~50&ndash;200 ms</span></td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700"><span className="inline-block px-2 py-0.5 rounded text-xs font-semibold bg-red-500/15 text-red-600 dark:text-red-400">~2&ndash;30 s</span></td>
+</tr>
+<tr>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700 font-semibold text-slate-900 dark:text-slate-200">Scope</td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700">Single function</td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700">1 component tree</td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700">Full application</td>
+</tr>
+<tr>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700 font-semibold text-slate-900 dark:text-slate-200">Dependencies</td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700">All mocked</td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700">Mostly mocked</td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700">Real (or staged)</td>
+</tr>
+<tr>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700 font-semibold text-slate-900 dark:text-slate-200">Flakiness</td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700"><span className="inline-block px-2 py-0.5 rounded text-xs font-semibold bg-green-500/15 text-green-600 dark:text-green-400">Very low</span></td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700"><span className="inline-block px-2 py-0.5 rounded text-xs font-semibold bg-yellow-500/15 text-yellow-600 dark:text-yellow-400">Low</span></td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700"><span className="inline-block px-2 py-0.5 rounded text-xs font-semibold bg-red-500/15 text-red-600 dark:text-red-400">Higher</span></td>
+</tr>
+<tr>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700 font-semibold text-slate-900 dark:text-slate-200">Best ratio</td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700">~70% of tests</td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700">~20% of tests</td>
+<td className="p-2.5 border-b border-slate-200 dark:border-slate-700">~10% of tests</td>
+</tr>
+<tr>
+<td className="p-2.5 font-semibold text-slate-900 dark:text-slate-200">Tools</td>
+<td className="p-2.5">Jest, Vitest</td>
+<td className="p-2.5">RTL, Storybook</td>
+<td className="p-2.5">Playwright, Cypress</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<SectionSubheading id="toc-when">{'\uD83E\uDD14'} When to use each type</SectionSubheading>
+
+<SectionList>
+<ColItem>**Use unit tests** when you're testing pure logic &mdash; functions that take inputs and return outputs without needing a DOM or browser. This is the cheapest place to catch bugs.</ColItem>
+<ColItem>**Use component tests** when you need to verify that a UI element renders correctly and responds to user interaction. These catch rendering bugs and interaction issues that unit tests can't.</ColItem>
+<ColItem>**Use E2E tests** when you need to verify a complete user workflow that spans multiple pages, involves authentication, or requires real API calls. Reserve these for your most critical paths.</ColItem>
+</SectionList>

@@ -1,0 +1,41 @@
+---
+id: "test-e2e"
+title: "\uD83C\uDF10 E2E Testing"
+links:
+  - label: "Playwright documentation"
+    url: "https://playwright.dev"
+    source: "Playwright"
+    note: "Modern E2E framework with auto-waiting, multi-browser support, and test generation."
+  - label: "Cypress documentation"
+    url: "https://docs.cypress.io"
+    source: "Cypress"
+    note: "Developer-friendly E2E testing with a built-in time-travel debugger."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What are E2E tests?</TocLink>
+  <TocLink id="toc-detail">What to test &amp; what not to test</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+End-to-end tests drive a **real browser** through complete user workflows. They test the full stack &mdash; frontend, API, and database &mdash; exactly as a real user would experience it. They're the most realistic tests but also the slowest and most expensive.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">{'\uD83C\uDF10'} What are E2E tests?</SectionSubheading>
+
+<SectionList>
+<ColItem>E2E tests launch a real browser (Chromium, Firefox, or WebKit), navigate to your app, click buttons, fill forms, and assert that the right things happen on screen.</ColItem>
+<ColItem>They catch integration bugs that lower-level tests miss: broken API contracts, auth redirects, cookie handling, and cross-page navigation flows.</ColItem>
+<ColItem>Because they're slow and can be flaky, you should **only write E2E tests for critical user paths** &mdash; the flows that would cost you money or users if they broke.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-detail">{'\uD83D\uDD0D'} What to test &amp; what not to test</SectionSubheading>
+
+<TestTypeDetail type="e2e" />
+
+<Explainer title="E2E tests &mdash; a backend analogy">
+E2E tests are like integration tests that spin up your entire backend, including the database, and make real HTTP requests. In a backend context, you might test "user signs up, verifies email, and can log in" as one flow. Frontend E2E tests do the same thing but through the browser UI &mdash; clicking the signup button, filling in the form, checking the inbox, and verifying the dashboard loads.
+</Explainer>

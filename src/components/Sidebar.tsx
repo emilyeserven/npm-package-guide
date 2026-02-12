@@ -35,6 +35,18 @@ const archFrameworkOrder = [
   'arch-fw-nextjs', 'arch-fw-react-router', 'arch-fw-tanstack-start', 'arch-fw-remix',
 ]
 
+const testingFundamentals = [
+  'test-overview', 'test-unit', 'test-component', 'test-e2e',
+]
+
+const testingPractices = [
+  'test-comparison', 'test-best-practices',
+]
+
+const testingTools = [
+  'test-review-checklist', 'test-tools',
+]
+
 const promptMistakesOrder = [
   'prompt-mistakes-logic', 'prompt-mistakes-apis', 'prompt-mistakes-structural', 'prompt-mistakes-style',
 ]
@@ -66,6 +78,17 @@ const guides: GuideDefinition[] = [
       { label: 'Stack Alternatives', ids: archStackOrder },
       { label: 'Full-Stack Frameworks', ids: ['arch-frameworks-intro', ...archFrameworkOrder] },
       { label: 'Putting It Together', ids: ['arch-how-it-connects'] },
+    ],
+  },
+  {
+    id: 'testing',
+    icon: '\u{1F9EA}',        // 🧪
+    title: 'Testing Guide',
+    sections: [
+      { label: null, ids: ['test-start'] },
+      { label: 'Testing Fundamentals', ids: testingFundamentals },
+      { label: 'Comparing Tests', ids: testingPractices },
+      { label: 'Checklists & Tools', ids: testingTools },
     ],
   },
   {
@@ -110,6 +133,7 @@ function findGuideForPage(pageId: string): GuideDefinition | undefined {
 const titleOverrides: Record<string, string> = {
   'roadmap': '\u{1F680} Start Here',
   'arch-start': '\u{1F3D7}\uFE0F Start Here',
+  'test-start': '\u{1F9EA} Start Here',
   'prompt-start': '\u{1F9E0} Start Here',
   'checklist': '\u2705 Publish Checklist',
   'external-resources': '\u{1F4DA} External Resources',

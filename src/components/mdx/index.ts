@@ -15,6 +15,11 @@ import { DataFlowDiagram } from './DataFlowDiagram'
 import { LayerDiagram } from './LayerDiagram'
 import { FrameworkExplorer } from './FrameworkExplorer'
 import { FrameworkProsCons } from './FrameworkProsCons'
+import { TestingPyramid } from './TestingPyramid'
+import { TestTypeDetail } from './TestTypeDetail'
+import { TestPracticeCards } from './TestPracticeCards'
+import { TestChecklist } from './TestChecklist'
+import { TestToolsGrid } from './TestToolsGrid'
 import { MistakeList } from './MistakeList'
 import { TechniqueDetail } from './TechniqueDetail'
 import { CLIReference } from './CLIReference'
@@ -57,6 +62,11 @@ export const mdxComponents: MDXComponents = {
   LayerDiagram,
   FrameworkExplorer,
   FrameworkProsCons,
+  TestingPyramid,
+  TestTypeDetail,
+  TestPracticeCards,
+  TestChecklist,
+  TestToolsGrid,
   MistakeList,
   TechniqueDetail,
   CLIReference,

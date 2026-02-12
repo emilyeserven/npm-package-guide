@@ -50,6 +50,14 @@ const guides: GuideTile[] = [
       'Understand common frontend architecture patterns and how to structure your projects for maintainability and scale.',
   },
   {
+    id: 'testing',
+    sectionId: 'test-start',
+    icon: '\u{1F9EA}',
+    title: 'Testing Guide',
+    description:
+      'Learn frontend testing fundamentals \u2014 the testing pyramid, best practices, and how to choose the right tools for unit, component, and E2E tests.',
+  },
+  {
     id: 'prompt-engineering',
     sectionId: 'prompt-start',
     icon: '\u{1F9E0}',
