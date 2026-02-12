@@ -1,0 +1,65 @@
+---
+id: "ci-linting"
+title: "\uD83E\uDDF9 Linting & Formatting"
+usedFootnotes: [1, 2, 3, 4, 5]
+links:
+  - label: "ESLint — Getting Started"
+    url: "https://eslint.org/docs/latest/use/getting-started"
+    source: "ESLint"
+    note: "Official setup guide for ESLint"
+  - label: "Prettier — Install"
+    url: "https://prettier.io/docs/en/install"
+    source: "Prettier"
+    note: "The traditional code formatter for JS/TS projects"
+  - label: "eslint-stylistic — Formatting with ESLint"
+    url: "https://eslint.style/"
+    source: "eslint-stylistic"
+    note: "Drop-in replacement for Prettier using ESLint rules"
+  - label: "Why I don't use Prettier (Anthony Fu)"
+    url: "https://antfu.me/posts/why-not-prettier"
+    source: "Blog"
+    note: "Case for eslint-stylistic over Prettier from a core Vite maintainer"
+  - label: "Static program analysis"
+    url: "https://en.wikipedia.org/wiki/Static_program_analysis"
+    source: "Wikipedia"
+    note: "Analyzing source code without running it — catching bugs at 'compile time' rather than at runtime"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-linting">Linting (ESLint)</TocLink>
+  <TocLink id="toc-formatting">Formatting (Prettier)</TocLink>
+  <TocLink id="toc-eslint-stylistic">eslint-stylistic — an alternative</TocLink>
+  <TocLink id="toc-ide">IDE Integration</TocLink>
+</Toc>
+
+<SectionIntro>
+
+A **linter** (ESLint<FnRef n={1} />) and a **formatter** (Prettier<FnRef n={2} />) serve different purposes, and understanding the difference matters.
+
+<h2 className="section-subheading" id="toc-linting">Linting (ESLint)</h2>
+
+ESLint statically analyzes<FnRef n={5} /> your code for bugs, bad patterns, and code quality issues like unused variables, missing return types, or potential runtime errors. It doesn't run your code — it reads it and flags problems.
+
+<h2 className="section-subheading" id="toc-formatting">Formatting (Prettier)</h2>
+
+Prettier is a formatter — it only cares about how code *looks*: indentation, line length, quote style, trailing commas. It doesn't catch bugs.
+
+<h2 className="section-subheading" id="toc-eslint-stylistic">eslint-stylistic — an alternative</h2>
+
+Historically, most projects used both tools together (ESLint for logic, Prettier for style). But there's a newer alternative: **eslint-stylistic**<FnRef n={3} /> — an ESLint plugin that handles formatting rules directly inside ESLint, so you can drop Prettier entirely and run a single tool for both code quality and style. This simplifies your toolchain and avoids the occasional ESLint-vs-Prettier config conflicts.<FnRef n={4} />
+
+<h2 className="section-subheading" id="toc-ide">IDE Integration</h2>
+
+Most editors (VS Code, WebStorm, Cursor) can hook into your linter and formatter to show errors inline and auto-fix on save. This means formatting and many lint fixes happen automatically as you type — you almost never need to think about style manually. Set up "format on save" and ESLint auto-fix in your editor and your code stays clean without any effort.
+
+</SectionIntro>
+
+<YamlHeading />
+<CIYaml>{`- name: Lint
+  run: `}<Cmd npm="npx eslint . --max-warnings 0" pnpm="pnpm eslint . --max-warnings 0" /></CIYaml>
+
+<CITip>
+Use --max-warnings 0 to fail the build on any warning. This keeps your codebase clean over time instead of slowly accumulating 'harmless' warnings that hide real issues. Your CI should always run the same lint check that your IDE runs locally — no surprises.
+</CITip>

@@ -1,0 +1,54 @@
+---
+id: "tsconfig"
+title: "⚙️ tsconfig.json"
+group: "concepts"
+usedFootnotes: [1, 3, 4]
+links:
+  - label: "TSConfig Reference"
+    url: "https://www.typescriptlang.org/tsconfig"
+    source: "TypeScript"
+  - label: "What is a tsconfig.json?"
+    url: "https://www.typescriptlang.org/docs/handbook/tsconfig-json.html"
+    source: "TypeScript"
+  - label: "Recommended TSConfig bases"
+    url: "https://github.com/tsconfig/bases"
+    source: "GitHub"
+  - label: "Module resolution — Node16 vs Bundler"
+    url: "https://www.typescriptlang.org/docs/handbook/modules/theory.html"
+    source: "TypeScript"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-col1">Key Settings</TocLink>
+  <TocLink id="toc-col2">Paths & Output</TocLink>
+  <TocLink id="toc-explainer">tsconfig.json — a backend analogy</TocLink>
+  <TocLink id="toc-gotcha">Watch out</TocLink>
+</Toc>
+
+<SectionIntro>
+Every TypeScript project has a **tsconfig.json**<FnRef n={1} /> file at its root — this is the configuration file that tells the TypeScript compiler how to process your code. It controls things like which JavaScript version to target, how strict the type checking should be, where to find source files, and where to put compiled output. Think of it like a Makefile or build.gradle for TypeScript — it defines the rules for how your code gets compiled. You'll rarely write one from scratch; most projects start from a template<FnRef n={3} /> and tweak a few settings.
+</SectionIntro>
+
+<h2 className="section-subheading" id="toc-col1">{'\u{1F527}'} Key Settings</h2>
+<div className="section-list">
+<ColItem>**target** — Which JavaScript version to compile to (e.g., ES2020, ES2022). Older targets = more compatibility, newer targets = smaller output. For packages, ES2020+ is a safe modern baseline.</ColItem>
+<ColItem>**module / moduleResolution**<FnRef n={4} /> — How imports and exports work. Use "NodeNext" for packages (supports both ESM and CJS) or "ESNext" for apps with a bundler.</ColItem>
+<ColItem>**strict** — Enables all strict type-checking options. Always set this to true — it catches real bugs and is expected by consumers of your package.</ColItem>
+</div>
+
+<h2 className="section-subheading" id="toc-col2">{'\u{1F4C1}'} Paths & Output</h2>
+<div className="section-list">
+<ColItem>**rootDir** — Where your source code lives (usually "./src"). The compiler mirrors this structure in the output directory.</ColItem>
+<ColItem>**outDir** — Where compiled JavaScript goes (usually "./dist"). This is what gets published for packages.</ColItem>
+<ColItem>**declaration** — Set to true to generate .d.ts type declaration files alongside your JavaScript. Essential for packages — without this, consumers get no type information.</ColItem>
+</div>
+
+<Explainer title="tsconfig.json — a backend analogy">
+tsconfig.json is like your compiler settings in a statically typed backend language. The 'target' option is similar to choosing a Java version in build.gradle — it determines which language features are available in your output. 'strict' mode is like enabling all compiler warnings and treating them as errors — more annoying during development, but it catches real bugs before they reach production. The 'paths' option works like import aliases in Python or module resolution rules in Webpack — it lets you write clean imports like '@myapp/utils' instead of '../../../utils'. For packages, the 'declaration' option is critical: it generates the TypeScript equivalent of header files (.h in C) or interface definitions, telling consumers exactly what types your functions accept and return.<br/><br/>📎 **Related:** tsconfig controls *how* TypeScript compiles your code, but your build tool (Vite, tsup, Rollup) controls *what* happens to the output — bundling, minification, and output formats. See the <NavLink to="build">⚙️ Build & Output</NavLink> section for more.
+</Explainer>
+
+<Gotcha>
+⚠️ A common mistake is copying a tsconfig from a web app into a package project. App configs are optimized for bundlers (which handle module resolution themselves), while package configs need to produce standalone JavaScript that Node.js or other bundlers can consume directly. If your package works in your project but breaks when someone installs it, check your module and moduleResolution settings first.
+</Gotcha>

@@ -1,0 +1,46 @@
+---
+id: "packagejson"
+title: "📋 package.json"
+usedFootnotes: [1, 2, 3, 4]
+links:
+  - label: "package.json full reference"
+    url: "https://docs.npmjs.com/cli/v10/configuring-npm/package-json"
+    source: "npm"
+  - label: "Node.js package exports"
+    url: "https://nodejs.org/api/packages.html#package-entry-points"
+    source: "Node.js"
+  - label: "\"files\" field"
+    url: "https://docs.npmjs.com/cli/v10/configuring-npm/package-json#files"
+    source: "npm"
+  - label: "Modules: Packages"
+    url: "https://nodejs.org/api/packages.html"
+    source: "Node.js"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-webapp">Web App</TocLink>
+  <TocLink id="toc-pkg">NPM Package</TocLink>
+  <TocLink id="toc-explainer">Why 'exports' instead of just 'main'?</TocLink>
+</Toc>
+
+<h2 className="section-subheading" id="toc-webapp">{'\u{1F310}'} Web App</h2>
+<div className="section-list">
+<ColItem>package.json mainly tracks your dependencies and scripts (like '<Cmd npm="npm run dev" pnpm="pnpm dev" />' or '<Cmd npm="npm run build" pnpm="pnpm build" />').</ColItem>
+<ColItem>Fields like 'main' and 'exports' don't really matter because your entry point is an HTML file.</ColItem>
+<ColItem>It's similar to a requirements.txt + Makefile combined into one file.</ColItem>
+</div>
+
+<h2 className="section-subheading" id="toc-pkg">{'\u{1F4E6}'} NPM Package</h2>
+<div className="section-list">
+<ColItem>package.json<FnRef n={1} /> is your package's configuration AND public API definition. It tells npm and bundlers where to find your code.</ColItem>
+<ColItem>The 'exports'<FnRef n={2} /> field maps import paths to actual files — it controls what consumers can import.</ColItem>
+<ColItem>The 'files'<FnRef n={3} /> field controls what gets uploaded to npm. Only include your 'dist' folder — don't publish source code, tests, or configs.</ColItem>
+</div>
+
+<Explainer title="Why 'exports' instead of just 'main'?">
+The 'main' field is the old way — it points to a single entry file. The 'exports' field is the modern replacement. It lets you define different entry points for different contexts (ESM vs CJS, types vs runtime) and create subpath imports. Think of it like routing in a web framework — mapping import paths to actual files. See the Node.js Packages docs<FnRef n={4} /> for the full specification.
+</Explainer>
+
+<div className="code-block" dangerouslySetInnerHTML={{__html: `<span class="comment">// A well-configured package.json for an npm package</span>\n{\n  <span class="key">"name"</span>: <span class="string">"my-cool-package"</span>,\n\n  <span class="comment">// "type": "module" means this package uses modern</span>\n  <span class="comment">// import/export syntax by default</span>\n  <span class="key">"type"</span>: <span class="string">"module"</span>,\n\n  <span class="comment">// Fallback entry points for older tools</span>\n  <span class="key">"main"</span>: <span class="string">"./dist/index.cjs"</span>,\n  <span class="key">"module"</span>: <span class="string">"./dist/index.js"</span>,\n  <span class="key">"types"</span>: <span class="string">"./dist/index.d.ts"</span>,\n\n  <span class="comment">// Modern entry point config — this is what</span>\n  <span class="comment">// bundlers and Node.js actually read</span>\n  <span class="key">"exports"</span>: {\n    <span class="key">"."</span>: {\n      <span class="key">"import"</span>: <span class="string">"./dist/index.js"</span>,\n      <span class="key">"require"</span>: <span class="string">"./dist/index.cjs"</span>,\n      <span class="key">"types"</span>: <span class="string">"./dist/index.d.ts"</span>\n    },\n    <span class="comment">// Subpath export — consumers can do:</span>\n    <span class="comment">// import { helper } from "my-cool-package/utils"</span>\n    <span class="key">"./utils"</span>: {\n      <span class="key">"import"</span>: <span class="string">"./dist/utils.js"</span>,\n      <span class="key">"types"</span>: <span class="string">"./dist/utils.d.ts"</span>\n    }\n  },\n\n  <span class="comment">// ONLY these files/folders get published to npm</span>\n  <span class="key">"files"</span>: [<span class="string">"dist"</span>],\n\n  <span class="comment">// Consumer must have React installed already</span>\n  <span class="key">"peerDependencies"</span>: {\n    <span class="key">"react"</span>: <span class="string">"^18.0.0 || ^19.0.0"</span>\n  }\n}`}} />

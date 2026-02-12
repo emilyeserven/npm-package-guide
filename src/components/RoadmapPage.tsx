@@ -1,9 +1,26 @@
 import { roadmapSteps } from '../data/roadmapSteps'
-import { ciPages } from '../data/ciPages'
-import { bonusSections } from '../data/bonusSections'
+import { contentPages } from '../content/registry'
 import { findNavItem } from '../helpers/findNavItem'
 import { HtmlContent } from './HtmlContent'
 import { PrevNextNav } from './PrevNextNav'
+
+const ciPageOrder = [
+  'ci-overview', 'ci-linting', 'ci-build', 'ci-testing', 'ci-repo-maintenance',
+]
+
+const ciDescriptions: Record<string, string> = {
+  'ci-overview': 'A CI pipeline runs automated checks every time you push code or open a pull request. GitHub Actions is the most common CI tool in the JS ecosystem.',
+  'ci-linting': 'A linter (ESLint) and a formatter (Prettier) serve different purposes — understanding the difference matters for code quality.',
+  'ci-build': 'This step compiles your TypeScript and bundles your package to verify the build succeeds.',
+  'ci-testing': 'Testing in the JS ecosystem falls into several categories, and understanding when to use each is key to a good test suite.',
+  'ci-repo-maintenance': 'As projects grow, dependencies drift, unused code accumulates, and package.json files get out of sync.',
+}
+
+const bonusPageOrder = ['storybook']
+
+const bonusDescriptions: Record<string, string> = {
+  storybook: 'Storybook is a tool for building and testing UI components in isolation — outside of your app. Think of it like a visual unit test lab for your UI.',
+}
 
 export function RoadmapPage() {
   let html = `<div class="page-header">
@@ -45,33 +62,31 @@ export function RoadmapPage() {
   html += `<div class="step-content">`
   html += `<div class="step-title">Bonus: CI Pipeline & Checks</div>`
   html += `<div class="step-desc">Automate linting, build verification, and testing so they run on every push and pull request. A single YAML file can catch bugs before they're ever merged.</div>`
-  ciPages.forEach(cp => {
-    const plainIntro = cp.intro.replace(/<[^>]*>/g, '')
-    const shortDesc = plainIntro.length > 150
-      ? plainIntro.substring(0, 150).replace(/\s+\S*$/, '') + '…'
-      : plainIntro
+  ciPageOrder.forEach(id => {
+    const page = contentPages.get(id)
+    if (!page) return
+    const shortDesc = ciDescriptions[id] ?? ''
     html += `<div class="bonus-subpage">`
-    html += `<h3 class="bonus-subpage-title">${cp.title}</h3>`
+    html += `<h3 class="bonus-subpage-title">${page.title}</h3>`
     html += `<div class="bonus-subpage-desc">${shortDesc}</div>`
-    html += `<button class="step-jump" data-jump="${cp.id}">→ Deep dive: ${cp.title}</button>`
+    html += `<button class="step-jump" data-jump="${page.id}">→ Deep dive: ${page.title}</button>`
     html += `</div>`
   })
   html += `</div></div>`
 
   // Bonus: Storybook etc.
-  bonusSections.forEach(bs => {
-    const plainIntro = bs.intro.replace(/<[^>]*>/g, '')
-    const shortDesc = plainIntro.length > 150
-      ? plainIntro.substring(0, 150).replace(/\s+\S*$/, '') + '…'
-      : plainIntro
+  bonusPageOrder.forEach(id => {
+    const page = contentPages.get(id)
+    if (!page) return
+    const shortDesc = bonusDescriptions[id] ?? ''
     html += `<div class="step-card bonus-step">`
     html += `<div class="step-number bonus-number">★</div>`
     html += `<div class="step-content">`
     html += `<div class="step-title">Bonus: Developer Experience</div>`
     html += `<div class="bonus-subpage">`
-    html += `<h3 class="bonus-subpage-title">${bs.title}</h3>`
+    html += `<h3 class="bonus-subpage-title">${page.title}</h3>`
     html += `<div class="bonus-subpage-desc">${shortDesc}</div>`
-    html += `<button class="step-jump" data-jump="${bs.id}">→ Deep dive: ${bs.title}</button>`
+    html += `<button class="step-jump" data-jump="${page.id}">→ Deep dive: ${page.title}</button>`
     html += `</div>`
     html += `</div></div>`
   })

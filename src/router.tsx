@@ -1,14 +1,11 @@
 import { createRouter, createRoute, createRootRoute, createHashHistory } from '@tanstack/react-router'
 import { Layout } from './components/Layout'
 import { RoadmapPage } from './components/RoadmapPage'
-import { SectionPage } from './components/SectionPage'
 import { ChecklistPage } from './components/ChecklistPage'
-import { CIPage } from './components/CIPage'
-import { BonusSectionPage } from './components/BonusSectionPage'
 import { ExternalResourcesPage } from './components/ExternalResourcesPage'
 import { GlossaryPage } from './components/GlossaryPage'
-import { ciPageIds } from './data/ciPages'
-import { bonusIds } from './data/bonusSections'
+import { MDXPageWrapper } from './components/MDXPageWrapper'
+import { contentPages } from './content/registry'
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -28,10 +25,11 @@ function SectionRouter() {
   if (sectionId === 'checklist') return <ChecklistPage />
   if (sectionId === 'external-resources') return <ExternalResourcesPage />
   if (sectionId === 'glossary') return <GlossaryPage />
-  if (ciPageIds.includes(sectionId)) return <CIPage pageId={sectionId} />
-  if (bonusIds.includes(sectionId)) return <BonusSectionPage sectionId={sectionId} />
 
-  return <SectionPage sectionId={sectionId} />
+  const page = contentPages.get(sectionId)
+  if (page) return <MDXPageWrapper page={page} />
+
+  return <div>Section not found</div>
 }
 
 const sectionRoute = createRoute({

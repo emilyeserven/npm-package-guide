@@ -1,0 +1,49 @@
+---
+id: "deps"
+title: "📦 Dependencies"
+usedFootnotes: [1, 2]
+links:
+  - label: "package.json dependencies"
+    url: "https://docs.npmjs.com/cli/v10/configuring-npm/package-json#dependencies"
+    source: "npm"
+  - label: "peerDependencies explained"
+    url: "https://docs.npmjs.com/cli/v10/configuring-npm/package-json#peerdependencies"
+    source: "npm"
+  - label: "npm install docs"
+    url: "https://docs.npmjs.com/cli/v10/commands/npm-install"
+    source: "npm"
+  - label: "pnpm install docs"
+    url: "https://pnpm.io/cli/install"
+    source: "pnpm"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-webapp">Web App</TocLink>
+  <TocLink id="toc-pkg">NPM Package</TocLink>
+  <TocLink id="toc-explainer">What's peerDependencies?</TocLink>
+  <TocLink id="toc-gotcha">Watch out</TocLink>
+</Toc>
+
+<h2 className="section-subheading" id="toc-webapp">{'\u{1F310}'} Web App</h2>
+<div className="section-list">
+<ColItem>Install whatever packages you need — they all get bundled into your final app.</ColItem>
+<ColItem>The distinction between 'dependencies' and 'devDependencies' in package.json is mostly organizational. Everything gets bundled anyway.</ColItem>
+<ColItem>Bundle size matters for performance, but it's your call how to balance that.</ColItem>
+</div>
+
+<h2 className="section-subheading" id="toc-pkg">{'\u{1F4E6}'} NPM Package</h2>
+<div className="section-list">
+<ColItem>Every dependency you add becomes a dependency for EVERYONE who installs your package. Keep them minimal.</ColItem>
+<ColItem>There are 3 types that matter: 'dependencies'<FnRef n={1} /> (shipped with your package), 'devDependencies' (only for building/testing), and 'peerDependencies'<FnRef n={2} /> (the consumer must provide these).</ColItem>
+<ColItem>peerDependencies are crucial: if your package uses React, list React as a peerDependency so consumers use THEIR copy, not a second one.</ColItem>
+</div>
+
+<Explainer title="What's peerDependencies?">
+Imagine you write a plugin for Express.js. You don't want to bundle your own copy of Express — you want to use whatever version the developer already has. That's what peerDependencies does. You're saying: 'I need this to work, but YOU provide it.' For frontend packages, React is the most common peerDependency.
+</Explainer>
+
+<Gotcha>
+⚠️ Classic mistake: putting React in 'dependencies' instead of 'peerDependencies'. This installs a SECOND copy of React in the consumer's project, causing mysterious crashes. It's like having two different versions of a database driver loaded at once.
+</Gotcha>
