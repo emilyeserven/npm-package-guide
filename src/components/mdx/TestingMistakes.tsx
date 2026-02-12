@@ -12,7 +12,7 @@ export function TestingMistakes({ context }: { context?: 'e2e' | 'unit' }) {
     <div>
       {e2eItems.length > 0 && (
         <>
-          <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-3 mt-6 first:mt-0">
+          <h3 id="toc-e2e" className="text-base font-bold text-slate-900 dark:text-slate-100 mb-3 mt-6 first:mt-0">
             {'\u{1F310}'} End-to-End (E2E) Testing
           </h3>
           <div className="flex flex-col gap-3 mb-6">
@@ -36,7 +36,7 @@ export function TestingMistakes({ context }: { context?: 'e2e' | 'unit' }) {
 
       {unitItems.length > 0 && (
         <>
-          <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-3 mt-6">
+          <h3 id="toc-unit" className="text-base font-bold text-slate-900 dark:text-slate-100 mb-3 mt-6">
             {'\u{1F9EA}'} Unit Testing
           </h3>
           <div className="flex flex-col gap-3">
