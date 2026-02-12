@@ -19,14 +19,19 @@ const indexRoute = createRoute({
   component: GuidesIndexPage,
 })
 
+interface SectionSearch {
+  guide?: string
+}
+
 // eslint-disable-next-line react-refresh/only-export-components
 function SectionRouter() {
   const { sectionId } = sectionRoute.useParams()
+  const { guide } = sectionRoute.useSearch()
 
   if (sectionId === 'roadmap') return <RoadmapPage />
   if (sectionId === 'checklist') return <ChecklistPage />
-  if (sectionId === 'external-resources') return <ExternalResourcesPage />
-  if (sectionId === 'glossary') return <GlossaryPage />
+  if (sectionId === 'external-resources') return <ExternalResourcesPage initialGuide={guide} />
+  if (sectionId === 'glossary') return <GlossaryPage initialGuide={guide} />
   if (sectionId === 'architecture' || sectionId === 'arch-start') return <ArchStartPage />
 
   const page = contentPages.get(sectionId)
@@ -39,6 +44,9 @@ const sectionRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/$sectionId',
   component: SectionRouter,
+  validateSearch: (search: Record<string, unknown>): SectionSearch => ({
+    guide: typeof search.guide === 'string' ? search.guide : undefined,
+  }),
 })
 
 const routeTree = rootRoute.addChildren([indexRoute, sectionRoute])

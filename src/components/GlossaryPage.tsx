@@ -13,27 +13,47 @@ import { glossaryTerms } from '../data/glossaryTerms'
 import type { GlossaryTerm } from '../data/glossaryTerms'
 import { getNavTitle } from '../data/navigation'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
-import { PrevNextNav } from './PrevNextNav'
 import { DataTable } from './DataTable'
 import { ExternalLinkIcon } from './ExternalLinkIcon'
 
 interface FlatGlossaryRow extends GlossaryTerm {
   category: string
+  guide: string
+}
+
+function deriveGuide(sectionId?: string): string {
+  if (!sectionId) return 'npm-package'
+  return sectionId.startsWith('arch-') ? 'architecture' : 'npm-package'
 }
 
 const flatData: FlatGlossaryRow[] = glossaryTerms.flatMap(group =>
-  group.terms.map(t => ({ ...t, category: group.category }))
+  group.terms.map(t => ({ ...t, category: group.category, guide: deriveGuide(t.sectionId) }))
 )
 
 const categories = glossaryTerms.map(g => g.category)
 
+const guideOptions = [
+  { value: 'npm-package', label: 'NPM Package Guide' },
+  { value: 'architecture', label: 'Architecture Guide' },
+]
+
 const columnHelper = createColumnHelper<FlatGlossaryRow>()
 
-export function GlossaryPage() {
+interface GlossaryPageProps {
+  initialGuide?: string
+}
+
+export function GlossaryPage({ initialGuide }: GlossaryPageProps) {
   const navigateToSection = useNavigateToSection()
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [globalFilter, setGlobalFilter] = useState('')
+  const [guideFilter, setGuideFilter] = useState<string>(initialGuide ?? '')
+
+  const filteredData = useMemo(() => {
+    if (!guideFilter) return flatData
+    return flatData.filter(row => row.guide === guideFilter)
+  }, [guideFilter])
 
   const columns = useMemo(() => [
     columnHelper.accessor('term', {
@@ -80,7 +100,7 @@ export function GlossaryPage() {
 
   // eslint-disable-next-line react-hooks/incompatible-library -- not using React Compiler
   const table = useReactTable({
-    data: flatData,
+    data: filteredData,
     columns,
     state: { sorting, columnFilters, globalFilter },
     onSortingChange: setSorting,
@@ -100,11 +120,14 @@ export function GlossaryPage() {
 
   const activeCategoryFilter = (columnFilters.find(f => f.id === 'category')?.value as string) || ''
 
+  const activeFilterCls = 'bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30 text-blue-600 dark:text-blue-400'
+  const inactiveFilterCls = 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-blue-300 dark:hover:border-blue-500/40'
+
   return (
     <>
-      <h1 className="text-2xl font-bold mb-5 tracking-tight">📖 Glossary</h1>
+      <h1 className="text-2xl font-bold mb-5 tracking-tight">Glossary</h1>
       <p className="text-sm text-gray-500 dark:text-slate-400 mb-4 leading-relaxed">
-        Key terms you'll encounter when building and publishing npm packages. Each term includes links to learn more.
+        Key terms you'll encounter across all guides. Use the filters to narrow by guide or category.
       </p>
 
       <div className="flex flex-col gap-3 mb-5 max-sm:gap-2">
@@ -116,40 +139,69 @@ export function GlossaryPage() {
           onChange={e => setGlobalFilter(e.target.value)}
           data-testid="glossary-search"
         />
-        <div className="flex flex-wrap gap-1.5">
-          <button
-            className={clsx(
-              'px-3 py-1.5 text-xs font-medium rounded-lg border cursor-pointer transition-all duration-150',
-              activeCategoryFilter === ''
-                ? 'bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30 text-blue-600 dark:text-blue-400'
-                : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-blue-300 dark:hover:border-blue-500/40'
-            )}
-            onClick={() => setColumnFilters([])}
-            data-testid="glossary-filter-all"
-          >
-            All
-          </button>
-          {categories.map(cat => (
+
+        {/* Guide filter */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Guide</span>
+          <div className="flex flex-wrap gap-1.5">
             <button
-              key={cat}
               className={clsx(
                 'px-3 py-1.5 text-xs font-medium rounded-lg border cursor-pointer transition-all duration-150',
-                activeCategoryFilter === cat
-                  ? 'bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30 text-blue-600 dark:text-blue-400'
-                  : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-blue-300 dark:hover:border-blue-500/40'
+                guideFilter === '' ? activeFilterCls : inactiveFilterCls,
               )}
-              onClick={() => setColumnFilters([{ id: 'category', value: cat }])}
-              data-testid={`glossary-filter-${cat.toLowerCase().replace(/\s+/g, '-')}`}
+              onClick={() => setGuideFilter('')}
+              data-testid="glossary-guide-all"
             >
-              {cat}
+              All
             </button>
-          ))}
+            {guideOptions.map(opt => (
+              <button
+                key={opt.value}
+                className={clsx(
+                  'px-3 py-1.5 text-xs font-medium rounded-lg border cursor-pointer transition-all duration-150',
+                  guideFilter === opt.value ? activeFilterCls : inactiveFilterCls,
+                )}
+                onClick={() => setGuideFilter(opt.value)}
+                data-testid={`glossary-guide-${opt.value}`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Category filter */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Category</span>
+          <div className="flex flex-wrap gap-1.5">
+            <button
+              className={clsx(
+                'px-3 py-1.5 text-xs font-medium rounded-lg border cursor-pointer transition-all duration-150',
+                activeCategoryFilter === '' ? activeFilterCls : inactiveFilterCls,
+              )}
+              onClick={() => setColumnFilters([])}
+              data-testid="glossary-filter-all"
+            >
+              All
+            </button>
+            {categories.map(cat => (
+              <button
+                key={cat}
+                className={clsx(
+                  'px-3 py-1.5 text-xs font-medium rounded-lg border cursor-pointer transition-all duration-150',
+                  activeCategoryFilter === cat ? activeFilterCls : inactiveFilterCls,
+                )}
+                onClick={() => setColumnFilters([{ id: 'category', value: cat }])}
+                data-testid={`glossary-filter-${cat.toLowerCase().replace(/\s+/g, '-')}`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       <DataTable table={table} columnCount={3} emptyMessage="No terms match your search." />
-
-      <PrevNextNav currentId="glossary" />
     </>
   )
 }
