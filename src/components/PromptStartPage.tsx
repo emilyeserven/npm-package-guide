@@ -1,5 +1,5 @@
 import { contentPages } from '../content/registry'
-import { MISTAKE_CATEGORIES, CONTEXT_TECHNIQUES } from '../data/promptData'
+import { MISTAKE_CATEGORIES, CONTEXT_TECHNIQUES, TOOL_TECHNIQUES, META_TOOLS } from '../data/promptData'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { PrevNextNav } from './PrevNextNav'
 
@@ -61,6 +61,12 @@ export function PromptStartPage() {
                 </div>
               )
             })}
+            {/* Testing Best Practices */}
+            <div className="mt-4.5 py-2 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5">Testing Best Practices</h3>
+              <div className="text-sm text-slate-800 dark:text-slate-300 leading-normal mb-1">Common AI mistakes in E2E and unit testing contexts.</div>
+              <JumpButton jumpTo="prompt-testing">{'\u2192'} Testing Best Practices</JumpButton>
+            </div>
           </div>
         </div>
 
@@ -83,20 +89,53 @@ export function PromptStartPage() {
                 </div>
               )
             })}
+            {/* CLAUDE.md Checklist */}
+            <div className="mt-4.5 py-2 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5">CLAUDE.md Checklist</h3>
+              <div className="text-sm text-slate-800 dark:text-slate-300 leading-normal mb-1">A comprehensive checklist for building effective CLAUDE.md files.</div>
+              <JumpButton jumpTo="prompt-claudemd-checklist">{'\u2192'} CLAUDE.md Checklist</JumpButton>
+            </div>
           </div>
         </div>
 
-        {/* Step 3: CLI Quick Reference */}
-        <div className="step-card flex gap-4 py-4.5 border-b border-slate-200 dark:border-slate-700 relative last:border-b-0">
+        {/* Step 3: Tooling & Reference */}
+        <div className="step-card flex gap-4 py-4.5 border-b border-slate-200 dark:border-slate-700 relative">
           <div className="step-number w-9 h-9 rounded-full bg-blue-500 dark:bg-blue-400 text-white dark:text-slate-900 flex items-center justify-center text-sm font-bold shrink-0 relative">3</div>
           <div className="flex-1 min-w-0">
-            <div className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">CLI Quick Reference</div>
-            <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2">Commands that AI coding assistants use frequently &mdash; Claude Code essentials, file search patterns, git workflows, and more.</div>
-            {(() => {
-              const cliPage = contentPages.get('prompt-cli-reference')
-              const cliLabel = cliPage?.title ?? 'CLI Quick Reference'
-              return <JumpButton jumpTo="prompt-cli-reference">{'\u2192'} {cliLabel}</JumpButton>
-            })()}
+            <div className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">Tooling & Reference</div>
+            <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2">CLI commands, advanced integrations, and the workflows that surround AI-assisted development.</div>
+            {/* CLI Reference */}
+            <div className="mt-4.5 py-2 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5">CLI Quick Reference</h3>
+              <div className="text-sm text-slate-800 dark:text-slate-300 leading-normal mb-1">Searchable, filterable table of CLI commands with category and type filters.</div>
+              <JumpButton jumpTo="prompt-cli-reference">{'\u2192'} CLI Quick Reference</JumpButton>
+            </div>
+            {/* Advanced Tool Usage */}
+            <div className="mt-4.5 py-2 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5">Advanced Tool Usage</h3>
+              <div className="text-sm text-slate-800 dark:text-slate-300 leading-normal mb-1">MCP servers, custom slash commands, hooks, and performance optimization.</div>
+              <JumpButton jumpTo="prompt-tools-advanced">{'\u2192'} Advanced Tool Usage</JumpButton>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {TOOL_TECHNIQUES.map(tool => (
+                  <span key={tool.id} className="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
+                    {tool.icon} {tool.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+            {/* Meta-Tooling */}
+            <div className="mt-4.5 py-2 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5">Meta-Tooling & Workflows</h3>
+              <div className="text-sm text-slate-800 dark:text-slate-300 leading-normal mb-1">CI/CD integration, prompt versioning, team workflows, and evaluating AI output.</div>
+              <JumpButton jumpTo="prompt-meta-tooling">{'\u2192'} Meta-Tooling & Workflows</JumpButton>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {META_TOOLS.map(tool => (
+                  <span key={tool.id} className="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
+                    {tool.icon} {tool.name}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

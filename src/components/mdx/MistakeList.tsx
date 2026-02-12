@@ -13,9 +13,8 @@ export function MistakeList({ categoryId }: { categoryId: string }) {
 
   return (
     <div>
-      {/* Severity badge */}
-      <div className="mb-5 flex items-center gap-2">
-        <span style={{ fontSize: 20 }}>{category.icon}</span>
+      {/* Severity badge — directly under header */}
+      <div className="-mt-3 mb-6 flex items-center gap-2">
         <span
           className="text-xs font-semibold uppercase tracking-wide rounded-full px-2.5 py-0.5"
           style={{
@@ -27,20 +26,13 @@ export function MistakeList({ categoryId }: { categoryId: string }) {
         </span>
       </div>
 
-      {/* Mistake items */}
-      <div className="flex flex-col gap-3">
+      {/* Mistake items — no boxes, proper headings */}
+      <div className="flex flex-col gap-5">
         {category.items.map((item, i) => (
-          <div
-            key={i}
-            className="rounded-xl p-4"
-            style={{
-              background: t.bg,
-              border: `1px solid ${t.border}22`,
-            }}
-          >
-            <div className="font-semibold text-sm text-slate-900 dark:text-slate-100 mb-2">
+          <div key={i}>
+            <h3 className="font-semibold text-sm text-slate-900 dark:text-slate-100 mb-2 mt-0">
               {item.mistake}
-            </div>
+            </h3>
             <div className="text-xs font-mono text-slate-500 dark:text-slate-400 mb-2 px-3 py-2 bg-slate-100 dark:bg-slate-800 rounded-md overflow-x-auto">
               {item.example}
             </div>

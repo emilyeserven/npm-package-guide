@@ -18,6 +18,10 @@ import { FrameworkProsCons } from './FrameworkProsCons'
 import { MistakeList } from './MistakeList'
 import { TechniqueDetail } from './TechniqueDetail'
 import { CLIReference } from './CLIReference'
+import { TestingMistakes } from './TestingMistakes'
+import { ClaudeMdChecklist } from './ClaudeMdChecklist'
+import { ToolDetail } from './ToolDetail'
+import { MetaTooling } from './MetaTooling'
 
 export const mdxComponents: MDXComponents = {
   Cmd,
@@ -56,4 +60,8 @@ export const mdxComponents: MDXComponents = {
   MistakeList,
   TechniqueDetail,
   CLIReference,
+  TestingMistakes,
+  ClaudeMdChecklist,
+  ToolDetail,
+  MetaTooling,
 }
