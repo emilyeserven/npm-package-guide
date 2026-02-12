@@ -47,7 +47,6 @@ const allNpmGuideIds = new Set([
   ...buildingPackageOrder,
   ...ciOrder,
   ...bonusOrder,
-  'architecture',
   'checklist', 'external-resources', 'glossary',
 ])
 
@@ -67,7 +66,9 @@ export function Sidebar({ open, onClose }: SidebarProps) {
   const currentId = params.sectionId || ''
 
   const isInNpmGuide = allNpmGuideIds.has(currentId)
-  const [guideExpanded, setGuideExpanded] = useState(isInNpmGuide || !!currentId)
+  const isInArchGuide = currentId === 'architecture'
+  const [npmExpanded, setNpmExpanded] = useState(isInNpmGuide)
+  const [archExpanded, setArchExpanded] = useState(isInArchGuide)
 
   const handleNav = (id: string) => {
     onClose()
@@ -135,7 +136,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
               ? 'text-blue-600 dark:text-blue-400'
               : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
           )}
-          onClick={() => setGuideExpanded(prev => !prev)}
+          onClick={() => setNpmExpanded(prev => !prev)}
           data-testid="sidebar-guide-npm"
         >
           <span className="mr-2 text-base shrink-0">{'\u{1F4E6}'}</span>
@@ -143,7 +144,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           <svg
             className={clsx(
               'w-3.5 h-3.5 shrink-0 ml-2 transition-transform duration-200',
-              guideExpanded && 'rotate-90'
+              npmExpanded && 'rotate-90'
             )}
             viewBox="0 0 24 24"
             fill="none"
@@ -156,8 +157,8 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           </svg>
         </button>
 
-        {/* Level 2: Guide sections */}
-        {guideExpanded && (
+        {/* Level 2: NPM guide sections */}
+        {npmExpanded && (
           <div className="pl-3 flex flex-col gap-0.5">
             {topItems.map(item => (
               <SidebarItem key={item.id} {...item} active={currentId === item.id} onClick={handleNav} />
@@ -177,12 +178,47 @@ export function Sidebar({ open, onClose }: SidebarProps) {
             {bonusItems.map(item => (
               <SidebarItem key={item.id} {...item} active={currentId === item.id} onClick={handleNav} />
             ))}
-            <SidebarItem id="architecture" title={'\u{1F3D7}\uFE0F Architecture Guide'} active={currentId === 'architecture'} onClick={handleNav} />
 
             <div className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-4 mb-1.5 px-3.5">Learning Resources</div>
             {resourceItems.map(item => (
               <SidebarItem key={item.id} {...item} active={currentId === item.id} onClick={handleNav} />
             ))}
+          </div>
+        )}
+
+        {/* Level 1: Guide — Architecture Guide */}
+        <button
+          className={clsx(
+            'flex items-center w-full text-left px-3.5 py-2.5 text-sm font-semibold rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150 mt-3',
+            isInArchGuide
+              ? 'text-blue-600 dark:text-blue-400'
+              : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
+          )}
+          onClick={() => setArchExpanded(prev => !prev)}
+          data-testid="sidebar-guide-architecture"
+        >
+          <span className="mr-2 text-base shrink-0">{'\u{1F3D7}\uFE0F'}</span>
+          <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">Architecture Guide</span>
+          <svg
+            className={clsx(
+              'w-3.5 h-3.5 shrink-0 ml-2 transition-transform duration-200',
+              archExpanded && 'rotate-90'
+            )}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+
+        {/* Level 2: Architecture guide sections */}
+        {archExpanded && (
+          <div className="pl-3 flex flex-col gap-0.5">
+            <SidebarItem id="architecture" title={'\u{1F3D7}\uFE0F Architecture Guide'} active={currentId === 'architecture'} onClick={handleNav} />
           </div>
         )}
       </div>

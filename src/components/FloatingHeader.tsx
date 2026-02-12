@@ -7,13 +7,32 @@ interface FloatingHeaderProps {
   onMenuToggle: () => void
 }
 
+const npmGuideIds = new Set([
+  'roadmap',
+  'bigpicture', 'monorepo', 'npm-vs-pnpm',
+  'build', 'tsconfig', 'deps', 'dist',
+  'packagejson', 'typescript', 'versioning', 'workflow',
+  'ci-overview', 'ci-linting', 'ci-build', 'ci-testing', 'ci-repo-maintenance',
+  'storybook',
+  'checklist', 'external-resources', 'glossary',
+])
+
+function getGuideInfo(sectionId: string | undefined) {
+  if (!sectionId) return { title: 'Frontend Guides', homeId: null }
+  if (npmGuideIds.has(sectionId)) return { title: 'Web App vs. NPM Package Guide', homeId: 'roadmap' }
+  if (sectionId === 'architecture') return { title: 'Architecture Guide', homeId: 'architecture' }
+  return { title: 'Frontend Guides', homeId: null }
+}
+
 export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) {
   const navigate = useNavigate()
   const params = useParams({ strict: false }) as { sectionId?: string }
   const isGuidesIndex = !params.sectionId
+  const { title: guideTitle, homeId } = getGuideInfo(params.sectionId)
+  const showHomeButton = !isGuidesIndex && homeId !== null && homeId !== params.sectionId
 
   const handleHomeClick = () => {
-    navigate({ to: '/$sectionId', params: { sectionId: 'roadmap' } })
+    navigate({ to: '/$sectionId', params: { sectionId: homeId! } })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -36,10 +55,10 @@ export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) 
           </span>
         </button>
         <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 whitespace-nowrap overflow-hidden text-ellipsis min-w-0 max-sm:text-sm">
-          {isGuidesIndex ? 'Frontend Guides' : 'Web App vs. NPM Package Guide'}
+          {guideTitle}
         </span>
         <div className="ml-auto relative shrink-0 flex items-center gap-2">
-          {!isGuidesIndex && (
+          {showHomeButton && (
             <button
               className="flex items-center gap-1.5 font-sans text-xs font-semibold h-9 px-2.5 rounded-lg bg-transparent text-gray-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 cursor-pointer transition-all duration-150 whitespace-nowrap hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400"
               onClick={handleHomeClick}

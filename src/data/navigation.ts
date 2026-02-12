@@ -15,7 +15,6 @@ export function getNavOrder(): string[] {
     "packagejson", "typescript", "versioning", "workflow",
     ...ciPageIds,
     ...bonusIds,
-    "architecture",
     "checklist", "external-resources", "glossary",
   ]
 }
