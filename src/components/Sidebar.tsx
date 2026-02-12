@@ -45,7 +45,7 @@ const guides: GuideDefinition[] = [
       { label: 'Building a Package', ids: buildingPackageOrder },
       { label: 'CI Pipeline & Checks', ids: ciOrder },
       { label: 'Developer Experience', ids: bonusOrder },
-      { label: 'Learning Resources', ids: ['checklist', 'external-resources', 'glossary'] },
+      { label: 'Learning Resources', ids: ['checklist'] },
     ],
   },
   {
@@ -57,6 +57,14 @@ const guides: GuideDefinition[] = [
       { label: 'Stack Alternatives', ids: archStackOrder },
       { label: 'Full-Stack Frameworks', ids: ['arch-frameworks-intro', ...archFrameworkOrder] },
       { label: 'Putting It Together', ids: ['arch-how-it-connects'] },
+    ],
+  },
+  {
+    id: 'resources',
+    icon: '\u{1F4DA}',        // 📚
+    title: 'Resources',
+    sections: [
+      { label: null, ids: ['external-resources', 'glossary'] },
     ],
   },
 ]

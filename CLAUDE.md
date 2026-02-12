@@ -6,7 +6,7 @@ Educational single-page application (SPA) with multiple guides for backend engin
 
 ## Guides
 
-The site contains two independent guides, each with its own Start Here page, navigation order, and Previous/Next links:
+The site contains two independent guides, each with its own Start Here page, navigation order, and Previous/Next links, plus top-level resource pages shared across all guides:
 
 ### NPM Package Guide (`Web App vs. NPM Package`)
 - **Start page:** `roadmap` (`src/components/RoadmapPage.tsx`)
@@ -19,6 +19,12 @@ The site contains two independent guides, each with its own Start Here page, nav
 - **Data:** `src/data/archData.ts` (stack data, layer data, data flow, framework data)
 - **Interactive MDX components:** `src/components/mdx/StackExplorer.tsx`, `StackProsCons.tsx`, `DataFlowDiagram.tsx`, `LayerDiagram.tsx`, `FrameworkExplorer.tsx`, `FrameworkProsCons.tsx`
 - **Page IDs:** `arch-start`, `arch-what-is-a-stack`, `arch-stack-{mern,pfrn,mean,lamp,django,rails}`, `arch-frameworks-intro`, `arch-fw-{nextjs,react-router,tanstack-start,remix}`, `arch-how-it-connects`
+
+### Top-Level Resources
+- **External Resources** (`src/components/ExternalResourcesPage.tsx`) — searchable, filterable table of documentation, articles, courses, and tools. Tagged with Guide, Type, and Topic filters. Data in `src/data/overallResources.ts`.
+- **Glossary** (`src/components/GlossaryPage.tsx`) — searchable glossary with Guide and Category filters. Data in `src/data/glossaryTerms.ts`.
+- Both pages support a `?guide=` URL search param to pre-select a guide filter (e.g., `/#/glossary?guide=npm-package`). Links from within guides use this param to show guide-relevant content by default.
+- These pages appear in the sidebar under a dedicated "Resources" icon, in the command menu under a "Resources" group, and on the home page in a "Resources" section.
 
 ## Tech Stack
 
@@ -99,6 +105,8 @@ Each guide has its own independent navigation order. Pages must appear in the sa
 4. **Command menu** (`src/components/CommandMenu.tsx`) — the `buildingPackageOrder`, `ciOrder`, `bonusOrder`, and `resourceIds` arrays that populate the Cmd+K palette
 
 The `getNavOrder(currentId)` function returns the correct guide's order based on the current page ID. NPM Package Guide pages use the default order; Architecture Guide pages (matching `ARCH_PAGE_IDS` from `src/data/archData.ts`) use the architecture order.
+
+**Top-level resource pages** (`external-resources`, `glossary`) are NOT part of any guide's navigation order. They appear in the sidebar under a dedicated "Resources" icon, in the command menu under a "Resources" group, and on the home page. They do not have Previous/Next navigation.
 
 When adding, removing, or reordering pages, update all four locations for the affected guide to stay in sync.
 

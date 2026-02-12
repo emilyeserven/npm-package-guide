@@ -14,7 +14,7 @@ const npmNavOrder = [
   "packagejson", "typescript", "versioning", "workflow",
   ...ciPageIds,
   ...bonusIds,
-  "checklist", "external-resources", "glossary",
+  "checklist",
 ]
 
 export function getNavOrder(currentId?: string): string[] {

@@ -20,7 +20,9 @@ const ciOrder = [
 
 const bonusOrder = ['storybook']
 
-const resourceIds = ['checklist', 'external-resources', 'glossary']
+const resourceIds = ['checklist']
+
+const topLevelResourceIds = ['external-resources', 'glossary']
 
 const archStackOrder = [
   'arch-stack-mern', 'arch-stack-pfrn', 'arch-stack-mean',
@@ -126,6 +128,12 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
 
         <Command.Group heading="Putting It Together">
           <PageItem id="arch-how-it-connects" onSelect={handleSelect} />
+        </Command.Group>
+
+        <Command.Group heading="Resources">
+          {topLevelResourceIds.map(id => (
+            <PageItem key={id} id={id} onSelect={handleSelect} />
+          ))}
         </Command.Group>
       </Command.List>
     </Command.Dialog>

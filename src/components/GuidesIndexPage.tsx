@@ -8,6 +8,30 @@ interface GuideTile {
   description: string
 }
 
+interface ResourceTile {
+  sectionId: string
+  icon: string
+  title: string
+  description: string
+}
+
+const resources: ResourceTile[] = [
+  {
+    sectionId: 'external-resources',
+    icon: '\u{1F4DA}',
+    title: 'External Resources',
+    description:
+      'Curated documentation, articles, courses, tools, and section references — all in one searchable, filterable table.',
+  },
+  {
+    sectionId: 'glossary',
+    icon: '\u{1F4D6}',
+    title: 'Glossary',
+    description:
+      'Key terms you\'ll encounter across all guides, with links to relevant sections and external documentation.',
+  },
+]
+
 const guides: GuideTile[] = [
   {
     id: 'npm-package',
@@ -69,6 +93,36 @@ export function GuidesIndexPage() {
           <p className="text-sm text-slate-400 dark:text-slate-500 leading-relaxed">
             Additional guides are in the works. Stay tuned!
           </p>
+        </div>
+      </div>
+
+      {/* Resources section */}
+      <div className="mt-12">
+        <h2 className="text-xl font-bold tracking-tight mb-1 text-slate-900 dark:text-slate-100">Resources</h2>
+        <p className="text-gray-500 dark:text-slate-400 text-sm mb-5">
+          Cross-guide references and learning materials.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {resources.map((resource) => (
+            <button
+              key={resource.sectionId}
+              className="flex flex-col items-start text-left p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5"
+              onClick={() =>
+                navigate({
+                  to: '/$sectionId',
+                  params: { sectionId: resource.sectionId },
+                })
+              }
+            >
+              <span className="text-2xl mb-2">{resource.icon}</span>
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">
+                {resource.title}
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                {resource.description}
+              </p>
+            </button>
+          ))}
         </div>
       </div>
     </div>

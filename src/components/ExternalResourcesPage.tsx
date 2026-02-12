@@ -9,9 +9,8 @@ import {
   type ColumnFiltersState,
 } from '@tanstack/react-table'
 import clsx from 'clsx'
-import { overallResources, badgeBase, badgeMap, typeTags, topicTags } from '../data/overallResources'
+import { overallResources, badgeBase, badgeMap, typeTags, topicTags, guideTags } from '../data/overallResources'
 import { contentPages } from '../content/registry'
-import { PrevNextNav } from './PrevNextNav'
 import { DataTable } from './DataTable'
 
 interface ReferenceRow {
@@ -112,8 +111,9 @@ function buildReferenceData(): ReferenceRow[] {
   const allSectionsWithLinks = Array.from(contentPages.values())
   allSectionsWithLinks.forEach(s => {
     if (s.links && s.links.length > 0) {
-      const topicTags = sectionTopicMap[s.id] ?? []
+      const sectionTopics = sectionTopicMap[s.id] ?? []
       const sectionDesc = sectionDescMap[s.id] ?? ''
+      const guideTag = s.id.startsWith('arch-') ? 'guide:architecture' : 'guide:npm-package'
       s.links.forEach(l => {
         if (seen.has(l.url) || overallUrls.has(l.url)) return
         seen.add(l.url)
@@ -121,7 +121,7 @@ function buildReferenceData(): ReferenceRow[] {
           name: l.label,
           url: l.url,
           desc: sectionDesc,
-          tags: ['docs', 'free', ...topicTags],
+          tags: ['docs', 'free', ...sectionTopics, guideTag],
         })
       })
     }
@@ -132,20 +132,27 @@ function buildReferenceData(): ReferenceRow[] {
 
 const columnHelper = createColumnHelper<ReferenceRow>()
 
-export function ExternalResourcesPage() {
+interface ExternalResourcesPageProps {
+  initialGuide?: string
+}
+
+export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPageProps) {
   const data = useMemo(() => buildReferenceData(), [])
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [globalFilter, setGlobalFilter] = useState('')
-  const [tagFilter, setTagFilter] = useState<string[]>([])
+  const [tagFilter, setTagFilter] = useState<string[]>(
+    () => initialGuide ? [`guide:${initialGuide}`] : []
+  )
 
   // Collect unique tags split by category
-  const { typeTagList, topicTagList } = useMemo(() => {
+  const { typeTagList, topicTagList, guideTagList } = useMemo(() => {
     const set = new Set<string>()
     data.forEach(r => r.tags.forEach(b => set.add(b)))
     return {
       typeTagList: Array.from(set).filter(t => typeTags.has(t)).sort(),
       topicTagList: Array.from(set).filter(t => topicTags.has(t)).sort(),
+      guideTagList: Array.from(set).filter(t => guideTags.has(t)).sort(),
     }
   }, [data])
 
@@ -266,6 +273,29 @@ export function ExternalResourcesPage() {
         {/* Tag filters */}
         <div className="flex flex-col gap-2.5 mb-5">
           <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Guide</span>
+            <div className="flex flex-wrap gap-1.5">
+              {guideTagList.map(b => {
+                const badge = badgeMap[b]
+                if (!badge) return null
+                const isActive = tagFilter.includes(b)
+                return (
+                  <button
+                    key={b}
+                    className={clsx(
+                      `${badgeBase} ${badge.cls} cursor-pointer border-none transition-all duration-150`,
+                      isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
+                    )}
+                    onClick={() => toggleTag(b)}
+                    data-testid={`resources-tag-${b}`}
+                  >
+                    {badge.label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Type</span>
             <div className="flex flex-wrap gap-1.5">
               {typeTagList.map(b => {
@@ -330,7 +360,6 @@ export function ExternalResourcesPage() {
         {/* Table */}
         <DataTable table={table} columnCount={3} emptyMessage="No references match your filters." />
       </div>
-      <PrevNextNav currentId="external-resources" />
     </>
   )
 }

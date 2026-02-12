@@ -1,3 +1,4 @@
+import { useNavigate } from '@tanstack/react-router'
 import { roadmapSteps } from '../data/roadmapSteps'
 import { contentPages } from '../content/registry'
 import { findNavItem } from '../helpers/findNavItem'
@@ -26,9 +27,24 @@ const bonusDescriptions: Record<string, string> = {
 const jumpBtnCls = 'inline-flex items-center gap-1.5 text-sm font-bold text-white cursor-pointer bg-blue-500 dark:bg-blue-400 dark:text-slate-900 border-none font-sans py-2 px-3.5 rounded-lg transition-all duration-150 mt-1 shadow-md shadow-blue-500/25 hover:bg-blue-600 dark:hover:bg-blue-500 hover:-translate-y-px hover:shadow-lg hover:shadow-blue-500/30'
 
 function JumpButton({ jumpTo, children, style }: { jumpTo: string; children: React.ReactNode; style?: React.CSSProperties }) {
-  const navigate = useNavigateToSection()
+  const navigateToSection = useNavigateToSection()
   return (
-    <button className={jumpBtnCls} style={style} onClick={() => navigate(jumpTo)}>
+    <button className={jumpBtnCls} style={style} onClick={() => navigateToSection(jumpTo)}>
+      {children}
+    </button>
+  )
+}
+
+function GuideJumpButton({ sectionId, guide, children }: { sectionId: string; guide: string; children: React.ReactNode }) {
+  const navigate = useNavigate()
+  return (
+    <button
+      className={jumpBtnCls}
+      onClick={() => {
+        navigate({ to: '/$sectionId', params: { sectionId }, search: { guide } })
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }}
+    >
       {children}
     </button>
   )
@@ -130,8 +146,16 @@ export function RoadmapPage() {
 
         <BonusCard title="Bonus: Learning Resources" desc="Documentation, articles, courses, and tools to go deeper on frontend development, npm packages, and the JavaScript ecosystem.">
           <BonusSubpage title={'\u2705 Publish Checklist'} desc="Go through this before every npm publish — trust us, it saves headaches." jumpTo="checklist" jumpLabel={'\u2705 Publish Checklist'} />
-          <BonusSubpage title={'\u{1F4DA} External Resources'} desc="Curated documentation, articles, courses, tools, and section references — all in one searchable, sortable table." jumpTo="external-resources" jumpLabel={'\u{1F4DA} External Resources'} />
-          <BonusSubpage title={'\u{1F4D6} Glossary'} desc="Key terms you'll encounter when building and publishing npm packages, with links to the relevant sections in this guide." jumpTo="glossary" jumpLabel={'\u{1F4D6} Glossary'} />
+          <div className="mt-4.5 py-2 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5">{'\u{1F4DA}'} External Resources</h3>
+            <div className="text-sm text-slate-800 dark:text-slate-300 leading-normal mb-1">Curated documentation, articles, courses, tools, and section references — all in one searchable, sortable table.</div>
+            <GuideJumpButton sectionId="external-resources" guide="npm-package">{'\u2192'} View with NPM Package filter</GuideJumpButton>
+          </div>
+          <div className="mt-4.5 py-2 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5">{'\u{1F4D6}'} Glossary</h3>
+            <div className="text-sm text-slate-800 dark:text-slate-300 leading-normal mb-1">Key terms you'll encounter when building and publishing npm packages, with links to the relevant sections in this guide.</div>
+            <GuideJumpButton sectionId="glossary" guide="npm-package">{'\u2192'} View with NPM Package filter</GuideJumpButton>
+          </div>
         </BonusCard>
       </div>
       <PrevNextNav currentId="roadmap" />
