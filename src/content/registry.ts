@@ -1,5 +1,11 @@
 import type { ComponentType } from 'react'
 import type { SectionLink } from '../helpers/renderFootnotes'
+import { resolveLink } from '../data/linkRegistry'
+
+interface LinkRef {
+  id: string
+  note?: string
+}
 
 export interface ContentPage {
   id: string
@@ -7,6 +13,7 @@ export interface ContentPage {
   guide?: string
   group?: string
   links?: SectionLink[]
+  linkRefIds?: string[]
   usedFootnotes?: number[]
   component: ComponentType
 }
@@ -22,12 +29,18 @@ for (const [, mod] of Object.entries(mdxModules)) {
   const fm = mod.frontmatter as Record<string, unknown>
   const id = fm.id as string
   if (!id) continue
+
+  const rawLinkRefs = fm.linkRefs as LinkRef[] | undefined
+  const resolvedLinks = rawLinkRefs?.map(ref => resolveLink(ref.id, ref.note))
+  const refIds = rawLinkRefs?.map(ref => ref.id)
+
   contentPages.set(id, {
     id,
     title: (fm.title as string) ?? id,
     guide: fm.guide as string | undefined,
     group: fm.group as string | undefined,
-    links: fm.links as SectionLink[] | undefined,
+    links: resolvedLinks,
+    linkRefIds: refIds,
     usedFootnotes: fm.usedFootnotes as number[] | undefined,
     component: mod.default,
   })

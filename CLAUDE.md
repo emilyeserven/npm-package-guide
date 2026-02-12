@@ -84,14 +84,37 @@ The site contains four independent guides, each with its own Start Here page, na
 - **Styling:** Use inline Tailwind utility classes on JSX elements. Prefer Tailwind utility classes over adding CSS rules whenever possible. Avoid defining component-level classes with `@apply` in `App.css`. CSS is only for things that genuinely require it: pseudo-elements (`::before`, `::after`), complex nested selectors, body-level toggles, animations/transitions, and third-party library attribute selectors (e.g., cmdk `[cmdk-input]`). Using `@apply` within those CSS-only rules is acceptable. Use Tailwind's built-in scale values; arbitrary values (e.g., `[360px]`) should only be used when strictly necessary (no built-in equivalent exists).
 - **Dark mode:** The app uses class-based dark mode via a `useTheme()` hook (`src/hooks/useTheme.tsx`) that toggles `.dark` on `<body>`. Tailwind's custom variant `@custom-variant dark (&:where(.dark, .dark *))` enables `dark:` utility classes. For components using Tailwind classes, use `dark:` variants directly (e.g., `dark:bg-slate-800 dark:text-slate-100`). For interactive components with dynamic inline styles (where colors come from data like `comp.color`), use the `useTheme()` hook + `ds()` helper from `src/helpers/darkStyle.ts` to select light/dark values. Standard dark palette: backgrounds `#1e293b` (slate-800), text `#e2e8f0` (slate-200), borders `#334155` (slate-700). All new interactive MDX components must support dark mode.
 
+## Link Registry
+
+All external URLs are managed centrally in `src/data/linkRegistry.ts`. This is the single source of truth for link metadata (URL, label, source, description, tags). Other systems reference the registry by ID instead of duplicating URL metadata.
+
+### Adding a new link
+1. Add a `RegistryLink` entry to the `linkRegistry` array in `src/data/linkRegistry.ts` with a slug ID following the `{source}-{topic}` convention (e.g., `"npm-package-json-deps"`, `"mdn-tree-shaking"`).
+2. Reference it from MDX frontmatter via `linkRefs`:
+   ```yaml
+   linkRefs:
+     - id: "your-registry-id"
+     - id: "another-id"
+       note: "Page-specific context for this link"
+   usedFootnotes: [1, 2]
+   ```
+3. If it should appear on the External Resources page, add `resourceCategory` (e.g., `"Official Documentation"`) and `tags`/`desc` fields.
+4. For glossary terms, use the `linkId` field in `GlossaryTerm` to reference a registry entry.
+
+### How the registry connects to other systems
+- **MDX frontmatter** → `linkRefs` array of `{id, note?}` objects, resolved to `SectionLink[]` by `src/content/registry.ts`
+- **External Resources page** → curated entries have `resourceCategory`; all entries with `tags` appear on the page. Page associations are derived from `ContentPage.linkRefIds`.
+- **Glossary** → `GlossaryTerm.linkId` references a registry entry for the term's external documentation URL and source.
+- **`overallResources.ts`** → derives `ResourceGroup[]` from registry entries with `resourceCategory` (no longer hardcoded).
+
 ## Footnotes & References
 
-Content pages can include two kinds of external links at the bottom, managed via the `links` array in each content page's frontmatter/registry entry:
+Content pages can include two kinds of external links at the bottom, managed via `linkRefs` in each content page's MDX frontmatter:
 
 - **Footnotes** are numbered references tied to specific content via `<FnRef>` markers (e.g., `<FnRef n={1} />`). They appear in a "Footnotes" section with their number, link, source, and optional note. The `data-fn` attributes on `<FnRef>` elements are used by `FootnoteTooltip.tsx` for hover/click tooltip behavior.
-- **References** ("Further Reading") are supplemental links not tied to specific content — any link in the `links` array that is NOT referenced by a `<FnRef>` in the MDX body becomes a "Further Reading" entry.
+- **References** ("Further Reading") are supplemental links not tied to specific content — any link in the `linkRefs` array that is NOT referenced by a `<FnRef>` in the MDX body becomes a "Further Reading" entry.
 
-Both should include descriptions (`note` field in `SectionLink`) when possible to help readers understand relevance.
+Both should include descriptions (`note` field in `linkRefs`) when possible to help readers understand relevance.
 
 ## TypeScript Configuration
 
