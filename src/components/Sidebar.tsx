@@ -35,6 +35,15 @@ const archFrameworkOrder = [
   'arch-fw-nextjs', 'arch-fw-react-router', 'arch-fw-tanstack-start', 'arch-fw-remix',
 ]
 
+const promptMistakesOrder = [
+  'prompt-mistakes-logic', 'prompt-mistakes-apis', 'prompt-mistakes-structural', 'prompt-mistakes-style',
+]
+
+const promptCtxOrder = [
+  'prompt-ctx-system-prompt', 'prompt-ctx-claude-md', 'prompt-ctx-chaining',
+  'prompt-ctx-few-shot', 'prompt-ctx-window', 'prompt-ctx-thinking',
+]
+
 const guides: GuideDefinition[] = [
   {
     id: 'npm-package',
@@ -57,6 +66,17 @@ const guides: GuideDefinition[] = [
       { label: 'Stack Alternatives', ids: archStackOrder },
       { label: 'Full-Stack Frameworks', ids: ['arch-frameworks-intro', ...archFrameworkOrder] },
       { label: 'Putting It Together', ids: ['arch-how-it-connects'] },
+    ],
+  },
+  {
+    id: 'prompt-engineering',
+    icon: '\u{1F9E0}',        // 🧠
+    title: 'Prompt Engineering',
+    sections: [
+      { label: null, ids: ['prompt-start'] },
+      { label: 'Common AI Mistakes', ids: promptMistakesOrder },
+      { label: 'Context Management', ids: promptCtxOrder },
+      { label: 'CLI Reference', ids: ['prompt-cli-reference'] },
     ],
   },
   {
@@ -90,6 +110,7 @@ function findGuideForPage(pageId: string): GuideDefinition | undefined {
 const titleOverrides: Record<string, string> = {
   'roadmap': '\u{1F680} Start Here',
   'arch-start': '\u{1F3D7}\uFE0F Start Here',
+  'prompt-start': '\u{1F9E0} Start Here',
   'checklist': '\u2705 Publish Checklist',
   'external-resources': '\u{1F4DA} External Resources',
   'glossary': '\u{1F4D6} Glossary',

@@ -15,6 +15,9 @@ import { DataFlowDiagram } from './DataFlowDiagram'
 import { LayerDiagram } from './LayerDiagram'
 import { FrameworkExplorer } from './FrameworkExplorer'
 import { FrameworkProsCons } from './FrameworkProsCons'
+import { MistakeList } from './MistakeList'
+import { TechniqueDetail } from './TechniqueDetail'
+import { CLIReference } from './CLIReference'
 
 export const mdxComponents: MDXComponents = {
   Cmd,
@@ -50,4 +53,7 @@ export const mdxComponents: MDXComponents = {
   LayerDiagram,
   FrameworkExplorer,
   FrameworkProsCons,
+  MistakeList,
+  TechniqueDetail,
+  CLIReference,
 }

@@ -1,5 +1,6 @@
 import { findNavItem } from '../helpers/findNavItem'
 import { ARCH_NAV_ORDER, ARCH_PAGE_IDS } from './archData'
+import { PROMPT_NAV_ORDER, PROMPT_PAGE_IDS } from './promptData'
 
 const ciPageIds = [
   'ci-overview', 'ci-linting', 'ci-build', 'ci-testing', 'ci-repo-maintenance',
@@ -20,6 +21,9 @@ const npmNavOrder = [
 export function getNavOrder(currentId?: string): string[] {
   if (currentId && ARCH_PAGE_IDS.has(currentId)) {
     return [...ARCH_NAV_ORDER]
+  }
+  if (currentId && PROMPT_PAGE_IDS.has(currentId)) {
+    return [...PROMPT_NAV_ORDER]
   }
   // Order matches the Start Page roadmap steps and sidebar sections
   return [...npmNavOrder]
@@ -45,6 +49,18 @@ const staticTitles: Record<string, string> = {
   "arch-fw-tanstack-start": "\u{1F525} TanStack Start",
   "arch-fw-remix": "\u{1F4BF} Remix",
   "arch-how-it-connects": "\u{1F504} How it all Connects",
+  "prompt-start": "\u{1F9E0} Start Here",
+  "prompt-mistakes-logic": "\u26A1 Logic & Condition Errors",
+  "prompt-mistakes-apis": "\u{1F47B} Hallucinated APIs & Packages",
+  "prompt-mistakes-structural": "\u{1F3D7}\uFE0F Structural & Architectural Issues",
+  "prompt-mistakes-style": "\u{1F3A8} Style & Formatting Drift",
+  "prompt-ctx-system-prompt": "\u{1F4D0} System Prompt Architecture",
+  "prompt-ctx-claude-md": "\u{1F4DD} CLAUDE.md / Memory Files",
+  "prompt-ctx-chaining": "\u{1F517} Prompt Chaining & Decomposition",
+  "prompt-ctx-few-shot": "\u{1F3AF} Few-Shot Examples",
+  "prompt-ctx-window": "\u{1F4CA} Context Window Management",
+  "prompt-ctx-thinking": "\u{1F4AD} Thinking & Reflection",
+  "prompt-cli-reference": "\u2328\uFE0F CLI Quick Reference",
 }
 
 export function getNavTitle(id: string): string {

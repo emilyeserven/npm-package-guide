@@ -49,6 +49,14 @@ const guides: GuideTile[] = [
     description:
       'Understand common frontend architecture patterns and how to structure your projects for maintainability and scale.',
   },
+  {
+    id: 'prompt-engineering',
+    sectionId: 'prompt-start',
+    icon: '\u{1F9E0}',
+    title: 'Prompt Engineering',
+    description:
+      'Practical patterns for working with AI coding assistants \u2014 common mistakes to watch for, context management techniques, and CLI commands.',
+  },
 ]
 
 export function GuidesIndexPage() {
