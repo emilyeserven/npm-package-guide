@@ -5,6 +5,7 @@ import { OptionsDropdown } from './OptionsDropdown'
 interface FloatingHeaderProps {
   scrolled: boolean
   onMenuToggle: () => void
+  onSearchClick: () => void
 }
 
 const npmGuideIds = new Set([
@@ -24,7 +25,9 @@ function getGuideInfo(sectionId: string | undefined) {
   return { title: 'Frontend Guides', homeId: null }
 }
 
-export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) {
+const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
+
+export function FloatingHeader({ scrolled, onMenuToggle, onSearchClick }: FloatingHeaderProps) {
   const navigate = useNavigate()
   const params = useParams({ strict: false }) as { sectionId?: string }
   const isGuidesIndex = !params.sectionId
@@ -71,6 +74,21 @@ export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) 
               Start Here
             </button>
           )}
+          <button
+            className="group relative flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg cursor-pointer shrink-0 transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 hover:shadow-md hover:shadow-blue-500/10"
+            onClick={onSearchClick}
+            aria-label="Search pages"
+            data-testid="search-button"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 hidden group-hover:flex items-center gap-0.5 px-2 py-1 text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md shadow-md whitespace-nowrap pointer-events-none">
+              <kbd className="font-sans">{isMac ? '\u2318' : 'Ctrl'}</kbd>
+              <kbd className="font-sans">K</kbd>
+            </span>
+          </button>
           <OptionsDropdown />
         </div>
       </div>
