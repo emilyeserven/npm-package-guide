@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useParams, Link } from '@tanstack/react-router'
 import clsx from 'clsx'
-import { contentPages } from '../content/registry'
+import { guides, getGuideForPage, type GuideDefinition } from '../data/guideRegistry'
+import { getNavTitle } from '../data/navigation'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { OptionsDropdown } from './OptionsDropdown'
 
@@ -12,135 +13,13 @@ interface SidebarProps {
   onTogglePin: () => void
 }
 
-// ── Guide data structure ──────────────────────────────────────────────
-
-interface GuideSection { label: string | null; ids: string[] }
-interface GuideDefinition { id: string; icon: string; title: string; sections: GuideSection[] }
-
-const buildingPackageOrder = [
-  'bigpicture', 'monorepo', 'npm-vs-pnpm',
-  'build', 'tsconfig', 'deps', 'dist',
-  'packagejson', 'typescript', 'versioning', 'workflow',
-]
-
-const ciOrder = [
-  'ci-overview', 'ci-linting', 'ci-build', 'ci-testing', 'ci-repo-maintenance',
-]
-
-const bonusOrder = ['storybook']
-
-const archStackOrder = [
-  'arch-stack-mern', 'arch-stack-pfrn', 'arch-stack-mean',
-  'arch-stack-lamp', 'arch-stack-django', 'arch-stack-rails',
-]
-
-const archFrameworkOrder = [
-  'arch-fw-nextjs', 'arch-fw-react-router', 'arch-fw-tanstack-start', 'arch-fw-remix',
-]
-
-const testingFundamentals = [
-  'test-overview', 'test-unit', 'test-component', 'test-e2e',
-]
-
-const testingPractices = [
-  'test-comparison', 'test-best-practices',
-]
-
-const testingTools = [
-  'test-review-checklist', 'test-tools',
-]
-
-const promptMistakesOrder = [
-  'prompt-mistakes-logic', 'prompt-mistakes-apis', 'prompt-mistakes-structural', 'prompt-mistakes-style',
-]
-
-const promptCtxOrder = [
-  'prompt-ctx-system-prompt', 'prompt-ctx-claude-md', 'prompt-ctx-chaining',
-  'prompt-ctx-few-shot', 'prompt-ctx-window', 'prompt-ctx-thinking',
-]
-
-const guides: GuideDefinition[] = [
-  {
-    id: 'npm-package',
-    icon: '\u{1F4E6}',        // 📦
-    title: 'Web App vs. NPM Package',
-    sections: [
-      { label: null, ids: ['roadmap'] },
-      { label: 'Building a Package', ids: buildingPackageOrder },
-      { label: 'CI Pipeline & Checks', ids: ciOrder },
-      { label: 'Developer Experience', ids: bonusOrder },
-      { label: 'Learning Resources', ids: ['checklist'] },
-    ],
-  },
-  {
-    id: 'architecture',
-    icon: '\u{1F3D7}\uFE0F',  // 🏗️
-    title: 'Architecture Guide',
-    sections: [
-      { label: null, ids: ['arch-start', 'arch-what-is-a-stack'] },
-      { label: 'Stack Alternatives', ids: archStackOrder },
-      { label: 'Full-Stack Frameworks', ids: ['arch-frameworks-intro', ...archFrameworkOrder] },
-      { label: 'Putting It Together', ids: ['arch-how-it-connects'] },
-    ],
-  },
-  {
-    id: 'testing',
-    icon: '\u{1F9EA}',        // 🧪
-    title: 'Testing Guide',
-    sections: [
-      { label: null, ids: ['test-start'] },
-      { label: 'Testing Fundamentals', ids: testingFundamentals },
-      { label: 'Comparing Tests', ids: testingPractices },
-      { label: 'Checklists & Tools', ids: testingTools },
-    ],
-  },
-  {
-    id: 'prompt-engineering',
-    icon: '\u{1F9E0}',        // 🧠
-    title: 'Prompt Engineering',
-    sections: [
-      { label: null, ids: ['prompt-start'] },
-      { label: 'Common AI Mistakes', ids: [...promptMistakesOrder, 'prompt-testing'] },
-      { label: 'Context Management', ids: [...promptCtxOrder, 'prompt-claudemd-checklist'] },
-      { label: 'Tooling & Reference', ids: ['prompt-cli-reference', 'prompt-tools-advanced', 'prompt-meta-tooling'] },
-    ],
-  },
-]
-
-const allGuidePageIds = new Map<string, string>()
-for (const guide of guides) {
-  for (const section of guide.sections) {
-    for (const id of section.ids) {
-      allGuidePageIds.set(id, guide.id)
-    }
-  }
-}
-// Legacy route: #/architecture renders ArchStartPage
-allGuidePageIds.set('architecture', 'architecture')
-
-function findGuideForPage(pageId: string): GuideDefinition | undefined {
-  const guideId = allGuidePageIds.get(pageId)
-  return guideId ? guides.find(g => g.id === guideId) : undefined
-}
-
-// ── Title resolution (special pages aren't in contentPages) ───────────
-
-const titleOverrides: Record<string, string> = {
-  'roadmap': 'Start Here \u{1F680}',
-  'arch-start': 'Start Here \u{1F3D7}\uFE0F',
-  'test-start': 'Start Here \u{1F9EA}',
-  'prompt-start': 'Start Here \u{1F9E0}',
-  'checklist': 'Publish Checklist \u2705',
-  'external-resources': 'External Resources \u{1F4DA}',
-  'glossary': 'Glossary \u{1F4D6}',
-}
+// ── Title resolution ────────────────────────────────────────────────
 
 function resolveItems(ids: string[]) {
   return ids
     .map(id => {
-      if (titleOverrides[id]) return { id, title: titleOverrides[id] }
-      const page = contentPages.get(id)
-      return page ? { id: page.id, title: page.title } : null
+      const title = getNavTitle(id)
+      return title !== id ? { id, title } : null
     })
     .filter((item): item is { id: string; title: string } => item !== null)
 }
@@ -365,7 +244,7 @@ export function Sidebar({ open, onClose, pinned, onTogglePin }: SidebarProps) {
   const currentId = params.sectionId || ''
 
   const [activeGuideId, setActiveGuideId] = useState<string | null>(() => {
-    return findGuideForPage(currentId)?.id ?? null
+    return getGuideForPage(currentId)?.id ?? null
   })
 
   // Re-sync active guide when sidebar transitions from closed to open
@@ -373,7 +252,7 @@ export function Sidebar({ open, onClose, pinned, onTogglePin }: SidebarProps) {
   if (open !== prevOpen) {
     setPrevOpen(open)
     if (open) {
-      const expected = findGuideForPage(currentId)?.id ?? null
+      const expected = getGuideForPage(currentId)?.id ?? null
       if (expected !== activeGuideId) {
         setActiveGuideId(expected)
       }

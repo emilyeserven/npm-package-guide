@@ -729,23 +729,23 @@ export const CLI_CATEGORIES: Record<string, string> = {
 
 // ── Navigation ───────────────────────────────────────────────────────
 
-export const PROMPT_NAV_ORDER: string[] = [
-  'prompt-start',
-  'prompt-mistakes-logic',
-  'prompt-mistakes-apis',
-  'prompt-mistakes-structural',
-  'prompt-mistakes-style',
-  'prompt-testing',
-  'prompt-ctx-system-prompt',
-  'prompt-ctx-claude-md',
-  'prompt-ctx-chaining',
-  'prompt-ctx-few-shot',
-  'prompt-ctx-window',
-  'prompt-ctx-thinking',
-  'prompt-claudemd-checklist',
-  'prompt-cli-reference',
-  'prompt-tools-advanced',
-  'prompt-meta-tooling',
+import type { GuideSection } from './guideTypes'
+
+export const PROMPT_GUIDE_SECTIONS: GuideSection[] = [
+  { label: null, ids: ['prompt-start'] },
+  { label: 'Common AI Mistakes', ids: [
+    'prompt-mistakes-logic', 'prompt-mistakes-apis', 'prompt-mistakes-structural',
+    'prompt-mistakes-style', 'prompt-testing',
+  ]},
+  { label: 'Context Management', ids: [
+    'prompt-ctx-system-prompt', 'prompt-ctx-claude-md', 'prompt-ctx-chaining',
+    'prompt-ctx-few-shot', 'prompt-ctx-window', 'prompt-ctx-thinking',
+    'prompt-claudemd-checklist',
+  ]},
+  { label: 'Tooling & Reference', ids: [
+    'prompt-cli-reference', 'prompt-tools-advanced', 'prompt-meta-tooling',
+  ]},
 ]
 
+export const PROMPT_NAV_ORDER: string[] = PROMPT_GUIDE_SECTIONS.flatMap(s => s.ids)
 export const PROMPT_PAGE_IDS = new Set(PROMPT_NAV_ORDER)
