@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams, useNavigate } from '@tanstack/react-router'
+import { useParams, Link } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { contentPages } from '../content/registry'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
@@ -120,7 +120,8 @@ function IconRail({
   return (
     <div className="flex flex-col items-center w-[52px] shrink-0 border-r border-slate-200 dark:border-slate-700 py-3 gap-1">
       {/* Home button */}
-      <button
+      <Link
+        to="/"
         className={clsx(
           'flex items-center justify-center w-10 h-10 rounded-lg border-none cursor-pointer transition-all duration-150',
           !currentId
@@ -128,14 +129,14 @@ function IconRail({
             : 'bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
         )}
         onClick={onHomeClick}
-        title="All Guides"
+        title="Home"
         data-testid="sidebar-home-icon"
       >
         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
           <polyline points="9 22 9 12 15 12 15 22"/>
         </svg>
-      </button>
+      </Link>
 
       <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5" />
 
@@ -223,7 +224,6 @@ function ContentPanel({
 // ── Main Sidebar ──────────────────────────────────────────────────────
 
 export function Sidebar({ open, onClose }: SidebarProps) {
-  const navigate = useNavigate()
   const navigateToSection = useNavigateToSection()
   const params = useParams({ strict: false }) as { sectionId?: string }
   const currentId = params.sectionId || ''
@@ -253,7 +253,6 @@ export function Sidebar({ open, onClose }: SidebarProps) {
 
   const handleGuidesHome = () => {
     onClose()
-    navigate({ to: '/' })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
