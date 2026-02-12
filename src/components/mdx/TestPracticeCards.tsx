@@ -1,11 +1,9 @@
 import { PRACTICE_CARDS } from '../../data/testingData'
+import type { PracticeCard } from '../../data/testingData'
 
-export function TestPracticeCards({ type }: { type: 'do' | 'dont' }) {
-  const cards = PRACTICE_CARDS.filter((c) => c.type === type)
-  const isDo = type === 'do'
-
+function CardGroup({ cards, isDo }: { cards: PracticeCard[]; isDo: boolean }) {
   return (
-    <div className="grid gap-3 mt-2 mb-4">
+    <div className="grid gap-3 mb-4">
       {cards.map((card, i) => (
         <div
           key={i}
@@ -26,6 +24,34 @@ export function TestPracticeCards({ type }: { type: 'do' | 'dont' }) {
           </p>
         </div>
       ))}
+    </div>
+  )
+}
+
+export function TestPracticeCards({ type }: { type?: 'do' | 'dont' }) {
+  if (type) {
+    const cards = PRACTICE_CARDS.filter((c) => c.type === type)
+    return (
+      <div className="mt-2">
+        <CardGroup cards={cards} isDo={type === 'do'} />
+      </div>
+    )
+  }
+
+  const doCards = PRACTICE_CARDS.filter((c) => c.type === 'do')
+  const dontCards = PRACTICE_CARDS.filter((c) => c.type === 'dont')
+
+  return (
+    <div>
+      <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mt-5 mb-2">
+        {'\u2705'} What to do
+      </h2>
+      <CardGroup cards={doCards} isDo={true} />
+
+      <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mt-5 mb-2">
+        {'\uD83D\uDEAB'} What to avoid
+      </h2>
+      <CardGroup cards={dontCards} isDo={false} />
     </div>
   )
 }

@@ -17,8 +17,8 @@ function PageItem({ id, onSelect }: { id: string; onSelect: (id: string) => void
 
   return (
     <Command.Item value={title} keywords={[id]} onSelect={() => onSelect(id)}>
-      <span>{text}</span>
-      {icon && <span className="ml-2 text-base opacity-70">{icon}</span>}
+      <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">{text}</span>
+      {icon && <span className="ml-2 text-base opacity-70 shrink-0">{icon}</span>}
     </Command.Item>
   )
 }
