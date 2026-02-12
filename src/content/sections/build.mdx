@@ -1,0 +1,59 @@
+---
+id: "build"
+title: "⚙️ Build & Output"
+usedFootnotes: [1, 2, 3, 4, 5, 6, 7]
+links:
+  - label: "Vite — Getting Started"
+    url: "https://vite.dev/guide/"
+    source: "Vite"
+  - label: "Vite — Library Mode"
+    url: "https://vite.dev/guide/build.html#library-mode"
+    source: "Vite"
+  - label: "Webpack — Getting Started"
+    url: "https://webpack.js.org/guides/getting-started/"
+    source: "Webpack"
+  - label: "tsup — Bundle TypeScript libraries"
+    url: "https://tsup.egoist.dev/"
+    source: "tsup"
+  - label: "ES Modules: import/export"
+    url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import"
+    source: "MDN"
+  - label: "Rollup — Module bundler for libraries"
+    url: "https://rollupjs.org/introduction/"
+    source: "Rollup"
+  - label: "Tree shaking — dead code elimination"
+    url: "https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking"
+    source: "MDN"
+    note: "The process of removing unused code from the final bundle to reduce file size"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-webapp">Web App</TocLink>
+  <TocLink id="toc-pkg">NPM Package</TocLink>
+  <TocLink id="toc-explainer">What's a bundler?</TocLink>
+  <TocLink id="toc-gotcha">Watch out</TocLink>
+</Toc>
+
+<h2 className="section-subheading" id="toc-webapp">{'\u{1F310}'} Web App</h2>
+<div className="section-list">
+<ColItem>You use a 'bundler' to combine all your code into optimized files the browser can run. The two most common ones are Vite<FnRef n={1} /> (fast, modern, recommended for new projects) and Webpack<FnRef n={3} /> (older, very configurable, still widely used).</ColItem>
+<ColItem>The output is HTML, CSS, and JavaScript files deployed to a web server or CDN — similar to deploying a backend to a cloud provider.</ColItem>
+<ColItem>You only need to target browsers, so one output format is fine. Vite and Webpack handle all the optimization for you.</ColItem>
+</div>
+
+<h2 className="section-subheading" id="toc-pkg">{'\u{1F4E6}'} NPM Package</h2>
+<div className="section-list">
+<ColItem>You need to output your code in multiple formats because you don't know what system will consume it.</ColItem>
+<ColItem>ESM<FnRef n={5} /> (ES Modules) = modern 'import/export' syntax. CJS (CommonJS) = older 'require()' syntax used by Node.js.</ColItem>
+<ColItem>Common choices for packages: tsup<FnRef n={4} /> (easiest to start with), Rollup<FnRef n={6} />, or unbuild. Vite<FnRef n={2} /> and Webpack can also be configured for library output, though tsup and Rollup are purpose-built for it and require less setup.</ColItem>
+</div>
+
+<Explainer title="What's a bundler?">
+A bundler takes all your source files (JS, TS, CSS, images) and combines them into optimized output files. It's like a compiler for the frontend world — it resolves imports, removes dead code<FnRef n={7} />, and produces files ready for production. Vite is the current favorite for apps because it's extremely fast during development (using native ES modules) and produces optimized builds for production. Webpack is older but has a massive ecosystem of plugins. Both can be configured for library output too — Vite even has a dedicated 'library mode' — but tools like tsup and Rollup tend to require less config for that use case.<br/><br/>📎 **Related:** Your build tool works hand-in-hand with your <NavLink to="tsconfig">⚙️ tsconfig.json</NavLink> — the TypeScript compiler configuration. To verify your build runs successfully in CI, see the <NavLink to="ci-build">🔨 Build Verification</NavLink> section.
+</Explainer>
+
+<Gotcha>
+⚠️ ESM vs CJS is like Python 2 vs 3 — two module systems that don't always play nice together. Always ship ESM at minimum. tsup can output both formats with one config.<br/><br/>🐳 **Docker note:** Docker is primarily relevant to web apps, not npm packages. Apps are often containerized for deployment (Docker image → push to registry → deploy to cloud). Packages don't need Docker — they're published to npm, not deployed as running services. If you're coming from backend development where everything runs in Docker, know that in the JS ecosystem, Docker is for apps (and sometimes for CI environments), not for libraries.
+</Gotcha>

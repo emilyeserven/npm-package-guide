@@ -10,9 +10,7 @@ import {
 } from '@tanstack/react-table'
 import clsx from 'clsx'
 import { overallResources, badgeMap, typeTags, topicTags } from '../data/overallResources'
-import { sections } from '../data/sections'
-import { ciPages } from '../data/ciPages'
-import { bonusSections } from '../data/bonusSections'
+import { contentPages } from '../content/registry'
 import { PrevNextNav } from './PrevNextNav'
 import { DataTable } from './DataTable'
 
@@ -85,7 +83,7 @@ function buildReferenceData(): ReferenceRow[] {
   const overallUrls = new Set<string>()
   overallResources.forEach(g => g.items.forEach(i => overallUrls.add(i.url)))
 
-  const allSectionsWithLinks = [...sections, ...ciPages, ...bonusSections]
+  const allSectionsWithLinks = Array.from(contentPages.values())
   allSectionsWithLinks.forEach(s => {
     if (s.links && s.links.length > 0) {
       const topicTags = sectionTopicMap[s.id] ?? []

@@ -1,0 +1,88 @@
+---
+id: "ci-overview"
+title: "\uD83D\uDD04 CI Overview"
+usedFootnotes: [1, 2]
+links:
+  - label: "GitHub Actions — Quickstart"
+    url: "https://docs.github.com/en/actions/quickstart"
+    source: "GitHub"
+  - label: "Continuous integration"
+    url: "https://en.wikipedia.org/wiki/Continuous_integration"
+    source: "Wikipedia"
+    note: "The practice of automatically building and testing code every time changes are pushed"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<SectionIntro>
+A CI (Continuous Integration)<FnRef n={2} /> pipeline runs automated checks every time you push code or open a pull request. In the JavaScript ecosystem, GitHub Actions<FnRef n={1} /> is the most common CI tool — it runs your checks in the cloud so bugs, broken builds, and style issues are caught before code is merged. Think of it like a gatekeeper that runs your test suite, linting, and build process automatically, just like you might have Jenkins or GitLab CI running tests for a backend project.<br/><br/>For **web apps**, you test user-facing behavior: does the button work? Does the page load correctly? For **npm packages**, you test your public API: do exported functions return correct values? Do edge cases work? Package tests should import from your built output (or at least your public exports), not internal files — this catches issues consumers would actually hit.
+</SectionIntro>
+
+<CIOverviewCards>
+  <div className="ci-overview-card">
+    <div className="ci-overview-num">1</div>
+    <div className="ci-overview-card-body">
+      <div className="ci-overview-card-title">{'\u{1F9F9}'} Linting & Formatting</div>
+      <CIYaml>{`- name: Lint\n  run: `}<Cmd npm="npx eslint . --max-warnings 0" pnpm="pnpm eslint . --max-warnings 0" /></CIYaml>
+      <StepJump to="ci-linting">{'\u2192'} Learn more</StepJump>
+    </div>
+  </div>
+  <div className="ci-overview-card">
+    <div className="ci-overview-num">2</div>
+    <div className="ci-overview-card-body">
+      <div className="ci-overview-card-title">{'\u{1F528}'} Build Verification</div>
+      <CIYaml>{`- name: Build\n  run: `}<Cmd npm="npm run build" pnpm="pnpm build" /></CIYaml>
+      <StepJump to="ci-build">{'\u2192'} Learn more</StepJump>
+    </div>
+  </div>
+  <div className="ci-overview-card">
+    <div className="ci-overview-num">3</div>
+    <div className="ci-overview-card-body">
+      <div className="ci-overview-card-title">{'\u{1F9EA}'} Testing</div>
+      <CIYaml>{`- name: Unit Tests\n  run: `}<Cmd npm="npm test" pnpm="pnpm test" /></CIYaml>
+      <StepJump to="ci-testing">{'\u2192'} Learn more</StepJump>
+    </div>
+  </div>
+  <div className="ci-overview-card">
+    <div className="ci-overview-num">4</div>
+    <div className="ci-overview-card-body">
+      <div className="ci-overview-card-title">{'\u{1F9F9}'} Repo Maintenance</div>
+      <CIYaml>{`- name: Check unused code\n  run: `}<Cmd npm="npx knip" pnpm="pnpm knip" /></CIYaml>
+      <StepJump to="ci-repo-maintenance">{'\u2192'} Learn more</StepJump>
+    </div>
+  </div>
+</CIOverviewCards>
+
+<CIFullExample>
+<span className="comment"># .github/workflows/ci.yml</span>{'\n'}
+<span className="key">name</span>: CI{'\n'}
+<span className="key">on</span>: [push, pull_request]{'\n'}
+{'\n'}
+<span className="key">jobs</span>:{'\n'}
+{'  '}<span className="key">check</span>:{'\n'}
+{'    '}<span className="key">runs-on</span>: ubuntu-latest{'\n'}
+{'    '}<span className="key">steps</span>:{'\n'}
+{'      '}- <span className="key">uses</span>: actions/checkout@v4{'\n'}
+{'      '}- <span className="key">uses</span>: actions/setup-node@v4{'\n'}
+{'        '}<span className="key">with</span>:{'\n'}
+{'          '}<span className="key">node-version</span>: <span className="string">20</span>{'\n'}
+{'\n'}
+{'      '}- <span className="key">name</span>: Install{'\n'}
+{'        '}<span className="key">run</span>: <span className="string"><Cmd npm="npm ci" pnpm="pnpm install --frozen-lockfile" /></span>{'\n'}
+{'\n'}
+{'      '}- <span className="key">name</span>: Lint{'\n'}
+{'        '}<span className="key">run</span>: <span className="string"><Cmd npm="npx eslint . --max-warnings 0" pnpm="pnpm eslint . --max-warnings 0" /></span>{'\n'}
+{'\n'}
+{'      '}- <span className="key">name</span>: Build{'\n'}
+{'        '}<span className="key">run</span>: <span className="string"><Cmd npm="npm run build" pnpm="pnpm build" /></span>{'\n'}
+{'\n'}
+{'      '}- <span className="key">name</span>: Unit Tests{'\n'}
+{'        '}<span className="key">run</span>: <span className="string"><Cmd npm="npm test" pnpm="pnpm test" /></span>{'\n'}
+{'\n'}
+{'      '}- <span className="key">name</span>: E2E Tests{'\n'}
+{'        '}<span className="key">run</span>: <span className="string"><Cmd npm="npx playwright test" pnpm="pnpm playwright test" /></span>
+</CIFullExample>
+
+<Explainer title="CI pipelines — a backend analogy">
+If you've used Jenkins, GitLab CI, or CircleCI for backend projects, GitHub Actions works the same way — YAML config, runs on push/PR, runs in containers. The main difference in JS land is that 'build' is a required step (TypeScript needs compilation), and linting is more critical because JavaScript is dynamically typed — the linter catches what a compiler would catch in Go or Java. The pipeline order (lint → build → unit tests → E2E) mirrors what you'd do in a backend CI: static analysis first, then compilation, then fast tests, then slow integration tests.
+</Explainer>

@@ -1,0 +1,95 @@
+---
+id: "ci-testing"
+title: "\uD83E\uDDEA Testing"
+usedFootnotes: [1, 2, 3, 4, 5]
+links:
+  - label: "Vitest — Getting Started"
+    url: "https://vitest.dev/guide/"
+    source: "Vitest"
+    note: "The recommended modern test runner for TypeScript projects"
+  - label: "Playwright — Getting Started"
+    url: "https://playwright.dev/docs/intro"
+    source: "Playwright"
+    note: "Cross-browser E2E testing framework from Microsoft"
+  - label: "Testing Library — Guiding Principles"
+    url: "https://testing-library.com/docs/guiding-principles"
+    source: "Testing Library"
+    note: "Philosophy behind testing user-facing behavior, not implementation"
+  - label: "Kent C. Dodds — Write tests. Not too many."
+    url: "https://kentcdodds.com/blog/write-tests"
+    source: "Blog"
+    note: "Influential essay on testing strategy and the testing trophy"
+  - label: "Vitest — Coverage"
+    url: "https://vitest.dev/guide/coverage"
+    source: "Vitest"
+    note: "Built-in coverage reporting with v8 or Istanbul providers"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-unit">Unit Tests</TocLink>
+  <TocLink id="toc-e2e">E2E Tests</TocLink>
+  <TocLink id="toc-component">Component Tests (Storybook)</TocLink>
+  <TocLink id="toc-coverage">Test Coverage</TocLink>
+  <TocLink id="toc-good-tests">What makes a good test?</TocLink>
+</Toc>
+
+<SectionIntro>
+Testing in the JS ecosystem falls into several categories, and understanding when to use each is key to a good test suite.
+</SectionIntro>
+
+<CIStep heading={'\uD83E\uDDEA Unit Tests'} id="toc-unit">
+<CIStepText>
+Unit tests verify that individual functions, components, or modules work correctly **in isolation**. They're fast (milliseconds each), don't need a browser or server, and give you confidence that refactoring hasn't broken existing behavior. Common tools: **Vitest**<FnRef n={1} /> (fast, modern, recommended) and **Jest** (older but widespread). Think of them like pytest or JUnit tests — testing small units of logic.
+</CIStepText>
+<YamlHeading />
+<CIYaml>{`- name: Unit Tests
+  run: `}<Cmd npm="npm test" pnpm="pnpm test" /></CIYaml>
+<CITip>
+For packages, test your PUBLIC API — the functions consumers actually import. Internal implementation details can change freely as long as the public interface works correctly.
+</CITip>
+</CIStep>
+
+<CIStep heading={'\uD83C\uDF10 End-to-End (E2E) Tests'} id="toc-e2e">
+<CIStepText>
+E2E tests verify that your code works **in a real environment** — an actual browser for web apps, or a real Node.js project for packages. They're slower but catch integration issues that unit tests miss: CSS rendering bugs, browser compatibility, import resolution in consumer projects. Common tools: **Playwright**<FnRef n={2} /> (recommended) and **Cypress**. For packages, E2E often means installing your built package in a test project and verifying imports, types, and functionality work end-to-end.
+</CIStepText>
+<YamlHeading />
+<CIYaml>{`- name: E2E Tests
+  run: `}<Cmd npm="npx playwright test" pnpm="pnpm playwright test" /></CIYaml>
+<CITip>
+Run E2E tests last in your CI pipeline — they're the slowest. If linting, build, or unit tests fail, there's no point running expensive browser tests.
+</CITip>
+</CIStep>
+
+<CIStep heading={'\uD83D\uDCD6 Component Tests (Storybook)'} id="toc-component">
+<CIStepText>
+{'\uD83D\uDCD6'} **Storybook component tests** are a third option worth considering. Storybook can run your stories as tests — each story becomes a test case that verifies a component renders correctly with specific props. This sits between unit tests and E2E tests: it renders real components (like E2E) but runs fast and in isolation (like unit tests). You might choose **unit tests** when testing pure logic, utility functions, hooks, or non-visual behavior. Choose **component tests** (via Storybook) when testing visual rendering, prop variations, interaction flows, and accessibility — especially if you're already writing stories for documentation. The two approaches complement each other: unit tests for logic, component tests for UI. See the <NavLink to="storybook">{'\uD83D\uDCD6'} Storybook</NavLink> section for more.
+</CIStepText>
+</CIStep>
+
+<CIStep heading={'\uD83D\uDCCA Test Coverage'} id="toc-coverage">
+<CIStepText>
+**Test coverage**<FnRef n={5} /> measures what percentage of your code is executed by your tests. A coverage report shows which lines, branches, and functions have been tested. High coverage (80%+) gives confidence that most code paths are exercised. But don't blindly chase 100% — some code (error handlers, edge cases in generated code, simple pass-through functions) isn't worth testing. Focus coverage on your public API, complex business logic, and code paths where bugs would be most damaging. Vitest and Jest both have built-in coverage reporting via <code>--coverage</code>.
+</CIStepText>
+</CIStep>
+
+<CIStep heading={'\u2705 What makes a good test?'} id="toc-good-tests">
+<CIStepText>
+<GoodTestsList>
+  <li>**Independent** — no shared state between tests. Each test should set up its own data and clean up after itself.</li>
+  <li>**Deterministic** — same result every time. Avoid dependencies on dates, random values, or network calls without mocking.</li>
+  <li>**Fast** — especially unit tests. If your test suite takes minutes, developers stop running it.</li>
+  <li>**Readable**<FnRef n={3} /> — someone new should understand what's being tested. Name tests clearly: <code>{"it('returns empty array when no items match filter')"}</code> is better than <code>{"it('test filter')"}</code>.</li>
+  <li>**Behavior-focused**<FnRef n={4} /> — test what the code does, not how it does it. If you refactor internals, your tests should still pass.</li>
+</GoodTestsList>
+</CIStepText>
+</CIStep>
+
+<AiPromptsAccordion prompts={[
+  { label: "Unit test prompt for a utility function", prompt: "Write unit tests for this function using Vitest. Cover: normal inputs, edge cases (empty arrays, null values, boundary numbers), and error cases. Each test should have a descriptive name explaining the expected behavior. Use describe/it blocks for organization." },
+  { label: "Unit test prompt for a React component", prompt: "Write unit tests for this React component using Vitest and React Testing Library. Test: rendering with default props, rendering with each prop variation, user interactions (clicks, input changes), conditional rendering, and accessibility (correct ARIA roles). Mock any API calls or context providers." },
+  { label: "E2E test prompt for a web page", prompt: "Write Playwright E2E tests for this page. Test: page loads without errors, key elements are visible, user can complete the main workflow (fill form → submit → see success), error states are handled gracefully, and the page works at mobile viewport widths." },
+  { label: "E2E test prompt for an npm package", prompt: "Write an E2E test that installs this package in a fresh project and verifies: the package installs without errors, named exports can be imported, TypeScript types resolve correctly (tsc --noEmit passes), the main function returns expected output, and tree-shaking works (unused exports aren't in the bundle)." }
+]} />

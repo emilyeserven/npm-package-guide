@@ -1,0 +1,50 @@
+---
+id: "storybook"
+title: "\uD83D\uDCD6 Storybook"
+usedFootnotes: [1, 2, 3, 4]
+links:
+  - label: "Storybook — Getting Started"
+    url: "https://storybook.js.org/docs/get-started"
+    source: "Storybook"
+  - label: "Storybook — Why Storybook?"
+    url: "https://storybook.js.org/docs/get-started/why-storybook"
+    source: "Storybook"
+  - label: "Chromatic — Visual testing for Storybook"
+    url: "https://www.chromatic.com/"
+    source: "Chromatic"
+  - label: "Storybook — Writing Stories"
+    url: "https://storybook.js.org/docs/writing-stories"
+    source: "Storybook"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-bonus-0">What is it?</TocLink>
+  <TocLink id="toc-bonus-1">Why is it important?</TocLink>
+  <TocLink id="toc-bonus-2">How it helps development</TocLink>
+  <TocLink id="toc-explainer">Storybook — a backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+Storybook<FnRef n={1} /> is a tool for building and testing UI components in isolation — outside of your app. It creates a standalone workshop where you can develop, document, and visually test every component in every state, without needing to navigate through your actual application to reach that component. Think of it like a visual unit test lab for your UI.
+</SectionIntro>
+
+<h2 className="section-subheading" id="toc-bonus-0">What is it?</h2>
+<CIStepText>
+Storybook runs a local dev server that renders your components independently. You write 'stories'<FnRef n={4} /> — small files that describe how to render a component with specific props. Each story is one state of a component: a button in its default state, a loading state, a disabled state, an error state. Storybook then shows all these states side-by-side in a browsable catalog.
+</CIStepText>
+
+<h2 className="section-subheading" id="toc-bonus-1">Why is it important?</h2>
+<CIStepText>
+Without Storybook<FnRef n={2} />, testing a component in a specific state means navigating through your app, logging in, clicking through menus, and manually triggering that state — every single time. Storybook lets you jump directly to any component in any state instantly. This is especially valuable for edge cases (empty states, error states, long text overflow) that are hard to reproduce in a running app but easy to create as a story.
+</CIStepText>
+
+<h2 className="section-subheading" id="toc-bonus-2">How it helps development</h2>
+<CIStepText>
+Storybook improves your workflow in several ways: it **catches visual bugs** by rendering every component state so you can spot issues before they reach production. It serves as **living documentation** — designers, PMs, and new developers can browse all your components without running the app. It enables **visual regression testing** with tools like Chromatic<FnRef n={3} /> that screenshot every story and diff against the last version. And for **npm packages**, Storybook is practically essential — it's how you develop, test, and showcase your component library to consumers.
+</CIStepText>
+
+<Explainer title="Storybook — a backend analogy">
+If you've used Swagger/OpenAPI to document and test REST API endpoints independently, Storybook is the UI equivalent. Instead of testing endpoints with different request bodies, you're testing components with different props. Instead of a Swagger UI that lists all your routes, Storybook lists all your components. Both let you interact with individual pieces of your system without booting up the entire application. For package authors, Storybook is even more important — it's like having interactive API documentation that consumers can play with before installing your package.
+</Explainer>

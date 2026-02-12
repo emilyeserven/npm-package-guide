@@ -1,6 +1,10 @@
-import { ciPageIds } from './ciPages'
-import { bonusIds } from './bonusSections'
 import { findNavItem } from '../helpers/findNavItem'
+
+const ciPageIds = [
+  'ci-overview', 'ci-linting', 'ci-build', 'ci-testing', 'ci-repo-maintenance',
+]
+
+const bonusIds = ['storybook']
 
 export function getNavOrder(): string[] {
   // Order matches the Start Page roadmap steps and sidebar sections

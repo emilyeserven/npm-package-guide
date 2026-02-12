@@ -1,0 +1,58 @@
+---
+id: "typescript"
+title: "🔷 TypeScript & Types"
+usedFootnotes: [1, 2, 3, 4, 5]
+links:
+  - label: "TypeScript declaration files"
+    url: "https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html"
+    source: "TypeScript"
+  - label: "Publishing types with your package"
+    url: "https://www.typescriptlang.org/docs/handbook/declaration-files/publishing.html"
+    source: "TypeScript"
+  - label: "tsconfig.json reference"
+    url: "https://www.typescriptlang.org/tsconfig/"
+    source: "TypeScript"
+  - label: "Design by contract"
+    url: "https://en.wikipedia.org/wiki/Design_by_contract"
+    source: "Wikipedia"
+    note: "A 'public API contract' defines the mutual obligations between your package and its consumers — what you export, what types you guarantee, and what behavior they can rely on"
+  - label: "Backward compatibility"
+    url: "https://en.wikipedia.org/wiki/Backward_compatibility"
+    source: "Wikipedia"
+    note: "A 'breaking change' violates backward compatibility — consumers must update their code to upgrade"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-webapp">Web App</TocLink>
+  <TocLink id="toc-pkg">NPM Package</TocLink>
+  <TocLink id="toc-explainer">What are .d.ts files?</TocLink>
+  <TocLink id="toc-gotcha">Watch out</TocLink>
+</Toc>
+
+<SectionIntro>
+TypeScript is a superset of JavaScript that adds static type annotations — like adding type hints to Python, or going from a dynamic language to a compiled one. You write code with types (function greet(name: string): string), and the TypeScript compiler checks for mistakes before your code ever runs. It catches bugs like calling a function with the wrong argument type, accessing a property that doesn't exist, or returning the wrong type. Almost all modern JavaScript projects use TypeScript, and npm packages are expected to ship type information.
+</SectionIntro>
+
+<h2 className="section-subheading" id="toc-webapp">{'\u{1F310}'} Web App</h2>
+<div className="section-list">
+<ColItem>Your types only matter to your own team. Nobody outside your project sees them.</ColItem>
+<ColItem>Your tsconfig.json<FnRef n={3} /> (TypeScript config) is tuned for your specific app and bundler.</ColItem>
+<ColItem>Type errors are caught during development — they don't affect your deployed app since TypeScript compiles away to plain JavaScript.</ColItem>
+</div>
+
+<h2 className="section-subheading" id="toc-pkg">{'\u{1F4E6}'} NPM Package</h2>
+<div className="section-list">
+<ColItem>You MUST ship type declaration files<FnRef n={1} /> (.d.ts) alongside your JavaScript. These tell consumers what types your functions accept and return.</ColItem>
+<ColItem>Your types ARE your public API contract<FnRef n={4} />. If a function signature changes, that's a breaking change<FnRef n={5} />. See the publishing guide<FnRef n={2} /> for how to ship them correctly.</ColItem>
+<ColItem>Tools like tsup auto-generate .d.ts files from your TypeScript source. Without them, consumers get no autocomplete or type checking.</ColItem>
+</div>
+
+<Explainer title="What are .d.ts files?">
+Declaration files (.d.ts) are like header files in C or interface definitions in Java/Go. They describe the shape of your code — function signatures, types, exported classes — without the actual implementation. They let TypeScript users get autocomplete, type checking, and inline docs when using your package.
+</Explainer>
+
+<Gotcha>
+⚠️ Forgetting to ship .d.ts files is the #1 complaint about npm packages. It's like publishing a REST API with no documentation — technically usable, but painful.
+</Gotcha>

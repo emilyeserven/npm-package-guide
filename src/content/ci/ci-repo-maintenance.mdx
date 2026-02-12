@@ -1,0 +1,47 @@
+---
+id: "ci-repo-maintenance"
+title: "\uD83E\uDDF9 Repo Maintenance"
+usedFootnotes: [1, 2, 3]
+links:
+  - label: "knip — Find unused files, dependencies and exports"
+    url: "https://knip.dev/"
+    source: "knip"
+  - label: "syncpack — Consistent dependency versions"
+    url: "https://jamiemason.github.io/syncpack/"
+    source: "syncpack"
+  - label: "Dead code"
+    url: "https://en.wikipedia.org/wiki/Dead_code"
+    source: "Wikipedia"
+    note: "Code that is never executed or whose results are never used — removing it reduces maintenance burden and bundle size"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-knip">{'\u2702\uFE0F'} knip</TocLink>
+  <TocLink id="toc-syncpack">{'\uD83D\uDD17'} syncpack</TocLink>
+</Toc>
+
+<SectionIntro>
+As projects grow, dependencies drift, unused code accumulates, and package.json files get out of sync — especially in monorepos. These repo maintenance tools catch problems that linting and testing miss. They're not required for small projects, but become essential as codebases scale.
+</SectionIntro>
+
+<MaintenanceTool
+  name="knip"
+  emoji={'\u2702\uFE0F'}
+  desc={<>Knip<FnRef n={1} /> finds **unused files, dependencies, and exports** in your project. It scans your codebase and tells you which packages in your package.json aren't actually imported anywhere, which exported functions are never used, and which entire files are dead code<FnRef n={3} />. Think of it like a tree-shaker for your repo — it identifies what can be safely removed.</>}
+  why={<>Unused dependencies slow down installs, bloat your bundle, and create security surface area. Unused exports in packages confuse consumers and increase maintenance burden. Knip catches all of this automatically.</>}
+  yaml={<>{`- name: Check unused code\n  run: `}<Cmd npm="npx knip" pnpm="pnpm knip" /></>}
+/>
+
+<MaintenanceTool
+  name="syncpack"
+  emoji={'\uD83D\uDD17'}
+  desc={<>Syncpack<FnRef n={2} /> ensures **consistent dependency versions** across all packages in a monorepo. If one package uses React 18.2.0 and another uses React 18.3.0, syncpack flags the mismatch. It can also enforce version ranges, banned dependencies, and consistent formatting of package.json files.</>}
+  why={<>Version mismatches in monorepos cause subtle bugs: one package tests against a different version than another, leading to 'works on my machine' problems. Syncpack catches these before they hit production.</>}
+  yaml={<>{`- name: Check dependency versions\n  run: `}<Cmd npm="npx syncpack lint" pnpm="pnpm syncpack lint" /></>}
+/>
+
+<CITip>
+Add both tools to your CI pipeline as a separate step. They're fast (seconds, not minutes) and catch issues that are tedious to find manually. For monorepos, these tools are practically essential.
+</CITip>

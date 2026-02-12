@@ -1,8 +1,6 @@
 import { useParams } from '@tanstack/react-router'
 import clsx from 'clsx'
-import { sections } from '../data/sections'
-import { ciPages } from '../data/ciPages'
-import { bonusSections } from '../data/bonusSections'
+import { contentPages } from '../content/registry'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 
 interface SidebarProps {
@@ -31,6 +29,27 @@ function SidebarItem({ id, title, active, onClick }: { id: string; title: string
   )
 }
 
+const buildingPackageOrder = [
+  'bigpicture', 'monorepo', 'npm-vs-pnpm',
+  'build', 'tsconfig', 'deps', 'dist',
+  'packagejson', 'typescript', 'versioning', 'workflow',
+]
+
+const ciOrder = [
+  'ci-overview', 'ci-linting', 'ci-build', 'ci-testing', 'ci-repo-maintenance',
+]
+
+const bonusOrder = ['storybook']
+
+function resolveItems(ids: string[]) {
+  return ids
+    .map(id => {
+      const page = contentPages.get(id)
+      return page ? { id: page.id, title: page.title } : null
+    })
+    .filter((item): item is { id: string; title: string } => item !== null)
+}
+
 export function Sidebar({ open, onClose }: SidebarProps) {
   const navigateToSection = useNavigateToSection()
   const params = useParams({ strict: false }) as { sectionId?: string }
@@ -42,26 +61,17 @@ export function Sidebar({ open, onClose }: SidebarProps) {
   }
 
   const topItems = [
-    { id: 'roadmap', title: '🚀 Start Here' },
+    { id: 'roadmap', title: '\u{1F680} Start Here' },
   ]
 
-  // Order matches the Start Page roadmap steps
-  const buildingPackageOrder = [
-    'bigpicture', 'monorepo', 'npm-vs-pnpm',
-    'build', 'tsconfig', 'deps', 'dist',
-    'packagejson', 'typescript', 'versioning', 'workflow',
-  ]
-  const buildingPackageItems = buildingPackageOrder
-    .map(id => {
-      const s = sections.find(s => s.id === id)
-      return s ? { id: s.id, title: s.title } : null
-    })
-    .filter((item): item is { id: string; title: string } => item !== null)
+  const buildingPackageItems = resolveItems(buildingPackageOrder)
+  const ciItems = resolveItems(ciOrder)
+  const bonusItems = resolveItems(bonusOrder)
 
   const resourceItems = [
-    { id: 'checklist', title: '✅ Publish Checklist' },
-    { id: 'external-resources', title: '📚 External Resources' },
-    { id: 'glossary', title: '📖 Glossary' },
+    { id: 'checklist', title: '\u2705 Publish Checklist' },
+    { id: 'external-resources', title: '\u{1F4DA} External Resources' },
+    { id: 'glossary', title: '\u{1F4D6} Glossary' },
   ]
 
   return (
@@ -92,13 +102,13 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         ))}
 
         <div className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Bonus: CI Pipeline &amp; Checks</div>
-        {ciPages.map(item => (
-          <SidebarItem key={item.id} id={item.id} title={item.title} active={currentId === item.id} onClick={handleNav} />
+        {ciItems.map(item => (
+          <SidebarItem key={item.id} {...item} active={currentId === item.id} onClick={handleNav} />
         ))}
 
         <div className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Bonus: Developer Experience</div>
-        {bonusSections.map(item => (
-          <SidebarItem key={item.id} id={item.id} title={item.title} active={currentId === item.id} onClick={handleNav} />
+        {bonusItems.map(item => (
+          <SidebarItem key={item.id} {...item} active={currentId === item.id} onClick={handleNav} />
         ))}
 
         <div className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Bonus: Learning Resources</div>
