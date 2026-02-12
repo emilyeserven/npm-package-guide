@@ -1,0 +1,56 @@
+---
+id: "arch-frameworks-intro"
+title: "🏠 Full-Stack Frameworks"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-what">What is a full-stack framework?</TocLink>
+  <TocLink id="toc-stacks-vs-frameworks">Stacks vs. frameworks</TocLink>
+  <TocLink id="toc-the-frameworks">The four frameworks</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+Full-stack frameworks take a frontend library (like React) and add server rendering, routing, data fetching, and build optimization &mdash; creating a unified development experience. Instead of assembling independent pieces yourself, a framework makes these decisions for you.
+</SectionIntro>
+
+<h2 className="section-subheading" id="toc-what">{'\u{1F4CB}'} What is a full-stack framework?</h2>
+
+In the previous sections, you learned about **stacks** &mdash; collections of independent technologies at different layers (frontend, server, runtime, database). You choose each piece separately and wire them together.
+
+**Full-stack frameworks** take a different approach. They start with a frontend library (usually React) and add server-side capabilities on top:
+
+<div className="section-list">
+<ColItem>**Server rendering** &mdash; generate HTML on the server for faster initial loads and better SEO</ColItem>
+<ColItem>**File-system routing** &mdash; your file structure automatically becomes your URL structure</ColItem>
+<ColItem>**Data fetching** &mdash; load data on the server before sending pages to the browser</ColItem>
+<ColItem>**Build optimization** &mdash; automatic code splitting, bundling, and asset optimization</ColItem>
+</div>
+
+<h2 className="section-subheading" id="toc-stacks-vs-frameworks">{'\u{1F504}'} Stacks vs. frameworks</h2>
+
+The key difference is **who makes the integration decisions**:
+
+<div className="section-list">
+<ColItem>**Stacks** (MERN, LAMP, etc.) &mdash; you choose independent technologies at each layer and wire them together yourself. Maximum flexibility, but more decisions to make.</ColItem>
+<ColItem>**Frameworks** (Next.js, React Router, etc.) &mdash; the framework handles server rendering, routing, and data fetching as a unified package. Fewer decisions, but you follow the framework&apos;s patterns.</ColItem>
+</div>
+
+Frameworks don&apos;t replace stacks &mdash; they sit **on top** of them. Next.js still uses React (frontend) and Node.js (runtime). You still need a database. The framework handles the glue between layers so you don&apos;t have to.
+
+<h2 className="section-subheading" id="toc-the-frameworks">{'\u{1F3D7}\uFE0F'} The four frameworks</h2>
+
+<div className="section-list">
+<ColItem>**Next.js** &mdash; the most popular React framework, backed by Vercel. Multiple rendering strategies, massive ecosystem, and the safe default choice.</ColItem>
+<ColItem>**React Router Framework Mode** &mdash; React Router v7&apos;s full-stack mode. Built on web standards, progressive enhancement, and vendor independence.</ColItem>
+<ColItem>**TanStack Start** &mdash; the newest entry with best-in-class TypeScript support. End-to-end type safety from the TanStack ecosystem.</ColItem>
+<ColItem>**Remix** &mdash; the pioneering web-standards framework that merged into React Router v7. Its ideas live on, and understanding it helps you understand modern frameworks.</ColItem>
+</div>
+
+<StepJump to="arch-fw-nextjs" label="Start with Next.js" />
+
+<Explainer title="Full-stack frameworks &mdash; a backend analogy">
+If stacks are like building a microservice by choosing individual technologies (language, framework, database, message queue), full-stack frameworks are like choosing a platform (Spring Boot, ASP.NET, Rails) that makes the integration decisions for you. You trade some flexibility for a cohesive, well-tested development experience where the pieces are designed to work together.
+</Explainer>

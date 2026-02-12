@@ -31,6 +31,10 @@ const archStackOrder = [
   'arch-stack-lamp', 'arch-stack-django', 'arch-stack-rails',
 ]
 
+const archFrameworkOrder = [
+  'arch-fw-nextjs', 'arch-fw-react-router', 'arch-fw-tanstack-start', 'arch-fw-remix',
+]
+
 const guides: GuideDefinition[] = [
   {
     id: 'npm-package',
@@ -51,6 +55,7 @@ const guides: GuideDefinition[] = [
     sections: [
       { label: null, ids: ['arch-start', 'arch-what-is-a-stack'] },
       { label: 'Stack Alternatives', ids: archStackOrder },
+      { label: 'Full-Stack Frameworks', ids: ['arch-frameworks-intro', ...archFrameworkOrder] },
       { label: 'Putting It Together', ids: ['arch-how-it-connects'] },
     ],
   },
