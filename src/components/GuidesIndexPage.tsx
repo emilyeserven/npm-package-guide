@@ -2,6 +2,7 @@ import { useNavigate } from '@tanstack/react-router'
 
 interface GuideTile {
   id: string
+  sectionId: string
   icon: string
   title: string
   description: string
@@ -10,10 +11,19 @@ interface GuideTile {
 const guides: GuideTile[] = [
   {
     id: 'npm-package',
+    sectionId: 'roadmap',
     icon: '\u{1F4E6}',
     title: 'Web App vs. NPM Package',
     description:
       'Learn the differences between building a web app and an npm package, from project setup through CI/CD and publishing.',
+  },
+  {
+    id: 'architecture',
+    sectionId: 'architecture',
+    icon: '\u{1F3D7}\uFE0F',
+    title: 'Architecture Guide',
+    description:
+      'Understand common frontend architecture patterns and how to structure your projects for maintainability and scale.',
   },
 ]
 
@@ -37,7 +47,7 @@ export function GuidesIndexPage() {
             onClick={() =>
               navigate({
                 to: '/$sectionId',
-                params: { sectionId: 'roadmap' },
+                params: { sectionId: guide.sectionId },
               })
             }
           >
