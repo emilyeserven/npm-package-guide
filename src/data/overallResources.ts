@@ -69,27 +69,29 @@ export const overallResources: ResourceGroup[] = [
   }
 ];
 
+export const badgeBase = 'text-xs font-semibold px-2 py-0.5 rounded-xl tracking-wide whitespace-nowrap'
+
 export const badgeMap: Record<string, { cls: string; label: string }> = {
   // Type
-  docs: { cls: "rb-docs", label: "Docs" },
-  article: { cls: "rb-article", label: "Article" },
-  course: { cls: "rb-course", label: "Course" },
-  video: { cls: "rb-video", label: "Video" },
-  repo: { cls: "rb-repo", label: "Repo" },
-  interactive: { cls: "rb-interactive", label: "Interactive" },
-  free: { cls: "rb-free", label: "Free" },
-  paid: { cls: "rb-paid", label: "Paid" },
+  docs: { cls: "bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300", label: "Docs" },
+  article: { cls: "bg-violet-100 text-violet-800 dark:bg-violet-500/20 dark:text-violet-300", label: "Article" },
+  course: { cls: "bg-pink-100 text-pink-800 dark:bg-pink-500/15 dark:text-pink-300", label: "Course" },
+  video: { cls: "bg-orange-100 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300", label: "Video" },
+  repo: { cls: "bg-slate-100 text-slate-600 dark:bg-slate-500/15 dark:text-slate-400", label: "Repo" },
+  interactive: { cls: "bg-teal-100 text-teal-800 dark:bg-teal-500/15 dark:text-teal-300", label: "Interactive" },
+  free: { cls: "bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300", label: "Free" },
+  paid: { cls: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300", label: "Paid" },
   // Topic
-  publishing: { cls: "rb-publishing", label: "Publishing" },
-  typescript: { cls: "rb-typescript", label: "TypeScript" },
-  versioning: { cls: "rb-versioning", label: "Versioning" },
-  "ci-cd": { cls: "rb-ci-cd", label: "CI/CD" },
-  monorepo: { cls: "rb-monorepo", label: "Monorepo" },
-  modules: { cls: "rb-modules", label: "Modules" },
-  tooling: { cls: "rb-tooling", label: "Tooling" },
-  bundling: { cls: "rb-bundling", label: "Bundling" },
-  testing: { cls: "rb-testing", label: "Testing" },
-  linting: { cls: "rb-linting", label: "Linting" },
+  publishing: { cls: "bg-yellow-100 text-yellow-800 dark:bg-yellow-500/15 dark:text-yellow-300", label: "Publishing" },
+  typescript: { cls: "bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300", label: "TypeScript" },
+  versioning: { cls: "bg-purple-100 text-purple-700 dark:bg-purple-500/15 dark:text-purple-300", label: "Versioning" },
+  "ci-cd": { cls: "bg-indigo-100 text-indigo-800 dark:bg-indigo-500/15 dark:text-indigo-300", label: "CI/CD" },
+  monorepo: { cls: "bg-pink-100 text-pink-700 dark:bg-pink-500/15 dark:text-pink-300", label: "Monorepo" },
+  modules: { cls: "bg-lime-100 text-lime-800 dark:bg-lime-500/15 dark:text-lime-300", label: "Modules" },
+  tooling: { cls: "bg-slate-100 text-slate-700 dark:bg-slate-500/15 dark:text-slate-300", label: "Tooling" },
+  bundling: { cls: "bg-orange-50 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300", label: "Bundling" },
+  testing: { cls: "bg-green-50 text-green-800 dark:bg-green-500/15 dark:text-green-300", label: "Testing" },
+  linting: { cls: "bg-fuchsia-50 text-fuchsia-800 dark:bg-fuchsia-500/15 dark:text-fuchsia-300", label: "Linting" },
 };
 
 export const typeTags = new Set(["docs", "article", "course", "video", "repo", "interactive", "free", "paid"]);

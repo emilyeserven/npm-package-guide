@@ -4,7 +4,7 @@ title: "\uD83D\uDD28 Build Verification"
 links: []
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <SectionIntro>
 This step compiles your TypeScript and bundles your package to verify the build succeeds. A passing build means your code is syntactically valid, all imports resolve, and the output files (JS + .d.ts types) are generated correctly. For packages, this is critical — if the build breaks, you'd publish a broken package to npm.

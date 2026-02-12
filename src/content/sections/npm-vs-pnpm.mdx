@@ -25,7 +25,7 @@ links:
     note: "A symlink is a file that points to another file or directory — pnpm uses these to avoid duplicating packages on disk"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-col1">npm</TocLink>
@@ -38,19 +38,19 @@ links:
 npm and pnpm are both package managers for JavaScript — they install dependencies, run scripts, and manage your project's node_modules. npm comes bundled with Node.js and is the default, while pnpm<FnRef n={1} /> is a faster, stricter alternative that's become the preferred choice for monorepos and large projects. You can switch between them on any project, but it's best to pick one early and stick with it.
 </SectionIntro>
 
-<h2 className="section-subheading" id="toc-col1">{'\u{1F4D7}'} npm</h2>
-<div className="section-list">
+<SectionSubheading id="toc-col1">{'\u{1F4D7}'} npm</SectionSubheading>
+<SectionList>
 <ColItem>npm (Node Package Manager) is the default — it ships with every Node.js installation, so there's nothing extra to install. If you're new to JavaScript, this is where you start.</ColItem>
 <ColItem>It uses a flat node_modules structure, which can lead to 'phantom dependencies' — your code can accidentally import packages you didn't explicitly install. This is rarely a problem for small projects.</ColItem>
 <ColItem>npm workspaces support monorepos, but the implementation is basic. For single-package repos and getting started, npm is the simplest choice with the most community examples. See the npm CLI docs<FnRef n={3} /> for the full command reference.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-col2">{'\u{1F7E0}'} pnpm</h2>
-<div className="section-list">
+<SectionSubheading id="toc-col2">{'\u{1F7E0}'} pnpm</SectionSubheading>
+<SectionList>
 <ColItem>pnpm is a drop-in replacement for npm that's significantly faster (2-3x in benchmarks) and uses much less disk space by symlinking<FnRef n={6} /> packages from a shared store instead of copying them.</ColItem>
 <ColItem>It uses a strict node_modules structure that prevents phantom dependencies — you can only import what you've explicitly declared. This catches real bugs that npm silently ignores.</ColItem>
 <ColItem>pnpm's workspace support is more mature and performant than npm's, which is why it's the recommended package manager for monorepos. Most major open-source projects (Vue, Vite, Turborepo) use pnpm. See the pnpm CLI docs<FnRef n={4} /> and the install guide<FnRef n={5} /> to get started.</ColItem>
-</div>
+</SectionList>
 
 <Explainer title="npm vs pnpm — a backend analogy">
 Think of npm like pip — it comes with the language runtime, it works, and everyone knows it. pnpm is more like Poetry for Python or Cargo for Rust — a more modern, opinionated tool that enforces best practices. The symlink-based store in pnpm is similar to how Docker layers share common base images instead of duplicating them — you save disk space and gain speed because shared packages only exist once on your machine. The strict dependency resolution is like having your imports validated at compile time rather than discovering missing dependencies at runtime.

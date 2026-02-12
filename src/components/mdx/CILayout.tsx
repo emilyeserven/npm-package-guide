@@ -1,41 +1,42 @@
 import { useState, type ReactNode } from 'react'
+import clsx from 'clsx'
 
 export function CIStep({ heading, id, children }: { heading: string; id?: string; children: ReactNode }) {
   return (
-    <div className="ci-step">
-      <h2 className="ci-step-heading" id={id}>{heading}</h2>
+    <div className="mb-6 pb-6 border-b border-slate-200 dark:border-slate-700 last:border-b-0 last:mb-0 last:pb-0">
+      <h2 className="text-xl font-bold mt-0 mb-2 text-slate-900 dark:text-slate-100" id={id}>{heading}</h2>
       {children}
     </div>
   )
 }
 
 export function CIStepText({ children }: { children: ReactNode }) {
-  return <div className="ci-step-text">{children}</div>
+  return <div className="text-sm leading-7 text-slate-800 dark:text-slate-300 mb-3">{children}</div>
 }
 
 export function CIYaml({ children }: { children: ReactNode }) {
-  return <div className="ci-yaml">{children}</div>
+  return <div className="font-mono text-xs leading-relaxed bg-slate-800 dark:bg-gray-950 text-slate-200 py-3 px-4 rounded-lg mb-2.5 whitespace-pre-wrap overflow-x-auto">{children}</div>
 }
 
 export function YamlHeading({ children }: { children?: ReactNode }) {
-  return <div className="yaml-heading">{children ?? 'GitHub Actions Example'}</div>
+  return <div className="text-xs font-bold uppercase tracking-wide text-gray-500 dark:text-slate-400 mb-1.5 mt-4">{children ?? 'GitHub Actions Example'}</div>
 }
 
 export function CITip({ children }: { children: ReactNode }) {
-  return <div className="ci-tip">{children}</div>
+  return <div className="ci-tip text-sm text-blue-500 dark:text-blue-400 bg-blue-100 dark:bg-blue-500/20 py-2.5 px-3.5 rounded-lg leading-relaxed">{children}</div>
 }
 
 export function CIOverviewCards({ children }: { children: ReactNode }) {
-  return <div className="ci-overview-cards">{children}</div>
+  return <div className="flex flex-col gap-4 mb-6">{children}</div>
 }
 
 export function CIOverviewCard({ num, title, yaml }: { num: number; title: string; yaml?: string }) {
   return (
-    <div className="ci-overview-card">
-      <div className="ci-overview-num">{num}</div>
-      <div className="ci-overview-card-body">
-        <div className="ci-overview-card-title">{title}</div>
-        {yaml && <div className="ci-yaml">{yaml}</div>}
+    <div className="flex gap-3.5 p-4 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800">
+      <div className="w-7 h-7 rounded-full bg-blue-500 dark:bg-blue-400 text-white dark:text-slate-900 flex items-center justify-center text-sm font-bold shrink-0">{num}</div>
+      <div className="flex-1 min-w-0">
+        <div className="text-base font-bold text-slate-900 dark:text-slate-100 mb-2">{title}</div>
+        {yaml && <div className="font-mono text-xs leading-relaxed bg-slate-800 dark:bg-gray-950 text-slate-200 py-3 px-4 rounded-lg mb-2.5 whitespace-pre-wrap overflow-x-auto">{yaml}</div>}
       </div>
     </div>
   )
@@ -43,9 +44,9 @@ export function CIOverviewCard({ num, title, yaml }: { num: number; title: strin
 
 export function CIFullExample({ children }: { children: ReactNode }) {
   return (
-    <div className="ci-full-example">
-      <div className="ci-full-example-label">{'\u{1F4C4}'} Complete GitHub Actions workflow</div>
-      <div className="code-block">{children}</div>
+    <div className="mt-7">
+      <div className="text-base font-bold text-slate-900 dark:text-slate-100 mb-2.5">{'\u{1F4C4}'} Complete GitHub Actions workflow</div>
+      <div className="code-block mt-4 bg-slate-800 dark:bg-gray-950 text-slate-200 rounded-xl p-5 font-mono text-xs leading-7 overflow-x-auto whitespace-pre-wrap break-words">{children}</div>
     </div>
   )
 }
@@ -59,40 +60,47 @@ export function AiPromptsAccordion({ prompts }: { prompts: AiPrompt[] }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="accordion">
-      <button className="accordion-toggle" onClick={() => setOpen(prev => !prev)}>
+    <div className="mt-4 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+      <button className="w-full py-3.5 px-4.5 bg-slate-50 dark:bg-slate-800 border-none cursor-pointer flex items-center justify-between font-sans text-sm font-semibold text-slate-900 dark:text-slate-100 transition-colors duration-150 hover:bg-slate-100 dark:hover:bg-slate-700" onClick={() => setOpen(prev => !prev)}>
         <span>{'\u{1F916}'} Sample AI prompts for writing tests</span>
-        <span className={`accordion-arrow ${open ? 'open' : ''}`}>{'\u25BC'}</span>
+        <span className={clsx('text-xs inline-block transition-transform duration-200', open && 'rotate-180')}>{'\u25BC'}</span>
       </button>
-      <div className={`accordion-body ${open ? 'open' : ''}`}>
+      <div className={clsx('accordion-body', open && 'open')}>
         {prompts.map((p, i) => (
-          <AiPromptCard key={i} label={p.label} prompt={p.prompt} idx={i} />
+          <AiPromptCard key={i} label={p.label} prompt={p.prompt} />
         ))}
       </div>
     </div>
   )
 }
 
-function AiPromptCard({ label, prompt, idx }: { label: string; prompt: string; idx: number }) {
-  const handleCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const btn = e.currentTarget
+function AiPromptCard({ label, prompt }: { label: string; prompt: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = () => {
     navigator.clipboard.writeText(prompt).then(() => {
-      btn.textContent = '\u2713 Copied!'
-      btn.classList.add('copied')
-      setTimeout(() => {
-        btn.textContent = '\u{1F4CB} Copy'
-        btn.classList.remove('copied')
-      }, 2000)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
     })
   }
 
   return (
-    <div className="ai-prompt-card">
-      <div className="ai-prompt-header">
-        <span className="ai-prompt-label">{label}</span>
-        <button className="ai-prompt-copy" data-prompt-idx={idx} onClick={handleCopy}>{'\u{1F4CB}'} Copy</button>
+    <div className="mb-3.5 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
+      <div className="flex justify-between items-center py-2 px-3.5 bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+        <span className="font-bold text-sm text-slate-900 dark:text-slate-100">{label}</span>
+        <button
+          className={clsx(
+            'font-sans text-xs font-semibold py-1 px-2.5 border rounded-md cursor-pointer transition-all duration-150 shrink-0',
+            copied
+              ? 'border-green-500 text-green-500 bg-green-50 dark:bg-green-500/10'
+              : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-500 dark:text-slate-400 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400'
+          )}
+          onClick={handleCopy}
+        >
+          {copied ? '\u2713 Copied!' : '\u{1F4CB} Copy'}
+        </button>
       </div>
-      <div className="ai-prompt-body">{prompt}</div>
+      <div className="font-mono text-xs py-2.5 px-3.5 leading-relaxed text-gray-500 dark:text-slate-400 whitespace-pre-wrap">{prompt}</div>
     </div>
   )
 }
@@ -101,14 +109,14 @@ export function MaintenanceTool({ name, emoji, desc, why, yaml, children }: {
   name: string; emoji: string; desc: ReactNode; why: ReactNode; yaml?: ReactNode; children?: ReactNode
 }) {
   return (
-    <div className="ci-step">
-      <h2 className="ci-step-heading" id={`toc-${name}`}>{emoji} {name}</h2>
-      <div className="ci-step-text">{desc}</div>
-      <div className="ci-step-text"><strong>Why it matters:</strong> {why}</div>
+    <div className="mb-6 pb-6 border-b border-slate-200 dark:border-slate-700 last:border-b-0 last:mb-0 last:pb-0">
+      <h2 className="text-xl font-bold mt-0 mb-2 text-slate-900 dark:text-slate-100" id={`toc-${name}`}>{emoji} {name}</h2>
+      <div className="text-sm leading-7 text-slate-800 dark:text-slate-300 mb-3">{desc}</div>
+      <div className="text-sm leading-7 text-slate-800 dark:text-slate-300 mb-3"><strong>Why it matters:</strong> {why}</div>
       {yaml && (
         <>
-          <div className="yaml-heading">GitHub Actions Example</div>
-          <div className="ci-yaml">{yaml}</div>
+          <div className="text-xs font-bold uppercase tracking-wide text-gray-500 dark:text-slate-400 mb-1.5 mt-4">GitHub Actions Example</div>
+          <div className="font-mono text-xs leading-relaxed bg-slate-800 dark:bg-gray-950 text-slate-200 py-3 px-4 rounded-lg mb-2.5 whitespace-pre-wrap overflow-x-auto">{yaml}</div>
         </>
       )}
       {children}
@@ -117,5 +125,5 @@ export function MaintenanceTool({ name, emoji, desc, why, yaml, children }: {
 }
 
 export function GoodTestsList({ children }: { children: ReactNode }) {
-  return <ul className="good-tests-list">{children}</ul>
+  return <ul className="good-tests-list list-disc pl-5 m-0">{children}</ul>
 }

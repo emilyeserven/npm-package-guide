@@ -23,7 +23,7 @@ links:
     source: "pnpm"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-webapp">Web App</TocLink>
@@ -32,19 +32,19 @@ links:
   <TocLink id="toc-gotcha">Watch out</TocLink>
 </Toc>
 
-<h2 className="section-subheading" id="toc-webapp">{'\u{1F310}'} Web App</h2>
-<div className="section-list">
+<SectionSubheading id="toc-webapp">{'\u{1F310}'} Web App</SectionSubheading>
+<SectionList>
 <ColItem>Write code → see changes instantly in the browser (hot reload)</ColItem>
 <ColItem>Test locally → push to Git → CI/CD deploys to production</ColItem>
 <ColItem>Users see changes immediately after deploy</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-pkg">{'\u{1F4E6}'} NPM Package</h2>
-<div className="section-list">
+<SectionSubheading id="toc-pkg">{'\u{1F4E6}'} NPM Package</SectionSubheading>
+<SectionList>
 <ColItem>Write code → test locally with <Cmd npm="npm link" pnpm="pnpm link" /><FnRef n={1} /><FnRef n={2} /> (symlinks your package into a test project)</ColItem>
 <ColItem>Build → test → bump version → run <Cmd npm="npm publish" pnpm="pnpm publish" /><FnRef n={6} /> to push to the npm registry</ColItem>
 <ColItem>Consumers update when they choose to: <Cmd npm="npm update" pnpm="pnpm update" /> or changing their package.json. See the full publishing guide<FnRef n={5} /> for the complete workflow.</ColItem>
-</div>
+</SectionList>
 
 <Explainer title="What's npm link / pnpm link?">
 <Cmd npm="npm link" pnpm="pnpm link" /> creates a symbolic link from a test project to your local package source. Instead of publishing every time you make a change, you can test your package locally in a real project. It's like mounting a local directory as a volume in Docker — the test project uses your live source code.

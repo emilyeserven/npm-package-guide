@@ -25,7 +25,7 @@ links:
     note: "The set of public functions, classes, and types a package exposes to consumers"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-monorepo-structure">Sample Monorepo Structure</TocLink>
@@ -38,7 +38,7 @@ links:
 <SectionIntro>
 Before you write any code, you need to decide how your project will be structured at the repo level. In the JavaScript ecosystem, there are two main approaches: a monolith (one project, one package.json, everything in one place) and a monorepo (one Git repo containing multiple independent packages that can be built, tested, and published separately). This choice affects your tooling, your dependency management, and how you collaborate with other developers.
 
-<h2 className="section-subheading" id="toc-monorepo-structure">Sample Monorepo Structure</h2>
+<SectionSubheading id="toc-monorepo-structure">Sample Monorepo Structure</SectionSubheading>
 
 A monorepo organizes each package as an independent project inside a shared **packages/** directory. Each package has its own **src/**, **dist/**, **package.json**, and **tsconfig.json** — the same structure you'd use for a standalone project.
 
@@ -71,21 +71,21 @@ A monorepo organizes each package as an independent project inside a shared **pa
 <SectionNote>Each package inside **packages/** follows the same single-package folder structure described in the <NavLink to="dist">📁 Folder Structure</NavLink> section. The root **package.json** typically only contains workspace configuration and shared dev scripts — it doesn't publish anything itself.</SectionNote>
 </SectionIntro>
 
-<h2 className="section-subheading" id="toc-col1">{'\u{1F9F1}'} Monolith</h2>
-<div className="section-list">
+<SectionSubheading id="toc-col1">{'\u{1F9F1}'} Monolith</SectionSubheading>
+<SectionList>
 <ColItem>A monolith is one repo, one package.json, one build. Everything lives together in a single project with no internal boundaries.</ColItem>
 <ColItem>For web apps, this is usually the right call. Apps have one deploy target and one user — splitting into packages adds overhead without much benefit. Frameworks like Next.js and Remix are designed around this model.</ColItem>
 <ColItem>The risk: as a monolith grows, code becomes tangled. Shared utilities get imported from deep paths, there's no clear ownership, and refactoring gets scary. But for most apps, this tradeoff is worth the simplicity.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-col2">{'\u{1F4E6}'} Monorepo</h2>
-<div className="section-list">
+<SectionSubheading id="toc-col2">{'\u{1F4E6}'} Monorepo</SectionSubheading>
+<SectionList>
 <ColItem>A monorepo is one Git repo containing multiple packages, each with its own package.json. They can depend on each other and be published independently — this is the recommended structure for npm packages.</ColItem>
 <ColItem>This is NOT a monolith. Each package has clear boundaries, its own API surface<FnRef n={6} />, its own tests. Think of it like microservices in one repo — the code is colocated for convenience, but the separation is real and enforced.</ColItem>
 <ColItem>For packages, monorepos improve modularity from the start. Instead of one giant package, you split into focused scoped packages (e.g., @myorg/utils, @myorg/components, @myorg/cli) that are easier to test, version, and maintain independently. Use pnpm workspaces<FnRef n={1} /> or npm workspaces<FnRef n={2} /> to manage them.</ColItem>
 <ColItem>Common workspace packages include: shared <NavLink to="ci-linting">🧹 ESLint configs</NavLink>, component libraries, and utility libraries. If workspace packages depend on each other (e.g., your components package imports from your utils package), a tool like Lerna<FnRef n={5} /> or Turborepo<FnRef n={3} /> helps manage the dependency build order so packages are built in the right sequence.</ColItem>
 <ColItem>Monorepos aren't just for npm packages — they work for web apps too. A common pattern is splitting a full-stack app into workspace packages: a **client** package (your React/Vue frontend), a **server** package (an Express or Fastify app that handles secrets, auth, and server-only logic), and a shared **types** package that defines interfaces used by both — keeping your client and server in sync without duplicating type definitions.</ColItem>
-</div>
+</SectionList>
 
 <Explainer title="Monorepo vs monolith — a backend analogy">
 Think of a monolith like a single Django or Spring Boot app — one codebase, everything coupled, hard to split later. A monorepo is more like having your API server, worker service, and shared library all in one Git repo, but each can be built, tested, and deployed independently. The repo is shared, but the boundaries between projects are real and enforced. This is why monorepos improve modularity — they force you to define clean interfaces between packages instead of letting everything bleed together. Tools like Turborepo<FnRef n={3} /> and Nx<FnRef n={4} /> make this practical by caching builds, running only affected tests, and parallelizing tasks. Lerna<FnRef n={5} /> (now maintained by Nx) coordinates version bumps and publishing across packages. pnpm is the preferred package manager for monorepos — its workspace support is faster and stricter than npm's, with better dependency isolation that prevents packages from accidentally importing things they haven't declared.

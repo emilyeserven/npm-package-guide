@@ -3,7 +3,7 @@ id: "arch-stack-mern"
 title: "🔗 MERN Stack"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-overview">Overview</TocLink>
@@ -16,21 +16,21 @@ title: "🔗 MERN Stack"
 The **MERN** stack &mdash; **MongoDB**, **Express**, **React**, **Node.js** &mdash; is the most popular all-JavaScript full-stack combination. Every layer uses JavaScript, meaning you only need one language for the entire application. It's the go-to choice for tutorials, bootcamps, and rapid prototyping.
 </SectionIntro>
 
-<h2 className="section-subheading" id="toc-overview">{'\u{1F4CB}'} Overview</h2>
+<SectionSubheading id="toc-overview">{'\u{1F4CB}'} Overview</SectionSubheading>
 
-<div className="section-list">
+<SectionList>
 <ColItem>**One language everywhere** &mdash; JavaScript runs on the frontend (React), the server (Express on Node.js), and even database queries (MongoDB uses JSON-like documents).</ColItem>
 <ColItem>**Massive community** &mdash; More tutorials, Stack Overflow answers, and npm packages exist for this combination than any other stack.</ColItem>
 <ColItem>**Rapid prototyping** &mdash; MongoDB's flexible schema means you can start building without designing database tables upfront.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-explore">{'\u{1F50D}'} Explore each component</h2>
+<SectionSubheading id="toc-explore">{'\u{1F50D}'} Explore each component</SectionSubheading>
 
 Click any component to see what it does, why it matters, and a backend-friendly analogy.
 
 <StackExplorer stackId="mern" />
 
-<h2 className="section-subheading" id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</h2>
+<SectionSubheading id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</SectionSubheading>
 
 <StackProsCons stackId="mern" />
 

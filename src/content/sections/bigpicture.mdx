@@ -14,18 +14,18 @@ links:
     source: "MDN"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
-<h2 className="section-subheading" id="toc-webapp">{'\u{1F310}'} Web App</h2>
-<div className="section-list">
+<SectionSubheading id="toc-webapp">{'\u{1F310}'} Web App</SectionSubheading>
+<SectionList>
 <ColItem>A web app is a complete, running application — like a website or dashboard that people open in their browser.</ColItem>
 <ColItem>You control everything: the server, the build tools, the framework, and how users interact with it.</ColItem>
 <ColItem>Think of it like deploying a backend service, except the output runs in the browser instead of on a server.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-pkg">{'\u{1F4E6}'} NPM Package</h2>
-<div className="section-list">
+<SectionSubheading id="toc-pkg">{'\u{1F4E6}'} NPM Package</SectionSubheading>
+<SectionList>
 <ColItem>An npm package<FnRef n={1} /> is a reusable library that other developers install into THEIR projects — like a pip package in Python or a gem in Ruby.</ColItem>
 <ColItem>You don't control how it's used. Someone might use it in React, Vue, plain JS, or even Node.js on a server.</ColItem>
 <ColItem>Think of it like writing a shared library or SDK — your job is to make it easy and reliable for other devs to use. See the npm packages guide<FnRef n={2} /> for more on how packages work, and the JavaScript modules overview<FnRef n={3} /> for how modern JS imports and exports function.</ColItem>
-</div>
+</SectionList>

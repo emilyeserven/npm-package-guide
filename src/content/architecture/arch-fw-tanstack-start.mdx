@@ -3,7 +3,7 @@ id: "arch-fw-tanstack-start"
 title: "🔥 TanStack Start"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-overview">Overview</TocLink>
@@ -16,21 +16,21 @@ title: "🔥 TanStack Start"
 **TanStack Start** is the newest full-stack React framework, built by Tanner Linsley (creator of TanStack Query, TanStack Router, and TanStack Table). It combines TanStack Router&apos;s type-safe routing with Vinxi (a Vite-based server framework) for best-in-class TypeScript support and end-to-end type safety.
 </SectionIntro>
 
-<h2 className="section-subheading" id="toc-overview">{'\u{1F4CB}'} Overview</h2>
+<SectionSubheading id="toc-overview">{'\u{1F4CB}'} Overview</SectionSubheading>
 
-<div className="section-list">
+<SectionList>
 <ColItem>**End-to-end type safety** &mdash; route parameters, search params, loaders, and actions are all fully typed. No codegen required &mdash; types are inferred from your route definitions.</ColItem>
 <ColItem>**TanStack ecosystem** &mdash; built-in integration with TanStack Query for caching, TanStack Table for data grids, and more.</ColItem>
 <ColItem>**Vite-powered** &mdash; fast development experience with HMR and a smaller, focused API surface.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-explore">{'\u{1F50D}'} Explore key capabilities</h2>
+<SectionSubheading id="toc-explore">{'\u{1F50D}'} Explore key capabilities</SectionSubheading>
 
 Click any capability to learn how TanStack Start handles it.
 
 <FrameworkExplorer frameworkId="tanstack-start" />
 
-<h2 className="section-subheading" id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</h2>
+<SectionSubheading id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</SectionSubheading>
 
 <FrameworkProsCons frameworkId="tanstack-start" />
 

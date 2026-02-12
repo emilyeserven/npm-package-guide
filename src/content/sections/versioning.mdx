@@ -24,7 +24,7 @@ links:
     note: "A file documenting notable changes for each version — helps consumers decide when and whether to upgrade"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-webapp">Web App</TocLink>
@@ -33,19 +33,19 @@ links:
   <TocLink id="toc-gotcha">Watch out</TocLink>
 </Toc>
 
-<h2 className="section-subheading" id="toc-webapp">{'\u{1F310}'} Web App</h2>
-<div className="section-list">
+<SectionSubheading id="toc-webapp">{'\u{1F310}'} Web App</SectionSubheading>
+<SectionList>
 <ColItem>You deploy continuously — users always get the latest version automatically.</ColItem>
 <ColItem>If you ship a bug, you can hotfix and redeploy in minutes.</ColItem>
 <ColItem>Version numbers exist but are mostly internal — users never see them.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-pkg">{'\u{1F4E6}'} NPM Package</h2>
-<div className="section-list">
+<SectionSubheading id="toc-pkg">{'\u{1F4E6}'} NPM Package</SectionSubheading>
+<SectionList>
 <ColItem>You follow 'semver'<FnRef n={1} /> (semantic versioning): MAJOR.MINOR.PATCH — e.g., 2.1.3.</ColItem>
 <ColItem>Published versions are essentially permanent. Consumers pin versions, so a bug might live in their project for months.</ColItem>
 <ColItem>In a CI pipeline, tools like changesets<FnRef n={3} /> or semantic-release<FnRef n={4} /> can automate version bumps. They analyze your commit messages (e.g., 'feat:' → minor, 'fix:' → patch, 'BREAKING CHANGE:' → major), generate changelogs, and publish to npm — all triggered by merging a PR.</ColItem>
-</div>
+</SectionList>
 
 <Explainer title="What's semver and how does CI help?">
 Semantic Versioning (semver) is a contract with your users. Given version MAJOR.MINOR.PATCH: bump MAJOR when you make incompatible API changes (like renaming a function), bump MINOR when you add functionality in a backward-compatible way, and bump PATCH for backward-compatible bug fixes. When someone installs '^2.1.0', they trust that any 2.x.x update won't break their code. In practice, most teams automate this with CI. A tool like 'changesets' lets developers declare version intent in their PRs, then a CI pipeline (GitHub Actions, etc.) handles the actual version bump, changelog<FnRef n={6} /> generation, and npm publish when PRs are merged. 'semantic-release' takes a different approach — it reads Conventional Commit<FnRef n={5} /> messages to determine the version automatically. Either way, CI removes the human error of forgetting to bump or mis-categorizing a change.

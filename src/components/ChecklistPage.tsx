@@ -90,7 +90,7 @@ export function ChecklistPage() {
             >
               {parse(item.text)}
             </span>
-            <span className={`check-badge ${item.badge}`}>{item.cat}</span>
+            <span className={`text-xs font-semibold px-2 py-0.5 rounded-xl tracking-wide whitespace-nowrap ${item.badge}`}>{item.cat}</span>
           </label>
         )
       })}

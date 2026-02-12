@@ -25,7 +25,7 @@ links:
     note: "Analyzing source code without running it — catching bugs at 'compile time' rather than at runtime"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-linting">Linting (ESLint)</TocLink>
@@ -38,19 +38,19 @@ links:
 
 A **linter** (ESLint<FnRef n={1} />) and a **formatter** (Prettier<FnRef n={2} />) serve different purposes, and understanding the difference matters.
 
-<h2 className="section-subheading" id="toc-linting">Linting (ESLint)</h2>
+<SectionSubheading id="toc-linting">Linting (ESLint)</SectionSubheading>
 
 ESLint statically analyzes<FnRef n={5} /> your code for bugs, bad patterns, and code quality issues like unused variables, missing return types, or potential runtime errors. It doesn't run your code — it reads it and flags problems.
 
-<h2 className="section-subheading" id="toc-formatting">Formatting (Prettier)</h2>
+<SectionSubheading id="toc-formatting">Formatting (Prettier)</SectionSubheading>
 
 Prettier is a formatter — it only cares about how code *looks*: indentation, line length, quote style, trailing commas. It doesn't catch bugs.
 
-<h2 className="section-subheading" id="toc-eslint-stylistic">eslint-stylistic — an alternative</h2>
+<SectionSubheading id="toc-eslint-stylistic">eslint-stylistic — an alternative</SectionSubheading>
 
 Historically, most projects used both tools together (ESLint for logic, Prettier for style). But there's a newer alternative: **eslint-stylistic**<FnRef n={3} /> — an ESLint plugin that handles formatting rules directly inside ESLint, so you can drop Prettier entirely and run a single tool for both code quality and style. This simplifies your toolchain and avoids the occasional ESLint-vs-Prettier config conflicts.<FnRef n={4} />
 
-<h2 className="section-subheading" id="toc-ide">IDE Integration</h2>
+<SectionSubheading id="toc-ide">IDE Integration</SectionSubheading>
 
 Most editors (VS Code, WebStorm, Cursor) can hook into your linter and formatter to show errors inline and auto-fix on save. This means formatting and many lint fixes happen automatically as you type — you almost never need to think about style manually. Set up "format on save" and ESLint auto-fix in your editor and your code stays clean without any effort.
 

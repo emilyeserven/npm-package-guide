@@ -66,8 +66,8 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
       onOpenChange={onOpenChange}
       label="Navigate to page"
       loop
-      overlayClassName="cmdk-overlay"
-      contentClassName="cmdk-dialog"
+      overlayClassName="fixed inset-0 bg-slate-900/30 dark:bg-black/50 backdrop-blur-sm"
+      contentClassName="fixed top-[20vh] left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl overflow-hidden"
     >
       <Command.Input placeholder="Search pages..." />
       <Command.List>

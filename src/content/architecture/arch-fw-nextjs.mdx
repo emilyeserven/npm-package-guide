@@ -3,7 +3,7 @@ id: "arch-fw-nextjs"
 title: "▲ Next.js"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-overview">Overview</TocLink>
@@ -16,21 +16,21 @@ title: "▲ Next.js"
 **Next.js** is the most popular React framework, developed by Vercel. It adds server-side rendering, file-system routing, API routes, and optimized builds on top of React &mdash; used in production by Netflix, TikTok, and Notion. It&apos;s the safe, well-documented default for most React projects.
 </SectionIntro>
 
-<h2 className="section-subheading" id="toc-overview">{'\u{1F4CB}'} Overview</h2>
+<SectionSubheading id="toc-overview">{'\u{1F4CB}'} Overview</SectionSubheading>
 
-<div className="section-list">
+<SectionList>
 <ColItem>**Multiple rendering strategies** &mdash; Server-Side Rendering (SSR), Static Site Generation (SSG), and React Server Components (RSC) in a single app. Choose per-page.</ColItem>
 <ColItem>**File-system routing** &mdash; your folder structure automatically maps to URL paths. No manual route definitions needed.</ColItem>
 <ColItem>**Built-in optimizations** &mdash; automatic image optimization, font loading, code splitting, and bundle analysis out of the box.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-explore">{'\u{1F50D}'} Explore key capabilities</h2>
+<SectionSubheading id="toc-explore">{'\u{1F50D}'} Explore key capabilities</SectionSubheading>
 
 Click any capability to learn how Next.js handles it.
 
 <FrameworkExplorer frameworkId="nextjs" />
 
-<h2 className="section-subheading" id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</h2>
+<SectionSubheading id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</SectionSubheading>
 
 <FrameworkProsCons frameworkId="nextjs" />
 

@@ -17,7 +17,7 @@ links:
     source: "Node.js"
 ---
 
-<h1 className="section-title">{frontmatter.title}</h1>
+<SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-webapp">Web App</TocLink>
@@ -25,19 +25,19 @@ links:
   <TocLink id="toc-explainer">Why 'exports' instead of just 'main'?</TocLink>
 </Toc>
 
-<h2 className="section-subheading" id="toc-webapp">{'\u{1F310}'} Web App</h2>
-<div className="section-list">
+<SectionSubheading id="toc-webapp">{'\u{1F310}'} Web App</SectionSubheading>
+<SectionList>
 <ColItem>package.json mainly tracks your dependencies and scripts (like '<Cmd npm="npm run dev" pnpm="pnpm dev" />' or '<Cmd npm="npm run build" pnpm="pnpm build" />').</ColItem>
 <ColItem>Fields like 'main' and 'exports' don't really matter because your entry point is an HTML file.</ColItem>
 <ColItem>It's similar to a requirements.txt + Makefile combined into one file.</ColItem>
-</div>
+</SectionList>
 
-<h2 className="section-subheading" id="toc-pkg">{'\u{1F4E6}'} NPM Package</h2>
-<div className="section-list">
+<SectionSubheading id="toc-pkg">{'\u{1F4E6}'} NPM Package</SectionSubheading>
+<SectionList>
 <ColItem>package.json<FnRef n={1} /> is your package's configuration AND public API definition. It tells npm and bundlers where to find your code.</ColItem>
 <ColItem>The 'exports'<FnRef n={2} /> field maps import paths to actual files — it controls what consumers can import.</ColItem>
 <ColItem>The 'files'<FnRef n={3} /> field controls what gets uploaded to npm. Only include your 'dist' folder — don't publish source code, tests, or configs.</ColItem>
-</div>
+</SectionList>
 
 <Explainer title="Why 'exports' instead of just 'main'?">
 The 'main' field is the old way — it points to a single entry file. The 'exports' field is the modern replacement. It lets you define different entry points for different contexts (ESM vs CJS, types vs runtime) and create subpath imports. Think of it like routing in a web framework — mapping import paths to actual files. See the Node.js Packages docs<FnRef n={4} /> for the full specification.
