@@ -1,5 +1,6 @@
 import { createRouter, createRoute, createRootRoute, createHashHistory } from '@tanstack/react-router'
 import { Layout } from './components/Layout'
+import { GuidesIndexPage } from './components/GuidesIndexPage'
 import { RoadmapPage } from './components/RoadmapPage'
 import { ChecklistPage } from './components/ChecklistPage'
 import { ExternalResourcesPage } from './components/ExternalResourcesPage'
@@ -14,7 +15,7 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: RoadmapPage,
+  component: GuidesIndexPage,
 })
 
 // eslint-disable-next-line react-refresh/only-export-components
