@@ -7,6 +7,8 @@ import { useNavigateToSection } from '../hooks/useNavigateToSection'
 interface SidebarProps {
   open: boolean
   onClose: () => void
+  pinned: boolean
+  onTogglePin: () => void
 }
 
 // ── Guide data structure ──────────────────────────────────────────────
@@ -241,16 +243,42 @@ function IconRail({
   )
 }
 
+function PinIcon({ pinned }: { pinned: boolean }) {
+  return (
+    <svg
+      className={clsx(
+        'w-4 h-4 transition-all duration-150',
+        pinned
+          ? 'text-blue-500 dark:text-blue-400'
+          : 'text-gray-400 dark:text-slate-500 rotate-45'
+      )}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="12" y1="17" x2="12" y2="22" />
+      <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z" />
+    </svg>
+  )
+}
+
 function ContentPanel({
   guide,
   currentId,
   onNav,
   onClose,
+  pinned,
+  onTogglePin,
 }: {
   guide: GuideDefinition | null
   currentId: string
   onNav: (id: string) => void
   onClose: () => void
+  pinned: boolean
+  onTogglePin: () => void
 }) {
   return (
     <div className="flex-1 flex flex-col min-w-0">
@@ -259,13 +287,23 @@ function ContentPanel({
         <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">
           {guide ? guide.title : 'Navigation'}
         </span>
-        <button
-          className="flex items-center justify-center w-7 h-7 bg-transparent border-none cursor-pointer text-lg text-gray-400 dark:text-slate-500 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-150"
-          onClick={onClose}
-          data-testid="sidebar-close"
-        >
-          &#x2715;
-        </button>
+        <div className="flex items-center gap-1">
+          <button
+            className="hidden lg:flex items-center justify-center w-7 h-7 bg-transparent border-none cursor-pointer rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-150"
+            onClick={onTogglePin}
+            title={pinned ? 'Unpin sidebar' : 'Pin sidebar'}
+            data-testid="sidebar-pin"
+          >
+            <PinIcon pinned={pinned} />
+          </button>
+          <button
+            className="flex items-center justify-center w-7 h-7 bg-transparent border-none cursor-pointer text-lg text-gray-400 dark:text-slate-500 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-150"
+            onClick={onClose}
+            data-testid="sidebar-close"
+          >
+            &#x2715;
+          </button>
+        </div>
       </div>
 
       {/* Navigation links */}
@@ -303,7 +341,7 @@ function ContentPanel({
 
 // ── Main Sidebar ──────────────────────────────────────────────────────
 
-export function Sidebar({ open, onClose }: SidebarProps) {
+export function Sidebar({ open, onClose, pinned, onTogglePin }: SidebarProps) {
   const navigateToSection = useNavigateToSection()
   const params = useParams({ strict: false }) as { sectionId?: string }
   const currentId = params.sectionId || ''
@@ -327,12 +365,12 @@ export function Sidebar({ open, onClose }: SidebarProps) {
   const activeGuide = guides.find(g => g.id === activeGuideId) ?? null
 
   const handleNav = (id: string) => {
-    onClose()
+    if (!pinned) onClose()
     navigateToSection(id)
   }
 
   const handleGuidesHome = () => {
-    onClose()
+    if (!pinned) onClose()
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -355,6 +393,8 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         currentId={currentId}
         onNav={handleNav}
         onClose={onClose}
+        pinned={pinned}
+        onTogglePin={onTogglePin}
       />
     </div>
   )
