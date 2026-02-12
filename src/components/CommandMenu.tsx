@@ -48,14 +48,14 @@ const testingTooling = ['test-review-checklist', 'test-tools']
 
 function PageItem({ id, onSelect }: { id: string; onSelect: (id: string) => void }) {
   const title = getNavTitle(id)
-  const match = title.match(/^(\S+)\s+(.+)$/)
-  const icon = match ? match[1] : ''
-  const text = match ? match[2] : title
+  const match = title.match(/^(.+)\s+([\u0080-\u{10FFFF}]+)$/u)
+  const text = match ? match[1] : title
+  const icon = match ? match[2] : ''
 
   return (
     <Command.Item value={title} keywords={[id]} onSelect={() => onSelect(id)}>
-      {icon && <span className="mr-2 text-base opacity-70">{icon}</span>}
       <span>{text}</span>
+      {icon && <span className="ml-2 text-base opacity-70">{icon}</span>}
     </Command.Item>
   )
 }
@@ -147,19 +147,19 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
           <PageItem id="test-start" onSelect={handleSelect} />
         </Command.Group>
 
-        <Command.Group heading="Testing Fundamentals">
+        <Command.Group heading="Testing Guide \u203A Testing Fundamentals">
           {testingFundamentals.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
         </Command.Group>
 
-        <Command.Group heading="Comparing Tests">
+        <Command.Group heading="Testing Guide \u203A Comparing Tests">
           {testingPractices.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
         </Command.Group>
 
-        <Command.Group heading="Checklists & Tools">
+        <Command.Group heading="Testing Guide \u203A Checklists & Tools">
           {testingTooling.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}

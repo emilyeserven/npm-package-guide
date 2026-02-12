@@ -126,13 +126,13 @@ function findGuideForPage(pageId: string): GuideDefinition | undefined {
 // ── Title resolution (special pages aren't in contentPages) ───────────
 
 const titleOverrides: Record<string, string> = {
-  'roadmap': '\u{1F680} Start Here',
-  'arch-start': '\u{1F3D7}\uFE0F Start Here',
-  'test-start': '\u{1F9EA} Start Here',
-  'prompt-start': '\u{1F9E0} Start Here',
-  'checklist': '\u2705 Publish Checklist',
-  'external-resources': '\u{1F4DA} External Resources',
-  'glossary': '\u{1F4D6} Glossary',
+  'roadmap': 'Start Here \u{1F680}',
+  'arch-start': 'Start Here \u{1F3D7}\uFE0F',
+  'test-start': 'Start Here \u{1F9EA}',
+  'prompt-start': 'Start Here \u{1F9E0}',
+  'checklist': 'Publish Checklist \u2705',
+  'external-resources': 'External Resources \u{1F4DA}',
+  'glossary': 'Glossary \u{1F4D6}',
 }
 
 function resolveItems(ids: string[]) {
@@ -156,9 +156,9 @@ const severityBadges: Record<string, { letter: string; cls: string }> = {
 }
 
 function SidebarItem({ id, title, active, onClick }: { id: string; title: string; active: boolean; onClick: (id: string) => void }) {
-  const match = title.match(/^(\S+)\s+(.+)$/)
-  const icon = match ? match[1] : ''
-  const text = match ? match[2] : title
+  const match = title.match(/^(.+)\s+([\u0080-\u{10FFFF}]+)$/u)
+  const text = match ? match[1] : title
+  const icon = match ? match[2] : ''
   const badge = severityBadges[id]
   return (
     <button

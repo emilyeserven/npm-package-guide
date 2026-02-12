@@ -14,6 +14,8 @@ function getGuideInfo(sectionId: string | undefined) {
     return { title: 'Architecture Guide', homeId: 'arch-start' }
   if (sectionId.startsWith('prompt-'))
     return { title: 'Prompt Engineering', homeId: 'prompt-start' }
+  if (sectionId.startsWith('test-'))
+    return { title: 'Testing Guide', homeId: 'test-start' }
   if (sectionId === 'external-resources' || sectionId === 'glossary')
     return { title: 'Dev Guides', homeId: null }
   // NPM Package Guide pages (roadmap, build, ci-*, storybook, checklist, etc.)

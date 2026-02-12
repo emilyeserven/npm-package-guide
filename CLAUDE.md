@@ -131,7 +131,7 @@ Claude artifacts are typically monolithic JSX or HTML files with embedded data a
 ```mdx
 ---
 id: "guide-page-id"
-title: "🔹 Page Title"
+title: "Page Title 🔹"
 ---
 
 <h1 className="section-title">{frontmatter.title}</h1>
@@ -164,14 +164,14 @@ Brief intro paragraph.
 
 ## Navigation Item Formatting
 
-Every content page's MDX frontmatter `title` must include an emoji prefix (e.g., `"⚡ Logic & Condition Errors"`). This convention applies to all guides (NPM Package, Architecture, Prompt Engineering, and any future guides).
+Every content page's MDX frontmatter `title` must include an emoji suffix (e.g., `"Logic & Condition Errors ⚡"`). This convention applies to all guides (NPM Package, Architecture, Testing, Prompt Engineering, and any future guides).
 
-The sidebar `SidebarItem` component (`src/components/Sidebar.tsx`) parses each title with the regex `/^(\S+)\s+(.+)$/` to split the emoji from the text. The `PageItem` in `CommandMenu.tsx` uses the same pattern.
+The sidebar `SidebarItem` component (`src/components/Sidebar.tsx`) parses each title with the regex `/^(.+)\s+([\u0080-\u{10FFFF}]+)$/u` to split the text from the trailing emoji. The `PageItem` in `CommandMenu.tsx` uses the same pattern.
 
 Layout rules for navigation items:
 - Text and icon/badge must always be in **separate `<span>` elements** within navigation items.
-- The parent container uses `justify-between` so text aligns left and icons align to the right edge.
-- New pages must follow this emoji-prefix pattern for consistency across all guides.
+- The parent container uses `justify-between` so text aligns left and icons/badges align to the right edge.
+- New pages must follow this emoji-suffix pattern for consistency across all guides.
 
 ## Pre-Push Checklist
 
