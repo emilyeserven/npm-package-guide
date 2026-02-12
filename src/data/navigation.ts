@@ -1,6 +1,7 @@
 import { findNavItem } from '../helpers/findNavItem'
 import { ARCH_NAV_ORDER, ARCH_PAGE_IDS } from './archData'
 import { TESTING_NAV_ORDER, TESTING_PAGE_IDS } from './testingData'
+import { PROMPT_NAV_ORDER, PROMPT_PAGE_IDS } from './promptData'
 
 const ciPageIds = [
   'ci-overview', 'ci-linting', 'ci-build', 'ci-testing', 'ci-repo-maintenance',
@@ -24,6 +25,9 @@ export function getNavOrder(currentId?: string): string[] {
   }
   if (currentId && TESTING_PAGE_IDS.has(currentId)) {
     return [...TESTING_NAV_ORDER]
+  }
+  if (currentId && PROMPT_PAGE_IDS.has(currentId)) {
+    return [...PROMPT_NAV_ORDER]
   }
   // Order matches the Start Page roadmap steps and sidebar sections
   return [...npmNavOrder]
@@ -58,6 +62,22 @@ const staticTitles: Record<string, string> = {
   "test-best-practices": "\u2705 Best Practices",
   "test-review-checklist": "\u{1F4CB} Quick Test Review",
   "test-tools": "\u{1F9F0} Popular Tools",
+  "prompt-start": "\u{1F9E0} Start Here",
+  "prompt-mistakes-logic": "\u26A1 Logic & Condition Errors",
+  "prompt-mistakes-apis": "\u{1F47B} Hallucinated APIs & Packages",
+  "prompt-mistakes-structural": "\u{1F3D7}\uFE0F Structural & Architectural Issues",
+  "prompt-mistakes-style": "\u{1F3A8} Style & Formatting Drift",
+  "prompt-ctx-system-prompt": "\u{1F4D0} System Prompt Architecture",
+  "prompt-ctx-claude-md": "\u{1F4DD} CLAUDE.md / Memory Files",
+  "prompt-ctx-chaining": "\u{1F517} Prompt Chaining & Decomposition",
+  "prompt-ctx-few-shot": "\u{1F3AF} Few-Shot Examples",
+  "prompt-ctx-window": "\u{1F4CA} Context Window Management",
+  "prompt-ctx-thinking": "\u{1F4AD} Thinking & Reflection",
+  "prompt-testing": "\u{1F9EA} Testing Best Practices",
+  "prompt-claudemd-checklist": "\u2705 CLAUDE.md Checklist",
+  "prompt-cli-reference": "\u2328\uFE0F CLI Quick Reference",
+  "prompt-tools-advanced": "\u{1F527} Advanced Tool Usage",
+  "prompt-meta-tooling": "\u{1F3ED} Meta-Tooling & Workflows",
 }
 
 export function getNavTitle(id: string): string {

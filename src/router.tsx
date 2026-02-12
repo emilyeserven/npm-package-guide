@@ -7,6 +7,7 @@ import { ExternalResourcesPage } from './components/ExternalResourcesPage'
 import { GlossaryPage } from './components/GlossaryPage'
 import { ArchStartPage } from './components/ArchStartPage'
 import { TestingStartPage } from './components/TestingStartPage'
+import { PromptStartPage } from './components/PromptStartPage'
 import { MDXPageWrapper } from './components/MDXPageWrapper'
 import { contentPages } from './content/registry'
 
@@ -35,6 +36,7 @@ function SectionRouter() {
   if (sectionId === 'glossary') return <GlossaryPage initialGuide={guide} />
   if (sectionId === 'architecture' || sectionId === 'arch-start') return <ArchStartPage />
   if (sectionId === 'test-start') return <TestingStartPage />
+  if (sectionId === 'prompt-start') return <PromptStartPage />
 
   const page = contentPages.get(sectionId)
   if (page) return <MDXPageWrapper page={page} />

@@ -57,6 +57,14 @@ const guides: GuideTile[] = [
     description:
       'Learn frontend testing fundamentals \u2014 the testing pyramid, best practices, and how to choose the right tools for unit, component, and E2E tests.',
   },
+  {
+    id: 'prompt-engineering',
+    sectionId: 'prompt-start',
+    icon: '\u{1F9E0}',
+    title: 'Prompt Engineering',
+    description:
+      'Practical patterns for working with AI coding assistants \u2014 common mistakes to watch for, context management techniques, and CLI commands.',
+  },
 ]
 
 export function GuidesIndexPage() {

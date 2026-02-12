@@ -47,6 +47,15 @@ const testingTools = [
   'test-review-checklist', 'test-tools',
 ]
 
+const promptMistakesOrder = [
+  'prompt-mistakes-logic', 'prompt-mistakes-apis', 'prompt-mistakes-structural', 'prompt-mistakes-style',
+]
+
+const promptCtxOrder = [
+  'prompt-ctx-system-prompt', 'prompt-ctx-claude-md', 'prompt-ctx-chaining',
+  'prompt-ctx-few-shot', 'prompt-ctx-window', 'prompt-ctx-thinking',
+]
+
 const guides: GuideDefinition[] = [
   {
     id: 'npm-package',
@@ -83,6 +92,17 @@ const guides: GuideDefinition[] = [
     ],
   },
   {
+    id: 'prompt-engineering',
+    icon: '\u{1F9E0}',        // 🧠
+    title: 'Prompt Engineering',
+    sections: [
+      { label: null, ids: ['prompt-start'] },
+      { label: 'Common AI Mistakes', ids: [...promptMistakesOrder, 'prompt-testing'] },
+      { label: 'Context Management', ids: [...promptCtxOrder, 'prompt-claudemd-checklist'] },
+      { label: 'Tooling & Reference', ids: ['prompt-cli-reference', 'prompt-tools-advanced', 'prompt-meta-tooling'] },
+    ],
+  },
+  {
     id: 'resources',
     icon: '\u{1F4DA}',        // 📚
     title: 'Resources',
@@ -114,6 +134,7 @@ const titleOverrides: Record<string, string> = {
   'roadmap': '\u{1F680} Start Here',
   'arch-start': '\u{1F3D7}\uFE0F Start Here',
   'test-start': '\u{1F9EA} Start Here',
+  'prompt-start': '\u{1F9E0} Start Here',
   'checklist': '\u2705 Publish Checklist',
   'external-resources': '\u{1F4DA} External Resources',
   'glossary': '\u{1F4D6} Glossary',
@@ -131,14 +152,23 @@ function resolveItems(ids: string[]) {
 
 // ── Sub-components ────────────────────────────────────────────────────
 
+// Severity badge colors for Common AI Mistakes sidebar items
+const severityBadges: Record<string, { letter: string; cls: string }> = {
+  'prompt-mistakes-logic': { letter: 'H', cls: 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400' },
+  'prompt-mistakes-apis': { letter: 'H', cls: 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400' },
+  'prompt-mistakes-structural': { letter: 'M', cls: 'bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400' },
+  'prompt-mistakes-style': { letter: 'L', cls: 'bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400' },
+}
+
 function SidebarItem({ id, title, active, onClick }: { id: string; title: string; active: boolean; onClick: (id: string) => void }) {
   const match = title.match(/^(\S+)\s+(.+)$/)
   const icon = match ? match[1] : ''
   const text = match ? match[2] : title
+  const badge = severityBadges[id]
   return (
     <button
       className={clsx(
-        'flex items-center w-full text-left px-3.5 py-2 text-sm rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150',
+        'flex items-center gap-2 w-full text-left px-3.5 py-2 text-sm rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150',
         active
           ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold'
           : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
@@ -146,8 +176,12 @@ function SidebarItem({ id, title, active, onClick }: { id: string; title: string
       onClick={() => onClick(id)}
       data-testid={`sidebar-item-${id}`}
     >
+      {badge ? (
+        <span className={`w-5 h-5 flex items-center justify-center rounded text-[10px] font-bold shrink-0 ${badge.cls}`}>{badge.letter}</span>
+      ) : icon ? (
+        <span className="text-base leading-none opacity-70 shrink-0">{icon}</span>
+      ) : null}
       <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">{text}</span>
-      {icon && <span className="ml-2 text-base leading-none opacity-70 shrink-0">{icon}</span>}
     </button>
   )
 }

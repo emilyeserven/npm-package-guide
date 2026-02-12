@@ -29,6 +29,15 @@ const archStackOrder = [
   'arch-stack-lamp', 'arch-stack-django', 'arch-stack-rails',
 ]
 
+const promptMistakesOrder = [
+  'prompt-mistakes-logic', 'prompt-mistakes-apis', 'prompt-mistakes-structural', 'prompt-mistakes-style',
+]
+
+const promptCtxOrder = [
+  'prompt-ctx-system-prompt', 'prompt-ctx-claude-md', 'prompt-ctx-chaining',
+  'prompt-ctx-few-shot', 'prompt-ctx-window', 'prompt-ctx-thinking',
+]
+
 const archFrameworkOrder = [
   'arch-fw-nextjs', 'arch-fw-react-router', 'arch-fw-tanstack-start', 'arch-fw-remix',
 ]
@@ -154,6 +163,30 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
           {testingTooling.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
+        </Command.Group>
+
+        <Command.Group heading="Prompt Engineering">
+          <PageItem id="prompt-start" onSelect={handleSelect} />
+        </Command.Group>
+
+        <Command.Group heading="Common AI Mistakes">
+          {promptMistakesOrder.map(id => (
+            <PageItem key={id} id={id} onSelect={handleSelect} />
+          ))}
+          <PageItem id="prompt-testing" onSelect={handleSelect} />
+        </Command.Group>
+
+        <Command.Group heading="Context Management">
+          {promptCtxOrder.map(id => (
+            <PageItem key={id} id={id} onSelect={handleSelect} />
+          ))}
+          <PageItem id="prompt-claudemd-checklist" onSelect={handleSelect} />
+        </Command.Group>
+
+        <Command.Group heading="Tooling & Reference">
+          <PageItem id="prompt-cli-reference" onSelect={handleSelect} />
+          <PageItem id="prompt-tools-advanced" onSelect={handleSelect} />
+          <PageItem id="prompt-meta-tooling" onSelect={handleSelect} />
         </Command.Group>
 
         <Command.Group heading="Resources">

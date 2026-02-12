@@ -20,6 +20,13 @@ import { TestTypeDetail } from './TestTypeDetail'
 import { TestPracticeCards } from './TestPracticeCards'
 import { TestChecklist } from './TestChecklist'
 import { TestToolsGrid } from './TestToolsGrid'
+import { MistakeList } from './MistakeList'
+import { TechniqueDetail } from './TechniqueDetail'
+import { CLIReference } from './CLIReference'
+import { TestingMistakes } from './TestingMistakes'
+import { ClaudeMdChecklist } from './ClaudeMdChecklist'
+import { ToolDetail } from './ToolDetail'
+import { MetaTooling } from './MetaTooling'
 
 export const mdxComponents: MDXComponents = {
   Cmd,
@@ -60,4 +67,11 @@ export const mdxComponents: MDXComponents = {
   TestPracticeCards,
   TestChecklist,
   TestToolsGrid,
+  MistakeList,
+  TechniqueDetail,
+  CLIReference,
+  TestingMistakes,
+  ClaudeMdChecklist,
+  ToolDetail,
+  MetaTooling,
 }
