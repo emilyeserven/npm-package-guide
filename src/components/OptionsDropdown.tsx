@@ -68,7 +68,23 @@ export function OptionsDropdown() {
 
         <div className="mx-2.5 my-1 h-px bg-slate-200 dark:bg-slate-700" />
 
-        <div className="px-3 py-1.5 text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Package Manager</div>
+        <div className="px-3 py-1.5 text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider flex items-center gap-1">
+          Package Manager
+          <button
+            className="relative inline-flex items-center justify-center w-3.5 h-3.5 rounded-full border border-gray-400 dark:border-slate-500 text-gray-400 dark:text-slate-500 bg-transparent cursor-pointer text-[9px] leading-none font-bold transition-colors duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 group/help p-0"
+            onClick={() => {
+              setOpen(false)
+              navigateToSection('npm-vs-pnpm')
+            }}
+            aria-label="Learn about npm vs pnpm"
+            data-testid="pm-compare-link"
+          >
+            ?
+            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 text-[11px] font-normal normal-case tracking-normal text-white dark:text-slate-200 bg-slate-800 dark:bg-slate-600 rounded whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-150 group-hover/help:opacity-100">
+              Not sure which to pick? Learn more
+            </span>
+          </button>
+        </div>
         <button
           className={clsx(
             'flex items-center w-full px-3 py-1.5 text-sm bg-transparent border-none cursor-pointer transition-colors duration-150',
@@ -92,17 +108,6 @@ export function OptionsDropdown() {
           data-testid="pm-option-pnpm"
         >
           <span className="w-5 text-xs text-blue-500 dark:text-blue-400">{currentPM === 'pnpm' ? '\u2713' : ''}</span> pnpm
-        </button>
-        <div className="mx-2.5 my-1 h-px bg-slate-200 dark:bg-slate-700" />
-        <button
-          className="flex items-center w-full px-3 py-1.5 text-sm text-slate-700 dark:text-slate-300 bg-transparent border-none cursor-pointer transition-colors duration-150 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400"
-          onClick={() => {
-            setOpen(false)
-            navigateToSection('npm-vs-pnpm')
-          }}
-          data-testid="pm-compare-link"
-        >
-          <span className="w-5" />npm vs pnpm
         </button>
       </div>
     </>
