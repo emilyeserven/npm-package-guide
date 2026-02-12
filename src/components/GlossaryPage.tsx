@@ -11,6 +11,7 @@ import clsx from 'clsx'
 import parse from 'html-react-parser'
 import { glossaryTerms } from '../data/glossaryTerms'
 import type { GlossaryTerm } from '../data/glossaryTerms'
+import { linkById } from '../data/linkRegistry'
 import { getNavTitle } from '../data/navigation'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { badgeBase, badgeMap } from '../data/overallResources'
@@ -20,6 +21,8 @@ import { ExternalLinkIcon } from './ExternalLinkIcon'
 interface FlatGlossaryRow extends GlossaryTerm {
   category: string
   guide: string
+  url: string
+  source: string
 }
 
 function deriveGuide(sectionId?: string): string {
@@ -28,7 +31,16 @@ function deriveGuide(sectionId?: string): string {
 }
 
 const flatData: FlatGlossaryRow[] = glossaryTerms.flatMap(group =>
-  group.terms.map(t => ({ ...t, category: group.category, guide: deriveGuide(t.sectionId) }))
+  group.terms.map(t => {
+    const link = linkById.get(t.linkId)
+    return {
+      ...t,
+      category: group.category,
+      guide: deriveGuide(t.sectionId),
+      url: link?.url ?? '',
+      source: link?.source ?? '',
+    }
+  })
 )
 
 const categories = glossaryTerms.map(g => g.category)

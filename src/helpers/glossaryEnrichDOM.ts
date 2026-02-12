@@ -1,9 +1,12 @@
 import { glossaryTerms } from '../data/glossaryTerms'
 import type { GlossaryTerm } from '../data/glossaryTerms'
+import { linkById } from '../data/linkRegistry'
 
 interface FlatTerm extends GlossaryTerm {
   category: string
   patterns: RegExp[]
+  url: string
+  source: string
 }
 
 function escapeRegex(s: string): string {
@@ -30,7 +33,8 @@ function buildTermList(): FlatTerm[] {
       } else {
         patterns.push(new RegExp(`\\b${escapeRegex(t.term)}\\b`, 'i'))
       }
-      return { ...t, category: group.category, patterns }
+      const link = linkById.get(t.linkId)
+      return { ...t, category: group.category, patterns, url: link?.url ?? '', source: link?.source ?? '' }
     })
   )
   flat.sort((a, b) => b.term.length - a.term.length)

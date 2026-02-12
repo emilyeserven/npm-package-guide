@@ -9,6 +9,7 @@ import {
   type ColumnFiltersState,
 } from '@tanstack/react-table'
 import clsx from 'clsx'
+import { linkRegistry } from '../data/linkRegistry'
 import { overallResources, badgeBase, badgeMap, typeTags, topicTags, guideTags } from '../data/overallResources'
 import { contentPages } from '../content/registry'
 import { getNavTitle } from '../data/navigation'
@@ -23,125 +24,49 @@ interface ReferenceRow {
   pageIds: string[]
 }
 
-// Map section IDs to topic tags for section references
-const sectionTopicMap: Record<string, string[]> = {
-  bigpicture: [],
-  monorepo: ['monorepo'],
-  'npm-vs-pnpm': ['tooling'],
-  tsconfig: ['typescript'],
-  build: ['bundling', 'tooling'],
-  dist: ['publishing'],
-  deps: ['publishing'],
-  typescript: ['typescript'],
-  packagejson: ['publishing', 'modules'],
-  versioning: ['versioning'],
-  workflow: ['publishing'],
-  'ci-overview': ['ci-cd'],
-  'ci-linting': ['ci-cd', 'linting'],
-  'ci-build': ['ci-cd', 'bundling'],
-  'ci-testing': ['ci-cd', 'testing'],
-  'ci-repo-maintenance': ['ci-cd', 'tooling'],
-  storybook: ['tooling', 'testing'],
-  'arch-what-is-a-stack': ['architecture'],
-  'arch-stack-mern': ['architecture', 'databases'],
-  'arch-stack-pfrn': ['architecture', 'databases'],
-  'arch-stack-mean': ['architecture'],
-  'arch-stack-lamp': ['architecture', 'databases'],
-  'arch-stack-django': ['architecture', 'databases'],
-  'arch-stack-rails': ['architecture', 'databases'],
-  'arch-frameworks-intro': ['architecture', 'frameworks'],
-  'arch-fw-nextjs': ['frameworks'],
-  'arch-fw-react-router': ['frameworks'],
-  'arch-fw-tanstack-start': ['frameworks', 'typescript'],
-  'arch-fw-remix': ['frameworks'],
-  'arch-how-it-connects': ['architecture'],
-}
-
-// Generate short relevance descriptions for section references
-const sectionDescMap: Record<string, string> = {
-  bigpicture: 'Foundational context for understanding the npm ecosystem',
-  monorepo: 'Managing multiple packages in a monorepo setup',
-  'npm-vs-pnpm': 'Choosing and configuring a package manager',
-  tsconfig: 'TypeScript configuration for package builds',
-  build: 'Bundling and output configuration for packages',
-  dist: 'Controlling what gets included in a published package',
-  deps: 'Managing package dependencies correctly',
-  typescript: 'Adding type safety and declarations to packages',
-  packagejson: 'Configuring package metadata and entry points',
-  versioning: 'Version management and release automation',
-  workflow: 'Local development and publishing workflows',
-  'ci-overview': 'Automating quality checks with CI',
-  'ci-linting': 'Code quality enforcement for packages',
-  'ci-build': 'Automated build verification',
-  'ci-testing': 'Automated testing for packages',
-  'ci-repo-maintenance': 'Keeping dependencies and exports clean',
-  storybook: 'Component documentation and visual testing',
-  'arch-what-is-a-stack': 'Understanding the concept and structure of web technology stacks',
-  'arch-stack-mern': 'MongoDB, Express, React, Node.js — the popular all-JavaScript stack',
-  'arch-stack-pfrn': 'PostgreSQL, Fastify, React, Node.js — the production-ready alternative',
-  'arch-stack-mean': 'MongoDB, Express, Angular, Node.js — enterprise-friendly with Angular',
-  'arch-stack-lamp': 'Linux, Apache, MySQL, PHP — the battle-tested classic',
-  'arch-stack-django': 'PostgreSQL, Django, React/Vue, Python — batteries included',
-  'arch-stack-rails': 'PostgreSQL, Ruby on Rails, Hotwire/React, Ruby — convention over configuration',
-  'arch-frameworks-intro': 'Introduction to full-stack React frameworks',
-  'arch-fw-nextjs': 'The most popular React meta-framework by Vercel',
-  'arch-fw-react-router': 'React Router v7 full-stack framework mode',
-  'arch-fw-tanstack-start': 'Type-safe full-stack framework from the TanStack ecosystem',
-  'arch-fw-remix': 'Pioneering web-standards framework merged into React Router',
-  'arch-how-it-connects': 'How data flows through a stack from browser to database',
-}
-
 function buildReferenceData(): ReferenceRow[] {
-  const rows: ReferenceRow[] = []
-
-  // Build reverse map: URL → set of page IDs that reference it
-  const urlToPages = new Map<string, Set<string>>()
-  const allSectionsWithLinks = Array.from(contentPages.values())
-  allSectionsWithLinks.forEach(s => {
-    if (s.links && s.links.length > 0) {
-      s.links.forEach(l => {
-        if (!urlToPages.has(l.url)) urlToPages.set(l.url, new Set())
-        urlToPages.get(l.url)!.add(s.id)
-      })
+  // Build reverse map: registry ID → set of page IDs that reference it
+  const idToPages = new Map<string, Set<string>>()
+  for (const [, page] of contentPages) {
+    if (page.linkRefIds) {
+      for (const refId of page.linkRefIds) {
+        if (!idToPages.has(refId)) idToPages.set(refId, new Set())
+        idToPages.get(refId)!.add(page.id)
+      }
     }
-  })
+  }
 
-  // Learning Resources
+  // Curated learning resources from overallResources (derived from registry)
+  const rows: ReferenceRow[] = []
+  const seenUrls = new Set<string>()
+
   overallResources.forEach(group => {
     group.items.forEach(item => {
+      seenUrls.add(item.url)
+      const entry = linkRegistry.find(r => r.url === item.url)
       rows.push({
         name: item.name,
         url: item.url,
         desc: item.desc,
         tags: item.tags,
-        pageIds: Array.from(urlToPages.get(item.url) ?? []),
+        pageIds: entry ? Array.from(idToPages.get(entry.id) ?? []) : [],
       })
     })
   })
 
-  // Section References (deduped, excluding overallResources URLs)
-  const seen = new Set<string>()
-  const overallUrls = new Set<string>()
-  overallResources.forEach(g => g.items.forEach(i => overallUrls.add(i.url)))
-
-  allSectionsWithLinks.forEach(s => {
-    if (s.links && s.links.length > 0) {
-      const sectionTopics = sectionTopicMap[s.id] ?? []
-      const sectionDesc = sectionDescMap[s.id] ?? ''
-      const guideTag = s.id.startsWith('arch-') ? 'guide:architecture' : 'guide:npm-package'
-      s.links.forEach(l => {
-        if (seen.has(l.url) || overallUrls.has(l.url)) return
-        seen.add(l.url)
-        rows.push({
-          name: l.label,
-          url: l.url,
-          desc: sectionDesc,
-          tags: ['docs', 'free', ...sectionTopics, guideTag],
-          pageIds: Array.from(urlToPages.get(l.url) ?? []),
-        })
-      })
-    }
-  })
+  // All other registry entries with tags (section references, etc.)
+  for (const link of linkRegistry) {
+    if (seenUrls.has(link.url)) continue
+    if (!link.tags || link.tags.length === 0) continue
+    seenUrls.add(link.url)
+    rows.push({
+      name: link.label,
+      url: link.url,
+      desc: link.desc ?? '',
+      tags: link.tags,
+      pageIds: Array.from(idToPages.get(link.id) ?? []),
+    })
+  }
 
   return rows
 }
