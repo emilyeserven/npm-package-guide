@@ -326,4 +326,115 @@ export const glossaryTerms: GlossaryCategory[] = [
       },
     ]
   },
+  {
+    category: "Testing Fundamentals",
+    terms: [
+      {
+        term: "Unit Test",
+        definition: "A test that verifies a single function, hook, or module in complete isolation. All external dependencies are mocked or stubbed. Unit tests are the fastest and cheapest tests, forming the wide base of the testing pyramid.",
+        linkId: "vitest-getting-started",
+        sectionId: "test-unit"
+      },
+      {
+        term: "Component Test",
+        definition: "A test that renders a React component in a simulated DOM and asserts on what the user sees and can interact with. Uses libraries like React Testing Library to query elements by role, label, or text content.",
+        linkId: "testing-library-react-intro",
+        sectionId: "test-component"
+      },
+      {
+        term: "End-to-End (E2E) Test",
+        definition: "A test that drives a real browser through complete user workflows, testing the full stack (frontend, API, database). E2E tests are the slowest but most realistic tests.",
+        linkId: "playwright-home",
+        sectionId: "test-e2e"
+      },
+      {
+        term: "Testing Pyramid",
+        definition: "A model for structuring test suites: many fast unit tests at the base, fewer component tests in the middle, and a small number of slow E2E tests at the top. The goal is maximum confidence with minimum execution time.",
+        linkId: "martinfowler-test-pyramid",
+        sectionId: "test-overview"
+      },
+      {
+        term: "Test Runner",
+        definition: "A tool that discovers, executes, and reports on your test files. Vitest and Jest are the most popular JavaScript test runners. They handle file watching, parallel execution, and assertion reporting.",
+        linkId: "vitest-home",
+        sectionId: "test-tools"
+      },
+      {
+        term: "Mocking",
+        definition: "Replacing real dependencies with controlled substitutes during testing. Mocks let you isolate the code under test, control return values, and verify that functions were called with expected arguments.",
+        linkId: "vitest-mocking",
+        sectionId: "test-unit"
+      },
+      {
+        term: "Code Coverage",
+        definition: "A metric showing what percentage of your code is executed during tests. Measured by lines, branches, functions, or statements. High coverage does not guarantee good tests, but low coverage reveals gaps.",
+        linkId: "vitest-coverage",
+        sectionId: "test-best-practices"
+      },
+      {
+        term: "Test Flakiness",
+        definition: "When a test sometimes passes and sometimes fails without any code change. Common causes include race conditions, time-dependent logic, shared state between tests, and brittle DOM selectors.",
+        linkId: "playwright-getting-started",
+        sectionId: "test-e2e"
+      },
+    ]
+  },
+  {
+    category: "Prompt Engineering",
+    terms: [
+      {
+        term: "Prompt Engineering",
+        definition: "The practice of crafting inputs to AI models to get better, more reliable outputs. Includes techniques like few-shot examples, chain-of-thought reasoning, and system prompt design.",
+        linkId: "anthropic-prompt-engineering",
+        sectionId: "prompt-mistakes-logic"
+      },
+      {
+        term: "System Prompt",
+        definition: "Instructions provided to an AI model that define its role, constraints, and behavior before any user interaction. System prompts set the context that persists across the entire conversation.",
+        linkId: "anthropic-system-prompts",
+        sectionId: "prompt-ctx-system-prompt"
+      },
+      {
+        term: "Context Window",
+        definition: "The maximum amount of text (measured in tokens) that an AI model can process in a single interaction. Managing what goes into the context window is critical for getting accurate results.",
+        linkId: "anthropic-prompt-engineering",
+        sectionId: "prompt-ctx-window"
+      },
+      {
+        term: "Few-Shot Examples",
+        definition: "Including 2\u20133 examples of desired input/output pairs in your prompt to steer the model's behavior. One of the most effective techniques for getting consistent, correctly-formatted responses.",
+        linkId: "anthropic-prompt-engineering",
+        sectionId: "prompt-ctx-few-shot"
+      },
+      {
+        term: "Hallucination",
+        definition: "When an AI model generates information that sounds plausible but is factually incorrect \u2014 inventing APIs, packages, or methods that don't exist. Explicit version constraints and context reduce hallucination.",
+        linkId: "anthropic-prompt-engineering",
+        sectionId: "prompt-mistakes-apis"
+      },
+      {
+        term: "Chain-of-Thought",
+        definition: "A prompting technique that asks the model to reason step-by-step before giving a final answer. Improves accuracy on complex, multi-step problems by making the reasoning process explicit.",
+        linkId: "anthropic-extended-thinking",
+        sectionId: "prompt-ctx-thinking"
+      },
+    ]
+  },
+  {
+    category: "AI Coding Tools",
+    terms: [
+      {
+        term: "CLAUDE.md",
+        definition: "A project-level configuration file that gives Claude Code persistent context about your codebase \u2014 tech stack, conventions, common pitfalls, and key commands. Survives across sessions and reduces repeated mistakes.",
+        linkId: "anthropic-claude-md",
+        sectionId: "prompt-ctx-claude-md"
+      },
+      {
+        term: "MCP (Model Context Protocol)",
+        definition: "An open protocol that extends AI coding assistants with external tools and data sources. MCP servers can provide access to databases, APIs, file systems, and custom tools.",
+        linkId: "anthropic-mcp",
+        sectionId: "prompt-tools-advanced"
+      },
+    ]
+  },
 ]

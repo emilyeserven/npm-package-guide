@@ -27,7 +27,10 @@ interface FlatGlossaryRow extends GlossaryTerm {
 
 function deriveGuide(sectionId?: string): string {
   if (!sectionId) return 'npm-package'
-  return sectionId.startsWith('arch-') ? 'architecture' : 'npm-package'
+  if (sectionId.startsWith('arch-')) return 'architecture'
+  if (sectionId.startsWith('test-')) return 'testing'
+  if (sectionId.startsWith('prompt-')) return 'prompt-engineering'
+  return 'npm-package'
 }
 
 const flatData: FlatGlossaryRow[] = glossaryTerms.flatMap(group =>
@@ -49,7 +52,7 @@ function categoryToKey(cat: string): string {
   return `cat:${cat.toLowerCase().replace(/\s+&\s+/g, '-').replace(/\s+/g, '-')}`
 }
 
-const guideTagList = ['guide:npm-package', 'guide:architecture']
+const guideTagList = ['guide:npm-package', 'guide:architecture', 'guide:testing', 'guide:prompt-engineering']
 
 const columnHelper = createColumnHelper<FlatGlossaryRow>()
 
