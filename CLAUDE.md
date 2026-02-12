@@ -58,12 +58,13 @@ ESLint uses flat config format (`eslint.config.js`), extending:
 
 ## Page Ordering
 
-Pages must appear in the same order in all three places:
+Pages must appear in the same order in all four places:
 1. **Navigation sidebar** (`src/components/Sidebar.tsx`) — the `resourceItems`, `buildingPackageOrder`, and CI/bonus groups
 2. **Start Page** (`src/components/RoadmapPage.tsx`) — the roadmap steps and bonus cards
 3. **`getNavOrder()` in `src/data/navigation.ts`** — the ordered array that drives Previous/Next links
+4. **Command menu** (`src/components/CommandMenu.tsx`) — the `buildingPackageOrder`, `ciOrder`, `bonusOrder`, and `resourceIds` arrays that populate the Cmd+K palette
 
-When adding, removing, or reordering pages, update all three locations to stay in sync. The Previous and Next links (`src/components/PrevNextNav.tsx`) are derived from `getNavOrder()`, so any change to page order must include updating that array.
+When adding, removing, or reordering pages, update all four locations to stay in sync. The Previous and Next links (`src/components/PrevNextNav.tsx`) are derived from `getNavOrder()`, so any change to page order must include updating that array.
 
 ## Pre-Push Checklist
 
