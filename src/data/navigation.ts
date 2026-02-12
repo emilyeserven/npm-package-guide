@@ -60,7 +60,11 @@ const staticTitles: Record<string, string> = {
   "prompt-ctx-few-shot": "\u{1F3AF} Few-Shot Examples",
   "prompt-ctx-window": "\u{1F4CA} Context Window Management",
   "prompt-ctx-thinking": "\u{1F4AD} Thinking & Reflection",
+  "prompt-testing": "\u{1F9EA} Testing Best Practices",
+  "prompt-claudemd-checklist": "\u2705 CLAUDE.md Checklist",
   "prompt-cli-reference": "\u2328\uFE0F CLI Quick Reference",
+  "prompt-tools-advanced": "\u{1F527} Advanced Tool Usage",
+  "prompt-meta-tooling": "\u{1F3ED} Meta-Tooling & Workflows",
 }
 
 export function getNavTitle(id: string): string {

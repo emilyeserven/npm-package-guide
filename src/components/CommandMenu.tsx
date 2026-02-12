@@ -147,16 +147,20 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
           {promptMistakesOrder.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
+          <PageItem id="prompt-testing" onSelect={handleSelect} />
         </Command.Group>
 
         <Command.Group heading="Context Management">
           {promptCtxOrder.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
+          <PageItem id="prompt-claudemd-checklist" onSelect={handleSelect} />
         </Command.Group>
 
-        <Command.Group heading="CLI Reference">
+        <Command.Group heading="Tooling & Reference">
           <PageItem id="prompt-cli-reference" onSelect={handleSelect} />
+          <PageItem id="prompt-tools-advanced" onSelect={handleSelect} />
+          <PageItem id="prompt-meta-tooling" onSelect={handleSelect} />
         </Command.Group>
 
         <Command.Group heading="Resources">
