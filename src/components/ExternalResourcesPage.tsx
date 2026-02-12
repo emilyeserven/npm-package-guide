@@ -11,6 +11,8 @@ import {
 import clsx from 'clsx'
 import { overallResources, badgeBase, badgeMap, typeTags, topicTags, guideTags } from '../data/overallResources'
 import { contentPages } from '../content/registry'
+import { getNavTitle } from '../data/navigation'
+import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { DataTable } from './DataTable'
 
 interface ReferenceRow {
@@ -18,6 +20,7 @@ interface ReferenceRow {
   url: string
   desc: string
   tags: string[]
+  pageIds: string[]
 }
 
 // Map section IDs to topic tags for section references
@@ -91,6 +94,18 @@ const sectionDescMap: Record<string, string> = {
 function buildReferenceData(): ReferenceRow[] {
   const rows: ReferenceRow[] = []
 
+  // Build reverse map: URL → set of page IDs that reference it
+  const urlToPages = new Map<string, Set<string>>()
+  const allSectionsWithLinks = Array.from(contentPages.values())
+  allSectionsWithLinks.forEach(s => {
+    if (s.links && s.links.length > 0) {
+      s.links.forEach(l => {
+        if (!urlToPages.has(l.url)) urlToPages.set(l.url, new Set())
+        urlToPages.get(l.url)!.add(s.id)
+      })
+    }
+  })
+
   // Learning Resources
   overallResources.forEach(group => {
     group.items.forEach(item => {
@@ -99,6 +114,7 @@ function buildReferenceData(): ReferenceRow[] {
         url: item.url,
         desc: item.desc,
         tags: item.tags,
+        pageIds: Array.from(urlToPages.get(item.url) ?? []),
       })
     })
   })
@@ -108,7 +124,6 @@ function buildReferenceData(): ReferenceRow[] {
   const overallUrls = new Set<string>()
   overallResources.forEach(g => g.items.forEach(i => overallUrls.add(i.url)))
 
-  const allSectionsWithLinks = Array.from(contentPages.values())
   allSectionsWithLinks.forEach(s => {
     if (s.links && s.links.length > 0) {
       const sectionTopics = sectionTopicMap[s.id] ?? []
@@ -122,6 +137,7 @@ function buildReferenceData(): ReferenceRow[] {
           url: l.url,
           desc: sectionDesc,
           tags: ['docs', 'free', ...sectionTopics, guideTag],
+          pageIds: Array.from(urlToPages.get(l.url) ?? []),
         })
       })
     }
@@ -137,6 +153,7 @@ interface ExternalResourcesPageProps {
 }
 
 export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPageProps) {
+  const navigateToSection = useNavigateToSection()
   const data = useMemo(() => buildReferenceData(), [])
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -194,7 +211,33 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
         return filterValue.some(f => row.original.tags.includes(f))
       },
     }),
-  ], [])
+    columnHelper.accessor('pageIds', {
+      header: 'Pages',
+      cell: info => {
+        const ids = info.getValue()
+        if (ids.length === 0) return <span className="text-xs text-slate-400 dark:text-slate-500">—</span>
+        return (
+          <div className="flex flex-wrap gap-1">
+            {ids.map(id => {
+              const title = getNavTitle(id)
+              const match = title.match(/^(\S+)\s+(.+)$/)
+              const text = match ? match[2] : title
+              return (
+                <button
+                  key={id}
+                  className="inline-nav-link text-xs bg-transparent border-none cursor-pointer p-0 whitespace-nowrap"
+                  onClick={() => navigateToSection(id)}
+                >
+                  {text}
+                </button>
+              )
+            })}
+          </div>
+        )
+      },
+      enableSorting: false,
+    }),
+  ], [navigateToSection])
 
   // Apply tag filter
   const filteredData = useMemo(() => {
@@ -271,7 +314,7 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
         </div>
 
         {/* Tag filters */}
-        <div className="flex flex-col gap-2.5 mb-5">
+        <div className="flex flex-col gap-4 mb-5">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Guide</span>
             <div className="flex flex-wrap gap-1.5">
@@ -358,7 +401,7 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
         </div>
 
         {/* Table */}
-        <DataTable table={table} columnCount={3} emptyMessage="No references match your filters." />
+        <DataTable table={table} columnCount={4} emptyMessage="No references match your filters." />
       </div>
     </>
   )

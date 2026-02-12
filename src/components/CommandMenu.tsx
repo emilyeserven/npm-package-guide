@@ -48,14 +48,14 @@ const testingTooling = ['test-review-checklist', 'test-tools']
 
 function PageItem({ id, onSelect }: { id: string; onSelect: (id: string) => void }) {
   const title = getNavTitle(id)
-  const match = title.match(/^(\S+)\s+(.+)$/)
-  const icon = match ? match[1] : ''
-  const text = match ? match[2] : title
+  const match = title.match(/^(.+)\s+([\u0080-\u{10FFFF}]+)$/u)
+  const text = match ? match[1] : title
+  const icon = match ? match[2] : ''
 
   return (
     <Command.Item value={title} keywords={[id]} onSelect={() => onSelect(id)}>
-      {icon && <span className="mr-2 text-base opacity-70">{icon}</span>}
-      {text}
+      <span>{text}</span>
+      {icon && <span className="ml-2 text-base opacity-70">{icon}</span>}
     </Command.Item>
   )
 }
@@ -93,29 +93,29 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
           All Guides
         </Command.Item>
 
-        <Command.Group heading="Start Here">
+        <Command.Group heading="NPM Package Guide">
           <PageItem id="roadmap" onSelect={handleSelect} />
         </Command.Group>
 
-        <Command.Group heading="Building a Package">
+        <Command.Group heading="NPM Package Guide \u203A Building a Package">
           {buildingPackageOrder.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
         </Command.Group>
 
-        <Command.Group heading="CI Pipeline & Checks">
+        <Command.Group heading="NPM Package Guide \u203A CI Pipeline & Checks">
           {ciOrder.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
         </Command.Group>
 
-        <Command.Group heading="Developer Experience">
+        <Command.Group heading="NPM Package Guide \u203A Developer Experience">
           {bonusOrder.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
         </Command.Group>
 
-        <Command.Group heading="Learning Resources">
+        <Command.Group heading="NPM Package Guide \u203A Learning Resources">
           {resourceIds.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
@@ -126,20 +126,20 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
           <PageItem id="arch-what-is-a-stack" onSelect={handleSelect} />
         </Command.Group>
 
-        <Command.Group heading="Stack Alternatives">
+        <Command.Group heading="Architecture Guide \u203A Stack Alternatives">
           {archStackOrder.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
         </Command.Group>
 
-        <Command.Group heading="Full-Stack Frameworks">
+        <Command.Group heading="Architecture Guide \u203A Full-Stack Frameworks">
           <PageItem id="arch-frameworks-intro" onSelect={handleSelect} />
           {archFrameworkOrder.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
         </Command.Group>
 
-        <Command.Group heading="Putting It Together">
+        <Command.Group heading="Architecture Guide \u203A Putting It Together">
           <PageItem id="arch-how-it-connects" onSelect={handleSelect} />
         </Command.Group>
 
@@ -147,19 +147,19 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
           <PageItem id="test-start" onSelect={handleSelect} />
         </Command.Group>
 
-        <Command.Group heading="Testing Fundamentals">
+        <Command.Group heading="Testing Guide \u203A Testing Fundamentals">
           {testingFundamentals.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
         </Command.Group>
 
-        <Command.Group heading="Comparing Tests">
+        <Command.Group heading="Testing Guide \u203A Comparing Tests">
           {testingPractices.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
         </Command.Group>
 
-        <Command.Group heading="Checklists & Tools">
+        <Command.Group heading="Testing Guide \u203A Checklists & Tools">
           {testingTooling.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
@@ -169,21 +169,21 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
           <PageItem id="prompt-start" onSelect={handleSelect} />
         </Command.Group>
 
-        <Command.Group heading="Common AI Mistakes">
+        <Command.Group heading="Prompt Engineering \u203A Common AI Mistakes">
           {promptMistakesOrder.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
           <PageItem id="prompt-testing" onSelect={handleSelect} />
         </Command.Group>
 
-        <Command.Group heading="Context Management">
+        <Command.Group heading="Prompt Engineering \u203A Context Management">
           {promptCtxOrder.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
           <PageItem id="prompt-claudemd-checklist" onSelect={handleSelect} />
         </Command.Group>
 
-        <Command.Group heading="Tooling & Reference">
+        <Command.Group heading="Prompt Engineering \u203A Tooling & Reference">
           <PageItem id="prompt-cli-reference" onSelect={handleSelect} />
           <PageItem id="prompt-tools-advanced" onSelect={handleSelect} />
           <PageItem id="prompt-meta-tooling" onSelect={handleSelect} />
