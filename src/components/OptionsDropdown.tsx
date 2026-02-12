@@ -4,7 +4,11 @@ import { usePM } from '../hooks/usePMContext'
 import { useTheme } from '../hooks/useTheme'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 
-export function OptionsDropdown() {
+interface OptionsDropdownProps {
+  position?: 'header' | 'sidebar'
+}
+
+export function OptionsDropdown({ position = 'header' }: OptionsDropdownProps) {
   const [open, setOpen] = useState(false)
   const { currentPM, setPM } = usePM()
   const { theme, toggleTheme } = useTheme()
@@ -33,7 +37,10 @@ export function OptionsDropdown() {
       </button>
       <div
         className={clsx(
-          'absolute top-full right-0 mt-1.5 min-w-44 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-lg dark:shadow-black/30 py-1 transition-all duration-150 origin-top-right',
+          'absolute min-w-44 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-lg dark:shadow-black/30 py-1 transition-all duration-150',
+          position === 'sidebar'
+            ? 'left-full bottom-0 ml-1.5 origin-bottom-left'
+            : 'top-full right-0 mt-1.5 origin-top-right',
           open ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'
         )}
         onClick={(e) => e.stopPropagation()}

@@ -3,6 +3,7 @@ import { useParams, Link } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { contentPages } from '../content/registry'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
+import { OptionsDropdown } from './OptionsDropdown'
 
 interface SidebarProps {
   open: boolean
@@ -104,14 +105,6 @@ const guides: GuideDefinition[] = [
       { label: 'Tooling & Reference', ids: ['prompt-cli-reference', 'prompt-tools-advanced', 'prompt-meta-tooling'] },
     ],
   },
-  {
-    id: 'resources',
-    icon: '\u{1F4DA}',        // 📚
-    title: 'Resources',
-    sections: [
-      { label: null, ids: ['external-resources', 'glossary'] },
-    ],
-  },
 ]
 
 const allGuidePageIds = new Map<string, string>()
@@ -170,7 +163,7 @@ function SidebarItem({ id, title, active, onClick }: { id: string; title: string
   return (
     <button
       className={clsx(
-        'flex items-center gap-2 w-full text-left px-3.5 py-2 text-sm rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150',
+        'flex items-center justify-between w-full text-left px-3.5 py-2 text-sm rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150',
         active
           ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold'
           : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
@@ -178,12 +171,12 @@ function SidebarItem({ id, title, active, onClick }: { id: string; title: string
       onClick={() => onClick(id)}
       data-testid={`sidebar-item-${id}`}
     >
+      <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">{text}</span>
       {badge ? (
         <span className={`w-5 h-5 flex items-center justify-center rounded text-[10px] font-bold shrink-0 ${badge.cls}`}>{badge.letter}</span>
       ) : icon ? (
         <span className="text-base leading-none opacity-70 shrink-0">{icon}</span>
       ) : null}
-      <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">{text}</span>
     </button>
   )
 }
@@ -192,24 +185,25 @@ function IconRail({
   activeGuideId,
   onSelectGuide,
   onHomeClick,
+  onResourceClick,
   currentId,
 }: {
   activeGuideId: string | null
   onSelectGuide: (guideId: string) => void
   onHomeClick: () => void
+  onResourceClick: (id: string) => void
   currentId: string
 }) {
+  const iconBtnCls = 'flex items-center justify-center w-10 h-10 rounded-lg border-none cursor-pointer transition-all duration-150'
+  const activeCls = 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400'
+  const inactiveCls = 'bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+
   return (
     <div className="flex flex-col items-center w-[52px] shrink-0 border-r border-slate-200 dark:border-slate-700 py-3 gap-1">
       {/* Home button */}
       <Link
         to="/"
-        className={clsx(
-          'flex items-center justify-center w-10 h-10 rounded-lg border-none cursor-pointer transition-all duration-150',
-          !currentId
-            ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400'
-            : 'bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
-        )}
+        className={clsx(iconBtnCls, !currentId ? activeCls : inactiveCls)}
         onClick={onHomeClick}
         title="Home"
         data-testid="sidebar-home-icon"
@@ -226,12 +220,7 @@ function IconRail({
       {guides.map(guide => (
         <button
           key={guide.id}
-          className={clsx(
-            'flex items-center justify-center w-10 h-10 rounded-lg border-none cursor-pointer transition-all duration-150',
-            activeGuideId === guide.id
-              ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400'
-              : 'bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
-          )}
+          className={clsx(iconBtnCls, activeGuideId === guide.id ? activeCls : inactiveCls)}
           onClick={() => onSelectGuide(guide.id)}
           title={guide.title}
           data-testid={`sidebar-guide-icon-${guide.id}`}
@@ -239,6 +228,34 @@ function IconRail({
           <span className="text-lg leading-none">{guide.icon}</span>
         </button>
       ))}
+
+      {/* Spacer pushes resource icons + settings to bottom */}
+      <div className="mt-auto" />
+
+      {/* Resource icons */}
+      <button
+        className={clsx(iconBtnCls, currentId === 'external-resources' ? activeCls : inactiveCls)}
+        onClick={() => onResourceClick('external-resources')}
+        title="External Resources"
+        data-testid="sidebar-icon-external-resources"
+      >
+        <span className="text-lg leading-none">{'\u{1F4DA}'}</span>
+      </button>
+      <button
+        className={clsx(iconBtnCls, currentId === 'glossary' ? activeCls : inactiveCls)}
+        onClick={() => onResourceClick('glossary')}
+        title="Glossary"
+        data-testid="sidebar-icon-glossary"
+      >
+        <span className="text-lg leading-none">{'\u{1F4D6}'}</span>
+      </button>
+
+      <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5" />
+
+      {/* Settings */}
+      <div className="relative">
+        <OptionsDropdown position="sidebar" />
+      </div>
     </div>
   )
 }
@@ -374,6 +391,12 @@ export function Sidebar({ open, onClose, pinned, onTogglePin }: SidebarProps) {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  const handleResourceClick = (id: string) => {
+    setActiveGuideId(null)
+    onClose()
+    navigateToSection(id)
+  }
+
   return (
     <div
       data-testid="sidebar"
@@ -386,6 +409,7 @@ export function Sidebar({ open, onClose, pinned, onTogglePin }: SidebarProps) {
         activeGuideId={activeGuideId}
         onSelectGuide={setActiveGuideId}
         onHomeClick={handleGuidesHome}
+        onResourceClick={handleResourceClick}
         currentId={currentId}
       />
       <ContentPanel

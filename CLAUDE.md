@@ -131,7 +131,7 @@ Claude artifacts are typically monolithic JSX or HTML files with embedded data a
 ```mdx
 ---
 id: "guide-page-id"
-title: "Page Title"
+title: "🔹 Page Title"
 ---
 
 <h1 className="section-title">{frontmatter.title}</h1>
@@ -161,6 +161,17 @@ Brief intro paragraph.
 - Export `NAV_ORDER` and `PAGE_IDS` from the data file so `navigation.ts` can import them.
 - Register any new interactive MDX components in `src/components/mdx/index.ts` or they won't be available in MDX files.
 - Interactive components with inline styles must support dark mode. Use `useTheme()` and `ds()` helper for theme-conditional values. Add `darkAccent` fields to data interfaces when components use dynamic accent colors.
+
+## Navigation Item Formatting
+
+Every content page's MDX frontmatter `title` must include an emoji prefix (e.g., `"⚡ Logic & Condition Errors"`). This convention applies to all guides (NPM Package, Architecture, Prompt Engineering, and any future guides).
+
+The sidebar `SidebarItem` component (`src/components/Sidebar.tsx`) parses each title with the regex `/^(\S+)\s+(.+)$/` to split the emoji from the text. The `PageItem` in `CommandMenu.tsx` uses the same pattern.
+
+Layout rules for navigation items:
+- Text and icon/badge must always be in **separate `<span>` elements** within navigation items.
+- The parent container uses `justify-between` so text aligns left and icons align to the right edge.
+- New pages must follow this emoji-prefix pattern for consistency across all guides.
 
 ## Pre-Push Checklist
 

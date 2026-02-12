@@ -1,6 +1,5 @@
 import { useParams, useNavigate } from '@tanstack/react-router'
 import clsx from 'clsx'
-import { OptionsDropdown } from './OptionsDropdown'
 
 interface FloatingHeaderProps {
   scrolled: boolean
@@ -9,21 +8,16 @@ interface FloatingHeaderProps {
   effectivelyPinned?: boolean
 }
 
-const npmGuideIds = new Set([
-  'roadmap',
-  'bigpicture', 'monorepo', 'npm-vs-pnpm',
-  'build', 'tsconfig', 'deps', 'dist',
-  'packagejson', 'typescript', 'versioning', 'workflow',
-  'ci-overview', 'ci-linting', 'ci-build', 'ci-testing', 'ci-repo-maintenance',
-  'storybook',
-  'checklist', 'external-resources', 'glossary',
-])
-
 function getGuideInfo(sectionId: string | undefined) {
-  if (!sectionId) return { title: 'Frontend Guides', homeId: null }
-  if (npmGuideIds.has(sectionId)) return { title: 'Web App vs. NPM Package Guide', homeId: 'roadmap' }
-  if (sectionId === 'architecture') return { title: 'Architecture Guide', homeId: 'architecture' }
-  return { title: 'Frontend Guides', homeId: null }
+  if (!sectionId) return { title: 'Dev Guides', homeId: null }
+  if (sectionId.startsWith('arch-') || sectionId === 'architecture')
+    return { title: 'Architecture Guide', homeId: 'arch-start' }
+  if (sectionId.startsWith('prompt-'))
+    return { title: 'Prompt Engineering', homeId: 'prompt-start' }
+  if (sectionId === 'external-resources' || sectionId === 'glossary')
+    return { title: 'Dev Guides', homeId: null }
+  // NPM Package Guide pages (roadmap, build, ci-*, storybook, checklist, etc.)
+  return { title: 'Web App vs. NPM Package Guide', homeId: 'roadmap' }
 }
 
 const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
@@ -91,7 +85,6 @@ export function FloatingHeader({ scrolled, onMenuToggle, onSearchClick, effectiv
               <kbd className="font-sans">K</kbd>
             </span>
           </button>
-          <OptionsDropdown />
         </div>
       </div>
     </div>

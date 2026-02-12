@@ -73,9 +73,12 @@ export function GuidesIndexPage() {
   return (
     <div>
       <div className="mb-7">
-        <h1 className="text-3xl font-bold tracking-tight mb-1">Frontend Guides</h1>
+        <h1 className="text-3xl font-bold tracking-tight mb-1">Dev Guides</h1>
         <p className="text-gray-500 dark:text-slate-400 text-sm">
           Practical guides for backend engineers stepping into the frontend world.
+        </p>
+        <p className="text-xs text-gray-400 dark:text-slate-500 italic mt-2">
+          This app is largely vibe-coded (AI-assisted) but regularly reviewed for accuracy. Content is opinionated and based on personal experience.
         </p>
       </div>
 

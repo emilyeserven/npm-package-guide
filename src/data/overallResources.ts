@@ -98,6 +98,16 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   architecture: { cls: "bg-cyan-100 text-cyan-800 dark:bg-cyan-500/15 dark:text-cyan-300", label: "Architecture" },
   frameworks: { cls: "bg-rose-100 text-rose-800 dark:bg-rose-500/15 dark:text-rose-300", label: "Frameworks" },
   databases: { cls: "bg-emerald-50 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300", label: "Databases" },
+  // Glossary categories
+  "cat:package-management": { cls: "bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300", label: "Package Management" },
+  "cat:dependencies": { cls: "bg-violet-100 text-violet-800 dark:bg-violet-500/20 dark:text-violet-300", label: "Dependencies" },
+  "cat:build-bundling": { cls: "bg-orange-100 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300", label: "Build & Bundling" },
+  "cat:typescript": { cls: "bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300", label: "TypeScript" },
+  "cat:package-configuration": { cls: "bg-yellow-100 text-yellow-800 dark:bg-yellow-500/15 dark:text-yellow-300", label: "Package Configuration" },
+  "cat:development-workflow": { cls: "bg-teal-100 text-teal-800 dark:bg-teal-500/15 dark:text-teal-300", label: "Development Workflow" },
+  "cat:web-architecture": { cls: "bg-cyan-100 text-cyan-800 dark:bg-cyan-500/15 dark:text-cyan-300", label: "Web Architecture" },
+  "cat:databases": { cls: "bg-emerald-50 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300", label: "Databases" },
+  "cat:full-stack-frameworks": { cls: "bg-rose-100 text-rose-800 dark:bg-rose-500/15 dark:text-rose-300", label: "Full-Stack Frameworks" },
 };
 
 export const typeTags = new Set(["docs", "article", "course", "video", "repo", "interactive", "free", "paid"]);
