@@ -132,6 +132,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         {bonusItems.map(item => (
           <SidebarItem key={item.id} {...item} active={currentId === item.id} onClick={handleNav} />
         ))}
+        <SidebarItem id="architecture" title={'\u{1F3D7}\uFE0F Architecture Guide'} active={currentId === 'architecture'} onClick={handleNav} />
 
         <div className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Bonus: Learning Resources</div>
         {resourceItems.map(item => (

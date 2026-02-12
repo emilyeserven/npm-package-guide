@@ -15,6 +15,7 @@ export function getNavOrder(): string[] {
     "packagejson", "typescript", "versioning", "workflow",
     ...ciPageIds,
     ...bonusIds,
+    "architecture",
     "checklist", "external-resources", "glossary",
   ]
 }
@@ -24,6 +25,7 @@ const staticTitles: Record<string, string> = {
   checklist: "\u2705 Publish Checklist",
   "external-resources": "\u{1F4DA} External Resources",
   glossary: "\u{1F4D6} Glossary",
+  architecture: "\u{1F3D7}\uFE0F Architecture Guide",
 }
 
 export function getNavTitle(id: string): string {

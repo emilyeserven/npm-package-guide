@@ -20,6 +20,7 @@ const bonusPageOrder = ['storybook']
 
 const bonusDescriptions: Record<string, string> = {
   storybook: 'Storybook is a tool for building and testing UI components in isolation — outside of your app. Think of it like a visual unit test lab for your UI.',
+  architecture: 'An interactive guide to web tech stacks — explore each layer of a modified MERN stack and compare popular alternatives like LAMP, Django, and Rails.',
 }
 
 export function RoadmapPage() {
@@ -90,6 +91,21 @@ export function RoadmapPage() {
     html += `</div>`
     html += `</div></div>`
   })
+
+  // Bonus: Architecture Guide (static — not in contentPages)
+  {
+    const archDesc = bonusDescriptions['architecture'] ?? ''
+    html += `<div class="step-card bonus-step">`
+    html += `<div class="step-number bonus-number">★</div>`
+    html += `<div class="step-content">`
+    html += `<div class="step-title">Bonus: Developer Experience</div>`
+    html += `<div class="bonus-subpage">`
+    html += `<h3 class="bonus-subpage-title">\u{1F3D7}\uFE0F Architecture Guide</h3>`
+    html += `<div class="bonus-subpage-desc">${archDesc}</div>`
+    html += `<button class="step-jump" data-jump="architecture">→ Deep dive: \u{1F3D7}\uFE0F Architecture Guide</button>`
+    html += `</div>`
+    html += `</div></div>`
+  }
 
   // Bonus: Learning Resources
   html += `<div class="step-card bonus-step">`
