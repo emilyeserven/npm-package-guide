@@ -1,6 +1,18 @@
 ---
 id: "arch-how-it-connects"
 title: "🔄 How it all Connects"
+usedFootnotes: [1]
+links:
+  - label: "MDN — An overview of HTTP"
+    url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview"
+    source: "MDN"
+  - label: "MDN — How the web works"
+    url: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works"
+    source: "MDN"
+  - label: "REST API design best practices"
+    url: "https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design"
+    source: "Microsoft"
+    note: "Comprehensive guide to designing web APIs that are consistent, discoverable, and maintainable"
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
@@ -19,7 +31,7 @@ Understanding how data flows through a stack is just as important as understandi
 <SectionSubheading id="toc-cycle">{'\u{1F501}'} The request-response cycle</SectionSubheading>
 
 <SectionList>
-<ColItem>Every web interaction follows the same basic pattern: the **frontend** sends a request, the **server** processes it (often querying the **database**), and a response flows back to update the screen.</ColItem>
+<ColItem>Every web interaction follows the same basic pattern:<FnRef n={1} /> the **frontend** sends a request, the **server** processes it (often querying the **database**), and a response flows back to update the screen.</ColItem>
 <ColItem>This pattern is **the same regardless of which stack you use**. Whether it's React talking to Fastify, Angular talking to Express, or PHP rendering HTML directly &mdash; the fundamental flow doesn't change.</ColItem>
 <ColItem>The stack determines **how** each step happens (JSON API vs. server-rendered HTML, SQL vs. NoSQL queries), but the **order** and **purpose** of each step stays constant.</ColItem>
 </SectionList>

@@ -40,6 +40,19 @@ const sectionTopicMap: Record<string, string[]> = {
   'ci-testing': ['ci-cd', 'testing'],
   'ci-repo-maintenance': ['ci-cd', 'tooling'],
   storybook: ['tooling', 'testing'],
+  'arch-what-is-a-stack': ['architecture'],
+  'arch-stack-mern': ['architecture', 'databases'],
+  'arch-stack-pfrn': ['architecture', 'databases'],
+  'arch-stack-mean': ['architecture'],
+  'arch-stack-lamp': ['architecture', 'databases'],
+  'arch-stack-django': ['architecture', 'databases'],
+  'arch-stack-rails': ['architecture', 'databases'],
+  'arch-frameworks-intro': ['architecture', 'frameworks'],
+  'arch-fw-nextjs': ['frameworks'],
+  'arch-fw-react-router': ['frameworks'],
+  'arch-fw-tanstack-start': ['frameworks', 'typescript'],
+  'arch-fw-remix': ['frameworks'],
+  'arch-how-it-connects': ['architecture'],
 }
 
 // Generate short relevance descriptions for section references
@@ -61,6 +74,19 @@ const sectionDescMap: Record<string, string> = {
   'ci-testing': 'Automated testing for packages',
   'ci-repo-maintenance': 'Keeping dependencies and exports clean',
   storybook: 'Component documentation and visual testing',
+  'arch-what-is-a-stack': 'Understanding the concept and structure of web technology stacks',
+  'arch-stack-mern': 'MongoDB, Express, React, Node.js — the popular all-JavaScript stack',
+  'arch-stack-pfrn': 'PostgreSQL, Fastify, React, Node.js — the production-ready alternative',
+  'arch-stack-mean': 'MongoDB, Express, Angular, Node.js — enterprise-friendly with Angular',
+  'arch-stack-lamp': 'Linux, Apache, MySQL, PHP — the battle-tested classic',
+  'arch-stack-django': 'PostgreSQL, Django, React/Vue, Python — batteries included',
+  'arch-stack-rails': 'PostgreSQL, Ruby on Rails, Hotwire/React, Ruby — convention over configuration',
+  'arch-frameworks-intro': 'Introduction to full-stack React frameworks',
+  'arch-fw-nextjs': 'The most popular React meta-framework by Vercel',
+  'arch-fw-react-router': 'React Router v7 full-stack framework mode',
+  'arch-fw-tanstack-start': 'Type-safe full-stack framework from the TanStack ecosystem',
+  'arch-fw-remix': 'Pioneering web-standards framework merged into React Router',
+  'arch-how-it-connects': 'How data flows through a stack from browser to database',
 }
 
 function buildReferenceData(): ReferenceRow[] {
