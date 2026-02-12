@@ -1,0 +1,39 @@
+---
+id: "arch-stack-lamp"
+title: "💡 LAMP Stack"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-explore">Explore each component</TocLink>
+  <TocLink id="toc-tradeoffs">Strengths & tradeoffs</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+The **LAMP** stack &mdash; **Linux**, **Apache**, **MySQL**, **PHP** &mdash; powered most of the early internet and remains one of the most deployed stacks worldwide. WordPress (43% of all websites), Facebook (originally), and Wikipedia all run on it. Unlike JavaScript stacks, LAMP uses PHP on the server and renders HTML directly &mdash; no separate frontend framework needed.
+</SectionIntro>
+
+<h2 className="section-subheading" id="toc-overview">{'\u{1F4CB}'} Overview</h2>
+
+<div className="section-list">
+<ColItem>**Server-rendered HTML** &mdash; PHP generates complete HTML pages on the server. No JavaScript framework needed for basic interactivity &mdash; the page arrives ready to use.</ColItem>
+<ColItem>**Universally available hosting** &mdash; Virtually every web host supports LAMP out of the box. Shared hosting for a few dollars a month can run a full LAMP application.</ColItem>
+<ColItem>**Battle-tested for decades** &mdash; LAMP has been powering the web since the mid-1990s. The tooling, documentation, and community knowledge are unmatched.</ColItem>
+</div>
+
+<h2 className="section-subheading" id="toc-explore">{'\u{1F50D}'} Explore each component</h2>
+
+Click any component to see what it does, why it matters, and a backend-friendly analogy.
+
+<StackExplorer stackId="lamp" />
+
+<h2 className="section-subheading" id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</h2>
+
+<StackProsCons stackId="lamp" />
+
+<Explainer title="LAMP &mdash; a backend analogy">
+If modern JavaScript stacks are like container-orchestrated microservices, LAMP is like a traditional monolithic service running on a single VM. It's proven, predictable, and easy to deploy — you upload PHP files to a server and they just work. There's no build step, no bundler, no package resolution at deploy time. For backend engineers, LAMP feels closest to "just write code and ship it" without the modern frontend toolchain complexity. The trade-off is that scaling and real-time features require more manual work.
+</Explainer>

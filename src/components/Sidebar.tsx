@@ -26,6 +26,11 @@ const ciOrder = [
 
 const bonusOrder = ['storybook']
 
+const archStackOrder = [
+  'arch-stack-mern', 'arch-stack-pfrn', 'arch-stack-mean',
+  'arch-stack-lamp', 'arch-stack-django', 'arch-stack-rails',
+]
+
 const guides: GuideDefinition[] = [
   {
     id: 'npm-package',
@@ -44,7 +49,9 @@ const guides: GuideDefinition[] = [
     icon: '\u{1F3D7}\uFE0F',  // 🏗️
     title: 'Architecture Guide',
     sections: [
-      { label: null, ids: ['architecture'] },
+      { label: null, ids: ['arch-start', 'arch-what-is-a-stack'] },
+      { label: 'Stack Alternatives', ids: archStackOrder },
+      { label: 'Putting It Together', ids: ['arch-how-it-connects'] },
     ],
   },
 ]
@@ -57,6 +64,8 @@ for (const guide of guides) {
     }
   }
 }
+// Legacy route: #/architecture renders ArchStartPage
+allGuidePageIds.set('architecture', 'architecture')
 
 function findGuideForPage(pageId: string): GuideDefinition | undefined {
   const guideId = allGuidePageIds.get(pageId)
@@ -67,10 +76,10 @@ function findGuideForPage(pageId: string): GuideDefinition | undefined {
 
 const titleOverrides: Record<string, string> = {
   'roadmap': '\u{1F680} Start Here',
+  'arch-start': '\u{1F3D7}\uFE0F Start Here',
   'checklist': '\u2705 Publish Checklist',
   'external-resources': '\u{1F4DA} External Resources',
   'glossary': '\u{1F4D6} Glossary',
-  'architecture': '\u{1F3D7}\uFE0F Architecture Guide',
 }
 
 function resolveItems(ids: string[]) {
@@ -204,7 +213,7 @@ function ContentPanel({
                 <SidebarItem
                   key={item.id}
                   {...item}
-                  active={currentId === item.id}
+                  active={currentId === item.id || (item.id === 'arch-start' && currentId === 'architecture')}
                   onClick={onNav}
                 />
               ))}

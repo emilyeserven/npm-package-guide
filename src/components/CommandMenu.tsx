@@ -22,6 +22,11 @@ const bonusOrder = ['storybook']
 
 const resourceIds = ['checklist', 'external-resources', 'glossary']
 
+const archStackOrder = [
+  'arch-stack-mern', 'arch-stack-pfrn', 'arch-stack-mean',
+  'arch-stack-lamp', 'arch-stack-django', 'arch-stack-rails',
+]
+
 function PageItem({ id, onSelect }: { id: string; onSelect: (id: string) => void }) {
   const title = getNavTitle(id)
   const match = title.match(/^(\S+)\s+(.+)$/)
@@ -98,7 +103,18 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
         </Command.Group>
 
         <Command.Group heading="Architecture Guide">
-          <PageItem id="architecture" onSelect={handleSelect} />
+          <PageItem id="arch-start" onSelect={handleSelect} />
+          <PageItem id="arch-what-is-a-stack" onSelect={handleSelect} />
+        </Command.Group>
+
+        <Command.Group heading="Stack Alternatives">
+          {archStackOrder.map(id => (
+            <PageItem key={id} id={id} onSelect={handleSelect} />
+          ))}
+        </Command.Group>
+
+        <Command.Group heading="Putting It Together">
+          <PageItem id="arch-how-it-connects" onSelect={handleSelect} />
         </Command.Group>
       </Command.List>
     </Command.Dialog>

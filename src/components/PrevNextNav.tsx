@@ -3,7 +3,7 @@ import { useNavigateToSection } from '../hooks/useNavigateToSection'
 
 export function PrevNextNav({ currentId }: { currentId: string }) {
   const navigateToSection = useNavigateToSection()
-  const order = getNavOrder()
+  const order = getNavOrder(currentId)
   const idx = order.indexOf(currentId)
 
   return (

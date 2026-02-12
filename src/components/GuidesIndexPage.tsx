@@ -19,7 +19,7 @@ const guides: GuideTile[] = [
   },
   {
     id: 'architecture',
-    sectionId: 'architecture',
+    sectionId: 'arch-start',
     icon: '\u{1F3D7}\uFE0F',
     title: 'Architecture Guide',
     description:

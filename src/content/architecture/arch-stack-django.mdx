@@ -1,0 +1,39 @@
+---
+id: "arch-stack-django"
+title: "🐍 Django Stack"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-explore">Explore each component</TocLink>
+  <TocLink id="toc-tradeoffs">Strengths & tradeoffs</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+The **Django stack** pairs Python's most popular web framework with a modern JavaScript frontend. Django follows the "batteries included" philosophy &mdash; it comes with an admin panel, ORM, authentication, and security protections built in. If you know Python, Django gets you from zero to production faster than almost anything else.
+</SectionIntro>
+
+<h2 className="section-subheading" id="toc-overview">{'\u{1F4CB}'} Overview</h2>
+
+<div className="section-list">
+<ColItem>**Batteries included** &mdash; Django ships with an admin panel, ORM, auth system, form handling, and security protections. You don't need to assemble these from separate packages.</ColItem>
+<ColItem>**Python-powered** &mdash; If your team already knows Python or needs data science / ML integration, Django lets you use the same language on the backend.</ColItem>
+<ColItem>**Strong security defaults** &mdash; Django protects against CSRF, XSS, SQL injection, and clickjacking out of the box, with no extra configuration needed.</ColItem>
+</div>
+
+<h2 className="section-subheading" id="toc-explore">{'\u{1F50D}'} Explore each component</h2>
+
+Click any component to see what it does, why it matters, and a backend-friendly analogy.
+
+<StackExplorer stackId="django" />
+
+<h2 className="section-subheading" id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</h2>
+
+<StackProsCons stackId="django" />
+
+<Explainer title="Django &mdash; a backend analogy">
+Django is like choosing Spring Boot for Java or ASP.NET for C# — an opinionated, feature-rich framework where the ecosystem gives you most of what you need out of the box. The built-in admin panel alone is worth its weight in gold for internal tools. The trade-off is that you're now running two languages (Python backend + JavaScript frontend), which means two package ecosystems, two build systems, and two sets of conventions. For teams that already live in Python, this is a non-issue. For JavaScript-first teams, it adds overhead.
+</Explainer>

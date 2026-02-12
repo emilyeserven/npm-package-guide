@@ -5,7 +5,7 @@ import { RoadmapPage } from './components/RoadmapPage'
 import { ChecklistPage } from './components/ChecklistPage'
 import { ExternalResourcesPage } from './components/ExternalResourcesPage'
 import { GlossaryPage } from './components/GlossaryPage'
-import { ArchitecturePage } from './components/ArchitecturePage'
+import { ArchStartPage } from './components/ArchStartPage'
 import { MDXPageWrapper } from './components/MDXPageWrapper'
 import { contentPages } from './content/registry'
 
@@ -27,7 +27,7 @@ function SectionRouter() {
   if (sectionId === 'checklist') return <ChecklistPage />
   if (sectionId === 'external-resources') return <ExternalResourcesPage />
   if (sectionId === 'glossary') return <GlossaryPage />
-  if (sectionId === 'architecture') return <ArchitecturePage />
+  if (sectionId === 'architecture' || sectionId === 'arch-start') return <ArchStartPage />
 
   const page = contentPages.get(sectionId)
   if (page) return <MDXPageWrapper page={page} />

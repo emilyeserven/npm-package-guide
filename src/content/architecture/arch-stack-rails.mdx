@@ -1,0 +1,39 @@
+---
+id: "arch-stack-rails"
+title: "🛤️ Rails Stack"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-explore">Explore each component</TocLink>
+  <TocLink id="toc-tradeoffs">Strengths & tradeoffs</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+The **Rails stack** is built around Ruby on Rails &mdash; a framework famous for "convention over configuration" and developer happiness. GitHub, Shopify, and Basecamp were built with it. Rails makes hundreds of decisions for you so you can focus on building features instead of setting up boilerplate.
+</SectionIntro>
+
+<h2 className="section-subheading" id="toc-overview">{'\u{1F4CB}'} Overview</h2>
+
+<div className="section-list">
+<ColItem>**Convention over configuration** &mdash; Rails decides how to organize files, name database tables, and structure routes. Follow the conventions and things just work.</ColItem>
+<ColItem>**Ship fast** &mdash; Rails can scaffold entire features (models, views, controllers, database migrations) with a single command. Rapid development is a core philosophy.</ColItem>
+<ColItem>**Hotwire for modern frontends** &mdash; Rails' Hotwire approach (Turbo + Stimulus) delivers interactive UIs with minimal JavaScript, or you can integrate React for complex frontends.</ColItem>
+</div>
+
+<h2 className="section-subheading" id="toc-explore">{'\u{1F50D}'} Explore each component</h2>
+
+Click any component to see what it does, why it matters, and a backend-friendly analogy.
+
+<StackExplorer stackId="rails" />
+
+<h2 className="section-subheading" id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</h2>
+
+<StackProsCons stackId="rails" />
+
+<Explainer title="Rails &mdash; a backend analogy">
+Rails is like an opinionated CLI tool that generates your entire project structure. If you've used Spring Initializr, Create React App, or `django-admin startproject`, imagine that level of scaffolding applied to everything — database schemas, API endpoints, tests, even email templates. The "magic" comes from metaprogramming: Rails uses Ruby's dynamic features to infer behavior from naming conventions. The upside is incredible productivity. The downside is that when conventions break or you need to do something non-standard, debugging the magic can feel like reverse-engineering a black box.
+</Explainer>
