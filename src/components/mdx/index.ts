@@ -9,6 +9,10 @@ import {
   CIStep, CIStepText, CIYaml, YamlHeading, CITip, CIOverviewCards, CIOverviewCard,
   CIFullExample, AiPromptsAccordion, MaintenanceTool, GoodTestsList,
 } from './CILayout'
+import { StackExplorer } from './StackExplorer'
+import { StackProsCons } from './StackProsCons'
+import { DataFlowDiagram } from './DataFlowDiagram'
+import { LayerDiagram } from './LayerDiagram'
 
 export const mdxComponents: MDXComponents = {
   Cmd,
@@ -35,4 +39,8 @@ export const mdxComponents: MDXComponents = {
   AiPromptsAccordion,
   MaintenanceTool,
   GoodTestsList,
+  StackExplorer,
+  StackProsCons,
+  DataFlowDiagram,
+  LayerDiagram,
 }

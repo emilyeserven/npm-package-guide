@@ -1,0 +1,39 @@
+---
+id: "arch-stack-mean"
+title: "🔷 MEAN Stack"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-explore">Explore each component</TocLink>
+  <TocLink id="toc-tradeoffs">Strengths & tradeoffs</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+The **MEAN** stack &mdash; **MongoDB**, **Express**, **Angular**, **Node.js** &mdash; is like MERN but swaps React for Angular. While React is a library that lets you choose your own tools, Angular is a full framework with routing, forms, HTTP, and more built in. Everything else stays the same.
+</SectionIntro>
+
+<h2 className="section-subheading" id="toc-overview">{'\u{1F4CB}'} Overview</h2>
+
+<div className="section-list">
+<ColItem>**Full framework frontend** &mdash; Angular includes routing, form handling, HTTP client, dependency injection, and testing utilities out of the box. No need to choose separate libraries.</ColItem>
+<ColItem>**TypeScript-first** &mdash; Angular was built with TypeScript from the start, making it a natural fit for teams that want strong typing everywhere.</ColItem>
+<ColItem>**Enterprise-friendly** &mdash; Angular's opinionated structure keeps large codebases consistent across many developers, which is why it's popular in enterprise teams.</ColItem>
+</div>
+
+<h2 className="section-subheading" id="toc-explore">{'\u{1F50D}'} Explore each component</h2>
+
+Click any component to see what it does, why it matters, and a backend-friendly analogy.
+
+<StackExplorer stackId="mean" />
+
+<h2 className="section-subheading" id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</h2>
+
+<StackProsCons stackId="mean" />
+
+<Explainer title="MEAN &mdash; a backend analogy">
+If MERN is like choosing Flask (lightweight, pick your own tools), MEAN with Angular is like choosing Spring Boot (opinionated, everything included). Angular gives you more structure and built-in tooling at the cost of flexibility. For large teams where consistency matters more than freedom, this trade-off is often worth it — the same reason enterprise backend teams often choose Spring over lighter alternatives.
+</Explainer>

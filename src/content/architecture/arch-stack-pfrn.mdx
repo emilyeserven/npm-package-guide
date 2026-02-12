@@ -1,0 +1,43 @@
+---
+id: "arch-stack-pfrn"
+title: "⚡ PFRN Stack (This Guide)"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-explore">Explore each layer</TocLink>
+  <TocLink id="toc-tradeoffs">Strengths & tradeoffs</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+The **PFRN** stack is a modified version of MERN that swaps MongoDB for **PostgreSQL** (a more structured database) and Express for **Fastify** (a faster server framework), while keeping React and Node.js the same. This demonstrates a key architecture principle: **you can swap individual layers without rewriting everything else**.
+</SectionIntro>
+
+<h2 className="section-subheading" id="toc-overview">{'\u{1F4CB}'} Overview</h2>
+
+<div className="section-list">
+<ColItem>**Stronger data layer** &mdash; PostgreSQL enforces data integrity through schemas, constraints, and relationships. Much harder to save bad data compared to MongoDB.</ColItem>
+<ColItem>**Faster server** &mdash; Fastify handles significantly more requests per second than Express, with built-in schema validation and a cleaner plugin architecture.</ColItem>
+<ColItem>**Same JavaScript ecosystem** &mdash; React and Node.js stay the same, so you keep the one-language benefit of MERN while upgrading the backend.</ColItem>
+</div>
+
+<SectionNote>
+This is the stack explored throughout this guide. The "Traditional" and "Modified" tabs below show exactly what changed from the original MERN stack and why.
+</SectionNote>
+
+<h2 className="section-subheading" id="toc-explore">{'\u{1F50D}'} Explore each layer</h2>
+
+Click any layer to compare the traditional (MERN) choice with the modified (PFRN) alternative. Unchanged layers show why they didn't need to change.
+
+<StackExplorer stackId="pfrn" />
+
+<h2 className="section-subheading" id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</h2>
+
+<StackProsCons stackId="pfrn" />
+
+<Explainer title="PFRN &mdash; a backend analogy">
+Think of PFRN as upgrading your backend service from a prototype to production. It's like swapping a Python dictionary-based cache for Redis, or replacing a simple Flask server with FastAPI — you get better performance, stronger data validation, and more structure, but you need more upfront design. The MERN-to-PFRN shift mirrors how backend teams typically evolve: start with something flexible, then tighten things up once you understand your data model.
+</Explainer>

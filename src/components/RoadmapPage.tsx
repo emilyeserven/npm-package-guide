@@ -102,7 +102,7 @@ export function RoadmapPage() {
     html += `<div class="bonus-subpage">`
     html += `<h3 class="bonus-subpage-title">\u{1F3D7}\uFE0F Architecture Guide</h3>`
     html += `<div class="bonus-subpage-desc">${archDesc}</div>`
-    html += `<button class="step-jump" data-jump="architecture">→ Deep dive: \u{1F3D7}\uFE0F Architecture Guide</button>`
+    html += `<button class="step-jump" data-jump="arch-start">→ Deep dive: \u{1F3D7}\uFE0F Architecture Guide</button>`
     html += `</div>`
     html += `</div></div>`
   }
