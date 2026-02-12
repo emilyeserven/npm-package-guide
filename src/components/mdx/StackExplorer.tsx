@@ -83,11 +83,58 @@ export function StackExplorer({ stackId }: { stackId: string }) {
   const active = stack?.components.find(c => c.id === activeId)
   const isPfrn = stackId === "pfrn"
 
+  // Letter header: show only when all piece first letters are unique (MERN, PFRN, MEAN, LAMP)
+  const pieceLetters = stack?.pieces.map(p => p[0].toUpperCase()) ?? []
+  const showLetterHeader = new Set(pieceLetters).size === pieceLetters.length && pieceLetters.length > 0
+  const letterItems = showLetterHeader && stack
+    ? stack.pieces.map(piece => {
+        const letter = piece[0].toUpperCase()
+        const comp = stack.components.find(c => c.name[0].toUpperCase() === letter)
+        return { letter, comp }
+      })
+    : []
+
   if (!stack) return <div>Stack not found: {stackId}</div>
 
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", color: "#1e293b" }}>
-      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+
+      {/* Clickable letter header */}
+      {showLetterHeader && (
+        <div style={{ textAlign: "center", marginBottom: "20px" }}>
+          <div style={{
+            fontFamily: "'DM Serif Display', serif",
+            fontSize: "38px",
+            letterSpacing: "-1px",
+            marginBottom: "4px",
+            display: "flex",
+            justifyContent: "center",
+            gap: "3px",
+            flexWrap: "wrap",
+          }}>
+            {letterItems.map(({ letter, comp }) => (
+              <span
+                key={letter}
+                onClick={() => comp && setActiveId(comp.id)}
+                style={{
+                  color: comp && activeId === comp.id ? comp.color : "#cbd5e1",
+                  cursor: "pointer",
+                  transition: "color 0.25s",
+                }}
+              >
+                {letter}
+              </span>
+            ))}
+            <span style={{
+              color: "#cbd5e1",
+              marginLeft: "6px",
+              fontSize: "26px",
+              alignSelf: "center",
+            }}>Stack</span>
+          </div>
+        </div>
+      )}
 
       {/* Component bars */}
       <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "28px" }}>
