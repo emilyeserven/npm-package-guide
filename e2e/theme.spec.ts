@@ -11,12 +11,17 @@ test.describe('Theme Toggle', () => {
     // Default should be light (no dark class)
     await expect(html).not.toHaveClass(/dark/)
 
-    // Click theme toggle to switch to dark
-    await page.locator('[data-testid="theme-toggle"]').click()
+    // Open sidebar, then open options dropdown
+    await page.locator('[data-testid="menu-toggle"]').click()
+    await page.locator('[data-testid="options-dropdown-toggle"]').click()
+
+    // Click Dark to switch to dark mode
+    await page.locator('[data-testid="theme-option-dark"]').click()
     await expect(html).toHaveClass(/dark/)
 
-    // Click again to switch back to light
-    await page.locator('[data-testid="theme-toggle"]').click()
+    // Re-open dropdown and click Light to switch back
+    await page.locator('[data-testid="options-dropdown-toggle"]').click()
+    await page.locator('[data-testid="theme-option-light"]').click()
     await expect(html).not.toHaveClass(/dark/)
   })
 })
