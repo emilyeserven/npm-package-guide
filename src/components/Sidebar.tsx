@@ -1,4 +1,4 @@
-import { useParams } from '@tanstack/react-router'
+import { useParams, useNavigate } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { contentPages } from '../content/registry'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
@@ -51,13 +51,20 @@ function resolveItems(ids: string[]) {
 }
 
 export function Sidebar({ open, onClose }: SidebarProps) {
+  const navigate = useNavigate()
   const navigateToSection = useNavigateToSection()
   const params = useParams({ strict: false }) as { sectionId?: string }
-  const currentId = params.sectionId || 'roadmap'
+  const currentId = params.sectionId || ''
 
   const handleNav = (id: string) => {
     onClose()
     navigateToSection(id)
+  }
+
+  const handleGuidesHome = () => {
+    onClose()
+    navigate({ to: '/' })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const topItems = [
@@ -92,6 +99,21 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         </button>
       </div>
       <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-0.5">
+        <button
+          className={clsx(
+            'flex items-center w-full text-left px-3.5 py-2 text-sm rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150',
+            !currentId
+              ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold'
+              : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+          )}
+          onClick={handleGuidesHome}
+          data-testid="sidebar-item-guides-home"
+        >
+          <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">All Guides</span>
+          <span className="ml-2 text-base leading-none opacity-70 shrink-0">{'\u{1F4CB}'}</span>
+        </button>
+
+        <div className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mt-5 mb-1.5 px-3.5">Web App vs. NPM Package</div>
         {topItems.map(item => (
           <SidebarItem key={item.id} {...item} active={currentId === item.id} onClick={handleNav} />
         ))}

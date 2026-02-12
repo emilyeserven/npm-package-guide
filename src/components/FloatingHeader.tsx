@@ -1,8 +1,7 @@
-import { useParams } from '@tanstack/react-router'
+import { useParams, useNavigate } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { PMDropdown } from './PMDropdown'
 import { useTheme } from '../hooks/useTheme'
-import { useNavigateToSection } from '../hooks/useNavigateToSection'
 
 interface FloatingHeaderProps {
   scrolled: boolean
@@ -10,14 +9,14 @@ interface FloatingHeaderProps {
 }
 
 export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) {
-  const navigateToSection = useNavigateToSection()
+  const navigate = useNavigate()
   const params = useParams({ strict: false }) as { sectionId?: string }
-  const sectionId = params.sectionId || 'roadmap'
-  const isHome = sectionId === 'roadmap'
+  const isGuidesIndex = !params.sectionId
   const { theme, toggleTheme } = useTheme()
 
   const handleHomeClick = () => {
-    navigateToSection('roadmap')
+    navigate({ to: '/' })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   return (
@@ -39,10 +38,10 @@ export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) 
           </span>
         </button>
         <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 whitespace-nowrap overflow-hidden text-ellipsis min-w-0 max-sm:text-sm">
-          Web App vs. NPM Package Guide
+          {isGuidesIndex ? 'Frontend Guides' : 'Web App vs. NPM Package Guide'}
         </span>
         <div className="ml-auto relative shrink-0 flex items-center gap-2">
-          {!isHome && (
+          {!isGuidesIndex && (
             <button
               className="flex items-center gap-1.5 font-sans text-xs font-semibold h-9 px-2.5 rounded-lg bg-transparent text-gray-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 cursor-pointer transition-all duration-150 whitespace-nowrap hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400"
               onClick={handleHomeClick}
@@ -52,7 +51,7 @@ export function FloatingHeader({ scrolled, onMenuToggle }: FloatingHeaderProps) 
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                 <polyline points="9 22 9 12 15 12 15 22"/>
               </svg>
-              Start Here
+              All Guides
             </button>
           )}
           <button
