@@ -344,16 +344,14 @@ export const TAG_COLORS: Record<TestType, { color: string; bg: string; darkBg: s
 
 /* ───────────────────────── NAVIGATION ───────────────────────── */
 
-export const TESTING_NAV_ORDER = [
-  'test-start',
-  'test-overview',
-  'test-unit',
-  'test-component',
-  'test-e2e',
-  'test-comparison',
-  'test-best-practices',
-  'test-review-checklist',
-  'test-tools',
+import type { GuideSection } from './guideTypes'
+
+export const TESTING_GUIDE_SECTIONS: GuideSection[] = [
+  { label: null, ids: ['test-start'] },
+  { label: 'Testing Fundamentals', ids: ['test-overview', 'test-unit', 'test-component', 'test-e2e'] },
+  { label: 'Comparing Tests', ids: ['test-comparison', 'test-best-practices'] },
+  { label: 'Checklists & Tools', ids: ['test-review-checklist', 'test-tools'] },
 ]
 
+export const TESTING_NAV_ORDER = TESTING_GUIDE_SECTIONS.flatMap(s => s.ids)
 export const TESTING_PAGE_IDS = new Set(TESTING_NAV_ORDER)

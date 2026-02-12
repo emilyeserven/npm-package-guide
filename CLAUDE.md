@@ -6,7 +6,7 @@ Educational single-page application (SPA) with multiple guides for backend engin
 
 ## Guides
 
-The site contains two independent guides, each with its own Start Here page, navigation order, and Previous/Next links, plus top-level resource pages shared across all guides:
+The site contains four independent guides, each with its own Start Here page, navigation order, and Previous/Next links, plus top-level resource pages shared across all guides. All guide metadata (id, icon, title, sections) is centralized in `src/data/guideRegistry.ts`.
 
 ### NPM Package Guide (`Web App vs. NPM Package`)
 - **Start page:** `roadmap` (`src/components/RoadmapPage.tsx`)
@@ -16,9 +16,20 @@ The site contains two independent guides, each with its own Start Here page, nav
 ### Architecture Guide
 - **Start page:** `arch-start` (`src/components/ArchStartPage.tsx`)
 - **Content pages:** MDX files in `src/content/architecture/`
-- **Data:** `src/data/archData.ts` (stack data, layer data, data flow, framework data)
+- **Data:** `src/data/archData.ts` (stack data, layer data, data flow, framework data, `ARCH_GUIDE_SECTIONS`)
 - **Interactive MDX components:** `src/components/mdx/StackExplorer.tsx`, `StackProsCons.tsx`, `DataFlowDiagram.tsx`, `LayerDiagram.tsx`, `FrameworkExplorer.tsx`, `FrameworkProsCons.tsx`
-- **Page IDs:** `arch-start`, `arch-what-is-a-stack`, `arch-stack-{mern,pfrn,mean,lamp,django,rails}`, `arch-frameworks-intro`, `arch-fw-{nextjs,react-router,tanstack-start,remix}`, `arch-how-it-connects`
+
+### Testing Guide
+- **Start page:** `test-start` (`src/components/TestingStartPage.tsx`)
+- **Content pages:** MDX files in `src/content/testing/`
+- **Data:** `src/data/testingData.ts` (pyramid levels, comparison rows, practice cards, `TESTING_GUIDE_SECTIONS`)
+- **Interactive MDX components:** `src/components/mdx/TestingPyramid.tsx`, `ComparisonTable.tsx`, `TestingMistakeList.tsx`
+
+### Prompt Engineering Guide
+- **Start page:** `prompt-start` (`src/components/PromptStartPage.tsx`)
+- **Content pages:** MDX files in `src/content/prompt-engineering/`
+- **Data:** `src/data/promptData.ts` (mistake categories, context techniques, `PROMPT_GUIDE_SECTIONS`)
+- **Interactive MDX components:** `src/components/mdx/MistakeList.tsx`, `MistakeSeverityBadge.tsx`, `ContextAccordion.tsx`
 
 ### Top-Level Resources
 - **External Resources** (`src/components/ExternalResourcesPage.tsx`) — searchable, filterable table of documentation, articles, courses, and tools. Tagged with Guide, Type, and Topic filters. Data in `src/data/overallResources.ts`.
@@ -53,7 +64,11 @@ The site contains two independent guides, each with its own Start Here page, nav
   - `src/content/ci/` — NPM Package Guide CI pipeline sections
   - `src/content/bonus/` — NPM Package Guide bonus sections
   - `src/content/architecture/` — Architecture Guide pages
+  - `src/content/testing/` — Testing Guide pages
+  - `src/content/prompt-engineering/` — Prompt Engineering Guide pages
 - `src/data/` — Content stored as TypeScript objects (roadmap steps, architecture data, checklists, etc.)
+  - `src/data/guideTypes.ts` — Shared `GuideSection` and `GuideDefinition` interfaces
+  - `src/data/guideRegistry.ts` — Central guide registry (all guide metadata, section definitions, lookup helpers)
 - `src/helpers/` — Utility functions (`cmd.ts` for package manager commands, `fnRef.ts` for footnotes)
 - `src/hooks/` — Custom React hooks (`usePMContext.tsx` for npm/pnpm switching)
 - `src/router.tsx` — TanStack Router configuration with all routes
@@ -95,20 +110,20 @@ ESLint uses flat config format (`eslint.config.js`), extending:
 - `reactHooks.configs.flat.recommended`
 - `reactRefresh.configs.vite`
 
-## Page Ordering
+## Page Ordering (Guide Registration)
 
-Each guide has its own independent navigation order. Pages must appear in the same order in all four places per guide:
+Each guide's page order is defined in **one place**: the `*_GUIDE_SECTIONS` array in the guide's data file (e.g., `ARCH_GUIDE_SECTIONS` in `src/data/archData.ts`). This single definition automatically drives:
 
-1. **Navigation sidebar** (`src/components/Sidebar.tsx`) — the section groups and items
-2. **Start Page** (guide's Start Here page) — the roadmap steps and links
-3. **`getNavOrder()` in `src/data/navigation.ts`** — the ordered array that drives Previous/Next links
-4. **Command menu** (`src/components/CommandMenu.tsx`) — the `buildingPackageOrder`, `ciOrder`, `bonusOrder`, and `resourceIds` arrays that populate the Cmd+K palette
+1. **Navigation sidebar** — imported via `src/data/guideRegistry.ts`
+2. **Command menu** — imported via `src/data/guideRegistry.ts`
+3. **Previous/Next links** — derived via `getNavOrderForPage()` in `src/data/guideRegistry.ts`
+4. **Home page tiles** — imported via `src/data/guideRegistry.ts`
 
-The `getNavOrder(currentId)` function returns the correct guide's order based on the current page ID. NPM Package Guide pages use the default order; Architecture Guide pages (matching `ARCH_PAGE_IDS` from `src/data/archData.ts`) use the architecture order.
+The only additional sync point is the **Start page component**, which must match the section structure for its learning-path roadmap display.
 
 **Top-level resource pages** (`external-resources`, `glossary`) are NOT part of any guide's navigation order. They appear in the sidebar under a dedicated "Resources" icon, in the command menu under a "Resources" group, and on the home page. They do not have Previous/Next navigation.
 
-When adding, removing, or reordering pages, update all four locations for the affected guide to stay in sync.
+When adding, removing, or reordering pages within a guide, update the `*_GUIDE_SECTIONS` array in the guide's data file. Everything else updates automatically.
 
 ## Adapting Claude Artifacts into Guides
 
@@ -119,12 +134,12 @@ Claude artifacts are typically monolithic JSX or HTML files with embedded data a
 | Step | Action |
 |------|--------|
 | 1. Identify content boundaries | Find natural page breaks in the monolithic component. Each distinct topic or section heading becomes its own MDX page. |
-| 2. Extract data to `src/data/` | Move inline constants, arrays, and objects into a new typed `.ts` file. Define interfaces for data shapes. Export a `NAV_ORDER` array and `PAGE_IDS` set for use by `navigation.ts`. |
-| 3. Create MDX pages in `src/content/<guide>/` | One `.mdx` file per page with frontmatter (`id`, `title`). Use existing MDX components (`SectionIntro`, `Toc`, `TocLink`, `ColItem`, `Explainer`, etc.). Pages are auto-discovered by `src/content/registry.ts` — no manual import needed. |
+| 2. Extract data to `src/data/` | Move inline constants, arrays, and objects into a new typed `.ts` file. Define interfaces for data shapes. Export `*_GUIDE_SECTIONS: GuideSection[]` with labeled sections. Derive `*_NAV_ORDER` and `*_PAGE_IDS` from the sections array. |
+| 3. Create MDX pages in `src/content/<guide>/` | One `.mdx` file per page with frontmatter (`id`, `title`, `guide`). Use existing MDX components (`SectionIntro`, `Toc`, `TocLink`, `ColItem`, `Explainer`, etc.). Pages are auto-discovered by `src/content/registry.ts` — no manual import needed. |
 | 4. Extract interactive components to `src/components/mdx/` | Stateful or interactive UI (explorers, diagrams, accordions) becomes a standalone component that reads data from `src/data/` via a prop (e.g., `<StackExplorer stackId="mern" />`). Register it in `src/components/mdx/index.ts`. |
 | 5. Create Start page in `src/components/` | Build the learning path using HTML template literals + `HtmlContent`. Reference `contentPages` from the registry for page titles. Include `<PrevNextNav>`. |
 | 6. Add router entry in `src/router.tsx` | Add the start page ID to `SectionRouter`. MDX pages auto-route via `contentPages`. |
-| 7. Update navigation in 4 places | See the **Page Ordering** section above. |
+| 7. Register the guide in `src/data/guideRegistry.ts` | Add a new entry to the `guides` array. Sidebar, command menu, and home page update automatically. |
 
 ### MDX page template
 
@@ -132,6 +147,7 @@ Claude artifacts are typically monolithic JSX or HTML files with embedded data a
 ---
 id: "guide-page-id"
 title: "Page Title 🔹"
+guide: "guide-id"
 ---
 
 <h1 className="section-title">{frontmatter.title}</h1>
@@ -158,7 +174,7 @@ Brief intro paragraph.
 - Normalize inline styles and CSS classes into Tailwind utility classes. Prefer Tailwind's built-in scale over arbitrary values (e.g., use `text-sm` instead of `text-[13px]`).
 - Keep data in `src/data/`, not inline in MDX files or components.
 - Only Start page components use `HtmlContent` / `dangerouslySetInnerHTML`. MDX pages use MDX components directly.
-- Export `NAV_ORDER` and `PAGE_IDS` from the data file so `navigation.ts` can import them.
+- Export `*_GUIDE_SECTIONS` from the data file and derive `*_NAV_ORDER`/`*_PAGE_IDS` from it. Register the guide in `src/data/guideRegistry.ts`.
 - Register any new interactive MDX components in `src/components/mdx/index.ts` or they won't be available in MDX files.
 - Interactive components with inline styles must support dark mode. Use `useTheme()` and `ds()` helper for theme-conditional values. Add `darkAccent` fields to data interfaces when components use dynamic accent colors.
 
@@ -172,6 +188,111 @@ Layout rules for navigation items:
 - Text and icon/badge must always be in **separate `<span>` elements** within navigation items.
 - The parent container uses `justify-between` so text aligns left and icons/badges align to the right edge.
 - New pages must follow this emoji-suffix pattern for consistency across all guides.
+
+## Adding a New Guide
+
+Follow these steps to add a new guide. The sidebar, command menu, and home page update automatically from `guideRegistry.ts`.
+
+### Checklist
+
+1. **Create a data file** (`src/data/<guide>Data.ts`)
+   - Define guide-specific types and data (e.g., practice cards, diagram data)
+   - Import `GuideSection` from `src/data/guideTypes.ts`
+   - Export `<GUIDE>_GUIDE_SECTIONS: GuideSection[]` with labeled section groups
+   - Derive and export: `<GUIDE>_NAV_ORDER = <GUIDE>_GUIDE_SECTIONS.flatMap(s => s.ids)` and `<GUIDE>_PAGE_IDS = new Set(<GUIDE>_NAV_ORDER)`
+
+2. **Register the guide** (`src/data/guideRegistry.ts`)
+   - Import `<GUIDE>_GUIDE_SECTIONS` from your data file
+   - Add a new entry to the `guides` array with `id`, `icon`, `title`, `startPageId`, `description`, `sections`
+
+3. **Create MDX content pages** (`src/content/<guide>/`)
+   - One `.mdx` file per page with frontmatter: `id`, `title` (with emoji suffix), `guide: "<guide-id>"`
+   - Pages are auto-discovered by `src/content/registry.ts` — no manual import needed
+
+4. **Create the Start page component** (`src/components/<Guide>StartPage.tsx`)
+   - Follow the pattern in `ArchStartPage.tsx` or `TestingStartPage.tsx`
+   - Use `HtmlContent` for HTML template literals
+   - Include `<PrevNextNav currentId="<start-page-id>" />`
+
+5. **Add Start page title to staticTitles** (`src/data/navigation.ts`)
+   - Add `'<start-page-id>': 'Start Here <emoji>'` to `staticTitles`
+
+6. **Add route** (`src/router.tsx`)
+   - Add `if (sectionId === '<start-page-id>') return <<Guide>StartPage />`
+   - Import the Start page component
+
+7. **Create interactive MDX components** (if needed) (`src/components/mdx/`)
+   - See **Interactive MDX Component Template** below
+   - Register in `src/components/mdx/index.ts`
+
+8. **Verify** — run `pnpm lint && pnpm build`
+
+### What updates automatically
+
+- **Sidebar**: reads `guides` array from `guideRegistry.ts` — new guide appears automatically
+- **Command menu**: reads `guides` array — new guide sections appear automatically
+- **Home page**: reads `guides` array — new guide tile appears automatically
+- **Navigation (prev/next)**: derived from guide sections — works automatically
+- **Content registry**: auto-discovers new MDX files in `src/content/`
+
+## Interactive MDX Component Template
+
+Minimal template for a new interactive MDX component with dark mode support.
+
+### Component file: `src/components/mdx/MyComponent.tsx`
+
+```tsx
+import { useState } from 'react'
+import { useTheme } from '../../hooks/useTheme'
+import { ds } from '../../helpers/darkStyle'
+import { MY_DATA } from '../../data/myGuideData'
+import type { MyDataItem } from '../../data/myGuideData'
+
+export function MyComponent({ itemId }: { itemId: string }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+  const [activeId, setActiveId] = useState<string | null>(null)
+
+  const item = MY_DATA.find((d: MyDataItem) => d.id === itemId)
+  if (!item) return null
+
+  return (
+    <div
+      style={{
+        background: ds(item.accent, item.darkAccent, isDark),
+        borderColor: ds(item.color, item.color, isDark),
+      }}
+      className="rounded-xl border p-6 mb-6"
+    >
+      <button onClick={() => setActiveId(activeId === itemId ? null : itemId)}>
+        {item.name}
+      </button>
+    </div>
+  )
+}
+```
+
+### Registration: `src/components/mdx/index.ts`
+
+```tsx
+import { MyComponent } from './MyComponent'
+// Add to the mdxComponents object:
+MyComponent,
+```
+
+### Usage in MDX
+
+```mdx
+<MyComponent itemId="example-id" />
+```
+
+### Key conventions
+
+- Import data from `src/data/`, never inline in the component
+- Use `useTheme()` + `ds()` for dynamic inline styles with dark mode
+- Use Tailwind `dark:` variants for class-based styling
+- Data interfaces should include `darkAccent` field when components use dynamic accent colors
+- Standard dark palette: backgrounds `#1e293b`, text `#e2e8f0`, borders `#334155`
 
 ## Pre-Push Checklist
 

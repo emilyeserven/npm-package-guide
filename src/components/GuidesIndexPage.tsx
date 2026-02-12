@@ -1,12 +1,5 @@
 import { useNavigate } from '@tanstack/react-router'
-
-interface GuideTile {
-  id: string
-  sectionId: string
-  icon: string
-  title: string
-  description: string
-}
+import { guides } from '../data/guideRegistry'
 
 interface ResourceTile {
   sectionId: string
@@ -29,41 +22,6 @@ const resources: ResourceTile[] = [
     title: 'Glossary',
     description:
       'Key terms you\'ll encounter across all guides, with links to relevant sections and external documentation.',
-  },
-]
-
-const guides: GuideTile[] = [
-  {
-    id: 'npm-package',
-    sectionId: 'roadmap',
-    icon: '\u{1F4E6}',
-    title: 'Web App vs. NPM Package',
-    description:
-      'Learn the differences between building a web app and an npm package, from project setup through CI/CD and publishing.',
-  },
-  {
-    id: 'architecture',
-    sectionId: 'arch-start',
-    icon: '\u{1F3D7}\uFE0F',
-    title: 'Architecture Guide',
-    description:
-      'Understand common frontend architecture patterns and how to structure your projects for maintainability and scale.',
-  },
-  {
-    id: 'testing',
-    sectionId: 'test-start',
-    icon: '\u{1F9EA}',
-    title: 'Testing Guide',
-    description:
-      'Learn frontend testing fundamentals \u2014 the testing pyramid, best practices, and how to choose the right tools for unit, component, and E2E tests.',
-  },
-  {
-    id: 'prompt-engineering',
-    sectionId: 'prompt-start',
-    icon: '\u{1F9E0}',
-    title: 'Prompt Engineering',
-    description:
-      'Practical patterns for working with AI coding assistants \u2014 common mistakes to watch for, context management techniques, and CLI commands.',
   },
 ]
 
@@ -90,7 +48,7 @@ export function GuidesIndexPage() {
             onClick={() =>
               navigate({
                 to: '/$sectionId',
-                params: { sectionId: guide.sectionId },
+                params: { sectionId: guide.startPageId },
               })
             }
           >

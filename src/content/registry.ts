@@ -4,6 +4,7 @@ import type { SectionLink } from '../helpers/renderFootnotes'
 export interface ContentPage {
   id: string
   title: string
+  guide?: string
   group?: string
   links?: SectionLink[]
   usedFootnotes?: number[]
@@ -24,6 +25,7 @@ for (const [, mod] of Object.entries(mdxModules)) {
   contentPages.set(id, {
     id,
     title: (fm.title as string) ?? id,
+    guide: fm.guide as string | undefined,
     group: fm.group as string | undefined,
     links: fm.links as SectionLink[] | undefined,
     usedFootnotes: fm.usedFootnotes as number[] | undefined,
