@@ -194,9 +194,10 @@ function IconRail({
   onResourceClick: (id: string) => void
   currentId: string
 }) {
-  const iconBtnCls = 'flex items-center justify-center w-10 h-10 rounded-lg border-none cursor-pointer transition-all duration-150'
+  const iconBtnCls = 'flex items-center justify-center w-10 h-10 rounded-lg border-none cursor-pointer transition-all duration-150 group relative'
   const activeCls = 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400'
   const inactiveCls = 'bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+  const tooltipCls = 'absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 text-[11px] font-normal text-white dark:text-slate-200 bg-slate-800 dark:bg-slate-600 rounded whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-150 group-hover:opacity-100 z-50'
 
   return (
     <div className="flex flex-col items-center w-[52px] shrink-0 border-r border-slate-200 dark:border-slate-700 py-3 gap-1">
@@ -205,13 +206,13 @@ function IconRail({
         to="/"
         className={clsx(iconBtnCls, !currentId ? activeCls : inactiveCls)}
         onClick={onHomeClick}
-        title="Home"
         data-testid="sidebar-home-icon"
       >
         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
           <polyline points="9 22 9 12 15 12 15 22"/>
         </svg>
+        <span className={tooltipCls}>Home</span>
       </Link>
 
       <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5" />
@@ -222,10 +223,10 @@ function IconRail({
           key={guide.id}
           className={clsx(iconBtnCls, activeGuideId === guide.id ? activeCls : inactiveCls)}
           onClick={() => onSelectGuide(guide.id)}
-          title={guide.title}
           data-testid={`sidebar-guide-icon-${guide.id}`}
         >
           <span className="text-lg leading-none">{guide.icon}</span>
+          <span className={tooltipCls}>{guide.title}</span>
         </button>
       ))}
 
@@ -236,18 +237,18 @@ function IconRail({
       <button
         className={clsx(iconBtnCls, currentId === 'external-resources' ? activeCls : inactiveCls)}
         onClick={() => onResourceClick('external-resources')}
-        title="External Resources"
         data-testid="sidebar-icon-external-resources"
       >
         <span className="text-lg leading-none">{'\u{1F4DA}'}</span>
+        <span className={tooltipCls}>External Resources</span>
       </button>
       <button
         className={clsx(iconBtnCls, currentId === 'glossary' ? activeCls : inactiveCls)}
         onClick={() => onResourceClick('glossary')}
-        title="Glossary"
         data-testid="sidebar-icon-glossary"
       >
         <span className="text-lg leading-none">{'\u{1F4D6}'}</span>
+        <span className={tooltipCls}>Glossary</span>
       </button>
 
       <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5" />
