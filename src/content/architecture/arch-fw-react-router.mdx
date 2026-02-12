@@ -1,0 +1,39 @@
+---
+id: "arch-fw-react-router"
+title: "🔀 React Router Framework"
+---
+
+<h1 className="section-title">{frontmatter.title}</h1>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-explore">Explore key capabilities</TocLink>
+  <TocLink id="toc-tradeoffs">Strengths & tradeoffs</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+**React Router v7** introduced &ldquo;Framework Mode&rdquo; &mdash; transforming the most popular React routing library into a full-stack framework. It&apos;s the spiritual successor to Remix (which merged into React Router), built on web standards like the Fetch API, FormData, and HTTP caching. It&apos;s the web-standards-first alternative to Next.js.
+</SectionIntro>
+
+<h2 className="section-subheading" id="toc-overview">{'\u{1F4CB}'} Overview</h2>
+
+<div className="section-list">
+<ColItem>**Web standards first** &mdash; built on Fetch API Request/Response, FormData, and HTTP caching headers. Skills you learn transfer to the platform and other frameworks.</ColItem>
+<ColItem>**Progressive enhancement** &mdash; forms and navigation work without JavaScript by default, then enhance with JS for a richer experience.</ColItem>
+<ColItem>**Nested routing pioneer** &mdash; React Router has 10+ years of battle-testing. Each route segment gets its own data loader, action handler, and error boundary.</ColItem>
+</div>
+
+<h2 className="section-subheading" id="toc-explore">{'\u{1F50D}'} Explore key capabilities</h2>
+
+Click any capability to learn how React Router Framework Mode handles it.
+
+<FrameworkExplorer frameworkId="react-router" />
+
+<h2 className="section-subheading" id="toc-tradeoffs">{'\u2696\uFE0F'} Strengths & tradeoffs</h2>
+
+<FrameworkProsCons frameworkId="react-router" />
+
+<Explainer title="React Router Framework Mode &mdash; a backend analogy">
+React Router Framework Mode is like upgrading from Express to Fastify &mdash; you keep the same mental model (routes, middleware, request/response) but gain built-in validation, better performance, and modern patterns. It respects the platform rather than abstracting it away.
+</Explainer>

@@ -27,6 +27,10 @@ const archStackOrder = [
   'arch-stack-lamp', 'arch-stack-django', 'arch-stack-rails',
 ]
 
+const archFrameworkOrder = [
+  'arch-fw-nextjs', 'arch-fw-react-router', 'arch-fw-tanstack-start', 'arch-fw-remix',
+]
+
 function PageItem({ id, onSelect }: { id: string; onSelect: (id: string) => void }) {
   const title = getNavTitle(id)
   const match = title.match(/^(\S+)\s+(.+)$/)
@@ -109,6 +113,13 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
 
         <Command.Group heading="Stack Alternatives">
           {archStackOrder.map(id => (
+            <PageItem key={id} id={id} onSelect={handleSelect} />
+          ))}
+        </Command.Group>
+
+        <Command.Group heading="Full-Stack Frameworks">
+          <PageItem id="arch-frameworks-intro" onSelect={handleSelect} />
+          {archFrameworkOrder.map(id => (
             <PageItem key={id} id={id} onSelect={handleSelect} />
           ))}
         </Command.Group>

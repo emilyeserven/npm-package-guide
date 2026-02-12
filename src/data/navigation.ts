@@ -39,6 +39,11 @@ const staticTitles: Record<string, string> = {
   "arch-stack-lamp": "\u{1F4A1} LAMP Stack",
   "arch-stack-django": "\u{1F40D} Django Stack",
   "arch-stack-rails": "\u{1F6E4}\uFE0F Rails Stack",
+  "arch-frameworks-intro": "\u{1F3E0} Full-Stack Frameworks",
+  "arch-fw-nextjs": "\u25B2 Next.js",
+  "arch-fw-react-router": "\u{1F500} React Router Framework",
+  "arch-fw-tanstack-start": "\u{1F525} TanStack Start",
+  "arch-fw-remix": "\u{1F4BF} Remix",
   "arch-how-it-connects": "\u{1F504} How it all Connects",
 }
 

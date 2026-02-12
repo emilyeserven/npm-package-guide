@@ -13,6 +13,8 @@ import { StackExplorer } from './StackExplorer'
 import { StackProsCons } from './StackProsCons'
 import { DataFlowDiagram } from './DataFlowDiagram'
 import { LayerDiagram } from './LayerDiagram'
+import { FrameworkExplorer } from './FrameworkExplorer'
+import { FrameworkProsCons } from './FrameworkProsCons'
 
 export const mdxComponents: MDXComponents = {
   Cmd,
@@ -43,4 +45,6 @@ export const mdxComponents: MDXComponents = {
   StackProsCons,
   DataFlowDiagram,
   LayerDiagram,
+  FrameworkExplorer,
+  FrameworkProsCons,
 }
