@@ -6,6 +6,7 @@ interface FloatingHeaderProps {
   onMenuToggle: () => void
   onSearchClick: () => void
   effectivelyPinned?: boolean
+  hasActiveGuide?: boolean
 }
 
 function getGuideInfo(sectionId: string | undefined) {
@@ -24,7 +25,7 @@ function getGuideInfo(sectionId: string | undefined) {
 
 const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
 
-export function FloatingHeader({ scrolled, onMenuToggle, onSearchClick, effectivelyPinned }: FloatingHeaderProps) {
+export function FloatingHeader({ scrolled, onMenuToggle, onSearchClick, effectivelyPinned, hasActiveGuide }: FloatingHeaderProps) {
   const navigate = useNavigate()
   const params = useParams({ strict: false }) as { sectionId?: string }
   const isGuidesIndex = !params.sectionId
@@ -40,7 +41,7 @@ export function FloatingHeader({ scrolled, onMenuToggle, onSearchClick, effectiv
     <div className={clsx(
       'floating-header fixed top-0 right-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 px-5 transition-[left,box-shadow] duration-250',
       scrolled && 'shadow-md dark:shadow-lg',
-      effectivelyPinned ? 'left-0 lg:left-90' : 'left-0'
+      effectivelyPinned ? (hasActiveGuide ? 'left-0 lg:left-90' : 'left-0 lg:left-[52px]') : 'left-0'
     )}>
       <div className="mx-auto max-w-4xl flex items-center h-13 gap-3.5">
         <button

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, Link } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { guides, getGuideForPage, type GuideDefinition } from '../data/guideRegistry'
@@ -11,6 +11,7 @@ interface SidebarProps {
   onClose: () => void
   pinned: boolean
   onTogglePin: () => void
+  onActiveGuideChange?: (hasGuide: boolean) => void
 }
 
 // ── Title resolution ────────────────────────────────────────────────
@@ -167,79 +168,50 @@ function ContentPanel({
   guide,
   currentId,
   onNav,
-  onClose,
-  pinned,
-  onTogglePin,
 }: {
-  guide: GuideDefinition | null
+  guide: GuideDefinition
   currentId: string
   onNav: (id: string) => void
-  onClose: () => void
-  pinned: boolean
-  onTogglePin: () => void
 }) {
   return (
     <div className="flex-1 flex flex-col min-w-0">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 h-11 border-b border-slate-200 dark:border-slate-700 shrink-0">
+      <div className="flex items-center px-4 pl-16 h-11 border-b border-slate-200 dark:border-slate-700 shrink-0">
         <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">
-          {guide ? guide.title : 'Navigation'}
+          {guide.title}
         </span>
-        <div className="flex items-center gap-1">
-          <button
-            className="hidden lg:flex items-center justify-center w-7 h-7 bg-transparent border-none cursor-pointer rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-150"
-            onClick={onTogglePin}
-            title={pinned ? 'Unpin sidebar' : 'Pin sidebar'}
-            data-testid="sidebar-pin"
-          >
-            <PinIcon pinned={pinned} />
-          </button>
-          <button
-            className="flex items-center justify-center w-7 h-7 bg-transparent border-none cursor-pointer text-lg text-gray-400 dark:text-slate-500 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-150"
-            onClick={onClose}
-            data-testid="sidebar-close"
-          >
-            &#x2715;
-          </button>
-        </div>
       </div>
 
       {/* Navigation links */}
-      {guide ? (
-        <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-0.5">
-          {guide.sections.map((section, idx) => (
-            <div key={idx}>
-              {section.label && (
-                <div className={clsx(
-                  'text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-1.5 px-3.5',
-                  idx === 0 ? 'mt-1' : 'mt-4'
-                )}>
-                  {section.label}
-                </div>
-              )}
-              {resolveItems(section.ids).map(item => (
-                <SidebarItem
-                  key={item.id}
-                  {...item}
-                  active={currentId === item.id || (item.id === 'arch-start' && currentId === 'architecture')}
-                  onClick={onNav}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="flex-1 flex items-center justify-center p-6">
-          <span className="text-sm text-slate-400 dark:text-slate-500">Select a guide</span>
-        </div>
-      )}
+      <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-0.5">
+        {guide.sections.map((section, idx) => (
+          <div key={idx}>
+            {section.label && (
+              <div className={clsx(
+                'text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-1.5 px-3.5',
+                idx === 0 ? 'mt-1' : 'mt-4'
+              )}>
+                {section.label}
+              </div>
+            )}
+            {resolveItems(section.ids).map(item => (
+              <SidebarItem
+                key={item.id}
+                {...item}
+                active={currentId === item.id || (item.id === 'arch-start' && currentId === 'architecture')}
+                onClick={onNav}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
 
 // ── Main Sidebar ──────────────────────────────────────────────────────
 
-export function Sidebar({ open, onClose, pinned, onTogglePin }: SidebarProps) {
+export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChange }: SidebarProps) {
   const navigateToSection = useNavigateToSection()
   const params = useParams({ strict: false }) as { sectionId?: string }
   const currentId = params.sectionId || ''
@@ -262,6 +234,11 @@ export function Sidebar({ open, onClose, pinned, onTogglePin }: SidebarProps) {
 
   const activeGuide = guides.find(g => g.id === activeGuideId) ?? null
 
+  // Notify parent when active guide changes (for layout margin adjustments)
+  useEffect(() => {
+    onActiveGuideChange?.(activeGuide !== null)
+  }, [activeGuide, onActiveGuideChange])
+
   const handleNav = (id: string) => {
     if (!pinned) onClose()
     navigateToSection(id)
@@ -278,29 +255,53 @@ export function Sidebar({ open, onClose, pinned, onTogglePin }: SidebarProps) {
     navigateToSection(id)
   }
 
+  const handleSelectGuide = (guideId: string) => {
+    setActiveGuideId(prev => prev === guideId ? null : guideId)
+  }
+
   return (
     <div
       data-testid="sidebar"
       className={clsx(
-        'sidebar fixed top-0 left-0 bottom-0 w-[360px] max-sm:w-[320px] bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 z-100 flex flex-row transition-transform duration-250 -translate-x-full',
+        'sidebar relative fixed top-0 left-0 bottom-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 z-100 flex flex-row overflow-hidden transition-[width,transform] duration-250 -translate-x-full',
+        activeGuide ? 'w-[360px] max-sm:w-[320px]' : 'w-[52px]',
         open && 'translate-x-0'
       )}
     >
       <IconRail
         activeGuideId={activeGuideId}
-        onSelectGuide={setActiveGuideId}
+        onSelectGuide={handleSelectGuide}
         onHomeClick={handleGuidesHome}
         onResourceClick={handleResourceClick}
         currentId={currentId}
       />
-      <ContentPanel
-        guide={activeGuide}
-        currentId={currentId}
-        onNav={handleNav}
-        onClose={onClose}
-        pinned={pinned}
-        onTogglePin={onTogglePin}
-      />
+
+      {/* Floating Pin/Close buttons — positioned to the right of the Home icon */}
+      <div className="absolute top-3 left-[52px] flex items-center gap-0.5 z-10">
+        <button
+          className="hidden lg:flex items-center justify-center w-7 h-7 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 cursor-pointer rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-150 shadow-sm"
+          onClick={onTogglePin}
+          title={pinned ? 'Unpin sidebar' : 'Pin sidebar'}
+          data-testid="sidebar-pin"
+        >
+          <PinIcon pinned={pinned} />
+        </button>
+        <button
+          className="flex items-center justify-center w-7 h-7 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 cursor-pointer text-lg text-gray-400 dark:text-slate-500 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-150 shadow-sm"
+          onClick={onClose}
+          data-testid="sidebar-close"
+        >
+          &#x2715;
+        </button>
+      </div>
+
+      {activeGuide && (
+        <ContentPanel
+          guide={activeGuide}
+          currentId={currentId}
+          onNav={handleNav}
+        />
+      )}
     </div>
   )
 }

@@ -1,6 +1,7 @@
 // ── Interfaces ────────────────────────────────────────────────────────
 
 export interface MistakeItem {
+  id: string
   mistake: string
   example: string
   fix: string
@@ -105,21 +106,25 @@ export const MISTAKE_CATEGORIES: MistakeCategory[] = [
     severity: 'high',
     items: [
       {
+        id: 'toc-off-by-one',
         mistake: 'Off-by-one errors in loops & boundaries',
         example: 'for (let i = 0; i <= arr.length) \u2014 goes one past the end',
         fix: 'Explicitly state boundary conditions: "Use zero-indexed, exclusive upper bound"',
       },
       {
+        id: 'toc-wrong-boolean',
         mistake: 'Wrong boolean logic / inverted conditions',
         example: 'if (!isValid || hasPermission) instead of if (isValid && hasPermission)',
         fix: 'Describe the desired behavior in plain English AND provide a truth table in your prompt',
       },
       {
+        id: 'toc-edge-case-blindness',
         mistake: 'Edge case blindness (empty arrays, null, 0, NaN)',
         example: "Doesn't handle empty input \u2192 crashes on .length or .map()",
         fix: 'Prompt: "Handle edge cases including empty input, null, undefined, 0, and NaN"',
       },
       {
+        id: 'toc-math-formula',
         mistake: 'Math formula errors',
         example: 'Averages calculated as (a+b+1)//2 instead of (a+b)/2',
         fix: 'For any math logic, include the exact formula or reference a known algorithm',
@@ -133,16 +138,19 @@ export const MISTAKE_CATEGORIES: MistakeCategory[] = [
     severity: 'high',
     items: [
       {
+        id: 'toc-invents-packages',
         mistake: 'Invents non-existent npm packages or methods',
         example: "Invents a useTheme hook from a package that doesn't exist on npm",
         fix: 'Specify exact libraries: "Use @shadcn/ui v2.x and TanStack Query v5"',
       },
       {
+        id: 'toc-deprecated-apis',
         mistake: 'Uses deprecated or renamed APIs',
         example: 'componentWillMount(), findDOMNode(), or old Next.js page router patterns',
         fix: 'Include version constraints: "Use React 19 APIs only, no class components"',
       },
       {
+        id: 'toc-cross-language',
         mistake: 'Cross-language API confusion',
         example: "Uses Python's round() behavior when writing JavaScript, or Java's .equals() in TS",
         fix: 'Specify the language AND runtime: "Node.js 22, TypeScript 5.x strict mode"',
@@ -156,21 +164,25 @@ export const MISTAKE_CATEGORIES: MistakeCategory[] = [
     severity: 'medium',
     items: [
       {
+        id: 'toc-over-engineering',
         mistake: 'Over-engineering simple tasks',
         example: 'Creates a full state machine with 5 abstractions for a toggle button',
         fix: 'State complexity upfront: "Keep this simple \u2014 no unnecessary abstractions"',
       },
       {
+        id: 'toc-incomplete-code',
         mistake: 'Incomplete code \u2014 missing imports, exports, error handling',
         example: 'Generates a component but forgets to export it or import dependencies',
         fix: 'Prompt: "Provide complete, runnable code with all imports and exports"',
       },
       {
+        id: 'toc-ignores-patterns',
         mistake: 'Ignores existing project patterns',
         example: 'Uses Redux when your project uses Zustand, or REST when you use GraphQL',
         fix: 'In CLAUDE.md or prompt: specify your stack, patterns, and conventions explicitly',
       },
       {
+        id: 'toc-security-gaps',
         mistake: 'Security gaps \u2014 no input sanitization, XSS vectors',
         example: 'Uses dangerouslySetInnerHTML without sanitizing, or builds SQL with string concat',
         fix: 'Always prompt: "Follow OWASP security best practices. Sanitize all user input."',
@@ -184,16 +196,19 @@ export const MISTAKE_CATEGORIES: MistakeCategory[] = [
     severity: 'low',
     items: [
       {
+        id: 'toc-inconsistent-naming',
         mistake: 'Inconsistent naming conventions',
         example: 'Mixes camelCase and snake_case in the same file',
         fix: 'Specify: "Use camelCase for JS/TS, kebab-case for CSS, PascalCase for components"',
       },
       {
+        id: 'toc-unnecessary-comments',
         mistake: 'Adds unnecessary comments or over-documents',
         example: '// This function adds two numbers\\nfunction add(a, b) { return a + b; }',
         fix: '"Only add comments for complex logic. No obvious comments."',
       },
       {
+        id: 'toc-formatting-rules',
         mistake: 'Forgets semicolons, trailing commas, or formatting rules',
         example: "Generates code that doesn't match your Prettier/ESLint config",
         fix: 'Include your .prettierrc or ESLint rules summary in CLAUDE.md',
