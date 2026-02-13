@@ -231,15 +231,21 @@ export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps)
           </div>
         </div>
 
-        {hasActiveFilters && (
-          <button
-            className="self-start text-xs font-medium text-gray-500 dark:text-slate-400 bg-transparent border-none cursor-pointer px-0 hover:text-blue-500 dark:hover:text-blue-400"
-            onClick={clearFilters}
-            data-testid="glossary-clear-filters"
-          >
-            Clear filters
-          </button>
-        )}
+        <button
+          className={clsx(
+            "self-start text-xs font-medium text-gray-500 dark:text-slate-400 bg-transparent border-none cursor-pointer px-0 hover:text-blue-500 dark:hover:text-blue-400",
+            !hasActiveFilters && "invisible"
+          )}
+          onClick={clearFilters}
+          data-testid="glossary-clear-filters"
+        >
+          Clear filters
+        </button>
+      </div>
+
+      {/* Results count */}
+      <div className="text-xs text-gray-400 dark:text-slate-500 mb-2.5 font-medium" data-testid="glossary-count">
+        {table.getRowModel().rows.length} of {flatData.length} terms
       </div>
 
       <DataTable table={table} columnCount={3} emptyMessage="No terms match your search." />
