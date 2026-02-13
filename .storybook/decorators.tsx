@@ -1,6 +1,14 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useEffect, type ReactNode } from 'react'
 import { ThemeProvider, useTheme } from '../src/hooks/useTheme'
 import { PMProvider } from '../src/hooks/usePMContext'
+import {
+  createRouter,
+  createRoute,
+  createRootRoute,
+  createMemoryHistory,
+  RouterProvider,
+} from '@tanstack/react-router'
 
 /**
  * Syncs the ThemeProvider's internal state with the body class
@@ -34,4 +42,26 @@ export function AppProviders({ children }: { children: ReactNode }) {
       </ThemeSync>
     </ThemeProvider>
   )
+}
+
+/**
+ * Storybook decorator that wraps a story in a minimal TanStack Router context.
+ * Needed for components that use useNavigate() or useNavigateToSection().
+ */
+export function withRouter(Story: () => ReactNode) {
+  const rootRoute = createRootRoute({
+    component: () => <>{Story()}</>,
+  })
+  const sectionRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/$sectionId',
+    component: () => null,
+  })
+  const routeTree = rootRoute.addChildren([sectionRoute])
+  const router = createRouter({
+    routeTree,
+    history: createMemoryHistory({ initialEntries: ['/'] }),
+  })
+
+  return <RouterProvider router={router} />
 }
