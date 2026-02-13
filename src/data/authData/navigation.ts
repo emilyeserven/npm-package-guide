@@ -5,7 +5,7 @@ export const AUTH_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['auth-start'] },
   { label: 'Foundations', ids: ['auth-core', 'auth-tokens', 'auth-jwt'] },
   { label: 'Protocols & Patterns', ids: ['auth-oauth', 'auth-frontend'] },
-  { label: 'Security & Review', ids: ['auth-security', 'auth-checklist', 'auth-quiz'] },
+  { label: 'Security & Review', ids: ['auth-security', 'auth-quiz'] },
 ]
 
 // ── Start page data ──────────────────────────────────────────────────
@@ -56,9 +56,32 @@ export const AUTH_START_PAGE_DATA: StartPageData = {
       sectionLabel: 'Security & Review',
       subItemDescriptions: {
         'auth-security': 'XSS, CSRF, token theft, and open redirects \u2014 the attacks that target auth and how to defend against them.',
-        'auth-checklist': 'A categorized checklist covering storage, tokens, architecture, OAuth, and security best practices.',
         'auth-quiz': 'Five questions to test what you\u2019ve learned across the guide.',
       },
+    },
+    {
+      type: 'bonus',
+      title: 'Resources',
+      description: 'Checklists, documentation, and tools for authentication implementation.',
+      customSubItems: [
+        {
+          title: '\u2705 Implementation Checklist',
+          description: 'A categorized checklist covering storage, tokens, architecture, OAuth, and security best practices.',
+          jumpTo: 'auth-checklist',
+        },
+        {
+          title: '\u{1F4DA} External Resources',
+          description: 'Curated auth documentation, articles, and tools.',
+          jumpTo: 'external-resources',
+          jumpType: 'guide-filter',
+        },
+        {
+          title: '\u{1F4D6} Glossary',
+          description: 'Key authentication and authorization terms.',
+          jumpTo: 'glossary',
+          jumpType: 'guide-filter',
+        },
+      ],
     },
   ],
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from '@tanstack/react-router'
 import clsx from 'clsx'
-import { guides, getGuideForPage, type GuideDefinition } from '../data/guideRegistry'
+import { guides, getGuideForPage, checklistsNavDef, type GuideDefinition } from '../data/guideRegistry'
 import { getNavTitle } from '../data/navigation'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { STORYBOOK_URL } from '../data/navigation'
@@ -117,6 +117,16 @@ function IconRail({
 
       {/* Spacer pushes resource icons + settings to bottom */}
       <div className="mt-auto" />
+
+      {/* Checklists icon */}
+      <button
+        className={clsx(iconBtnCls, activeGuideId === 'checklists' ? activeCls : inactiveCls)}
+        onClick={() => onSelectGuide('checklists')}
+        data-testid="sidebar-icon-checklists"
+      >
+        <span className="text-lg leading-none">{'\u2705'}</span>
+        <span className={tooltipCls}>Checklists</span>
+      </button>
 
       {/* Resource icons */}
       <button
@@ -409,7 +419,9 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
     }
   }
 
-  const activeGuide = guides.find(g => g.id === activeGuideId) ?? null
+  const activeGuide = activeGuideId === 'checklists'
+    ? checklistsNavDef
+    : guides.find(g => g.id === activeGuideId) ?? null
   const hasExpandedPanel = activeGuide !== null || showSettings
 
   // Notify parent when expanded panel state changes (for layout margin adjustments)

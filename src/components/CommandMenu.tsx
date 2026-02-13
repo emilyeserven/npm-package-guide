@@ -1,7 +1,7 @@
 import { Command } from 'cmdk'
 import { useNavigate } from '@tanstack/react-router'
 import { getNavTitle } from '../data/navigation'
-import { guides } from '../data/guideRegistry'
+import { guides, checklistPages } from '../data/guideRegistry'
 import { glossaryTerms } from '../data/glossaryTerms'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { parseTitle } from '../helpers/parseTitle'
@@ -76,6 +76,12 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
             </Command.Group>
           ))
         )}
+
+        <Command.Group heading="Checklists">
+          {checklistPages.map(cp => (
+            <PageItem key={cp.id} id={cp.id} onSelect={handleSelect} />
+          ))}
+        </Command.Group>
 
         <Command.Group heading="Resources">
           <PageItem id="external-resources" onSelect={handleSelect} />

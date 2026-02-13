@@ -1,5 +1,7 @@
 import { useNavigate } from '@tanstack/react-router'
-import { guides } from '../data/guideRegistry'
+import { guides, checklistPages } from '../data/guideRegistry'
+import { getNavTitle } from '../data/navigation'
+import { parseTitle } from '../helpers/parseTitle'
 import { STORYBOOK_URL } from '../data/navigation'
 import { ExternalLinkIcon } from './ExternalLinkIcon'
 
@@ -72,6 +74,40 @@ export function GuidesIndexPage() {
           <p className="text-sm text-slate-400 dark:text-slate-500 leading-relaxed">
             Additional guides are in the works. Stay tuned!
           </p>
+        </div>
+      </div>
+
+      {/* Checklists section */}
+      <div className="mt-12">
+        <h2 className="text-xl font-bold tracking-tight mb-1 text-slate-900 dark:text-slate-100">Checklists</h2>
+        <p className="text-gray-500 dark:text-slate-400 text-sm mb-5">
+          Implementation checklists extracted from individual guides.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {checklistPages.map((cp) => {
+            const title = getNavTitle(cp.id)
+            const { text, icon } = parseTitle(title)
+            return (
+              <button
+                key={cp.id}
+                className="flex flex-col items-start text-left p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5"
+                onClick={() =>
+                  navigate({
+                    to: '/$sectionId',
+                    params: { sectionId: cp.id },
+                  })
+                }
+              >
+                <span className="text-2xl mb-2">{icon}</span>
+                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">
+                  {text}
+                </h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  From the {guides.find(g => g.id === cp.sourceGuideId)?.title ?? cp.sourceGuideId} guide.
+                </p>
+              </button>
+            )
+          })}
         </div>
       </div>
 

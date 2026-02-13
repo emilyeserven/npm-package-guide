@@ -11,7 +11,6 @@ export const NPM_GUIDE_SECTIONS: GuideSection[] = [
     'ci-overview', 'ci-linting', 'ci-build', 'ci-testing', 'ci-repo-maintenance',
   ]},
   { label: 'Developer Experience', ids: ['storybook'] },
-  { label: 'Learning Resources', ids: ['checklist'] },
 ]
 
 // ── Start page data ──────────────────────────────────────────────────
@@ -58,7 +57,7 @@ export const NPM_START_PAGE_DATA: StartPageData = {
     },
     {
       type: 'bonus',
-      title: 'Bonus: Learning Resources',
+      title: 'Resources',
       description: 'Documentation, articles, courses, and tools to go deeper on frontend development, npm packages, and the JavaScript ecosystem.',
       customSubItems: [
         {
