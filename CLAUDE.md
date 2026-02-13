@@ -11,7 +11,7 @@ The site contains four independent guides, each with its own Start Here page, na
 ### NPM Package Guide (`Web App vs. NPM Package`)
 - **Start page:** `roadmap` (`src/components/RoadmapPage.tsx`)
 - **Content pages:** MDX files in `src/content/sections/`, `src/content/ci/`, `src/content/bonus/`
-- **Data:** `src/data/roadmapSteps.ts`
+- **Data:** `src/data/npmPackageData.ts` (`NPM_GUIDE_SECTIONS`), `src/data/roadmapSteps.ts`
 
 ### Architecture Guide
 - **Start page:** `arch-start` (`src/components/ArchStartPage.tsx`)
@@ -53,6 +53,8 @@ The site contains four independent guides, each with its own Start Here page, na
 | `pnpm dev` | Start dev server |
 | `pnpm build` | TypeScript check (`tsc -b`) + Vite build |
 | `pnpm lint` | Run ESLint |
+| `pnpm validate:data` | Cross-reference integrity checks (link IDs, glossary refs, guide sections, page headings) |
+| `pnpm validate` | Full validation pipeline: `validate:data` + `lint` + `build` |
 | `pnpm preview` | Preview production build |
 
 ## Project Structure
@@ -71,11 +73,13 @@ The site contains four independent guides, each with its own Start Here page, na
   - `src/data/glossaryTerms/` — Glossary terms, split by guide (`npmPackageTerms.ts`, `architectureTerms.ts`, `testingTerms.ts`, `promptTerms.ts`); barrel `index.ts` re-exports merged array
   - `src/data/archData/` — Architecture guide data (`types.ts`, `stacks.ts`, `frameworks.ts`, `navigation.ts`); barrel `index.ts` re-exports all
   - `src/data/promptData/` — Prompt engineering guide data (`types.ts`, `mistakes.ts`, `techniques.ts`, `cli.ts`, `navigation.ts`); barrel `index.ts` re-exports all
+  - `src/data/npmPackageData.ts` — NPM Package guide section definitions (`NPM_GUIDE_SECTIONS`)
   - `src/data/guideTypes.ts` — Shared `GuideSection`, `GuideDefinition`, and `PageHeading` interfaces
   - `src/data/guideRegistry.ts` — Central guide registry (all guide metadata, section definitions, page headings, lookup helpers)
-- `src/helpers/` — Utility functions (`cmd.ts` for package manager commands, `fnRef.ts` for footnotes)
+  - `src/data/componentPages.tsx` — Registry of component-rendered (non-MDX) pages, mapping page IDs to components for the router
+- `src/helpers/` — Utility functions (`cmd.ts` for package manager commands, `fnRef.ts` for footnotes, `darkStyle.ts` for theme-conditional values)
 - `src/hooks/` — Custom React hooks (`usePMContext.tsx` for npm/pnpm switching)
-- `src/router.tsx` — TanStack Router configuration with all routes
+- `src/router.tsx` — TanStack Router configuration; resolves pages via `componentPages` registry and MDX content auto-discovery
 - `src/main.tsx` — Application entry point
 
 ## Key Patterns
@@ -87,6 +91,65 @@ The site contains four independent guides, each with its own Start Here page, na
 - **Interactive tables:** The External Resources page (`ExternalResourcesPage.tsx`) and Glossary page (`GlossaryPage.tsx`) use TanStack Table for sortable, filterable, searchable tables.
 - **Styling:** Use inline Tailwind utility classes on JSX elements. Prefer Tailwind utility classes over adding CSS rules whenever possible. Avoid defining component-level classes with `@apply` in `App.css`. CSS is only for things that genuinely require it: pseudo-elements (`::before`, `::after`), complex nested selectors, body-level toggles, animations/transitions, and third-party library attribute selectors (e.g., cmdk `[cmdk-input]`). Using `@apply` within those CSS-only rules is acceptable. Use Tailwind's built-in scale values; arbitrary values (e.g., `[360px]`) should only be used when strictly necessary (no built-in equivalent exists).
 - **Dark mode:** The app uses class-based dark mode via a `useTheme()` hook (`src/hooks/useTheme.tsx`) that toggles `.dark` on `<body>`. Tailwind's custom variant `@custom-variant dark (&:where(.dark, .dark *))` enables `dark:` utility classes. For components using Tailwind classes, use `dark:` variants directly (e.g., `dark:bg-slate-800 dark:text-slate-100`). For interactive components with dynamic inline styles (where colors come from data like `comp.color`), use the `useTheme()` hook + `ds()` helper from `src/helpers/darkStyle.ts` to select light/dark values. Standard dark palette: backgrounds `#1e293b` (slate-800), text `#e2e8f0` (slate-200), borders `#334155` (slate-700). All new interactive MDX components must support dark mode.
+
+## MDX Frontmatter Reference
+
+Every MDX content page has YAML frontmatter with these fields:
+
+| Field | Required | Type | Description |
+|-------|----------|------|-------------|
+| `id` | Yes | `string` | Unique page identifier (kebab-case). Must match the ID used in the guide's `*_GUIDE_SECTIONS` array. Duplicate IDs cause a build error. |
+| `title` | Yes | `string` | Display title with emoji suffix (e.g., `"Build & Output ⚙️"`). Must end with emoji — see **Navigation Item Formatting**. |
+| `guide` | No | `string` | Guide ID (e.g., `"npm-package"`, `"architecture"`, `"testing"`, `"prompt-engineering"`). Validated against known guide IDs at build time. |
+| `group` | No | `string` | Section grouping label within the guide (used for display grouping in some contexts). |
+| `linkRefs` | No | `array` | Array of `{id, note?}` objects referencing link registry entries. Resolved to `SectionLink[]` at build time — unknown IDs throw an error. |
+| `usedFootnotes` | No | `number[]` | Footnote numbers referenced in the MDX body via `<FnRef n={N} />`. Controls which links appear in the "Footnotes" section vs. "Further Reading". |
+
+## Dark Style Helper (`ds()`)
+
+The `ds()` function in `src/helpers/darkStyle.ts` selects between light and dark values for inline styles:
+
+```typescript
+ds(light: string, dark: string, isDark: boolean): string
+```
+
+**When to use `ds()`** — For interactive components with dynamic inline styles where colors come from data (e.g., `item.color`, `item.accent`). These can't use Tailwind `dark:` variants because the values aren't known at build time.
+
+**When to use Tailwind `dark:` variants** — For all other dark mode styling where values are static and known at build time (e.g., `dark:bg-slate-800 dark:text-slate-100`).
+
+```tsx
+// Dynamic colors from data → use ds()
+<div style={{ background: ds(item.accent, item.darkAccent, isDark) }}>
+
+// Static colors → use Tailwind dark: variants
+<div className="bg-white dark:bg-slate-800">
+```
+
+## Routing (Component Pages)
+
+The router resolves pages in this order:
+
+1. **Search-param pages** — `searchParamPages` in `src/data/componentPages.tsx` (pages that receive `?guide=` or `?search=` params, e.g., `external-resources`, `glossary`)
+2. **Simple component pages** — `simpleComponentPages` in `src/data/componentPages.tsx` (all guide start pages, `checklist`, legacy `architecture` route)
+3. **MDX content pages** — auto-discovered via `import.meta.glob` in `src/content/registry.ts`
+
+To add a new component-rendered page, add it to `simpleComponentPages` (or `searchParamPages` if it needs search params) in `src/data/componentPages.tsx`. No `router.tsx` changes needed.
+
+## Build Validation (`pnpm validate:data`)
+
+The validation script (`scripts/validate-data.ts`) runs cross-reference integrity checks that catch common mistakes before lint/build:
+
+| Check | What it catches |
+|-------|----------------|
+| Duplicate link registry IDs | Two entries with the same `id` in `src/data/linkRegistry/` |
+| Glossary `linkId` references | Glossary term pointing to a non-existent link registry entry |
+| Glossary `sectionId` references | Glossary term pointing to a non-existent page ID |
+| Duplicate page IDs across guides | Same page ID used in two different guides' section arrays |
+| `startPageId` not in sections | Guide's start page ID missing from its own `*_GUIDE_SECTIONS` |
+| `pageHeadings` orphan keys | Heading registered for a page ID that doesn't exist in any guide |
+| Heading anchor ID convention | Heading anchor IDs that don't use the required `toc-` prefix |
+
+Run `pnpm validate:data` to check these, or `pnpm validate` for the full pipeline (`validate:data` + `lint` + `build`).
 
 ## Link Registry
 
@@ -247,11 +310,10 @@ Claude artifacts are typically monolithic JSX or HTML files with embedded data a
 | 3. Register the guide | Import `<GUIDE>_GUIDE_SECTIONS` from your data file. Add a new entry to the `guides` array in `src/data/guideRegistry.ts` with `id`, `icon`, `title`, `startPageId`, `description`, `sections`. Add entries to `pageHeadings` for any pages that have `<TocLink>` headings (see **Page Headings**). | `src/data/guideRegistry.ts` |
 | 4. Create MDX content pages | One `.mdx` file per page with frontmatter (`id`, `title` with emoji suffix, `guide`). Use existing MDX components (`SectionIntro`, `Toc`, `TocLink`, `ColItem`, `Explainer`, etc.). Pages are auto-discovered by `src/content/registry.ts` — no manual import needed. | `src/content/<guide>/*.mdx` |
 | 5. Create Start page | Build the learning-path component using HTML template literals + `HtmlContent`. Reference `contentPages` from the registry for page titles. Include `<PrevNextNav currentId="<start-page-id>" />`. Follow the pattern in `ArchStartPage.tsx` or `TestingStartPage.tsx`. | `src/components/<Guide>StartPage.tsx` |
-| 6. Add Start page title | Add `'<start-page-id>': 'Start Here <emoji>'` to the `staticTitles` map. | `src/data/navigation.ts` |
-| 7. Add route | Add `if (sectionId === '<start-page-id>') return <<Guide>StartPage />` to `SectionRouter`. Import the Start page component. MDX pages auto-route via `contentPages`. | `src/router.tsx` |
-| 8. Extract interactive components | Stateful or interactive UI (explorers, diagrams, accordions) becomes a standalone component that reads data from `src/data/` via a prop (e.g., `<StackExplorer stackId="mern" />`). Register it in `src/components/mdx/index.ts`. See **Interactive MDX Component Template** below. | `src/components/mdx/` |
-| 9. Add glossary terms | Add relevant terms to the appropriate file in `src/data/glossaryTerms/` following the conventions in the **Glossary** section above. Ensure each `linkId` exists in the link registry. | `src/data/glossaryTerms/`, `src/data/linkRegistry/` |
-| 10. Verify | Run `pnpm lint && pnpm build`. Lint catches issues faster; the build catches broken link references and TypeScript errors. | — |
+| 6. Register route | Add the start page to `simpleComponentPages` in `src/data/componentPages.tsx`. The title is auto-derived as "Start Here {icon}" from the guide registry. MDX pages auto-route via `contentPages`. | `src/data/componentPages.tsx` |
+| 7. Extract interactive components | Stateful or interactive UI (explorers, diagrams, accordions) becomes a standalone component that reads data from `src/data/` via a prop (e.g., `<StackExplorer stackId="mern" />`). Register it in `src/components/mdx/index.ts`. See **Interactive MDX Component Template** below. | `src/components/mdx/` |
+| 8. Add glossary terms | Add relevant terms to the appropriate file in `src/data/glossaryTerms/` following the conventions in the **Glossary** section above. Ensure each `linkId` exists in the link registry. | `src/data/glossaryTerms/`, `src/data/linkRegistry/` |
+| 9. Verify | Run `pnpm validate` (runs `validate:data` + `lint` + `build`). This catches broken link references, invalid page headings, and TypeScript errors. | — |
 
 ### MDX page template
 
@@ -298,6 +360,8 @@ Brief intro paragraph.
 - **Home page**: reads `guides` array — new guide tile appears automatically
 - **Navigation (prev/next)**: derived from guide sections — works automatically
 - **Content registry**: auto-discovers new MDX files in `src/content/`
+- **Start page titles**: derived as "Start Here {icon}" from guide registry — no manual `staticTitles` entry needed
+- **Router**: resolves component pages via `componentPages.tsx` registry and MDX pages via auto-discovery — no `router.tsx` edits needed
 
 ## Navigation Item Formatting
 
@@ -369,8 +433,20 @@ MyComponent,
 - Data interfaces should include `darkAccent` field when components use dynamic accent colors
 - Standard dark palette: backgrounds `#1e293b`, text `#e2e8f0`, borders `#334155`
 
+## Error Troubleshooting
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `Duplicate page ID "foo"` | Two MDX files have the same `id` in frontmatter | Change one of the IDs to be unique |
+| `unknown guide "bar"` | MDX frontmatter `guide` field doesn't match a registered guide ID | Use one of: `npm-package`, `architecture`, `testing`, `prompt-engineering` |
+| `Unknown link ID "baz"` | `linkRefs` in MDX frontmatter references an ID that doesn't exist in `src/data/linkRegistry/` | Add the link entry to the appropriate guide file in `src/data/linkRegistry/` |
+| `pageHeadings has entry for unknown page` | A key in the `pageHeadings` record in `guideRegistry.ts` doesn't match any page in guide sections | Remove the orphaned entry or add the page to the guide's `*_GUIDE_SECTIONS` |
+| `startPageId not in sections` | Guide's `startPageId` isn't listed in its `*_GUIDE_SECTIONS` array | Add the start page ID to the first section of the guide |
+| Sidebar shows raw page ID instead of title | Page title missing emoji suffix, or page not in `staticTitles`/`contentPages`/`startPageTitles` | Ensure the MDX `title` ends with an emoji, or add a `staticTitles` entry for non-MDX pages |
+| CMD-K heading search broken | `pageHeadings` text doesn't match `<TocLink>` / `<SectionSubheading>` text in MDX | Update all three to match — the `<SectionSubheading>` text is the source of truth |
+
 ## Pre-Push Checklist
 
 - Run `pnpm install` before running lint or build to ensure dependencies are installed.
-- Run `pnpm lint` first, then `pnpm build`. Lint catches issues faster and cheaper than a full build.
+- Run `pnpm validate` for the full pipeline (`validate:data` + `lint` + `build`), or run each step individually: `pnpm validate:data`, then `pnpm lint`, then `pnpm build`. Validation and lint catch issues faster and cheaper than a full build.
 - When fixing lint errors, try `pnpm lint --fix` first to auto-fix what ESLint can handle, then manually fix any remaining issues.

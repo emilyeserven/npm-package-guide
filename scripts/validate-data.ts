@@ -7,7 +7,7 @@
 
 import { linkRegistry, linkById } from '../src/data/linkRegistry/index.ts'
 import { glossaryTerms } from '../src/data/glossaryTerms/index.ts'
-import { guides } from '../src/data/guideRegistry.ts'
+import { guides, pageHeadingPageIds, getPageHeadings } from '../src/data/guideRegistry.ts'
 
 let errors = 0
 
@@ -81,6 +81,46 @@ for (const guide of guides) {
         )
       }
       seenPageIds.set(id, guide.id)
+    }
+  }
+}
+
+// ── 5. Guide startPageId must appear in its own sections ─────────
+
+console.log('Checking guide startPageId references...')
+for (const guide of guides) {
+  const sectionIds = guide.sections.flatMap(s => s.ids)
+  if (!sectionIds.includes(guide.startPageId)) {
+    error(
+      `Guide "${guide.id}" has startPageId "${guide.startPageId}" ` +
+      `which is not listed in its sections. Add it to the guide's section definitions.`
+    )
+  }
+}
+
+// ── 6. pageHeadings keys must reference valid page IDs ───────────
+
+console.log('Checking pageHeadings references...')
+for (const pageId of pageHeadingPageIds) {
+  if (!allPageIds.has(pageId)) {
+    error(
+      `pageHeadings has entry for unknown page "${pageId}". ` +
+      `This page ID is not in any guide's sections or static routes.`
+    )
+  }
+}
+
+// ── 7. pageHeadings anchor IDs must use toc- prefix ─────────────
+
+console.log('Checking pageHeadings anchor ID conventions...')
+for (const pageId of pageHeadingPageIds) {
+  const headings = getPageHeadings(pageId)
+  for (const heading of headings) {
+    if (!heading.id.startsWith('toc-')) {
+      error(
+        `Page "${pageId}" has heading "${heading.title}" with anchor ID "${heading.id}" ` +
+        `that doesn't use the required "toc-" prefix.`
+      )
     }
   }
 }

@@ -1,15 +1,9 @@
 import { createRouter, createRoute, createRootRoute, createHashHistory } from '@tanstack/react-router'
 import { Layout } from './components/Layout'
 import { GuidesIndexPage } from './components/GuidesIndexPage'
-import { RoadmapPage } from './components/RoadmapPage'
-import { ChecklistPage } from './components/ChecklistPage'
-import { ExternalResourcesPage } from './components/ExternalResourcesPage'
-import { GlossaryPage } from './components/GlossaryPage'
-import { ArchStartPage } from './components/ArchStartPage'
-import { TestingStartPage } from './components/TestingStartPage'
-import { PromptStartPage } from './components/PromptStartPage'
 import { MDXPageWrapper } from './components/MDXPageWrapper'
 import { contentPages } from './content/registry'
+import { simpleComponentPages, searchParamPages } from './data/componentPages'
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -29,16 +23,17 @@ interface SectionSearch {
 // eslint-disable-next-line react-refresh/only-export-components
 function SectionRouter() {
   const { sectionId } = sectionRoute.useParams()
-  const { guide, search } = sectionRoute.useSearch()
+  const searchParams = sectionRoute.useSearch()
 
-  if (sectionId === 'roadmap') return <RoadmapPage />
-  if (sectionId === 'checklist') return <ChecklistPage />
-  if (sectionId === 'external-resources') return <ExternalResourcesPage initialGuide={guide} />
-  if (sectionId === 'glossary') return <GlossaryPage initialGuide={guide} initialSearch={search} />
-  if (sectionId === 'architecture' || sectionId === 'arch-start') return <ArchStartPage />
-  if (sectionId === 'test-start') return <TestingStartPage />
-  if (sectionId === 'prompt-start') return <PromptStartPage />
+  // 1. Component pages that receive route search params
+  const searchParamRenderer = searchParamPages[sectionId]
+  if (searchParamRenderer) return <>{searchParamRenderer(searchParams)}</>
 
+  // 2. Simple component pages (no props)
+  const SimpleComponent = simpleComponentPages[sectionId]
+  if (SimpleComponent) return <SimpleComponent />
+
+  // 3. MDX content pages (auto-discovered)
   const page = contentPages.get(sectionId)
   if (page) return <MDXPageWrapper page={page} />
 
