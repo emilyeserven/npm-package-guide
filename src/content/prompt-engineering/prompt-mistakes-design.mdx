@@ -1,0 +1,37 @@
+---
+id: "prompt-mistakes-design"
+title: "Design & UI Implementation 📐"
+guide: "prompt-engineering"
+usedFootnotes: [1]
+linkRefs:
+  - id: "web-dev-responsive-design"
+    note: "Google's responsive design fundamentals — the baseline AI-generated layouts should follow."
+  - id: "figma-dev-mode"
+    note: "Figma Dev Mode for design-to-code handoff — use design tokens to constrain AI output."
+  - id: "anthropic-claude-md"
+    note: "Document your design system tokens (spacing, colors, typography) in CLAUDE.md."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+AI models struggle with visual precision<FnRef n={1} /> — they generate hardcoded pixel values instead of responsive units, skip accessibility attributes, drift from design system tokens, and create z-index chaos. The fundamental issue is that AI doesn&rsquo;t see your design specs unless you provide them explicitly. Adding design system constraints to your prompt or CLAUDE.md dramatically improves output quality.
+</SectionIntro>
+
+<Toc>
+  <TocLink id="toc-responsive-breakpoints">Ignores responsive design</TocLink>
+  <TocLink id="toc-accessibility-missing">Missing accessibility</TocLink>
+  <TocLink id="toc-design-spec-drift">Drift from design specs</TocLink>
+  <TocLink id="toc-layout-z-index">Z-index wars and stacking context confusion</TocLink>
+  <TocLink id="toc-design-tools">AI Tool Tips</TocLink>
+</Toc>
+
+<MistakeList categoryId="design" />
+
+<SectionSubheading id="toc-design-tools">{'\u{1F6E0}\uFE0F'} AI Tool Tips</SectionSubheading>
+
+<SectionList>
+<ColItem><strong>MCP Servers:</strong> Use the <strong>Filesystem</strong> MCP server to give Claude access to your design token files (CSS variables, theme config), or <strong>Fetch</strong> MCP to pull your Figma design specs via the Figma API.</ColItem>
+<ColItem><strong>CLI Tools:</strong> Review layout code for accessibility: <code>cat src/components/Layout.tsx | claude -p "Check for WCAG 2.1 AA compliance — focus on alt text, keyboard nav, and ARIA labels"</code></ColItem>
+<ColItem><strong>Claude Skills:</strong> Create a <code>/project:a11y-check</code> slash command that audits any component for WCAG compliance and responsive breakpoint coverage.</ColItem>
+</SectionList>

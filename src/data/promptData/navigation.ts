@@ -69,7 +69,8 @@ export const PROMPT_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['prompt-start'] },
   { label: 'Common AI Mistakes', ids: [
     'prompt-mistakes-logic', 'prompt-mistakes-apis', 'prompt-mistakes-structural',
-    'prompt-mistakes-style', 'prompt-testing',
+    'prompt-mistakes-style', 'prompt-mistakes-react', 'prompt-mistakes-security',
+    'prompt-mistakes-design', 'prompt-mistakes-tailwind', 'prompt-testing',
   ]},
   { label: 'Context Management', ids: [
     'prompt-ctx-system-prompt', 'prompt-ctx-claude-md', 'prompt-ctx-chaining',
@@ -98,6 +99,10 @@ export const PROMPT_START_PAGE_DATA: StartPageData = {
         'prompt-mistakes-apis': 'Non-existent packages, deprecated APIs, and cross-language confusion.',
         'prompt-mistakes-structural': 'Over-engineering, incomplete code, ignored project patterns, and security gaps.',
         'prompt-mistakes-style': 'Inconsistent naming, unnecessary comments, and formatting drift.',
+        'prompt-mistakes-react': 'Stale closures, broken hook rules, incorrect keys, and prop drilling.',
+        'prompt-mistakes-security': 'XSS vectors, exposed secrets, insecure auth, and injection vulnerabilities.',
+        'prompt-mistakes-design': 'Hardcoded layouts, missing accessibility, design spec drift, and z-index chaos.',
+        'prompt-mistakes-tailwind': 'Arbitrary values, v3/v4 confusion, dynamic class purging, and missing dark mode.',
         'prompt-testing': 'Common AI mistakes in E2E and unit testing contexts.',
       },
     },

@@ -1,0 +1,37 @@
+---
+id: "prompt-mistakes-react"
+title: "React Component Errors ⚛️"
+guide: "prompt-engineering"
+usedFootnotes: [1]
+linkRefs:
+  - id: "react-docs-components"
+    note: "Official React guide — the definitive reference for component patterns and hooks."
+  - id: "react-docs-hooks-reference"
+    note: "Complete hooks reference — verify AI-generated hook usage against this."
+  - id: "anthropic-claude-code-best-practices"
+    note: "Tips for getting accurate React code from Claude Code."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+AI models frequently generate React code with subtle runtime bugs — stale closures in effects, broken hook rules, incorrect key props, and over-reliance on prop drilling. These mistakes compile and render without errors but cause hard-to-trace bugs like infinite re-renders, lost state, and phantom UI updates. Specifying your React version<FnRef n={1} /> and component conventions in CLAUDE.md is the best defense.
+</SectionIntro>
+
+<Toc>
+  <TocLink id="toc-stale-closures">Stale closures in useEffect and event handlers</TocLink>
+  <TocLink id="toc-hooks-rules">Breaking the Rules of Hooks</TocLink>
+  <TocLink id="toc-key-prop">Missing or incorrect key props in lists</TocLink>
+  <TocLink id="toc-prop-drilling">Excessive prop drilling instead of composition or context</TocLink>
+  <TocLink id="toc-react-tools">AI Tool Tips</TocLink>
+</Toc>
+
+<MistakeList categoryId="react" />
+
+<SectionSubheading id="toc-react-tools">{'\u{1F6E0}\uFE0F'} AI Tool Tips</SectionSubheading>
+
+<SectionList>
+<ColItem><strong>MCP Servers:</strong> Use the <strong>Fetch</strong> MCP server to pull the latest React docs during a session, or <strong>GitHub</strong> MCP to search for patterns in your repo's existing components.</ColItem>
+<ColItem><strong>CLI Tools:</strong> Pipe a component through Claude for review: <code>cat src/components/MyWidget.tsx | claude -p "Check for stale closures and hook rule violations"</code></ColItem>
+<ColItem><strong>Claude Skills:</strong> Create a <code>/project:review-component</code> slash command that applies your project's React conventions from CLAUDE.md to any component file.</ColItem>
+</SectionList>
