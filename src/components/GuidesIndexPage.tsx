@@ -1,5 +1,7 @@
 import { useNavigate } from '@tanstack/react-router'
 import { guides } from '../data/guideRegistry'
+import { STORYBOOK_URL } from '../data/navigation'
+import { ExternalLinkIcon } from './ExternalLinkIcon'
 
 interface ResourceTile {
   sectionId: string
@@ -100,6 +102,21 @@ export function GuidesIndexPage() {
               </p>
             </button>
           ))}
+          <a
+            href={STORYBOOK_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-start text-left p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 no-underline"
+          >
+            <span className="text-2xl mb-2">{'\u{1F3A8}'}</span>
+            <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1 flex items-center gap-1.5">
+              Storybook
+              <ExternalLinkIcon className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              Browse interactive component stories for this app — built with Storybook.
+            </p>
+          </a>
         </div>
       </div>
     </div>

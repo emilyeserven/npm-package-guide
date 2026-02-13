@@ -5,6 +5,8 @@ import { guides } from '../data/guideRegistry'
 import { glossaryTerms } from '../data/glossaryTerms'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { parseTitle } from '../helpers/parseTitle'
+import { STORYBOOK_URL } from '../data/navigation'
+import { ExternalLinkIcon } from './ExternalLinkIcon'
 
 interface CommandMenuProps {
   open: boolean
@@ -78,6 +80,17 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
         <Command.Group heading="Resources">
           <PageItem id="external-resources" onSelect={handleSelect} />
           <PageItem id="glossary" onSelect={handleSelect} />
+          <Command.Item
+            value="Storybook"
+            keywords={['storybook', 'components', 'stories']}
+            onSelect={() => {
+              onOpenChange(false)
+              window.open(STORYBOOK_URL, '_blank', 'noopener,noreferrer')
+            }}
+          >
+            <span className="flex-1 min-w-0 truncate">Storybook</span>
+            <ExternalLinkIcon className="w-3.5 h-3.5 opacity-50 shrink-0" />
+          </Command.Item>
         </Command.Group>
 
         <Command.Group heading="Glossary">

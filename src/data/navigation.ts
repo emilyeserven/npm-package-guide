@@ -1,6 +1,8 @@
 import { contentPages } from '../content/registry'
 import { getNavOrderForPage } from './guideRegistry'
 
+export const STORYBOOK_URL = 'https://emilyserven.net/npm-package-guide/storybook'
+
 // Titles for non-MDX pages that can't be derived from the content registry.
 const staticTitles: Record<string, string> = {
   'external-resources': 'External Resources \u{1F4DA}',

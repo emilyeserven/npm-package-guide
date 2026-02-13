@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import { guides, getGuideForPage, type GuideDefinition } from '../data/guideRegistry'
 import { getNavTitle } from '../data/navigation'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
+import { STORYBOOK_URL } from '../data/navigation'
 import { parseTitle } from '../helpers/parseTitle'
 import { OptionsDropdown } from './OptionsDropdown'
 
@@ -129,6 +130,14 @@ function IconRail({
       >
         <span className="text-lg leading-none">{'\u{1F4D6}'}</span>
         <span className={tooltipCls}>Glossary</span>
+      </button>
+      <button
+        className={clsx(iconBtnCls, inactiveCls)}
+        onClick={() => window.open(STORYBOOK_URL, '_blank', 'noopener,noreferrer')}
+        data-testid="sidebar-icon-storybook"
+      >
+        <span className="text-lg leading-none">{'\u{1F3A8}'}</span>
+        <span className={tooltipCls}>Storybook</span>
       </button>
 
       <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5" />
