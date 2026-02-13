@@ -27,6 +27,7 @@ import { TestingMistakes } from './TestingMistakes'
 import { ClaudeMdChecklist } from './ClaudeMdChecklist'
 import { ToolDetail } from './ToolDetail'
 import { MetaTooling } from './MetaTooling'
+import { CodingToolExplorer } from './CodingToolExplorer'
 
 export const mdxComponents: MDXComponents = {
   Cmd,
@@ -73,4 +74,5 @@ export const mdxComponents: MDXComponents = {
   ClaudeMdChecklist,
   ToolDetail,
   MetaTooling,
+  CodingToolExplorer,
 }

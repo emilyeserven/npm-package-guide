@@ -78,3 +78,16 @@ export interface MetaToolItem {
   description: string
   details: string[]
 }
+
+export interface AICodingTool {
+  id: string
+  name: string
+  icon: string
+  category: string
+  description: string
+  strengths: string[]
+  considerations: string[]
+  bestFor: string
+  accent: string
+  darkAccent: string
+}
