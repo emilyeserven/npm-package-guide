@@ -282,6 +282,16 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
     setActiveGuideId(prev => prev === guideId ? null : guideId)
   }
 
+  // When pinned, closing the content panel collapses to icon rail (stays pinned).
+  // When not pinned, closing the content panel closes the entire sidebar.
+  const handleContentPanelClose = () => {
+    if (pinned) {
+      setActiveGuideId(null)
+    } else {
+      onClose()
+    }
+  }
+
   return (
     <div
       data-testid="sidebar"
@@ -327,7 +337,7 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
           onNav={handleNav}
           pinned={pinned}
           onTogglePin={onTogglePin}
-          onClose={onClose}
+          onClose={handleContentPanelClose}
         />
       )}
     </div>
