@@ -1,6 +1,6 @@
 import type { ChecklistSection } from './types'
 import type { GuideSection, StartPageData } from '../guideTypes'
-import { TOOL_TECHNIQUES, META_TOOLS } from './techniques'
+import { META_TOOLS } from './techniques'
 
 export const CLAUDEMD_CHECKLIST: ChecklistSection[] = [
   {
@@ -78,7 +78,10 @@ export const PROMPT_GUIDE_SECTIONS: GuideSection[] = [
     'prompt-claudemd-checklist',
   ]},
   { label: 'Tooling & Reference', ids: [
-    'prompt-coding-tools', 'prompt-cli-reference', 'prompt-tools-advanced', 'prompt-meta-tooling',
+    'prompt-coding-tools', 'prompt-cli-reference', 'prompt-meta-tooling',
+  ]},
+  { label: 'Advanced Tools', ids: [
+    'prompt-tools-mcp', 'prompt-tools-skills', 'prompt-tools-hooks', 'prompt-tools-optimization',
   ]},
 ]
 
@@ -126,7 +129,7 @@ export const PROMPT_START_PAGE_DATA: StartPageData = {
       type: 'numbered',
       num: 3,
       title: 'Tooling & Reference',
-      description: 'CLI commands, advanced integrations, and the workflows that surround AI-assisted development.',
+      description: 'CLI commands, tool comparisons, and the workflows that surround AI-assisted development.',
       customSubItems: [
         {
           title: 'AI Coding Tools Compared',
@@ -139,18 +142,25 @@ export const PROMPT_START_PAGE_DATA: StartPageData = {
           jumpTo: 'prompt-cli-reference',
         },
         {
-          title: 'Advanced Tool Usage',
-          description: 'MCP servers, custom slash commands, hooks, and performance optimization.',
-          jumpTo: 'prompt-tools-advanced',
-          tags: TOOL_TECHNIQUES.map(t => ({ icon: t.icon, name: t.name })),
-        },
-        {
           title: 'Meta-Tooling & Workflows',
           description: 'CI/CD integration, prompt versioning, team workflows, and evaluating AI output.',
           jumpTo: 'prompt-meta-tooling',
           tags: META_TOOLS.map(t => ({ icon: t.icon, name: t.name })),
         },
       ],
+    },
+    {
+      type: 'numbered',
+      num: 4,
+      title: 'Advanced Tools',
+      description: 'Deep dives into MCP servers, custom slash commands, hooks, and performance optimization.',
+      sectionLabel: 'Advanced Tools',
+      subItemDescriptions: {
+        'prompt-tools-mcp': 'Configure MCP servers for external data, APIs, and custom tools.',
+        'prompt-tools-skills': 'Create reusable slash commands for team-wide consistency.',
+        'prompt-tools-hooks': 'Automate workflows with event-driven shell command hooks.',
+        'prompt-tools-optimization': 'Headless mode, batch processing, and context management strategies.',
+      },
     },
   ],
 }
