@@ -93,6 +93,30 @@ export const promptGlossary: GlossaryCategory[] = [
         linkId: "anthropic-prompt-caching",
         sectionId: "prompt-ctx-window"
       },
+      {
+        term: "Cursor",
+        definition: "An AI-enhanced IDE built as a fork of VS Code. Provides inline Tab completions, an AI chat panel, and a Composer mode for multi-file editing from natural language prompts. Supports multiple AI model backends.",
+        linkId: "cursor-docs",
+        sectionId: "prompt-coding-tools"
+      },
+      {
+        term: "GitHub Copilot",
+        definition: "GitHub\u2019s AI pair programmer that integrates into existing editors (VS Code, JetBrains, Neovim) as a plugin. Offers inline code completions, a chat panel, and an agent mode for multi-step tasks.",
+        linkId: "github-copilot-docs",
+        sectionId: "prompt-coding-tools"
+      },
+      {
+        term: "Windsurf",
+        definition: "An AI IDE (formerly Codeium) featuring \u201CCascade\u201D \u2014 an agentic flow system that chains multi-step reasoning across files, terminal commands, and browser previews in a single continuous workflow.",
+        linkId: "windsurf-docs",
+        sectionId: "prompt-coding-tools"
+      },
+      {
+        term: "Lovable",
+        definition: "A browser-based AI app builder that generates full-stack web applications (React + Tailwind + Supabase) from natural language descriptions. Designed for rapid prototyping with real-time preview and one-click deployment.",
+        linkId: "lovable-docs",
+        sectionId: "prompt-coding-tools"
+      },
     ]
   },
 ]

@@ -1,5 +1,5 @@
 import { contentPages } from '../content/registry'
-import { MISTAKE_CATEGORIES, CONTEXT_TECHNIQUES, TOOL_TECHNIQUES, META_TOOLS } from '../data/promptData'
+import { MISTAKE_CATEGORIES, CONTEXT_TECHNIQUES, CODING_TOOLS, TOOL_TECHNIQUES, META_TOOLS } from '../data/promptData'
 import { PrevNextNav } from './PrevNextNav'
 import { JumpButton } from './JumpButton'
 
@@ -92,7 +92,20 @@ export function PromptStartPage() {
           <div className="step-number w-9 h-9 rounded-full bg-blue-500 dark:bg-blue-400 text-white dark:text-slate-900 flex items-center justify-center text-sm font-bold shrink-0 relative">3</div>
           <div className="flex-1 min-w-0">
             <div className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">Tooling & Reference</div>
-            <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2">CLI commands, advanced integrations, and the workflows that surround AI-assisted development.</div>
+            <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2">AI coding tools compared, CLI commands, advanced integrations, and the workflows that surround AI-assisted development.</div>
+            {/* AI Coding Tools */}
+            <div className="mt-4.5 py-2 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5">AI Coding Tools Compared</h3>
+              <div className="text-sm text-slate-800 dark:text-slate-300 leading-normal mb-1">Compare CLI assistants, AI IDEs, and app builders to find the right tool for your workflow.</div>
+              <JumpButton jumpTo="prompt-coding-tools">{'\u2192'} AI Coding Tools Compared</JumpButton>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {CODING_TOOLS.map(tool => (
+                  <span key={tool.id} className="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
+                    {tool.icon} {tool.name}
+                  </span>
+                ))}
+              </div>
+            </div>
             {/* CLI Reference */}
             <div className="mt-4.5 py-2 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
               <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5">CLI Quick Reference</h3>

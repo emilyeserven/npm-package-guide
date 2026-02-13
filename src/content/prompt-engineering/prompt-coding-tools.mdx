@@ -1,0 +1,91 @@
+---
+id: "prompt-coding-tools"
+title: "AI Coding Tools Compared 🛠️"
+guide: "prompt-engineering"
+usedFootnotes: [1, 2, 3]
+linkRefs:
+  - id: "anthropic-claude-code"
+    note: "Official docs for Claude Code, Anthropic's terminal-native AI coding agent."
+  - id: "cursor-docs"
+    note: "Cursor documentation — AI-enhanced IDE built on VS Code."
+  - id: "lovable-docs"
+    note: "Lovable documentation — browser-based AI app builder."
+  - id: "github-copilot-docs"
+    note: "GitHub Copilot documentation — AI pair programmer for existing editors."
+  - id: "windsurf-docs"
+    note: "Windsurf documentation — AI IDE with Cascade agentic flows."
+  - id: "bolt-docs"
+    note: "Bolt documentation — browser-based AI development environment."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+The AI coding tool landscape has expanded rapidly. Choosing between tools like Claude Code<FnRef n={1} />, Cursor<FnRef n={2} />, and Lovable<FnRef n={3} /> depends on your workflow, your experience level, and what you&rsquo;re building. This page maps the major tools into categories and helps you understand their trade-offs.
+</SectionIntro>
+
+<Toc>
+  <TocLink id="toc-categories">Three categories of AI coding tools</TocLink>
+  <TocLink id="toc-explorer">Tool explorer</TocLink>
+  <TocLink id="toc-cli">CLI assistants</TocLink>
+  <TocLink id="toc-ide">AI IDEs &amp; editor extensions</TocLink>
+  <TocLink id="toc-builders">App builders</TocLink>
+  <TocLink id="toc-choose">How to choose</TocLink>
+</Toc>
+
+<SectionSubheading id="toc-categories">{'\u{1F4CA}'} Three Categories of AI Coding Tools</SectionSubheading>
+
+Today&rsquo;s AI coding tools fall into three broad categories, each suited to a different kind of work:
+
+<SectionList>
+<ColItem>**CLI assistants** &mdash; Terminal-native agents that read, write, and run code through conversation. They work alongside any editor and excel at complex, multi-step tasks. Example: Claude Code.</ColItem>
+<ColItem>**AI IDEs &amp; editor extensions** &mdash; Visual editors with built-in AI features like inline completions, chat panels, and multi-file editing. They range from full IDE replacements (Cursor, Windsurf) to plugins for existing editors (GitHub Copilot). Best for developers who want AI woven into their editing experience.</ColItem>
+<ColItem>**App builders** &mdash; Browser-based platforms that generate entire applications from natural language descriptions. They prioritize speed-to-deploy over fine-grained control. Examples: Lovable, Bolt.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-explorer">{'\u{1F50D}'} Tool Explorer</SectionSubheading>
+
+Click a tool below to see its strengths, considerations, and ideal use case.
+
+<CodingToolExplorer />
+
+<SectionSubheading id="toc-cli">{'\u{1F4BB}'} CLI Assistants</SectionSubheading>
+
+CLI assistants operate in your terminal, reading and modifying files directly on disk. They have no opinion about which editor you use &mdash; you can pair them with VS Code, Neovim, IntelliJ, or anything else.
+
+<SectionList>
+<ColItem>**Claude Code** is Anthropic&rsquo;s terminal-native agent. It reads your codebase, writes files, runs tests, manages git, and iterates autonomously. The CLAUDE.md memory system gives it persistent project context across sessions. Its headless mode (`claude -p`) makes it usable in CI/CD pipelines and shell scripts. See <NavLink to="prompt-tools-advanced">Advanced Tool Usage</NavLink> and <NavLink to="prompt-cli-reference">CLI Quick Reference</NavLink> for deeper coverage.</ColItem>
+<ColItem>**Why CLI?** Terminal-based tools integrate into existing workflows without requiring you to change editors. They&rsquo;re especially powerful for backend engineers who already live in the terminal &mdash; the AI speaks the same language as your shell, git, and build tools.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-ide">{'\u{1F5A5}\uFE0F'} AI IDEs &amp; Editor Extensions</SectionSubheading>
+
+AI IDEs embed intelligence directly into the editing experience &mdash; inline completions as you type, chat panels for complex questions, and multi-file editing from natural language prompts.
+
+<SectionList>
+<ColItem>**Cursor** is a VS Code fork with Tab completions, a Composer mode for multi-file edits, and support for multiple AI models as backends. The familiar VS Code interface means minimal switching cost for existing VS Code users.</ColItem>
+<ColItem>**Windsurf** (formerly Codeium) offers &ldquo;Cascade&rdquo; &mdash; an agentic flow that chains reasoning across files, terminal commands, and browser previews. It has a strong free tier and emphasizes end-to-end task automation.</ColItem>
+<ColItem>**GitHub Copilot** works as a plugin in your existing editor (VS Code, JetBrains, Neovim, and others). Its inline completions are fast and context-aware, and its newer agent mode can handle multi-step tasks. The tight GitHub integration makes it natural for teams already on the platform.</ColItem>
+<ColItem>**Key trade-off:** IDE tools give you the tightest feedback loop (see completions as you type), but Cursor and Windsurf require switching to a new editor. Copilot avoids this by working as a plugin, but its agentic capabilities are less mature.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-builders">{'\u26A1'} App Builders</SectionSubheading>
+
+App builders generate complete applications from natural language prompts. They&rsquo;re designed for speed &mdash; go from idea to deployed prototype in minutes, not hours.
+
+<SectionList>
+<ColItem>**Lovable** generates React + Tailwind + Supabase apps with built-in authentication, database, and storage. It includes real-time preview and one-click deployment. Strong for rapid prototyping and internal tools.</ColItem>
+<ColItem>**Bolt** runs a full Node.js environment in the browser via WebContainers. It supports multiple frameworks (React, Vue, Svelte, Next.js, Astro) and provides an in-browser terminal. An open-source version (bolt.diy) is available for self-hosting.</ColItem>
+<ColItem>**Key trade-off:** App builders prioritize speed over control. Generated code often needs refactoring for production, and they&rsquo;re not designed for integrating into an existing large codebase. Think of them as prototyping accelerators, not replacements for a development environment.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-choose">{'\u{1F9ED}'} How to Choose</SectionSubheading>
+
+There&rsquo;s no single &ldquo;best&rdquo; tool &mdash; the right choice depends on your workflow and what you&rsquo;re building:
+
+<SectionList>
+<ColItem>**&ldquo;I live in the terminal and want an autonomous agent&rdquo;** &rarr; CLI assistant (Claude Code). Maximum flexibility, works with any editor, deep agentic capabilities.</ColItem>
+<ColItem>**&ldquo;I want AI completions and editing in a visual IDE&rdquo;** &rarr; AI IDE (Cursor or Windsurf) or editor extension (GitHub Copilot). Tightest feedback loop for day-to-day coding.</ColItem>
+<ColItem>**&ldquo;I need a working prototype fast and don&rsquo;t want to set up a dev environment&rdquo;** &rarr; App builder (Lovable or Bolt). Fastest path from idea to deployed app.</ColItem>
+<ColItem>**Mixing tools is common.** Many developers use a CLI assistant for complex multi-step tasks, an IDE extension for inline completions during regular coding, and an app builder for quick prototypes &mdash; all in the same week.</ColItem>
+</SectionList>

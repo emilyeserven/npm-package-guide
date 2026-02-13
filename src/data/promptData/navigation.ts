@@ -76,7 +76,7 @@ export const PROMPT_GUIDE_SECTIONS: GuideSection[] = [
     'prompt-claudemd-checklist',
   ]},
   { label: 'Tooling & Reference', ids: [
-    'prompt-cli-reference', 'prompt-tools-advanced', 'prompt-meta-tooling',
+    'prompt-coding-tools', 'prompt-cli-reference', 'prompt-tools-advanced', 'prompt-meta-tooling',
   ]},
 ]
 
