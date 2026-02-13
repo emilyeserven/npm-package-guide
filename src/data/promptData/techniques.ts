@@ -12,21 +12,19 @@ export const TOOL_TECHNIQUES: ToolTechnique[] = [
       'MCP servers give Claude access to databases, APIs, file systems, and custom tools',
       'Configure in .mcp.json at the project root or ~/.claude/mcp.json globally',
       'Use stdio transport for local servers, SSE for remote ones',
-      'Community servers exist for GitHub, Postgres, filesystem, Puppeteer, and more',
+      'Community servers exist for GitHub, Filesystem, Fetch, Brave Search, Memory, and more',
       'Build custom MCP servers to expose your internal tools to Claude',
     ],
     example: `// .mcp.json \u2014 project-level MCP server config
 {
   "mcpServers": {
-    "postgres": {
+    "fetch": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-postgres",
-               "postgresql://localhost:5432/mydb"]
+      "args": ["-y", "@modelcontextprotocol/server-fetch"]
     },
-    "github": {
+    "memory": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": { "GITHUB_TOKEN": "ghp_..." }
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
     }
   }
 }`,

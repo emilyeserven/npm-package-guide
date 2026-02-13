@@ -139,6 +139,48 @@ export const promptLinks: RegistryLink[] = [
     tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering"],
   },
 
+  // ─── MCP Community Servers ───────────────────────────────────────────
+  {
+    id: "mcp-server-github",
+    url: "https://github.com/github/github-mcp-server",
+    label: "GitHub MCP Server",
+    source: "GitHub",
+    desc: "Official GitHub MCP server — repository management, issues, PRs, and code search",
+    tags: ["tool", "free", "prompt-engineering", "guide:prompt-engineering"],
+  },
+  {
+    id: "mcp-server-fetch",
+    url: "https://github.com/modelcontextprotocol/servers/tree/main/src/fetch",
+    label: "MCP Fetch Server",
+    source: "MCP",
+    desc: "MCP server for fetching and converting web content — gives Claude the ability to read web pages",
+    tags: ["tool", "free", "prompt-engineering", "guide:prompt-engineering"],
+  },
+  {
+    id: "mcp-server-brave-search",
+    url: "https://github.com/brave/brave-search-mcp-server",
+    label: "Brave Search MCP Server",
+    source: "Brave",
+    desc: "Official Brave Search MCP server — web search, local search, and AI-powered summarization",
+    tags: ["tool", "free", "prompt-engineering", "guide:prompt-engineering"],
+  },
+  {
+    id: "mcp-server-memory",
+    url: "https://github.com/modelcontextprotocol/servers/tree/main/src/memory",
+    label: "MCP Memory Server",
+    source: "MCP",
+    desc: "MCP server for persistent knowledge graph memory — lets Claude remember information across sessions",
+    tags: ["tool", "free", "prompt-engineering", "guide:prompt-engineering"],
+  },
+  {
+    id: "mcp-server-filesystem",
+    url: "https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem",
+    label: "MCP Filesystem Server",
+    source: "MCP",
+    desc: "MCP server for secure file system access — read, write, search, and manage files with configurable permissions",
+    tags: ["tool", "free", "prompt-engineering", "guide:prompt-engineering"],
+  },
+
   // ─── AI Coding Tools ─────────────────────────────────────────────────
   {
     id: "cursor-docs",
