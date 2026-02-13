@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import { guides, getGuideForPage, type GuideDefinition } from '../data/guideRegistry'
 import { getNavTitle } from '../data/navigation'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
+import { parseTitle } from '../helpers/parseTitle'
 import { OptionsDropdown } from './OptionsDropdown'
 
 interface SidebarProps {
@@ -37,9 +38,7 @@ const severityBadges: Record<string, { letter: string; cls: string }> = {
 }
 
 function SidebarItem({ id, title, active, onClick }: { id: string; title: string; active: boolean; onClick: (id: string) => void }) {
-  const match = title.match(/^(.+)\s+([\u0080-\u{10FFFF}]+)$/u)
-  const text = match ? match[1] : title
-  const icon = match ? match[2] : ''
+  const { text, icon } = parseTitle(title)
   const badge = severityBadges[id]
   return (
     <button

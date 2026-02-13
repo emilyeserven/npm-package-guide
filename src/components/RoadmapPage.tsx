@@ -2,8 +2,8 @@ import { useNavigate } from '@tanstack/react-router'
 import { roadmapSteps } from '../data/roadmapSteps'
 import { contentPages } from '../content/registry'
 import { getNavTitle } from '../data/navigation'
-import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { PrevNextNav } from './PrevNextNav'
+import { JumpButton, jumpBtnCls } from './JumpButton'
 
 const ciPageOrder = [
   'ci-overview', 'ci-linting', 'ci-build', 'ci-testing', 'ci-repo-maintenance',
@@ -22,17 +22,6 @@ const bonusPageOrder = ['storybook']
 const bonusDescriptions: Record<string, string> = {
   storybook: 'Storybook is a tool for building and testing UI components in isolation — outside of your app. Think of it like a visual unit test lab for your UI.',
   architecture: 'An interactive guide to web tech stacks — explore each layer of a modified MERN stack and compare popular alternatives like LAMP, Django, and Rails.',
-}
-
-const jumpBtnCls = 'inline-flex items-center gap-1.5 text-sm font-bold text-white cursor-pointer bg-blue-500 dark:bg-blue-400 dark:text-slate-900 border-none font-sans py-2 px-3.5 rounded-lg transition-all duration-150 mt-1 shadow-md shadow-blue-500/25 hover:bg-blue-600 dark:hover:bg-blue-500 hover:-translate-y-px hover:shadow-lg hover:shadow-blue-500/30'
-
-function JumpButton({ jumpTo, children, style }: { jumpTo: string; children: React.ReactNode; style?: React.CSSProperties }) {
-  const navigateToSection = useNavigateToSection()
-  return (
-    <button className={jumpBtnCls} style={style} onClick={() => navigateToSection(jumpTo)}>
-      {children}
-    </button>
-  )
 }
 
 function GuideJumpButton({ sectionId, guide, children }: { sectionId: string; guide: string; children: React.ReactNode }) {

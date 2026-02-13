@@ -6,6 +6,7 @@ import { guides, getPageHeadings } from '../data/guideRegistry'
 import { glossaryTerms } from '../data/glossaryTerms'
 import { overallResources } from '../data/overallResources'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
+import { parseTitle } from '../helpers/parseTitle'
 
 interface CommandMenuProps {
   open: boolean
@@ -14,9 +15,7 @@ interface CommandMenuProps {
 
 function PageItem({ id, onSelect }: { id: string; onSelect: (id: string) => void }) {
   const title = getNavTitle(id)
-  const match = title.match(/^(.+)\s+([\u0080-\u{10FFFF}]+)$/u)
-  const text = match ? match[1] : title
-  const icon = match ? match[2] : ''
+  const { text, icon } = parseTitle(title)
 
   return (
     <Command.Item value={title} keywords={[id]} onSelect={() => onSelect(id)}>

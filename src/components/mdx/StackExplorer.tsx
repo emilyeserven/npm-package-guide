@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { STACK_PAGES } from '../../data/archData'
 import type { StackComponent } from '../../data/archData'
-import { useTheme } from '../../hooks/useTheme'
+import { useIsDark } from '../../hooks/useTheme'
 import { ds } from '../../helpers/darkStyle'
 
 function ComponentBar({ comp, isActive, onClick, isDark }: { comp: StackComponent; isActive: boolean; onClick: () => void; isDark: boolean }) {
@@ -80,8 +80,7 @@ function PlainDescription({ comp, isDark }: { comp: StackComponent; isDark: bool
 }
 
 export function StackExplorer({ stackId }: { stackId: string }) {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
+  const isDark = useIsDark()
   const stack = STACK_PAGES.find(s => s.id === stackId)
   const [activeId, setActiveId] = useState(stack?.components[0]?.id ?? "")
   const active = stack?.components.find(c => c.id === activeId)

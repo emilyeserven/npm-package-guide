@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { TEST_TOOLS, TAG_COLORS } from '../../data/testingData'
 import type { TestType } from '../../data/testingData'
-import { useTheme } from '../../hooks/useTheme'
+import { useIsDark } from '../../hooks/useTheme'
 import { ds } from '../../helpers/darkStyle'
 
 const FILTER_OPTIONS: { id: TestType | 'all'; label: string }[] = [
@@ -13,8 +13,7 @@ const FILTER_OPTIONS: { id: TestType | 'all'; label: string }[] = [
 
 export function TestToolsGrid() {
   const [filter, setFilter] = useState<TestType | 'all'>('all')
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
+  const isDark = useIsDark()
 
   const filtered = filter === 'all'
     ? TEST_TOOLS

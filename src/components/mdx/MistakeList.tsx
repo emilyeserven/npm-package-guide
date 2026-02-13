@@ -1,9 +1,8 @@
 import { MISTAKE_CATEGORIES, SEVERITY_COLORS } from '../../data/promptData'
-import { useTheme } from '../../hooks/useTheme'
+import { useIsDark } from '../../hooks/useTheme'
 
 export function MistakeList({ categoryId }: { categoryId: string }) {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
+  const isDark = useIsDark()
 
   const category = MISTAKE_CATEGORIES.find(c => c.id === categoryId)
   if (!category) return null

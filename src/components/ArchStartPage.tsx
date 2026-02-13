@@ -1,7 +1,7 @@
 import { contentPages } from '../content/registry'
 import { STACK_PAGES, FRAMEWORK_PAGES } from '../data/archData'
-import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { PrevNextNav } from './PrevNextNav'
+import { JumpButton } from './JumpButton'
 
 const stackDescriptions: Record<string, string> = {
   mern: 'The most popular all-JavaScript stack — MongoDB, Express, React, Node.js. Great for learning and rapid prototyping.',
@@ -17,17 +17,6 @@ const frameworkDescriptions: Record<string, string> = {
   'react-router': 'React Router v7\'s full-stack mode — built on web standards, progressive enhancement, and 10+ years of battle-tested routing.',
   'tanstack-start': 'The newest entry with best-in-class TypeScript support — end-to-end type safety from the TanStack ecosystem.',
   remix: 'The pioneering web-standards framework that merged into React Router v7. Its ideas shaped modern React frameworks.',
-}
-
-const jumpBtnCls = 'inline-flex items-center gap-1.5 text-sm font-bold text-white cursor-pointer bg-blue-500 dark:bg-blue-400 dark:text-slate-900 border-none font-sans py-2 px-3.5 rounded-lg transition-all duration-150 mt-1 shadow-md shadow-blue-500/25 hover:bg-blue-600 dark:hover:bg-blue-500 hover:-translate-y-px hover:shadow-lg hover:shadow-blue-500/30'
-
-function JumpButton({ jumpTo, children }: { jumpTo: string; children: React.ReactNode }) {
-  const navigate = useNavigateToSection()
-  return (
-    <button className={jumpBtnCls} onClick={() => navigate(jumpTo)}>
-      {children}
-    </button>
-  )
 }
 
 export function ArchStartPage() {
