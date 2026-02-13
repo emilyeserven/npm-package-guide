@@ -52,5 +52,5 @@ Most editors (VS Code, WebStorm, Cursor) can hook into your linter and formatter
   run: `}<Cmd npm="npx eslint . --max-warnings 0" pnpm="pnpm eslint . --max-warnings 0" /></CIYaml>
 
 <CITip>
-Use --max-warnings 0 to fail the build on any warning. This keeps your codebase clean over time instead of slowly accumulating 'harmless' warnings that hide real issues. Your CI should always run the same lint check that your IDE runs locally — no surprises.
+Use --max-warnings 0 to fail the build on any warning. This keeps your codebase clean over time instead of slowly accumulating 'harmless' warnings that hide real issues. Your CI should always run the same lint check that your IDE runs locally — no surprises. If you're using AI coding assistants, see <NavLink to="prompt-mistakes-style">Style & Formatting Drift</NavLink> in the Prompt Engineering Guide for common style issues in AI-generated code.
 </CITip>
