@@ -6,22 +6,21 @@ test.describe('Theme Toggle', () => {
   })
 
   test('toggles between light and dark mode', async ({ page }) => {
-    const html = page.locator('html')
+    const body = page.locator('body')
 
     // Default should be light (no dark class)
-    await expect(html).not.toHaveClass(/dark/)
+    await expect(body).not.toHaveClass(/dark/)
 
-    // Open sidebar, then open options dropdown
+    // Open sidebar, then open settings panel
     await page.locator('[data-testid="menu-toggle"]').click()
-    await page.locator('[data-testid="options-dropdown-toggle"]').click()
+    await page.locator('[data-testid="settings-pane-toggle"]').click()
 
     // Click Dark to switch to dark mode
     await page.locator('[data-testid="theme-option-dark"]').click()
-    await expect(html).toHaveClass(/dark/)
+    await expect(body).toHaveClass(/dark/)
 
-    // Re-open dropdown and click Light to switch back
-    await page.locator('[data-testid="options-dropdown-toggle"]').click()
+    // Click Light to switch back
     await page.locator('[data-testid="theme-option-light"]').click()
-    await expect(html).not.toHaveClass(/dark/)
+    await expect(body).not.toHaveClass(/dark/)
   })
 })
