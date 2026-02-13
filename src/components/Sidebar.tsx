@@ -179,7 +179,7 @@ function ContentPanel({
   onClose: () => void
 }) {
   return (
-    <div className="flex-1 flex flex-col min-w-0">
+    <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-4 h-11 border-b border-slate-200 dark:border-slate-700 shrink-0">
         <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">
@@ -273,7 +273,7 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
 
   const handleResourceClick = (id: string) => {
     setActiveGuideId(null)
-    onClose()
+    if (!pinned) onClose()
     navigateToSection(id)
   }
 
@@ -295,7 +295,7 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
     <div
       data-testid="sidebar"
       className={clsx(
-        'sidebar fixed top-0 left-0 bottom-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 z-100 flex flex-row overflow-hidden transition-[width,translate] duration-250',
+        'sidebar fixed top-0 left-0 bottom-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 z-100 flex flex-row transition-[width,translate] duration-250',
         activeGuide ? 'w-[360px] max-sm:w-[320px]' : 'w-[52px]',
         open ? 'translate-x-0' : '-translate-x-full'
       )}
