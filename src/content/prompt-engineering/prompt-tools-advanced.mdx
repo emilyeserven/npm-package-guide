@@ -43,9 +43,13 @@ Beyond basic prompting, Claude Code supports powerful integration points &mdash;
 
 Popular community servers include GitHub<FnRef n={6} /> for repository and PR management, Filesystem<FnRef n={10} /> for secure file access, Fetch<FnRef n={7} /> for reading web content, Brave Search<FnRef n={8} /> for web search, and Memory<FnRef n={9} /> for persistent knowledge graphs. All are installable via `npx` with zero configuration.
 
+These servers are especially useful for domain-specific reviews &mdash; use Fetch to pull React docs or OWASP cheat sheets during code review, Filesystem to read design tokens and Tailwind config, and Brave Search to check for known CVEs in AI-suggested packages.
+
 <ToolDetail toolId="mcp-servers" />
 
 <SectionSubheading id="toc-skills">{'\u{1F3AF}'} Custom Slash Commands</SectionSubheading>
+
+Domain-specific commands are especially valuable &mdash; create <code>/project:security-review</code> for OWASP checks, <code>/project:tw-review</code> for Tailwind convention enforcement, or <code>/project:a11y-check</code> for accessibility audits.
 
 <ToolDetail toolId="skills" />
 

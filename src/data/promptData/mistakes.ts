@@ -136,6 +136,134 @@ export const MISTAKE_CATEGORIES: MistakeCategory[] = [
       },
     ],
   },
+  {
+    id: 'react',
+    name: 'React Component Errors',
+    icon: '\u269B\uFE0F',
+    severity: 'high',
+    items: [
+      {
+        id: 'toc-stale-closures',
+        mistake: 'Stale closures in useEffect and event handlers',
+        example: 'useEffect(() => { setInterval(() => console.log(count), 1000) }, []) \u2014 count is always 0',
+        fix: 'Prompt: "Include all referenced variables in the dependency array. Use refs for values that should not trigger re-renders."',
+      },
+      {
+        id: 'toc-hooks-rules',
+        mistake: 'Breaking the Rules of Hooks',
+        example: 'if (condition) { useState(...) } \u2014 hooks called conditionally or inside loops',
+        fix: 'Specify: "All hooks must be called unconditionally at the top level of the component. No hooks inside conditions or loops."',
+      },
+      {
+        id: 'toc-key-prop',
+        mistake: 'Missing or incorrect key props in lists',
+        example: 'items.map((item, i) => <Card key={i} />) \u2014 index keys cause bugs on reorder or delete',
+        fix: 'Prompt: "Use stable, unique IDs as keys. Never use array index as key when the list can be reordered, filtered, or modified."',
+      },
+      {
+        id: 'toc-prop-drilling',
+        mistake: 'Excessive prop drilling instead of composition or context',
+        example: 'Passes theme, user, locale, and permissions through 6 levels of intermediate components',
+        fix: 'In CLAUDE.md: "Use React Context for cross-cutting concerns. Prefer component composition (children) over deep prop chains."',
+      },
+    ],
+  },
+  {
+    id: 'security',
+    name: 'App Security Mistakes',
+    icon: '\u{1F512}',
+    severity: 'high',
+    items: [
+      {
+        id: 'toc-xss-raw-html',
+        mistake: 'XSS via unsanitized user content in dangerouslySetInnerHTML',
+        example: '<div dangerouslySetInnerHTML={{ __html: userComment }} /> \u2014 script injection',
+        fix: 'Prompt: "Never render user-supplied HTML without sanitization. Use DOMPurify or a Markdown renderer with XSS protection."',
+      },
+      {
+        id: 'toc-secrets-client',
+        mistake: 'Exposing secrets in client-side code',
+        example: 'const API_KEY = "sk-abc123" hardcoded in a React component or .env without VITE_ prefix check',
+        fix: 'Specify: "All secrets must be server-side only. Client env vars must use the VITE_/NEXT_PUBLIC_ prefix convention. Never commit .env files."',
+      },
+      {
+        id: 'toc-insecure-auth',
+        mistake: 'Insecure authentication patterns',
+        example: 'Stores JWT in localStorage (XSS-accessible), or checks auth only on the client without server validation',
+        fix: 'Prompt: "Use httpOnly cookies for tokens. Validate auth server-side on every request. Never trust client-only auth checks."',
+      },
+      {
+        id: 'toc-sql-nosql-injection',
+        mistake: 'SQL/NoSQL injection via string concatenation',
+        example: 'db.query(`SELECT * FROM users WHERE id = ${req.params.id}`) \u2014 no parameterization',
+        fix: 'Specify: "Always use parameterized queries or an ORM. Never build queries with string concatenation or template literals."',
+      },
+    ],
+  },
+  {
+    id: 'design',
+    name: 'Design & UI Implementation',
+    icon: '\u{1F4D0}',
+    severity: 'medium',
+    items: [
+      {
+        id: 'toc-responsive-breakpoints',
+        mistake: 'Ignores responsive design \u2014 hardcoded widths and pixel values',
+        example: 'style={{ width: 1200 }} or fixed px layouts that break on mobile',
+        fix: 'Prompt: "Use responsive units (rem, %, vw). Design mobile-first. Test at 320px, 768px, and 1280px breakpoints."',
+      },
+      {
+        id: 'toc-accessibility-missing',
+        mistake: 'Missing accessibility \u2014 no alt text, labels, or keyboard navigation',
+        example: '<img src={url} />, <button><Icon /></button> with no aria-label, clickable divs instead of buttons',
+        fix: 'Specify: "Follow WCAG 2.1 AA. All images need alt text. All interactive elements must be keyboard-accessible with visible focus styles."',
+      },
+      {
+        id: 'toc-design-spec-drift',
+        mistake: 'Drift from design specs \u2014 wrong spacing, colors, and typography',
+        example: "Uses arbitrary margin-top: 17px instead of the design system's 16px (1rem) spacing scale",
+        fix: 'In CLAUDE.md: "Use the design system tokens. Spacing: multiples of 4px. Colors: only from the palette. Typography: only defined text styles."',
+      },
+      {
+        id: 'toc-layout-z-index',
+        mistake: 'Z-index wars and stacking context confusion',
+        example: 'z-index: 99999 on a modal because a tooltip already has z-index: 9999',
+        fix: 'Prompt: "Use a z-index scale defined in CLAUDE.md (e.g., dropdown: 10, modal: 20, tooltip: 30). Never use arbitrary large values."',
+      },
+    ],
+  },
+  {
+    id: 'tailwind',
+    name: 'Tailwind CSS Mistakes',
+    icon: '\u{1F4A8}',
+    severity: 'medium',
+    items: [
+      {
+        id: 'toc-tw-arbitrary-values',
+        mistake: 'Overuse of arbitrary values instead of Tailwind scale',
+        example: 'text-[13px] p-[7px] bg-[#1a1a2e] \u2014 bypasses the design system entirely',
+        fix: 'Prompt: "Use Tailwind\'s built-in scale values. Arbitrary values only when no built-in equivalent exists."',
+      },
+      {
+        id: 'toc-tw-v3-v4-confusion',
+        mistake: 'Mixing Tailwind v3 and v4 syntax',
+        example: 'Uses tailwind.config.js (v3) in a v4 project, or @apply with v4 @theme syntax',
+        fix: 'Specify the exact version in CLAUDE.md: "Tailwind CSS v4 \u2014 use CSS-first configuration with @theme, not tailwind.config.js."',
+      },
+      {
+        id: 'toc-tw-dynamic-classes',
+        mistake: "Dynamic class names that break Tailwind's static analysis",
+        example: '`bg-${color}-500` \u2014 Tailwind can\'t detect this at build time, so the class is purged',
+        fix: 'Prompt: "Never construct Tailwind class names dynamically. Use a mapping object: const colorMap = { red: \'bg-red-500\', blue: \'bg-blue-500\' }."',
+      },
+      {
+        id: 'toc-tw-dark-mode',
+        mistake: 'Forgetting dark mode variants for new components',
+        example: 'Adds bg-white text-gray-900 but no dark:bg-slate-800 dark:text-slate-100 \u2014 invisible in dark mode',
+        fix: 'In CLAUDE.md: "Every background, text, and border color class must have a corresponding dark: variant. Standard dark palette: bg-slate-800, text-slate-200, border-slate-700."',
+      },
+    ],
+  },
 ]
 
 // ── Testing best practices ───────────────────────────────────────────

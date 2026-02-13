@@ -181,6 +181,78 @@ export const promptLinks: RegistryLink[] = [
     tags: ["tool", "free", "prompt-engineering", "guide:prompt-engineering"],
   },
 
+  // ─── React Ecosystem (Prompt Engineering context) ──────────────────
+  {
+    id: "react-docs-components",
+    url: "https://react.dev/learn/your-first-component",
+    label: "React Components Guide",
+    source: "React",
+    desc: "Official React guide to building and composing components — the definitive reference for component patterns",
+    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering"],
+  },
+  {
+    id: "react-docs-hooks-reference",
+    url: "https://react.dev/reference/react/hooks",
+    label: "React Hooks Reference",
+    source: "React",
+    desc: "Complete reference for all built-in React hooks — verify AI-generated hook usage against this",
+    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering"],
+  },
+
+  // ─── Tailwind CSS ─────────────────────────────────────────────────
+  {
+    id: "tailwind-docs",
+    url: "https://tailwindcss.com/docs",
+    label: "Tailwind CSS Documentation",
+    source: "Tailwind",
+    desc: "Official Tailwind CSS documentation — utility-first CSS framework reference",
+    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering"],
+  },
+  {
+    id: "tailwind-v4-blog",
+    url: "https://tailwindcss.com/blog/tailwindcss-v4",
+    label: "Tailwind CSS v4.0",
+    source: "Tailwind",
+    desc: "Tailwind CSS v4 release announcement — major changes from v3 that AI often gets wrong",
+    tags: ["article", "free", "prompt-engineering", "guide:prompt-engineering"],
+  },
+
+  // ─── Security ─────────────────────────────────────────────────────
+  {
+    id: "owasp-xss-prevention",
+    url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+    label: "XSS Prevention Cheat Sheet",
+    source: "OWASP",
+    desc: "OWASP's comprehensive guide to preventing cross-site scripting vulnerabilities",
+    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering"],
+  },
+  {
+    id: "snyk-open-source",
+    url: "https://snyk.io/product/open-source-security-management/",
+    label: "Snyk Open Source Security",
+    source: "Snyk",
+    desc: "Automated dependency vulnerability scanning — catches vulnerable packages AI might suggest",
+    tags: ["tool", "free", "prompt-engineering", "guide:prompt-engineering"],
+  },
+
+  // ─── Design / UI ──────────────────────────────────────────────────
+  {
+    id: "figma-dev-mode",
+    url: "https://www.figma.com/dev-mode/",
+    label: "Figma Dev Mode",
+    source: "Figma",
+    desc: "Figma's developer handoff tool — inspect designs, copy CSS, and export assets",
+    tags: ["tool", "free", "prompt-engineering", "guide:prompt-engineering"],
+  },
+  {
+    id: "web-dev-responsive-design",
+    url: "https://web.dev/articles/responsive-web-design-basics",
+    label: "Responsive Web Design Basics",
+    source: "web.dev",
+    desc: "Google's guide to responsive design fundamentals — viewport, media queries, fluid layouts",
+    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering"],
+  },
+
   // ─── AI Coding Tools ─────────────────────────────────────────────────
   {
     id: "cursor-docs",

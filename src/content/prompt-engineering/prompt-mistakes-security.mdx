@@ -1,0 +1,39 @@
+---
+id: "prompt-mistakes-security"
+title: "App Security Mistakes 🔒"
+guide: "prompt-engineering"
+usedFootnotes: [1, 2]
+linkRefs:
+  - id: "owasp-top-ten"
+    note: "The ten most critical web application security risks — use as a checklist for AI-generated code."
+  - id: "owasp-xss-prevention"
+    note: "Comprehensive XSS prevention techniques — essential when AI uses dangerouslySetInnerHTML."
+  - id: "snyk-open-source"
+    note: "Automated dependency scanning — catches vulnerable packages AI might suggest."
+  - id: "anthropic-claude-md"
+    note: "Document your security requirements in CLAUDE.md so the AI follows them consistently."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+Security mistakes in AI-generated code are especially dangerous because the code often looks correct and passes basic testing. AI models routinely generate XSS vectors<FnRef n={1} />, expose secrets in client bundles, use insecure auth patterns, and build queries with string concatenation. Always include explicit security requirements<FnRef n={2} /> in your prompts and CLAUDE.md.
+</SectionIntro>
+
+<Toc>
+  <TocLink id="toc-xss-raw-html">XSS via unsanitized user content</TocLink>
+  <TocLink id="toc-secrets-client">Exposing secrets in client-side code</TocLink>
+  <TocLink id="toc-insecure-auth">Insecure authentication patterns</TocLink>
+  <TocLink id="toc-sql-nosql-injection">SQL/NoSQL injection via string concatenation</TocLink>
+  <TocLink id="toc-security-tools">AI Tool Tips</TocLink>
+</Toc>
+
+<MistakeList categoryId="security" />
+
+<SectionSubheading id="toc-security-tools">{'\u{1F6E0}\uFE0F'} AI Tool Tips</SectionSubheading>
+
+<SectionList>
+<ColItem><strong>MCP Servers:</strong> Use the <strong>Fetch</strong> MCP server to pull OWASP cheat sheets during security reviews, or <strong>Brave Search</strong> MCP to look up CVEs for packages the AI recommends.</ColItem>
+<ColItem><strong>CLI Tools:</strong> Run a security audit on AI-generated code: <code>git diff --staged | claude -p "Review for OWASP Top 10 vulnerabilities"</code></ColItem>
+<ColItem><strong>Claude Skills:</strong> Create a <code>/project:security-review</code> slash command that checks for XSS, injection, secret exposure, and insecure auth patterns against your CLAUDE.md security rules.</ColItem>
+</SectionList>

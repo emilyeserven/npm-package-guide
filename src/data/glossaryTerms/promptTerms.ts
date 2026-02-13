@@ -117,6 +117,18 @@ export const promptGlossary: GlossaryCategory[] = [
         linkId: "lovable-docs",
         sectionId: "prompt-coding-tools"
       },
+      {
+        term: "XSS (Cross-Site Scripting)",
+        definition: "A security vulnerability where an attacker injects malicious scripts into web pages viewed by other users. AI-generated code frequently creates XSS vectors via <code>dangerouslySetInnerHTML</code> or unsanitized user input.",
+        linkId: "owasp-xss-prevention",
+        sectionId: "prompt-mistakes-security"
+      },
+      {
+        term: "Tailwind CSS",
+        definition: "A utility-first CSS framework that provides low-level utility classes (e.g., <code>flex</code>, <code>pt-4</code>, <code>text-center</code>) instead of pre-built components. AI models frequently confuse v3 and v4 syntax.",
+        linkId: "tailwind-docs",
+        sectionId: "prompt-mistakes-tailwind"
+      },
     ]
   },
 ]

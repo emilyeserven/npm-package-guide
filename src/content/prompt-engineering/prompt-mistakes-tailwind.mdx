@@ -1,0 +1,37 @@
+---
+id: "prompt-mistakes-tailwind"
+title: "Tailwind CSS Mistakes 💨"
+guide: "prompt-engineering"
+usedFootnotes: [1]
+linkRefs:
+  - id: "tailwind-docs"
+    note: "Official Tailwind CSS documentation — the definitive reference for utility classes and configuration."
+  - id: "tailwind-v4-blog"
+    note: "Tailwind v4 release post — AI frequently generates v3 syntax for v4 projects."
+  - id: "anthropic-claude-md"
+    note: "Specify your Tailwind version and configuration approach in CLAUDE.md to prevent version confusion."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+Tailwind CSS is one of the most common AI coding contexts, but models frequently make version-specific mistakes<FnRef n={1} /> — generating v3 configuration syntax for v4 projects, using arbitrary values instead of the built-in scale, constructing dynamic class names that get purged, and forgetting dark mode variants. Specifying your exact Tailwind version and conventions in CLAUDE.md prevents most of these issues.
+</SectionIntro>
+
+<Toc>
+  <TocLink id="toc-tw-arbitrary-values">Overuse of arbitrary values</TocLink>
+  <TocLink id="toc-tw-v3-v4-confusion">Mixing Tailwind v3 and v4 syntax</TocLink>
+  <TocLink id="toc-tw-dynamic-classes">Dynamic class names that break static analysis</TocLink>
+  <TocLink id="toc-tw-dark-mode">Forgetting dark mode variants</TocLink>
+  <TocLink id="toc-tailwind-tools">AI Tool Tips</TocLink>
+</Toc>
+
+<MistakeList categoryId="tailwind" />
+
+<SectionSubheading id="toc-tailwind-tools">{'\u{1F6E0}\uFE0F'} AI Tool Tips</SectionSubheading>
+
+<SectionList>
+<ColItem><strong>MCP Servers:</strong> Use the <strong>Fetch</strong> MCP server to pull the latest Tailwind docs for your version, or <strong>Filesystem</strong> MCP to give Claude access to your CSS config and <code>@theme</code> definitions.</ColItem>
+<ColItem><strong>CLI Tools:</strong> Review Tailwind usage: <code>git diff --staged -- "*.tsx" | claude -p "Check for arbitrary values, dynamic class names, and missing dark: variants"</code></ColItem>
+<ColItem><strong>Claude Skills:</strong> Create a <code>/project:tw-review</code> slash command that checks for Tailwind v3/v4 confusion, arbitrary values, and dark mode coverage against your CLAUDE.md conventions.</ColItem>
+</SectionList>
