@@ -1,0 +1,43 @@
+---
+id: "ai-overview"
+title: "The Big Picture 🗺️"
+guide: "ai-infra"
+linkRefs:
+  - id: "openai-api-reference"
+    note: "The OpenAI API is a canonical example of the inference layer in action"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-whats-behind">What's behind the API call</TocLink>
+  <TocLink id="toc-five-layers">The five layers</TocLink>
+  <TocLink id="toc-where-you-fit">Where you fit in</TocLink>
+</Toc>
+
+<SectionIntro>
+Everything that happens between your <code>fetch("/api/chat")</code> and the AI response involves multiple infrastructure layers working together. This guide breaks down each one using analogies to systems you already know.
+</SectionIntro>
+
+<SectionSubheading id="toc-whats-behind">What's Behind the API Call</SectionSubheading>
+
+<SectionList>
+<ColItem>When you call an AI API from your frontend, the request passes through at least three infrastructure layers before a single token is generated. Understanding these layers helps you debug latency issues, architect better integrations, and have informed conversations with ML engineers.</ColItem>
+<ColItem>The AI backend stack has strong parallels to traditional backend architecture &mdash; API gateways, databases, CI/CD pipelines, and monitoring all have direct counterparts. The concepts are familiar, even if the specific technologies are new.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-five-layers">The Five Layers</SectionSubheading>
+
+<SectionList>
+<ColItem>**<NavLink to="ai-inference">Inference & Serving</NavLink>** &mdash; The layer closest to your frontend. Handles API routing, model serving, streaming responses, and load balancing across GPU servers.</ColItem>
+<ColItem>**<NavLink to="ai-orchestration">Orchestration & Pipelines</NavLink>** &mdash; The business logic layer. Chains together retrieval, prompting, model calls, guardrails, and agent workflows into real products.</ColItem>
+<ColItem>**<NavLink to="ai-data">Data & Vector Storage</NavLink>** &mdash; How AI apps remember things. Embeddings, vector databases, document processing, and feature stores for context and personalization.</ColItem>
+<ColItem>**<NavLink to="ai-training">Training & Fine-Tuning</NavLink>** &mdash; How models get smart. Pre-training, fine-tuning, RLHF alignment, and systematic evaluation of model quality.</ColItem>
+<ColItem>**<NavLink to="ai-compute">Infrastructure & Compute</NavLink>** &mdash; The physical foundation. GPU clusters, container orchestration, model registries, and observability for AI workloads.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-where-you-fit">Where You Fit In</SectionSubheading>
+
+<Explainer title="You're already closer than you think">
+As a backend engineer, you likely interact directly with the **inference layer** (calling AI APIs) and may touch the **orchestration layer** (building RAG pipelines or prompt management). The deeper layers &mdash; training and infrastructure &mdash; are typically handled by ML engineers, but understanding them helps you make better architectural decisions and debug production issues.
+</Explainer>

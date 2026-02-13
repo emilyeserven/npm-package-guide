@@ -60,6 +60,7 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   "guide:ci-cd": { cls: "bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300", label: "CI/CD Guide" },
   "guide:auth": { cls: "bg-red-50 text-red-700 dark:bg-red-500/15 dark:text-red-300", label: "Auth Guide" },
   "guide:kubernetes": { cls: "bg-sky-50 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300", label: "Kubernetes Guide" },
+  "guide:ai-infra": { cls: "bg-fuchsia-50 text-fuchsia-700 dark:bg-fuchsia-500/15 dark:text-fuchsia-300", label: "AI Infra Guide" },
   // Topic
   publishing: { cls: "bg-yellow-100 text-yellow-800 dark:bg-yellow-500/15 dark:text-yellow-300", label: "Publishing" },
   typescript: { cls: "bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300", label: "TypeScript" },
@@ -92,8 +93,9 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   "cat:ci-cd-fundamentals": { cls: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300", label: "CI/CD Fundamentals" },
   "cat:authentication-security": { cls: "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300", label: "Authentication & Security" },
   "cat:containers-kubernetes": { cls: "bg-sky-100 text-sky-800 dark:bg-sky-500/15 dark:text-sky-300", label: "Containers & Kubernetes" },
+  "cat:ai-infrastructure": { cls: "bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-500/15 dark:text-fuchsia-300", label: "AI Infrastructure" },
 };
 
 export const typeTags = new Set(["docs", "article", "course", "video", "repo", "interactive", "free", "paid"]);
 export const topicTags = new Set(["publishing", "typescript", "versioning", "ci-cd", "monorepo", "modules", "tooling", "bundling", "testing", "linting", "architecture", "frameworks", "databases", "prompt-engineering", "kubernetes"]);
-export const guideTags = new Set(["guide:npm-package", "guide:architecture", "guide:testing", "guide:prompt-engineering", "guide:ci-cd", "guide:auth", "guide:kubernetes"]);
+export const guideTags = new Set(["guide:npm-package", "guide:architecture", "guide:testing", "guide:prompt-engineering", "guide:ci-cd", "guide:auth", "guide:kubernetes", "guide:ai-infra"]);

@@ -1,0 +1,37 @@
+---
+id: "ai-inference"
+title: "Inference & Serving ⚡"
+guide: "ai-infra"
+linkRefs:
+  - id: "vllm-docs"
+    note: "High-performance open-source LLM serving engine"
+  - id: "nvidia-triton-inference"
+    note: "Enterprise-grade model serving from NVIDIA"
+  - id: "mdn-server-sent-events"
+    note: "How SSE works — the same mechanism behind streaming AI responses"
+usedFootnotes: [1]
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-concepts">Key concepts</TocLink>
+</Toc>
+
+<SectionIntro>
+The inference layer is where your frontend connects to AI. When you call <code>fetch("/api/chat")</code>, this is the layer that receives the request, runs it through a model, and streams the response back. If you've built REST APIs or worked with WebSockets, you'll find many familiar patterns here.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+
+<SectionList>
+<ColItem>This layer handles the production-time execution of trained models. It's the equivalent of your application server fleet, but specialized for GPU-accelerated workloads.</ColItem>
+<ColItem>The key challenge is that inference is **slow and expensive** compared to traditional API calls. A single model response can take seconds and consume significant GPU memory, which drives the need for specialized load balancing, batching, and streaming. <FnRef n={1} /></ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-concepts">Key Concepts</SectionSubheading>
+
+Click any concept to explore what it does, a backend analogy, and the tools you'd use.
+
+<InfraLayerExplorer layerId="inference" />

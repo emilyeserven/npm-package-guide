@@ -52,6 +52,9 @@ import { K8sAnalogyCard } from './kubernetes/K8sAnalogyCard'
 import { K8sConceptList } from './kubernetes/K8sConceptList'
 import { K8sCodeBlock } from './kubernetes/K8sCodeBlock'
 import { K8sFlowDiagram } from './kubernetes/K8sFlowDiagram'
+// ai-infra
+import { InfraLayerExplorer } from './ai-infra/InfraLayerExplorer'
+import { WorkflowExplorer } from './ai-infra/WorkflowExplorer'
 // shared
 import { GuideStartContent } from './GuideStartContent'
 
@@ -118,5 +121,7 @@ export const mdxComponents: MDXComponents = {
   K8sConceptList,
   K8sCodeBlock,
   K8sFlowDiagram,
+  InfraLayerExplorer,
+  WorkflowExplorer,
   GuideStartContent,
 }

@@ -1,0 +1,34 @@
+---
+id: "ai-data"
+title: "Data & Vector Storage 🗄️"
+guide: "ai-infra"
+linkRefs:
+  - id: "openai-embeddings-guide"
+    note: "How text embeddings work and practical usage patterns"
+  - id: "pinecone-what-is-vector-db"
+    note: "Introduction to vector databases and similarity search"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-concepts">Key concepts</TocLink>
+</Toc>
+
+<SectionIntro>
+AI apps need special databases. Vector databases store "embeddings" &mdash; numerical representations of text and images that let you find semantically similar content. If you've worked with search engines like Elasticsearch, you'll find the concepts familiar but the technique different.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+
+<SectionList>
+<ColItem>Traditional databases answer "give me the exact match." Vector databases answer "give me things that are similar." This enables semantic search, recommendation systems, and the retrieval step in RAG pipelines.</ColItem>
+<ColItem>The data layer also handles document processing (chunking PDFs and web pages into embeddable pieces) and feature stores (precomputed signals injected into prompts for personalization).</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-concepts">Key Concepts</SectionSubheading>
+
+Click any concept to explore what it does, a backend analogy, and the tools you'd use.
+
+<InfraLayerExplorer layerId="data" />
