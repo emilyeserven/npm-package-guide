@@ -2,15 +2,18 @@
 id: "prompt-mistakes-logic"
 title: "Logic & Condition Errors ⚡"
 guide: "prompt-engineering"
+usedFootnotes: [1]
 linkRefs:
   - id: "anthropic-prompt-engineering"
     note: "Anthropic's official guide to crafting effective prompts and reducing errors."
+  - id: "anthropic-extended-thinking"
+    note: "Extended thinking mode helps Claude reason through complex logic step-by-step, reducing off-by-one and boolean errors."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <SectionIntro>
-AI models frequently produce subtle logic errors &mdash; off-by-one loops, inverted boolean conditions, missed edge cases, and incorrect math formulas. These are the most common and dangerous mistakes because they compile and run without errors but produce wrong results.
+AI models frequently produce subtle logic errors<FnRef n={1} /> &mdash; off-by-one loops, inverted boolean conditions, missed edge cases, and incorrect math formulas. These are the most common and dangerous mistakes because they compile and run without errors but produce wrong results.
 </SectionIntro>
 
 <Toc>

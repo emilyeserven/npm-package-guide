@@ -2,6 +2,7 @@
 id: "test-overview"
 title: "Testing Pyramid 🔺"
 guide: "testing"
+usedFootnotes: [1, 2]
 linkRefs:
   - id: "martinfowler-test-pyramid"
     note: "The foundational article on structuring your test suite with the right balance of unit, integration, and E2E tests."
@@ -18,7 +19,7 @@ linkRefs:
 </Toc>
 
 <SectionIntro>
-The testing pyramid is a model that helps you decide **how many tests of each type to write**. More tests at the bottom (fast, cheap, isolated), fewer at the top (slow, expensive, realistic). Click any level below to learn more about that test type.
+The testing pyramid<FnRef n={1} /> is a model that helps you decide **how many tests of each type to write**. More tests at the bottom (fast, cheap, isolated), fewer at the top (slow, expensive, realistic). An alternative model, the testing trophy<FnRef n={2} />, puts more emphasis on integration tests. Click any level below to learn more about that test type.
 </SectionIntro>
 
 <SectionSubheading id="toc-pyramid">{'\uD83D\uDD3A'} The Testing Pyramid</SectionSubheading>

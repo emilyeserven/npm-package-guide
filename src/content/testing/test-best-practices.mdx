@@ -2,6 +2,7 @@
 id: "test-best-practices"
 title: "Best Practices ✅"
 guide: "testing"
+usedFootnotes: [1]
 linkRefs:
   - id: "kentcdodds-write-tests"
     note: "Influential essay on testing strategy — 'Write tests. Not too many. Mostly integration.'"
@@ -9,6 +10,8 @@ linkRefs:
     note: "The philosophy behind testing user behavior instead of implementation details."
   - id: "vitest-coverage"
     note: "How to set up and configure code coverage reporting in Vitest."
+  - id: "playwright-best-practices"
+    note: "Playwright's official guide to writing reliable, maintainable E2E tests."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
@@ -19,7 +22,7 @@ linkRefs:
 </Toc>
 
 <SectionIntro>
-These guidelines apply across all test types. Follow them to write tests that are **maintainable, reliable, and useful** &mdash; not just tests that exist for coverage numbers.
+These guidelines apply across all test types. Follow them to write tests that are **maintainable, reliable, and useful**<FnRef n={1} /> &mdash; not just tests that exist for coverage numbers.
 </SectionIntro>
 
 <SectionSubheading id="toc-do">{'\u2705'} What to do</SectionSubheading>

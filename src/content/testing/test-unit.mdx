@@ -2,11 +2,16 @@
 id: "test-unit"
 title: "Unit Testing 🧩"
 guide: "testing"
+usedFootnotes: [1, 2]
 linkRefs:
   - id: "vitest-home"
     note: "The recommended test runner for Vite-based projects. Fast, Jest-compatible API."
   - id: "jest-getting-started"
     note: "The most widely used JavaScript test framework with a huge ecosystem of matchers and plugins."
+  - id: "vitest-mocking"
+    note: "How to mock modules, functions, and timers in Vitest for isolated unit tests."
+  - id: "vitest-expect"
+    note: "Reference for Vitest assertion methods — toBe, toEqual, toThrow, and more."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
@@ -18,7 +23,7 @@ linkRefs:
 </Toc>
 
 <SectionIntro>
-Unit tests verify a single function, hook, or module **in complete isolation**. All external dependencies are mocked or stubbed, so each test checks exactly one piece of logic. They're the fastest and cheapest tests you can write.
+Unit tests verify a single function, hook, or module **in complete isolation**. All external dependencies are mocked or stubbed, so each test checks exactly one piece of logic. They're the fastest and cheapest tests you can write. The two most popular test runners are Vitest<FnRef n={1} /> and Jest<FnRef n={2} />.
 </SectionIntro>
 
 <SectionSubheading id="toc-what">{'\uD83E\uDDE9'} What are unit tests?</SectionSubheading>

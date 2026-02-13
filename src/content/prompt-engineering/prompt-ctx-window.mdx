@@ -2,17 +2,20 @@
 id: "prompt-ctx-window"
 title: "Context Window Management 📊"
 guide: "prompt-engineering"
+usedFootnotes: [1]
 linkRefs:
   - id: "anthropic-prompt-caching"
     note: "Prompt caching reduces costs by reusing repeated context across calls."
   - id: "anthropic-prompt-engineering"
     note: "Strategies for managing what goes into the model's context window."
+  - id: "anthropic-tokens"
+    note: "How tokens work — the unit of measurement for context windows, pricing, and rate limits."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <SectionIntro>
-Keep your context lean and high-signal. The less noise in the context window, the better the model performs. Learn the tools and habits that help you manage what the model sees.
+Keep your context lean and high-signal. The less noise in the context window<FnRef n={1} />, the better the model performs. Learn the tools and habits that help you manage what the model sees.
 </SectionIntro>
 
 <TechniqueDetail techniqueId="window" />

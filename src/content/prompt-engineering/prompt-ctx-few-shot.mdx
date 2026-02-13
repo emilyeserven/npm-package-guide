@@ -2,15 +2,20 @@
 id: "prompt-ctx-few-shot"
 title: "Few-Shot Examples 🎯"
 guide: "prompt-engineering"
+usedFootnotes: [1]
 linkRefs:
   - id: "anthropic-prompt-engineering"
     note: "Few-shot prompting techniques from Anthropic's official guide."
+  - id: "openai-prompt-engineering"
+    note: "OpenAI's prompt engineering guide — includes cross-model few-shot strategies."
+  - id: "anthropic-prompt-library"
+    note: "Curated prompt examples that demonstrate effective few-shot patterns."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <SectionIntro>
-Show, don&rsquo;t just tell &mdash; giving the model 2&ndash;3 examples of your desired output is one of the most effective ways to steer its behavior. Include both good and bad examples when possible.
+Show, don&rsquo;t just tell<FnRef n={1} /> &mdash; giving the model 2&ndash;3 examples of your desired output is one of the most effective ways to steer its behavior. Include both good and bad examples when possible.
 </SectionIntro>
 
 <TechniqueDetail techniqueId="few-shot" />

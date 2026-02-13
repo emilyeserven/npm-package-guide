@@ -2,15 +2,18 @@
 id: "prompt-ctx-chaining"
 title: "Prompt Chaining & Decomposition 🔗"
 guide: "prompt-engineering"
+usedFootnotes: [1]
 linkRefs:
   - id: "anthropic-prompt-engineering"
     note: "How prompt chaining and decomposition improve output quality."
+  - id: "openai-prompt-engineering"
+    note: "OpenAI's guide also covers task decomposition — useful cross-reference for general chaining patterns."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <SectionIntro>
-Break complex tasks into sequential, focused steps. Each step gets a narrower scope, which reduces hallucination and produces better results than a single massive prompt.
+Break complex tasks into sequential, focused steps<FnRef n={1} />. Each step gets a narrower scope, which reduces hallucination and produces better results than a single massive prompt.
 </SectionIntro>
 
 <TechniqueDetail techniqueId="chaining" />

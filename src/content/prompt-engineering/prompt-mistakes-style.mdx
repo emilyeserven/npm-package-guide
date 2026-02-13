@@ -2,15 +2,20 @@
 id: "prompt-mistakes-style"
 title: "Style & Formatting Drift 🎨"
 guide: "prompt-engineering"
+usedFootnotes: [1]
 linkRefs:
   - id: "anthropic-claude-md"
     note: "Include style rules in CLAUDE.md to prevent formatting drift across sessions."
+  - id: "eslint-getting-started"
+    note: "ESLint catches formatting and style violations — configure it so AI-generated code must pass the same checks."
+  - id: "prettier-install"
+    note: "Prettier auto-formats code — include its config in CLAUDE.md so the AI matches your style."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <SectionIntro>
-Lower severity but still annoying &mdash; AI models can drift from your project&rsquo;s coding style, mixing naming conventions, adding unnecessary comments, or ignoring your linter and formatter configuration. Including style rules in your prompt or CLAUDE.md keeps output consistent.
+Lower severity but still annoying &mdash; AI models can drift from your project&rsquo;s coding style, mixing naming conventions, adding unnecessary comments, or ignoring your linter and formatter configuration. Including style rules in your prompt or CLAUDE.md<FnRef n={1} /> keeps output consistent.
 </SectionIntro>
 
 <Toc>

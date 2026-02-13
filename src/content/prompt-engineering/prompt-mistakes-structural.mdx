@@ -2,17 +2,20 @@
 id: "prompt-mistakes-structural"
 title: "Structural & Architectural Issues 🏗️"
 guide: "prompt-engineering"
+usedFootnotes: [2]
 linkRefs:
   - id: "anthropic-prompt-engineering"
     note: "Structuring prompts to prevent architectural and structural issues."
   - id: "anthropic-claude-md"
     note: "Use CLAUDE.md to give the AI persistent context about your project's patterns."
+  - id: "owasp-top-ten"
+    note: "The OWASP Top 10 web security risks — use this checklist when reviewing AI-generated code for vulnerabilities."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <SectionIntro>
-AI-generated code sometimes ignores your project&rsquo;s existing patterns, over-engineers simple solutions, leaves out critical pieces like imports and exports, or introduces security vulnerabilities. Explicit context about your codebase prevents most of these issues.
+AI-generated code sometimes ignores your project&rsquo;s existing patterns, over-engineers simple solutions, leaves out critical pieces like imports and exports, or introduces security vulnerabilities. Explicit context about your codebase<FnRef n={2} /> prevents most of these issues.
 </SectionIntro>
 
 <Toc>
