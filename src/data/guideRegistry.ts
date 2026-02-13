@@ -67,6 +67,24 @@ export const guides: GuideDefinition[] = [
   },
 ]
 
+// ── Checklists (extracted from individual guides) ───────────────────
+
+export const checklistPages = [
+  { id: 'checklist', sourceGuideId: 'npm-package' },
+  { id: 'test-review-checklist', sourceGuideId: 'testing' },
+  { id: 'prompt-claudemd-checklist', sourceGuideId: 'prompt-engineering' },
+  { id: 'auth-checklist', sourceGuideId: 'auth' },
+]
+
+export const checklistsNavDef: GuideDefinition = {
+  id: 'checklists',
+  icon: '\u2705',        // ✅
+  title: 'Checklists',
+  startPageId: 'checklist',
+  description: 'Implementation checklists from all guides.',
+  sections: [{ label: null, ids: checklistPages.map(p => p.id) }],
+}
+
 // ── Derived lookups ─────────────────────────────────────────────────
 
 const pageToGuide = new Map<string, string>()
@@ -79,9 +97,14 @@ for (const guide of guides) {
 }
 // Legacy route: #/architecture renders ArchStartPage
 pageToGuide.set('architecture', 'architecture')
+// Checklist pages map to the checklists nav def for sidebar auto-sync
+for (const cp of checklistPages) {
+  pageToGuide.set(cp.id, 'checklists')
+}
 
 export function getGuideForPage(pageId: string): GuideDefinition | undefined {
   const guideId = pageToGuide.get(pageId)
+  if (guideId === 'checklists') return checklistsNavDef
   return guideId ? guides.find(g => g.id === guideId) : undefined
 }
 

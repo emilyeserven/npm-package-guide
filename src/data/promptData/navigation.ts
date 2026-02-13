@@ -75,7 +75,6 @@ export const PROMPT_GUIDE_SECTIONS: GuideSection[] = [
   { label: 'Context Management', ids: [
     'prompt-ctx-system-prompt', 'prompt-ctx-claude-md', 'prompt-ctx-chaining',
     'prompt-ctx-few-shot', 'prompt-ctx-window', 'prompt-ctx-thinking',
-    'prompt-claudemd-checklist',
   ]},
   { label: 'Tooling & Reference', ids: [
     'prompt-coding-tools', 'prompt-cli-reference', 'prompt-meta-tooling',
@@ -122,7 +121,6 @@ export const PROMPT_START_PAGE_DATA: StartPageData = {
         'prompt-ctx-few-shot': 'Show 2\u20133 examples of desired output to establish a clear pattern.',
         'prompt-ctx-window': 'Keep your context lean and high-signal for better model performance.',
         'prompt-ctx-thinking': 'Ask the model to reason step-by-step before acting.',
-        'prompt-claudemd-checklist': 'A comprehensive checklist for building effective CLAUDE.md files.',
       },
     },
     {
@@ -161,6 +159,30 @@ export const PROMPT_START_PAGE_DATA: StartPageData = {
         'prompt-tools-hooks': 'Automate workflows with event-driven shell command hooks.',
         'prompt-tools-optimization': 'Headless mode, batch processing, and context management strategies.',
       },
+    },
+    {
+      type: 'bonus',
+      title: 'Resources',
+      description: 'Checklists, documentation, and reference material for AI-assisted development.',
+      customSubItems: [
+        {
+          title: '\u2705 CLAUDE.md Checklist',
+          description: 'A comprehensive checklist for building effective CLAUDE.md files.',
+          jumpTo: 'prompt-claudemd-checklist',
+        },
+        {
+          title: '\u{1F4DA} External Resources',
+          description: 'Curated prompt engineering documentation, articles, and tools.',
+          jumpTo: 'external-resources',
+          jumpType: 'guide-filter',
+        },
+        {
+          title: '\u{1F4D6} Glossary',
+          description: 'Key prompt engineering and AI coding tool terms.',
+          jumpTo: 'glossary',
+          jumpType: 'guide-filter',
+        },
+      ],
     },
   ],
 }
