@@ -1,13 +1,13 @@
 import { linkRegistry } from './linkRegistry'
 
-export interface ResourceItem {
+interface ResourceItem {
   name: string
   url: string
   desc: string
   tags: string[]
 }
 
-export interface ResourceGroup {
+interface ResourceGroup {
   category: string
   items: ResourceItem[]
 }

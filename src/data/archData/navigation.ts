@@ -13,5 +13,3 @@ export const ARCH_GUIDE_SECTIONS: GuideSection[] = [
   { label: 'Putting It Together', ids: ['arch-how-it-connects'] },
 ]
 
-export const ARCH_NAV_ORDER = ARCH_GUIDE_SECTIONS.flatMap(s => s.ids)
-export const ARCH_PAGE_IDS = new Set(ARCH_NAV_ORDER)

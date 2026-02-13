@@ -80,5 +80,3 @@ export const PROMPT_GUIDE_SECTIONS: GuideSection[] = [
   ]},
 ]
 
-export const PROMPT_NAV_ORDER: string[] = PROMPT_GUIDE_SECTIONS.flatMap(s => s.ids)
-export const PROMPT_PAGE_IDS = new Set(PROMPT_NAV_ORDER)

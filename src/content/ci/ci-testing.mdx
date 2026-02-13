@@ -27,7 +27,7 @@ linkRefs:
 </Toc>
 
 <SectionIntro>
-Testing in the JS ecosystem falls into several categories, and understanding when to use each is key to a good test suite.
+Testing in the JS ecosystem falls into several categories, and understanding when to use each is key to a good test suite. For a deeper dive into testing fundamentals, see the <NavLink to="test-overview">Testing Pyramid</NavLink> in the Testing Guide.
 </SectionIntro>
 
 <CIStep heading={'\uD83E\uDDEA Unit Tests'} id="toc-unit">
@@ -75,6 +75,7 @@ Run E2E tests last in your CI pipeline — they're the slowest. If linting, buil
   <li>**Readable**<FnRef n={3} /> — someone new should understand what's being tested. Name tests clearly: <code>{"it('returns empty array when no items match filter')"}</code> is better than <code>{"it('test filter')"}</code>.</li>
   <li>**Behavior-focused**<FnRef n={4} /> — test what the code does, not how it does it. If you refactor internals, your tests should still pass.</li>
 </GoodTestsList>
+For a more detailed look at testing do's and don'ts, see <NavLink to="test-best-practices" /> in the Testing Guide.
 </CIStepText>
 </CIStep>
 

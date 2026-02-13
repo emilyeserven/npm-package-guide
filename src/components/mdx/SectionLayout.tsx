@@ -37,10 +37,6 @@ export function SectionNote({ children }: { children: React.ReactNode }) {
   return <div className="text-sm text-blue-500 dark:text-blue-400 bg-blue-100 dark:bg-blue-500/20 py-2.5 px-3.5 rounded-lg leading-relaxed my-4">{children}</div>
 }
 
-export function CodeBlock({ children }: { children: React.ReactNode }) {
-  return <div className="code-block mt-4 bg-slate-800 dark:bg-gray-950 text-slate-200 rounded-xl p-5 font-mono text-xs leading-7 overflow-x-auto whitespace-pre-wrap break-words">{children}</div>
-}
-
 export function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h1 className="text-2xl font-bold mb-5 tracking-tight">{children}</h1>
 }

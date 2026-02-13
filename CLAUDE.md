@@ -6,7 +6,7 @@ Educational single-page application (SPA) with multiple guides for backend engin
 
 ## Guides
 
-The site contains four independent guides, each with its own Start Here page, navigation order, and Previous/Next links, plus top-level resource pages shared across all guides. All guide metadata (id, icon, title, sections, page headings) is centralized in `src/data/guideRegistry.ts`.
+The site contains four independent guides, each with its own Start Here page, navigation order, and Previous/Next links, plus top-level resource pages shared across all guides. All guide metadata (id, icon, title, sections) is centralized in `src/data/guideRegistry.ts`.
 
 ### NPM Package Guide (`Web App vs. NPM Package`)
 - **Start page:** `roadmap` (`src/components/RoadmapPage.tsx`)
@@ -53,7 +53,7 @@ The site contains four independent guides, each with its own Start Here page, na
 | `pnpm dev` | Start dev server |
 | `pnpm build` | TypeScript check (`tsc -b`) + Vite build |
 | `pnpm lint` | Run ESLint |
-| `pnpm validate:data` | Cross-reference integrity checks (link IDs, glossary refs, guide sections, page headings) |
+| `pnpm validate:data` | Cross-reference integrity checks (link IDs, glossary refs, guide sections) |
 | `pnpm validate` | Full validation pipeline: `validate:data` + `lint` + `build` |
 | `pnpm preview` | Preview production build |
 
@@ -74,8 +74,8 @@ The site contains four independent guides, each with its own Start Here page, na
   - `src/data/archData/` — Architecture guide data (`types.ts`, `stacks.ts`, `frameworks.ts`, `navigation.ts`); barrel `index.ts` re-exports all
   - `src/data/promptData/` — Prompt engineering guide data (`types.ts`, `mistakes.ts`, `techniques.ts`, `cli.ts`, `navigation.ts`); barrel `index.ts` re-exports all
   - `src/data/npmPackageData.ts` — NPM Package guide section definitions (`NPM_GUIDE_SECTIONS`)
-  - `src/data/guideTypes.ts` — Shared `GuideSection`, `GuideDefinition`, and `PageHeading` interfaces
-  - `src/data/guideRegistry.ts` — Central guide registry (all guide metadata, section definitions, page headings, lookup helpers)
+  - `src/data/guideTypes.ts` — Shared `GuideSection` and `GuideDefinition` interfaces
+  - `src/data/guideRegistry.ts` — Central guide registry (all guide metadata, section definitions, lookup helpers)
   - `src/data/componentPages.tsx` — Registry of component-rendered (non-MDX) pages, mapping page IDs to components for the router
 - `src/helpers/` — Utility functions (`cmd.ts` for package manager commands, `fnRef.ts` for footnotes, `darkStyle.ts` for theme-conditional values)
 - `src/hooks/` — Custom React hooks (`usePMContext.tsx` for npm/pnpm switching)
@@ -146,8 +146,6 @@ The validation script (`scripts/validate-data.ts`) runs cross-reference integrit
 | Glossary `sectionId` references | Glossary term pointing to a non-existent page ID |
 | Duplicate page IDs across guides | Same page ID used in two different guides' section arrays |
 | `startPageId` not in sections | Guide's start page ID missing from its own `*_GUIDE_SECTIONS` |
-| `pageHeadings` orphan keys | Heading registered for a page ID that doesn't exist in any guide |
-| Heading anchor ID convention | Heading anchor IDs that don't use the required `toc-` prefix |
 
 Run `pnpm validate:data` to check these, or `pnpm validate` for the full pipeline (`validate:data` + `lint` + `build`).
 
@@ -255,33 +253,13 @@ The only additional sync point is the **Start page component**, which must match
 
 When adding, removing, or reordering pages within a guide, update the `*_GUIDE_SECTIONS` array in the guide's data file. Everything else updates automatically.
 
-## Page Headings
-
-Page section headings (the `<TocLink>` / `<SectionSubheading>` pairs in MDX pages) are tracked in the `pageHeadings` map in `src/data/guideRegistry.ts`. This map powers CMD-K sub-item search — users can search for and jump directly to a specific section heading within a page.
-
-### How it works
-- Each entry maps a page ID to an array of `PageHeading` objects (`{ id: string; title: string }`)
-- The `id` is the anchor ID (e.g., `"toc-webapp"`) matching the `<TocLink id>` and `<SectionSubheading id>`
-- The `title` is the heading text, which must match the `<TocLink>` and `<SectionSubheading>` text exactly
-- Pages without headings are simply omitted from the map
-- `getPageHeadings(pageId)` returns headings or an empty array
-
-### Keeping headings in sync
-When adding, removing, or renaming `<TocLink>` / `<SectionSubheading>` entries in an MDX page, update the corresponding `pageHeadings` entry in `src/data/guideRegistry.ts`. The heading text in the registry, the `<TocLink>`, and the `<SectionSubheading>` must all match — the page header (`<SectionSubheading>`) is the source of truth.
-
-### Heading ID convention
-All heading anchor IDs use the `toc-{slug}` prefix (e.g., `toc-overview`, `toc-explainer`, `toc-off-by-one`).
-
 ## Command Menu (CMD-K)
 
 The command menu (`src/components/CommandMenu.tsx`) provides searchable access to:
 
 1. **Pages** — all guide pages, grouped by guide section
-2. **Page headings** — section headings within each page (from `pageHeadings` in `guideRegistry.ts`). Selecting a heading navigates to the page and scrolls to the heading anchor.
-3. **Glossary terms** — all terms from `src/data/glossaryTerms/`. Selecting a term navigates to the Glossary page with the search bar prefilled.
-4. **External resources** — all resources from `src/data/overallResources.ts`. Selecting a resource opens the URL in a new tab.
-
-Navigation to heading anchors uses `useNavigateToSection(id, anchorId?)` which navigates to the page then scrolls to the anchor element after a brief render delay.
+2. **Glossary terms** — all terms from `src/data/glossaryTerms/`. Selecting a term navigates to the Glossary page with the search bar prefilled.
+3. **External resources** — all resources from `src/data/overallResources.ts`. Selecting a resource opens the URL in a new tab.
 
 ## Cross-Page Links (NavLink / NavPill)
 
@@ -306,8 +284,8 @@ Claude artifacts are typically monolithic JSX or HTML files with embedded data a
 | Step | Action | Files |
 |------|--------|-------|
 | 1. Identify content boundaries | Find natural page breaks in the monolithic component. Each distinct topic or section heading becomes its own MDX page. | (analysis only) |
-| 2. Create data file | Move inline constants, arrays, and objects into a new typed `.ts` file. Define TypeScript interfaces for data shapes. Import `GuideSection` from `src/data/guideTypes.ts`. Export `<GUIDE>_GUIDE_SECTIONS: GuideSection[]` with labeled section groups. Derive and export: `<GUIDE>_NAV_ORDER = <GUIDE>_GUIDE_SECTIONS.flatMap(s => s.ids)` and `<GUIDE>_PAGE_IDS = new Set(<GUIDE>_NAV_ORDER)`. | `src/data/<guide>Data.ts` |
-| 3. Register the guide | Import `<GUIDE>_GUIDE_SECTIONS` from your data file. Add a new entry to the `guides` array in `src/data/guideRegistry.ts` with `id`, `icon`, `title`, `startPageId`, `description`, `sections`. Add entries to `pageHeadings` for any pages that have `<TocLink>` headings (see **Page Headings**). | `src/data/guideRegistry.ts` |
+| 2. Create data file | Move inline constants, arrays, and objects into a new typed `.ts` file. Define TypeScript interfaces for data shapes. Import `GuideSection` from `src/data/guideTypes.ts`. Export `<GUIDE>_GUIDE_SECTIONS: GuideSection[]` with labeled section groups. | `src/data/<guide>Data.ts` |
+| 3. Register the guide | Import `<GUIDE>_GUIDE_SECTIONS` from your data file. Add a new entry to the `guides` array in `src/data/guideRegistry.ts` with `id`, `icon`, `title`, `startPageId`, `description`, `sections`. | `src/data/guideRegistry.ts` |
 | 4. Create MDX content pages | One `.mdx` file per page with frontmatter (`id`, `title` with emoji suffix, `guide`). Use existing MDX components (`SectionIntro`, `Toc`, `TocLink`, `ColItem`, `Explainer`, etc.). Pages are auto-discovered by `src/content/registry.ts` — no manual import needed. | `src/content/<guide>/*.mdx` |
 | 5. Create Start page | Build the learning-path component using HTML template literals + `HtmlContent`. Reference `contentPages` from the registry for page titles. Include `<PrevNextNav currentId="<start-page-id>" />`. Follow the pattern in `ArchStartPage.tsx` or `TestingStartPage.tsx`. | `src/components/<Guide>StartPage.tsx` |
 | 6. Register route | Add the start page to `simpleComponentPages` in `src/data/componentPages.tsx`. The title is auto-derived as "Start Here {icon}" from the guide registry. MDX pages auto-route via `contentPages`. | `src/data/componentPages.tsx` |
@@ -348,7 +326,7 @@ Brief intro paragraph.
 - Normalize inline styles and CSS classes into Tailwind utility classes. Prefer Tailwind's built-in scale over arbitrary values (e.g., use `text-sm` instead of `text-[13px]`).
 - Keep data in `src/data/`, not inline in MDX files or components.
 - Only Start page components use `HtmlContent` / `dangerouslySetInnerHTML`. MDX pages use MDX components directly.
-- Export `*_GUIDE_SECTIONS` from the data file and derive `*_NAV_ORDER`/`*_PAGE_IDS` from it. Register the guide in `src/data/guideRegistry.ts`.
+- Export `*_GUIDE_SECTIONS` from the data file. Register the guide in `src/data/guideRegistry.ts`.
 - Register any new interactive MDX components in `src/components/mdx/index.ts` or they won't be available in MDX files.
 - Interactive components with inline styles must support dark mode. Use `useTheme()` and `ds()` helper for theme-conditional values. Add `darkAccent` fields to data interfaces when components use dynamic accent colors.
 - Every MDX page `title` must end with an emoji suffix (see **Navigation Item Formatting**).
@@ -356,7 +334,7 @@ Brief intro paragraph.
 ### What updates automatically
 
 - **Sidebar**: reads `guides` array from `guideRegistry.ts` — new guide appears automatically
-- **Command menu**: reads `guides` array and `pageHeadings` — new guide sections and heading sub-items appear automatically
+- **Command menu**: reads `guides` array — new guide sections appear automatically
 - **Home page**: reads `guides` array — new guide tile appears automatically
 - **Navigation (prev/next)**: derived from guide sections — works automatically
 - **Content registry**: auto-discovers new MDX files in `src/content/`
@@ -440,10 +418,8 @@ MyComponent,
 | `Duplicate page ID "foo"` | Two MDX files have the same `id` in frontmatter | Change one of the IDs to be unique |
 | `unknown guide "bar"` | MDX frontmatter `guide` field doesn't match a registered guide ID | Use one of: `npm-package`, `architecture`, `testing`, `prompt-engineering` |
 | `Unknown link ID "baz"` | `linkRefs` in MDX frontmatter references an ID that doesn't exist in `src/data/linkRegistry/` | Add the link entry to the appropriate guide file in `src/data/linkRegistry/` |
-| `pageHeadings has entry for unknown page` | A key in the `pageHeadings` record in `guideRegistry.ts` doesn't match any page in guide sections | Remove the orphaned entry or add the page to the guide's `*_GUIDE_SECTIONS` |
 | `startPageId not in sections` | Guide's `startPageId` isn't listed in its `*_GUIDE_SECTIONS` array | Add the start page ID to the first section of the guide |
 | Sidebar shows raw page ID instead of title | Page title missing emoji suffix, or page not in `staticTitles`/`contentPages`/`startPageTitles` | Ensure the MDX `title` ends with an emoji, or add a `staticTitles` entry for non-MDX pages |
-| CMD-K heading search broken | `pageHeadings` text doesn't match `<TocLink>` / `<SectionSubheading>` text in MDX | Update all three to match — the `<SectionSubheading>` text is the source of truth |
 
 ## Pre-Push Checklist
 

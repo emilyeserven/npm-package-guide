@@ -1,8 +1,3 @@
-export interface PageHeading {
-  id: string
-  title: string
-}
-
 export interface GuideSection {
   label: string | null
   ids: string[]

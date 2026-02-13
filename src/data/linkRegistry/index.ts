@@ -51,10 +51,6 @@ export const linkById = new Map<string, RegistryLink>(
   linkRegistry.map(link => [link.id, link])
 )
 
-/** Fast lookup by URL (for validation and deduplication) */
-export const linkByUrl = new Map<string, RegistryLink>(
-  linkRegistry.map(link => [link.url, link])
-)
 
 /**
  * Resolve a registry ID to a SectionLink (the shape consumed by FootnoteContext).
