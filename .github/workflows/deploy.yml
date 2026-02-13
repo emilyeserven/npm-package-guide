@@ -47,6 +47,12 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Build Storybook
+        run: STORYBOOK_BASE_PATH=/npm-package-guide/storybook/ pnpm build-storybook
+
+      - name: Copy Storybook into dist
+        run: cp -r storybook-static dist/storybook
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
