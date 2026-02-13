@@ -1,0 +1,31 @@
+---
+id: "auth-tokens"
+title: "Tokens & Sessions 🎫"
+guide: "auth"
+linkRefs:
+  - id: "mdn-http-cookies"
+    note: "MDN reference for cookies — the transport mechanism for session IDs"
+  - id: "jwt-io"
+    note: "Interactive JWT debugger to inspect token structure"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-how-browser-remembers">How the Browser Remembers You</TocLink>
+  <TocLink id="toc-takeaway">Key Takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+HTTP is stateless — every request starts fresh. Tokens and sessions solve this by proving you already logged in.
+</SectionIntro>
+
+<SectionSubheading id="toc-how-browser-remembers">How the Browser Remembers You</SectionSubheading>
+
+<ConceptCards sectionId="tokens" />
+
+<SectionSubheading id="toc-takeaway">Key Takeaway</SectionSubheading>
+
+<Explainer title="Pick based on your architecture">
+Most modern SPAs use token-based auth (JWTs). Sessions are still common in server-rendered apps. Both are valid — pick based on your architecture.
+</Explainer>

@@ -39,6 +39,14 @@ import { PipelineStages } from './ci-cd/PipelineStages'
 import { YamlExplorer } from './ci-cd/YamlExplorer'
 import { PatternCards } from './ci-cd/PatternCards'
 import { GotchaAccordion } from './ci-cd/GotchaAccordion'
+// auth
+import { ConceptCards } from './auth/ConceptCards'
+import { JwtParts } from './auth/JwtParts'
+import { OAuthFlow } from './auth/OAuthFlow'
+import { AuthPatterns } from './auth/AuthPatterns'
+import { SecurityThreats } from './auth/SecurityThreats'
+import { AuthChecklist } from './auth/AuthChecklist'
+import { AuthQuiz } from './auth/AuthQuiz'
 // shared
 import { GuideStartContent } from './GuideStartContent'
 
@@ -94,5 +102,12 @@ export const mdxComponents: MDXComponents = {
   YamlExplorer,
   PatternCards,
   GotchaAccordion,
+  ConceptCards,
+  JwtParts,
+  OAuthFlow,
+  AuthPatterns,
+  SecurityThreats,
+  AuthChecklist,
+  AuthQuiz,
   GuideStartContent,
 }

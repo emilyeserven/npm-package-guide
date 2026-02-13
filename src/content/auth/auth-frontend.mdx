@@ -1,0 +1,31 @@
+---
+id: "auth-frontend"
+title: "Frontend Patterns ⚛️"
+guide: "auth"
+linkRefs:
+  - id: "mdn-set-cookie"
+    note: "Set-Cookie header reference — HttpOnly, Secure, and SameSite attributes"
+  - id: "mdn-http-cookies"
+    note: "Cookie fundamentals for token storage decisions"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-patterns">Auth Patterns in React</TocLink>
+  <TocLink id="toc-takeaway">Key Takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+Here's what auth actually looks like in frontend code — the patterns you'll use daily. Click each pattern to see a code example.
+</SectionIntro>
+
+<SectionSubheading id="toc-patterns">Auth Patterns in React</SectionSubheading>
+
+<AuthPatterns />
+
+<SectionSubheading id="toc-takeaway">Key Takeaway</SectionSubheading>
+
+<Explainer title="Frontend auth is UX, not security">
+The frontend never truly "enforces" auth — it only provides UX. The backend must always verify tokens and permissions on every request.
+</Explainer>

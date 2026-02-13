@@ -15,6 +15,7 @@ import { architectureGlossary } from './architectureTerms'
 import { testingGlossary } from './testingTerms'
 import { promptGlossary } from './promptTerms'
 import { cicdGlossary } from './cicdTerms'
+import { authGlossary } from './authTerms'
 
 export const glossaryTerms: GlossaryCategory[] = [
   ...npmPackageGlossary,
@@ -22,4 +23,5 @@ export const glossaryTerms: GlossaryCategory[] = [
   ...testingGlossary,
   ...promptGlossary,
   ...cicdGlossary,
+  ...authGlossary,
 ]
