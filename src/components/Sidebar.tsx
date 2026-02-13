@@ -6,14 +6,13 @@ import { getNavTitle } from '../data/navigation'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { STORYBOOK_URL } from '../data/navigation'
 import { parseTitle } from '../helpers/parseTitle'
-import { OptionsDropdown } from './OptionsDropdown'
-
 interface SidebarProps {
   open: boolean
   onClose: () => void
   pinned: boolean
   onTogglePin: () => void
   onActiveGuideChange?: (hasGuide: boolean) => void
+  onSettingsClick?: () => void
 }
 
 // ── Title resolution ────────────────────────────────────────────────
@@ -67,12 +66,14 @@ function IconRail({
   onSelectGuide,
   onHomeClick,
   onResourceClick,
+  onSettingsClick,
   currentId,
 }: {
   activeGuideId: string | null
   onSelectGuide: (guideId: string) => void
   onHomeClick: () => void
   onResourceClick: (id: string) => void
+  onSettingsClick?: () => void
   currentId: string
 }) {
   const iconBtnCls = 'flex items-center justify-center w-10 h-10 rounded-lg border-none cursor-pointer transition-all duration-150 group relative'
@@ -143,9 +144,18 @@ function IconRail({
       <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5" />
 
       {/* Settings */}
-      <div className="relative">
-        <OptionsDropdown position="sidebar" />
-      </div>
+      <button
+        className={clsx(iconBtnCls, inactiveCls)}
+        onClick={() => onSettingsClick?.()}
+        aria-label="Settings"
+        data-testid="settings-pane-toggle"
+      >
+        <svg className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <span className={tooltipCls}>Settings</span>
+      </button>
     </div>
   )
 }
@@ -242,7 +252,7 @@ function ContentPanel({
 
 // ── Main Sidebar ──────────────────────────────────────────────────────
 
-export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChange }: SidebarProps) {
+export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChange, onSettingsClick }: SidebarProps) {
   const navigateToSection = useNavigateToSection()
   const params = useParams({ strict: false }) as { sectionId?: string }
   const currentId = params.sectionId || ''
@@ -314,29 +324,9 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
         onSelectGuide={handleSelectGuide}
         onHomeClick={handleGuidesHome}
         onResourceClick={handleResourceClick}
+        onSettingsClick={onSettingsClick}
         currentId={currentId}
       />
-
-      {/* Floating Pin/Close buttons — only when icon rail is shown without content panel */}
-      {!activeGuide && (
-        <div className="absolute top-3 left-[52px] flex items-center gap-0.5 z-10">
-          <button
-            className="hidden lg:flex items-center justify-center w-7 h-7 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 cursor-pointer rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-150 shadow-sm"
-            onClick={onTogglePin}
-            title={pinned ? 'Unpin sidebar' : 'Pin sidebar'}
-            data-testid="sidebar-pin"
-          >
-            <PinIcon pinned={pinned} />
-          </button>
-          <button
-            className="flex items-center justify-center w-7 h-7 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 cursor-pointer text-lg text-gray-400 dark:text-slate-500 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-150 shadow-sm"
-            onClick={onClose}
-            data-testid="sidebar-close"
-          >
-            &#x2715;
-          </button>
-        </div>
-      )}
 
       {activeGuide && (
         <ContentPanel
