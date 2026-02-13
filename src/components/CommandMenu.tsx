@@ -20,8 +20,8 @@ function PageItem({ id, onSelect }: { id: string; onSelect: (id: string) => void
 
   return (
     <Command.Item value={title} keywords={[id]} onSelect={() => onSelect(id)}>
-      <span>{text}</span>
-      {icon && <span className="ml-2 text-base opacity-70">{icon}</span>}
+      <span className="flex-1 min-w-0 truncate">{text}</span>
+      {icon && <span className="text-base opacity-70 shrink-0">{icon}</span>}
     </Command.Item>
   )
 }
@@ -137,9 +137,9 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
                 keywords={[term.term, cat.category, 'glossary', 'definition']}
                 onSelect={() => handleGlossaryTerm(term.term)}
               >
-                <span className="mr-2 text-base opacity-70">{'\u{1F4D6}'}</span>
-                <span>{term.term}</span>
-                <span className="ml-2 text-xs text-slate-400 dark:text-slate-500">{cat.category}</span>
+                <span className="mr-2 text-base opacity-70 shrink-0">{'\u{1F4D6}'}</span>
+                <span className="flex-1 min-w-0 truncate">{term.term}</span>
+                <span className="ml-2 text-xs text-slate-400 dark:text-slate-500 shrink-0">{cat.category}</span>
               </Command.Item>
             ))
           )}
@@ -154,9 +154,9 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
                 keywords={[item.name, ...item.tags, group.category, 'resource', 'external']}
                 onSelect={() => handleExternalResource(item.url)}
               >
-                <span className="mr-2 text-base opacity-70">{'\u{1F517}'}</span>
-                <span>{item.name}</span>
-                <span className="ml-2 text-xs text-slate-400 dark:text-slate-500">{group.category}</span>
+                <span className="mr-2 text-base opacity-70 shrink-0">{'\u{1F517}'}</span>
+                <span className="flex-1 min-w-0 truncate">{item.name}</span>
+                <span className="ml-2 text-xs text-slate-400 dark:text-slate-500 shrink-0">{group.category}</span>
               </Command.Item>
             ))
           )}

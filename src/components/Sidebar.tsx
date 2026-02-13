@@ -263,9 +263,9 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
     <div
       data-testid="sidebar"
       className={clsx(
-        'sidebar relative fixed top-0 left-0 bottom-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 z-100 flex flex-row overflow-hidden transition-[width,transform] duration-250 -translate-x-full',
+        'sidebar relative fixed top-0 left-0 bottom-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 z-100 flex flex-row overflow-hidden transition-[width,translate] duration-250',
         activeGuide ? 'w-[360px] max-sm:w-[320px]' : 'w-[52px]',
-        open && 'translate-x-0'
+        open ? 'translate-x-0' : '-translate-x-full'
       )}
     >
       <IconRail
