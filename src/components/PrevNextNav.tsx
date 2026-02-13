@@ -15,7 +15,7 @@ export function PrevNextNav({ currentId }: { currentId: string }) {
           data-testid="nav-previous"
         >
           <span className="text-blue-500 dark:text-blue-400 text-lg font-medium shrink-0">&larr;</span>
-          <span className="text-sm text-slate-700 dark:text-slate-300 font-medium overflow-hidden text-ellipsis whitespace-nowrap">{getNavTitle(order[idx - 1]).replace(/^\S+\s+/, '')}</span>
+          <span className="text-sm text-slate-700 dark:text-slate-300 font-medium overflow-hidden text-ellipsis whitespace-nowrap">{getNavTitle(order[idx - 1])}</span>
         </button>
       )}
       {idx < order.length - 1 && (
@@ -24,7 +24,7 @@ export function PrevNextNav({ currentId }: { currentId: string }) {
           onClick={() => navigateToSection(order[idx + 1])}
           data-testid="nav-next"
         >
-          <span className="text-sm text-slate-700 dark:text-slate-300 font-medium overflow-hidden text-ellipsis whitespace-nowrap">{getNavTitle(order[idx + 1]).replace(/^\S+\s+/, '')}</span>
+          <span className="text-sm text-slate-700 dark:text-slate-300 font-medium overflow-hidden text-ellipsis whitespace-nowrap">{getNavTitle(order[idx + 1])}</span>
           <span className="text-blue-500 dark:text-blue-400 text-lg font-medium shrink-0">&rarr;</span>
         </button>
       )}

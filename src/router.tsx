@@ -23,17 +23,18 @@ const indexRoute = createRoute({
 
 interface SectionSearch {
   guide?: string
+  search?: string
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
 function SectionRouter() {
   const { sectionId } = sectionRoute.useParams()
-  const { guide } = sectionRoute.useSearch()
+  const { guide, search } = sectionRoute.useSearch()
 
   if (sectionId === 'roadmap') return <RoadmapPage />
   if (sectionId === 'checklist') return <ChecklistPage />
   if (sectionId === 'external-resources') return <ExternalResourcesPage initialGuide={guide} />
-  if (sectionId === 'glossary') return <GlossaryPage initialGuide={guide} />
+  if (sectionId === 'glossary') return <GlossaryPage initialGuide={guide} initialSearch={search} />
   if (sectionId === 'architecture' || sectionId === 'arch-start') return <ArchStartPage />
   if (sectionId === 'test-start') return <TestingStartPage />
   if (sectionId === 'prompt-start') return <PromptStartPage />
@@ -50,6 +51,7 @@ const sectionRoute = createRoute({
   component: SectionRouter,
   validateSearch: (search: Record<string, unknown>): SectionSearch => ({
     guide: typeof search.guide === 'string' ? search.guide : undefined,
+    search: typeof search.search === 'string' ? search.search : undefined,
   }),
 })
 

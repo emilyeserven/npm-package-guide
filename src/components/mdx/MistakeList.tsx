@@ -28,9 +28,9 @@ export function MistakeList({ categoryId }: { categoryId: string }) {
 
       {/* Mistake items — no boxes, proper headings */}
       <div className="flex flex-col gap-5">
-        {category.items.map((item, i) => (
-          <div key={i}>
-            <h3 className="font-semibold text-sm text-slate-900 dark:text-slate-100 mb-2 mt-0">
+        {category.items.map(item => (
+          <div key={item.id}>
+            <h3 className="font-semibold text-sm text-slate-900 dark:text-slate-100 mb-2 mt-0" id={item.id}>
               {item.mistake}
             </h3>
             <div className="text-xs font-mono text-slate-500 dark:text-slate-400 mb-2 px-3 py-2 bg-slate-100 dark:bg-slate-800 rounded-md overflow-x-auto">
