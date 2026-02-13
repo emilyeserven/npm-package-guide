@@ -1,0 +1,36 @@
+---
+id: "ai-orchestration"
+title: "Orchestration & Pipelines 🔗"
+guide: "ai-infra"
+linkRefs:
+  - id: "langchain-introduction"
+    note: "The most popular framework for building LLM-powered applications"
+  - id: "llamaindex-docs"
+    note: "Data framework focused on RAG and knowledge retrieval"
+  - id: "guardrails-ai-docs"
+    note: "Validation framework for LLM inputs and outputs"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-concepts">Key concepts</TocLink>
+</Toc>
+
+<SectionIntro>
+This is where "just call the model" becomes a real product. The orchestration layer chains together retrieval, prompting, model calls, and post-processing into coherent workflows. If you've built middleware pipelines or service orchestration, you'll recognize the patterns.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+
+<SectionList>
+<ColItem>Raw model calls are like raw database queries &mdash; technically functional but not how you build applications. The orchestration layer adds the structure, validation, and business logic that turns model capabilities into reliable features.</ColItem>
+<ColItem>This layer is where most of the "AI engineering" happens in practice. You'll compose retrieval pipelines, manage prompt versions, build agent loops, and add safety guardrails &mdash; all using patterns that map directly to familiar backend concepts.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-concepts">Key Concepts</SectionSubheading>
+
+Click any concept to explore what it does, a backend analogy, and the tools you'd use.
+
+<InfraLayerExplorer layerId="orchestration" />

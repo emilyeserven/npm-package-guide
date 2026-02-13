@@ -1,0 +1,32 @@
+---
+id: "ai-compute"
+title: "Infrastructure & Compute 🖥️"
+guide: "ai-infra"
+linkRefs:
+  - id: "mlflow-docs"
+    note: "Open-source platform for ML lifecycle management and model registry"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-concepts">Key concepts</TocLink>
+</Toc>
+
+<SectionIntro>
+AI workloads need GPUs &mdash; lots of them. This layer handles provisioning, scaling, and managing the actual hardware and cloud resources that power everything above it. If you've worked with Kubernetes or cloud infrastructure, you'll recognize the patterns but with GPU-specific constraints.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+
+<SectionList>
+<ColItem>The infrastructure layer is the most capital-intensive part of AI. GPU servers cost 10&ndash;100x more than CPU servers, GPU memory is the primary bottleneck (not CPU or disk), and hardware failures are more frequent and more impactful.</ColItem>
+<ColItem>This layer also includes model registries (version control for multi-GB model files) and AI-specific monitoring that tracks metrics like token throughput, model drift, and hallucination rates alongside traditional latency and error rate metrics.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-concepts">Key Concepts</SectionSubheading>
+
+Click any concept to explore what it does, a backend analogy, and the tools you'd use.
+
+<InfraLayerExplorer layerId="infra" />
