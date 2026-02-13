@@ -1,0 +1,74 @@
+---
+id: "prompt-tools-mcp"
+title: "MCP Servers 🔌"
+guide: "prompt-engineering"
+usedFootnotes: [1, 2, 3, 4, 5, 6, 7]
+linkRefs:
+  - id: "anthropic-mcp"
+    note: "Model Context Protocol specification and server ecosystem."
+  - id: "anthropic-tool-use"
+    note: "How Claude uses tools for function calling and integrations."
+  - id: "mcp-server-github"
+    note: "GitHub API integration — repos, issues, PRs, and code search."
+  - id: "mcp-server-fetch"
+    note: "Web content fetching — lets Claude read and parse web pages."
+  - id: "mcp-server-brave-search"
+    note: "Brave Search API — web and local search from within Claude."
+  - id: "mcp-server-memory"
+    note: "Knowledge graph memory — persistent recall across sessions."
+  - id: "mcp-server-filesystem"
+    note: "Secure file system access with configurable permission boundaries."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+The Model Context Protocol<FnRef n={1} /> (MCP) is an open standard that connects Claude to external tools<FnRef n={2} /> and data sources. MCP servers run as separate processes that expose tools Claude can call during a conversation &mdash; giving it access to databases, APIs, file systems, and custom tools through a unified interface.
+</SectionIntro>
+
+<Toc>
+  <TocLink id="toc-overview">How MCP Works</TocLink>
+  <TocLink id="toc-best-for">Best Use Cases</TocLink>
+  <TocLink id="toc-setup">Setting Up MCP Servers</TocLink>
+  <TocLink id="toc-servers">Popular Community Servers</TocLink>
+  <TocLink id="toc-examples">Configuration Examples</TocLink>
+  <TocLink id="toc-tips">Tips</TocLink>
+</Toc>
+
+<SectionSubheading id="toc-overview">How MCP Works</SectionSubheading>
+
+MCP uses a client-server architecture. Claude Code acts as the MCP client, and each server exposes a specific set of tools. Servers can run locally via stdio transport (launched with <code>npx</code> or <code>node</code>) or remotely via SSE (Server-Sent Events) over HTTP.
+
+<ToolDetail toolId="mcp-servers" section="overview" />
+
+<SectionSubheading id="toc-best-for">Best Use Cases</SectionSubheading>
+
+MCP servers are most valuable when Claude needs access to information or capabilities outside its built-in tools. Here are the scenarios where they shine.
+
+<ToolDetail toolId="mcp-servers" section="bestFor" />
+
+<SectionSubheading id="toc-setup">Setting Up MCP Servers</SectionSubheading>
+
+Configuring MCP servers is straightforward &mdash; just add a JSON file with the server definitions. Project-level configs are shared with your team via git; global configs are personal.
+
+<ToolDetail toolId="mcp-servers" section="implementation" />
+
+<SectionSubheading id="toc-servers">Popular Community Servers</SectionSubheading>
+
+The MCP ecosystem has a growing library of community-maintained servers. Here are the most useful ones for development workflows:
+
+<SectionList>
+<ColItem><strong>GitHub</strong><FnRef n={3} /> &mdash; Full GitHub API access: create and manage issues, review PRs, search code across repositories, and manage branches. Especially valuable in mono-repo workflows.</ColItem>
+<ColItem><strong>Fetch</strong><FnRef n={4} /> &mdash; Read and parse web content. Pull documentation, check API references, or read changelogs directly into Claude&rsquo;s context during code reviews.</ColItem>
+<ColItem><strong>Brave Search</strong><FnRef n={5} /> &mdash; Web search from within Claude. Check for known CVEs in packages, find migration guides, or research best practices without leaving your terminal.</ColItem>
+<ColItem><strong>Memory</strong><FnRef n={6} /> &mdash; Persistent knowledge graph that survives across sessions. Remember architecture decisions, team preferences, and project history.</ColItem>
+<ColItem><strong>Filesystem</strong><FnRef n={7} /> &mdash; Secure access to files outside the working directory with configurable permission boundaries. Read design tokens, shared configs, or monorepo packages.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-examples">Configuration Examples</SectionSubheading>
+
+<ToolDetail toolId="mcp-servers" section="examples" />
+
+<SectionSubheading id="toc-tips">Tips</SectionSubheading>
+
+<ToolDetail toolId="mcp-servers" section="tips" />

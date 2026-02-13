@@ -56,7 +56,7 @@ export const promptGlossary: GlossaryCategory[] = [
         term: "Tool Use",
         definition: "The ability for AI models to call external functions or APIs during a conversation — reading files, querying databases, running code, or fetching web data. Extends the model beyond pure text generation.",
         linkId: "anthropic-tool-use",
-        sectionId: "prompt-tools-advanced"
+        sectionId: "prompt-tools-mcp"
       },
     ]
   },
@@ -73,19 +73,19 @@ export const promptGlossary: GlossaryCategory[] = [
         term: "MCP (Model Context Protocol)",
         definition: "An open protocol that extends AI coding assistants with external tools and data sources. MCP servers can provide access to databases, APIs, file systems, and custom tools.",
         linkId: "anthropic-mcp",
-        sectionId: "prompt-tools-advanced"
+        sectionId: "prompt-tools-mcp"
       },
       {
         term: "Claude Code Hooks",
         definition: "User-defined shell commands that run automatically at specific lifecycle points in Claude Code — before/after tool calls, on session start, or on notification. Used to enforce project rules, run linters, or trigger custom workflows.",
         linkId: "anthropic-claude-code-hooks",
-        sectionId: "prompt-tools-advanced"
+        sectionId: "prompt-tools-hooks"
       },
       {
         term: "Slash Commands",
         definition: "Custom reusable commands (e.g., <code>/review</code>, <code>/test</code>) defined in <code>.claude/commands/</code> that give Claude Code pre-built prompts for common tasks. Teams can share commands to standardize AI-assisted workflows.",
         linkId: "anthropic-claude-code-skills",
-        sectionId: "prompt-tools-advanced"
+        sectionId: "prompt-tools-skills"
       },
       {
         term: "Prompt Caching",

@@ -1,0 +1,53 @@
+---
+id: "prompt-tools-optimization"
+title: "Performance Optimization ⚡"
+guide: "prompt-engineering"
+usedFootnotes: [1, 2]
+linkRefs:
+  - id: "anthropic-claude-code-best-practices"
+    note: "Tips for getting the most out of Claude Code's advanced features."
+  - id: "anthropic-claude-code"
+    note: "Claude Code overview including headless mode and scripting."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+Claude Code can be much faster and cheaper when you optimize how you send context and consume results. Headless mode<FnRef n={1} />, piped input, structured output, and unix tool integration let you build powerful automation pipelines<FnRef n={2} /> where Claude is one step in a larger workflow.
+</SectionIntro>
+
+<Toc>
+  <TocLink id="toc-overview">Optimization Strategies</TocLink>
+  <TocLink id="toc-best-for">Best Use Cases</TocLink>
+  <TocLink id="toc-implementation">Implementation Guide</TocLink>
+  <TocLink id="toc-examples">Recipes &amp; Patterns</TocLink>
+  <TocLink id="toc-tips">Tips</TocLink>
+</Toc>
+
+<SectionSubheading id="toc-overview">Optimization Strategies</SectionSubheading>
+
+The core principle is simple: send less, scope narrowly, and consume results programmatically. Every optimization below reduces either cost, latency, or both.
+
+<ToolDetail toolId="optimization" section="overview" />
+
+<SectionSubheading id="toc-best-for">Best Use Cases</SectionSubheading>
+
+Performance optimization matters most in automated and high-frequency workflows where speed and cost compound.
+
+<ToolDetail toolId="optimization" section="bestFor" />
+
+<SectionSubheading id="toc-implementation">Implementation Guide</SectionSubheading>
+
+Start with headless mode for any scripted task. Then layer in piped context, tool authorization, and batch processing as your workflows grow.
+
+<ToolDetail toolId="optimization" section="implementation" />
+
+<SectionSubheading id="toc-examples">Recipes &amp; Patterns</SectionSubheading>
+
+Practical patterns you can copy and adapt for your own workflows.
+
+<ToolDetail toolId="optimization" section="examples" />
+
+<SectionSubheading id="toc-tips">Tips</SectionSubheading>
+
+<ToolDetail toolId="optimization" section="tips" />

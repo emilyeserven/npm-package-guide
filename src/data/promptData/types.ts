@@ -62,13 +62,28 @@ export interface ChecklistSection {
   items: ChecklistItem[]
 }
 
+export interface ImplementationStep {
+  title: string
+  description: string
+  code?: string
+}
+
+export interface ToolExample {
+  title: string
+  code: string
+  description?: string
+}
+
 export interface ToolTechnique {
   id: string
   name: string
   icon: string
   description: string
   details: string[]
-  example: string
+  bestFor: string[]
+  implementation: ImplementationStep[]
+  examples: ToolExample[]
+  tips?: string[]
 }
 
 export interface MetaToolItem {

@@ -1,0 +1,53 @@
+---
+id: "prompt-tools-skills"
+title: "Custom Slash Commands 🎯"
+guide: "prompt-engineering"
+usedFootnotes: [1, 2]
+linkRefs:
+  - id: "anthropic-claude-code-skills"
+    note: "Custom slash commands documentation."
+  - id: "anthropic-claude-code-best-practices"
+    note: "Tips for getting the most out of Claude Code's advanced features."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+Slash commands<FnRef n={1} /> (also called &ldquo;skills&rdquo;) are reusable prompt templates that you invoke with <code>/project:name</code> or <code>/user:name</code>. Define them as Markdown files, share them via git, and standardize AI workflows across your team.
+</SectionIntro>
+
+<Toc>
+  <TocLink id="toc-overview">How Slash Commands Work</TocLink>
+  <TocLink id="toc-best-for">Best Use Cases</TocLink>
+  <TocLink id="toc-creating">Creating Commands</TocLink>
+  <TocLink id="toc-examples">Example Commands</TocLink>
+  <TocLink id="toc-tips">Tips</TocLink>
+</Toc>
+
+<SectionSubheading id="toc-overview">How Slash Commands Work</SectionSubheading>
+
+Each command is a Markdown file whose entire content becomes the prompt. The <code>$ARGUMENTS</code> placeholder gets replaced with whatever the user types after the command name, making commands flexible enough for many use cases.
+
+<ToolDetail toolId="skills" section="overview" />
+
+<SectionSubheading id="toc-best-for">Best Use Cases</SectionSubheading>
+
+Slash commands are most valuable for tasks you repeat frequently or need to be consistent across a team. They turn multi-paragraph prompts into a single command.
+
+<ToolDetail toolId="skills" section="bestFor" />
+
+<SectionSubheading id="toc-creating">Creating Commands</SectionSubheading>
+
+Setting up slash commands takes just a few minutes. Project-level commands live in <code>.claude/commands/</code> and are shared via version control; user-level commands live in <code>~/.claude/commands/</code> and are personal.
+
+<ToolDetail toolId="skills" section="implementation" />
+
+<SectionSubheading id="toc-examples">Example Commands</SectionSubheading>
+
+Here are practical command templates for common workflows. Adapt these to your team&rsquo;s conventions and reference your <NavLink to="prompt-ctx-claude-md">CLAUDE.md</NavLink> for project-specific context.
+
+<ToolDetail toolId="skills" section="examples" />
+
+<SectionSubheading id="toc-tips">Tips</SectionSubheading>
+
+<ToolDetail toolId="skills" section="tips" />
