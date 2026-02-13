@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react'
 import type { SectionLink } from '../helpers/renderFootnotes'
 import { resolveLink } from '../data/linkRegistry'
+import { guides } from '../data/guideRegistry'
 
 interface LinkRef {
   id: string
@@ -23,12 +24,37 @@ const mdxModules = import.meta.glob<{
   frontmatter: Record<string, unknown>
 }>(['./**/*.mdx'], { eager: true })
 
+const validGuideIds = new Set(guides.map(g => g.id))
+
 export const contentPages = new Map<string, ContentPage>()
 
-for (const [, mod] of Object.entries(mdxModules)) {
+for (const [filePath, mod] of Object.entries(mdxModules)) {
   const fm = mod.frontmatter as Record<string, unknown>
   const id = fm.id as string
-  if (!id) continue
+
+  if (!id) {
+    console.warn(`[content/registry] MDX file missing required "id" field: ${filePath}`)
+    continue
+  }
+
+  if (contentPages.has(id)) {
+    throw new Error(
+      `[content/registry] Duplicate page ID "${id}" found in ${filePath}. ` +
+      `Each MDX file must have a unique "id" in its frontmatter.`
+    )
+  }
+
+  if (!fm.title) {
+    console.warn(`[content/registry] MDX page "${id}" (${filePath}) missing "title" — using id as fallback.`)
+  }
+
+  const guide = fm.guide as string | undefined
+  if (guide && !validGuideIds.has(guide)) {
+    console.warn(
+      `[content/registry] MDX page "${id}" (${filePath}) has unknown guide "${guide}". ` +
+      `Valid guides: ${[...validGuideIds].join(', ')}`
+    )
+  }
 
   const rawLinkRefs = fm.linkRefs as LinkRef[] | undefined
   const resolvedLinks = rawLinkRefs?.map(ref => resolveLink(ref.id, ref.note))
@@ -37,7 +63,7 @@ for (const [, mod] of Object.entries(mdxModules)) {
   contentPages.set(id, {
     id,
     title: (fm.title as string) ?? id,
-    guide: fm.guide as string | undefined,
+    guide,
     group: fm.group as string | undefined,
     links: resolvedLinks,
     linkRefIds: refIds,

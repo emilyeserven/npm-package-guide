@@ -38,6 +38,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Validate data references
+        run: pnpm validate:data
+
+      - name: Lint
+        run: pnpm lint
+
       - name: Build
         run: pnpm build
 
