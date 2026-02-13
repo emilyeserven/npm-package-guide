@@ -34,6 +34,14 @@ import { ClaudeMdChecklist } from './prompt-engineering/ClaudeMdChecklist'
 import { ToolDetail } from './prompt-engineering/ToolDetail'
 import { MetaTooling } from './prompt-engineering/MetaTooling'
 import { CodingToolExplorer } from './prompt-engineering/CodingToolExplorer'
+// auth
+import { ConceptCards } from './auth/ConceptCards'
+import { JwtParts } from './auth/JwtParts'
+import { OAuthFlow } from './auth/OAuthFlow'
+import { AuthPatterns } from './auth/AuthPatterns'
+import { SecurityThreats } from './auth/SecurityThreats'
+import { AuthChecklist } from './auth/AuthChecklist'
+import { AuthQuiz } from './auth/AuthQuiz'
 // shared
 import { GuideStartContent } from './GuideStartContent'
 
@@ -85,5 +93,12 @@ export const mdxComponents: MDXComponents = {
   ToolDetail,
   MetaTooling,
   CodingToolExplorer,
+  ConceptCards,
+  JwtParts,
+  OAuthFlow,
+  AuthPatterns,
+  SecurityThreats,
+  AuthChecklist,
+  AuthQuiz,
   GuideStartContent,
 }

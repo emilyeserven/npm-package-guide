@@ -1,0 +1,33 @@
+---
+id: "auth-security"
+title: "Security Essentials 🛡️"
+guide: "auth"
+linkRefs:
+  - id: "owasp-xss"
+    note: "OWASP XSS reference — attack types and prevention strategies"
+  - id: "owasp-csrf"
+    note: "OWASP CSRF reference — how cookie-based auth gets exploited"
+  - id: "mdn-csp"
+    note: "Content Security Policy headers — a key defense against XSS"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-threats">Threats You Must Know About</TocLink>
+  <TocLink id="toc-takeaway">Key Takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+Auth is a security boundary. Here are the attacks that target it and how to defend against them.
+</SectionIntro>
+
+<SectionSubheading id="toc-threats">Threats You Must Know About</SectionSubheading>
+
+<SecurityThreats />
+
+<SectionSubheading id="toc-takeaway">Key Takeaway</SectionSubheading>
+
+<Explainer title="Security is everyone's job">
+Security is never "just a backend thing." Your frontend choices (where you store tokens, how you handle redirects) directly impact your app's security posture.
+</Explainer>

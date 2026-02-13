@@ -1,0 +1,33 @@
+---
+id: "auth-oauth"
+title: "OAuth 2.0 & OIDC 🤝"
+guide: "auth"
+linkRefs:
+  - id: "oauth-net-auth-code"
+    note: "Detailed reference for the Authorization Code grant type"
+  - id: "openid-connect-spec"
+    note: "How OIDC adds identity (authentication) on top of OAuth 2.0 (authorization)"
+  - id: "auth0-pkce"
+    note: "Why PKCE is required for SPAs and how it prevents code interception"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-oauth-flow">The Authorization Code Flow</TocLink>
+  <TocLink id="toc-takeaway">Key Takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+OAuth 2.0 is an authorization framework. OpenID Connect (OIDC) adds an identity layer on top. Together, they power every "Sign in with Google" button you've ever clicked.
+</SectionIntro>
+
+<SectionSubheading id="toc-oauth-flow">The Authorization Code Flow</SectionSubheading>
+
+<OAuthFlow />
+
+<SectionSubheading id="toc-takeaway">Key Takeaway</SectionSubheading>
+
+<Explainer title="Use the right flow">
+The Authorization Code flow (with PKCE for SPAs) is the gold standard for frontend apps. Never use the Implicit flow — it's deprecated for good reason.
+</Explainer>

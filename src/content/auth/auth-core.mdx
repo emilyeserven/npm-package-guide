@@ -1,0 +1,29 @@
+---
+id: "auth-core"
+title: "The Big Picture 🔑"
+guide: "auth"
+linkRefs:
+  - id: "oauth-net-overview"
+    note: "OAuth 2.0 overview — authentication and authorization in practice"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-authn-authz">Authentication vs Authorization</TocLink>
+  <TocLink id="toc-takeaway">Key Takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+These two words sound alike but solve very different problems. Understanding the distinction is the first step to implementing auth correctly.
+</SectionIntro>
+
+<SectionSubheading id="toc-authn-authz">Authentication vs Authorization</SectionSubheading>
+
+<ConceptCards sectionId="core" />
+
+<SectionSubheading id="toc-takeaway">Key Takeaway</SectionSubheading>
+
+<Explainer title="Remember this">
+Authentication always happens first. You can't decide what someone is allowed to do until you know who they are.
+</Explainer>
