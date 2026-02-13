@@ -47,6 +47,9 @@ import { AuthPatterns } from './auth/AuthPatterns'
 import { SecurityThreats } from './auth/SecurityThreats'
 import { AuthChecklist } from './auth/AuthChecklist'
 import { AuthQuiz } from './auth/AuthQuiz'
+// ai-infra
+import { InfraLayerExplorer } from './ai-infra/InfraLayerExplorer'
+import { WorkflowExplorer } from './ai-infra/WorkflowExplorer'
 // shared
 import { GuideStartContent } from './GuideStartContent'
 
@@ -109,5 +112,7 @@ export const mdxComponents: MDXComponents = {
   SecurityThreats,
   AuthChecklist,
   AuthQuiz,
+  InfraLayerExplorer,
+  WorkflowExplorer,
   GuideStartContent,
 }

@@ -1,0 +1,36 @@
+---
+id: "ai-key-terms"
+title: "Key Terms 📖"
+guide: "ai-infra"
+linkRefs:
+  - id: "openai-api-reference"
+    note: "The OpenAI API docs are a practical reference for many of these concepts"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-cheat-sheet">Cheat sheet</TocLink>
+  <TocLink id="toc-next-steps">Next steps</TocLink>
+</Toc>
+
+<SectionIntro>
+Essential terminology for working with AI infrastructure. Each term includes a concise, backend-friendly explanation.
+</SectionIntro>
+
+<SectionSubheading id="toc-cheat-sheet">Cheat Sheet</SectionSubheading>
+
+<SectionList>
+<ColItem>**Token** &mdash; The basic unit models work with. Roughly &frac34; of a word. "Hello world" &asymp; 2 tokens. Token count determines API pricing and context window usage.</ColItem>
+<ColItem>**Latency** &mdash; Time to first token (TTFT) + time per output token. Your users feel both. Streaming helps mask generation latency by showing tokens as they arrive.</ColItem>
+<ColItem>**Context Window** &mdash; Max tokens a model can process at once (input + output). GPT-4: 128K tokens, Claude: 200K tokens. Exceeding it causes truncation or errors.</ColItem>
+<ColItem>**Hallucination** &mdash; When the model confidently generates incorrect information. RAG (grounding responses in retrieved documents) and guardrails help reduce this.</ColItem>
+<ColItem>**Inference** &mdash; Running a trained model to get predictions. This is the "production" phase &mdash; analogous to handling API requests on your backend server.</ColItem>
+<ColItem>**Embedding** &mdash; A vector (list of numbers) representing the semantic meaning of text. Similar texts produce similar vectors, enabling search by meaning instead of keywords.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-next-steps">Next Steps</SectionSubheading>
+
+<SectionList>
+<ColItem>For deeper definitions with links to official documentation, check the <NavLink to="glossary">Glossary</NavLink> &mdash; it includes all of these terms plus many more from across the guide.</ColItem>
+</SectionList>

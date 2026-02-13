@@ -1,0 +1,34 @@
+---
+id: "ai-training"
+title: "Training & Fine-Tuning 🧠"
+guide: "ai-infra"
+linkRefs:
+  - id: "huggingface-transformers-docs"
+    note: "The standard library for working with transformer models"
+  - id: "openai-fine-tuning-guide"
+    note: "How to fine-tune models via the OpenAI API"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-concepts">Key concepts</TocLink>
+</Toc>
+
+<SectionIntro>
+Foundation models are pre-trained on massive datasets by large labs. Fine-tuning adapts them to specific tasks with smaller, domain-specific data. While you likely won't train models from scratch, understanding this layer helps you evaluate when fine-tuning is worth the investment and how to work with ML teams.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+
+<SectionList>
+<ColItem>Think of the training pipeline as a CI/CD system for models. Raw data goes in, trained models come out, and evaluation benchmarks act as your test suite. The tools are different but the workflow is familiar.</ColItem>
+<ColItem>The most relevant concept for engineers building AI features is **fine-tuning** &mdash; taking an existing model and specializing it with your data. This is dramatically cheaper and faster than pre-training, and services like OpenAI make it accessible via API.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-concepts">Key Concepts</SectionSubheading>
+
+Click any concept to explore what it does, a backend analogy, and the tools you'd use.
+
+<InfraLayerExplorer layerId="training" />

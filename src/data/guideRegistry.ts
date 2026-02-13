@@ -5,6 +5,7 @@ import { TESTING_GUIDE_SECTIONS, TESTING_START_PAGE_DATA } from './testingData'
 import { PROMPT_GUIDE_SECTIONS, PROMPT_START_PAGE_DATA } from './promptData'
 import { CICD_GUIDE_SECTIONS, CICD_START_PAGE_DATA } from './cicdData'
 import { AUTH_GUIDE_SECTIONS, AUTH_START_PAGE_DATA } from './authData'
+import { AI_INFRA_GUIDE_SECTIONS, AI_INFRA_START_PAGE_DATA } from './aiInfraData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -65,6 +66,15 @@ export const guides: GuideDefinition[] = [
       'Authentication & Authorization \u2014 from zero to confident implementation.',
     sections: AUTH_GUIDE_SECTIONS,
   },
+  {
+    id: 'ai-infra',
+    icon: '\u{1F916}',        // 🤖
+    title: 'AI Infrastructure',
+    startPageId: 'ai-start',
+    description:
+      'Understand AI backend infrastructure \u2014 from model serving and vector databases to GPU clusters and training pipelines.',
+    sections: AI_INFRA_GUIDE_SECTIONS,
+  },
 ]
 
 // ── Derived lookups ─────────────────────────────────────────────────
@@ -100,6 +110,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'prompt-engineering': PROMPT_START_PAGE_DATA,
   'ci-cd': CICD_START_PAGE_DATA,
   'auth': AUTH_START_PAGE_DATA,
+  'ai-infra': AI_INFRA_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {
