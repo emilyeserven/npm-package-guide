@@ -1,0 +1,39 @@
+---
+id: "cicd-gotchas"
+title: "Gotchas & Tips 💡"
+guide: "ci-cd"
+group: "Reference"
+linkRefs:
+  - id: "npm-ci-docs"
+    note: "Reference for npm ci — always use this instead of npm install in CI pipelines."
+  - id: "github-actions-secrets"
+    note: "How secrets work in GitHub Actions, including the security model for fork PRs."
+  - id: "github-actions-runners"
+    note: "Runner pricing, minute limits, and the 10x multiplier for macOS runners."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-gotchas">Things that trip people up</TocLink>
+  <TocLink id="toc-checklist">Quick checklist</TocLink>
+</Toc>
+
+<SectionIntro>
+CI/CD is straightforward once it's set up, but there are a handful of gotchas that trip up almost everyone the first time. Click each item below to expand the details.
+</SectionIntro>
+
+<SectionSubheading id="toc-gotchas">Things that trip people up</SectionSubheading>
+
+<GotchaAccordion />
+
+<SectionSubheading id="toc-checklist">Quick checklist</SectionSubheading>
+
+<SectionList>
+<ColItem>Use <code>npm ci</code>, not <code>npm install</code>, in every CI job.</ColItem>
+<ColItem>Use a YAML linter in your editor to catch indentation errors before pushing.</ColItem>
+<ColItem>Never hardcode secrets &mdash; use the repository's encrypted secrets store.</ColItem>
+<ColItem>Start with a single, simple workflow. Add complexity only when needed.</ColItem>
+<ColItem>Stick to <code>ubuntu-latest</code> runners to conserve free-tier minutes.</ColItem>
+<ColItem>Check the Actions tab logs when something fails &mdash; the error messages are usually clear.</ColItem>
+</SectionList>
