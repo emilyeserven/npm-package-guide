@@ -58,12 +58,13 @@ const columnHelper = createColumnHelper<FlatGlossaryRow>()
 
 interface GlossaryPageProps {
   initialGuide?: string
+  initialSearch?: string
 }
 
-export function GlossaryPage({ initialGuide }: GlossaryPageProps) {
+export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps) {
   const navigateToSection = useNavigateToSection()
   const [sorting, setSorting] = useState<SortingState>([])
-  const [globalFilter, setGlobalFilter] = useState('')
+  const [globalFilter, setGlobalFilter] = useState(initialSearch ?? '')
   const [guideFilter, setGuideFilter] = useState<string[]>(
     () => initialGuide ? [`guide:${initialGuide}`] : []
   )
