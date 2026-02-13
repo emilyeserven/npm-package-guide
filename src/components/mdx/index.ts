@@ -4,7 +4,7 @@ import { FnRef } from './FnRef'
 import { NavLink, NavPill } from './NavLink'
 import { StepJump } from './StepJump'
 import { TocLink } from './TocLink'
-import { SectionIntro, Toc, Explainer, Gotcha, ColItem, SectionNote, CodeBlock, SectionTitle, SectionSubheading, SectionList } from './SectionLayout'
+import { SectionIntro, Toc, Explainer, Gotcha, ColItem, SectionNote, SectionTitle, SectionSubheading, SectionList } from './SectionLayout'
 import {
   CIStep, CIStepText, CIYaml, YamlHeading, CITip, CIOverviewCards, CIOverviewCard,
   CIFullExample, AiPromptsAccordion, MaintenanceTool, GoodTestsList,
@@ -41,7 +41,6 @@ export const mdxComponents: MDXComponents = {
   Gotcha,
   ColItem,
   SectionNote,
-  CodeBlock,
   SectionTitle,
   SectionSubheading,
   SectionList,
