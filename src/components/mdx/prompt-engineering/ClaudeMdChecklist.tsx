@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CLAUDEMD_CHECKLIST } from '../../data/promptData'
+import { CLAUDEMD_CHECKLIST } from '../../../data/promptData'
 
 export function ClaudeMdChecklist() {
   const [checked, setChecked] = useState<Set<string>>(new Set())

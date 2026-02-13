@@ -1,10 +1,10 @@
-import type { GuideSection, GuideDefinition } from './guideTypes'
-import { NPM_GUIDE_SECTIONS } from './npmPackageData'
-import { ARCH_GUIDE_SECTIONS } from './archData'
-import { TESTING_GUIDE_SECTIONS } from './testingData'
-import { PROMPT_GUIDE_SECTIONS } from './promptData'
+import type { GuideSection, GuideDefinition, StartPageData } from './guideTypes'
+import { NPM_GUIDE_SECTIONS, NPM_START_PAGE_DATA } from './npmPackageData'
+import { ARCH_GUIDE_SECTIONS, ARCH_START_PAGE_DATA } from './archData'
+import { TESTING_GUIDE_SECTIONS, TESTING_START_PAGE_DATA } from './testingData'
+import { PROMPT_GUIDE_SECTIONS, PROMPT_START_PAGE_DATA } from './promptData'
 
-export type { GuideSection, GuideDefinition }
+export type { GuideSection, GuideDefinition, StartPageData }
 
 // ── All guides ───────────────────────────────────────────────────────
 
@@ -69,5 +69,18 @@ export function getNavOrderForPage(pageId: string): string[] {
   const guide = getGuideForPage(pageId)
   if (!guide) return []
   return guide.sections.flatMap(s => s.ids)
+}
+
+// ── Start page data lookup ───────────────────────────────────────────
+
+const startPageDataMap: Record<string, StartPageData> = {
+  'npm-package': NPM_START_PAGE_DATA,
+  'architecture': ARCH_START_PAGE_DATA,
+  'testing': TESTING_START_PAGE_DATA,
+  'prompt-engineering': PROMPT_START_PAGE_DATA,
+}
+
+export function getStartPageData(guideId: string): StartPageData | undefined {
+  return startPageDataMap[guideId]
 }
 

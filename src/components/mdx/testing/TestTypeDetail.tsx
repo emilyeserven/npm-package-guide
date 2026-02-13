@@ -1,7 +1,7 @@
-import { PYRAMID_LEVELS } from '../../data/testingData'
-import type { TestType } from '../../data/testingData'
-import { useIsDark } from '../../hooks/useTheme'
-import { ds } from '../../helpers/darkStyle'
+import { PYRAMID_LEVELS } from '../../../data/testingData'
+import type { TestType } from '../../../data/testingData'
+import { useIsDark } from '../../../hooks/useTheme'
+import { ds } from '../../../helpers/darkStyle'
 
 export function TestTypeDetail({ type }: { type: TestType }) {
   const isDark = useIsDark()

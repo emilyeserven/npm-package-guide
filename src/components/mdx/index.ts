@@ -5,29 +5,37 @@ import { NavLink, NavPill } from './NavLink'
 import { StepJump } from './StepJump'
 import { TocLink } from './TocLink'
 import { SectionIntro, Toc, Explainer, Gotcha, ColItem, SectionNote, SectionTitle, SectionSubheading, SectionList } from './SectionLayout'
+// npm-package
 import {
   CIStep, CIStepText, CIYaml, YamlHeading, CITip, CIOverviewCards, CIOverviewCard,
   CIFullExample, AiPromptsAccordion, MaintenanceTool, GoodTestsList,
-} from './CILayout'
-import { StackExplorer } from './StackExplorer'
-import { StackProsCons } from './StackProsCons'
-import { DataFlowDiagram } from './DataFlowDiagram'
-import { LayerDiagram } from './LayerDiagram'
-import { FrameworkExplorer } from './FrameworkExplorer'
-import { FrameworkProsCons } from './FrameworkProsCons'
-import { TestingPyramid } from './TestingPyramid'
-import { TestTypeDetail } from './TestTypeDetail'
-import { TestPracticeCards } from './TestPracticeCards'
-import { TestChecklist } from './TestChecklist'
-import { TestToolsGrid } from './TestToolsGrid'
-import { MistakeList } from './MistakeList'
-import { TechniqueDetail } from './TechniqueDetail'
-import { CLIReference } from './CLIReference'
-import { TestingMistakes } from './TestingMistakes'
-import { ClaudeMdChecklist } from './ClaudeMdChecklist'
-import { ToolDetail } from './ToolDetail'
-import { MetaTooling } from './MetaTooling'
-import { CodingToolExplorer } from './CodingToolExplorer'
+} from './npm-package/CILayout'
+import { RoadmapSteps } from './npm-package/RoadmapSteps'
+import { PublishChecklist } from './npm-package/PublishChecklist'
+// architecture
+import { StackExplorer } from './architecture/StackExplorer'
+import { StackProsCons } from './architecture/StackProsCons'
+import { DataFlowDiagram } from './architecture/DataFlowDiagram'
+import { LayerDiagram } from './architecture/LayerDiagram'
+import { FrameworkExplorer } from './architecture/FrameworkExplorer'
+import { FrameworkProsCons } from './architecture/FrameworkProsCons'
+// testing
+import { TestingPyramid } from './testing/TestingPyramid'
+import { TestTypeDetail } from './testing/TestTypeDetail'
+import { TestPracticeCards } from './testing/TestPracticeCards'
+import { TestChecklist } from './testing/TestChecklist'
+import { TestToolsGrid } from './testing/TestToolsGrid'
+// prompt-engineering
+import { MistakeList } from './prompt-engineering/MistakeList'
+import { TechniqueDetail } from './prompt-engineering/TechniqueDetail'
+import { CLIReference } from './prompt-engineering/CLIReference'
+import { TestingMistakes } from './prompt-engineering/TestingMistakes'
+import { ClaudeMdChecklist } from './prompt-engineering/ClaudeMdChecklist'
+import { ToolDetail } from './prompt-engineering/ToolDetail'
+import { MetaTooling } from './prompt-engineering/MetaTooling'
+import { CodingToolExplorer } from './prompt-engineering/CodingToolExplorer'
+// shared
+import { GuideStartContent } from './GuideStartContent'
 
 export const mdxComponents: MDXComponents = {
   Cmd,
@@ -56,6 +64,8 @@ export const mdxComponents: MDXComponents = {
   AiPromptsAccordion,
   MaintenanceTool,
   GoodTestsList,
+  RoadmapSteps,
+  PublishChecklist,
   StackExplorer,
   StackProsCons,
   DataFlowDiagram,
@@ -75,4 +85,5 @@ export const mdxComponents: MDXComponents = {
   ToolDetail,
   MetaTooling,
   CodingToolExplorer,
+  GuideStartContent,
 }

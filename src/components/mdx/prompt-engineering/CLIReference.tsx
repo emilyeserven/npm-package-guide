@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import clsx from 'clsx'
-import { CLI_GROUPS, CLI_CATEGORIES, type CLICommand } from '../../data/promptData'
+import { CLI_GROUPS, CLI_CATEGORIES, type CLICommand } from '../../../data/promptData'
 
 type FilterMode = 'all' | 'ai-only' | 'human-only'
 

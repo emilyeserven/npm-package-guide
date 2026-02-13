@@ -1,4 +1,4 @@
-import { TESTING_MISTAKES } from '../../data/promptData'
+import { TESTING_MISTAKES } from '../../../data/promptData'
 
 export function TestingMistakes({ context }: { context?: 'e2e' | 'unit' }) {
   const items = context

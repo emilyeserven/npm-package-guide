@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { CODING_TOOLS } from '../../data/promptData'
-import { useIsDark } from '../../hooks/useTheme'
-import { ds } from '../../helpers/darkStyle'
+import { CODING_TOOLS } from '../../../data/promptData'
+import { useIsDark } from '../../../hooks/useTheme'
+import { ds } from '../../../helpers/darkStyle'
 
 export function CodingToolExplorer() {
   const isDark = useIsDark()

@@ -1,5 +1,5 @@
-import { MISTAKE_CATEGORIES, SEVERITY_COLORS } from '../../data/promptData'
-import { useIsDark } from '../../hooks/useTheme'
+import { MISTAKE_CATEGORIES, SEVERITY_COLORS } from '../../../data/promptData'
+import { useIsDark } from '../../../hooks/useTheme'
 
 export function MistakeList({ categoryId }: { categoryId: string }) {
   const isDark = useIsDark()

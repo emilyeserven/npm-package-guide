@@ -1,5 +1,6 @@
 import type { ChecklistSection } from './types'
-import type { GuideSection } from '../guideTypes'
+import type { GuideSection, StartPageData } from '../guideTypes'
+import { TOOL_TECHNIQUES, META_TOOLS } from './techniques'
 
 export const CLAUDEMD_CHECKLIST: ChecklistSection[] = [
   {
@@ -79,4 +80,73 @@ export const PROMPT_GUIDE_SECTIONS: GuideSection[] = [
     'prompt-coding-tools', 'prompt-cli-reference', 'prompt-tools-advanced', 'prompt-meta-tooling',
   ]},
 ]
+
+// ── Start page data ──────────────────────────────────────────────────
+
+export const PROMPT_START_PAGE_DATA: StartPageData = {
+  subtitle: 'Practical patterns for working with AI coding assistants.',
+  tip: 'Learn what to watch for, how to steer AI effectively, and the CLI commands AI uses most.',
+  steps: [
+    {
+      type: 'numbered',
+      num: 1,
+      title: 'Common AI Mistakes',
+      description: 'Learn the most frequent mistakes AI coding assistants make and how to prevent them with better prompts.',
+      sectionLabel: 'Common AI Mistakes',
+      subItemDescriptions: {
+        'prompt-mistakes-logic': 'Off-by-one errors, inverted conditions, edge case blindness, and math formula mistakes.',
+        'prompt-mistakes-apis': 'Non-existent packages, deprecated APIs, and cross-language confusion.',
+        'prompt-mistakes-structural': 'Over-engineering, incomplete code, ignored project patterns, and security gaps.',
+        'prompt-mistakes-style': 'Inconsistent naming, unnecessary comments, and formatting drift.',
+        'prompt-testing': 'Common AI mistakes in E2E and unit testing contexts.',
+      },
+    },
+    {
+      type: 'numbered',
+      num: 2,
+      title: 'Context Management',
+      description: 'Techniques for steering AI effectively \u2014 from system prompts and memory files to prompt chaining and few-shot examples.',
+      sectionLabel: 'Context Management',
+      subItemDescriptions: {
+        'prompt-ctx-system-prompt': 'Structure your system prompt like a well-organized document for maximum impact.',
+        'prompt-ctx-claude-md': 'Persistent project context that survives across sessions.',
+        'prompt-ctx-chaining': 'Break complex tasks into sequential, focused steps to reduce hallucination.',
+        'prompt-ctx-few-shot': 'Show 2\u20133 examples of desired output to establish a clear pattern.',
+        'prompt-ctx-window': 'Keep your context lean and high-signal for better model performance.',
+        'prompt-ctx-thinking': 'Ask the model to reason step-by-step before acting.',
+        'prompt-claudemd-checklist': 'A comprehensive checklist for building effective CLAUDE.md files.',
+      },
+    },
+    {
+      type: 'numbered',
+      num: 3,
+      title: 'Tooling & Reference',
+      description: 'CLI commands, advanced integrations, and the workflows that surround AI-assisted development.',
+      customSubItems: [
+        {
+          title: 'AI Coding Tools Compared',
+          description: 'Interactive comparison of Claude Code, Cursor, Copilot, Windsurf, and other AI coding tools.',
+          jumpTo: 'prompt-coding-tools',
+        },
+        {
+          title: 'CLI Quick Reference',
+          description: 'Searchable, filterable table of CLI commands with category and type filters.',
+          jumpTo: 'prompt-cli-reference',
+        },
+        {
+          title: 'Advanced Tool Usage',
+          description: 'MCP servers, custom slash commands, hooks, and performance optimization.',
+          jumpTo: 'prompt-tools-advanced',
+          tags: TOOL_TECHNIQUES.map(t => ({ icon: t.icon, name: t.name })),
+        },
+        {
+          title: 'Meta-Tooling & Workflows',
+          description: 'CI/CD integration, prompt versioning, team workflows, and evaluating AI output.',
+          jumpTo: 'prompt-meta-tooling',
+          tags: META_TOOLS.map(t => ({ icon: t.icon, name: t.name })),
+        },
+      ],
+    },
+  ],
+}
 

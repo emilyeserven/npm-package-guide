@@ -297,6 +297,7 @@ export const TAG_COLORS: Record<TestType, { color: string; bg: string; darkBg: s
 /* ───────────────────────── NAVIGATION ───────────────────────── */
 
 import type { GuideSection } from './guideTypes'
+import type { StartPageData } from './guideTypes'
 
 export const TESTING_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['test-start'] },
@@ -304,4 +305,58 @@ export const TESTING_GUIDE_SECTIONS: GuideSection[] = [
   { label: 'Comparing Tests', ids: ['test-comparison', 'test-best-practices'] },
   { label: 'Checklists & Tools', ids: ['test-review-checklist', 'test-tools'] },
 ]
+
+// ── Start page data ──────────────────────────────────────────────────
+
+export const TESTING_START_PAGE_DATA: StartPageData = {
+  subtitle: 'Unit \u00b7 Component \u00b7 End-to-End \u2014 from fundamentals to fast reviews.',
+  tip: 'Designed for backend engineers who know testing concepts but are new to frontend testing tools.',
+  steps: [
+    {
+      type: 'numbered',
+      num: 1,
+      title: 'The Testing Pyramid',
+      description: 'Understand the three levels of testing, how they relate to each other, and the ideal ratio for your test suite.',
+      jumpTo: 'test-overview',
+    },
+    {
+      type: 'bonus',
+      title: 'Deep Dives by Test Type',
+      description: 'Explore each test type in detail \u2014 what to test, what to avoid, and real code examples.',
+      customSubItems: PYRAMID_LEVELS.slice().reverse().map(level => ({
+        title: level.label,
+        description: `${level.subtitle} \u2014 learn what to test, what not to test, and see a full code example.`,
+        jumpTo: level.pageId,
+      })),
+    },
+    {
+      type: 'numbered',
+      num: 2,
+      title: 'At a Glance',
+      description: 'A side-by-side comparison table of speed, scope, flakiness, and recommended tools for each test type.',
+      jumpTo: 'test-comparison',
+    },
+    {
+      type: 'numbered',
+      num: 3,
+      title: 'Best Practices',
+      description: 'Concrete do\u2019s and don\u2019ts for writing tests that are maintainable, reliable, and useful during code review.',
+      jumpTo: 'test-best-practices',
+    },
+    {
+      type: 'numbered',
+      num: 4,
+      title: 'Quick Test Review',
+      description: 'An interactive checklist for reviewing test code in pull requests \u2014 the 10 things to scan for first.',
+      jumpTo: 'test-review-checklist',
+    },
+    {
+      type: 'numbered',
+      num: 5,
+      title: 'Popular Tools',
+      description: 'A filterable directory of the most popular testing tools in the React ecosystem, with guidance on when to use each one.',
+      jumpTo: 'test-tools',
+    },
+  ],
+}
 

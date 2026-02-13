@@ -1,12 +1,11 @@
 import { useState, useCallback } from 'react'
 import clsx from 'clsx'
 import parse from 'html-react-parser'
-import { checklistItems } from '../data/checklistItems'
-import { cmd } from '../helpers/cmd'
-import { HtmlContent } from './HtmlContent'
-import { PrevNextNav } from './PrevNextNav'
+import { checklistItems } from '../../../data/checklistItems'
+import { cmd } from '../../../helpers/cmd'
+import { HtmlContent } from '../../HtmlContent'
 
-export function ChecklistPage() {
+export function PublishChecklist() {
   const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({})
 
   const handleCheck = (idx: number, checked: boolean) => {
@@ -23,10 +22,10 @@ export function ChecklistPage() {
     navigator.clipboard.writeText(md).then(() => {
       const btn = document.getElementById('copy-checklist')
       if (btn) {
-        btn.textContent = '✓ Copied!'
+        btn.textContent = '\u2713 Copied!'
         btn.classList.add('copied')
         setTimeout(() => {
-          btn.innerHTML = '📋 Copy as Markdown'
+          btn.innerHTML = '\u{1F4CB} Copy as Markdown'
           btn.classList.remove('copied')
         }, 2000)
       }
@@ -37,11 +36,11 @@ export function ChecklistPage() {
   const total = checklistItems.length
   const pct = total > 0 ? (checked / total * 100) : 0
 
-  const subHtml = `Go through this before every ${cmd("npm publish", "pnpm publish")} — trust us, it saves headaches.`
+  const subHtml = `Go through this before every ${cmd("npm publish", "pnpm publish")} \u2014 trust us, it saves headaches.`
 
   return (
     <>
-      <h1 className="text-3xl font-bold tracking-tight mb-1">✅ Publish Checklist</h1>
+      <h1 className="text-3xl font-bold tracking-tight mb-1">{'\u2705'} Publish Checklist</h1>
       <HtmlContent html={subHtml} className="text-sm text-gray-500 dark:text-slate-400 mb-5 leading-relaxed" as="p" />
       <div className="flex items-center gap-2 mb-5">
         <button
@@ -50,7 +49,7 @@ export function ChecklistPage() {
           onClick={handleCopy}
           data-testid="copy-checklist"
         >
-          📋 Copy as Markdown
+          {'\u{1F4CB}'} Copy as Markdown
         </button>
         {checked > 0 && (
           <button
@@ -104,8 +103,6 @@ export function ChecklistPage() {
         </div>
         <span className="text-xs font-semibold text-gray-500 dark:text-slate-400 whitespace-nowrap" data-testid="checklist-progress">{checked} / {total}</span>
       </div>
-
-      <PrevNextNav currentId="checklist" />
     </>
   )
 }
