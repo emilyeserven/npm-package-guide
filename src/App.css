@@ -111,9 +111,6 @@ body.sidebar-open .sidebar-overlay {
 body.sidebar-open .sidebar {
   translate: 0;
 }
-body.settings-open .settings-overlay {
-  @apply opacity-100 pointer-events-auto;
-}
 body.pnpm .cmd-pnpm { display: inline; }
 body.pnpm .cmd-npm { display: none; }
 

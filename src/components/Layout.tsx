@@ -3,7 +3,6 @@ import { Outlet } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { FloatingHeader } from './FloatingHeader'
 import { Sidebar } from './Sidebar'
-import { SettingsPane } from './SettingsPane'
 import { CommandMenu } from './CommandMenu'
 import { GlossaryTooltip } from './GlossaryTooltip'
 import { FootnoteTooltip } from './FootnoteTooltip'
@@ -11,14 +10,12 @@ import { useSidebarPin } from '../hooks/useSidebarPin'
 
 export function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [settingsOpen, setSettingsOpen] = useState(false)
   const [cmdMenuOpen, setCmdMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [hasActiveGuide, setHasActiveGuide] = useState(false)
   const { effectivelyPinned, pinned, togglePin, unpin } = useSidebarPin()
 
   const sidebarVisible = sidebarOpen || effectivelyPinned
-  const settingsVisible = settingsOpen || effectivelyPinned
 
   // Scroll shadow on header
   useEffect(() => {
@@ -32,19 +29,10 @@ export function Layout() {
     document.body.classList.toggle('sidebar-open', sidebarOpen && !effectivelyPinned)
   }, [sidebarOpen, effectivelyPinned])
 
-  // Toggle body class for settings overlay CSS — only when explicitly opened (not via pin)
-  useEffect(() => {
-    document.body.classList.toggle('settings-open', settingsOpen && !effectivelyPinned)
-  }, [settingsOpen, effectivelyPinned])
-
-  // Close sidebar/settings on Escape, open command palette on Cmd+K / Ctrl+K
+  // Close sidebar on Escape, open command palette on Cmd+K / Ctrl+K
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        if (settingsOpen) {
-          setSettingsOpen(false)
-          return
-        }
         if (effectivelyPinned) unpin()
         setSidebarOpen(false)
       }
@@ -55,7 +43,7 @@ export function Layout() {
     }
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
-  }, [effectivelyPinned, unpin, settingsOpen])
+  }, [effectivelyPinned, unpin])
 
   const openCmdMenu = useCallback(() => setCmdMenuOpen(true), [])
 
@@ -72,20 +60,6 @@ export function Layout() {
     if (effectivelyPinned) unpin()
     setSidebarOpen(false)
   }, [effectivelyPinned, unpin])
-
-  const handleSettingsToggle = useCallback(() => {
-    setSettingsOpen(prev => {
-      if (!prev && !effectivelyPinned) {
-        // Close sidebar when opening settings on mobile to avoid overlap
-        setSidebarOpen(false)
-      }
-      return !prev
-    })
-  }, [effectivelyPinned])
-
-  const handleSettingsClose = useCallback(() => {
-    setSettingsOpen(false)
-  }, [])
 
   return (
     <>
@@ -107,20 +81,13 @@ export function Layout() {
         onClick={handleSidebarClose}
         data-testid="sidebar-overlay"
       />
-      <div
-        className="settings-overlay fixed inset-0 bg-slate-900/30 dark:bg-black/50 backdrop-blur-sm z-90 opacity-0 pointer-events-none transition-opacity duration-250"
-        onClick={handleSettingsClose}
-        data-testid="settings-overlay"
-      />
       <Sidebar
         open={sidebarVisible}
         onClose={handleSidebarClose}
         pinned={pinned}
         onTogglePin={togglePin}
         onActiveGuideChange={setHasActiveGuide}
-        onSettingsClick={handleSettingsToggle}
       />
-      <SettingsPane open={settingsVisible} onClose={handleSettingsClose} />
       <CommandMenu open={cmdMenuOpen} onOpenChange={setCmdMenuOpen} />
       <GlossaryTooltip />
       <FootnoteTooltip />
