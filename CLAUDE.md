@@ -16,7 +16,7 @@ The site contains four independent guides, each with its own Start Here page, na
 ### Architecture Guide
 - **Start page:** `arch-start` (`src/components/ArchStartPage.tsx`)
 - **Content pages:** MDX files in `src/content/architecture/`
-- **Data:** `src/data/archData.ts` (stack data, layer data, data flow, framework data, `ARCH_GUIDE_SECTIONS`)
+- **Data:** `src/data/archData/` (stacks, frameworks, layer colors, data flow, `ARCH_GUIDE_SECTIONS`)
 - **Interactive MDX components:** `src/components/mdx/StackExplorer.tsx`, `StackProsCons.tsx`, `DataFlowDiagram.tsx`, `LayerDiagram.tsx`, `FrameworkExplorer.tsx`, `FrameworkProsCons.tsx`
 
 ### Testing Guide
@@ -28,12 +28,12 @@ The site contains four independent guides, each with its own Start Here page, na
 ### Prompt Engineering Guide
 - **Start page:** `prompt-start` (`src/components/PromptStartPage.tsx`)
 - **Content pages:** MDX files in `src/content/prompt-engineering/`
-- **Data:** `src/data/promptData.ts` (mistake categories, context techniques, `PROMPT_GUIDE_SECTIONS`)
+- **Data:** `src/data/promptData/` (mistakes, techniques, CLI reference, `PROMPT_GUIDE_SECTIONS`)
 - **Interactive MDX components:** `src/components/mdx/MistakeList.tsx`, `MistakeSeverityBadge.tsx`, `ContextAccordion.tsx`
 
 ### Top-Level Resources
 - **External Resources** (`src/components/ExternalResourcesPage.tsx`) — searchable, filterable table of documentation, articles, courses, and tools. Tagged with Guide, Type, and Topic filters. Data in `src/data/overallResources.ts`.
-- **Glossary** (`src/components/GlossaryPage.tsx`) — searchable glossary with Guide and Category filters. Data in `src/data/glossaryTerms.ts`.
+- **Glossary** (`src/components/GlossaryPage.tsx`) — searchable glossary with Guide and Category filters. Data in `src/data/glossaryTerms/`.
 - Both pages support a `?guide=` URL search param to pre-select a guide filter (e.g., `/#/glossary?guide=npm-package`). The Glossary also supports `?search=` to prefill the search bar (used by CMD-K glossary term navigation). Links from within guides use these params to show guide-relevant content by default.
 - These pages appear in the sidebar under a dedicated "Resources" icon, in the command menu under a "Resources" group, and on the home page in a "Resources" section.
 
@@ -67,6 +67,10 @@ The site contains four independent guides, each with its own Start Here page, na
   - `src/content/testing/` — Testing Guide pages
   - `src/content/prompt-engineering/` — Prompt Engineering Guide pages
 - `src/data/` — Content stored as TypeScript objects (roadmap steps, architecture data, checklists, etc.)
+  - `src/data/linkRegistry/` — External URL registry, split by guide (`npmPackageLinks.ts`, `architectureLinks.ts`, `testingLinks.ts`, `promptLinks.ts`); barrel `index.ts` re-exports merged array + lookup maps
+  - `src/data/glossaryTerms/` — Glossary terms, split by guide (`npmPackageTerms.ts`, `architectureTerms.ts`, `testingTerms.ts`, `promptTerms.ts`); barrel `index.ts` re-exports merged array
+  - `src/data/archData/` — Architecture guide data (`types.ts`, `stacks.ts`, `frameworks.ts`, `navigation.ts`); barrel `index.ts` re-exports all
+  - `src/data/promptData/` — Prompt engineering guide data (`types.ts`, `mistakes.ts`, `techniques.ts`, `cli.ts`, `navigation.ts`); barrel `index.ts` re-exports all
   - `src/data/guideTypes.ts` — Shared `GuideSection`, `GuideDefinition`, and `PageHeading` interfaces
   - `src/data/guideRegistry.ts` — Central guide registry (all guide metadata, section definitions, page headings, lookup helpers)
 - `src/helpers/` — Utility functions (`cmd.ts` for package manager commands, `fnRef.ts` for footnotes)
@@ -86,10 +90,10 @@ The site contains four independent guides, each with its own Start Here page, na
 
 ## Link Registry
 
-All external URLs are managed centrally in `src/data/linkRegistry.ts`. This is the single source of truth for link metadata (URL, label, source, description, tags). Other systems reference the registry by ID instead of duplicating URL metadata.
+All external URLs are managed centrally in `src/data/linkRegistry/`. This is the single source of truth for link metadata (URL, label, source, description, tags). Other systems reference the registry by ID instead of duplicating URL metadata. Entries are split by guide into separate files; the barrel `index.ts` re-exports the merged array and lookup maps so all existing imports work unchanged.
 
 ### Adding a new link
-1. Add a `RegistryLink` entry to the `linkRegistry` array in `src/data/linkRegistry.ts` with a slug ID following the `{source}-{topic}` convention (e.g., `"npm-package-json-deps"`, `"mdn-tree-shaking"`).
+1. Add a `RegistryLink` entry to the appropriate guide file in `src/data/linkRegistry/` (`npmPackageLinks.ts`, `architectureLinks.ts`, `testingLinks.ts`, or `promptLinks.ts`) with a slug ID following the `{source}-{topic}` convention (e.g., `"npm-package-json-deps"`, `"mdn-tree-shaking"`). Choose the file matching the entry's `guide:*` tag.
 2. Reference it from MDX frontmatter via `linkRefs`:
    ```yaml
    linkRefs:
@@ -118,7 +122,7 @@ Both should include descriptions (`note` field in `linkRefs`) when possible to h
 
 ## Glossary
 
-The Glossary page (`src/components/GlossaryPage.tsx`) displays a searchable, filterable table of technical terms drawn from `src/data/glossaryTerms.ts`. Each term links to its official documentation (via the link registry) and optionally to the guide page where the concept is taught.
+The Glossary page (`src/components/GlossaryPage.tsx`) displays a searchable, filterable table of technical terms drawn from `src/data/glossaryTerms/`. Each term links to its official documentation (via the link registry) and optionally to the guide page where the concept is taught. Terms are split by guide into separate files; the barrel `index.ts` re-exports the merged array.
 
 ### What should be a glossary term
 
@@ -132,19 +136,19 @@ Do NOT add glossary entries for generic programming terms that any developer wou
 
 ### GlossaryTerm fields
 
-Each term is defined in the `GlossaryTerm` interface (`src/data/glossaryTerms.ts`):
+Each term is defined in the `GlossaryTerm` interface (`src/data/glossaryTerms/index.ts`):
 
 | Field | Required | Description |
 |-------|----------|-------------|
 | `term` | Yes | Display name. Use title-case for proper nouns (`"React Server Components"`), lowercase for general concepts (`"dependency"`). Use the most recognizable form of the name. |
 | `definition` | Yes | One to two sentences explaining the term for a backend engineer. Use `<code>` tags for inline code (e.g., `<code>package.json</code>`). Keep it self-contained — the reader should understand the term without visiting the linked docs. |
-| `linkId` | Yes | The `id` of a `RegistryLink` in `src/data/linkRegistry.ts`. This provides the "source docs" link displayed below the definition. The link must already exist in the registry (add one first if needed — see **Link Registry** above). |
+| `linkId` | Yes | The `id` of a `RegistryLink` in `src/data/linkRegistry/`. This provides the "source docs" link displayed below the definition. The link must already exist in the registry (add one first if needed — see **Link Registry** above). |
 | `sectionId` | No | The `id` of a content page where this concept is taught. When present, a "go to guide page" link appears next to the docs link. Use the page where the term is most thoroughly explained. |
 
 ### Adding a glossary term
 
-1. **Ensure the link exists** — Check `src/data/linkRegistry.ts` for a `RegistryLink` whose `id` matches the documentation you want to link. If none exists, add one following the Link Registry conventions above.
-2. **Add the term** — In `src/data/glossaryTerms.ts`, find the appropriate `GlossaryCategory` object and add a new `GlossaryTerm` to its `terms` array.
+1. **Ensure the link exists** — Check `src/data/linkRegistry/` for a `RegistryLink` whose `id` matches the documentation you want to link. If none exists, add one to the appropriate guide file following the Link Registry conventions above.
+2. **Add the term** — In `src/data/glossaryTerms/`, find the appropriate guide file and `GlossaryCategory` object, then add a new `GlossaryTerm` to its `terms` array.
 3. **Set `sectionId`** — If the term is explained on a guide page, set `sectionId` to that page's `id`.
 4. **Verify** — Run `pnpm lint && pnpm build` to catch any broken `linkId` references (the registry throws at build time for unknown IDs).
 
@@ -175,7 +179,7 @@ ESLint uses flat config format (`eslint.config.js`), extending:
 
 ## Page Ordering (Guide Registration)
 
-Each guide's page order is defined in **one place**: the `*_GUIDE_SECTIONS` array in the guide's data file (e.g., `ARCH_GUIDE_SECTIONS` in `src/data/archData.ts`). This single definition automatically drives:
+Each guide's page order is defined in **one place**: the `*_GUIDE_SECTIONS` array in the guide's data file (e.g., `ARCH_GUIDE_SECTIONS` in `src/data/archData/navigation.ts`). This single definition automatically drives:
 
 1. **Navigation sidebar** — imported via `src/data/guideRegistry.ts`
 2. **Command menu** — imported via `src/data/guideRegistry.ts`
@@ -211,7 +215,7 @@ The command menu (`src/components/CommandMenu.tsx`) provides searchable access t
 
 1. **Pages** — all guide pages, grouped by guide section
 2. **Page headings** — section headings within each page (from `pageHeadings` in `guideRegistry.ts`). Selecting a heading navigates to the page and scrolls to the heading anchor.
-3. **Glossary terms** — all terms from `src/data/glossaryTerms.ts`. Selecting a term navigates to the Glossary page with the search bar prefilled.
+3. **Glossary terms** — all terms from `src/data/glossaryTerms/`. Selecting a term navigates to the Glossary page with the search bar prefilled.
 4. **External resources** — all resources from `src/data/overallResources.ts`. Selecting a resource opens the URL in a new tab.
 
 Navigation to heading anchors uses `useNavigateToSection(id, anchorId?)` which navigates to the page then scrolls to the anchor element after a brief render delay.
@@ -246,7 +250,7 @@ Claude artifacts are typically monolithic JSX or HTML files with embedded data a
 | 6. Add Start page title | Add `'<start-page-id>': 'Start Here <emoji>'` to the `staticTitles` map. | `src/data/navigation.ts` |
 | 7. Add route | Add `if (sectionId === '<start-page-id>') return <<Guide>StartPage />` to `SectionRouter`. Import the Start page component. MDX pages auto-route via `contentPages`. | `src/router.tsx` |
 | 8. Extract interactive components | Stateful or interactive UI (explorers, diagrams, accordions) becomes a standalone component that reads data from `src/data/` via a prop (e.g., `<StackExplorer stackId="mern" />`). Register it in `src/components/mdx/index.ts`. See **Interactive MDX Component Template** below. | `src/components/mdx/` |
-| 9. Add glossary terms | Add relevant terms to `src/data/glossaryTerms.ts` following the conventions in the **Glossary** section above. Ensure each `linkId` exists in the link registry. | `src/data/glossaryTerms.ts`, `src/data/linkRegistry.ts` |
+| 9. Add glossary terms | Add relevant terms to the appropriate file in `src/data/glossaryTerms/` following the conventions in the **Glossary** section above. Ensure each `linkId` exists in the link registry. | `src/data/glossaryTerms/`, `src/data/linkRegistry/` |
 | 10. Verify | Run `pnpm lint && pnpm build`. Lint catches issues faster; the build catches broken link references and TypeScript errors. | — |
 
 ### MDX page template

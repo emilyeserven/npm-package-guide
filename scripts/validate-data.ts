@@ -5,8 +5,8 @@
  * all point to valid targets. Run via: pnpm validate:data
  */
 
-import { linkRegistry, linkById } from '../src/data/linkRegistry.ts'
-import { glossaryTerms } from '../src/data/glossaryTerms.ts'
+import { linkRegistry, linkById } from '../src/data/linkRegistry/index.ts'
+import { glossaryTerms } from '../src/data/glossaryTerms/index.ts'
 import { guides } from '../src/data/guideRegistry.ts'
 
 let errors = 0
