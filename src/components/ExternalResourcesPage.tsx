@@ -309,15 +309,16 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
               })}
             </div>
           </div>
-          {hasActiveFilters && (
-            <button
-              className="self-start text-xs font-medium text-gray-500 dark:text-slate-400 bg-transparent border-none cursor-pointer px-0 hover:text-blue-500 dark:hover:text-blue-400"
-              onClick={clearFilters}
-              data-testid="resources-clear-filters"
-            >
-              Clear filters
-            </button>
-          )}
+          <button
+            className={clsx(
+              "self-start text-xs font-medium text-gray-500 dark:text-slate-400 bg-transparent border-none cursor-pointer px-0 hover:text-blue-500 dark:hover:text-blue-400",
+              !hasActiveFilters && "invisible"
+            )}
+            onClick={clearFilters}
+            data-testid="resources-clear-filters"
+          >
+            Clear filters
+          </button>
         </div>
 
         {/* Results count */}
