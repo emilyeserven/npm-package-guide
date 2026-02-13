@@ -1,0 +1,58 @@
+---
+id: "k8s-kubernetes"
+title: "Kubernetes (K8s) ☸️"
+guide: "kubernetes"
+linkRefs:
+  - id: "k8s-concepts"
+    note: "Comprehensive Kubernetes concepts documentation"
+  - id: "k8s-pods"
+    note: "Understanding pods — the smallest deployable unit"
+  - id: "k8s-deployments"
+    note: "Managing rollouts and scaling with Deployments"
+  - id: "k8s-services"
+    note: "Stable networking for ephemeral pods"
+  - id: "k8s-namespaces"
+    note: "Organizing cluster resources with namespaces"
+  - id: "k8s-ingress"
+    note: "Routing external HTTP traffic into a cluster"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-frontend">Your frontend context</TocLink>
+  <TocLink id="toc-infra">Infrastructure reality</TocLink>
+  <TocLink id="toc-analogy">The analogy</TocLink>
+  <TocLink id="toc-concepts">Key concepts</TocLink>
+  <TocLink id="toc-takeaway">Key takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+The orchestrator. If Docker is like Vite (builds things), Kubernetes is like your hosting platform &mdash; but for backend services, and way more powerful.
+</SectionIntro>
+
+<SectionSubheading id="toc-frontend">{'\u{1F5A5}\uFE0F'} Your frontend context</SectionSubheading>
+
+<SectionNote>
+If Docker is like Vite (builds things), Kubernetes is like your hosting platform &mdash; Vercel, Netlify &mdash; but for backend services, and way more powerful.
+</SectionNote>
+
+<SectionSubheading id="toc-infra">{'\u2601\uFE0F'} Infrastructure reality</SectionSubheading>
+
+<SectionList>
+<ColItem>Kubernetes manages **WHERE** your containers run, **HOW MANY** copies, **WHEN** to restart them, and **HOW** traffic reaches them. It's a container orchestration platform.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-analogy">{'\u{1F500}'} The analogy</SectionSubheading>
+
+<K8sAnalogyCard sectionId="kubernetes" />
+
+<SectionSubheading id="toc-concepts">{'\u{1F4D6}'} Key concepts</SectionSubheading>
+
+<K8sConceptList sectionId="kubernetes" />
+
+<SectionSubheading id="toc-takeaway">{'\u{1F4A1}'} Key takeaway</SectionSubheading>
+
+<Explainer title="Remember this">
+Kubernetes = "I want 3 copies of my API running, auto-restart if one crashes, and route traffic to all of them." K8s makes it happen.
+</Explainer>

@@ -1,0 +1,52 @@
+---
+id: "k8s-containers"
+title: "Containers & Docker 📦"
+guide: "kubernetes"
+linkRefs:
+  - id: "docker-overview"
+    note: "Official Docker overview explaining containers and images"
+  - id: "docker-dockerfile"
+    note: "Complete reference for Dockerfile instructions"
+  - id: "docker-hub"
+    note: "Public registry for container images"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-frontend">Your frontend context</TocLink>
+  <TocLink id="toc-infra">Infrastructure reality</TocLink>
+  <TocLink id="toc-analogy">The analogy</TocLink>
+  <TocLink id="toc-concepts">Key concepts</TocLink>
+  <TocLink id="toc-takeaway">Key takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+The foundation everything runs on. Containers solve the same problem as <code>node_modules</code> + <code>.nvmrc</code> + <code>package-lock.json</code>, but for an entire application environment.
+</SectionIntro>
+
+<SectionSubheading id="toc-frontend">{'\u{1F5A5}\uFE0F'} Your frontend context</SectionSubheading>
+
+<SectionNote>
+You know how <code>node_modules</code> gives you a reproducible dependency tree? Containers do that for an entire application environment.
+</SectionNote>
+
+<SectionSubheading id="toc-infra">{'\u2601\uFE0F'} Infrastructure reality</SectionSubheading>
+
+<SectionList>
+<ColItem>A container packages your app code + its runtime + dependencies + OS libraries into one portable unit. Docker is the tool that builds and runs containers.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-analogy">{'\u{1F500}'} The analogy</SectionSubheading>
+
+<K8sAnalogyCard sectionId="containers" />
+
+<SectionSubheading id="toc-concepts">{'\u{1F4D6}'} Key concepts</SectionSubheading>
+
+<K8sConceptList sectionId="containers" />
+
+<SectionSubheading id="toc-takeaway">{'\u{1F4A1}'} Key takeaway</SectionSubheading>
+
+<Explainer title="Remember this">
+Containers = portable, reproducible app environments. Docker builds them. They're the atoms of modern infrastructure.
+</Explainer>

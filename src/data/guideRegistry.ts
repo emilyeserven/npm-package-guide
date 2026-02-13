@@ -5,6 +5,7 @@ import { TESTING_GUIDE_SECTIONS, TESTING_START_PAGE_DATA } from './testingData'
 import { PROMPT_GUIDE_SECTIONS, PROMPT_START_PAGE_DATA } from './promptData'
 import { CICD_GUIDE_SECTIONS, CICD_START_PAGE_DATA } from './cicdData'
 import { AUTH_GUIDE_SECTIONS, AUTH_START_PAGE_DATA } from './authData'
+import { K8S_GUIDE_SECTIONS, K8S_START_PAGE_DATA } from './k8sData'
 import { AI_INFRA_GUIDE_SECTIONS, AI_INFRA_START_PAGE_DATA } from './aiInfraData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
@@ -67,6 +68,15 @@ export const guides: GuideDefinition[] = [
     sections: AUTH_GUIDE_SECTIONS,
   },
   {
+    id: 'kubernetes',
+    icon: '\u2638\uFE0F',        // ☸️
+    title: 'Kubernetes & Helm',
+    startPageId: 'k8s-start',
+    description:
+      'Understand containers, Kubernetes, and Helm \u2014 from Docker basics to deployment pipelines, with analogies for frontend engineers.',
+    sections: K8S_GUIDE_SECTIONS,
+  },
+  {
     id: 'ai-infra',
     icon: '\u{1F916}',        // 🤖
     title: 'AI Infrastructure',
@@ -76,6 +86,24 @@ export const guides: GuideDefinition[] = [
     sections: AI_INFRA_GUIDE_SECTIONS,
   },
 ]
+
+// ── Checklists (extracted from individual guides) ───────────────────
+
+export const checklistPages = [
+  { id: 'checklist', sourceGuideId: 'npm-package' },
+  { id: 'test-review-checklist', sourceGuideId: 'testing' },
+  { id: 'prompt-claudemd-checklist', sourceGuideId: 'prompt-engineering' },
+  { id: 'auth-checklist', sourceGuideId: 'auth' },
+]
+
+export const checklistsNavDef: GuideDefinition = {
+  id: 'checklists',
+  icon: '\u2705',        // ✅
+  title: 'Checklists',
+  startPageId: 'checklist',
+  description: 'Implementation checklists from all guides.',
+  sections: [{ label: null, ids: checklistPages.map(p => p.id) }],
+}
 
 // ── Derived lookups ─────────────────────────────────────────────────
 
@@ -89,9 +117,14 @@ for (const guide of guides) {
 }
 // Legacy route: #/architecture renders ArchStartPage
 pageToGuide.set('architecture', 'architecture')
+// Checklist pages map to the checklists nav def for sidebar auto-sync
+for (const cp of checklistPages) {
+  pageToGuide.set(cp.id, 'checklists')
+}
 
 export function getGuideForPage(pageId: string): GuideDefinition | undefined {
   const guideId = pageToGuide.get(pageId)
+  if (guideId === 'checklists') return checklistsNavDef
   return guideId ? guides.find(g => g.id === guideId) : undefined
 }
 
@@ -110,6 +143,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'prompt-engineering': PROMPT_START_PAGE_DATA,
   'ci-cd': CICD_START_PAGE_DATA,
   'auth': AUTH_START_PAGE_DATA,
+  'kubernetes': K8S_START_PAGE_DATA,
   'ai-infra': AI_INFRA_START_PAGE_DATA,
 }
 

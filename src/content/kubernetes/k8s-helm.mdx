@@ -1,0 +1,55 @@
+---
+id: "k8s-helm"
+title: "Helm Charts ⎈"
+guide: "kubernetes"
+linkRefs:
+  - id: "helm-docs"
+    note: "Official Helm documentation for chart management and templating"
+  - id: "helm-charts-intro"
+    note: "Understanding Helm chart structure, templates, and values"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-frontend">Your frontend context</TocLink>
+  <TocLink id="toc-infra">Infrastructure reality</TocLink>
+  <TocLink id="toc-analogy">The analogy</TocLink>
+  <TocLink id="toc-concepts">Key concepts</TocLink>
+  <TocLink id="toc-code">Example values.yaml</TocLink>
+  <TocLink id="toc-takeaway">Key takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+The package manager for K8s. Writing raw K8s YAML for every environment is like copy-pasting your Vite config and changing values by hand. Helm is like having a template with variables.
+</SectionIntro>
+
+<SectionSubheading id="toc-frontend">{'\u{1F5A5}\uFE0F'} Your frontend context</SectionSubheading>
+
+<SectionNote>
+Writing raw K8s YAML for every environment is like copy-pasting your Vite config and changing values by hand. Helm is like having a template with variables.
+</SectionNote>
+
+<SectionSubheading id="toc-infra">{'\u2601\uFE0F'} Infrastructure reality</SectionSubheading>
+
+<SectionList>
+<ColItem>Helm is a package manager for Kubernetes. A "Helm Chart" is a bundle of templated YAML files + default values that can deploy a full application stack.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-analogy">{'\u{1F500}'} The analogy</SectionSubheading>
+
+<K8sAnalogyCard sectionId="helm" />
+
+<SectionSubheading id="toc-concepts">{'\u{1F4D6}'} Key concepts</SectionSubheading>
+
+<K8sConceptList sectionId="helm" />
+
+<SectionSubheading id="toc-code">{'\u{1F4BB}'} Example values.yaml</SectionSubheading>
+
+<K8sCodeBlock sectionId="helm" />
+
+<SectionSubheading id="toc-takeaway">{'\u{1F4A1}'} Key takeaway</SectionSubheading>
+
+<Explainer title="Remember this">
+Helm = templated, reusable, versionable K8s deployments. Charts bundle everything needed to deploy an app. <code>values.yaml</code> is your control panel.
+</Explainer>

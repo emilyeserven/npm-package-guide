@@ -1,0 +1,53 @@
+---
+id: "k8s-ecosystem"
+title: "The Wider Ecosystem 🌐"
+guide: "kubernetes"
+linkRefs:
+  - id: "k8s-kubectl"
+    note: "CLI reference for interacting with Kubernetes clusters"
+  - id: "argocd-docs"
+    note: "GitOps continuous delivery tool for Kubernetes"
+  - id: "terraform-intro"
+    note: "Infrastructure as Code for provisioning cloud resources"
+  - id: "prometheus-overview"
+    note: "Monitoring and alerting toolkit for cloud-native applications"
+  - id: "k8s-configmaps"
+    note: "Storing non-confidential configuration in Kubernetes"
+  - id: "k8s-secrets"
+    note: "Managing sensitive data in Kubernetes"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-frontend">Your frontend context</TocLink>
+  <TocLink id="toc-infra">Infrastructure reality</TocLink>
+  <TocLink id="toc-concepts">Ecosystem tools</TocLink>
+  <TocLink id="toc-takeaway">Key takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+Just like the frontend world has Vite, ESLint, Prettier, Storybook... the infra world has its own ecosystem of tools around K8s. You don't need to learn all of these &mdash; just know they exist.
+</SectionIntro>
+
+<SectionSubheading id="toc-frontend">{'\u{1F5A5}\uFE0F'} Your frontend context</SectionSubheading>
+
+<SectionNote>
+Just like the frontend world has Vite, ESLint, Prettier, Storybook... the infra world has its own ecosystem of tools around K8s.
+</SectionNote>
+
+<SectionSubheading id="toc-infra">{'\u2601\uFE0F'} Infrastructure reality</SectionSubheading>
+
+<SectionList>
+<ColItem>Kubernetes is the center of a huge ecosystem. Here are the tools you're most likely to encounter.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-concepts">{'\u{1F30D}'} Ecosystem tools</SectionSubheading>
+
+<K8sConceptList sectionId="ecosystem" />
+
+<SectionSubheading id="toc-takeaway">{'\u{1F4A1}'} Key takeaway</SectionSubheading>
+
+<Explainer title="Remember this">
+You don't need to learn all of these! Just know they exist so you can follow conversations with your infra team.
+</Explainer>

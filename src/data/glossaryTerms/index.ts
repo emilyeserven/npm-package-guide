@@ -16,6 +16,7 @@ import { testingGlossary } from './testingTerms'
 import { promptGlossary } from './promptTerms'
 import { cicdGlossary } from './cicdTerms'
 import { authGlossary } from './authTerms'
+import { kubernetesGlossary } from './kubernetesTerms'
 import { aiInfraGlossary } from './aiInfraTerms'
 
 export const glossaryTerms: GlossaryCategory[] = [
@@ -25,5 +26,6 @@ export const glossaryTerms: GlossaryCategory[] = [
   ...promptGlossary,
   ...cicdGlossary,
   ...authGlossary,
+  ...kubernetesGlossary,
   ...aiInfraGlossary,
 ]

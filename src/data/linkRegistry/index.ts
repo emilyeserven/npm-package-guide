@@ -40,6 +40,7 @@ import { testingLinks } from './testingLinks'
 import { promptLinks } from './promptLinks'
 import { cicdLinks } from './cicdLinks'
 import { authLinks } from './authLinks'
+import { kubernetesLinks } from './kubernetesLinks'
 import { aiInfraLinks } from './aiInfraLinks'
 
 export const linkRegistry: RegistryLink[] = [
@@ -49,6 +50,7 @@ export const linkRegistry: RegistryLink[] = [
   ...promptLinks,
   ...cicdLinks,
   ...authLinks,
+  ...kubernetesLinks,
   ...aiInfraLinks,
 ]
 
