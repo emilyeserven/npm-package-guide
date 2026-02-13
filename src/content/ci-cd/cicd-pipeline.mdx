@@ -1,0 +1,36 @@
+---
+id: "cicd-pipeline"
+title: "Anatomy of a Pipeline 🔧"
+guide: "ci-cd"
+group: "Core Concepts"
+linkRefs:
+  - id: "github-actions-workflow-syntax"
+    note: "Complete YAML syntax reference for defining pipelines in GitHub Actions."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-stages">The five stages</TocLink>
+  <TocLink id="toc-flow">How they connect</TocLink>
+</Toc>
+
+<SectionIntro>
+A CI/CD pipeline is an automated sequence of stages that your code passes through from push to production. Each stage has a specific job, and if any stage fails, the pipeline stops. Here are the five stages you'll see in almost every pipeline.
+</SectionIntro>
+
+<SectionSubheading id="toc-stages">The five stages</SectionSubheading>
+
+<PipelineStages />
+
+<SectionSubheading id="toc-flow">How they connect</SectionSubheading>
+
+<SectionList>
+<ColItem>Stages run **sequentially** by default &mdash; each one must pass before the next begins.</ColItem>
+<ColItem>Some stages (like Test and Lint) can run **in parallel** to save time, since they don't depend on each other's output.</ColItem>
+<ColItem>If any stage fails, the pipeline stops and the team is notified. The PR cannot be merged until everything passes.</ColItem>
+</SectionList>
+
+<Explainer title="Pipeline stages &mdash; a backend analogy">
+If you've worked with database migrations or build scripts, you already know this pattern. A pipeline is just a formalized version of the steps you'd run manually: install, check, test, ship. The difference is that it runs automatically on every push and blocks merges when something fails.
+</Explainer>

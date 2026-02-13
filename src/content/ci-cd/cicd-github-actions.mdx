@@ -1,0 +1,48 @@
+---
+id: "cicd-github-actions"
+title: "GitHub Actions 101 ⚡"
+guide: "ci-cd"
+group: "Core Concepts"
+linkRefs:
+  - id: "github-actions-docs"
+    note: "The official GitHub Actions documentation — start here for full reference on workflows, events, and syntax."
+  - id: "github-actions-events"
+    note: "Full list of events that can trigger a workflow — push, pull_request, schedule, manual dispatch, and more."
+  - id: "github-actions-runners"
+    note: "Details on available runner images, preinstalled software, hardware specs, and usage limits."
+  - id: "github-actions-checkout"
+    note: "The most-used Action — clones your repository onto the runner."
+  - id: "github-actions-setup-node"
+    note: "Installs Node.js, configures caching, and sets up .npmrc for publishing."
+usedFootnotes: [1, 2]
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What is GitHub Actions?</TocLink>
+  <TocLink id="toc-concepts">Key concepts</TocLink>
+</Toc>
+
+<SectionIntro>
+GitHub Actions is GitHub's built-in CI/CD tool. It's free for public repos and has generous free-tier minutes for private ones. You define your pipelines as YAML files inside <code>.github/workflows/</code> in your repo.<FnRef n={1} />
+</SectionIntro>
+
+<SectionSubheading id="toc-what">What is GitHub Actions?</SectionSubheading>
+
+<SectionList>
+<ColItem>**Built into GitHub** &mdash; no separate service to sign up for. Enable it in any repo by adding a YAML file.</ColItem>
+<ColItem>**Event-driven** &mdash; workflows trigger on pushes, PRs, schedules, manual buttons, issue events, and more.<FnRef n={2} /></ColItem>
+<ColItem>**Extensible** &mdash; a marketplace of thousands of reusable Actions (like npm packages for CI) lets you avoid reinventing the wheel.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-concepts">Key concepts</SectionSubheading>
+
+<SectionList>
+<ColItem>**Workflow** &mdash; A YAML file that defines an automated process. Lives in <code>.github/workflows/</code>. You can have multiple workflows per repo.</ColItem>
+<ColItem>**Event (Trigger)** &mdash; What starts the workflow: <code>push</code>, <code>pull_request</code>, <code>schedule</code> (cron), <code>workflow_dispatch</code> (manual button), or even "when an issue is opened."</ColItem>
+<ColItem>**Job** &mdash; A group of steps that run on the same runner (virtual machine). Jobs run in parallel by default, but you can make them sequential with <code>needs:</code>.</ColItem>
+<ColItem>**Step** &mdash; A single task inside a job &mdash; run a shell command or use a pre-built Action.</ColItem>
+<ColItem>**Action** &mdash; A reusable, community-built plugin. Like npm packages but for CI. Example: <code>actions/checkout@v4</code> clones your repo.</ColItem>
+<ColItem>**Runner** &mdash; The virtual machine that executes your job. GitHub provides Ubuntu, Windows, and macOS runners. You can also self-host (important for airgapped environments!).</ColItem>
+</SectionList>

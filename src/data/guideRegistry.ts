@@ -3,6 +3,7 @@ import { NPM_GUIDE_SECTIONS, NPM_START_PAGE_DATA } from './npmPackageData'
 import { ARCH_GUIDE_SECTIONS, ARCH_START_PAGE_DATA } from './archData'
 import { TESTING_GUIDE_SECTIONS, TESTING_START_PAGE_DATA } from './testingData'
 import { PROMPT_GUIDE_SECTIONS, PROMPT_START_PAGE_DATA } from './promptData'
+import { CICD_GUIDE_SECTIONS, CICD_START_PAGE_DATA } from './cicdData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -45,6 +46,15 @@ export const guides: GuideDefinition[] = [
       'Practical patterns for working with AI coding assistants \u2014 common mistakes to watch for, context management techniques, and CLI commands.',
     sections: PROMPT_GUIDE_SECTIONS,
   },
+  {
+    id: 'ci-cd',
+    icon: '\u2699\uFE0F',           // ⚙️
+    title: 'CI/CD & GitHub Actions',
+    startPageId: 'cicd-start',
+    description:
+      'Learn CI/CD from scratch \u2014 pipelines, GitHub Actions, YAML workflows, and the patterns that keep teams shipping safely.',
+    sections: CICD_GUIDE_SECTIONS,
+  },
 ]
 
 // ── Derived lookups ─────────────────────────────────────────────────
@@ -78,6 +88,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'architecture': ARCH_START_PAGE_DATA,
   'testing': TESTING_START_PAGE_DATA,
   'prompt-engineering': PROMPT_START_PAGE_DATA,
+  'ci-cd': CICD_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {

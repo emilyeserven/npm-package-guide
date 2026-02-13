@@ -1,0 +1,41 @@
+---
+id: "cicd-patterns"
+title: "Common Patterns 🧩"
+guide: "ci-cd"
+group: "Hands-On"
+linkRefs:
+  - id: "github-branch-protection"
+    note: "How to require status checks, reviews, and other conditions before merging PRs."
+  - id: "github-actions-matrix"
+    note: "Run jobs across multiple configurations (Node versions, OS) using strategy.matrix."
+  - id: "github-actions-caching"
+    note: "Cache npm, pip, and other package manager dependencies between runs."
+  - id: "github-actions-secrets"
+    note: "Store and access encrypted secrets for API keys and deploy tokens."
+  - id: "github-actions-self-hosted"
+    note: "Run your own GitHub Actions runners for airgapped or on-prem environments."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-patterns">Patterns you'll actually use</TocLink>
+  <TocLink id="toc-start-simple">Where to start</TocLink>
+</Toc>
+
+<SectionIntro>
+Once you have a basic pipeline working, these patterns will help you get the most out of it. Each one solves a real problem you'll encounter as your team and project grow.
+</SectionIntro>
+
+<SectionSubheading id="toc-patterns">Patterns you'll actually use</SectionSubheading>
+
+<PatternCards />
+
+<SectionSubheading id="toc-start-simple">Where to start</SectionSubheading>
+
+<SectionList>
+<ColItem>**Start with branch protection** &mdash; requiring CI to pass before merging is the single most impactful thing you can do.</ColItem>
+<ColItem>**Add caching next** &mdash; it's one line of config and saves minutes on every run.</ColItem>
+<ColItem>**Add matrix builds** when you need to support multiple Node versions or operating systems.</ColItem>
+<ColItem>**Add secrets** when you need to deploy or call external APIs from your pipeline.</ColItem>
+</SectionList>

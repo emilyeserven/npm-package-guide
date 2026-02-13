@@ -38,12 +38,14 @@ import { npmPackageLinks } from './npmPackageLinks'
 import { architectureLinks } from './architectureLinks'
 import { testingLinks } from './testingLinks'
 import { promptLinks } from './promptLinks'
+import { cicdLinks } from './cicdLinks'
 
 export const linkRegistry: RegistryLink[] = [
   ...npmPackageLinks,
   ...architectureLinks,
   ...testingLinks,
   ...promptLinks,
+  ...cicdLinks,
 ]
 
 /** Fast lookup by registry ID */
