@@ -1,18 +1,7 @@
 import { contentPages } from '../content/registry'
 import { MISTAKE_CATEGORIES, CONTEXT_TECHNIQUES, TOOL_TECHNIQUES, META_TOOLS } from '../data/promptData'
-import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { PrevNextNav } from './PrevNextNav'
-
-const jumpBtnCls = 'inline-flex items-center gap-1.5 text-sm font-bold text-white cursor-pointer bg-blue-500 dark:bg-blue-400 dark:text-slate-900 border-none font-sans py-2 px-3.5 rounded-lg transition-all duration-150 mt-1 shadow-md shadow-blue-500/25 hover:bg-blue-600 dark:hover:bg-blue-500 hover:-translate-y-px hover:shadow-lg hover:shadow-blue-500/30'
-
-function JumpButton({ jumpTo, children }: { jumpTo: string; children: React.ReactNode }) {
-  const navigate = useNavigateToSection()
-  return (
-    <button className={jumpBtnCls} onClick={() => navigate(jumpTo)}>
-      {children}
-    </button>
-  )
-}
+import { JumpButton } from './JumpButton'
 
 const mistakeDescriptions: Record<string, string> = {
   logic: 'Off-by-one errors, inverted conditions, edge case blindness, and math formula mistakes.',

@@ -1,11 +1,10 @@
 import { PYRAMID_LEVELS } from '../../data/testingData'
 import type { TestType } from '../../data/testingData'
-import { useTheme } from '../../hooks/useTheme'
+import { useIsDark } from '../../hooks/useTheme'
 import { ds } from '../../helpers/darkStyle'
 
 export function TestTypeDetail({ type }: { type: TestType }) {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
+  const isDark = useIsDark()
   const level = PYRAMID_LEVELS.find((l) => l.id === type)
   if (!level) return null
 

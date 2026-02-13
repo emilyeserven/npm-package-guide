@@ -1,10 +1,9 @@
 import { DATA_FLOW, LAYER_COLORS } from '../../data/archData'
-import { useTheme } from '../../hooks/useTheme'
+import { useIsDark } from '../../hooks/useTheme'
 import { ds } from '../../helpers/darkStyle'
 
 export function DataFlowDiagram() {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
+  const isDark = useIsDark()
 
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", color: ds("#1e293b", "#f1f5f9", isDark) }}>

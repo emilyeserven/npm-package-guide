@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { FRAMEWORK_PAGES } from '../../data/archData'
 import type { FrameworkCapability } from '../../data/archData'
-import { useTheme } from '../../hooks/useTheme'
+import { useIsDark } from '../../hooks/useTheme'
 import { ds } from '../../helpers/darkStyle'
 
 function CapabilityBar({ cap, color, accent, darkAccent, isActive, onClick, isDark }: { cap: FrameworkCapability; color: string; accent: string; darkAccent: string; isActive: boolean; onClick: () => void; isDark: boolean }) {
@@ -31,8 +31,7 @@ function CapabilityBar({ cap, color, accent, darkAccent, isActive, onClick, isDa
 }
 
 export function FrameworkExplorer({ frameworkId }: { frameworkId: string }) {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
+  const isDark = useIsDark()
   const fw = FRAMEWORK_PAGES.find(f => f.id === frameworkId)
   const [activeId, setActiveId] = useState(fw?.capabilities[0]?.id ?? "")
   const active = fw?.capabilities.find(c => c.id === activeId)
