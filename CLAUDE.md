@@ -51,6 +51,7 @@ Each guide has its own `CLAUDE.md` in its primary content directory with guide-s
 | CI/CD | `src/content/ci-cd/CLAUDE.md` |
 | Auth | `src/content/auth/CLAUDE.md` |
 | Kubernetes | `src/content/kubernetes/CLAUDE.md` |
+| AI Infrastructure | `src/content/ai-infra/CLAUDE.md` |
 
 ## Tech Stack
 

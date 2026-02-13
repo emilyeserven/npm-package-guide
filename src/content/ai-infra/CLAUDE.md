@@ -1,0 +1,79 @@
+# AI Infrastructure — Guide CLAUDE.md
+
+> Root `/CLAUDE.md` covers project-wide patterns (MDX conventions, dark mode, styling, link registry, glossary, build commands). This file covers **ai-infra**-specific context only.
+
+## Audience & Purpose
+
+Backend engineers learning AI infrastructure — from model serving and vector databases to GPU clusters and training pipelines. Each layer is explained with analogies to familiar backend concepts like load balancers, databases, and CI pipelines.
+
+## Section Structure
+
+| Section Label | Page IDs |
+|--------------|----------|
+| *(start)* | `ai-start`, `ai-overview` |
+| The Stack | `ai-inference`, `ai-orchestration`, `ai-data`, `ai-training`, `ai-compute` |
+| Putting It Together | `ai-workflows`, `ai-key-terms` |
+
+Defined in `AI_INFRA_GUIDE_SECTIONS` in `src/data/aiInfraData/navigation.ts`.
+
+## File Locations
+
+| Category | Path |
+|----------|------|
+| Content pages | `src/content/ai-infra/*.mdx` |
+| Data directory | `src/data/aiInfraData/` (barrel-exported) |
+| Type definitions | `src/data/aiInfraData/types.ts` |
+| Layer data | `src/data/aiInfraData/layers.ts` |
+| Workflow data | `src/data/aiInfraData/workflows.ts` |
+| Key terms data | `src/data/aiInfraData/keyTerms.ts` |
+| Navigation & start page | `src/data/aiInfraData/navigation.ts` |
+| Interactive components | `src/components/mdx/ai-infra/` |
+| Link registry | `src/data/linkRegistry/aiInfraLinks.ts` |
+| Glossary terms | `src/data/glossaryTerms/aiInfraTerms.ts` |
+
+## Interactive Components
+
+| Component | Props | Data Source | Purpose |
+|-----------|-------|-------------|---------|
+| `InfraLayerExplorer` | `layerId: string` | `INFRA_LAYERS` in `layers.ts` | Interactive layer explorer with clickable concept cards showing name, description, backend analogy, and tools |
+| `WorkflowExplorer` | *(none)* | `INFRA_WORKFLOWS` in `workflows.ts` | Interactive workflow selector showing step-by-step flows through infrastructure layers |
+
+## Guide-Specific Conventions
+
+### Layer-based architecture
+
+The guide is organized around 5 infrastructure layers defined in `INFRA_LAYERS`. Each `InfraLayer` has:
+
+- `id`, `title`, `subtitle`, `icon` — Display metadata
+- `color`, `accent`, `darkAccent` — Theme colors for dark mode support
+- `summary` — Layer overview text
+- `concepts` — Array of `InfraConcept` objects, each with `name`, `what` (description), `analogy` (backend analogy), and `tools` (real-world tools list)
+
+### Backend analogy pattern
+
+Every `InfraConcept` includes an `analogy` field that maps the AI concept to a familiar backend equivalent. This is the primary teaching device of the guide.
+
+### Workflow visualization
+
+`INFRA_WORKFLOWS` defines 4 common AI architectures (simple chat, RAG, agents, fine-tuning). Each workflow has `steps` referencing infrastructure layers by name, showing how data flows through the stack.
+
+### Key terms
+
+`KEY_TERMS` in `keyTerms.ts` provides quick-reference definitions for essential AI infrastructure terminology, rendered on the `ai-key-terms` page.
+
+### Data types
+
+Key interfaces in `src/data/aiInfraData/types.ts`:
+
+- `InfraLayer` — id/title/subtitle/icon/color/accent/darkAccent/summary/concepts
+- `InfraConcept` — name/what/analogy/tools
+- `InfraWorkflow` — id/title/description/steps
+- `WorkflowStep` — layer/label/icon
+- `KeyTerm` — term/definition
+
+## Adding a New Page
+
+1. Create `src/content/ai-infra/ai-<slug>.mdx` with frontmatter (`id`, `title` with emoji, `guide: "ai-infra"`).
+2. Add the page ID to `AI_INFRA_GUIDE_SECTIONS` in `src/data/aiInfraData/navigation.ts` under the correct section label.
+3. For layer pages, add an `InfraLayer` entry to `INFRA_LAYERS` in `layers.ts` and use `<InfraLayerExplorer layerId="..." />` in the MDX.
+4. Register any new components in `src/components/mdx/index.ts`.
