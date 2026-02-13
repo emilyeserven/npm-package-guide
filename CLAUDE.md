@@ -38,6 +38,21 @@ The site contains four independent guides, each with its own Start Here page, na
 - Both pages support a `?guide=` URL search param to pre-select a guide filter (e.g., `/#/glossary?guide=npm-package`). The Glossary also supports `?search=` to prefill the search bar (used by CMD-K glossary term navigation). Links from within guides use these params to show guide-relevant content by default.
 - These pages appear in the sidebar under a dedicated "Resources" icon, in the command menu under a "Resources" group, and on the home page in a "Resources" section.
 
+### Per-Guide CLAUDE.md Files
+
+Each guide has its own `CLAUDE.md` in its primary content directory with guide-specific audience info, section conventions, interactive component usage, and data file locations. These complement (not duplicate) this root file.
+
+| Guide | CLAUDE.md Location |
+|-------|-------------------|
+| NPM Package | `src/content/sections/CLAUDE.md` |
+| Architecture | `src/content/architecture/CLAUDE.md` |
+| Testing | `src/content/testing/CLAUDE.md` |
+| Prompt Engineering | `src/content/prompt-engineering/CLAUDE.md` |
+| CI/CD | `src/content/ci-cd/CLAUDE.md` |
+| Auth | `src/content/auth/CLAUDE.md` |
+| Kubernetes | `src/content/kubernetes/CLAUDE.md` |
+| AI Infrastructure | `src/content/ai-infra/CLAUDE.md` |
+
 ## Tech Stack
 
 - **Framework:** React 19 + TanStack Router (hash-based routing for GitHub Pages) + TanStack Table (External Resources, Glossary)
