@@ -85,6 +85,19 @@ for (const guide of guides) {
   }
 }
 
+// ── 5. Guide startPageId must appear in its own sections ─────────
+
+console.log('Checking guide startPageId references...')
+for (const guide of guides) {
+  const sectionIds = guide.sections.flatMap(s => s.ids)
+  if (!sectionIds.includes(guide.startPageId)) {
+    error(
+      `Guide "${guide.id}" has startPageId "${guide.startPageId}" ` +
+      `which is not listed in its sections. Add it to the guide's section definitions.`
+    )
+  }
+}
+
 // ── Results ────────────────────────────────────────────────────────
 
 console.log('')
