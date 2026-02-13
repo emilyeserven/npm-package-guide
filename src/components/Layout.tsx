@@ -12,6 +12,7 @@ export function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [cmdMenuOpen, setCmdMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [hasActiveGuide, setHasActiveGuide] = useState(false)
   const { effectivelyPinned, pinned, togglePin, unpin } = useSidebarPin()
 
   const sidebarVisible = sidebarOpen || effectivelyPinned
@@ -67,10 +68,11 @@ export function Layout() {
         onMenuToggle={handleMenuToggle}
         onSearchClick={openCmdMenu}
         effectivelyPinned={effectivelyPinned}
+        hasActiveGuide={hasActiveGuide}
       />
       <div className={clsx(
         'mx-auto max-w-4xl px-5 pt-18 pb-15 max-sm:px-3.5 max-sm:pt-16 max-sm:pb-10 transition-[margin-left] duration-250',
-        effectivelyPinned && 'lg:ml-90'
+        effectivelyPinned && (hasActiveGuide ? 'lg:ml-90' : 'lg:ml-[52px]')
       )}>
         <Outlet />
       </div>
@@ -84,6 +86,7 @@ export function Layout() {
         onClose={handleSidebarClose}
         pinned={pinned}
         onTogglePin={togglePin}
+        onActiveGuideChange={setHasActiveGuide}
       />
       <CommandMenu open={cmdMenuOpen} onOpenChange={setCmdMenuOpen} />
       <GlossaryTooltip />
