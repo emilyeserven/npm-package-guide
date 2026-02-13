@@ -1,0 +1,98 @@
+import type { GlossaryCategory } from './index'
+
+export const promptGlossary: GlossaryCategory[] = [
+  {
+    category: "Prompt Engineering",
+    terms: [
+      {
+        term: "Prompt Engineering",
+        definition: "The practice of crafting inputs to AI models to get better, more reliable outputs. Includes techniques like few-shot examples, chain-of-thought reasoning, and system prompt design.",
+        linkId: "anthropic-prompt-engineering",
+        sectionId: "prompt-mistakes-logic"
+      },
+      {
+        term: "System Prompt",
+        definition: "Instructions provided to an AI model that define its role, constraints, and behavior before any user interaction. System prompts set the context that persists across the entire conversation.",
+        linkId: "anthropic-system-prompts",
+        sectionId: "prompt-ctx-system-prompt"
+      },
+      {
+        term: "Context Window",
+        definition: "The maximum amount of text (measured in tokens) that an AI model can process in a single interaction. Managing what goes into the context window is critical for getting accurate results.",
+        linkId: "anthropic-prompt-engineering",
+        sectionId: "prompt-ctx-window"
+      },
+      {
+        term: "Few-Shot Examples",
+        definition: "Including 2\u20133 examples of desired input/output pairs in your prompt to steer the model's behavior. One of the most effective techniques for getting consistent, correctly-formatted responses.",
+        linkId: "anthropic-prompt-engineering",
+        sectionId: "prompt-ctx-few-shot"
+      },
+      {
+        term: "Hallucination",
+        definition: "When an AI model generates information that sounds plausible but is factually incorrect \u2014 inventing APIs, packages, or methods that don't exist. Explicit version constraints and context reduce hallucination.",
+        linkId: "anthropic-prompt-engineering",
+        sectionId: "prompt-mistakes-apis"
+      },
+      {
+        term: "Chain-of-Thought",
+        definition: "A prompting technique that asks the model to reason step-by-step before giving a final answer. Improves accuracy on complex, multi-step problems by making the reasoning process explicit.",
+        linkId: "anthropic-extended-thinking",
+        sectionId: "prompt-ctx-thinking"
+      },
+      {
+        term: "Token",
+        definition: "The basic unit of text that AI models process — roughly 3\u20134 characters or about \u00be of a word. Context windows, pricing, and rate limits are all measured in tokens. Understanding token counts helps manage context window budgets.",
+        linkId: "anthropic-tokens",
+        sectionId: "prompt-ctx-window"
+      },
+      {
+        term: "Prompt Chaining",
+        definition: "Breaking a complex task into a sequence of smaller, focused prompts where each step's output feeds into the next. Reduces hallucination and improves quality compared to a single massive prompt.",
+        linkId: "anthropic-prompt-engineering",
+        sectionId: "prompt-ctx-chaining"
+      },
+      {
+        term: "Tool Use",
+        definition: "The ability for AI models to call external functions or APIs during a conversation — reading files, querying databases, running code, or fetching web data. Extends the model beyond pure text generation.",
+        linkId: "anthropic-tool-use",
+        sectionId: "prompt-tools-advanced"
+      },
+    ]
+  },
+  {
+    category: "AI Coding Tools",
+    terms: [
+      {
+        term: "CLAUDE.md",
+        definition: "A project-level configuration file that gives Claude Code persistent context about your codebase \u2014 tech stack, conventions, common pitfalls, and key commands. Survives across sessions and reduces repeated mistakes.",
+        linkId: "anthropic-claude-md",
+        sectionId: "prompt-ctx-claude-md"
+      },
+      {
+        term: "MCP (Model Context Protocol)",
+        definition: "An open protocol that extends AI coding assistants with external tools and data sources. MCP servers can provide access to databases, APIs, file systems, and custom tools.",
+        linkId: "anthropic-mcp",
+        sectionId: "prompt-tools-advanced"
+      },
+      {
+        term: "Claude Code Hooks",
+        definition: "User-defined shell commands that run automatically at specific lifecycle points in Claude Code — before/after tool calls, on session start, or on notification. Used to enforce project rules, run linters, or trigger custom workflows.",
+        linkId: "anthropic-claude-code-hooks",
+        sectionId: "prompt-tools-advanced"
+      },
+      {
+        term: "Slash Commands",
+        definition: "Custom reusable commands (e.g., <code>/review</code>, <code>/test</code>) defined in <code>.claude/commands/</code> that give Claude Code pre-built prompts for common tasks. Teams can share commands to standardize AI-assisted workflows.",
+        linkId: "anthropic-claude-code-skills",
+        sectionId: "prompt-tools-advanced"
+      },
+      {
+        term: "Prompt Caching",
+        definition: "An API optimization that reuses repeated context across multiple calls instead of re-processing it each time. Reduces latency and cost when the same system prompt or large context block is sent repeatedly.",
+        linkId: "anthropic-prompt-caching",
+        sectionId: "prompt-ctx-window"
+      },
+    ]
+  },
+]
