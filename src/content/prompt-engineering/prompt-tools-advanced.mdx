@@ -2,7 +2,7 @@
 id: "prompt-tools-advanced"
 title: "Advanced Tool Usage 🔧"
 guide: "prompt-engineering"
-usedFootnotes: [1, 4]
+usedFootnotes: [1, 4, 6, 7, 8, 9, 10]
 linkRefs:
   - id: "anthropic-mcp"
     note: "Model Context Protocol specification and server ecosystem."
@@ -14,6 +14,16 @@ linkRefs:
     note: "How Claude uses tools for function calling and integrations."
   - id: "anthropic-claude-code-best-practices"
     note: "Tips for getting the most out of Claude Code's advanced features."
+  - id: "mcp-server-github"
+    note: "GitHub API integration — repos, issues, PRs, and code search."
+  - id: "mcp-server-fetch"
+    note: "Web content fetching — lets Claude read and parse web pages."
+  - id: "mcp-server-brave-search"
+    note: "Brave Search API — web and local search from within Claude."
+  - id: "mcp-server-memory"
+    note: "Knowledge graph memory — persistent recall across sessions."
+  - id: "mcp-server-filesystem"
+    note: "Secure file system access with configurable permission boundaries."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
@@ -30,6 +40,8 @@ Beyond basic prompting, Claude Code supports powerful integration points &mdash;
 </Toc>
 
 <SectionSubheading id="toc-mcp">{'\u{1F50C}'} MCP Servers</SectionSubheading>
+
+Popular community servers include GitHub<FnRef n={6} /> for repository and PR management, Filesystem<FnRef n={10} /> for secure file access, Fetch<FnRef n={7} /> for reading web content, Brave Search<FnRef n={8} /> for web search, and Memory<FnRef n={9} /> for persistent knowledge graphs. All are installable via `npx` with zero configuration.
 
 <ToolDetail toolId="mcp-servers" />
 
