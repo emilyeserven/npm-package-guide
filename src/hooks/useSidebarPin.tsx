@@ -1,7 +1,21 @@
-import { useState, useEffect, useCallback } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
 
 const STORAGE_KEY = 'sidebar-pinned'
 const DESKTOP_QUERY = '(min-width: 1024px)'
+
+interface SidebarPinContextType {
+  pinned: boolean
+  effectivelyPinned: boolean
+  togglePin: () => void
+  unpin: () => void
+}
+
+const SidebarPinContext = createContext<SidebarPinContextType>({
+  pinned: false,
+  effectivelyPinned: false,
+  togglePin: () => {},
+  unpin: () => {},
+})
 
 function getInitialPinned(): boolean {
   try {
@@ -10,7 +24,7 @@ function getInitialPinned(): boolean {
   return false
 }
 
-export function useSidebarPin() {
+export function SidebarPinProvider({ children }: { children: ReactNode }) {
   const [pinned, setPinned] = useState(getInitialPinned)
   const [isDesktop, setIsDesktop] = useState(
     () => window.matchMedia?.(DESKTOP_QUERY).matches ?? false
@@ -34,5 +48,14 @@ export function useSidebarPin() {
   const togglePin = useCallback(() => setPinned(prev => !prev), [])
   const unpin = useCallback(() => setPinned(false), [])
 
-  return { pinned, effectivelyPinned, togglePin, unpin }
+  return (
+    <SidebarPinContext.Provider value={{ pinned, effectivelyPinned, togglePin, unpin }}>
+      {children}
+    </SidebarPinContext.Provider>
+  )
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function useSidebarPin() {
+  return useContext(SidebarPinContext)
 }

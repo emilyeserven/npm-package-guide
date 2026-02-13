@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import { usePM } from '../hooks/usePMContext'
+import { useSidebarPin } from '../hooks/useSidebarPin'
 import { useTheme } from '../hooks/useTheme'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 
@@ -11,6 +12,7 @@ interface OptionsDropdownProps {
 export function OptionsDropdown({ position = 'header' }: OptionsDropdownProps) {
   const [open, setOpen] = useState(false)
   const { currentPM, setPM } = usePM()
+  const { pinned, togglePin } = useSidebarPin()
   const { theme, toggleTheme } = useTheme()
   const navigateToSection = useNavigateToSection()
 
@@ -79,6 +81,34 @@ export function OptionsDropdown({ position = 'header' }: OptionsDropdownProps) {
           data-testid="theme-option-dark"
         >
           <span className="w-5 text-xs text-blue-500 dark:text-blue-400">{theme === 'dark' ? '\u2713' : ''}</span> Dark
+        </button>
+
+        <div className="mx-2.5 my-1 h-px bg-slate-200 dark:bg-slate-700" />
+
+        <div className="px-3 py-1.5 text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Sidebar</div>
+        <button
+          className={clsx(
+            'flex items-center w-full px-3 py-1.5 text-sm bg-transparent border-none cursor-pointer transition-colors duration-150',
+            pinned
+              ? 'text-blue-600 dark:text-blue-400 font-semibold'
+              : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
+          )}
+          onClick={() => { if (!pinned) togglePin(); setOpen(false) }}
+          data-testid="sidebar-option-pinned"
+        >
+          <span className="w-5 text-xs text-blue-500 dark:text-blue-400">{pinned ? '\u2713' : ''}</span> Pinned
+        </button>
+        <button
+          className={clsx(
+            'flex items-center w-full px-3 py-1.5 text-sm bg-transparent border-none cursor-pointer transition-colors duration-150',
+            !pinned
+              ? 'text-blue-600 dark:text-blue-400 font-semibold'
+              : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
+          )}
+          onClick={() => { if (pinned) togglePin(); setOpen(false) }}
+          data-testid="sidebar-option-unpinned"
+        >
+          <span className="w-5 text-xs text-blue-500 dark:text-blue-400">{!pinned ? '\u2713' : ''}</span> Unpinned
         </button>
 
         <div className="mx-2.5 my-1 h-px bg-slate-200 dark:bg-slate-700" />

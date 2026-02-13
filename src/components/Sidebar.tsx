@@ -4,13 +4,12 @@ import clsx from 'clsx'
 import { guides, getGuideForPage, type GuideDefinition } from '../data/guideRegistry'
 import { getNavTitle } from '../data/navigation'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
+import { useSidebarPin } from '../hooks/useSidebarPin'
 import { OptionsDropdown } from './OptionsDropdown'
 
 interface SidebarProps {
   open: boolean
   onClose: () => void
-  pinned: boolean
-  onTogglePin: () => void
   onActiveGuideChange?: (hasGuide: boolean) => void
 }
 
@@ -168,17 +167,14 @@ function ContentPanel({
   guide,
   currentId,
   onNav,
-  pinned,
-  onTogglePin,
   onClose,
 }: {
   guide: GuideDefinition
   currentId: string
   onNav: (id: string) => void
-  pinned: boolean
-  onTogglePin: () => void
   onClose: () => void
 }) {
+  const { pinned, togglePin } = useSidebarPin()
   return (
     <div className="flex-1 flex flex-col min-w-0">
       {/* Header */}
@@ -189,7 +185,7 @@ function ContentPanel({
         <div className="flex items-center gap-0.5 shrink-0 ml-2">
           <button
             className="hidden lg:flex items-center justify-center w-7 h-7 rounded-md cursor-pointer text-gray-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-150"
-            onClick={onTogglePin}
+            onClick={togglePin}
             title={pinned ? 'Unpin sidebar' : 'Pin sidebar'}
             data-testid="sidebar-pin"
           >
@@ -234,7 +230,8 @@ function ContentPanel({
 
 // ── Main Sidebar ──────────────────────────────────────────────────────
 
-export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChange }: SidebarProps) {
+export function Sidebar({ open, onClose, onActiveGuideChange }: SidebarProps) {
+  const { pinned, togglePin } = useSidebarPin()
   const navigateToSection = useNavigateToSection()
   const params = useParams({ strict: false }) as { sectionId?: string }
   const currentId = params.sectionId || ''
@@ -314,7 +311,7 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
         <div className="absolute top-3 left-[52px] flex items-center gap-0.5 z-10">
           <button
             className="hidden lg:flex items-center justify-center w-7 h-7 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 cursor-pointer rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-150 shadow-sm"
-            onClick={onTogglePin}
+            onClick={togglePin}
             title={pinned ? 'Unpin sidebar' : 'Pin sidebar'}
             data-testid="sidebar-pin"
           >
@@ -335,8 +332,6 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
           guide={activeGuide}
           currentId={currentId}
           onNav={handleNav}
-          pinned={pinned}
-          onTogglePin={onTogglePin}
           onClose={handleContentPanelClose}
         />
       )}
