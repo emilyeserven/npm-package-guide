@@ -1,0 +1,39 @@
+---
+id: "cicd-yaml"
+title: "Reading a Workflow File 📄"
+guide: "ci-cd"
+group: "Hands-On"
+linkRefs:
+  - id: "github-actions-workflow-syntax"
+    note: "The complete YAML syntax reference — every key, value, and option explained."
+  - id: "npm-ci-docs"
+    note: "Reference for npm ci — the CI-optimized install command that uses the lockfile exactly."
+  - id: "github-actions-caching"
+    note: "How to cache dependencies between workflow runs for faster builds."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-explorer">Interactive YAML explorer</TocLink>
+  <TocLink id="toc-takeaways">Key takeaways</TocLink>
+</Toc>
+
+<SectionIntro>
+The best way to learn GitHub Actions syntax is to read a real workflow file. Below is a realistic pipeline for a React + Vite project. Click any line to see what it does.
+</SectionIntro>
+
+<SectionSubheading id="toc-explorer">Interactive YAML explorer</SectionSubheading>
+
+<YamlExplorer />
+
+<SectionSubheading id="toc-takeaways">Key takeaways</SectionSubheading>
+
+<SectionList>
+<ColItem>Every workflow starts with <code>name:</code> and <code>on:</code> (the trigger).</ColItem>
+<ColItem>The <code>jobs:</code> block contains one or more jobs. Each job gets its own fresh runner.</ColItem>
+<ColItem>Almost every job starts with <code>actions/checkout@v4</code> to clone the repo.</ColItem>
+<ColItem>Use <code>run:</code> for shell commands and <code>uses:</code> for pre-built Actions.</ColItem>
+<ColItem>Use <code>npm ci</code> (not <code>npm install</code>) in CI &mdash; it's faster and stricter.</ColItem>
+<ColItem>Caching (<code>cache: 'npm'</code>) dramatically speeds up repeated runs.</ColItem>
+</SectionList>

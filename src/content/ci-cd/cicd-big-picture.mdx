@@ -1,0 +1,44 @@
+---
+id: "cicd-big-picture"
+title: "The Big Picture 🗺️"
+guide: "ci-cd"
+group: "Core Concepts"
+linkRefs:
+  - id: "github-actions-docs"
+    note: "The official starting point for GitHub Actions — covers workflows, syntax, runners, and the marketplace."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-problem">What problem does CI/CD solve?</TocLink>
+  <TocLink id="toc-ci">Continuous Integration</TocLink>
+  <TocLink id="toc-cd">Continuous Delivery</TocLink>
+  <TocLink id="toc-analogy">The factory analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+Imagine you're working on a React app with a team. Someone pushes code that breaks the build. Nobody notices until Friday deploy. Chaos ensues. CI/CD prevents this by automating the boring, error-prone stuff.
+</SectionIntro>
+
+<SectionSubheading id="toc-ci">Continuous Integration (CI)</SectionSubheading>
+
+<SectionList>
+<ColItem>Every time code is pushed, automatically run tests, lint, and build &mdash; catch problems **immediately**.</ColItem>
+<ColItem>No more "it worked on my machine" &mdash; the same checks run on a clean, reproducible environment every time.</ColItem>
+<ColItem>Failed checks block the merge, so broken code never reaches the main branch.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-cd">Continuous Delivery / Deployment (CD)</SectionSubheading>
+
+<SectionList>
+<ColItem>Once CI passes, automatically deploy to staging or production. No manual steps.</ColItem>
+<ColItem>**Continuous Delivery** means the code is always *ready* to deploy (but a human clicks the button).</ColItem>
+<ColItem>**Continuous Deployment** goes further &mdash; every passing build is deployed automatically, no human in the loop.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-analogy">The factory analogy</SectionSubheading>
+
+<Explainer title="Think of it like a factory assembly line">
+Raw materials (your code) go in one end, pass through quality checks (tests, linting), and a finished product (deployed app) comes out the other end &mdash; automatically. If any station on the line detects a defect, the conveyor stops and the team is notified immediately.
+</Explainer>

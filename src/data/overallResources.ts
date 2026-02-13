@@ -57,6 +57,7 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   "guide:architecture": { cls: "bg-cyan-50 text-cyan-700 dark:bg-cyan-500/15 dark:text-cyan-300", label: "Architecture Guide" },
   "guide:testing": { cls: "bg-green-50 text-green-700 dark:bg-green-500/15 dark:text-green-300", label: "Testing Guide" },
   "guide:prompt-engineering": { cls: "bg-purple-50 text-purple-700 dark:bg-purple-500/15 dark:text-purple-300", label: "Prompt Eng. Guide" },
+  "guide:ci-cd": { cls: "bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300", label: "CI/CD Guide" },
   // Topic
   publishing: { cls: "bg-yellow-100 text-yellow-800 dark:bg-yellow-500/15 dark:text-yellow-300", label: "Publishing" },
   typescript: { cls: "bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300", label: "TypeScript" },
@@ -85,8 +86,9 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   "cat:testing-fundamentals": { cls: "bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300", label: "Testing Fundamentals" },
   "cat:prompt-engineering": { cls: "bg-purple-100 text-purple-800 dark:bg-purple-500/15 dark:text-purple-300", label: "Prompt Engineering" },
   "cat:ai-coding-tools": { cls: "bg-indigo-100 text-indigo-800 dark:bg-indigo-500/15 dark:text-indigo-300", label: "AI Coding Tools" },
+  "cat:ci-cd-fundamentals": { cls: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300", label: "CI/CD Fundamentals" },
 };
 
 export const typeTags = new Set(["docs", "article", "course", "video", "repo", "interactive", "free", "paid"]);
 export const topicTags = new Set(["publishing", "typescript", "versioning", "ci-cd", "monorepo", "modules", "tooling", "bundling", "testing", "linting", "architecture", "frameworks", "databases", "prompt-engineering"]);
-export const guideTags = new Set(["guide:npm-package", "guide:architecture", "guide:testing", "guide:prompt-engineering"]);
+export const guideTags = new Set(["guide:npm-package", "guide:architecture", "guide:testing", "guide:prompt-engineering", "guide:ci-cd"]);

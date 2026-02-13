@@ -14,10 +14,12 @@ import { npmPackageGlossary } from './npmPackageTerms'
 import { architectureGlossary } from './architectureTerms'
 import { testingGlossary } from './testingTerms'
 import { promptGlossary } from './promptTerms'
+import { cicdGlossary } from './cicdTerms'
 
 export const glossaryTerms: GlossaryCategory[] = [
   ...npmPackageGlossary,
   ...architectureGlossary,
   ...testingGlossary,
   ...promptGlossary,
+  ...cicdGlossary,
 ]
