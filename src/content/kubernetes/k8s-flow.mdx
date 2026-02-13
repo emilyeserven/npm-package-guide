@@ -1,0 +1,45 @@
+---
+id: "k8s-flow"
+title: "How It All Fits Together 🔄"
+guide: "kubernetes"
+linkRefs:
+  - id: "k8s-concepts"
+    note: "Kubernetes architecture and component overview"
+  - id: "helm-docs"
+    note: "Helm's role in the deployment pipeline"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-frontend">Your frontend context</TocLink>
+  <TocLink id="toc-infra">Infrastructure reality</TocLink>
+  <TocLink id="toc-flow">Deployment pipeline</TocLink>
+  <TocLink id="toc-takeaway">Key takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+The deployment flow from code to running app. In frontend: write code &rarr; push to GitHub &rarr; CI builds &rarr; Vercel deploys &rarr; users see changes. The backend flow is similar but with more moving parts.
+</SectionIntro>
+
+<SectionSubheading id="toc-frontend">{'\u{1F5A5}\uFE0F'} Your frontend context</SectionSubheading>
+
+<SectionNote>
+In frontend: write code &rarr; push to GitHub &rarr; CI builds &rarr; Vercel deploys &rarr; users see changes. The backend flow is similar but with more moving parts.
+</SectionNote>
+
+<SectionSubheading id="toc-infra">{'\u2601\uFE0F'} Infrastructure reality</SectionSubheading>
+
+<SectionList>
+<ColItem>The deployment pipeline for a K8s-based app follows a clear path from code change to running containers.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-flow">{'\u{1F504}'} Deployment pipeline</SectionSubheading>
+
+<K8sFlowDiagram />
+
+<SectionSubheading id="toc-takeaway">{'\u{1F4A1}'} Key takeaway</SectionSubheading>
+
+<Explainer title="Remember this">
+The flow is: Code &rarr; Docker Image &rarr; Helm Chart &rarr; Kubernetes &rarr; Running Pods. Each layer adds reproducibility and control.
+</Explainer>

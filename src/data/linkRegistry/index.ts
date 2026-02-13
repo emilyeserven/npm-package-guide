@@ -40,6 +40,7 @@ import { testingLinks } from './testingLinks'
 import { promptLinks } from './promptLinks'
 import { cicdLinks } from './cicdLinks'
 import { authLinks } from './authLinks'
+import { kubernetesLinks } from './kubernetesLinks'
 
 export const linkRegistry: RegistryLink[] = [
   ...npmPackageLinks,
@@ -48,6 +49,7 @@ export const linkRegistry: RegistryLink[] = [
   ...promptLinks,
   ...cicdLinks,
   ...authLinks,
+  ...kubernetesLinks,
 ]
 
 /** Fast lookup by registry ID */

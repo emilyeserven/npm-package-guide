@@ -47,6 +47,11 @@ import { AuthPatterns } from './auth/AuthPatterns'
 import { SecurityThreats } from './auth/SecurityThreats'
 import { AuthChecklist } from './auth/AuthChecklist'
 import { AuthQuiz } from './auth/AuthQuiz'
+// kubernetes
+import { K8sAnalogyCard } from './kubernetes/K8sAnalogyCard'
+import { K8sConceptList } from './kubernetes/K8sConceptList'
+import { K8sCodeBlock } from './kubernetes/K8sCodeBlock'
+import { K8sFlowDiagram } from './kubernetes/K8sFlowDiagram'
 // shared
 import { GuideStartContent } from './GuideStartContent'
 
@@ -109,5 +114,9 @@ export const mdxComponents: MDXComponents = {
   SecurityThreats,
   AuthChecklist,
   AuthQuiz,
+  K8sAnalogyCard,
+  K8sConceptList,
+  K8sCodeBlock,
+  K8sFlowDiagram,
   GuideStartContent,
 }
