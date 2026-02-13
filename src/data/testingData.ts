@@ -2,7 +2,7 @@
 
 export type TestType = 'unit' | 'component' | 'e2e'
 
-export interface PyramidLevel {
+interface PyramidLevel {
   id: TestType
   label: string
   subtitle: string
@@ -18,26 +18,19 @@ export interface PyramidLevel {
   codeComment: string
 }
 
-export interface ComparisonRow {
-  attribute: string
-  unit: { text: string; badge?: 'fast' | 'med' | 'slow' }
-  component: { text: string; badge?: 'fast' | 'med' | 'slow' }
-  e2e: { text: string; badge?: 'fast' | 'med' | 'slow' }
-}
-
-export interface PracticeCard {
+interface PracticeCard {
   title: string
   description: string
   type: 'do' | 'dont'
 }
 
-export interface ChecklistItem {
+interface ChecklistItem {
   id: number
   label: string
   detail: string
 }
 
-export interface TestTool {
+interface TestTool {
   id: string
   name: string
   description: string
@@ -169,47 +162,6 @@ describe('formatCurrency', () => {
   });
 });`,
     codeComment: 'formatCurrency.test.ts',
-  },
-]
-
-/* ───────────────────────── COMPARISON TABLE ───────────────────────── */
-
-export const COMPARISON_ROWS: ComparisonRow[] = [
-  {
-    attribute: 'Speed',
-    unit: { text: '~1\u20135 ms', badge: 'fast' },
-    component: { text: '~50\u2013200 ms', badge: 'med' },
-    e2e: { text: '~2\u201330 s', badge: 'slow' },
-  },
-  {
-    attribute: 'Scope',
-    unit: { text: 'Single function' },
-    component: { text: '1 component tree' },
-    e2e: { text: 'Full application' },
-  },
-  {
-    attribute: 'Dependencies',
-    unit: { text: 'All mocked' },
-    component: { text: 'Mostly mocked' },
-    e2e: { text: 'Real (or staged)' },
-  },
-  {
-    attribute: 'Flakiness',
-    unit: { text: 'Very low', badge: 'fast' },
-    component: { text: 'Low', badge: 'med' },
-    e2e: { text: 'Higher', badge: 'slow' },
-  },
-  {
-    attribute: 'Best ratio',
-    unit: { text: '~70% of tests' },
-    component: { text: '~20% of tests' },
-    e2e: { text: '~10% of tests' },
-  },
-  {
-    attribute: 'Tools',
-    unit: { text: 'Jest, Vitest' },
-    component: { text: 'RTL, Storybook' },
-    e2e: { text: 'Playwright, Cypress' },
   },
 ]
 
@@ -353,5 +305,3 @@ export const TESTING_GUIDE_SECTIONS: GuideSection[] = [
   { label: 'Checklists & Tools', ids: ['test-review-checklist', 'test-tools'] },
 ]
 
-export const TESTING_NAV_ORDER = TESTING_GUIDE_SECTIONS.flatMap(s => s.ids)
-export const TESTING_PAGE_IDS = new Set(TESTING_NAV_ORDER)

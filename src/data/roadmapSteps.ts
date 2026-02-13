@@ -1,6 +1,6 @@
 import { cmd } from '../helpers/cmd'
 
-export interface RoadmapStep {
+interface RoadmapStep {
   num: number
   title: string
   desc: string
