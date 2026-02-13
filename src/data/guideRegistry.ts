@@ -5,6 +5,7 @@ import { TESTING_GUIDE_SECTIONS, TESTING_START_PAGE_DATA } from './testingData'
 import { PROMPT_GUIDE_SECTIONS, PROMPT_START_PAGE_DATA } from './promptData'
 import { CICD_GUIDE_SECTIONS, CICD_START_PAGE_DATA } from './cicdData'
 import { AUTH_GUIDE_SECTIONS, AUTH_START_PAGE_DATA } from './authData'
+import { K8S_GUIDE_SECTIONS, K8S_START_PAGE_DATA } from './k8sData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -65,6 +66,15 @@ export const guides: GuideDefinition[] = [
       'Authentication & Authorization \u2014 from zero to confident implementation.',
     sections: AUTH_GUIDE_SECTIONS,
   },
+  {
+    id: 'kubernetes',
+    icon: '\u2638\uFE0F',        // ☸️
+    title: 'Kubernetes & Helm',
+    startPageId: 'k8s-start',
+    description:
+      'Understand containers, Kubernetes, and Helm \u2014 from Docker basics to deployment pipelines, with analogies for frontend engineers.',
+    sections: K8S_GUIDE_SECTIONS,
+  },
 ]
 
 // ── Derived lookups ─────────────────────────────────────────────────
@@ -100,6 +110,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'prompt-engineering': PROMPT_START_PAGE_DATA,
   'ci-cd': CICD_START_PAGE_DATA,
   'auth': AUTH_START_PAGE_DATA,
+  'kubernetes': K8S_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {

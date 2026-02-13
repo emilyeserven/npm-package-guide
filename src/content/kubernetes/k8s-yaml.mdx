@@ -1,0 +1,48 @@
+---
+id: "k8s-yaml"
+title: "K8s YAML Configs 📝"
+guide: "kubernetes"
+linkRefs:
+  - id: "k8s-concepts"
+    note: "Kubernetes resource model and declarative configuration"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-frontend">Your frontend context</TocLink>
+  <TocLink id="toc-infra">Infrastructure reality</TocLink>
+  <TocLink id="toc-analogy">The analogy</TocLink>
+  <TocLink id="toc-code">Example YAML</TocLink>
+  <TocLink id="toc-takeaway">Key takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+Infrastructure as code. You know how <code>package.json</code> declares your project config? K8s uses YAML files to declare what should be running.
+</SectionIntro>
+
+<SectionSubheading id="toc-frontend">{'\u{1F5A5}\uFE0F'} Your frontend context</SectionSubheading>
+
+<SectionNote>
+You know how <code>package.json</code> declares your project config? K8s uses YAML files to declare what should be running.
+</SectionNote>
+
+<SectionSubheading id="toc-infra">{'\u2601\uFE0F'} Infrastructure reality</SectionSubheading>
+
+<SectionList>
+<ColItem>Everything in Kubernetes is defined **declaratively** in YAML files. You say "I want this state" and K8s makes it happen.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-analogy">{'\u{1F500}'} The analogy</SectionSubheading>
+
+<K8sAnalogyCard sectionId="yaml" />
+
+<SectionSubheading id="toc-code">{'\u{1F4BB}'} Example YAML</SectionSubheading>
+
+<K8sCodeBlock sectionId="yaml" />
+
+<SectionSubheading id="toc-takeaway">{'\u{1F4A1}'} Key takeaway</SectionSubheading>
+
+<Explainer title="Remember this">
+K8s is declarative &mdash; you describe the end state, not the steps. YAML files are how you talk to Kubernetes.
+</Explainer>

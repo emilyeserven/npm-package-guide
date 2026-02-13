@@ -1,0 +1,43 @@
+---
+id: "k8s-big-picture"
+title: "The Big Picture 🗺️"
+guide: "kubernetes"
+linkRefs:
+  - id: "k8s-concepts"
+    note: "Official Kubernetes concepts overview"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-frontend">Your frontend context</TocLink>
+  <TocLink id="toc-infra">Infrastructure reality</TocLink>
+  <TocLink id="toc-analogy">The analogy</TocLink>
+  <TocLink id="toc-takeaway">Key takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+Why does any of this exist? If you've ever wondered what happens to backend services *after* they're written, this section sets the stage for everything that follows.
+</SectionIntro>
+
+<SectionSubheading id="toc-frontend">{'\u{1F5A5}\uFE0F'} Your frontend context</SectionSubheading>
+
+<SectionNote>
+You write React code &rarr; <code>npm run build</code> &rarr; static files. Done. But what about the API your app talks to?
+</SectionNote>
+
+<SectionSubheading id="toc-infra">{'\u2601\uFE0F'} Infrastructure reality</SectionSubheading>
+
+<SectionList>
+<ColItem>Backend services need to run somewhere reliable, scale up when traffic spikes, restart when they crash, and update without downtime. That's what this whole ecosystem solves.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-analogy">{'\u{1F500}'} The analogy</SectionSubheading>
+
+<K8sAnalogyCard sectionId="big-picture" />
+
+<SectionSubheading id="toc-takeaway">{'\u{1F4A1}'} Key takeaway</SectionSubheading>
+
+<Explainer title="Remember this">
+Kubernetes is an orchestrator &mdash; it keeps your apps running, healthy, and scaled. Helm is the package manager that makes deploying to Kubernetes repeatable.
+</Explainer>
