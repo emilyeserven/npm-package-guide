@@ -121,6 +121,18 @@ export const glossaryTerms: GlossaryCategory[] = [
         sectionId: "build"
       },
       {
+        term: "Hot Module Replacement (HMR)",
+        definition: "A development feature that updates modules in the browser instantly when you save a file, without a full page reload. Preserves application state during development. Vite's HMR is especially fast because it uses native ES modules.",
+        linkId: "vite-hmr",
+        sectionId: "build"
+      },
+      {
+        term: "Code Splitting",
+        definition: "A build optimization that breaks your application bundle into smaller chunks loaded on demand. Reduces the initial download size by only loading code for the current page or feature.",
+        linkId: "webpack-code-splitting",
+        sectionId: "build"
+      },
+      {
         term: "ESM (ES Modules)",
         definition: "The official JavaScript module system using <code>import</code> and <code>export</code> syntax. The modern standard that enables tree shaking and static analysis.",
         linkId: "mdn-js-modules",
@@ -266,6 +278,24 @@ export const glossaryTerms: GlossaryCategory[] = [
         linkId: "mdn-progressive-enhancement",
         sectionId: "arch-fw-react-router"
       },
+      {
+        term: "REST API",
+        definition: "An API design style using standard HTTP methods (GET, POST, PUT, DELETE) on resource URLs. The dominant pattern for web APIs — e.g., <code>GET /api/users/123</code> returns user data, <code>DELETE /api/users/123</code> removes it.",
+        linkId: "mdn-rest",
+        sectionId: "arch-what-is-a-stack"
+      },
+      {
+        term: "Middleware",
+        definition: "A function that intercepts HTTP requests and responses in a pipeline. Used for logging, authentication, CORS, error handling, and request parsing. Express and most server frameworks rely heavily on middleware.",
+        linkId: "express-middleware",
+        sectionId: "arch-stack-mern"
+      },
+      {
+        term: "CDN",
+        definition: "Content Delivery Network — a global network of servers that caches and serves static assets (JS, CSS, images) from locations close to the user. Dramatically reduces latency compared to serving everything from a single origin server.",
+        linkId: "cloudflare-cdn",
+        sectionId: "arch-fw-nextjs"
+      },
     ]
   },
   {
@@ -377,6 +407,30 @@ export const glossaryTerms: GlossaryCategory[] = [
         linkId: "playwright-getting-started",
         sectionId: "test-e2e"
       },
+      {
+        term: "Assertion",
+        definition: "A statement in a test that verifies an expected condition — e.g., <code>expect(result).toBe(42)</code>. If the assertion fails, the test fails. Good tests use assertions that describe the expected behavior, not implementation details.",
+        linkId: "vitest-expect",
+        sectionId: "test-unit"
+      },
+      {
+        term: "Test Double",
+        definition: "An umbrella term for any substitute used in place of a real dependency during testing. Includes mocks (verify calls), stubs (return fixed data), spies (record calls without replacing behavior), and fakes (simplified implementations).",
+        linkId: "vitest-mocking",
+        sectionId: "test-unit"
+      },
+      {
+        term: "jsdom",
+        definition: "A pure-JavaScript implementation of the browser DOM that runs in Node.js. Test runners like Vitest and Jest use jsdom to simulate a browser environment so component tests can render and query elements without launching a real browser.",
+        linkId: "jsdom-home",
+        sectionId: "test-component"
+      },
+      {
+        term: "Snapshot Testing",
+        definition: "A testing technique where the test runner saves a component's rendered output to a file, then compares future renders against that saved snapshot. Catches unexpected changes but can produce brittle tests if overused.",
+        linkId: "vitest-getting-started",
+        sectionId: "test-component"
+      },
     ]
   },
   {
@@ -418,6 +472,24 @@ export const glossaryTerms: GlossaryCategory[] = [
         linkId: "anthropic-extended-thinking",
         sectionId: "prompt-ctx-thinking"
       },
+      {
+        term: "Token",
+        definition: "The basic unit of text that AI models process — roughly 3\u20134 characters or about ¾ of a word. Context windows, pricing, and rate limits are all measured in tokens. Understanding token counts helps manage context window budgets.",
+        linkId: "anthropic-tokens",
+        sectionId: "prompt-ctx-window"
+      },
+      {
+        term: "Prompt Chaining",
+        definition: "Breaking a complex task into a sequence of smaller, focused prompts where each step's output feeds into the next. Reduces hallucination and improves quality compared to a single massive prompt.",
+        linkId: "anthropic-prompt-engineering",
+        sectionId: "prompt-ctx-chaining"
+      },
+      {
+        term: "Tool Use",
+        definition: "The ability for AI models to call external functions or APIs during a conversation — reading files, querying databases, running code, or fetching web data. Extends the model beyond pure text generation.",
+        linkId: "anthropic-tool-use",
+        sectionId: "prompt-tools-advanced"
+      },
     ]
   },
   {
@@ -434,6 +506,24 @@ export const glossaryTerms: GlossaryCategory[] = [
         definition: "An open protocol that extends AI coding assistants with external tools and data sources. MCP servers can provide access to databases, APIs, file systems, and custom tools.",
         linkId: "anthropic-mcp",
         sectionId: "prompt-tools-advanced"
+      },
+      {
+        term: "Claude Code Hooks",
+        definition: "User-defined shell commands that run automatically at specific lifecycle points in Claude Code — before/after tool calls, on session start, or on notification. Used to enforce project rules, run linters, or trigger custom workflows.",
+        linkId: "anthropic-claude-code-hooks",
+        sectionId: "prompt-tools-advanced"
+      },
+      {
+        term: "Slash Commands",
+        definition: "Custom reusable commands (e.g., <code>/review</code>, <code>/test</code>) defined in <code>.claude/commands/</code> that give Claude Code pre-built prompts for common tasks. Teams can share commands to standardize AI-assisted workflows.",
+        linkId: "anthropic-claude-code-skills",
+        sectionId: "prompt-tools-advanced"
+      },
+      {
+        term: "Prompt Caching",
+        definition: "An API optimization that reuses repeated context across multiple calls instead of re-processing it each time. Reduces latency and cost when the same system prompt or large context block is sent repeatedly.",
+        linkId: "anthropic-prompt-caching",
+        sectionId: "prompt-ctx-window"
       },
     ]
   },

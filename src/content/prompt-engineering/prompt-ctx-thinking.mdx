@@ -2,17 +2,20 @@
 id: "prompt-ctx-thinking"
 title: "Thinking & Reflection 💭"
 guide: "prompt-engineering"
+usedFootnotes: [1]
 linkRefs:
   - id: "anthropic-extended-thinking"
     note: "How Claude's extended thinking mode works for complex reasoning tasks."
   - id: "anthropic-prompt-engineering"
     note: "Chain-of-thought and reflection techniques from Anthropic."
+  - id: "openai-prompt-engineering"
+    note: "OpenAI's guide also covers chain-of-thought — useful cross-reference for general reasoning techniques."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <SectionIntro>
-Asking the model to reason step-by-step before acting genuinely improves accuracy on complex tasks. This technique is especially powerful for multi-step problems where getting the plan right matters.
+Asking the model to reason step-by-step<FnRef n={1} /> before acting genuinely improves accuracy on complex tasks. This technique is especially powerful for multi-step problems where getting the plan right matters.
 </SectionIntro>
 
 <TechniqueDetail techniqueId="thinking" />

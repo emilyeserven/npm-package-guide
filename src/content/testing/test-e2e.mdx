@@ -2,11 +2,14 @@
 id: "test-e2e"
 title: "E2E Testing 🌐"
 guide: "testing"
+usedFootnotes: [1, 2]
 linkRefs:
   - id: "playwright-home"
     note: "Modern E2E framework with auto-waiting, multi-browser support, and test generation."
   - id: "cypress-home"
     note: "Developer-friendly E2E testing with a built-in time-travel debugger."
+  - id: "playwright-best-practices"
+    note: "Recommended patterns for writing reliable, maintainable E2E tests."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
@@ -24,7 +27,7 @@ End-to-end tests drive a **real browser** through complete user workflows. They 
 <SectionSubheading id="toc-what">{'\uD83C\uDF10'} What are E2E tests?</SectionSubheading>
 
 <SectionList>
-<ColItem>E2E tests launch a real browser (Chromium, Firefox, or WebKit), navigate to your app, click buttons, fill forms, and assert that the right things happen on screen.</ColItem>
+<ColItem>E2E tests launch a real browser (Chromium, Firefox, or WebKit) using tools like Playwright<FnRef n={1} /> or Cypress<FnRef n={2} />, navigate to your app, click buttons, fill forms, and assert that the right things happen on screen.</ColItem>
 <ColItem>They catch integration bugs that lower-level tests miss: broken API contracts, auth redirects, cookie handling, and cross-page navigation flows.</ColItem>
 <ColItem>Because they're slow and can be flaky, you should **only write E2E tests for critical user paths** &mdash; the flows that would cost you money or users if they broke.</ColItem>
 </SectionList>

@@ -2,6 +2,7 @@
 id: "prompt-tools-advanced"
 title: "Advanced Tool Usage 🔧"
 guide: "prompt-engineering"
+usedFootnotes: [1, 4]
 linkRefs:
   - id: "anthropic-mcp"
     note: "Model Context Protocol specification and server ecosystem."
@@ -11,12 +12,14 @@ linkRefs:
     note: "Custom slash commands documentation."
   - id: "anthropic-tool-use"
     note: "How Claude uses tools for function calling and integrations."
+  - id: "anthropic-claude-code-best-practices"
+    note: "Tips for getting the most out of Claude Code's advanced features."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <SectionIntro>
-Beyond basic prompting, Claude Code supports powerful integration points &mdash; MCP servers for external data, custom slash commands for reusable workflows, hooks for automation, and optimization strategies for faster results.
+Beyond basic prompting, Claude Code supports powerful integration points &mdash; MCP servers<FnRef n={1} /> for external data, custom slash commands for reusable workflows, hooks for automation, and tool use<FnRef n={4} /> for function calling and integrations.
 </SectionIntro>
 
 <Toc>

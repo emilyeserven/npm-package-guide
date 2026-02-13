@@ -2,11 +2,16 @@
 id: "test-comparison"
 title: "At a Glance 📊"
 guide: "testing"
+usedFootnotes: [1]
 linkRefs:
   - id: "martinfowler-test-pyramid"
     note: "The foundational article on balancing test types across the pyramid."
   - id: "kentcdodds-testing-trophy"
     note: "An alternative model emphasizing integration tests for frontend apps."
+  - id: "vitest-home"
+    note: "Vitest — the recommended test runner for Vite-based projects."
+  - id: "playwright-home"
+    note: "Playwright — the current industry-standard E2E testing framework."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
@@ -17,7 +22,7 @@ linkRefs:
 </Toc>
 
 <SectionIntro>
-A side-by-side comparison of the three test types. Use this as a quick reference when deciding where a new test belongs.
+A side-by-side comparison of the three test types based on the testing pyramid model<FnRef n={1} />. Use this as a quick reference when deciding where a new test belongs.
 </SectionIntro>
 
 <SectionSubheading id="toc-table">{'\uD83D\uDCCA'} Comparison table</SectionSubheading>

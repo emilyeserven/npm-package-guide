@@ -2,15 +2,20 @@
 id: "prompt-mistakes-apis"
 title: "Hallucinated APIs & Packages 👻"
 guide: "prompt-engineering"
+usedFootnotes: [1]
 linkRefs:
   - id: "anthropic-prompt-engineering"
     note: "How to use explicit constraints to reduce hallucinated APIs and packages."
+  - id: "npm-public-registry"
+    note: "The npm public registry — always verify AI-suggested packages actually exist here."
+  - id: "anthropic-claude-code-best-practices"
+    note: "Best practices for Claude Code that help reduce hallucinated APIs and packages."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <SectionIntro>
-AI models sometimes invent APIs, packages, or methods that don&rsquo;t exist &mdash; or use deprecated ones from older versions. These hallucinations can waste hours of debugging if you don&rsquo;t catch them early. Being explicit about your versions and libraries is the best defense.
+AI models sometimes invent APIs, packages, or methods that don&rsquo;t exist &mdash; or use deprecated ones from older versions. These hallucinations<FnRef n={1} /> can waste hours of debugging if you don&rsquo;t catch them early. Being explicit about your versions and libraries is the best defense.
 </SectionIntro>
 
 <Toc>

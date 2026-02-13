@@ -2,11 +2,16 @@
 id: "test-component"
 title: "Component Testing 🧱"
 guide: "testing"
+usedFootnotes: [1]
 linkRefs:
   - id: "testing-library-react-intro"
     note: "The standard for testing React components by simulating how users interact with your UI."
   - id: "testing-library-guiding-principles"
     note: "The philosophy behind testing user behavior instead of implementation details."
+  - id: "testing-library-queries"
+    note: "Reference for Testing Library query methods — getBy, findBy, queryBy — used to select DOM elements."
+  - id: "jsdom-home"
+    note: "The pure-JavaScript DOM implementation that test runners use to simulate a browser in Node.js."
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
@@ -18,7 +23,7 @@ linkRefs:
 </Toc>
 
 <SectionIntro>
-Component tests render a React component (or small component tree) and assert on **what the user sees and can interact with** &mdash; not internal state or implementation details. They bridge the gap between unit tests and full E2E tests.
+Component tests render a React component (or small component tree) using React Testing Library<FnRef n={1} /> and assert on **what the user sees and can interact with** &mdash; not internal state or implementation details. They bridge the gap between unit tests and full E2E tests.
 </SectionIntro>
 
 <SectionSubheading id="toc-what">{'\uD83E\uDDF1'} What are component tests?</SectionSubheading>
