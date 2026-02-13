@@ -1,4 +1,4 @@
-import { META_TOOLS } from '../../data/promptData'
+import { META_TOOLS } from '../../../data/promptData'
 
 export function MetaTooling({ toolId }: { toolId: string }) {
   const tool = META_TOOLS.find(t => t.id === toolId)

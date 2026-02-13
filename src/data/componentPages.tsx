@@ -10,23 +10,14 @@
  */
 
 import type { ComponentType, ReactNode } from 'react'
-import { RoadmapPage } from '../components/RoadmapPage'
-import { ChecklistPage } from '../components/ChecklistPage'
-import { ArchStartPage } from '../components/ArchStartPage'
-import { TestingStartPage } from '../components/TestingStartPage'
-import { PromptStartPage } from '../components/PromptStartPage'
+import { ArchitectureRedirect } from '../components/ArchitectureRedirect'
 import { ExternalResourcesPage } from '../components/ExternalResourcesPage'
 import { GlossaryPage } from '../components/GlossaryPage'
 
 // ── Simple component pages (no props from the route) ─────────────────
 
 export const simpleComponentPages: Record<string, ComponentType> = {
-  'roadmap': RoadmapPage,
-  'checklist': ChecklistPage,
-  'architecture': ArchStartPage,   // Legacy route
-  'arch-start': ArchStartPage,
-  'test-start': TestingStartPage,
-  'prompt-start': PromptStartPage,
+  'architecture': ArchitectureRedirect,   // Legacy route → arch-start
 }
 
 // ── Pages that receive route search params ───────────────────────────

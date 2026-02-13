@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { STACK_PAGES } from '../../data/archData'
-import type { StackComponent } from '../../data/archData'
-import { useIsDark } from '../../hooks/useTheme'
-import { ds } from '../../helpers/darkStyle'
+import { STACK_PAGES } from '../../../data/archData'
+import type { StackComponent } from '../../../data/archData'
+import { useIsDark } from '../../../hooks/useTheme'
+import { ds } from '../../../helpers/darkStyle'
 
 function ComponentBar({ comp, isActive, onClick, isDark }: { comp: StackComponent; isActive: boolean; onClick: () => void; isDark: boolean }) {
   return (

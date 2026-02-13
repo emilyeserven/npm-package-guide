@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { FRAMEWORK_PAGES } from '../../data/archData'
-import type { FrameworkCapability } from '../../data/archData'
-import { useIsDark } from '../../hooks/useTheme'
-import { ds } from '../../helpers/darkStyle'
+import { FRAMEWORK_PAGES } from '../../../data/archData'
+import type { FrameworkCapability } from '../../../data/archData'
+import { useIsDark } from '../../../hooks/useTheme'
+import { ds } from '../../../helpers/darkStyle'
 
 function CapabilityBar({ cap, color, accent, darkAccent, isActive, onClick, isDark }: { cap: FrameworkCapability; color: string; accent: string; darkAccent: string; isActive: boolean; onClick: () => void; isDark: boolean }) {
   return (

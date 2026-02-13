@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { TEST_TOOLS, TAG_COLORS } from '../../data/testingData'
-import type { TestType } from '../../data/testingData'
-import { useIsDark } from '../../hooks/useTheme'
-import { ds } from '../../helpers/darkStyle'
+import { TEST_TOOLS, TAG_COLORS } from '../../../data/testingData'
+import type { TestType } from '../../../data/testingData'
+import { useIsDark } from '../../../hooks/useTheme'
+import { ds } from '../../../helpers/darkStyle'
 
 const FILTER_OPTIONS: { id: TestType | 'all'; label: string }[] = [
   { id: 'all', label: 'All' },

@@ -1,5 +1,5 @@
-import { FRAMEWORK_PAGES } from '../../data/archData'
-import { ProsCons } from './ProsCons'
+import { FRAMEWORK_PAGES } from '../../../data/archData'
+import { ProsCons } from '../ProsCons'
 
 export function FrameworkProsCons({ frameworkId }: { frameworkId: string }) {
   const fw = FRAMEWORK_PAGES.find(f => f.id === frameworkId)

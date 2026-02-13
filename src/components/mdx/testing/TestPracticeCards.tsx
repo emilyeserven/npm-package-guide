@@ -1,4 +1,4 @@
-import { PRACTICE_CARDS } from '../../data/testingData'
+import { PRACTICE_CARDS } from '../../../data/testingData'
 
 export function TestPracticeCards({ type }: { type: 'do' | 'dont' }) {
   const cards = PRACTICE_CARDS.filter((c) => c.type === type)

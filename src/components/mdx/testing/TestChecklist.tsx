@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CHECKLIST_ITEMS } from '../../data/testingData'
+import { CHECKLIST_ITEMS } from '../../../data/testingData'
 
 export function TestChecklist() {
   const [checked, setChecked] = useState<Set<number>>(new Set())

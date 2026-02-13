@@ -1,7 +1,7 @@
-import { PYRAMID_LEVELS } from '../../data/testingData'
-import { useIsDark } from '../../hooks/useTheme'
-import { ds } from '../../helpers/darkStyle'
-import { useNavigateToSection } from '../../hooks/useNavigateToSection'
+import { PYRAMID_LEVELS } from '../../../data/testingData'
+import { useIsDark } from '../../../hooks/useTheme'
+import { ds } from '../../../helpers/darkStyle'
+import { useNavigateToSection } from '../../../hooks/useNavigateToSection'
 
 export function TestingPyramid() {
   const isDark = useIsDark()

@@ -1,5 +1,5 @@
-import { STACK_PAGES } from '../../data/archData'
-import { ProsCons } from './ProsCons'
+import { STACK_PAGES } from '../../../data/archData'
+import { ProsCons } from '../ProsCons'
 
 export function StackProsCons({ stackId }: { stackId: string }) {
   const stack = STACK_PAGES.find(s => s.id === stackId)

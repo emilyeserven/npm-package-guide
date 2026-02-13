@@ -1,6 +1,6 @@
-import { DATA_FLOW, LAYER_COLORS } from '../../data/archData'
-import { useIsDark } from '../../hooks/useTheme'
-import { ds } from '../../helpers/darkStyle'
+import { DATA_FLOW, LAYER_COLORS } from '../../../data/archData'
+import { useIsDark } from '../../../hooks/useTheme'
+import { ds } from '../../../helpers/darkStyle'
 
 export function DataFlowDiagram() {
   const isDark = useIsDark()

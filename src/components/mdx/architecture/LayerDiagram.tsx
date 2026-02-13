@@ -1,6 +1,6 @@
-import { LAYER_COLORS } from '../../data/archData'
-import { useIsDark } from '../../hooks/useTheme'
-import { ds } from '../../helpers/darkStyle'
+import { LAYER_COLORS } from '../../../data/archData'
+import { useIsDark } from '../../../hooks/useTheme'
+import { ds } from '../../../helpers/darkStyle'
 
 const LAYERS = [
   { id: "frontend", label: "Frontend", desc: "What users see & interact with", icon: "\u{1F3A8}", example: "React, Angular, Vue" },
