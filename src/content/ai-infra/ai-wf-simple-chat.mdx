@@ -16,7 +16,7 @@ linkRefs:
   <TocLink id="toc-when">When to use this pattern</TocLink>
   <TocLink id="toc-flow">Step-by-step flow</TocLink>
   <TocLink id="toc-considerations">Key considerations</TocLink>
-  <TocLink id="toc-explainer">Backend analogy</TocLink>
+  <TocLink id="toc-explainer">Frontend analogy</TocLink>
 </Toc>
 
 <SectionIntro>
@@ -53,6 +53,6 @@ Trace this workflow through the infrastructure stack.
 <ColItem>**Rate limiting and authentication** &mdash; even the simplest workflow needs an API gateway to handle auth, rate limiting, and usage tracking in production.</ColItem>
 </SectionList>
 
-<Explainer title="Simple chat completion &mdash; a backend analogy">
-This is like a simple REST API request-response cycle. Your client sends a POST request with a payload (the prompt), the server processes it and returns a response (the completion). The only infrastructure involved is the server itself &mdash; no database queries, no cache lookups, no message queues. Streaming tokens via SSE is analogous to streaming a large HTTP response body rather than buffering the entire result.
+<Explainer title="Simple chat completion &mdash; a frontend analogy">
+This is like a simple Express route handler. Your React app sends a POST request via <code>fetch()</code>, Express receives it and calls the model, then streams tokens back via SSE. No database queries, no Redis lookups, no message queues &mdash; just a single request and a streamed response. The streaming pattern is the same one you&apos;d use for real-time notifications or live updates in any Node.js app.
 </Explainer>

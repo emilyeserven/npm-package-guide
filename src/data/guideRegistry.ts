@@ -82,7 +82,7 @@ export const guides: GuideDefinition[] = [
     title: 'AI Infrastructure',
     startPageId: 'ai-start',
     description:
-      'Understand AI backend infrastructure \u2014 from model serving and vector databases to GPU clusters and training pipelines.',
+      'Understand AI infrastructure from a frontend engineer\u2019s perspective \u2014 from the API calls your React app makes to model serving, vector databases, and GPU clusters.',
     sections: AI_INFRA_GUIDE_SECTIONS,
   },
 ]

@@ -15,14 +15,14 @@ export const INFRA_LAYERS: InfraLayer[] = [
       {
         name: 'API Gateway',
         what: 'The front door. Like an Express/Next.js API route, but purpose-built for routing, auth, and rate limiting.',
-        analogy: 'Think of it like your React Router, but for backend services.',
+        analogy: 'Like Express Router with middleware for auth and rate limiting, but routing requests to AI models instead of your own endpoints.',
         tools: ['AWS API Gateway', 'Kong', 'Nginx', 'Envoy'],
       },
       {
         name: 'Model Serving',
         what: 'A specialized server that loads a model into GPU memory and responds to prediction requests. It handles batching multiple requests together for efficiency.',
         analogy:
-          'Like a server-side rendering server, but instead of rendering HTML it runs math through a neural network.',
+          'Like a specialized Express server, but instead of rendering templates or serving JSON it runs math through a neural network.',
         tools: ['vLLM', 'TGI (HuggingFace)', 'NVIDIA Triton', 'TensorRT-LLM'],
       },
       {
@@ -104,14 +104,14 @@ export const INFRA_LAYERS: InfraLayer[] = [
         name: 'Vector Databases',
         what: "Specialized databases optimized for finding the nearest neighbors to a given vector. Regular databases can\u2019t do this efficiently.",
         analogy:
-          'Like a search index (Elasticsearch) but instead of keyword matching, it finds things by meaning.',
+          'Like a search autocomplete that matches by meaning instead of exact text \u2014 you query \u2018broken login\u2019 and it finds docs about \u2018authentication failures.\u2019',
         tools: ['Pinecone', 'Weaviate', 'Chroma', 'pgvector'],
       },
       {
         name: 'Document Processing',
         what: 'Raw documents (PDFs, web pages, code) get chunked into pieces, embedded, and stored. Chunk size and overlap strategy significantly affect quality.',
         analogy:
-          'Like building a search index \u2014 you parse, tokenize, and index content. Same idea, different technique.',
+          'Like preprocessing markdown files into searchable content for your app \u2014 you parse, chunk, and transform raw documents into indexed pieces ready for retrieval.',
         tools: ['Unstructured', 'LangChain loaders', 'Apache Tika'],
       },
       {
