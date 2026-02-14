@@ -23,6 +23,18 @@ AI models sometimes invent APIs, packages, or methods that don&rsquo;t exist &md
   <TocLink id="toc-invents-packages">Invents non-existent npm packages or methods</TocLink>
   <TocLink id="toc-deprecated-apis">Uses deprecated or renamed APIs</TocLink>
   <TocLink id="toc-cross-language">Cross-language API confusion</TocLink>
+  <TocLink id="toc-apis-prompts">All Prompts</TocLink>
+  <TocLink id="toc-apis-tools">AI Tool Tips</TocLink>
 </Toc>
 
 <MistakeList categoryId="apis" />
+
+<PromptCollection categoryId="apis" />
+
+<SectionSubheading id="toc-apis-tools">{'\u{1F6E0}\uFE0F'} AI Tool Tips</SectionSubheading>
+
+<SectionList>
+<ColItem><strong>MCP Servers:</strong> Use the <strong>Fetch</strong> MCP server to verify packages exist on npm and check API signatures against official documentation before using AI-suggested imports.</ColItem>
+<ColItem><strong>CLI Tools:</strong> Verify AI-suggested packages: <code>git diff --staged | claude -p "List every npm package and API method used. Flag any that might not exist or are deprecated"</code></ColItem>
+<ColItem><strong>Claude Skills:</strong> Create a <code>/project:verify-imports</code> slash command that cross-references all imports against your <code>package.json</code> and flags unrecognized packages or deprecated APIs.</ColItem>
+</SectionList>
