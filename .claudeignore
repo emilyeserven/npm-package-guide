@@ -1,0 +1,30 @@
+# Large data files - read on demand when working with specific guides
+# These files contain HTML content strings, URL metadata, and term definitions
+# that are rarely needed for general exploration
+
+# Link registry files (URL metadata, 300-900+ lines each)
+src/data/linkRegistry/npmPackageLinks.ts
+src/data/linkRegistry/architectureLinks.ts
+src/data/linkRegistry/promptLinks.ts
+src/data/linkRegistry/authLinks.ts
+src/data/linkRegistry/kubernetesLinks.ts
+src/data/linkRegistry/aiInfraLinks.ts
+src/data/linkRegistry/njaLinks.ts
+src/data/linkRegistry/testingLinks.ts
+src/data/linkRegistry/cicdLinks.ts
+
+# Glossary term files (term definitions, 100-350 lines each)
+src/data/glossaryTerms/npmPackageTerms.ts
+src/data/glossaryTerms/architectureTerms.ts
+src/data/glossaryTerms/promptTerms.ts
+src/data/glossaryTerms/authTerms.ts
+src/data/glossaryTerms/kubernetesTerms.ts
+src/data/glossaryTerms/aiInfraTerms.ts
+src/data/glossaryTerms/njaTerms.ts
+src/data/glossaryTerms/testingTerms.ts
+src/data/glossaryTerms/cicdTerms.ts
+
+# Large monolithic data files (300-2700 lines)
+src/data/npmPackageData.ts
+src/data/promptData/techniques.ts
+src/data/archData/stacks.ts
