@@ -122,6 +122,8 @@ function IconRail({
       {/* Spacer pushes resource icons + settings to bottom */}
       <div className="mt-auto" />
 
+      <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5" />
+
       {/* Checklists icon */}
       <button
         className={clsx(iconBtnCls, activeGuideId === 'checklists' ? activeCls : inactiveCls)}
@@ -203,6 +205,7 @@ function ContentPanel({
   guide,
   currentId,
   onNav,
+  onResourceNav,
   pinned,
   onTogglePin,
   onClose,
@@ -210,6 +213,7 @@ function ContentPanel({
   guide: GuideDefinition
   currentId: string
   onNav: (id: string) => void
+  onResourceNav: (id: string, guideId: string) => void
   pinned: boolean
   onTogglePin: () => void
   onClose: () => void
@@ -262,6 +266,39 @@ function ContentPanel({
             ))}
           </div>
         ))}
+
+        {/* Auto-generated Resources section for real guides */}
+        {guide.id !== 'checklists' && (
+          <div>
+            <div className="mt-4 text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-1.5 px-3.5">
+              Resources
+            </div>
+            <button
+              className={clsx(
+                'flex items-center justify-between w-full text-left px-3.5 py-1.5 text-sm rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150',
+                currentId === 'external-resources'
+                  ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold'
+                  : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+              )}
+              onClick={() => onResourceNav('external-resources', guide.id)}
+            >
+              <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">External Resources</span>
+              <span className="text-base leading-none opacity-70 shrink-0">{'\u{1F4DA}'}</span>
+            </button>
+            <button
+              className={clsx(
+                'flex items-center justify-between w-full text-left px-3.5 py-1.5 text-sm rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150',
+                currentId === 'glossary'
+                  ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold'
+                  : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+              )}
+              onClick={() => onResourceNav('glossary', guide.id)}
+            >
+              <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">Glossary</span>
+              <span className="text-base leading-none opacity-70 shrink-0">{'\u{1F4D6}'}</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
@@ -450,6 +487,11 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
     navigateToSection(id)
   }
 
+  const handleResourceNav = (id: string, guideId: string) => {
+    if (!pinned) onClose()
+    navigateToSection(id, { search: { guide: guideId } })
+  }
+
   const handleSelectGuide = (guideId: string) => {
     setShowSettings(false)
     setActiveGuideId(prev => prev === guideId ? null : guideId)
@@ -499,6 +541,7 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
           guide={activeGuide}
           currentId={currentId}
           onNav={handleNav}
+          onResourceNav={handleResourceNav}
           pinned={pinned}
           onTogglePin={onTogglePin}
           onClose={handleContentPanelClose}

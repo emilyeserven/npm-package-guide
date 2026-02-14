@@ -13,7 +13,7 @@ export function Layout() {
   const [cmdMenuOpen, setCmdMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [hasActiveGuide, setHasActiveGuide] = useState(false)
-  const { effectivelyPinned, pinned, togglePin, unpin } = useSidebarPin()
+  const { effectivelyPinned, togglePin, unpin } = useSidebarPin()
 
   const sidebarVisible = sidebarOpen || effectivelyPinned
 
@@ -84,7 +84,7 @@ export function Layout() {
       <Sidebar
         open={sidebarVisible}
         onClose={handleSidebarClose}
-        pinned={pinned}
+        pinned={effectivelyPinned}
         onTogglePin={togglePin}
         onActiveGuideChange={setHasActiveGuide}
       />
