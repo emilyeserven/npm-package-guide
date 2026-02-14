@@ -4,7 +4,7 @@
 
 ## Audience & Purpose
 
-Backend engineers learning AI infrastructure — from model serving and vector databases to GPU clusters and training pipelines. Each layer is explained with analogies to familiar backend concepts like load balancers, databases, and CI pipelines.
+Frontend engineers learning AI infrastructure — from model serving and vector databases to GPU clusters and training pipelines. Each layer is explained with analogies to familiar frontend concepts like Express middleware, React state, and data-fetching patterns.
 
 ## Section Structure
 
@@ -35,7 +35,7 @@ Defined in `AI_INFRA_GUIDE_SECTIONS` in `src/data/aiInfraData/navigation.ts`.
 
 | Component | Props | Data Source | Purpose |
 |-----------|-------|-------------|---------|
-| `InfraLayerExplorer` | `layerId: string` | `INFRA_LAYERS` in `layers.ts` | Interactive layer explorer with clickable concept cards showing name, description, backend analogy, and tools |
+| `InfraLayerExplorer` | `layerId: string` | `INFRA_LAYERS` in `layers.ts` | Interactive layer explorer with clickable concept cards showing name, description, frontend analogy, and tools |
 | `WorkflowExplorer` | *(none)* | `INFRA_WORKFLOWS` in `workflows.ts` | Interactive workflow selector showing all workflows with tab navigation |
 | `WorkflowDetail` | `workflowId: string` | `INFRA_WORKFLOWS` in `workflows.ts` | Single workflow step-by-step flow with layer badges |
 
@@ -48,11 +48,11 @@ The guide is organized around 5 infrastructure layers defined in `INFRA_LAYERS`.
 - `id`, `title`, `subtitle`, `icon` — Display metadata
 - `color`, `accent`, `darkAccent` — Theme colors for dark mode support
 - `summary` — Layer overview text
-- `concepts` — Array of `InfraConcept` objects, each with `name`, `what` (description), `analogy` (backend analogy), and `tools` (real-world tools list)
+- `concepts` — Array of `InfraConcept` objects, each with `name`, `what` (description), `analogy` (frontend analogy), and `tools` (real-world tools list)
 
-### Backend analogy pattern
+### Frontend analogy pattern
 
-Every `InfraConcept` includes an `analogy` field that maps the AI concept to a familiar backend equivalent. This is the primary teaching device of the guide.
+Every `InfraConcept` includes an `analogy` field that maps the AI concept to a familiar frontend equivalent. This is the primary teaching device of the guide.
 
 ### Workflow visualization
 
@@ -67,7 +67,7 @@ Workflow pages (`ai-wf-*.mdx`) follow a consistent structure:
 3. When to use this pattern
 4. `<WorkflowDetail workflowId="..." />`
 5. Key considerations
-6. Backend `<Explainer>` analogy box
+6. Frontend `<Explainer>` analogy box
 
 ### Key terms
 

@@ -30,22 +30,22 @@ export const AI_INFRA_GUIDE_SECTIONS: GuideSection[] = [
 
 export const AI_INFRA_START_PAGE_DATA: StartPageData = {
   subtitle:
-    'A backend engineer\u2019s map to AI infrastructure \u2014 from model serving to GPU clusters.',
-  tip: 'Each layer is explained with analogies to familiar backend concepts like load balancers, databases, and CI pipelines.',
+    'A frontend engineer\u2019s map to AI infrastructure \u2014 from model serving to GPU clusters.',
+  tip: 'Each layer is explained with analogies to familiar frontend concepts like Express middleware, React state, and data-fetching patterns.',
   steps: [
     {
       type: 'numbered',
       num: 1,
       title: 'The Big Picture',
       description:
-        'Understand the five layers of AI infrastructure and how they map to concepts you already know from backend engineering.',
+        'Understand the five layers of AI infrastructure and how they map to concepts you already know from frontend engineering.',
       jumpTo: 'ai-overview',
     },
     {
       type: 'bonus',
       title: 'The Stack',
       description:
-        'Explore each infrastructure layer in depth \u2014 what it does, key concepts, real-world tools, and backend analogies.',
+        'Explore each infrastructure layer in depth \u2014 what it does, key concepts, real-world tools, and frontend analogies.',
       sectionLabel: 'The Stack',
       subItemDescriptions: {
         'ai-inference':

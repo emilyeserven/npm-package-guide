@@ -23,7 +23,7 @@ Everything that happens between your <code>fetch("/api/chat")</code> and the AI 
 
 <SectionList>
 <ColItem>When you call an AI API from your frontend, the request passes through at least three infrastructure layers before a single token is generated. Understanding these layers helps you debug latency issues, architect better integrations, and have informed conversations with ML engineers.</ColItem>
-<ColItem>The AI backend stack has strong parallels to traditional backend architecture &mdash; API gateways, databases, CI/CD pipelines, and monitoring all have direct counterparts. The concepts are familiar, even if the specific technologies are new.</ColItem>
+<ColItem>The AI infrastructure stack has strong parallels to concepts frontend engineers already know &mdash; Express middleware, data-fetching patterns, and React state management all have direct counterparts. The concepts are familiar, even if the specific technologies are new.</ColItem>
 </SectionList>
 
 <SectionSubheading id="toc-five-layers">The Five Layers</SectionSubheading>
@@ -39,5 +39,5 @@ Everything that happens between your <code>fetch("/api/chat")</code> and the AI 
 <SectionSubheading id="toc-where-you-fit">Where You Fit In</SectionSubheading>
 
 <Explainer title="You're already closer than you think">
-As a backend engineer, you likely interact directly with the **inference layer** (calling AI APIs) and may touch the **orchestration layer** (building RAG pipelines or prompt management). The deeper layers &mdash; training and infrastructure &mdash; are typically handled by ML engineers, but understanding them helps you make better architectural decisions and debug production issues.
+As a frontend engineer, you interact with the **inference layer** every time your React app calls an AI API, and you may touch the **orchestration layer** when building features with RAG or prompt management. The deeper layers &mdash; training and infrastructure &mdash; are typically handled by ML engineers, but understanding them helps you debug latency issues, architect better integrations, and have informed conversations with your backend and ML teams.
 </Explainer>
