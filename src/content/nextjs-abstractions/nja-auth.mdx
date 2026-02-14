@@ -1,0 +1,38 @@
+---
+id: "nja-auth"
+title: "Authentication 🔐"
+guide: "nextjs-abstractions"
+linkRefs:
+  - id: "passportjs-docs"
+    note: "Strategy-based authentication middleware for Node.js."
+  - id: "npm-jsonwebtoken"
+    note: "JSON Web Token implementation for Node.js."
+  - id: "fastify-jwt"
+    note: "JWT authentication plugin for Fastify."
+  - id: "npm-bcrypt"
+    note: "Password hashing library."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-comparison">Next.js vs. You</TocLink>
+  <TocLink id="toc-stack">For Your Stack</TocLink>
+  <TocLink id="toc-terms">Key Terms</TocLink>
+</Toc>
+
+<SectionIntro>
+Authentication is the hardest thing to get right on your own. Next.js + Auth.js handles most of the complexity, but when you separate your architecture, you need to understand the full session lifecycle — from login to token refresh to logout.
+</SectionIntro>
+
+<SectionSubheading id="toc-comparison">Next.js vs. You</SectionSubheading>
+
+<ConceptDetail conceptId="auth" />
+
+<Explainer title="Want the full auth deep-dive?">
+This page covers auth from the Next.js migration perspective. For a comprehensive guide to authentication and authorization, see <NavLink to="auth-start" />.
+</Explainer>
+
+<SectionSubheading id="toc-terms">Key Terms</SectionSubheading>
+
+Terms on this page are defined in the glossary — hover any highlighted term for its definition, or browse the full <NavLink to="glossary">Glossary</NavLink>.

@@ -1,0 +1,32 @@
+---
+id: "nja-cors"
+title: "CORS 🌐"
+guide: "nextjs-abstractions"
+linkRefs:
+  - id: "mdn-cors"
+    note: "Complete guide to how CORS works and how to configure it."
+  - id: "npm-cors"
+    note: "Express middleware for enabling CORS."
+  - id: "fastify-cors"
+    note: "CORS plugin for Fastify."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-comparison">Next.js vs. You</TocLink>
+  <TocLink id="toc-stack">For Your Stack</TocLink>
+  <TocLink id="toc-terms">Key Terms</TocLink>
+</Toc>
+
+<SectionIntro>
+CORS will be the first wall you hit when splitting frontend and backend. In Next.js, your frontend and API share the same origin so the browser never blocks requests. With separate servers, you need to explicitly configure cross-origin access.
+</SectionIntro>
+
+<SectionSubheading id="toc-comparison">Next.js vs. You</SectionSubheading>
+
+<ConceptDetail conceptId="cors" />
+
+<SectionSubheading id="toc-terms">Key Terms</SectionSubheading>
+
+Terms on this page are defined in the glossary — hover any highlighted term for its definition, or browse the full <NavLink to="glossary">Glossary</NavLink>.

@@ -1,0 +1,36 @@
+---
+id: "nja-deployment"
+title: "Deployment & Infrastructure 🚀"
+guide: "nextjs-abstractions"
+linkRefs:
+  - id: "docker-getting-started"
+    note: "Introduction to Docker containers and Docker Compose."
+  - id: "nginx-beginners-guide"
+    note: "Nginx as a web server and reverse proxy."
+  - id: "npm-pm2"
+    note: "Production process manager for Node.js."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-comparison">Next.js vs. You</TocLink>
+  <TocLink id="toc-stack">For Your Stack</TocLink>
+  <TocLink id="toc-terms">Key Terms</TocLink>
+</Toc>
+
+<SectionIntro>
+Vercel deploys Next.js with zero config — serverless functions, edge network, automatic scaling. When you separate, you deploy two things: a static frontend (CDN or Nginx) and a running backend server (Docker, PM2). You control every layer, but you manage every layer too.
+</SectionIntro>
+
+<SectionSubheading id="toc-comparison">Next.js vs. You</SectionSubheading>
+
+<ConceptDetail conceptId="deployment" />
+
+<Explainer title="Want the full Kubernetes deep-dive?">
+If you're deploying to Kubernetes, see <NavLink to="k8s-start" /> for containers, pods, Helm charts, and GitOps.
+</Explainer>
+
+<SectionSubheading id="toc-terms">Key Terms</SectionSubheading>
+
+Terms on this page are defined in the glossary — hover any highlighted term for its definition, or browse the full <NavLink to="glossary">Glossary</NavLink>.

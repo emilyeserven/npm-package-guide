@@ -42,6 +42,7 @@ import { cicdLinks } from './cicdLinks'
 import { authLinks } from './authLinks'
 import { kubernetesLinks } from './kubernetesLinks'
 import { aiInfraLinks } from './aiInfraLinks'
+import { njaLinks } from './njaLinks'
 
 export const linkRegistry: RegistryLink[] = [
   ...npmPackageLinks,
@@ -52,6 +53,7 @@ export const linkRegistry: RegistryLink[] = [
   ...authLinks,
   ...kubernetesLinks,
   ...aiInfraLinks,
+  ...njaLinks,
 ]
 
 /** Fast lookup by registry ID */

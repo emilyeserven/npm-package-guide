@@ -1,0 +1,34 @@
+---
+id: "nja-database"
+title: "Database Access & ORMs 🗄️"
+guide: "nextjs-abstractions"
+linkRefs:
+  - id: "prisma-docs"
+    note: "Type-safe ORM for TypeScript and Node.js."
+  - id: "drizzle-docs"
+    note: "Lightweight, type-safe SQL ORM."
+  - id: "npm-pg"
+    note: "Non-blocking PostgreSQL client for Node.js."
+  - id: "npm-knex"
+    note: "SQL query builder with migration support."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-comparison">Next.js vs. You</TocLink>
+  <TocLink id="toc-stack">For Your Stack</TocLink>
+  <TocLink id="toc-terms">Key Terms</TocLink>
+</Toc>
+
+<SectionIntro>
+In Next.js, Server Components and API routes import your ORM and query the database directly — the framework ensures that code never reaches the client. When you separate, your backend exclusively owns the data layer, and the frontend only communicates through your API.
+</SectionIntro>
+
+<SectionSubheading id="toc-comparison">Next.js vs. You</SectionSubheading>
+
+<ConceptDetail conceptId="database" />
+
+<SectionSubheading id="toc-terms">Key Terms</SectionSubheading>
+
+Terms on this page are defined in the glossary — hover any highlighted term for its definition, or browse the full <NavLink to="glossary">Glossary</NavLink>.

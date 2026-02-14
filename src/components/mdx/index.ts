@@ -58,6 +58,9 @@ import { K8sFlowDiagram } from './kubernetes/K8sFlowDiagram'
 import { InfraLayerExplorer } from './ai-infra/InfraLayerExplorer'
 import { WorkflowExplorer } from './ai-infra/WorkflowExplorer'
 import { WorkflowDetail } from './ai-infra/WorkflowDetail'
+// nextjs-abstractions
+import { ConceptDetail } from './nextjs-abstractions/ConceptDetail'
+import { NjaChecklist } from './nextjs-abstractions/NjaChecklist'
 // shared
 import { GuideStartContent } from './GuideStartContent'
 
@@ -131,5 +134,7 @@ export const mdxComponents: MDXComponents = {
   InfraLayerExplorer,
   WorkflowExplorer,
   WorkflowDetail,
+  ConceptDetail,
+  NjaChecklist,
   GuideStartContent,
 }

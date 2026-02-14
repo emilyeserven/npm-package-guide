@@ -1,0 +1,30 @@
+---
+id: "nja-data-fetching"
+title: "Data Fetching & Caching 🔄"
+guide: "nextjs-abstractions"
+linkRefs:
+  - id: "mdn-http-caching"
+    note: "How Cache-Control, ETags, and HTTP caching headers work."
+  - id: "npm-ioredis"
+    note: "Redis client for server-side caching."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-comparison">Next.js vs. You</TocLink>
+  <TocLink id="toc-stack">For Your Stack</TocLink>
+  <TocLink id="toc-terms">Key Terms</TocLink>
+</Toc>
+
+<SectionIntro>
+Next.js extends `fetch()` with built-in caching, deduplication, and revalidation. Without it, you need to handle caching on two fronts: client-side (with a data-fetching library) and server-side (with HTTP headers or Redis).
+</SectionIntro>
+
+<SectionSubheading id="toc-comparison">Next.js vs. You</SectionSubheading>
+
+<ConceptDetail conceptId="data-fetching" />
+
+<SectionSubheading id="toc-terms">Key Terms</SectionSubheading>
+
+Terms on this page are defined in the glossary — hover any highlighted term for its definition, or browse the full <NavLink to="glossary">Glossary</NavLink>.
