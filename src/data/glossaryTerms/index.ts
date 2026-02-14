@@ -18,6 +18,7 @@ import { cicdGlossary } from './cicdTerms'
 import { authGlossary } from './authTerms'
 import { kubernetesGlossary } from './kubernetesTerms'
 import { aiInfraGlossary } from './aiInfraTerms'
+import { njaGlossary } from './njaTerms'
 
 export const glossaryTerms: GlossaryCategory[] = [
   ...npmPackageGlossary,
@@ -28,4 +29,5 @@ export const glossaryTerms: GlossaryCategory[] = [
   ...authGlossary,
   ...kubernetesGlossary,
   ...aiInfraGlossary,
+  ...njaGlossary,
 ]

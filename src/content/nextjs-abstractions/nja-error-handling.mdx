@@ -1,0 +1,32 @@
+---
+id: "nja-error-handling"
+title: "Error Handling 🚨"
+guide: "nextjs-abstractions"
+linkRefs:
+  - id: "express-error-handling"
+    note: "Guide to writing error-handling middleware in Express."
+  - id: "react-error-boundaries"
+    note: "Catching rendering errors with React Error Boundaries."
+  - id: "npm-http-errors"
+    note: "Utility for creating HTTP error objects."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-comparison">Next.js vs. You</TocLink>
+  <TocLink id="toc-stack">For Your Stack</TocLink>
+  <TocLink id="toc-terms">Key Terms</TocLink>
+</Toc>
+
+<SectionIntro>
+Next.js gives you `error.tsx` and `not-found.tsx` for automatic error handling. Without it, you need to design error handling on both sides: React Error Boundaries on the frontend, and error-handling middleware on the backend — with an agreed-upon error response format.
+</SectionIntro>
+
+<SectionSubheading id="toc-comparison">Next.js vs. You</SectionSubheading>
+
+<ConceptDetail conceptId="error-handling" />
+
+<SectionSubheading id="toc-terms">Key Terms</SectionSubheading>
+
+Terms on this page are defined in the glossary — hover any highlighted term for its definition, or browse the full <NavLink to="glossary">Glossary</NavLink>.

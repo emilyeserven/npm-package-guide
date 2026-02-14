@@ -1,0 +1,335 @@
+import type { RegistryLink } from './index'
+
+export const njaLinks: RegistryLink[] = [
+  // ── Routing ──────────────────────────────────────────────────────────
+  {
+    id: 'mdn-history-api',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/API/History_API',
+    label: 'History API',
+    source: 'MDN',
+    desc: 'Browser History API for client-side navigation without full page reloads.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'mdn-url-api',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/API/URL',
+    label: 'URL API',
+    source: 'MDN',
+    desc: 'Web API for parsing and constructing URLs, query parameters, and hash fragments.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'fastify-routes',
+    url: 'https://fastify.dev/docs/latest/Reference/Routes/',
+    label: 'Fastify Routes Reference',
+    source: 'Fastify',
+    desc: 'Route declaration, parameters, and constraints in Fastify.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+
+  // ── SSR ──────────────────────────────────────────────────────────────
+  {
+    id: 'react-rendertostring',
+    url: 'https://react.dev/reference/react-dom/server/renderToString',
+    label: 'ReactDOMServer.renderToString()',
+    source: 'React',
+    desc: 'Server-side rendering API for React components.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'webdev-rendering-on-the-web',
+    url: 'https://web.dev/articles/rendering-on-the-web',
+    label: 'Rendering on the Web',
+    source: 'web.dev',
+    desc: 'Comparison of SSR, CSR, SSG, and other rendering strategies with performance trade-offs.',
+    tags: ['guide', 'free', 'guide:nextjs-abstractions'],
+    resourceCategory: 'Articles & Tutorials',
+  },
+  {
+    id: 'mdn-core-web-vitals',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Fundamentals',
+    label: 'Web Performance Fundamentals',
+    source: 'MDN',
+    desc: 'Core Web Vitals and performance metrics explained.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+
+  // ── API Routes ───────────────────────────────────────────────────────
+  {
+    id: 'mdn-http-methods',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods',
+    label: 'HTTP Request Methods',
+    source: 'MDN',
+    desc: 'GET, POST, PUT, DELETE and other HTTP methods explained.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'mdn-http-status',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status',
+    label: 'HTTP Status Codes',
+    source: 'MDN',
+    desc: 'Complete reference for HTTP response status codes.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'fastify-autoload',
+    url: 'https://github.com/fastify/fastify-autoload',
+    label: '@fastify/autoload',
+    source: 'Fastify',
+    desc: 'Automatic plugin and route loading for Fastify from a directory structure.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+
+  // ── Middleware ────────────────────────────────────────────────────────
+  {
+    id: 'express-using-middleware',
+    url: 'https://expressjs.com/en/guide/using-middleware.html',
+    label: 'Using Express Middleware',
+    source: 'Express',
+    desc: 'Guide to application-level, router-level, and error-handling middleware in Express.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'fastify-hooks',
+    url: 'https://fastify.dev/docs/latest/Reference/Hooks/',
+    label: 'Fastify Hooks',
+    source: 'Fastify',
+    desc: 'Lifecycle hooks (onRequest, preHandler, onSend) that replace middleware in Fastify.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'npm-morgan',
+    url: 'https://www.npmjs.com/package/morgan',
+    label: 'morgan',
+    source: 'npm',
+    desc: 'HTTP request logger middleware for Express.',
+    tags: ['tool', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'npm-helmet',
+    url: 'https://helmetjs.github.io/',
+    label: 'Helmet.js',
+    source: 'Helmet',
+    desc: 'Security middleware that sets various HTTP headers to protect Express/Fastify apps.',
+    tags: ['tool', 'free', 'guide:nextjs-abstractions'],
+    resourceCategory: 'Tools & Libraries',
+  },
+
+  // ── Auth ─────────────────────────────────────────────────────────────
+  {
+    id: 'passportjs-docs',
+    url: 'https://www.passportjs.org/docs/',
+    label: 'Passport.js Documentation',
+    source: 'Passport.js',
+    desc: 'Authentication middleware for Node.js with strategy-based login flows.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'npm-jsonwebtoken',
+    url: 'https://www.npmjs.com/package/jsonwebtoken',
+    label: 'jsonwebtoken',
+    source: 'npm',
+    desc: 'JSON Web Token implementation for Node.js (signing and verification).',
+    tags: ['tool', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'npm-bcrypt',
+    url: 'https://www.npmjs.com/package/bcrypt',
+    label: 'bcrypt',
+    source: 'npm',
+    desc: 'Password hashing library for Node.js.',
+    tags: ['tool', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'fastify-jwt',
+    url: 'https://github.com/fastify/fastify-jwt',
+    label: '@fastify/jwt',
+    source: 'Fastify',
+    desc: 'JWT authentication plugin for Fastify.',
+    tags: ['tool', 'free', 'guide:nextjs-abstractions'],
+  },
+
+  // ── Data Fetching & Caching ──────────────────────────────────────────
+  {
+    id: 'mdn-http-caching',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching',
+    label: 'HTTP Caching',
+    source: 'MDN',
+    desc: 'How Cache-Control, ETags, and other HTTP headers manage response caching.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'npm-ioredis',
+    url: 'https://www.npmjs.com/package/ioredis',
+    label: 'ioredis',
+    source: 'npm',
+    desc: 'Redis client for Node.js with support for clusters and sentinel.',
+    tags: ['tool', 'free', 'guide:nextjs-abstractions'],
+  },
+
+  // ── Env Config ───────────────────────────────────────────────────────
+  {
+    id: 'npm-dotenv',
+    url: 'https://www.npmjs.com/package/dotenv',
+    label: 'dotenv',
+    source: 'npm',
+    desc: 'Loads environment variables from .env files into process.env.',
+    tags: ['tool', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'vite-env-variables',
+    url: 'https://vite.dev/guide/env-and-mode',
+    label: 'Vite Env Variables & Modes',
+    source: 'Vite',
+    desc: 'How Vite handles environment variables with the VITE_ prefix.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'fastify-env',
+    url: 'https://github.com/fastify/fastify-env',
+    label: '@fastify/env',
+    source: 'Fastify',
+    desc: 'Environment variable loading and JSON Schema validation for Fastify.',
+    tags: ['tool', 'free', 'guide:nextjs-abstractions'],
+  },
+
+  // ── CORS ─────────────────────────────────────────────────────────────
+  {
+    id: 'mdn-cors',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS',
+    label: 'Cross-Origin Resource Sharing (CORS)',
+    source: 'MDN',
+    desc: 'Complete guide to how CORS works, preflight requests, and configuring cross-origin access.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'npm-cors',
+    url: 'https://www.npmjs.com/package/cors',
+    label: 'cors (Express middleware)',
+    source: 'npm',
+    desc: 'Express middleware for enabling CORS with various options.',
+    tags: ['tool', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'fastify-cors',
+    url: 'https://github.com/fastify/fastify-cors',
+    label: '@fastify/cors',
+    source: 'Fastify',
+    desc: 'CORS plugin for Fastify with dynamic origin support.',
+    tags: ['tool', 'free', 'guide:nextjs-abstractions'],
+  },
+
+  // ── CSP ──────────────────────────────────────────────────────────────
+  {
+    id: 'mdn-csp-header',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy',
+    label: 'Content-Security-Policy Header',
+    source: 'MDN',
+    desc: 'Complete reference for CSP directives, nonces, and reporting.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'helmet-csp',
+    url: 'https://helmetjs.github.io/docs/csp/',
+    label: 'Helmet CSP Configuration',
+    source: 'Helmet',
+    desc: 'How to configure Content Security Policy middleware with Helmet.js.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+
+  // ── Build & Bundling ─────────────────────────────────────────────────
+  {
+    id: 'npm-tsx',
+    url: 'https://www.npmjs.com/package/tsx',
+    label: 'tsx',
+    source: 'npm',
+    desc: 'Fast TypeScript executor for Node.js with instant reloads during development.',
+    tags: ['tool', 'free', 'guide:nextjs-abstractions'],
+  },
+
+  // ── Error Handling ───────────────────────────────────────────────────
+  {
+    id: 'express-error-handling',
+    url: 'https://expressjs.com/en/guide/error-handling.html',
+    label: 'Express Error Handling',
+    source: 'Express',
+    desc: 'Guide to writing error-handling middleware in Express.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'react-error-boundaries',
+    url: 'https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary',
+    label: 'React Error Boundaries',
+    source: 'React',
+    desc: 'Catching rendering errors with React Error Boundaries.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'npm-http-errors',
+    url: 'https://www.npmjs.com/package/http-errors',
+    label: 'http-errors',
+    source: 'npm',
+    desc: 'Utility for creating HTTP error objects with status codes and messages.',
+    tags: ['tool', 'free', 'guide:nextjs-abstractions'],
+  },
+
+  // ── Database ─────────────────────────────────────────────────────────
+  {
+    id: 'drizzle-docs',
+    url: 'https://orm.drizzle.team/docs/overview',
+    label: 'Drizzle ORM Documentation',
+    source: 'Drizzle',
+    desc: 'Lightweight, type-safe SQL ORM for TypeScript.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'npm-knex',
+    url: 'https://knexjs.org/guide/',
+    label: 'Knex.js Guide',
+    source: 'Knex',
+    desc: 'SQL query builder for Node.js with migration support.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+  {
+    id: 'npm-pg',
+    url: 'https://node-postgres.com/',
+    label: 'node-postgres (pg)',
+    source: 'node-postgres',
+    desc: 'Non-blocking PostgreSQL client for Node.js.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+  },
+
+  // ── Deployment ───────────────────────────────────────────────────────
+  {
+    id: 'docker-getting-started',
+    url: 'https://docs.docker.com/get-started/',
+    label: 'Docker Getting Started',
+    source: 'Docker',
+    desc: 'Introduction to Docker containers, images, and Docker Compose.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'nginx-beginners-guide',
+    url: 'https://nginx.org/en/docs/beginners_guide.html',
+    label: 'Nginx Beginner\u2019s Guide',
+    source: 'Nginx',
+    desc: 'Introduction to Nginx as a web server and reverse proxy.',
+    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'npm-pm2',
+    url: 'https://pm2.keymetrics.io/docs/usage/quick-start/',
+    label: 'PM2 Quick Start',
+    source: 'PM2',
+    desc: 'Production process manager for Node.js with load balancing and monitoring.',
+    tags: ['tool', 'free', 'guide:nextjs-abstractions'],
+  },
+]

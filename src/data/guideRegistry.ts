@@ -7,6 +7,7 @@ import { CICD_GUIDE_SECTIONS, CICD_START_PAGE_DATA } from './cicdData'
 import { AUTH_GUIDE_SECTIONS, AUTH_START_PAGE_DATA } from './authData'
 import { K8S_GUIDE_SECTIONS, K8S_START_PAGE_DATA } from './k8sData'
 import { AI_INFRA_GUIDE_SECTIONS, AI_INFRA_START_PAGE_DATA } from './aiInfraData'
+import { NJA_GUIDE_SECTIONS, NJA_START_PAGE_DATA } from './njaData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -85,6 +86,15 @@ export const guides: GuideDefinition[] = [
       'Understand AI infrastructure from a frontend engineer\u2019s perspective \u2014 from the API calls your React app makes to model serving, vector databases, and GPU clusters.',
     sections: AI_INFRA_GUIDE_SECTIONS,
   },
+  {
+    id: 'nextjs-abstractions',
+    icon: '\u{1F9F1}',        // 🧱
+    title: 'Next.js Abstractions',
+    startPageId: 'nja-start',
+    description:
+      'The backend & middleware concepts that Next.js abstracts away \u2014 and how to handle them yourself when separating frontend from backend.',
+    sections: NJA_GUIDE_SECTIONS,
+  },
 ]
 
 // ── Checklists (extracted from individual guides) ───────────────────
@@ -94,6 +104,7 @@ export const checklistPages = [
   { id: 'test-review-checklist', sourceGuideId: 'testing' },
   { id: 'prompt-claudemd-checklist', sourceGuideId: 'prompt-engineering' },
   { id: 'auth-checklist', sourceGuideId: 'auth' },
+  { id: 'nja-checklist', sourceGuideId: 'nextjs-abstractions' },
 ]
 
 export const checklistsNavDef: GuideDefinition = {
@@ -145,6 +156,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'auth': AUTH_START_PAGE_DATA,
   'kubernetes': K8S_START_PAGE_DATA,
   'ai-infra': AI_INFRA_START_PAGE_DATA,
+  'nextjs-abstractions': NJA_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {

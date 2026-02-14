@@ -1,0 +1,32 @@
+---
+id: "nja-env-config"
+title: "Environment Variables ⚙️"
+guide: "nextjs-abstractions"
+linkRefs:
+  - id: "npm-dotenv"
+    note: "Loads .env files into process.env."
+  - id: "vite-env-variables"
+    note: "How Vite handles environment variables with the VITE_ prefix."
+  - id: "fastify-env"
+    note: "Fastify plugin for env var loading and validation."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-comparison">Next.js vs. You</TocLink>
+  <TocLink id="toc-stack">For Your Stack</TocLink>
+  <TocLink id="toc-terms">Key Terms</TocLink>
+</Toc>
+
+<SectionIntro>
+Next.js cleanly splits environment variables between server and client with the `NEXT_PUBLIC_` prefix. When you separate your app, you manage two `.env` files — and you need to be extra careful about what ends up in the frontend bundle.
+</SectionIntro>
+
+<SectionSubheading id="toc-comparison">Next.js vs. You</SectionSubheading>
+
+<ConceptDetail conceptId="env-config" />
+
+<SectionSubheading id="toc-terms">Key Terms</SectionSubheading>
+
+Terms on this page are defined in the glossary — hover any highlighted term for its definition, or browse the full <NavLink to="glossary">Glossary</NavLink>.
