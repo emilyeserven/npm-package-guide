@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from '@tanstack/react-router'
 import clsx from 'clsx'
+import { checklistPages, guides } from '../data/guideRegistry'
 
 interface FloatingHeaderProps {
   scrolled: boolean
@@ -9,18 +10,30 @@ interface FloatingHeaderProps {
   hasActiveGuide?: boolean
 }
 
-function getGuideInfo(sectionId: string | undefined) {
-  if (!sectionId) return { title: 'Dev Guides', homeId: null }
+function getGuideInfo(sectionId: string | undefined): { title: string; homeId: string | null; isChecklist: boolean } {
+  if (!sectionId) return { title: 'Dev Guides', homeId: null, isChecklist: false }
+
+  // Check if it's a checklist page
+  const checklistPage = checklistPages.find(cp => cp.id === sectionId)
+  if (checklistPage) {
+    const sourceGuide = guides.find(g => g.id === checklistPage.sourceGuideId)
+    return {
+      title: 'Checklists',
+      homeId: sourceGuide?.startPageId ?? null,
+      isChecklist: true,
+    }
+  }
+
   if (sectionId.startsWith('arch-') || sectionId === 'architecture')
-    return { title: 'Architecture Guide', homeId: 'arch-start' }
+    return { title: 'Architecture Guide', homeId: 'arch-start', isChecklist: false }
   if (sectionId.startsWith('prompt-'))
-    return { title: 'Prompt Engineering', homeId: 'prompt-start' }
+    return { title: 'Prompt Engineering', homeId: 'prompt-start', isChecklist: false }
   if (sectionId.startsWith('test-'))
-    return { title: 'Testing Guide', homeId: 'test-start' }
+    return { title: 'Testing Guide', homeId: 'test-start', isChecklist: false }
   if (sectionId === 'external-resources' || sectionId === 'glossary')
-    return { title: 'Dev Guides', homeId: null }
-  // NPM Package Guide pages (roadmap, build, ci-*, storybook, checklist, etc.)
-  return { title: 'Web App vs. NPM Package Guide', homeId: 'roadmap' }
+    return { title: 'Dev Guides', homeId: null, isChecklist: false }
+  // NPM Package Guide pages (roadmap, build, ci-*, storybook, etc.)
+  return { title: 'Web App vs. NPM Package Guide', homeId: 'roadmap', isChecklist: false }
 }
 
 const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
@@ -29,7 +42,7 @@ export function FloatingHeader({ scrolled, onMenuToggle, onSearchClick, effectiv
   const navigate = useNavigate()
   const params = useParams({ strict: false }) as { sectionId?: string }
   const isGuidesIndex = !params.sectionId
-  const { title: guideTitle, homeId } = getGuideInfo(params.sectionId)
+  const { title: guideTitle, homeId, isChecklist } = getGuideInfo(params.sectionId)
   const showHomeButton = !isGuidesIndex && homeId !== null && homeId !== params.sectionId
 
   const handleHomeClick = () => {
@@ -66,11 +79,18 @@ export function FloatingHeader({ scrolled, onMenuToggle, onSearchClick, effectiv
               onClick={handleHomeClick}
               data-testid="home-button"
             >
-              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                <polyline points="9 22 9 12 15 12 15 22"/>
-              </svg>
-              Start Here
+              {isChecklist ? (
+                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="19" y1="12" x2="5" y2="12"/>
+                  <polyline points="12 19 5 12 12 5"/>
+                </svg>
+              ) : (
+                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+              )}
+              {isChecklist ? 'Go to Guide' : 'Start Here'}
             </button>
           )}
           <button

@@ -7,7 +7,7 @@ test.describe('Checklist Page', () => {
 
   test('displays checklist items with checkboxes', async ({ page }) => {
     await expect(page.locator('[data-testid="checklist-item-0"]')).toBeVisible()
-    await expect(page.locator('[data-testid="checklist-progress"]')).toContainText('0 /')
+    await expect(page.locator('[data-testid="checklist-progress"]')).toContainText('0 of')
   })
 
   test('checks and unchecks a checklist item', async ({ page }) => {
@@ -16,22 +16,22 @@ test.describe('Checklist Page', () => {
 
     await checkbox.check()
     await expect(checkbox).toBeChecked()
-    await expect(page.locator('[data-testid="checklist-progress"]')).toContainText('1 /')
+    await expect(page.locator('[data-testid="checklist-progress"]')).toContainText('1 of')
 
     await checkbox.uncheck()
     await expect(checkbox).not.toBeChecked()
-    await expect(page.locator('[data-testid="checklist-progress"]')).toContainText('0 /')
+    await expect(page.locator('[data-testid="checklist-progress"]')).toContainText('0 of')
   })
 
   test('deselect all button clears all checked items', async ({ page }) => {
     // Check a couple items
     await page.locator('[data-testid="checklist-item-0"]').check()
     await page.locator('[data-testid="checklist-item-1"]').check()
-    await expect(page.locator('[data-testid="checklist-progress"]')).toContainText('2 /')
+    await expect(page.locator('[data-testid="checklist-progress"]')).toContainText('2 of')
 
     // Deselect all should appear and work
     await page.locator('[data-testid="deselect-all"]').click()
-    await expect(page.locator('[data-testid="checklist-progress"]')).toContainText('0 /')
+    await expect(page.locator('[data-testid="checklist-progress"]')).toContainText('0 of')
     await expect(page.locator('[data-testid="checklist-item-0"]')).not.toBeChecked()
     await expect(page.locator('[data-testid="checklist-item-1"]')).not.toBeChecked()
   })
