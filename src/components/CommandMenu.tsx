@@ -13,14 +13,32 @@ interface CommandMenuProps {
   onOpenChange: (open: boolean) => void
 }
 
+// Severity badge lookup for Common AI Mistakes pages (replaces emoji in command menu)
+const severityBadges: Record<string, { letter: string; cls: string }> = {
+  'prompt-mistakes-logic': { letter: 'H', cls: 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400' },
+  'prompt-mistakes-apis': { letter: 'H', cls: 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400' },
+  'prompt-mistakes-react': { letter: 'H', cls: 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400' },
+  'prompt-mistakes-security': { letter: 'H', cls: 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400' },
+  'prompt-mistakes-structural': { letter: 'M', cls: 'bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400' },
+  'prompt-mistakes-design': { letter: 'M', cls: 'bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400' },
+  'prompt-mistakes-tailwind': { letter: 'M', cls: 'bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400' },
+  'prompt-testing': { letter: 'M', cls: 'bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400' },
+  'prompt-mistakes-style': { letter: 'L', cls: 'bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400' },
+}
+
 function PageItem({ id, onSelect }: { id: string; onSelect: (id: string) => void }) {
   const title = getNavTitle(id)
   const { text, icon } = parseTitle(title)
+  const badge = severityBadges[id]
 
   return (
     <Command.Item value={title} keywords={[id]} onSelect={() => onSelect(id)}>
       <span className="flex-1 min-w-0 truncate">{text}</span>
-      {icon && <span className="text-base opacity-70 shrink-0">{icon}</span>}
+      {badge ? (
+        <span className={`w-5 h-5 flex items-center justify-center rounded text-[10px] font-bold shrink-0 ${badge.cls}`}>{badge.letter}</span>
+      ) : icon ? (
+        <span className="text-base opacity-70 shrink-0">{icon}</span>
+      ) : null}
     </Command.Item>
   )
 }

@@ -1,6 +1,6 @@
 ---
 id: "prompt-mistakes-react"
-title: "React Component Errors ⚛️"
+title: "React Component Errors"
 guide: "prompt-engineering"
 usedFootnotes: [1]
 linkRefs:
@@ -13,6 +13,7 @@ linkRefs:
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
+<SeverityBadge categoryId="react" />
 
 <SectionIntro>
 AI models frequently generate React code with subtle runtime bugs — stale closures in effects, broken hook rules, incorrect key props, and over-reliance on prop drilling. These mistakes compile and render without errors but cause hard-to-trace bugs like infinite re-renders, lost state, and phantom UI updates. Specifying your React version<FnRef n={1} /> and component conventions in CLAUDE.md is the best defense.
