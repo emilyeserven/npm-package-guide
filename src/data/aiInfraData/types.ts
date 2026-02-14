@@ -29,8 +29,3 @@ export interface InfraWorkflow {
   description: string
   steps: WorkflowStep[]
 }
-
-export interface KeyTerm {
-  term: string
-  definition: string
-}

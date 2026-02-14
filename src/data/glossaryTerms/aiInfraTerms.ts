@@ -61,6 +61,13 @@ export const aiInfraGlossary: GlossaryCategory[] = [
         sectionId: 'ai-key-terms',
       },
       {
+        term: 'Latency (AI)',
+        definition:
+          'The time it takes for a model to generate a response \u2014 measured as time to first token (TTFT) plus time per output token. Streaming helps mask generation latency by showing tokens as they arrive.',
+        linkId: 'openai-api-reference',
+        sectionId: 'ai-key-terms',
+      },
+      {
         term: 'RLHF',
         definition:
           "Reinforcement Learning from Human Feedback. A training technique where human preferences are used to fine-tune a model\u2019s behavior \u2014 humans rank model outputs, and the model learns to produce preferred responses.",
