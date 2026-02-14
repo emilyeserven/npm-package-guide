@@ -29,25 +29,25 @@ export const MISTAKE_CATEGORIES: MistakeCategory[] = [
       {
         id: 'toc-off-by-one',
         mistake: 'Off-by-one errors in loops & boundaries',
-        example: 'for (let i = 0; i <= arr.length) \u2014 goes one past the end',
+        example: '`for (let i = 0; i <= arr.length)` \u2014 goes one past the end',
         fix: 'Explicitly state boundary conditions: "Use zero-indexed, exclusive upper bound"',
       },
       {
         id: 'toc-wrong-boolean',
         mistake: 'Wrong boolean logic / inverted conditions',
-        example: 'if (!isValid || hasPermission) instead of if (isValid && hasPermission)',
+        example: '`if (!isValid || hasPermission)` instead of `if (isValid && hasPermission)`',
         fix: 'Describe the desired behavior in plain English AND provide a truth table in your prompt',
       },
       {
         id: 'toc-edge-case-blindness',
         mistake: 'Edge case blindness (empty arrays, null, 0, NaN)',
-        example: "Doesn't handle empty input \u2192 crashes on .length or .map()",
+        example: "Doesn't handle empty input \u2192 crashes on `.length` or `.map()`",
         fix: 'Prompt: "Handle edge cases including empty input, null, undefined, 0, and NaN"',
       },
       {
         id: 'toc-math-formula',
         mistake: 'Math formula errors',
-        example: 'Averages calculated as (a+b+1)//2 instead of (a+b)/2',
+        example: 'Averages calculated as `(a+b+1)//2` instead of `(a+b)/2`',
         fix: 'For any math logic, include the exact formula or reference a known algorithm',
       },
     ],
@@ -61,19 +61,19 @@ export const MISTAKE_CATEGORIES: MistakeCategory[] = [
       {
         id: 'toc-invents-packages',
         mistake: 'Invents non-existent npm packages or methods',
-        example: "Invents a useTheme hook from a package that doesn't exist on npm",
+        example: "Invents a `useTheme` hook from a package that doesn't exist on npm",
         fix: 'Specify exact libraries: "Use @shadcn/ui v2.x and TanStack Query v5"',
       },
       {
         id: 'toc-deprecated-apis',
         mistake: 'Uses deprecated or renamed APIs',
-        example: 'componentWillMount(), findDOMNode(), or old Next.js page router patterns',
+        example: '`componentWillMount()`, `findDOMNode()`, or old Next.js page router patterns',
         fix: 'Include version constraints: "Use React 19 APIs only, no class components"',
       },
       {
         id: 'toc-cross-language',
         mistake: 'Cross-language API confusion',
-        example: "Uses Python's round() behavior when writing JavaScript, or Java's .equals() in TS",
+        example: "Uses Python's `round()` behavior when writing JavaScript, or Java's `.equals()` in TS",
         fix: 'Specify the language AND runtime: "Node.js 22, TypeScript 5.x strict mode"',
       },
     ],
@@ -105,7 +105,7 @@ export const MISTAKE_CATEGORIES: MistakeCategory[] = [
       {
         id: 'toc-security-gaps',
         mistake: 'Security gaps \u2014 no input sanitization, XSS vectors',
-        example: 'Uses dangerouslySetInnerHTML without sanitizing, or builds SQL with string concat',
+        example: 'Uses `dangerouslySetInnerHTML` without sanitizing, or builds SQL with string concat',
         fix: 'Always prompt: "Follow OWASP security best practices. Sanitize all user input."',
       },
     ],
@@ -119,13 +119,13 @@ export const MISTAKE_CATEGORIES: MistakeCategory[] = [
       {
         id: 'toc-inconsistent-naming',
         mistake: 'Inconsistent naming conventions',
-        example: 'Mixes camelCase and snake_case in the same file',
+        example: 'Mixes `camelCase` and `snake_case` in the same file',
         fix: 'Specify: "Use camelCase for JS/TS, kebab-case for CSS, PascalCase for components"',
       },
       {
         id: 'toc-unnecessary-comments',
         mistake: 'Adds unnecessary comments or over-documents',
-        example: '// This function adds two numbers\\nfunction add(a, b) { return a + b; }',
+        example: '`// This function adds two numbers\\nfunction add(a, b) { return a + b; }`',
         fix: '"Only add comments for complex logic. No obvious comments."',
       },
       {
@@ -145,19 +145,19 @@ export const MISTAKE_CATEGORIES: MistakeCategory[] = [
       {
         id: 'toc-stale-closures',
         mistake: 'Stale closures in useEffect and event handlers',
-        example: 'useEffect(() => { setInterval(() => console.log(count), 1000) }, []) \u2014 count is always 0',
+        example: '`useEffect(() => { setInterval(() => console.log(count), 1000) }, [])` \u2014 count is always 0',
         fix: 'Prompt: "Include all referenced variables in the dependency array. Use refs for values that should not trigger re-renders."',
       },
       {
         id: 'toc-hooks-rules',
         mistake: 'Breaking the Rules of Hooks',
-        example: 'if (condition) { useState(...) } \u2014 hooks called conditionally or inside loops',
+        example: '`if (condition) { useState(...) }` \u2014 hooks called conditionally or inside loops',
         fix: 'Specify: "All hooks must be called unconditionally at the top level of the component. No hooks inside conditions or loops."',
       },
       {
         id: 'toc-key-prop',
         mistake: 'Missing or incorrect key props in lists',
-        example: 'items.map((item, i) => <Card key={i} />) \u2014 index keys cause bugs on reorder or delete',
+        example: '`items.map((item, i) => <Card key={i} />)` \u2014 index keys cause bugs on reorder or delete',
         fix: 'Prompt: "Use stable, unique IDs as keys. Never use array index as key when the list can be reordered, filtered, or modified."',
       },
       {
@@ -177,25 +177,25 @@ export const MISTAKE_CATEGORIES: MistakeCategory[] = [
       {
         id: 'toc-xss-raw-html',
         mistake: 'XSS via unsanitized user content in dangerouslySetInnerHTML',
-        example: '<div dangerouslySetInnerHTML={{ __html: userComment }} /> \u2014 script injection',
+        example: '`<div dangerouslySetInnerHTML={{ __html: userComment }} />` \u2014 script injection',
         fix: 'Prompt: "Never render user-supplied HTML without sanitization. Use DOMPurify or a Markdown renderer with XSS protection."',
       },
       {
         id: 'toc-secrets-client',
         mistake: 'Exposing secrets in client-side code',
-        example: 'const API_KEY = "sk-abc123" hardcoded in a React component or .env without VITE_ prefix check',
+        example: '`const API_KEY = "sk-abc123"` hardcoded in a React component or `.env` without `VITE_` prefix check',
         fix: 'Specify: "All secrets must be server-side only. Client env vars must use the VITE_/NEXT_PUBLIC_ prefix convention. Never commit .env files."',
       },
       {
         id: 'toc-insecure-auth',
         mistake: 'Insecure authentication patterns',
-        example: 'Stores JWT in localStorage (XSS-accessible), or checks auth only on the client without server validation',
+        example: 'Stores JWT in `localStorage` (XSS-accessible), or checks auth only on the client without server validation',
         fix: 'Prompt: "Use httpOnly cookies for tokens. Validate auth server-side on every request. Never trust client-only auth checks."',
       },
       {
         id: 'toc-sql-nosql-injection',
         mistake: 'SQL/NoSQL injection via string concatenation',
-        example: 'db.query(`SELECT * FROM users WHERE id = ${req.params.id}`) \u2014 no parameterization',
+        example: '`db.query(\\`SELECT * FROM users WHERE id = \\${req.params.id}\\`)` \u2014 no parameterization',
         fix: 'Specify: "Always use parameterized queries or an ORM. Never build queries with string concatenation or template literals."',
       },
     ],
@@ -209,25 +209,25 @@ export const MISTAKE_CATEGORIES: MistakeCategory[] = [
       {
         id: 'toc-responsive-breakpoints',
         mistake: 'Ignores responsive design \u2014 hardcoded widths and pixel values',
-        example: 'style={{ width: 1200 }} or fixed px layouts that break on mobile',
+        example: '`style={{ width: 1200 }}` or fixed px layouts that break on mobile',
         fix: 'Prompt: "Use responsive units (rem, %, vw). Design mobile-first. Test at 320px, 768px, and 1280px breakpoints."',
       },
       {
         id: 'toc-accessibility-missing',
         mistake: 'Missing accessibility \u2014 no alt text, labels, or keyboard navigation',
-        example: '<img src={url} />, <button><Icon /></button> with no aria-label, clickable divs instead of buttons',
+        example: '`<img src={url} />`, `<button><Icon /></button>` with no `aria-label`, clickable divs instead of buttons',
         fix: 'Specify: "Follow WCAG 2.1 AA. All images need alt text. All interactive elements must be keyboard-accessible with visible focus styles."',
       },
       {
         id: 'toc-design-spec-drift',
         mistake: 'Drift from design specs \u2014 wrong spacing, colors, and typography',
-        example: "Uses arbitrary margin-top: 17px instead of the design system's 16px (1rem) spacing scale",
+        example: "Uses arbitrary `margin-top: 17px` instead of the design system's `16px` (`1rem`) spacing scale",
         fix: 'In CLAUDE.md: "Use the design system tokens. Spacing: multiples of 4px. Colors: only from the palette. Typography: only defined text styles."',
       },
       {
         id: 'toc-layout-z-index',
         mistake: 'Z-index wars and stacking context confusion',
-        example: 'z-index: 99999 on a modal because a tooltip already has z-index: 9999',
+        example: '`z-index: 99999` on a modal because a tooltip already has `z-index: 9999`',
         fix: 'Prompt: "Use a z-index scale defined in CLAUDE.md (e.g., dropdown: 10, modal: 20, tooltip: 30). Never use arbitrary large values."',
       },
     ],
@@ -241,25 +241,25 @@ export const MISTAKE_CATEGORIES: MistakeCategory[] = [
       {
         id: 'toc-tw-arbitrary-values',
         mistake: 'Overuse of arbitrary values instead of Tailwind scale',
-        example: 'text-[13px] p-[7px] bg-[#1a1a2e] \u2014 bypasses the design system entirely',
+        example: '`text-[13px] p-[7px] bg-[#1a1a2e]` \u2014 bypasses the design system entirely',
         fix: 'Prompt: "Use Tailwind\'s built-in scale values. Arbitrary values only when no built-in equivalent exists."',
       },
       {
         id: 'toc-tw-v3-v4-confusion',
         mistake: 'Mixing Tailwind v3 and v4 syntax',
-        example: 'Uses tailwind.config.js (v3) in a v4 project, or @apply with v4 @theme syntax',
+        example: 'Uses `tailwind.config.js` (v3) in a v4 project, or `@apply` with v4 `@theme` syntax',
         fix: 'Specify the exact version in CLAUDE.md: "Tailwind CSS v4 \u2014 use CSS-first configuration with @theme, not tailwind.config.js."',
       },
       {
         id: 'toc-tw-dynamic-classes',
         mistake: "Dynamic class names that break Tailwind's static analysis",
-        example: '`bg-${color}-500` \u2014 Tailwind can\'t detect this at build time, so the class is purged',
+        example: "`bg-${color}-500` \u2014 Tailwind can't detect this at build time, so the class is purged",
         fix: 'Prompt: "Never construct Tailwind class names dynamically. Use a mapping object: const colorMap = { red: \'bg-red-500\', blue: \'bg-blue-500\' }."',
       },
       {
         id: 'toc-tw-dark-mode',
         mistake: 'Forgetting dark mode variants for new components',
-        example: 'Adds bg-white text-gray-900 but no dark:bg-slate-800 dark:text-slate-100 \u2014 invisible in dark mode',
+        example: 'Adds `bg-white text-gray-900` but no `dark:bg-slate-800 dark:text-slate-100` \u2014 invisible in dark mode',
         fix: 'In CLAUDE.md: "Every background, text, and border color class must have a corresponding dark: variant. Standard dark palette: bg-slate-800, text-slate-200, border-slate-700."',
       },
     ],
@@ -272,7 +272,7 @@ export const TESTING_MISTAKES: TestingMistake[] = [
   {
     context: 'e2e',
     mistake: 'Hardcoded waits instead of proper assertions',
-    example: 'await page.waitForTimeout(3000) instead of await page.waitForSelector("[data-ready]")',
+    example: '`await page.waitForTimeout(3000)` instead of `await page.waitForSelector("[data-ready]")`',
     fix: 'Always wait for a specific DOM state: "Use waitForSelector or expect(locator).toBeVisible(), never arbitrary timeouts"',
   },
   {
@@ -284,7 +284,7 @@ export const TESTING_MISTAKES: TestingMistake[] = [
   {
     context: 'e2e',
     mistake: 'Selectors coupled to implementation details',
-    example: 'page.click(".MuiButton-root > span:nth-child(2)") breaks on any UI refactor',
+    example: '`page.click(".MuiButton-root > span:nth-child(2)")` breaks on any UI refactor',
     fix: 'Require data-testid attributes: "Use data-testid selectors for all interactive elements"',
   },
   {
@@ -296,13 +296,13 @@ export const TESTING_MISTAKES: TestingMistake[] = [
   {
     context: 'unit',
     mistake: 'Testing implementation instead of behavior',
-    example: 'expect(spy).toHaveBeenCalledWith(x) instead of checking the actual output',
+    example: '`expect(spy).toHaveBeenCalledWith(x)` instead of checking the actual output',
     fix: 'Focus on inputs and outputs: "Test what the function returns or renders, not how it works internally"',
   },
   {
     context: 'unit',
     mistake: 'Snapshot tests for everything',
-    example: 'toMatchSnapshot() on a complex component \u2014 any change triggers a meaningless diff',
+    example: '`toMatchSnapshot()` on a complex component \u2014 any change triggers a meaningless diff',
     fix: 'Use snapshots sparingly: "Only snapshot stable, small structures. Prefer explicit assertions."',
   },
   {
@@ -314,13 +314,13 @@ export const TESTING_MISTAKES: TestingMistake[] = [
   {
     context: 'unit',
     mistake: 'Missing async error handling tests',
-    example: 'Only tests the happy path of a fetch call, never the rejection case',
+    example: 'Only tests the happy path of a `fetch` call, never the rejection case',
     fix: 'Always test failure paths: "Include tests for rejected promises, thrown errors, and timeout scenarios"',
   },
   {
     context: 'unit',
     mistake: 'Tests pass with wrong assertions due to .not or negation errors',
-    example: 'expect(result).not.toBeNull() passes even when result is undefined',
+    example: '`expect(result).not.toBeNull()` passes even when result is `undefined`',
     fix: 'Use precise matchers: "Prefer toBe, toEqual, or toStrictEqual over negated assertions"',
   },
   {

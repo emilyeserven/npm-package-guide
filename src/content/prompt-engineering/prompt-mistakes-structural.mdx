@@ -24,6 +24,18 @@ AI-generated code sometimes ignores your project&rsquo;s existing patterns, over
   <TocLink id="toc-incomplete-code">Incomplete code — missing imports, exports, error handling</TocLink>
   <TocLink id="toc-ignores-patterns">Ignores existing project patterns</TocLink>
   <TocLink id="toc-security-gaps">Security gaps — no input sanitization, XSS vectors</TocLink>
+  <TocLink id="toc-structural-prompts">All Prompts</TocLink>
+  <TocLink id="toc-structural-tools">AI Tool Tips</TocLink>
 </Toc>
 
 <MistakeList categoryId="structural" />
+
+<PromptCollection categoryId="structural" />
+
+<SectionSubheading id="toc-structural-tools">{'\u{1F6E0}\uFE0F'} AI Tool Tips</SectionSubheading>
+
+<SectionList>
+<ColItem><strong>MCP Servers:</strong> Use the <strong>Filesystem</strong> MCP server to give Claude access to your project structure and existing patterns, or <strong>GitHub</strong> MCP to search for how similar features are implemented in your repo.</ColItem>
+<ColItem><strong>CLI Tools:</strong> Review structural consistency: <code>git diff --staged | claude -p "Check that this code follows existing project patterns. Flag over-engineering, missing imports/exports, and security gaps"</code></ColItem>
+<ColItem><strong>Claude Skills:</strong> Create a <code>/project:arch-review</code> slash command that enforces your project's architectural patterns (state management, data fetching, file structure) from CLAUDE.md.</ColItem>
+</SectionList>

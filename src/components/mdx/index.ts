@@ -36,6 +36,7 @@ import { ToolDetail } from './prompt-engineering/ToolDetail'
 import { MetaTooling } from './prompt-engineering/MetaTooling'
 import { CodingToolExplorer } from './prompt-engineering/CodingToolExplorer'
 import { ToolOverview, ToolDecisionMatrix, ToolComboPatterns } from './prompt-engineering/ToolOverview'
+import { PromptCollection } from './prompt-engineering/PromptCollection'
 // ci-cd
 import { PipelineStages } from './ci-cd/PipelineStages'
 import { YamlExplorer } from './ci-cd/YamlExplorer'
@@ -116,6 +117,7 @@ export const mdxComponents: MDXComponents = {
   ToolOverview,
   ToolDecisionMatrix,
   ToolComboPatterns,
+  PromptCollection,
   PipelineStages,
   YamlExplorer,
   PatternCards,

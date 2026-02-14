@@ -23,6 +23,18 @@ Lower severity but still annoying &mdash; AI models can drift from your project&
   <TocLink id="toc-inconsistent-naming">Inconsistent naming conventions</TocLink>
   <TocLink id="toc-unnecessary-comments">Adds unnecessary comments or over-documents</TocLink>
   <TocLink id="toc-formatting-rules">Forgets semicolons, trailing commas, or formatting rules</TocLink>
+  <TocLink id="toc-style-prompts">All Prompts</TocLink>
+  <TocLink id="toc-style-tools">AI Tool Tips</TocLink>
 </Toc>
 
 <MistakeList categoryId="style" />
+
+<PromptCollection categoryId="style" />
+
+<SectionSubheading id="toc-style-tools">{'\u{1F6E0}\uFE0F'} AI Tool Tips</SectionSubheading>
+
+<SectionList>
+<ColItem><strong>MCP Servers:</strong> Use the <strong>Filesystem</strong> MCP server to give Claude access to your <code>.eslintrc</code>, <code>.prettierrc</code>, and style configuration files so it can match your formatting rules exactly.</ColItem>
+<ColItem><strong>CLI Tools:</strong> Enforce style consistency: <code>git diff --staged -- "*.ts" "*.tsx" | claude -p "Check for naming convention inconsistencies, unnecessary comments, and formatting rule violations"</code></ColItem>
+<ColItem><strong>Claude Skills:</strong> Create a <code>/project:style-check</code> slash command that verifies naming conventions, comment quality, and formatting against your CLAUDE.md style rules.</ColItem>
+</SectionList>

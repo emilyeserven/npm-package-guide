@@ -22,6 +22,18 @@ AI models frequently produce subtle logic errors<FnRef n={1} /> &mdash; off-by-o
   <TocLink id="toc-wrong-boolean">Wrong boolean logic / inverted conditions</TocLink>
   <TocLink id="toc-edge-case-blindness">Edge case blindness (empty arrays, null, 0, NaN)</TocLink>
   <TocLink id="toc-math-formula">Math formula errors</TocLink>
+  <TocLink id="toc-logic-prompts">All Prompts</TocLink>
+  <TocLink id="toc-logic-tools">AI Tool Tips</TocLink>
 </Toc>
 
 <MistakeList categoryId="logic" />
+
+<PromptCollection categoryId="logic" />
+
+<SectionSubheading id="toc-logic-tools">{'\u{1F6E0}\uFE0F'} AI Tool Tips</SectionSubheading>
+
+<SectionList>
+<ColItem><strong>MCP Servers:</strong> Use the <strong>Fetch</strong> MCP server to pull language specification details (MDN, Node.js docs) when verifying boundary conditions and math operations in AI-generated code.</ColItem>
+<ColItem><strong>CLI Tools:</strong> Verify logic correctness: <code>cat src/utils/calculate.ts | claude -p "Check for off-by-one errors, inverted boolean conditions, and unhandled edge cases (null, undefined, 0, NaN)"</code></ColItem>
+<ColItem><strong>Claude Skills:</strong> Create a <code>/project:logic-review</code> slash command that checks for boundary conditions, boolean logic correctness, and edge case handling against your project's patterns.</ColItem>
+</SectionList>
