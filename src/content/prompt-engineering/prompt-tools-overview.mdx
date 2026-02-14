@@ -1,0 +1,58 @@
+---
+id: "prompt-tools-overview"
+title: "Advanced Tools Overview 🗺️"
+guide: "prompt-engineering"
+usedFootnotes: [1]
+linkRefs:
+  - id: "anthropic-claude-code"
+    note: "Claude Code documentation covering all advanced tool features."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+Claude Code&rsquo;s advanced tools<FnRef n={1} /> extend what the AI can do, automate repetitive tasks, and standardize workflows across your team. Each tool solves a different problem &mdash; and they become even more powerful when combined. This page helps you decide which tool to reach for and when.
+</SectionIntro>
+
+<Toc>
+  <TocLink id="toc-tools">The Tools at a Glance</TocLink>
+  <TocLink id="toc-when">When to Use What</TocLink>
+  <TocLink id="toc-combos">Combining Tools</TocLink>
+  <TocLink id="toc-start">Where to Start</TocLink>
+</Toc>
+
+<SectionSubheading id="toc-tools">The Tools at a Glance</SectionSubheading>
+
+Each tool addresses a specific need. Understanding what each one does will help you pick the right one for your situation.
+
+<ToolOverview />
+
+Dive deeper into each tool on its dedicated page: <NavLink to="prompt-tools-mcp" />, <NavLink to="prompt-tools-skills" />, <NavLink to="prompt-tools-claude-skills" />, <NavLink to="prompt-tools-hooks" />, and <NavLink to="prompt-tools-optimization" />.
+
+<SectionSubheading id="toc-when">When to Use What</SectionSubheading>
+
+Choosing the right tool starts with the problem you&rsquo;re solving. Here are common scenarios and which tool fits best.
+
+<ToolDecisionMatrix />
+
+<SectionSubheading id="toc-combos">Combining Tools</SectionSubheading>
+
+The real power of advanced tools comes from using them together. Each tool covers a different layer of the workflow &mdash; MCP extends capabilities, skills define processes, hooks enforce standards, and optimization makes everything faster.
+
+<ToolComboPatterns />
+
+<SectionSubheading id="toc-start">Where to Start</SectionSubheading>
+
+If you&rsquo;re new to Claude Code&rsquo;s advanced tools, start with the tool that solves your most immediate pain point:
+
+<SectionList>
+<ColItem><strong>Spending time re-typing prompts?</strong> Start with <NavLink to="prompt-tools-skills">Custom Slash Commands</NavLink> &mdash; create a single command for your most common task.</ColItem>
+<ColItem><strong>Want Claude to access external docs or APIs?</strong> Start with <NavLink to="prompt-tools-mcp">MCP Servers</NavLink> &mdash; the Fetch server alone opens up the web.</ColItem>
+<ColItem><strong>Tired of manually formatting AI-generated code?</strong> Start with <NavLink to="prompt-tools-hooks">Hooks</NavLink> &mdash; a PostToolUse hook on Write/Edit auto-formats every change.</ColItem>
+<ColItem><strong>Need multi-step, verified workflows?</strong> Start with <NavLink to="prompt-tools-claude-skills">Claude Skills</NavLink> &mdash; encode your process with built-in checks.</ColItem>
+<ColItem><strong>Integrating Claude into scripts or CI?</strong> Start with <NavLink to="prompt-tools-optimization">Performance Optimization</NavLink> &mdash; headless mode is the gateway to automation.</ColItem>
+</SectionList>
+
+<SectionNote>
+Each tool page includes a <strong>Pros &amp; Cons</strong> section to help you evaluate trade-offs for your specific use case.
+</SectionNote>

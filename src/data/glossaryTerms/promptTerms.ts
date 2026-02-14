@@ -88,6 +88,12 @@ export const promptGlossary: GlossaryCategory[] = [
         sectionId: "prompt-tools-skills"
       },
       {
+        term: "Claude Skills",
+        definition: "Structured prompt workflows that combine multi-step instructions, tool configurations, and verification steps into reusable packages. Skills go beyond simple slash commands by encoding complex processes like code reviews, migrations, and onboarding.",
+        linkId: "anthropic-claude-code-skills",
+        sectionId: "prompt-tools-claude-skills"
+      },
+      {
         term: "Prompt Caching",
         definition: "An API optimization that reuses repeated context across multiple calls instead of re-processing it each time. Reduces latency and cost when the same system prompt or large context block is sent repeatedly.",
         linkId: "anthropic-prompt-caching",

@@ -80,7 +80,7 @@ export const PROMPT_GUIDE_SECTIONS: GuideSection[] = [
     'prompt-coding-tools', 'prompt-cli-reference', 'prompt-meta-tooling',
   ]},
   { label: 'Advanced Tools', ids: [
-    'prompt-tools-mcp', 'prompt-tools-skills', 'prompt-tools-hooks', 'prompt-tools-optimization',
+    'prompt-tools-overview', 'prompt-tools-mcp', 'prompt-tools-skills', 'prompt-tools-claude-skills', 'prompt-tools-hooks', 'prompt-tools-optimization',
   ]},
 ]
 
@@ -151,11 +151,13 @@ export const PROMPT_START_PAGE_DATA: StartPageData = {
       type: 'numbered',
       num: 4,
       title: 'Advanced Tools',
-      description: 'Deep dives into MCP servers, custom slash commands, hooks, and performance optimization.',
+      description: 'Deep dives into MCP servers, custom slash commands, skills, hooks, and performance optimization.',
       sectionLabel: 'Advanced Tools',
       subItemDescriptions: {
+        'prompt-tools-overview': 'Which tool to use when, and how they work together.',
         'prompt-tools-mcp': 'Configure MCP servers for external data, APIs, and custom tools.',
         'prompt-tools-skills': 'Create reusable slash commands for team-wide consistency.',
+        'prompt-tools-claude-skills': 'Multi-step prompt workflows with verification and tool orchestration.',
         'prompt-tools-hooks': 'Automate workflows with event-driven shell command hooks.',
         'prompt-tools-optimization': 'Headless mode, batch processing, and context management strategies.',
       },

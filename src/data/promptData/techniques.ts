@@ -137,6 +137,20 @@ export const TOOL_TECHNIQUES: ToolTechnique[] = [
       'The GitHub server is especially valuable for mono-repo workflows where you need to reference code across multiple repositories',
       'Environment variables in .mcp.json support $VAR syntax so you can reference secrets without committing them',
     ],
+    pros: [
+      'Extends Claude with capabilities it doesn\u2019t have natively \u2014 databases, web search, file systems, APIs',
+      'Open standard with a growing ecosystem of community-maintained servers',
+      'Project-level configs (.mcp.json) are version-controlled and shared with the team automatically',
+      'Composable: combine multiple servers for powerful multi-tool workflows',
+      'Zero-code setup for most community servers \u2014 just add a JSON config entry',
+    ],
+    cons: [
+      'Each server adds startup latency \u2014 too many servers slows down Claude Code initialization',
+      'Server processes consume system resources (memory, CPU) while running',
+      'Debugging server issues can be opaque \u2014 error messages from failed MCP calls are sometimes unclear',
+      'Security surface increases with each server \u2014 each one has access to external systems',
+      'Some community servers are not well-maintained or may have breaking changes',
+    ],
   },
   {
     id: 'skills',
@@ -268,6 +282,20 @@ Include:
       'Reference CLAUDE.md in your commands ("Adherence to project conventions in CLAUDE.md") to leverage your existing context',
       'Create a /project:onboard command for new team members that explains the codebase, key patterns, and how to run the project',
       'Combine commands with MCP servers for powerful workflows \u2014 a review command can ask Claude to fetch relevant docs via the Fetch server',
+    ],
+    pros: [
+      'Dead simple to create \u2014 just a Markdown file in a directory',
+      'Version-controlled via git, so the whole team gets the same commands automatically',
+      'Turns complex multi-paragraph prompts into a single reusable command',
+      '$ARGUMENTS placeholder makes commands flexible for different inputs',
+      'No code or tooling required \u2014 purely text-based configuration',
+    ],
+    cons: [
+      'Limited to static prompt templates \u2014 no conditional logic, branching, or dynamic content generation',
+      'No built-in way to chain commands together or compose them into workflows',
+      'Discoverability is low \u2014 team members need to know commands exist and what they\u2019re called',
+      '$ARGUMENTS is the only dynamic substitution available \u2014 can\u2019t pass structured parameters',
+      'No output validation or error handling \u2014 the command just expands into a prompt',
     ],
   },
   {
@@ -406,6 +434,20 @@ Include:
       'Combine hooks with slash commands: a /project:review command can trigger a PostToolUse hook that runs your test suite',
       'Use project-level .claude/settings.json for team-shared hooks and global settings for personal preferences',
     ],
+    pros: [
+      'Fully automatic \u2014 no manual intervention needed once configured',
+      'PreToolUse hooks can block dangerous operations before they happen',
+      'Enforces project standards (formatting, linting) consistently on every change',
+      'Works with any shell command \u2014 integrate with existing tools and scripts',
+      'Project-level hooks are shared via git, ensuring team-wide consistency',
+    ],
+    cons: [
+      'Slow hooks add latency to every tool call \u2014 a heavy hook on every Write degrades the experience',
+      'Debugging hook failures can be tricky \u2014 a broken PreToolUse hook blocks all operations',
+      'Shell command syntax can be fragile across different operating systems',
+      'No built-in hook testing framework \u2014 you have to test hooks manually',
+      'Overly aggressive PreToolUse guards can block legitimate operations and frustrate Claude',
+    ],
   },
   {
     id: 'optimization',
@@ -516,6 +558,208 @@ wait`,
       'Use --output-format json when results will be parsed by another script \u2014 it provides structured, predictable output',
       'For CI/CD, run AI review after lint/test pass to avoid wasting API calls on code that fails basic checks',
       'Scope your prompts: "review src/auth/ for SQL injection" is better than "review everything for all issues"',
+    ],
+    pros: [
+      'Headless mode enables full CI/CD integration \u2014 Claude becomes a step in automated pipelines',
+      'Piped context is faster and cheaper than letting Claude search for files itself',
+      'JSON output format enables programmatic consumption and script-driven workflows',
+      'Unix tool composability (find, xargs, pipes) allows batch processing at scale',
+      'Scoped tasks produce more accurate and focused results',
+    ],
+    cons: [
+      'Headless mode loses interactive features \u2014 no follow-up questions or iterative refinement',
+      'Batch processing with xargs can hit API rate limits on high-frequency usage',
+      'JSON output parsing requires additional scripting effort compared to reading text',
+      'Piped context limits the model\u2019s ability to discover relevant surrounding code',
+      'Requires familiarity with unix tools and shell scripting for advanced workflows',
+    ],
+  },
+  {
+    id: 'claude-skills',
+    name: 'Claude Skills',
+    icon: '\u{1F9E9}',
+    description: 'Pre-built prompt workflows that combine instructions, tool configurations, and multi-step logic into reusable packages',
+    details: [
+      'Skills are structured prompt packages that go beyond simple slash commands \u2014 they can include multi-step instructions, tool permissions, output format requirements, and domain-specific knowledge',
+      'While slash commands are static Markdown templates, skills can encode complex workflows: "analyze the codebase, generate a plan, implement changes, run tests, and iterate"',
+      'Skills leverage Claude\u2019s ability to follow detailed multi-step instructions, making them ideal for encoding team-specific workflows that would be too complex for a single slash command',
+      'Think of skills as "recipes" \u2014 they tell Claude not just what to do, but how to do it, what tools to use, and what quality standards to apply',
+      'Skills can reference CLAUDE.md for project context, use MCP servers for external data, and trigger hooks for automation \u2014 tying the entire Advanced Tools ecosystem together',
+      'Community and team-shared skills can standardize how an organization uses AI for common tasks like code review, migration, onboarding, and documentation',
+    ],
+    bestFor: [
+      'Complex multi-step workflows that require a specific sequence of actions (analyze \u2192 plan \u2192 implement \u2192 verify)',
+      'Team-wide standardization of how AI handles recurring tasks like PR reviews, migrations, and onboarding',
+      'Domain-specific expertise encoding \u2014 capturing senior engineer knowledge in a reusable format',
+      'Quality gates: skills that include verification steps, checklist validation, and output standards',
+      'Cross-tool orchestration \u2014 skills that combine MCP servers, hooks, and slash commands into cohesive workflows',
+      'Reducing "prompt drift" by giving teams a single, maintained source of truth for common AI tasks',
+    ],
+    implementation: [
+      {
+        title: 'Identify a repeatable workflow',
+        description: 'Start with a task your team does regularly that involves multiple steps. A security review, a component migration, or an onboarding walkthrough are good candidates.',
+      },
+      {
+        title: 'Write the skill as a detailed prompt',
+        description: 'Create a Markdown file in .claude/commands/ that encodes the full workflow. Include step-by-step instructions, quality criteria, and output format requirements.',
+        code: `# .claude/commands/component-review.md
+Review the component in $ARGUMENTS following this workflow:
+
+## Step 1: Analyze
+- Read the component and all its imports
+- Identify the component's purpose and API surface
+- List all props and their types
+
+## Step 2: Check Quality
+- [ ] Accessibility: keyboard nav, ARIA labels, focus management
+- [ ] Performance: unnecessary re-renders, missing memoization
+- [ ] Security: XSS vectors, unsanitized input
+- [ ] Testing: edge cases covered, error states handled
+- [ ] Conventions: follows patterns in CLAUDE.md
+
+## Step 3: Report
+Output a structured review with severity ratings.
+For each finding: severity, location, issue, fix.`,
+      },
+      {
+        title: 'Add tool and context requirements',
+        description: 'Reference MCP servers, CLAUDE.md sections, or specific files that the skill needs. This tells Claude what resources to use during execution.',
+        code: `# .claude/commands/full-review.md
+Before starting, read CLAUDE.md for project conventions.
+
+If the Fetch MCP server is available, pull the latest
+React docs for any patterns you're unsure about.
+
+Review $ARGUMENTS for:
+1. Security (reference OWASP Top 10)
+2. Performance (check for N+1 patterns)
+3. Accessibility (WCAG 2.1 AA compliance)
+4. Project convention adherence (per CLAUDE.md)
+
+After review, run the project's lint and test commands
+to verify your suggestions don't break anything.`,
+      },
+      {
+        title: 'Include verification steps',
+        description: 'The most valuable skills include built-in verification \u2014 asking Claude to check its own work before declaring the task complete.',
+        code: `# .claude/commands/migrate-component.md
+Migrate $ARGUMENTS from Flowbite to shadcn/ui:
+
+1. Read the current component and list all Flowbite imports
+2. Map each Flowbite component to its shadcn equivalent
+3. Implement the migration
+4. Verify:
+   - [ ] No Flowbite imports remain
+   - [ ] All props are correctly mapped
+   - [ ] Dark mode still works
+   - [ ] Accessibility attributes preserved
+5. Run: pnpm lint && pnpm build
+6. If either fails, fix and re-run until clean`,
+      },
+      {
+        title: 'Test and iterate',
+        description: 'Run the skill on a real task and refine based on the results. Add constraints for mistakes Claude makes, and remove steps that aren\u2019t necessary.',
+      },
+    ],
+    examples: [
+      {
+        title: 'Security audit skill',
+        code: `# .claude/commands/security-audit.md
+Perform a thorough security audit of $ARGUMENTS:
+
+## Analysis Phase
+1. Read all files in the target path
+2. Identify all data flow paths (user input → processing → output)
+3. Map all external API calls and database queries
+
+## Check Against OWASP Top 10
+For each OWASP category, check for:
+- A01: Broken Access Control
+- A02: Cryptographic Failures
+- A03: Injection (SQL, NoSQL, OS command, LDAP)
+- A07: Cross-Site Scripting (XSS)
+
+## Output Format
+For each finding:
+| Field | Content |
+|-------|---------|
+| Severity | Critical / High / Medium / Low |
+| Category | OWASP category |
+| Location | File:line |
+| Issue | What the vulnerability is |
+| Fix | Specific code change |
+
+## Verification
+After documenting findings, re-read each flagged file
+to confirm the vulnerability is real (not a false positive).`,
+        description: 'A comprehensive security audit skill that follows OWASP methodology with built-in false-positive checking.',
+      },
+      {
+        title: 'Onboarding skill',
+        code: `# .claude/commands/onboard.md
+Welcome a new team member to this codebase:
+
+1. Read CLAUDE.md and summarize the project in 2-3 sentences
+2. Explain the tech stack and why each choice was made
+3. Walk through the directory structure (focus on src/)
+4. Show how to run: dev server, tests, lint, build
+5. Highlight the top 3 conventions from CLAUDE.md
+6. List the 5 most-edited files (git log --format='%H' -1000
+   | xargs git diff-tree --no-commit-id --name-only -r
+   | sort | uniq -c | sort -rn | head -5)
+7. Suggest a good first task based on open issues
+
+Keep explanations concise — assume backend experience
+but no frontend background.`,
+        description: 'An onboarding skill that automatically generates a codebase walkthrough customized to the project.',
+      },
+      {
+        title: 'Documentation generator skill',
+        code: `# .claude/commands/document.md
+Generate documentation for $ARGUMENTS:
+
+1. Read the target file(s)
+2. Identify all exports (functions, classes, types, constants)
+3. For each export:
+   - Purpose (one sentence)
+   - Parameters/props with types
+   - Return value
+   - Example usage
+   - Edge cases and gotchas
+
+Format as JSDoc comments directly above each export.
+Do NOT add comments to private/internal functions
+unless their behavior is non-obvious.
+
+After adding docs, run: pnpm lint
+Fix any lint errors before finishing.`,
+        description: 'A documentation skill that generates JSDoc comments and verifies they pass lint.',
+      },
+    ],
+    tips: [
+      'Start simple and iterate \u2014 a 5-step skill that works is better than a 20-step skill that\u2019s fragile',
+      'Include verification steps ("run lint", "check tests") to catch mistakes before the skill completes',
+      'Reference CLAUDE.md explicitly in skills so Claude uses your project\u2019s conventions, not generic patterns',
+      'Combine skills with MCP servers for powerful workflows \u2014 a review skill can fetch external docs via the Fetch server',
+      'Use skills to encode senior engineer knowledge \u2014 the "how we do things here" that\u2019s hard to write in CLAUDE.md',
+      'Keep skills in .claude/commands/ and commit to git so the whole team shares the same workflows',
+    ],
+    pros: [
+      'Encodes complex multi-step workflows into a single reusable command',
+      'Combines instructions, tool usage, and verification into cohesive packages',
+      'Captures senior engineer knowledge in a shareable, version-controlled format',
+      'Reduces "prompt drift" \u2014 the whole team uses the same standardized workflow',
+      'Built-in verification steps catch mistakes before the skill completes',
+      'Composable with the full Advanced Tools ecosystem (MCP, hooks, CLAUDE.md)',
+    ],
+    cons: [
+      'Complex skills are harder to write and maintain than simple slash commands',
+      'Long skill prompts consume context window tokens, leaving less room for code',
+      'No built-in parameterization beyond $ARGUMENTS \u2014 complex inputs require conventions',
+      'Skill quality depends heavily on prompt engineering ability of the author',
+      'No execution guarantees \u2014 Claude may skip steps or reinterpret instructions',
+      'Testing skills requires running them against real code, which can be slow',
     ],
   },
 ]
