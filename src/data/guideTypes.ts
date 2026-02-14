@@ -39,4 +39,5 @@ export interface StartPageData {
   headingText?: string
   headingDescription?: string
   steps: StartPageStep[]
+  relatedGuides?: string[]
 }

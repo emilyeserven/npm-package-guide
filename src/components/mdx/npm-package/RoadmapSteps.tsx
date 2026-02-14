@@ -1,8 +1,11 @@
 import { roadmapSteps } from '../../../data/roadmapSteps'
 import { getNavTitle } from '../../../data/navigation'
 import { JumpButton } from '../../JumpButton'
+import { useNavigateToSection } from '../../../hooks/useNavigateToSection'
 
 export function RoadmapSteps() {
+  const navigateToSection = useNavigateToSection()
+
   return (
     <>
       {roadmapSteps.map(step => (
@@ -21,11 +24,13 @@ export function RoadmapSteps() {
             )}
             {step.substep && (
               <div className="mt-4 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
-                <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5">{step.substep.title}</h3>
+                <h3
+                  className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors inline-flex items-center gap-1"
+                  onClick={() => navigateToSection(step.substep!.jumpTo)}
+                >
+                  {step.substep.title} <span className="text-blue-500 dark:text-blue-400">{'\u2192'}</span>
+                </h3>
                 <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed">{step.substep.text}</div>
-                <JumpButton jumpTo={step.substep.jumpTo} style={{ marginTop: 4 }}>
-                  {'\u2192'} Deep dive: {getNavTitle(step.substep.jumpTo)}
-                </JumpButton>
               </div>
             )}
           </div>

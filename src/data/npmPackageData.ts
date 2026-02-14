@@ -20,6 +20,7 @@ export const NPM_START_PAGE_DATA: StartPageData = {
   tip: 'Look for the green "Explain it to me" dropdowns for backend-friendly analogies.',
   headingText: '\u{1F680} Building a Package: Step by Step',
   headingDescription: 'New to npm packages? Follow these steps in order. Each step links to a deeper explanation in the other tabs. This is the order you\u2019d actually set things up in a real project.',
+  relatedGuides: ['architecture'],
   steps: [
     {
       type: 'bonus',
@@ -42,18 +43,6 @@ export const NPM_START_PAGE_DATA: StartPageData = {
       subItemDescriptions: {
         'storybook': 'Storybook is a tool for building and testing UI components in isolation \u2014 outside of your app. Think of it like a visual unit test lab for your UI.',
       },
-    },
-    {
-      type: 'bonus',
-      title: 'Bonus: Developer Experience',
-      description: '',
-      customSubItems: [
-        {
-          title: '\u{1F3D7}\uFE0F Architecture Guide',
-          description: 'An interactive guide to web tech stacks \u2014 explore each layer of a modified MERN stack and compare popular alternatives like LAMP, Django, and Rails.',
-          jumpTo: 'arch-start',
-        },
-      ],
     },
   ],
 }

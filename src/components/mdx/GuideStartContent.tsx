@@ -2,41 +2,34 @@ import { useNavigate } from '@tanstack/react-router'
 import { guides, getStartPageData, checklistPages } from '../../data/guideRegistry'
 import { contentPages } from '../../content/registry'
 import { getNavTitle } from '../../data/navigation'
-import { JumpButton, jumpBtnCls } from '../JumpButton'
+import { JumpButton } from '../JumpButton'
 import { RoadmapSteps } from './npm-package/RoadmapSteps'
-import type { StartPageStep, StartPageSubItem } from '../../data/guideTypes'
+import type { GuideDefinition, StartPageStep, StartPageSubItem } from '../../data/guideTypes'
 import { parseTitle } from '../../helpers/parseTitle'
-
-function GuideFilterButton({ sectionId, guideId, children }: { sectionId: string; guideId: string; children: React.ReactNode }) {
-  const navigate = useNavigate()
-  return (
-    <button
-      className={jumpBtnCls}
-      onClick={() => {
-        navigate({ to: '/$sectionId', params: { sectionId }, search: { guide: guideId } })
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      }}
-    >
-      {children}
-    </button>
-  )
-}
+import { useNavigateToSection } from '../../hooks/useNavigateToSection'
 
 function SubItem({ item, guideId }: { item: StartPageSubItem; guideId: string }) {
+  const navigateToSection = useNavigateToSection()
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    if (item.jumpType === 'guide-filter') {
+      navigate({ to: '/$sectionId', params: { sectionId: item.jumpTo }, search: { guide: guideId } })
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else {
+      navigateToSection(item.jumpTo)
+    }
+  }
+
   return (
     <div className="mt-4.5 py-2 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
-      <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5">{item.title}</h3>
+      <h3
+        className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors inline-flex items-center gap-1"
+        onClick={handleClick}
+      >
+        {item.title} <span className="text-blue-500 dark:text-blue-400">{'\u2192'}</span>
+      </h3>
       <div className="text-sm text-slate-800 dark:text-slate-300 leading-normal mb-1">{item.description}</div>
-      {item.tags && (
-        <div className="mb-1" />
-      )}
-      {item.jumpType === 'guide-filter' ? (
-        <GuideFilterButton sectionId={item.jumpTo} guideId={guideId}>
-          {'\u2192'} View with filter
-        </GuideFilterButton>
-      ) : (
-        <JumpButton jumpTo={item.jumpTo}>{'\u2192'} Deep dive: {item.title}</JumpButton>
-      )}
       {item.tags && (
         <div className="mt-2 flex flex-wrap gap-1.5">
           {item.tags.map(tag => (
@@ -182,6 +175,34 @@ function GuideStartResources({ guideId }: { guideId: string }) {
   )
 }
 
+function GuideStartRelatedGuides({ guideIds }: { guideIds: string[] }) {
+  const navigateToSection = useNavigateToSection()
+  const relatedGuides = guideIds
+    .map(id => guides.find(g => g.id === id))
+    .filter((g): g is GuideDefinition => g !== undefined)
+
+  if (relatedGuides.length === 0) return null
+
+  return (
+    <div className="mt-7 pt-6 border-t-2 border-dashed border-slate-300 dark:border-slate-600">
+      <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-4">{'\u{1F9ED}'} Related Guides</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {relatedGuides.map(g => (
+          <button
+            key={g.id}
+            className={tileCls}
+            onClick={() => navigateToSection(g.startPageId)}
+          >
+            <span className="text-2xl mb-2">{g.icon}</span>
+            <span className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-1">{g.title}</span>
+            <span className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{g.description}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export function GuideStartContent({ guideId }: { guideId: string }) {
   const guide = guides.find(g => g.id === guideId)
   const startData = getStartPageData(guideId)
@@ -208,6 +229,10 @@ export function GuideStartContent({ guideId }: { guideId: string }) {
       {startData.steps.map((step, i) => (
         <StepCard key={i} step={step} guide={guide} />
       ))}
+
+      {startData.relatedGuides && startData.relatedGuides.length > 0 && (
+        <GuideStartRelatedGuides guideIds={startData.relatedGuides} />
+      )}
 
       <GuideStartResources guideId={guideId} />
     </div>
