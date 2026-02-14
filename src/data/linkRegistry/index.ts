@@ -43,6 +43,7 @@ import { authLinks } from './authLinks'
 import { kubernetesLinks } from './kubernetesLinks'
 import { aiInfraLinks } from './aiInfraLinks'
 import { njaLinks } from './njaLinks'
+import { wpAgentsLinks } from './wpAgentsLinks'
 
 export const linkRegistry: RegistryLink[] = [
   ...npmPackageLinks,
@@ -54,6 +55,7 @@ export const linkRegistry: RegistryLink[] = [
   ...kubernetesLinks,
   ...aiInfraLinks,
   ...njaLinks,
+  ...wpAgentsLinks,
 ]
 
 /** Fast lookup by registry ID */

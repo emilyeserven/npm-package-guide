@@ -8,6 +8,7 @@ import { AUTH_GUIDE_SECTIONS, AUTH_START_PAGE_DATA } from './authData'
 import { K8S_GUIDE_SECTIONS, K8S_START_PAGE_DATA } from './k8sData'
 import { AI_INFRA_GUIDE_SECTIONS, AI_INFRA_START_PAGE_DATA } from './aiInfraData'
 import { NJA_GUIDE_SECTIONS, NJA_START_PAGE_DATA } from './njaData'
+import { WP_AGENTS_GUIDE_SECTIONS } from './wpAgentsData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -94,6 +95,16 @@ export const guides: GuideDefinition[] = [
     description:
       'The backend & middleware concepts that Next.js abstracts away \u2014 and how to handle them yourself when separating frontend from backend.',
     sections: NJA_GUIDE_SECTIONS,
+  },
+  {
+    id: 'wp-agents',
+    icon: '\u{1F50C}',        // 🔌
+    title: 'WordPress API & Agents',
+    startPageId: 'wp-agents-guide',
+    description:
+      'Generate TypeScript interfaces and test mocks from your WordPress REST API schema using Claude Code Web.',
+    sections: WP_AGENTS_GUIDE_SECTIONS,
+    singlePage: true,
   },
 ]
 

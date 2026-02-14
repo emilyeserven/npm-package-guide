@@ -1,0 +1,940 @@
+---
+id: "wp-agents-guide"
+title: "WordPress API to TypeScript \u26A1"
+guide: "wp-agents"
+usedFootnotes: [1, 2, 3, 4, 5, 6, 7, 8]
+linkRefs:
+  - id: "wp-rest-api-handbook"
+  - id: "wp-application-passwords"
+  - id: "acf-rest-api"
+  - id: "claude-code-web"
+  - id: "tanstack-query"
+  - id: "vitest-docs"
+  - id: "msw-docs"
+  - id: "playwright-docs"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-prerequisites">Prerequisites</TocLink>
+  <TocLink id="toc-step1">Step 1: Set Up WordPress for API Access</TocLink>
+  <TocLink id="toc-step2">Step 2: Run the Schema Discovery Script</TocLink>
+  <TocLink id="toc-step3">Step 3: Fetch Sample Data</TocLink>
+  <TocLink id="toc-step4">Step 4: Sanitize and Commit</TocLink>
+  <TocLink id="toc-step5">Step 5: Create a CLAUDE.md Instruction File</TocLink>
+  <TocLink id="toc-step6">Step 6: Generate TypeScript Interfaces</TocLink>
+  <TocLink id="toc-step7">Step 7: Generate Test Mocks and Fixtures</TocLink>
+  <TocLink id="toc-step8">Step 8: Generate API Client Functions</TocLink>
+  <TocLink id="toc-step9">Step 9: Set Up Test Infrastructure</TocLink>
+  <TocLink id="toc-step10">Step 10: Keep It Updated</TocLink>
+  <TocLink id="toc-prompts">Complete Prompt Sequence</TocLink>
+  <TocLink id="toc-security">Security Notes</TocLink>
+  <TocLink id="toc-troubleshooting">Troubleshooting</TocLink>
+</Toc>
+
+<SectionIntro>
+A step-by-step guide for using Claude Code (web) to auto-generate TypeScript interfaces from your WordPress REST API schema, and create realistic mock data from actual API responses for unit and e2e testing.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">{'\u{1F5FA}\uFE0F'} Overview of the Workflow</SectionSubheading>
+
+The workflow follows a four-stage pipeline:
+
+```
+WordPress Site (with ACF)
+    |
+    v
+Schema Discovery Script  --------►  wp-schema.json (committed to repo)
+    |
+    v
+Sample Data Script  --------------►  wp-sample-data.json (committed to repo)
+    |
+    v
+Claude Code Web Session  ---------►  TypeScript interfaces + mock factories + fixtures
+    |
+    v
+Your Frontend Project  -----------►  Type-safe components with tested data layer
+```
+
+<SectionNote>
+**Key insight:** Claude Code Web runs in a sandboxed cloud environment connected to your GitHub repo. It can't call your WordPress API directly (and shouldn't for security). Instead, you run the data-gathering scripts locally, commit the outputs, and then let Claude Code Web generate everything from those committed JSON files. <FnRef n={4} />
+</SectionNote>
+
+<SectionSubheading id="toc-prerequisites">{'\u{1F4CB}'} Prerequisites</SectionSubheading>
+
+<SectionList>
+<ColItem>Node.js 18+ installed locally</ColItem>
+<ColItem>A WordPress site with ACF and REST API enabled <FnRef n={1} /> <FnRef n={3} /></ColItem>
+<ColItem>A WordPress Application Password <FnRef n={2} /></ColItem>
+<ColItem>A GitHub repository for your frontend project</ColItem>
+<ColItem>Claude Pro, Max, Team, or Enterprise plan (for Claude Code Web access)</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-step1">{'\u{1F527}'} Step 1: Set Up Your WordPress Site for API Access</SectionSubheading>
+
+**1a. Create a Dedicated Bot User**
+
+<SectionList>
+<ColItem>In wp-admin, go to **Users → Add New User**</ColItem>
+<ColItem>Create a user like `api-bot` with the **Editor** role (or a custom read-only role if you only need GET access)</ColItem>
+<ColItem>Save the user</ColItem>
+</SectionList>
+
+**1b. Generate an Application Password**
+
+<SectionList>
+<ColItem>Go to **Users → Edit** for `api-bot`</ColItem>
+<ColItem>Scroll to **Application Passwords**</ColItem>
+<ColItem>Name it `claude-code-schema` and click **Add New**</ColItem>
+<ColItem>Copy the password immediately (it's shown only once)</ColItem>
+<ColItem>Store it securely — you'll use it locally only, never commit it</ColItem>
+</SectionList>
+
+**1c. Enable ACF Fields in REST API**
+
+<SectionList>
+<ColItem>Go to **Custom Fields → Field Groups**</ColItem>
+<ColItem>For each field group, edit it and go to **Settings**</ColItem>
+<ColItem>Toggle **"Show in REST API"** to **Yes**</ColItem>
+<ColItem>Save each field group</ColItem>
+</SectionList>
+
+For custom post types registered via ACF:
+
+<SectionList>
+<ColItem>**Custom Fields → Post Types** → edit each type</ColItem>
+<ColItem>Enable **Advanced Configuration** → click the **REST API** tab</ColItem>
+<ColItem>Ensure visibility is enabled and note the `rest_base` value</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-step2">{'\u{1F4E1}'} Step 2: Run the Schema Discovery Script Locally</SectionSubheading>
+
+Save the `wp-acf-schema-discovery.mjs` script to your project (or anywhere on your machine), then run it:
+
+```bash
+node wp-acf-schema-discovery.mjs \
+  --url https://yoursite.com \
+  --user api-bot \
+  --pass "xxxx xxxx xxxx xxxx xxxx xxxx" \
+  --output src/api/wp-schema.json
+```
+
+This generates a JSON file containing every REST API endpoint, post type schema (including ACF fields via OPTIONS requests), and taxonomy schema on your site.
+
+Verify it worked by checking for ACF fields:
+
+```bash
+cat src/api/wp-schema.json | grep -A5 '"acf"'
+```
+
+<CodeAccordion title="wp-acf-schema-discovery.mjs — Full Script">
+
+```javascript
+#!/usr/bin/env node
+/**
+ * WordPress REST API & ACF Schema Discovery Script
+ *
+ * Discovers all REST API endpoints and ACF field schemas for a WordPress site.
+ * Outputs a comprehensive JSON file that can be fed to an AI agent as context.
+ *
+ * Usage:
+ *   node wp-acf-schema-discovery.mjs --url https://yoursite.com [--user admin --pass "xxxx xxxx xxxx xxxx"]
+ *
+ * The --user and --pass flags are optional. Without them, only public endpoints
+ * are discovered. With them (using a WordPress Application Password), you get
+ * the full schema including protected fields and ACF definitions.
+ *
+ * Setup: No dependencies required — uses native Node.js fetch (Node 18+).
+ */
+const args = process.argv.slice(2);
+function getArg(name) {
+  const idx = args.indexOf(`--${name}`);
+  return idx !== -1 && args[idx + 1] ? args[idx + 1] : null;
+}
+const SITE_URL = (getArg("url") || "").replace(/\/+$/, "");
+const USERNAME = getArg("user");
+const APP_PASSWORD = getArg("pass");
+const OUTPUT_FILE = getArg("output") || "wp-schema-output.json";
+if (!SITE_URL) {
+  console.error(
+    "Usage: node wp-acf-schema-discovery.mjs --url https://yoursite.com [--user admin --pass 'xxxx xxxx'] [--output filename.json]"
+  );
+  process.exit(1);
+}
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function authHeaders() {
+  if (USERNAME && APP_PASSWORD) {
+    const token = Buffer.from(`${USERNAME}:${APP_PASSWORD}`).toString("base64");
+    return { Authorization: `Basic ${token}` };
+  }
+  return {};
+}
+async function apiFetch(path, method = "GET") {
+  const url = `${SITE_URL}/wp-json${path}`;
+  try {
+    const res = await fetch(url, {
+      method,
+      headers: {
+        ...authHeaders(),
+        Accept: "application/json",
+      },
+    });
+    if (!res.ok) {
+      return { _error: `${res.status} ${res.statusText}`, _url: url };
+    }
+    return await res.json();
+  } catch (err) {
+    return { _error: err.message, _url: url };
+  }
+}
+function log(msg) {
+  process.stderr.write(`${msg}\n`);
+}
+// ── Discovery Steps ─────────────────────────────────────────────────────────
+async function discoverRoot() {
+  log("📡 Fetching REST API root...");
+  return apiFetch("/");
+}
+async function discoverNamespaces(root) {
+  const namespaces = root.namespaces || [];
+  log(`   Found namespaces: ${namespaces.join(", ")}`);
+  return namespaces;
+}
+/**
+ * Collects route info from the root discovery document.
+ * Groups routes by namespace for readability.
+ */
+function extractRoutes(root) {
+  const routes = root.routes || {};
+  const grouped = {};
+  for (const [pattern, info] of Object.entries(routes)) {
+    // Determine namespace from route pattern
+    const nsMatch = pattern.match(/^\/([^/]+\/[^/]+)/);
+    const ns = nsMatch ? nsMatch[1] : "_root";
+    if (!grouped[ns]) grouped[ns] = [];
+    grouped[ns].push({
+      route: pattern,
+      methods: info.methods || [],
+      endpoints: (info.endpoints || []).map((ep) => ({
+        methods: ep.methods,
+        args: ep.args || {},
+      })),
+    });
+  }
+  return grouped;
+}
+/**
+ * For each "type" endpoint (posts, pages, custom post types), send an OPTIONS
+ * request to discover the full schema, including ACF fields.
+ */
+async function discoverPostTypeSchemas(root) {
+  log("📋 Discovering post type schemas (OPTIONS requests)...");
+  const routes = root.routes || {};
+  const typeRoutes = [];
+  // Find collection routes for wp/v2 that look like post type endpoints
+  // These are routes like /wp/v2/posts, /wp/v2/pages, /wp/v2/custom-type
+  for (const [pattern, info] of Object.entries(routes)) {
+    // Match /wp/v2/{type} but NOT /wp/v2/{type}/(?P<id>...)  or similar sub-routes
+    if (/^\/wp\/v2\/[a-z_-]+$/.test(pattern)) {
+      const methods = info.methods || [];
+      if (methods.includes("GET")) {
+        typeRoutes.push(pattern);
+      }
+    }
+  }
+  log(`   Found ${typeRoutes.length} potential post type endpoints`);
+  const schemas = {};
+  for (const route of typeRoutes) {
+    const typeName = route.replace("/wp/v2/", "");
+    log(`   🔍 OPTIONS ${route}`);
+    const optionsResult = await apiFetch(route, "OPTIONS");
+    if (optionsResult._error) {
+      schemas[typeName] = { _error: optionsResult._error };
+      continue;
+    }
+    // The schema lives in the OPTIONS response under .schema
+    const schema = optionsResult.schema || null;
+    const endpoints = optionsResult.endpoints || [];
+    schemas[typeName] = {
+      schema,
+      endpoints: endpoints.map((ep) => ({
+        methods: ep.methods,
+        args: Object.fromEntries(
+          Object.entries(ep.args || {}).map(([key, val]) => [
+            key,
+            {
+              type: val.type,
+              description: val.description,
+              required: val.required,
+              enum: val.enum,
+              default: val.default,
+            },
+          ])
+        ),
+      })),
+    };
+  }
+  return schemas;
+}
+/**
+ * Discover ACF field groups via the ACF REST API (requires ACF Pro or free
+ * with REST enabled, plus authentication).
+ */
+async function discoverACFFieldGroups() {
+  log("🔧 Attempting ACF field group discovery...");
+  // Try the native ACF REST endpoint (ACF 5.11+)
+  // Field groups themselves aren't directly exposed via REST by default,
+  // but we can check for the acf/v3 namespace
+  const acfIndex = await apiFetch("/acf/v3");
+  if (acfIndex._error) {
+    log("   ⚠️  ACF REST API (acf/v3) not available or not authenticated.");
+    log(
+      "   ACF fields are still visible in post type schemas via OPTIONS requests."
+    );
+    return null;
+  }
+  // If acf/v3 is available, try to get field groups
+  // ACF Pro exposes /acf/v3/field-groups if the user has permission
+  const fieldGroups = await apiFetch("/acf/v3/field-groups");
+  if (fieldGroups._error) {
+    log("   ⚠️  Could not fetch ACF field groups (may need authentication).");
+    return { _note: "ACF namespace exists but field groups not accessible" };
+  }
+  log(`   Found ${Array.isArray(fieldGroups) ? fieldGroups.length : "?"} field groups`);
+  // For each field group, try to get its fields
+  if (Array.isArray(fieldGroups)) {
+    for (const group of fieldGroups) {
+      const groupId = group.id || group.ID;
+      if (groupId) {
+        const fields = await apiFetch(`/acf/v3/field-groups/${groupId}/fields`);
+        if (!fields._error) {
+          group._fields = fields;
+        }
+      }
+    }
+  }
+  return fieldGroups;
+}
+/**
+ * Also try the angie-acf-mcp endpoints if that plugin is installed
+ */
+async function discoverAngieACF() {
+  log("🔧 Checking for angie-acf-mcp plugin endpoints...");
+  const fieldGroups = await apiFetch("/angie-acf-mcp/v1/field-groups");
+  if (fieldGroups._error) {
+    log("   angie-acf-mcp plugin not detected.");
+    return null;
+  }
+  log(`   Found angie-acf-mcp with ${Array.isArray(fieldGroups) ? fieldGroups.length : "?"} field groups`);
+  return fieldGroups;
+}
+/**
+ * Try to discover custom taxonomies and their schemas
+ */
+async function discoverTaxonomySchemas() {
+  log("📂 Discovering taxonomy schemas...");
+  const taxonomies = await apiFetch("/wp/v2/taxonomies");
+  if (taxonomies._error) {
+    return { _error: taxonomies._error };
+  }
+  const schemas = {};
+  for (const [slug, tax] of Object.entries(taxonomies)) {
+    if (tax.rest_base) {
+      const optionsResult = await apiFetch(`/wp/v2/${tax.rest_base}`, "OPTIONS");
+      schemas[slug] = {
+        name: tax.name,
+        description: tax.description,
+        rest_base: tax.rest_base,
+        hierarchical: tax.hierarchical,
+        types: tax.types,
+        schema: optionsResult.schema || null,
+      };
+    }
+  }
+  return schemas;
+}
+// ── Main ─────────────────────────────────────────────────────────────────────
+async function main() {
+  log(`\n🌐 WordPress Schema Discovery`);
+  log(`   Site: ${SITE_URL}`);
+  log(`   Auth: ${USERNAME ? `Yes (user: ${USERNAME})` : "No (public only)"}\n`);
+  const root = await discoverRoot();
+  if (root._error) {
+    console.error(`❌ Could not reach REST API: ${root._error}`);
+    console.error(`   Tried: ${root._url}`);
+    process.exit(1);
+  }
+  const result = {
+    _meta: {
+      site_url: SITE_URL,
+      site_name: root.name || null,
+      site_description: root.description || null,
+      generated_at: new Date().toISOString(),
+      authenticated: !!USERNAME,
+      wp_version: root.gmt_offset !== undefined ? "detected" : "unknown",
+    },
+    namespaces: await discoverNamespaces(root),
+    routes: extractRoutes(root),
+    post_type_schemas: await discoverPostTypeSchemas(root),
+    taxonomy_schemas: await discoverTaxonomySchemas(),
+    acf_field_groups: await discoverACFFieldGroups(),
+    angie_acf_mcp: await discoverAngieACF(),
+  };
+  // Write output
+  const { writeFileSync } = await import("node:fs");
+  writeFileSync(OUTPUT_FILE, JSON.stringify(result, null, 2));
+  log(`\n✅ Schema written to ${OUTPUT_FILE}`);
+  log(
+    `   File size: ${(JSON.stringify(result).length / 1024).toFixed(1)} KB\n`
+  );
+  log(`💡 Feed this file to your AI agent as context for WordPress API work.\n`);
+}
+main().catch((err) => {
+  console.error("Fatal error:", err);
+  process.exit(1);
+});
+```
+
+</CodeAccordion>
+
+<SectionSubheading id="toc-step3">{'\u{1F4E6}'} Step 3: Fetch Sample Data for Mock Generation</SectionSubheading>
+
+Create and run this script locally to pull real data samples from your site. These become the basis for realistic test mocks.
+
+```bash
+node fetch-wp-samples.mjs \
+  --url https://yoursite.com \
+  --user api-bot \
+  --pass "xxxx xxxx xxxx xxxx xxxx xxxx" \
+  --per-type 5 \
+  --output src/api/wp-sample-data.json
+```
+
+<CodeAccordion title="fetch-wp-samples.mjs — Full Script">
+
+```javascript
+#!/usr/bin/env node
+/**
+ * WordPress Sample Data Fetcher
+ *
+ * Pulls real data samples from a WordPress REST API (including ACF fields)
+ * to use as the basis for generating realistic test mocks and fixtures.
+ *
+ * Usage:
+ *   node fetch-wp-samples.mjs --url https://yoursite.com [--user admin --pass "xxxx xxxx"] [--per-type 5] [--output wp-sample-data.json]
+ *
+ * Requirements: Node.js 18+ (uses native fetch)
+ */
+const args = process.argv.slice(2);
+function getArg(name) {
+  const idx = args.indexOf(`--${name}`);
+  return idx !== -1 && args[idx + 1] ? args[idx + 1] : null;
+}
+const SITE_URL = (getArg("url") || "").replace(/\/+$/, "");
+const USERNAME = getArg("user");
+const APP_PASSWORD = getArg("pass");
+const OUTPUT = getArg("output") || "wp-sample-data.json";
+const PER_TYPE = parseInt(getArg("per-type") || "3", 10);
+if (!SITE_URL) {
+  console.error(
+    "Usage: node fetch-wp-samples.mjs --url https://yoursite.com [--user admin --pass 'xxxx xxxx'] [--per-type 3] [--output wp-sample-data.json]"
+  );
+  process.exit(1);
+}
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function authHeaders() {
+  if (USERNAME && APP_PASSWORD) {
+    const token = Buffer.from(`${USERNAME}:${APP_PASSWORD}`).toString("base64");
+    return { Authorization: `Basic ${token}` };
+  }
+  return {};
+}
+async function apiFetch(path) {
+  const url = `${SITE_URL}/wp-json${path}`;
+  try {
+    const res = await fetch(url, {
+      headers: { ...authHeaders(), Accept: "application/json" },
+    });
+    if (!res.ok) {
+      return {
+        _error: `${res.status} ${res.statusText}`,
+        _url: url,
+        _headers: {
+          total: res.headers.get("x-wp-total"),
+          totalPages: res.headers.get("x-wp-totalpages"),
+        },
+      };
+    }
+    const data = await res.json();
+    // Capture pagination headers for reference
+    const meta = {
+      total: res.headers.get("x-wp-total"),
+      totalPages: res.headers.get("x-wp-totalpages"),
+    };
+    return { data, meta };
+  } catch (err) {
+    return { _error: err.message, _url: url };
+  }
+}
+function log(msg) {
+  process.stderr.write(`${msg}\n`);
+}
+// Endpoints that are WP internals, not content types we want to mock
+const SKIP_TYPES = new Set([
+  "types",
+  "statuses",
+  "taxonomies",
+  "search",
+  "settings",
+  "themes",
+  "plugins",
+  "block-directory",
+  "pattern-directory",
+  "navigation",
+  "global-styles",
+  "templates",
+  "template-parts",
+  "block-types",
+  "block-patterns",
+  "block-renderer",
+  "sidebars",
+  "widgets",
+  "widget-types",
+  "menu-items",
+  "menus",
+  "menu-locations",
+  "font-families",
+  "font-collections",
+  "wp-site-health",
+  "application-passwords",
+]);
+// ── Main ─────────────────────────────────────────────────────────────────────
+async function main() {
+  log(`\n📦 WordPress Sample Data Fetcher`);
+  log(`   Site: ${SITE_URL}`);
+  log(`   Auth: ${USERNAME ? `Yes (user: ${USERNAME})` : "No (public only)"}`);
+  log(`   Samples per type: ${PER_TYPE}\n`);
+  // Discover available routes
+  const rootResult = await apiFetch("/");
+  if (rootResult._error) {
+    console.error(`❌ Could not reach REST API: ${rootResult._error}`);
+    process.exit(1);
+  }
+  const root = rootResult.data;
+  const routes = root.routes || {};
+  const output = {
+    _meta: {
+      site_url: SITE_URL,
+      site_name: root.name || null,
+      generated_at: new Date().toISOString(),
+      samples_per_type: PER_TYPE,
+    },
+    content_types: {},
+    taxonomies: {},
+  };
+  // ── Fetch content type samples ─────────────────────────────────────────
+  for (const [pattern] of Object.entries(routes)) {
+    const match = pattern.match(/^\/wp\/v2\/([a-z_-]+)$/);
+    if (!match) continue;
+    const typeName = match[1];
+    if (SKIP_TYPES.has(typeName)) continue;
+    log(`  📄 ${typeName}...`);
+    // Fetch with acf_format=standard for rich ACF output (images as objects, etc.)
+    const result = await apiFetch(
+      `/wp/v2/${typeName}?per_page=${PER_TYPE}&acf_format=standard`
+    );
+    if (result._error) {
+      log(`     ⚠️  ${result._error}`);
+      continue;
+    }
+    const items = result.data;
+    if (Array.isArray(items) && items.length > 0) {
+      output.content_types[typeName] = {
+        total: result.meta?.total ? parseInt(result.meta.total) : items.length,
+        total_pages: result.meta?.totalPages
+          ? parseInt(result.meta.totalPages)
+          : 1,
+        items,
+      };
+      log(`     ✅ ${items.length} items (${result.meta?.total || "?"} total)`);
+    } else {
+      log(`     ⏭️  No items found`);
+    }
+  }
+  // ── Fetch taxonomy samples ─────────────────────────────────────────────
+  const taxResult = await apiFetch("/wp/v2/taxonomies");
+  if (!taxResult._error) {
+    const taxonomies = taxResult.data;
+    for (const [slug, tax] of Object.entries(taxonomies)) {
+      if (!tax.rest_base) continue;
+      log(`  📂 ${slug} (${tax.rest_base})...`);
+      const termResult = await apiFetch(
+        `/wp/v2/${tax.rest_base}?per_page=${PER_TYPE}`
+      );
+      if (termResult._error) {
+        log(`     ⚠️  ${termResult._error}`);
+        continue;
+      }
+      const terms = termResult.data;
+      if (Array.isArray(terms) && terms.length > 0) {
+        output.taxonomies[slug] = {
+          name: tax.name,
+          rest_base: tax.rest_base,
+          hierarchical: tax.hierarchical,
+          total: termResult.meta?.total
+            ? parseInt(termResult.meta.total)
+            : terms.length,
+          items: terms,
+        };
+        log(`     ✅ ${terms.length} terms`);
+      }
+    }
+  }
+  // ── Write output ───────────────────────────────────────────────────────
+  const { writeFileSync } = await import("node:fs");
+  const json = JSON.stringify(output, null, 2);
+  writeFileSync(OUTPUT, json);
+  log(`\n✅ Sample data written to ${OUTPUT}`);
+  log(`   File size: ${(json.length / 1024).toFixed(1)} KB`);
+  log(
+    `   Content types: ${Object.keys(output.content_types).length}`
+  );
+  log(`   Taxonomies: ${Object.keys(output.taxonomies).length}`);
+  log(`\n💡 Commit this file and use Claude Code Web to generate typed mocks.\n`);
+}
+main().catch((err) => {
+  console.error("Fatal error:", err);
+  process.exit(1);
+});
+```
+
+</CodeAccordion>
+
+<SectionSubheading id="toc-step4">{'\u{1F9F9}'} Step 4: Sanitize and Commit the Data</SectionSubheading>
+
+Before committing, strip any sensitive data from the samples.
+
+```bash
+# Quick check for emails, passwords, or tokens in the sample data
+grep -iE "(password|secret|token|@.*\.com)" src/api/wp-sample-data.json
+```
+
+If you find sensitive content, either manually edit it out or add a sanitization pass to the script. Then commit both files:
+
+```bash
+git add src/api/wp-schema.json src/api/wp-sample-data.json
+git commit -m "feat: add WordPress REST API schema and sample data for codegen"
+git push
+```
+
+<SectionSubheading id="toc-step5">{'\u{1F4DD}'} Step 5: Create a CLAUDE.md Instruction File</SectionSubheading>
+
+Claude Code Web reads `CLAUDE.md` files in your repo for project context and instructions. Create one that tells Claude how to work with your WordPress data:
+
+```markdown
+# CLAUDE.md
+
+## WordPress API Integration
+
+This project consumes a WordPress REST API with Advanced Custom Fields (ACF).
+
+### Key Files
+- `src/api/wp-schema.json` — Full REST API schema including ACF field definitions
+  (generated via OPTIONS requests)
+- `src/api/wp-sample-data.json` — Real sample responses from the API for each
+  content type
+
+### Code Generation Tasks
+
+When asked to generate TypeScript interfaces from the WordPress schema:
+
+1. Read `src/api/wp-schema.json` and find `post_type_schemas`
+2. For each post type, look at `schema.properties` for standard WP fields
+3. Look at `schema.properties.acf.properties` for ACF custom fields
+4. Generate interfaces in `src/api/types/` with:
+   - A base `WPPost` interface for common WordPress fields
+   - Per-post-type interfaces extending `WPPost` with ACF fields
+   - Proper TypeScript types mapped from JSON Schema types
+   - JSDoc comments from schema descriptions
+5. Export all types from `src/api/types/index.ts`
+
+When asked to generate mock data / test fixtures:
+
+1. Read `src/api/wp-sample-data.json` for real data shapes
+2. Generate factory functions in `src/api/mocks/` that produce typed mock objects
+3. Use realistic data from the samples, with randomization for unique fields
+   (IDs, slugs, dates)
+4. Create both individual item factories and collection factories
+5. Export fixtures suitable for both unit tests (Vitest) and e2e tests
+   (Playwright/Cypress)
+
+### Type Mapping
+
+| WP Schema Type | TypeScript Type |
+|---|---|
+| `string` | `string` |
+| `integer` | `number` |
+| `number` | `number` |
+| `boolean` | `boolean` |
+| `array` | `T[]` (with item type if specified) |
+| `object` | Record or nested interface |
+| `["string", "null"]` | `string \| null` |
+| `["integer", "null"]` | `number \| null` |
+
+### Tech Stack
+- React + TypeScript
+- TanStack Router / Query
+- Vitest for unit tests
+- Playwright or Cypress for e2e tests
+- Vite bundler
+```
+
+Commit this file:
+
+```bash
+git add CLAUDE.md
+git commit -m "docs: add CLAUDE.md with WordPress codegen instructions"
+git push
+```
+
+<SectionSubheading id="toc-step6">{'\u{1F680}'} Step 6: Use Claude Code Web to Generate TypeScript Interfaces</SectionSubheading>
+
+**6a. Open Claude Code Web**
+
+<SectionList>
+<ColItem>Go to claude.ai/code <FnRef n={4} /></ColItem>
+<ColItem>Connect your GitHub repository if you haven't already</ColItem>
+<ColItem>Start a new session on the branch you pushed to</ColItem>
+</SectionList>
+
+**6b. Prompt for Interface Generation**
+
+Use a prompt like:
+
+```
+Read the WordPress schema in src/api/wp-schema.json and generate TypeScript
+interfaces for all post types. Follow the instructions in CLAUDE.md. Include
+the ACF fields from each post type's schema. Put the output in src/api/types/.
+```
+
+Claude Code Web will read your schema JSON, parse out each post type and its fields, generate properly typed interfaces, create the files in your repo, and show you the results for review.
+
+**6c. Example of What Gets Generated**
+
+Given an ACF schema for a `book` post type with author, price, and cover_image fields, you'd get something like:
+
+```typescript
+// src/api/types/wp-base.ts
+export interface WPRendered {
+  rendered: string;
+  protected?: boolean;
+}
+
+export interface WPPost {
+  id: number;
+  date: string;
+  date_gmt: string;
+  guid: WPRendered;
+  modified: string;
+  modified_gmt: string;
+  slug: string;
+  status: "publish" | "future" | "draft" | "pending" | "private";
+  type: string;
+  link: string;
+  title: WPRendered;
+  content: WPRendered;
+  excerpt: WPRendered;
+  author: number;
+  featured_media: number;
+  // ... other standard WP fields
+}
+
+// src/api/types/book.ts
+import type { WPPost } from "./wp-base";
+
+export interface BookACFFields {
+  /** The book's author name */
+  author_name: string | null;
+  /** Price in USD */
+  price: number | null;
+  /** Featured cover image attachment ID */
+  cover_image: number | null;
+}
+
+export interface Book extends WPPost {
+  type: "book";
+  acf: BookACFFields;
+}
+```
+
+<SectionSubheading id="toc-step7">{'\u{1F9EA}'} Step 7: Generate Test Mocks and Fixtures</SectionSubheading>
+
+**7a. Prompt for Mock Factories**
+
+```
+Now read src/api/wp-sample-data.json and generate mock factory functions
+for each post type. Use the real sample data as templates. Follow the
+CLAUDE.md instructions for mock generation. Put factories in src/api/mocks/
+and fixtures in src/test/fixtures/.
+```
+
+**7b. Example of What Gets Generated**
+
+```typescript
+// src/api/mocks/book-factory.ts
+import type { Book } from "../types/book";
+
+let nextId = 1000;
+
+export function createMockBook(overrides: Partial<Book> = {}): Book {
+  const id = nextId++;
+  return {
+    id,
+    date: "2025-11-15T10:30:00",
+    date_gmt: "2025-11-15T15:30:00",
+    guid: { rendered: `https://yoursite.com/?p=${id}` },
+    modified: "2025-11-15T10:30:00",
+    modified_gmt: "2025-11-15T15:30:00",
+    slug: `book-${id}`,
+    status: "publish",
+    type: "book",
+    link: `https://yoursite.com/book/book-${id}/`,
+    title: { rendered: "The Great Gatsby" },
+    content: { rendered: "<p>A classic novel...</p>", protected: false },
+    excerpt: { rendered: "<p>A story of the Jazz Age</p>", protected: false },
+    author: 1,
+    featured_media: 0,
+    acf: {
+      author_name: "F. Scott Fitzgerald",
+      price: 14.99,
+      cover_image: 42,
+    },
+    ...overrides,
+  };
+}
+
+export function createMockBookCollection(count = 10): Book[] {
+  return Array.from({ length: count }, () => createMockBook());
+}
+
+// src/test/fixtures/books.ts
+import { createMockBook, createMockBookCollection } from "../../api/mocks/book-factory";
+
+/** Single book for detail view tests */
+export const singleBook = createMockBook({
+  title: { rendered: "Test Book Title" },
+  acf: { author_name: "Test Author", price: 29.99, cover_image: 100 },
+});
+
+/** Empty state — no books */
+export const emptyBookList: Book[] = [];
+
+/** Paginated list for list view tests */
+export const bookListPage1 = createMockBookCollection(10);
+
+/** API response shape for MSW/intercept handlers */
+export const bookApiResponse = {
+  data: bookListPage1,
+  headers: {
+    "x-wp-total": "25",
+    "x-wp-totalpages": "3",
+  },
+};
+```
+
+<SectionSubheading id="toc-step8">{'\u2699\uFE0F'} Step 8: Generate API Client Functions (Optional)</SectionSubheading>
+
+You can also ask Claude Code Web to generate typed fetch functions:
+
+```
+Generate typed API client functions in src/api/client/ that use the TypeScript
+interfaces we just created. Use TanStack Query hook patterns. Include proper
+error handling and pagination support using the x-wp-total and x-wp-totalpages
+headers.
+```
+
+<SectionSubheading id="toc-step9">{'\u{1F9F0}'} Step 9: Set Up Test Infrastructure Using the Mocks</SectionSubheading>
+
+**For Unit Tests (Vitest)** <FnRef n={6} />
+
+```
+Create a mock service worker (MSW) setup in src/test/msw/ that uses our mock
+factories to handle WordPress REST API requests. Configure handlers for GET
+requests to each post type endpoint.
+```
+
+**For E2E Tests (Playwright)** <FnRef n={8} />
+
+```
+Create Playwright route intercept helpers in e2e/helpers/ that use our fixture
+data to mock WordPress API responses. Include helpers for simulating empty
+states, error states, and paginated responses.
+```
+
+<SectionSubheading id="toc-step10">{'\u{1F504}'} Step 10: Keep It Updated</SectionSubheading>
+
+When your WordPress schema changes (new ACF fields, new post types, etc.):
+
+<SectionList>
+<ColItem>Re-run the schema discovery script locally</ColItem>
+<ColItem>Re-run the sample data script</ColItem>
+<ColItem>Commit and push the updated JSON files</ColItem>
+<ColItem>Open a Claude Code Web session and prompt: *"The WordPress schema has been updated. Diff the schema changes and update the TypeScript interfaces, mock factories, and fixtures to match. Show me what changed."*</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-prompts">{'\u{1F4AC}'} Putting It All Together: The Complete Prompt Sequence</SectionSubheading>
+
+Here's the full sequence of prompts you'd use in a single Claude Code Web session after committing your schema and sample data:
+
+<SectionList>
+<ColItem>**1.** "Read `src/api/wp-schema.json` and generate TypeScript interfaces for all post types including their ACF fields. Put them in `src/api/types/`."</ColItem>
+<ColItem>**2.** "Now read `src/api/wp-sample-data.json` and create mock factory functions for each post type in `src/api/mocks/`. Use realistic data from the samples."</ColItem>
+<ColItem>**3.** "Create test fixtures in `src/test/fixtures/` using the mock factories. Include fixtures for: single items, empty lists, paginated lists, error states, and loading states."</ColItem>
+<ColItem>**4.** "Set up MSW handlers in `src/test/msw/` for unit testing that use these fixtures to intercept WordPress REST API calls."</ColItem>
+<ColItem>**5.** "Generate TanStack Query hooks in `src/api/hooks/` that are properly typed with our interfaces. Include pagination support." <FnRef n={5} /></ColItem>
+<ColItem>**6.** "Create the PR with all these changes."</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-security">{'\u{1F512}'} Security Notes</SectionSubheading>
+
+<Gotcha>
+
+<SectionList>
+<ColItem>**Never commit** your Application Password or any WordPress credentials</ColItem>
+<ColItem>**Never configure** Claude Code Web to call your WordPress API directly — always use the local-script-then-commit pattern</ColItem>
+<ColItem>The sample data should be **sanitized** before committing (no real emails, user data, etc.)</ColItem>
+<ColItem>Use a **dedicated bot user** with minimal permissions (Editor or below)</ColItem>
+<ColItem>If your WordPress content is sensitive, use the **schema file only** (no sample data) and write sample data by hand or have Claude generate synthetic data based on the schema alone</ColItem>
+</SectionList>
+
+</Gotcha>
+
+<SectionSubheading id="toc-troubleshooting">{'\u{1F6E0}\uFE0F'} Troubleshooting</SectionSubheading>
+
+**ACF fields not appearing in schema:**
+
+<SectionList>
+<ColItem>Ensure "Show in REST API" is toggled on for each ACF field group</ColItem>
+<ColItem>Make sure you're authenticated — ACF fields on some post types may require auth to see in OPTIONS responses</ColItem>
+</SectionList>
+
+**Claude Code Web can't see the files:**
+
+<SectionList>
+<ColItem>Confirm you pushed to the branch the session is connected to</ColItem>
+<ColItem>Check that the JSON files aren't in `.gitignore`</ColItem>
+</SectionList>
+
+**Schema file is too large:**
+
+<SectionList>
+<ColItem>For very large WordPress sites, the schema can exceed useful context. Filter it down to just the post types you care about before committing</ColItem>
+</SectionList>
+
+**Types don't match actual API responses:**
+
+<SectionList>
+<ColItem>The OPTIONS schema is authoritative but sometimes doesn't capture every nuance (e.g., ACF relationship fields returning objects vs IDs depending on `acf_format`). Cross-reference with the sample data and adjust types if needed</ColItem>
+</SectionList>

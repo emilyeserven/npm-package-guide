@@ -32,6 +32,9 @@ const resources: ResourceTile[] = [
 export function GuidesIndexPage() {
   const navigate = useNavigate()
 
+  const multiPageGuides = guides.filter(g => !g.singlePage)
+  const singlePageGuides = guides.filter(g => g.singlePage)
+
   return (
     <div>
       <div className="mb-7">
@@ -45,7 +48,7 @@ export function GuidesIndexPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-8">
-        {guides.map((guide) => (
+        {multiPageGuides.map((guide) => (
           <button
             key={guide.id}
             className="flex flex-col items-start text-left p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5"
@@ -76,6 +79,38 @@ export function GuidesIndexPage() {
           </p>
         </div>
       </div>
+
+      {/* Single Page Guides section */}
+      {singlePageGuides.length > 0 && (
+        <div className="mt-12">
+          <h2 className="text-xl font-bold tracking-tight mb-1 text-slate-900 dark:text-slate-100">Single Page Guides</h2>
+          <p className="text-gray-500 dark:text-slate-400 text-sm mb-5">
+            Focused, standalone tutorials on specific topics.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {singlePageGuides.map((guide) => (
+              <button
+                key={guide.id}
+                className="flex flex-col items-start text-left p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5"
+                onClick={() =>
+                  navigate({
+                    to: '/$sectionId',
+                    params: { sectionId: guide.startPageId },
+                  })
+                }
+              >
+                <span className="text-2xl mb-2">{guide.icon}</span>
+                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">
+                  {guide.title}
+                </h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {guide.description}
+                </p>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Checklists section */}
       <div className="mt-12">

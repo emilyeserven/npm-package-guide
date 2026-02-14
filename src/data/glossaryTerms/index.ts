@@ -19,6 +19,7 @@ import { authGlossary } from './authTerms'
 import { kubernetesGlossary } from './kubernetesTerms'
 import { aiInfraGlossary } from './aiInfraTerms'
 import { njaGlossary } from './njaTerms'
+import { wpAgentsGlossary } from './wpAgentsTerms'
 
 export const glossaryTerms: GlossaryCategory[] = [
   ...npmPackageGlossary,
@@ -30,4 +31,5 @@ export const glossaryTerms: GlossaryCategory[] = [
   ...kubernetesGlossary,
   ...aiInfraGlossary,
   ...njaGlossary,
+  ...wpAgentsGlossary,
 ]

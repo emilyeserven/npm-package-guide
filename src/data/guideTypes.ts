@@ -10,6 +10,7 @@ export interface GuideDefinition {
   startPageId: string
   description: string
   sections: GuideSection[]
+  singlePage?: boolean
 }
 
 // ── Start page data types ────────────────────────────────────────────
