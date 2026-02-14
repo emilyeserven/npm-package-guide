@@ -16,7 +16,7 @@ linkRefs:
   <TocLink id="toc-when">When to use this pattern</TocLink>
   <TocLink id="toc-flow">Step-by-step flow</TocLink>
   <TocLink id="toc-considerations">Key considerations</TocLink>
-  <TocLink id="toc-explainer">Backend analogy</TocLink>
+  <TocLink id="toc-explainer">Frontend analogy</TocLink>
 </Toc>
 
 <SectionIntro>
@@ -53,6 +53,6 @@ Trace this workflow through the infrastructure stack.
 <ColItem>**Ongoing maintenance** &mdash; fine-tuned models need retraining as your data, requirements, or base model versions change. This is an ongoing operational commitment, not a one-time task.</ColItem>
 </SectionList>
 
-<Explainer title="Fine-tuning &mdash; a backend analogy">
-Fine-tuning is like a CI/CD pipeline for your ML model. Training data goes in (like source code), the pipeline processes it through training runs (like build and test stages), and a trained model artifact comes out (like a deployable binary). If quality metrics pass (like tests passing), the artifact gets pushed to a model registry (like a container registry) and deployed to production. The key difference is that &ldquo;builds&rdquo; take hours on GPUs, not minutes on CPUs.
+<Explainer title="Fine-tuning &mdash; a frontend analogy">
+Fine-tuning is like your frontend build pipeline. Training data goes in (like source code), the pipeline processes it through training runs (like webpack/Vite build and test stages), and a trained model artifact comes out (like a production bundle). If quality metrics pass (like Lighthouse scores and tests passing), the artifact gets pushed to a model registry (like publishing to npm) and deployed to production. The key difference is that &ldquo;builds&rdquo; take hours on GPUs, not seconds on your laptop.
 </Explainer>

@@ -74,7 +74,7 @@ function ConceptCard({
               className="text-xs font-bold uppercase tracking-wider mb-1"
               style={{ color: layer.color }}
             >
-              Backend Analogy
+              Frontend Analogy
             </div>
             <p
               className="text-sm m-0 leading-relaxed"

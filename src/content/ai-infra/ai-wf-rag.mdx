@@ -18,7 +18,7 @@ linkRefs:
   <TocLink id="toc-when">When to use this pattern</TocLink>
   <TocLink id="toc-flow">Step-by-step flow</TocLink>
   <TocLink id="toc-considerations">Key considerations</TocLink>
-  <TocLink id="toc-explainer">Backend analogy</TocLink>
+  <TocLink id="toc-explainer">Frontend analogy</TocLink>
 </Toc>
 
 <SectionIntro>
@@ -55,6 +55,6 @@ Trace this workflow through the infrastructure stack.
 <ColItem>**Guardrails are important** &mdash; the <NavLink to="ai-orchestration">orchestration layer</NavLink> should validate that the model&apos;s response actually uses the retrieved context and doesn&apos;t hallucinate beyond it.</ColItem>
 </SectionList>
 
-<Explainer title="RAG &mdash; a backend analogy">
-RAG is like a search-then-render pattern. When a user asks a question, your backend first queries Elasticsearch (or another search engine) for relevant documents, then uses those results to build the response page. The search step is the vector database query; the render step is the model generating an answer with the retrieved context. Just as search quality determines page relevance, retrieval quality determines answer accuracy.
+<Explainer title="RAG &mdash; a frontend analogy">
+RAG is like a search-then-render pattern in a React app. When a user types a query, your Express API first queries a search index for relevant documents, then passes those results to the model to generate an answer. The search step is the vector database query; the render step is the model generating a response with the retrieved context. Just as search relevance determines what your users see on a results page, retrieval quality determines answer accuracy.
 </Explainer>
