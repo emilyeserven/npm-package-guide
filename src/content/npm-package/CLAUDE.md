@@ -8,12 +8,14 @@ Backend engineers learning to build and publish npm packages. Assumes familiarit
 
 ## Section Structure
 
-| Section Label | Page IDs | Content Directory |
-|--------------|----------|-------------------|
-| *(start)* | `roadmap` | `src/content/sections/` |
-| Building a Package | `bigpicture`, `monorepo`, `npm-vs-pnpm`, `build`, `tsconfig`, `deps`, `dist`, `packagejson`, `typescript`, `versioning`, `workflow` | `src/content/sections/` |
-| CI Pipeline & Checks | `ci-overview`, `ci-linting`, `ci-build`, `ci-testing`, `ci-repo-maintenance` | `src/content/ci/` |
-| Developer Experience | `storybook` | `src/content/bonus/` |
+Sections are defined in `NPM_GUIDE_SECTIONS` in `src/data/npmPackageData.ts`.
+
+| Section Label | Page IDs |
+|--------------|----------|
+| *(start)* | `roadmap` |
+| Building a Package | `bigpicture`, `monorepo`, `npm-vs-pnpm`, `build`, `tsconfig`, `deps`, `dist`, `packagejson`, `typescript`, `versioning`, `workflow` |
+| CI Pipeline & Checks | `ci-overview`, `ci-linting`, `ci-build`, `ci-testing`, `ci-repo-maintenance` |
+| Developer Experience | `storybook` |
 
 The `checklist` page is part of the cross-guide Checklists group (see `checklistPages` in `guideRegistry.ts`).
 
@@ -21,9 +23,7 @@ The `checklist` page is part of the cross-guide Checklists group (see `checklist
 
 | Category | Path |
 |----------|------|
-| Main content pages | `src/content/sections/*.mdx` |
-| CI content pages | `src/content/ci/*.mdx` |
-| Bonus content pages | `src/content/bonus/*.mdx` |
+| Content pages | `src/content/npm-package/*.mdx` |
 | Guide data | `src/data/npmPackageData.ts` |
 | Roadmap step data | `src/data/roadmapSteps.ts` |
 | Checklist item data | `src/data/checklistItems.ts` |
@@ -42,19 +42,18 @@ The `checklist` page is part of the cross-guide Checklists group (see `checklist
 
 All exported from `src/components/mdx/npm-package/CILayout.tsx`:
 
-| Component | Purpose |
-|-----------|---------|
-| `CIStep` | Section heading with optional `id` for TOC |
-| `CIStepText` | Body text blocks |
-| `CIYaml` | YAML code block (monospace dark background) |
-| `YamlHeading` | Label for YAML sections |
-| `CITip` | Blue callout box for tips |
-| `CIOverviewCards` | Grid container for numbered overview cards |
-| `CIOverviewCard` | Individual card with number, title, optional YAML |
-| `CIFullExample` | Full workflow example with emoji header and pre-wrapped code |
-| `AiPromptsAccordion` | Collapsible accordion with AI prompts; each prompt has a copy button |
-| `MaintenanceTool` | Tool section with name, emoji, description, optional YAML |
-| `GoodTestsList` | Styled list for test examples |
+| Component | Props | Purpose |
+|-----------|-------|---------|
+| `CIOverviewCards` | `children` | Grid container for numbered overview cards |
+| `CIFullExample` | `children` | Full workflow YAML example with emoji header and syntax-highlighted `<span>` elements |
+| `CIStep` | `heading: string`, `id?: string` | Section heading with optional TOC anchor |
+| `CIStepText` | `children` | Body text block within a `CIStep` |
+| `CIYaml` | `children` | Monospace YAML code block (dark background) |
+| `YamlHeading` | `children?` (default: "GitHub Actions Example") | Label above YAML blocks |
+| `CITip` | `children` | Blue callout box for tips and advice |
+| `MaintenanceTool` | `name`, `emoji`, `desc`, `why`, `yaml?`, `children?` | Tool card with description, rationale, and optional YAML |
+| `GoodTestsList` | `children` | Styled `<ul>` for test best practices |
+| `AiPromptsAccordion` | `prompts: { label, prompt }[]` | Collapsible accordion with copy-to-clipboard AI prompt examples |
 
 ## Guide-Specific Conventions
 
@@ -68,7 +67,14 @@ All command references use `<Cmd npm="..." pnpm="..." />`, never hardcoded comma
 
 ### CI page layout
 
-Pages in `src/content/ci/` use the CI-specific layout components listed above instead of the standard `SectionList`/`ColItem` pattern. This provides a structured visual style for CI pipeline content with YAML blocks, tip callouts, and overview cards.
+CI pages (`ci-overview`, `ci-linting`, `ci-build`, `ci-testing`, `ci-repo-maintenance`) use the CI-specific layout components listed above instead of the standard `SectionList`/`ColItem` pattern. This provides a structured visual style for CI pipeline content with YAML blocks, tip callouts, and overview cards. Each CI page follows a consistent structure: `<SectionTitle>` → `<SectionIntro>` → content sections with `<YamlHeading>` + `<CIYaml>` blocks → `<CITip>`.
+
+### Cross-guide links
+
+CI pages link to related pages in other guides using `<NavLink>` and `<NavPill>`:
+- Testing Guide pages (e.g., `test-overview`, `test-best-practices`)
+- Prompt Engineering pages (e.g., `prompt-mistakes-style`)
+- Other npm-package pages (e.g., `build`, `storybook`)
 
 ### Footnote usage
 
@@ -76,8 +82,9 @@ This guide uses footnotes heavily — typically 3–7 per page. Set the `usedFoo
 
 ## Adding a New Page
 
-1. Create a new `.mdx` file in the appropriate content directory (`sections/`, `ci/`, or `bonus/`).
+1. Create a new `.mdx` file in `src/content/npm-package/`.
 2. Add frontmatter with `id`, `title` (must end with emoji), `guide: "npm-package"`, and optionally `linkRefs`/`usedFootnotes`.
 3. Add the page ID to `NPM_GUIDE_SECTIONS` in `src/data/npmPackageData.ts` under the correct section label.
 4. For main section pages, follow the dual comparison structure (Web App vs. NPM Package).
 5. For CI pages, use the CI layout components from `CILayout.tsx`.
+6. Add any new link registry entries to `src/data/linkRegistry/npmPackageLinks.ts`.
