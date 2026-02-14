@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 export function SectionIntro({ children }: { children: React.ReactNode }) {
   return <div className="section-intro text-sm text-slate-800 dark:text-slate-300 leading-7 mb-6">{children}</div>
 }
@@ -47,4 +49,20 @@ export function SectionSubheading({ id, children }: { id: string; children: Reac
 
 export function SectionList({ children }: { children: React.ReactNode }) {
   return <div className="mb-5">{children}</div>
+}
+
+export function CodeAccordion({ title, children }: { title: string; children: React.ReactNode }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="my-4 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+      <button
+        className="w-full py-3.5 px-4 bg-slate-50 dark:bg-slate-800 border-none cursor-pointer flex items-center justify-between text-sm font-semibold text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-150"
+        onClick={() => setOpen(o => !o)}
+      >
+        <span>{title}</span>
+        <span className={`text-xs inline-block transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>{'\u25BC'}</span>
+      </button>
+      {open && <div className="px-4 pb-4">{children}</div>}
+    </div>
+  )
 }
