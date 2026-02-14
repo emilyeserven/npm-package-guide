@@ -24,11 +24,8 @@ test.describe('Glossary Page', () => {
     const table = page.locator('[data-testid="data-table"]')
     const allRows = await table.locator('tbody tr').count()
 
-    // Click the "All" filter (should be active by default)
-    await expect(page.locator('[data-testid="glossary-filter-all"]')).toBeVisible()
-
     // Find and click a category filter (they are dynamically generated)
-    const filterButtons = page.locator('[data-testid^="glossary-filter-"]:not([data-testid="glossary-filter-all"])')
+    const filterButtons = page.locator('[data-testid^="glossary-filter-"]')
     const filterCount = await filterButtons.count()
     expect(filterCount).toBeGreaterThan(0)
 
@@ -38,16 +35,16 @@ test.describe('Glossary Page', () => {
     expect(filteredRows).toBeLessThanOrEqual(allRows)
   })
 
-  test('resets category filter when clicking All', async ({ page }) => {
+  test('resets category filter when clicking clear filters', async ({ page }) => {
     const table = page.locator('[data-testid="data-table"]')
     const allRows = await table.locator('tbody tr').count()
 
     // Apply a filter
-    const filterButtons = page.locator('[data-testid^="glossary-filter-"]:not([data-testid="glossary-filter-all"])')
+    const filterButtons = page.locator('[data-testid^="glossary-filter-"]')
     await filterButtons.first().click()
 
-    // Reset
-    await page.locator('[data-testid="glossary-filter-all"]').click()
+    // Reset via clear filters button
+    await page.locator('[data-testid="glossary-clear-filters"]').click()
     const resetRows = await table.locator('tbody tr').count()
     expect(resetRows).toBe(allRows)
   })
