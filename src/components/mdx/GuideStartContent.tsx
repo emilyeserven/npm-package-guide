@@ -159,7 +159,7 @@ function GuideStartResources({ guideId }: { guideId: string }) {
               window.scrollTo({ top: 0, behavior: 'smooth' })
             }}
           >
-            <span className="text-2xl mb-2">{checklistTitle.icon || '\u2705'}</span>
+            <span className="text-2xl mb-2">{'\u2705'}</span>
             <span className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-1">{checklistTitle.text}</span>
             <span className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Interactive checklist for this guide.</span>
           </button>

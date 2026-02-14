@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from '@tanstack/react-router'
 import clsx from 'clsx'
-import { guides, getGuideForPage, checklistsNavDef, type GuideDefinition } from '../data/guideRegistry'
+import { guides, getGuideForPage, checklistsNavDef, checklistPages, type GuideDefinition } from '../data/guideRegistry'
 import { getNavTitle } from '../data/navigation'
+import { contentPages } from '../content/registry'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { STORYBOOK_URL } from '../data/navigation'
 import { parseTitle } from '../helpers/parseTitle'
@@ -268,37 +269,57 @@ function ContentPanel({
         ))}
 
         {/* Auto-generated Resources section for real guides */}
-        {guide.id !== 'checklists' && (
-          <div>
-            <div className="mt-4 text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-1.5 px-3.5">
-              Resources
+        {guide.id !== 'checklists' && (() => {
+          const checklist = checklistPages.find(cp => cp.sourceGuideId === guide.id)
+          const checklistTitle = checklist
+            ? parseTitle(contentPages.get(checklist.id)?.title ?? getNavTitle(checklist.id)).text
+            : null
+          return (
+            <div>
+              <div className="mt-4 text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-1.5 px-3.5">
+                Resources
+              </div>
+              <button
+                className={clsx(
+                  'flex items-center justify-between w-full text-left px-3.5 py-1.5 text-sm rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150',
+                  currentId === 'external-resources'
+                    ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold'
+                    : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                )}
+                onClick={() => onResourceNav('external-resources', guide.id)}
+              >
+                <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">External Resources</span>
+                <span className="text-base leading-none opacity-70 shrink-0">{'\u{1F4DA}'}</span>
+              </button>
+              <button
+                className={clsx(
+                  'flex items-center justify-between w-full text-left px-3.5 py-1.5 text-sm rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150',
+                  currentId === 'glossary'
+                    ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold'
+                    : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                )}
+                onClick={() => onResourceNav('glossary', guide.id)}
+              >
+                <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">Glossary</span>
+                <span className="text-base leading-none opacity-70 shrink-0">{'\u{1F4D6}'}</span>
+              </button>
+              {checklist && checklistTitle && (
+                <button
+                  className={clsx(
+                    'flex items-center justify-between w-full text-left px-3.5 py-1.5 text-sm rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150',
+                    currentId === checklist.id
+                      ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold'
+                      : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                  )}
+                  onClick={() => onNav(checklist.id)}
+                >
+                  <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">{checklistTitle}</span>
+                  <span className="text-base leading-none opacity-70 shrink-0">{'\u2705'}</span>
+                </button>
+              )}
             </div>
-            <button
-              className={clsx(
-                'flex items-center justify-between w-full text-left px-3.5 py-1.5 text-sm rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150',
-                currentId === 'external-resources'
-                  ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold'
-                  : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
-              )}
-              onClick={() => onResourceNav('external-resources', guide.id)}
-            >
-              <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">External Resources</span>
-              <span className="text-base leading-none opacity-70 shrink-0">{'\u{1F4DA}'}</span>
-            </button>
-            <button
-              className={clsx(
-                'flex items-center justify-between w-full text-left px-3.5 py-1.5 text-sm rounded-lg border-none bg-transparent cursor-pointer transition-all duration-150',
-                currentId === 'glossary'
-                  ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold'
-                  : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
-              )}
-              onClick={() => onResourceNav('glossary', guide.id)}
-            >
-              <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">Glossary</span>
-              <span className="text-base leading-none opacity-70 shrink-0">{'\u{1F4D6}'}</span>
-            </button>
-          </div>
-        )}
+          )
+        })()}
       </div>
     </div>
   )
