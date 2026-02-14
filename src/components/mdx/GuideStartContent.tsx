@@ -1,10 +1,11 @@
 import { useNavigate } from '@tanstack/react-router'
-import { guides, getStartPageData } from '../../data/guideRegistry'
+import { guides, getStartPageData, checklistPages } from '../../data/guideRegistry'
 import { contentPages } from '../../content/registry'
 import { getNavTitle } from '../../data/navigation'
 import { JumpButton, jumpBtnCls } from '../JumpButton'
 import { RoadmapSteps } from './npm-package/RoadmapSteps'
 import type { StartPageStep, StartPageSubItem } from '../../data/guideTypes'
+import { parseTitle } from '../../helpers/parseTitle'
 
 function GuideFilterButton({ sectionId, guideId, children }: { sectionId: string; guideId: string; children: React.ReactNode }) {
   const navigate = useNavigate()
@@ -121,6 +122,66 @@ function StepCard({ step, guide }: { step: StartPageStep; guide: { id: string; s
   )
 }
 
+const tileCls = 'flex flex-col items-start text-left p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5'
+const comingSoonCls = 'flex flex-col items-start text-left p-5 bg-slate-50 dark:bg-slate-800/50 border border-dashed border-slate-300 dark:border-slate-600 rounded-xl'
+
+function GuideStartResources({ guideId }: { guideId: string }) {
+  const navigate = useNavigate()
+  const checklist = checklistPages.find(cp => cp.sourceGuideId === guideId)
+  const checklistTitle = checklist
+    ? parseTitle(contentPages.get(checklist.id)?.title ?? getNavTitle(checklist.id))
+    : null
+
+  return (
+    <div className="mt-7 pt-6 border-t-2 border-dashed border-slate-300 dark:border-slate-600">
+      <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-4">{'\u{1F4CC}'} Resources</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <button
+          className={tileCls}
+          onClick={() => {
+            navigate({ to: '/$sectionId', params: { sectionId: 'external-resources' }, search: { guide: guideId } })
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }}
+        >
+          <span className="text-2xl mb-2">{'\u{1F4DA}'}</span>
+          <span className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-1">External Resources</span>
+          <span className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Curated documentation, articles, and tools.</span>
+        </button>
+        <button
+          className={tileCls}
+          onClick={() => {
+            navigate({ to: '/$sectionId', params: { sectionId: 'glossary' }, search: { guide: guideId } })
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }}
+        >
+          <span className="text-2xl mb-2">{'\u{1F4D6}'}</span>
+          <span className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-1">Glossary</span>
+          <span className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Key terms with links to guide pages and docs.</span>
+        </button>
+        {checklist && checklistTitle ? (
+          <button
+            className={tileCls}
+            onClick={() => {
+              navigate({ to: '/$sectionId', params: { sectionId: checklist.id } })
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            }}
+          >
+            <span className="text-2xl mb-2">{checklistTitle.icon || '\u2705'}</span>
+            <span className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-1">{checklistTitle.text}</span>
+            <span className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Interactive checklist for this guide.</span>
+          </button>
+        ) : (
+          <div className={comingSoonCls}>
+            <span className="text-2xl mb-2">{'\u2705'}</span>
+            <span className="text-sm font-bold text-slate-400 dark:text-slate-500 mb-1">Checklist</span>
+            <span className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">Coming soon.</span>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export function GuideStartContent({ guideId }: { guideId: string }) {
   const guide = guides.find(g => g.id === guideId)
   const startData = getStartPageData(guideId)
@@ -147,6 +208,8 @@ export function GuideStartContent({ guideId }: { guideId: string }) {
       {startData.steps.map((step, i) => (
         <StepCard key={i} step={step} guide={guide} />
       ))}
+
+      <GuideStartResources guideId={guideId} />
     </div>
   )
 }

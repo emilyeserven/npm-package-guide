@@ -55,29 +55,5 @@ export const NPM_START_PAGE_DATA: StartPageData = {
         },
       ],
     },
-    {
-      type: 'bonus',
-      title: 'Resources',
-      description: 'Documentation, articles, courses, and tools to go deeper on frontend development, npm packages, and the JavaScript ecosystem.',
-      customSubItems: [
-        {
-          title: '\u2705 Publish Checklist',
-          description: 'Go through this before every npm publish \u2014 trust us, it saves headaches.',
-          jumpTo: 'checklist',
-        },
-        {
-          title: '\u{1F4DA} External Resources',
-          description: 'Curated documentation, articles, courses, tools, and section references \u2014 all in one searchable, sortable table.',
-          jumpTo: 'external-resources',
-          jumpType: 'guide-filter',
-        },
-        {
-          title: '\u{1F4D6} Glossary',
-          description: 'Key terms you\u2019ll encounter when building and publishing npm packages, with links to the relevant sections in this guide.',
-          jumpTo: 'glossary',
-          jumpType: 'guide-filter',
-        },
-      ],
-    },
   ],
 }

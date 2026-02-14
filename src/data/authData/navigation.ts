@@ -59,29 +59,5 @@ export const AUTH_START_PAGE_DATA: StartPageData = {
         'auth-quiz': 'Five questions to test what you\u2019ve learned across the guide.',
       },
     },
-    {
-      type: 'bonus',
-      title: 'Resources',
-      description: 'Checklists, documentation, and tools for authentication implementation.',
-      customSubItems: [
-        {
-          title: '\u2705 Implementation Checklist',
-          description: 'A categorized checklist covering storage, tokens, architecture, OAuth, and security best practices.',
-          jumpTo: 'auth-checklist',
-        },
-        {
-          title: '\u{1F4DA} External Resources',
-          description: 'Curated auth documentation, articles, and tools.',
-          jumpTo: 'external-resources',
-          jumpType: 'guide-filter',
-        },
-        {
-          title: '\u{1F4D6} Glossary',
-          description: 'Key authentication and authorization terms.',
-          jumpTo: 'glossary',
-          jumpType: 'guide-filter',
-        },
-      ],
-    },
   ],
 }

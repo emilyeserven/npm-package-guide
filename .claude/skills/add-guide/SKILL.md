@@ -60,7 +60,9 @@ guide: "<guide-id>"
 <GuideStartContent guideId="<guide-id>" />
 ```
 
-The `GuideStartContent` component reads `StartPageData` from `guideRegistry.ts` and renders the learning path automatically. Sub-items are auto-derived from guide sections via `sectionLabel` references. Per-item descriptions are provided via `subItemDescriptions` in the start page data. For items not derivable from sections (cross-guide links, resource page links), use `customSubItems`.
+The `GuideStartContent` component reads `StartPageData` from `guideRegistry.ts` and renders the learning path automatically. Sub-items are auto-derived from guide sections via `sectionLabel` references. Per-item descriptions are provided via `subItemDescriptions` in the start page data. For items not derivable from sections (cross-guide links), use `customSubItems`.
+
+The component also auto-renders a **Resources** section at the bottom of every start page with three tiles: External Resources (pre-filtered by guide), Glossary (pre-filtered by guide), and Checklist (links to the guide's checklist from `checklistPages` in `guideRegistry.ts`, or shows a "Coming Soon" placeholder if none exists). Do **not** add manual Resources bonus steps to `StartPageData` — they are handled automatically.
 
 ## Interactive MDX Component Template
 
@@ -142,6 +144,7 @@ MyComponent,
 - **Navigation (prev/next)**: derived from guide sections — works automatically
 - **Content registry**: auto-discovers new MDX files in `src/content/`
 - **Start page sub-items**: derived from guide sections via `sectionLabel` in `StartPageData` — adding/removing pages from a section automatically updates the start page learning path
+- **Start page Resources tiles**: External Resources, Glossary, and Checklist tiles auto-populate at the bottom of every start page — no manual `customSubItems` needed
 - **Start page header**: title, description, and icon read from `guideRegistry.ts` — changing them updates the start page automatically
 - **Router**: resolves MDX pages via auto-discovery and component pages via `componentPages.tsx` registry — no `router.tsx` edits needed
 

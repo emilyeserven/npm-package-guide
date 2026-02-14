@@ -60,25 +60,6 @@ export const ARCH_START_PAGE_DATA: StartPageData = {
       description: 'Trace a user action through every layer of the stack \u2014 from button click to database query and back to the screen.',
       jumpTo: 'arch-how-it-connects',
     },
-    {
-      type: 'bonus',
-      title: 'Resources',
-      description: 'Documentation, articles, and tools for deeper learning about web architecture.',
-      customSubItems: [
-        {
-          title: '\u{1F4DA} External Resources',
-          description: 'Curated documentation, articles, and tools \u2014 filtered for the Architecture Guide.',
-          jumpTo: 'external-resources',
-          jumpType: 'guide-filter',
-        },
-        {
-          title: '\u{1F4D6} Glossary',
-          description: 'Key architecture and web development terms, with links to guide pages.',
-          jumpTo: 'glossary',
-          jumpType: 'guide-filter',
-        },
-      ],
-    },
   ],
 }
 
