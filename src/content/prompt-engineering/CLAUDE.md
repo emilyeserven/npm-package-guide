@@ -1,12 +1,12 @@
 # Prompt Engineering — Guide CLAUDE.md
 
-> Root `/CLAUDE.md` covers project-wide patterns (MDX conventions, dark mode, styling, link registry, glossary, build commands). This file covers **prompt-engineering**-specific context only.
-
 ## Audience & Purpose
 
-Developers (any background) learning practical patterns for working with AI coding assistants. This is the largest guide with 22+ pages. Covers common AI-generated code mistakes, context management techniques, CLI commands, and advanced tooling (MCP, skills, hooks).
+Developers (any background) learning practical patterns for working with AI coding assistants. Largest guide with 22+ pages. Covers common AI-generated code mistakes, context management techniques, CLI commands, and advanced tooling (MCP, skills, hooks).
 
 ## Section Structure
+
+Defined in `PROMPT_GUIDE_SECTIONS` in `src/data/promptData/navigation.ts`.
 
 | Section Label | Page IDs |
 |--------------|----------|
@@ -16,73 +16,40 @@ Developers (any background) learning practical patterns for working with AI codi
 | Tooling & Reference | `prompt-coding-tools`, `prompt-cli-reference`, `prompt-meta-tooling` |
 | Advanced Tools | `prompt-tools-mcp`, `prompt-tools-skills`, `prompt-tools-hooks`, `prompt-tools-optimization` |
 
-The `prompt-claudemd-checklist` page is part of the cross-guide Checklists group (see `checklistPages` in `guideRegistry.ts`).
-
-Defined in `PROMPT_GUIDE_SECTIONS` in `src/data/promptData/navigation.ts`.
-
-## File Locations
-
-| Category | Path |
-|----------|------|
-| Content pages | `src/content/prompt-engineering/*.mdx` |
-| Data directory | `src/data/promptData/` (barrel-exported) |
-| Type definitions | `src/data/promptData/types.ts` |
-| Mistake data | `src/data/promptData/mistakes.ts` |
-| Technique data | `src/data/promptData/techniques.ts` |
-| CLI command data | `src/data/promptData/cli.ts` |
-| Coding tools data | `src/data/promptData/codingTools.ts` |
-| Navigation & start page | `src/data/promptData/navigation.ts` |
-| Interactive components | `src/components/mdx/prompt-engineering/` |
-| Link registry | `src/data/linkRegistry/promptLinks.ts` |
-| Glossary terms | `src/data/glossaryTerms/promptTerms.ts` |
+Data directory: `src/data/promptData/` — `types.ts`, `mistakes.ts`, `techniques.ts`, `cli.ts`, `codingTools.ts`, `navigation.ts`.
 
 ## Interactive Components
 
-| Component | Props | Data Source | Purpose |
-|-----------|-------|-------------|---------|
-| `SeverityBadge` | `categoryId: string` | `MISTAKE_CATEGORIES` in `mistakes.ts` | Renders the severity level badge (high/medium/low) for a mistake category |
-| `MistakeList` | `categoryId: string` | `MISTAKE_CATEGORIES` in `mistakes.ts` | Renders mistake items for a category (no badge — use `SeverityBadge` separately) |
-| `TechniqueDetail` | `techniqueId: string` | `CONTEXT_TECHNIQUES` in `techniques.ts` | Deep-dive technique explainer with code example |
-| `CLIReference` | *(none)* | `CLI_GROUPS` in `cli.ts` | Searchable, filterable CLI command table |
-| `TestingMistakes` | `context?: 'e2e' \| 'unit'` | `TESTING_MISTAKES` in `mistakes.ts` | Testing-specific mistake cards, optionally filtered |
-| `ClaudeMdChecklist` | *(none)* | `CLAUDEMD_CHECKLIST` in `navigation.ts` | Interactive CLAUDE.md configuration checklist |
-| `ToolDetail` | `toolId: string`, `section?: string` | `TOOL_TECHNIQUES` in `techniques.ts` | Tool explainer with conditional sections (overview, bestFor, implementation, examples, tips) |
-| `MetaTooling` | `toolId: string` | `META_TOOLS` in `techniques.ts` | Meta-tooling pattern details |
-| `CodingToolExplorer` | *(none)* | `AI_CODING_TOOLS` in `codingTools.ts` | Interactive AI coding tool comparison |
+| Component | Props | Purpose |
+|-----------|-------|---------|
+| `SeverityBadge` | `categoryId` | Severity level badge (high/medium/low) for a mistake category |
+| `MistakeList` | `categoryId` | Mistake items for a category (no badge) |
+| `TechniqueDetail` | `techniqueId` | Deep-dive technique explainer with code example |
+| `CLIReference` | *(none)* | Searchable, filterable CLI command table |
+| `TestingMistakes` | `context?: 'e2e' \| 'unit'` | Testing-specific mistake cards |
+| `ClaudeMdChecklist` | *(none)* | Interactive CLAUDE.md configuration checklist |
+| `ToolDetail` | `toolId`, `section?` | Tool explainer; sections: overview, bestFor, implementation, examples, tips |
+| `MetaTooling` | `toolId` | Meta-tooling pattern details |
+| `CodingToolExplorer` | *(none)* | Interactive AI coding tool comparison |
 
 ## Guide-Specific Conventions
 
 ### Mistake category pages
 
-Pages in "Common AI Mistakes" use severity badges instead of emoji. This is an exception to the project-wide emoji-suffix convention for page titles.
+**Exception to emoji convention:** Mistake pages do NOT have emoji suffixes in `title`. They use severity badges (H/M/L) in sidebar/command menu and `<SeverityBadge>` on-page.
 
-**Title convention:** Common AI Mistakes pages do NOT have emoji suffixes in their MDX frontmatter `title`. Instead, they use severity level badges (H/M/L) in the sidebar and command menu, and a `<SeverityBadge>` component on the page.
+Layout: `<SectionTitle>` → `<SeverityBadge categoryId="..." />` → `<SectionIntro>` → `<Toc>` → `<MistakeList categoryId="..." />`.
 
-**Page layout:** Every mistake category page must place `<SeverityBadge categoryId="..." />` immediately after `<SectionTitle>`, before `<SectionIntro>`. The `<MistakeList>` component renders only the mistake items — it does not include the severity badge.
+When adding a new mistake page, also add severity badge entries to `severityBadges` in both `Sidebar.tsx` and `CommandMenu.tsx`.
 
-Each `MistakeCategory` in `mistakes.ts` has a `severity` level (`high`, `medium`, `low`) that controls badge color. The `SEVERITY_COLORS` object defines light/dark theme colors for each level. When adding a new mistake page, also add its severity badge entry to `severityBadges` in both `Sidebar.tsx` and `CommandMenu.tsx`.
+### Technique pages
 
-### Technique detail pages
-
-Context management pages use `<TechniqueDetail techniqueId="..." />`. Each technique has a `details` array and optional `codeExample` with monospace rendering.
+Context management pages use `<TechniqueDetail techniqueId="..." />`. Each technique has a `details` array and optional `codeExample`.
 
 ### CLI reference
 
-`<CLIReference />` renders a complex table with search, category filtering, and type filtering (all/AI-only/human-only). Commands in `CLI_GROUPS` can be tagged as `human: true` to distinguish human-typed from AI-triggered commands.
+`<CLIReference />` renders a table with search, category filtering, and type filtering (all/AI-only/human-only). Commands can be tagged `human: true`.
 
 ### Tool detail sections
 
-`<ToolDetail toolId="..." section="overview" />` supports section-conditional rendering. Valid sections: `overview`, `bestFor`, `implementation`, `examples`, `tips`. When `section` is omitted, all sections render.
-
-### Adding a new mistake category
-
-1. Add a `MistakeCategory` to `MISTAKE_CATEGORIES` in `src/data/promptData/mistakes.ts`.
-2. Create `src/content/prompt-engineering/prompt-mistakes-<slug>.mdx` — the title must **not** have an emoji suffix. Place `<SeverityBadge categoryId="..." />` right after `<SectionTitle>`, then `<SectionIntro>`, `<Toc>`, and `<MistakeList categoryId="..." />`.
-3. Add the page ID to `PROMPT_GUIDE_SECTIONS` under "Common AI Mistakes" in `navigation.ts`.
-4. Add a severity badge entry for the page ID to `severityBadges` in both `src/components/Sidebar.tsx` and `src/components/CommandMenu.tsx`.
-
-### Adding a new technique
-
-1. Add a `ContextTechnique` to `CONTEXT_TECHNIQUES` in `src/data/promptData/techniques.ts`.
-2. Create the MDX page using `<TechniqueDetail techniqueId="..." />`.
-3. Add the page ID to the appropriate section in `PROMPT_GUIDE_SECTIONS`.
+`<ToolDetail toolId="..." section="overview" />` supports section-conditional rendering. Omit `section` to render all.
