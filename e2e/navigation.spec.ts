@@ -6,12 +6,12 @@ test.describe('Navigation', () => {
   })
 
   test('loads the home page by default', async ({ page }) => {
-    await expect(page.locator('h1')).toContainText('Web App vs. NPM Package Guide')
+    await expect(page.locator('h1')).toContainText('Dev Guides')
   })
 
   test('opens and closes sidebar via menu toggle', async ({ page }) => {
     const sidebar = page.locator('[data-testid="sidebar"]')
-    await expect(sidebar).toHaveCSS('transform', /translateX/)
+    await expect(sidebar).toHaveClass(/-translate-x-full/)
 
     // Open sidebar
     await page.locator('[data-testid="menu-toggle"]').click()
@@ -41,7 +41,7 @@ test.describe('Navigation', () => {
 
   test('navigates to checklist via sidebar', async ({ page }) => {
     await page.locator('[data-testid="menu-toggle"]').click()
-    await page.locator('[data-testid="sidebar-guide-icon-npm-package"]').click()
+    await page.locator('[data-testid="sidebar-icon-checklists"]').click()
     await page.locator('[data-testid="sidebar-item-checklist"]').click()
     await expect(page).toHaveURL(/#\/checklist/)
   })
@@ -82,6 +82,7 @@ test.describe('Navigation', () => {
   })
 
   test('roadmap page only shows next button, not previous', async ({ page }) => {
+    await page.goto('/#/roadmap')
     await expect(page.locator('[data-testid="nav-previous"]')).not.toBeVisible()
     await expect(page.locator('[data-testid="nav-next"]')).toBeVisible()
   })
