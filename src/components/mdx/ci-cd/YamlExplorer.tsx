@@ -19,7 +19,7 @@ export function YamlExplorer() {
             <div
               key={i}
               onClick={() => item.note ? setActiveLine(activeLine === i ? null : i) : undefined}
-              className="px-4 transition-all duration-150"
+              className="px-4 transition-all duration-150 whitespace-pre"
               style={{
                 cursor: item.note ? 'pointer' : 'default',
                 background: activeLine === i
