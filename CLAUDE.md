@@ -59,7 +59,7 @@ Each guide follows the same structure:
 - `src/components/mdx/` — Shared MDX-available components (registered in `src/components/mdx/index.ts`)
   - `src/components/mdx/<guide-id>/` — Per-guide interactive MDX components
 - `src/content/` — MDX content pages, auto-discovered by `src/content/registry.ts`
-  - `src/content/<guide-id>/` — Per-guide MDX pages (see **Guides** table above)
+  - `src/content/<guide-id>/` — Per-guide MDX pages (see **Guides** table above). **All guide content pages must live in `src/content/<guide-id>/`** where `<guide-id>` matches the guide's registered ID in `guideRegistry.ts`. Do not create separate subdirectories for sections within a guide.
 - `src/data/` — Content stored as TypeScript objects (roadmap steps, architecture data, checklists, etc.)
   - `src/data/linkRegistry/` — External URL registry, split by guide; barrel `index.ts` re-exports merged array + lookup maps
   - `src/data/glossaryTerms/` — Glossary terms, split by guide; barrel `index.ts` re-exports merged array
