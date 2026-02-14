@@ -1,10 +1,10 @@
-import { useState } from 'react'
 import { useIsDark } from '../../../hooks/useTheme'
 import { AUTH_PATTERNS } from '../../../data/authData'
+import { useAccordion } from '../../../hooks/useAccordion'
 
 export function AuthPatterns() {
   const isDark = useIsDark()
-  const [expandedIdx, setExpandedIdx] = useState<number | null>(null)
+  const { toggle, isExpanded } = useAccordion()
 
   return (
     <div className="flex flex-col gap-3 mb-7">
@@ -18,7 +18,7 @@ export function AuthPatterns() {
           }}
         >
           <button
-            onClick={() => setExpandedIdx(expandedIdx === i ? null : i)}
+            onClick={() => toggle(i)}
             className="w-full flex justify-between items-center p-5 text-left cursor-pointer border-none"
             style={{ background: 'transparent' }}
           >
@@ -40,13 +40,13 @@ export function AuthPatterns() {
               className="text-lg transition-transform duration-200"
               style={{
                 color: '#6366f1',
-                transform: expandedIdx === i ? 'rotate(180deg)' : 'none',
+                transform: isExpanded(i) ? 'rotate(180deg)' : 'none',
               }}
             >
               ▾
             </span>
           </button>
-          {expandedIdx === i && (
+          {isExpanded(i) && (
             <div
               className="px-5 pb-5 pt-4"
               style={{ borderTop: `1px solid ${isDark ? '#334155' : '#e2e8f0'}` }}

@@ -1,20 +1,11 @@
-import { useState } from 'react'
 import { CLAUDEMD_CHECKLIST } from '../../../data/promptData'
+import { useChecklist } from '../../../hooks/useChecklist'
+import { ChecklistProgress } from '../ChecklistProgress'
 
 export function ClaudeMdChecklist() {
-  const [checked, setChecked] = useState<Set<string>>(new Set())
-
-  const toggle = (key: string) => {
-    setChecked(prev => {
-      const next = new Set(prev)
-      if (next.has(key)) next.delete(key)
-      else next.add(key)
-      return next
-    })
-  }
+  const { toggle, isChecked, checkedCount } = useChecklist<string>()
 
   const totalItems = CLAUDEMD_CHECKLIST.reduce((sum, s) => sum + s.items.length, 0)
-  const checkedCount = checked.size
   const pct = totalItems > 0 ? Math.round((checkedCount / totalItems) * 100) : 0
 
   return (
@@ -25,12 +16,11 @@ export function ClaudeMdChecklist() {
           <span>{checkedCount} of {totalItems} items</span>
           <span>{pct}%</span>
         </div>
-        <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-blue-500 dark:bg-blue-400 rounded-full transition-all duration-300"
-            style={{ width: `${pct}%` }}
-          />
-        </div>
+        <ChecklistProgress
+          checked={checkedCount}
+          total={totalItems}
+          label={null}
+        />
       </div>
 
       {/* Sections */}
@@ -43,7 +33,7 @@ export function ClaudeMdChecklist() {
             <div className="flex flex-col gap-2">
               {section.items.map((item, i) => {
                 const key = `${section.id}-${i}`
-                const isChecked = checked.has(key)
+                const checked = isChecked(key)
                 return (
                   <label
                     key={key}
@@ -51,12 +41,12 @@ export function ClaudeMdChecklist() {
                   >
                     <input
                       type="checkbox"
-                      checked={isChecked}
+                      checked={checked}
                       onChange={() => toggle(key)}
                       className="mt-0.5 shrink-0 accent-blue-500"
                     />
                     <div className="min-w-0">
-                      <div className={`text-sm font-medium ${isChecked ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-900 dark:text-slate-100'}`}>
+                      <div className={`text-sm font-medium ${checked ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-900 dark:text-slate-100'}`}>
                         {item.label}
                       </div>
                       <div className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mt-0.5">
