@@ -4,7 +4,7 @@ import { FnRef } from './FnRef'
 import { NavLink, NavPill } from './NavLink'
 import { StepJump } from './StepJump'
 import { TocLink } from './TocLink'
-import { SectionIntro, Toc, Explainer, Gotcha, ColItem, SectionNote, SectionTitle, SectionSubheading, SectionList, CodeAccordion } from './SectionLayout'
+import { SectionIntro, Toc, Explainer, Gotcha, ColItem, SectionNote, SectionTitle, SectionSubheading, SectionList, CodeAccordion, MdxPre } from './SectionLayout'
 // npm-package
 import {
   CIStep, CIStepText, CIYaml, YamlHeading, CITip, CIOverviewCards, CIOverviewCard,
@@ -66,6 +66,7 @@ import { NjaChecklist } from './nextjs-abstractions/NjaChecklist'
 import { GuideStartContent } from './GuideStartContent'
 
 export const mdxComponents: MDXComponents = {
+  pre: MdxPre,
   Cmd,
   FnRef,
   NavLink,
