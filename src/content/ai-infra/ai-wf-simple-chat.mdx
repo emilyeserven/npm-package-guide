@@ -1,0 +1,58 @@
+---
+id: "ai-wf-simple-chat"
+title: "Simple Chat Completion 💬"
+guide: "ai-infra"
+linkRefs:
+  - id: "openai-api-reference"
+    note: "The standard API pattern for chat completions that most providers follow"
+  - id: "mdn-server-sent-events"
+    note: "How token streaming works under the hood via SSE"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-when">When to use this pattern</TocLink>
+  <TocLink id="toc-flow">Step-by-step flow</TocLink>
+  <TocLink id="toc-considerations">Key considerations</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+The simplest AI workflow &mdash; your frontend sends a prompt, the model generates a response, and tokens stream back. This pattern touches only the <NavLink to="ai-inference">inference layer</NavLink> and is the foundation every other workflow builds on.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+
+<SectionList>
+<ColItem>A simple chat completion is the &ldquo;Hello World&rdquo; of AI integration. The client sends a POST request with a prompt, the model server loads it into GPU memory, and tokens stream back via Server-Sent Events (SSE). No external data retrieval, no multi-step reasoning, no orchestration.</ColItem>
+<ColItem>Despite its simplicity, this pattern handles a surprising number of use cases &mdash; from customer support chatbots to content generation, code completion, and text summarization. If the model&apos;s training data already contains the knowledge you need, this is all you need.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-when">When to Use This Pattern</SectionSubheading>
+
+<SectionList>
+<ColItem>**The model already knows what you need** &mdash; general knowledge, language tasks, code generation, creative writing. No proprietary or real-time data required.</ColItem>
+<ColItem>**Latency is critical** &mdash; this is the fastest pattern since there&apos;s no data retrieval or orchestration overhead. Time-to-first-token depends only on the model server.</ColItem>
+<ColItem>**You&apos;re starting a new AI feature** &mdash; always begin here. Add RAG or agents only when you hit the limits of what the base model can do with good prompts.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-flow">Step-by-Step Flow</SectionSubheading>
+
+Trace this workflow through the infrastructure stack.
+
+<WorkflowDetail workflowId="simple-chat" />
+
+<SectionSubheading id="toc-considerations">Key Considerations</SectionSubheading>
+
+<SectionList>
+<ColItem>**Lowest latency and cost** &mdash; no external calls, no retrieval, no loops. You pay only for the model&apos;s input and output tokens.</ColItem>
+<ColItem>**Limited by training data** &mdash; the model can only answer from what it learned during training. It won&apos;t know about your company&apos;s internal docs, recent events, or domain-specific data.</ColItem>
+<ColItem>**Prompt engineering is your main lever** &mdash; system prompts, few-shot examples, and careful instruction design determine output quality. See <NavLink to="prompt-techniques">prompting techniques</NavLink> for more.</ColItem>
+<ColItem>**Rate limiting and authentication** &mdash; even the simplest workflow needs an API gateway to handle auth, rate limiting, and usage tracking in production.</ColItem>
+</SectionList>
+
+<Explainer title="Simple chat completion &mdash; a backend analogy">
+This is like a simple REST API request-response cycle. Your client sends a POST request with a payload (the prompt), the server processes it and returns a response (the completion). The only infrastructure involved is the server itself &mdash; no database queries, no cache lookups, no message queues. Streaming tokens via SSE is analogous to streaming a large HTTP response body rather than buffering the entire result.
+</Explainer>

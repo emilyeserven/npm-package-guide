@@ -12,7 +12,8 @@ Backend engineers learning AI infrastructure — from model serving and vector d
 |--------------|----------|
 | *(start)* | `ai-start`, `ai-overview` |
 | The Stack | `ai-inference`, `ai-orchestration`, `ai-data`, `ai-training`, `ai-compute` |
-| Putting It Together | `ai-workflows`, `ai-key-terms` |
+| Workflows | `ai-workflows`, `ai-wf-simple-chat`, `ai-wf-rag`, `ai-wf-agent`, `ai-wf-finetune` |
+| Putting It Together | `ai-key-terms` |
 
 Defined in `AI_INFRA_GUIDE_SECTIONS` in `src/data/aiInfraData/navigation.ts`.
 
@@ -36,7 +37,8 @@ Defined in `AI_INFRA_GUIDE_SECTIONS` in `src/data/aiInfraData/navigation.ts`.
 | Component | Props | Data Source | Purpose |
 |-----------|-------|-------------|---------|
 | `InfraLayerExplorer` | `layerId: string` | `INFRA_LAYERS` in `layers.ts` | Interactive layer explorer with clickable concept cards showing name, description, backend analogy, and tools |
-| `WorkflowExplorer` | *(none)* | `INFRA_WORKFLOWS` in `workflows.ts` | Interactive workflow selector showing step-by-step flows through infrastructure layers |
+| `WorkflowExplorer` | *(none)* | `INFRA_WORKFLOWS` in `workflows.ts` | Interactive workflow selector showing all workflows with tab navigation |
+| `WorkflowDetail` | `workflowId: string` | `INFRA_WORKFLOWS` in `workflows.ts` | Single workflow step-by-step flow with layer badges |
 
 ## Guide-Specific Conventions
 
@@ -55,7 +57,18 @@ Every `InfraConcept` includes an `analogy` field that maps the AI concept to a f
 
 ### Workflow visualization
 
-`INFRA_WORKFLOWS` defines 4 common AI architectures (simple chat, RAG, agents, fine-tuning). Each workflow has `steps` referencing infrastructure layers by name, showing how data flows through the stack.
+`INFRA_WORKFLOWS` defines 4 common AI architectures (simple chat, RAG, agents, fine-tuning). Each workflow has `steps` referencing infrastructure layers by name, showing how data flows through the stack. The overview page (`ai-workflows`) uses `<WorkflowExplorer />` for comparing all workflows; individual workflow pages (`ai-wf-*.mdx`) use `<WorkflowDetail workflowId="..." />` for single-workflow detail.
+
+### Workflow page template
+
+Workflow pages (`ai-wf-*.mdx`) follow a consistent structure:
+
+1. `<SectionTitle>` + `<Toc>` + `<SectionIntro>`
+2. Overview with `<SectionList>` / `<ColItem>`
+3. When to use this pattern
+4. `<WorkflowDetail workflowId="..." />`
+5. Key considerations
+6. Backend `<Explainer>` analogy box
 
 ### Key terms
 

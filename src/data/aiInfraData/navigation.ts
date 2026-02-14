@@ -13,7 +13,17 @@ export const AI_INFRA_GUIDE_SECTIONS: GuideSection[] = [
       'ai-compute',
     ],
   },
-  { label: 'Putting It Together', ids: ['ai-workflows', 'ai-key-terms'] },
+  {
+    label: 'Workflows',
+    ids: [
+      'ai-workflows',
+      'ai-wf-simple-chat',
+      'ai-wf-rag',
+      'ai-wf-agent',
+      'ai-wf-finetune',
+    ],
+  },
+  { label: 'Putting It Together', ids: ['ai-key-terms'] },
 ]
 
 // ── Start page data ──────────────────────────────────────────────────
@@ -51,18 +61,31 @@ export const AI_INFRA_START_PAGE_DATA: StartPageData = {
       },
     },
     {
-      type: 'numbered',
-      num: 2,
-      title: 'Putting It Together',
+      type: 'bonus',
+      title: 'Workflows',
       description:
-        'See how the layers combine in real-world workflows and review the key terms you need to know.',
-      sectionLabel: 'Putting It Together',
+        'Trace four common AI architectures through the infrastructure stack \u2014 from simple chat to full fine-tuning pipelines.',
+      sectionLabel: 'Workflows',
       subItemDescriptions: {
         'ai-workflows':
-          'Trace four common AI architectures \u2014 simple chat, RAG, agents, and fine-tuning \u2014 through the infrastructure layers.',
-        'ai-key-terms':
-          'Quick-reference definitions for essential AI infrastructure terminology.',
+          'Overview of the four common patterns and how to choose between them.',
+        'ai-wf-simple-chat':
+          'The simplest pattern \u2014 your frontend asks a question, the model answers. Inference layer only.',
+        'ai-wf-rag':
+          'Search your data first, then answer \u2014 combines inference, data, and orchestration layers.',
+        'ai-wf-agent':
+          'The model decides what tools to call in a loop \u2014 like a coding assistant or research agent.',
+        'ai-wf-finetune':
+          'Specialize a base model on your data \u2014 the full training pipeline from data prep to deployment.',
       },
+    },
+    {
+      type: 'numbered',
+      num: 2,
+      title: 'Key Terms',
+      description:
+        'Quick-reference definitions for essential AI infrastructure terminology.',
+      jumpTo: 'ai-key-terms',
     },
   ],
 }

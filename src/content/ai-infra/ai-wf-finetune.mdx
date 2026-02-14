@@ -1,0 +1,58 @@
+---
+id: "ai-wf-finetune"
+title: "Model Fine-Tuning 🎯"
+guide: "ai-infra"
+linkRefs:
+  - id: "openai-fine-tuning-guide"
+    note: "OpenAI's guide to fine-tuning models with custom training data"
+  - id: "huggingface-transformers-docs"
+    note: "Open-source library for training and fine-tuning transformer models"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-when">When to use this pattern</TocLink>
+  <TocLink id="toc-flow">Step-by-step flow</TocLink>
+  <TocLink id="toc-considerations">Key considerations</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+Fine-tuning takes a pre-trained base model and specializes it on your data. Unlike RAG (which retrieves context at query time), fine-tuning bakes knowledge directly into the model&apos;s weights. This is the most complex workflow, spanning the <NavLink to="ai-data">data</NavLink>, <NavLink to="ai-training">training</NavLink>, <NavLink to="ai-compute">compute</NavLink>, and <NavLink to="ai-inference">inference</NavLink> layers.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+
+<SectionList>
+<ColItem>Fine-tuning is an offline pipeline, not a real-time workflow. You collect training data, format it into instruction-response pairs, train the model on GPU infrastructure, evaluate results against benchmarks, and deploy the new model if quality passes.</ColItem>
+<ColItem>This pattern is appropriate when you need the model to learn a specific style, domain vocabulary, or behavior that prompt engineering and RAG can&apos;t achieve &mdash; for example, matching your brand voice, following a specific output format, or handling domain-specific reasoning patterns.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-when">When to Use This Pattern</SectionSubheading>
+
+<SectionList>
+<ColItem>**Prompt engineering and RAG aren&apos;t enough** &mdash; the model consistently fails at a task despite good prompts and relevant context. Fine-tuning teaches the model new behaviors rather than just providing information.</ColItem>
+<ColItem>**You need consistent style or format** &mdash; matching a brand voice, following a strict output schema, or generating domain-specific language that few-shot examples can&apos;t reliably produce.</ColItem>
+<ColItem>**You have high-quality training data** &mdash; fine-tuning requires hundreds to thousands of well-curated instruction-response pairs. Poor training data produces a poor model.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-flow">Step-by-Step Flow</SectionSubheading>
+
+Trace this workflow through the infrastructure stack.
+
+<WorkflowDetail workflowId="finetune" />
+
+<SectionSubheading id="toc-considerations">Key Considerations</SectionSubheading>
+
+<SectionList>
+<ColItem>**Data quality is everything** &mdash; the model learns from your examples. Inconsistent, noisy, or biased training data produces a model that reflects those flaws. Budget significant time for data curation and cleaning.</ColItem>
+<ColItem>**GPU costs add up** &mdash; training requires dedicated GPU compute (often for hours or days). Even with LoRA and other efficient fine-tuning techniques, costs are significantly higher than prompt engineering or RAG.</ColItem>
+<ColItem>**Evaluation infrastructure is required** &mdash; you need automated benchmarks and test sets to measure whether the fine-tuned model actually improves on the base model. Without evaluation, you&apos;re flying blind.</ColItem>
+<ColItem>**Ongoing maintenance** &mdash; fine-tuned models need retraining as your data, requirements, or base model versions change. This is an ongoing operational commitment, not a one-time task.</ColItem>
+</SectionList>
+
+<Explainer title="Fine-tuning &mdash; a backend analogy">
+Fine-tuning is like a CI/CD pipeline for your ML model. Training data goes in (like source code), the pipeline processes it through training runs (like build and test stages), and a trained model artifact comes out (like a deployable binary). If quality metrics pass (like tests passing), the artifact gets pushed to a model registry (like a container registry) and deployed to production. The key difference is that &ldquo;builds&rdquo; take hours on GPUs, not minutes on CPUs.
+</Explainer>
