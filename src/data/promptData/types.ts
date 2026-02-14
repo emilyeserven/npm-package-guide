@@ -84,6 +84,8 @@ export interface ToolTechnique {
   implementation: ImplementationStep[]
   examples: ToolExample[]
   tips?: string[]
+  pros?: string[]
+  cons?: string[]
 }
 
 export interface MetaToolItem {

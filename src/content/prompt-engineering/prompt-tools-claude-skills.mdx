@@ -1,0 +1,58 @@
+---
+id: "prompt-tools-claude-skills"
+title: "Claude Skills 🧩"
+guide: "prompt-engineering"
+usedFootnotes: [1, 2]
+linkRefs:
+  - id: "anthropic-claude-code-skills"
+    note: "Slash commands and skills documentation for Claude Code."
+  - id: "anthropic-claude-code-best-practices"
+    note: "Tips for getting the most out of Claude Code's advanced features."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+Skills<FnRef n={1} /> are structured prompt workflows that go beyond simple slash commands. They combine multi-step instructions, tool configurations, verification steps, and domain-specific knowledge into reusable packages<FnRef n={2} /> &mdash; encoding your team&rsquo;s best practices into a single invocable command.
+</SectionIntro>
+
+<Toc>
+  <TocLink id="toc-overview">How Skills Work</TocLink>
+  <TocLink id="toc-best-for">Best Use Cases</TocLink>
+  <TocLink id="toc-creating">Building Skills</TocLink>
+  <TocLink id="toc-examples">Example Skills</TocLink>
+  <TocLink id="toc-proscons">Pros &amp; Cons</TocLink>
+  <TocLink id="toc-tips">Tips</TocLink>
+</Toc>
+
+<SectionSubheading id="toc-overview">How Skills Work</SectionSubheading>
+
+Skills build on <NavLink to="prompt-tools-skills">custom slash commands</NavLink> by adding structure, verification, and multi-tool orchestration. Where a slash command is a static prompt template, a skill is a complete workflow recipe that tells Claude what to do, how to do it, what tools to use, and how to verify the results.
+
+<ToolDetail toolId="claude-skills" section="overview" />
+
+<SectionSubheading id="toc-best-for">Best Use Cases</SectionSubheading>
+
+Skills are most valuable when a task requires multiple steps, specific quality standards, or coordination across different tools.
+
+<ToolDetail toolId="claude-skills" section="bestFor" />
+
+<SectionSubheading id="toc-creating">Building Skills</SectionSubheading>
+
+Start with a workflow your team repeats frequently, then encode it as a structured prompt with clear steps, verification checkpoints, and output format requirements.
+
+<ToolDetail toolId="claude-skills" section="implementation" />
+
+<SectionSubheading id="toc-examples">Example Skills</SectionSubheading>
+
+Here are practical skill templates for common development workflows. Each combines multiple steps with built-in verification to ensure consistent, high-quality output.
+
+<ToolDetail toolId="claude-skills" section="examples" />
+
+<SectionSubheading id="toc-proscons">Pros &amp; Cons</SectionSubheading>
+
+<ToolDetail toolId="claude-skills" section="proscons" />
+
+<SectionSubheading id="toc-tips">Tips</SectionSubheading>
+
+<ToolDetail toolId="claude-skills" section="tips" />

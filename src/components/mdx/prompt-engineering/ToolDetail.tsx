@@ -1,6 +1,6 @@
 import { TOOL_TECHNIQUES } from '../../../data/promptData'
 
-type ToolSection = 'overview' | 'bestFor' | 'implementation' | 'examples' | 'tips'
+type ToolSection = 'overview' | 'bestFor' | 'implementation' | 'examples' | 'tips' | 'proscons'
 
 export function ToolDetail({ toolId, section }: { toolId: string; section?: ToolSection }) {
   const tool = TOOL_TECHNIQUES.find(t => t.id === toolId)
@@ -89,6 +89,48 @@ export function ToolDetail({ toolId, section }: { toolId: string; section?: Tool
               )}
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Pros & Cons */}
+      {(showAll || section === 'proscons') && tool.pros && tool.cons && (tool.pros.length > 0 || tool.cons.length > 0) && (
+        <div className="mb-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {tool.pros && tool.pros.length > 0 && (
+            <div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4">
+              <h4 className="text-sm font-semibold text-emerald-800 dark:text-emerald-300 mb-2 flex items-center gap-1.5">
+                <span>{'\u2705'}</span> Pros
+              </h4>
+              <ul className="list-none m-0 p-0">
+                {tool.pros.map((pro, i) => (
+                  <li
+                    key={i}
+                    className="text-sm text-emerald-900 dark:text-emerald-200 py-1 flex gap-2 leading-relaxed"
+                  >
+                    <span className="text-emerald-500 dark:text-emerald-400 shrink-0">{'\u002B'}</span>
+                    <span>{pro}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {tool.cons && tool.cons.length > 0 && (
+            <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-xl p-4">
+              <h4 className="text-sm font-semibold text-red-800 dark:text-red-300 mb-2 flex items-center gap-1.5">
+                <span>{'\u26A0\uFE0F'}</span> Cons
+              </h4>
+              <ul className="list-none m-0 p-0">
+                {tool.cons.map((con, i) => (
+                  <li
+                    key={i}
+                    className="text-sm text-red-900 dark:text-red-200 py-1 flex gap-2 leading-relaxed"
+                  >
+                    <span className="text-red-500 dark:text-red-400 shrink-0">{'\u2212'}</span>
+                    <span>{con}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
 
