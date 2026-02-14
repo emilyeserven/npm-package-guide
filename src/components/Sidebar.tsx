@@ -116,7 +116,7 @@ function IconRail({
           data-testid={`sidebar-guide-icon-${guide.id}`}
         >
           <span className="text-lg leading-none">{guide.icon}</span>
-          <span className={tooltipCls}>{guide.title}</span>
+          <span className={tooltipCls}>{guide.singlePage ? 'Single Page Guides' : guide.title}</span>
         </button>
       ))}
 
@@ -224,7 +224,7 @@ function ContentPanel({
       {/* Header */}
       <div className="flex items-center justify-between px-4 h-11 border-b border-slate-200 dark:border-slate-700 shrink-0">
         <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">
-          {guide.title}
+          {guide.singlePage ? 'Single Page Guides' : guide.title}
         </span>
         <div className="flex items-center gap-0.5 shrink-0 ml-2">
           <button

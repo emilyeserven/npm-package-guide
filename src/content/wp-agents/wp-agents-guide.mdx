@@ -129,7 +129,7 @@ Verify it worked by checking for ACF fields:
 cat src/api/wp-schema.json | grep -A5 '"acf"'
 ```
 
-<CodeAccordion title="wp-acf-schema-discovery.mjs — Full Script">
+<CodeAccordion title="wp-acf-schema-discovery.mjs — Full Script" ext="MJS">
 
 ```javascript
 #!/usr/bin/env node
@@ -412,7 +412,7 @@ node fetch-wp-samples.mjs \
   --output src/api/wp-sample-data.json
 ```
 
-<CodeAccordion title="fetch-wp-samples.mjs — Full Script">
+<CodeAccordion title="fetch-wp-samples.mjs — Full Script" ext="MJS">
 
 ```javascript
 #!/usr/bin/env node
@@ -633,6 +633,8 @@ git push
 
 Claude Code Web reads `CLAUDE.md` files in your repo for project context and instructions. Create one that tells Claude how to work with your WordPress data:
 
+<CodeAccordion title="CLAUDE.md — WordPress Codegen Instructions" ext="MD">
+
 ```markdown
 # CLAUDE.md
 
@@ -690,6 +692,8 @@ When asked to generate mock data / test fixtures:
 - Playwright or Cypress for e2e tests
 - Vite bundler
 ```
+
+</CodeAccordion>
 
 Commit this file:
 
