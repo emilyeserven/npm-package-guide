@@ -33,6 +33,13 @@ export const kubernetesGlossary: GlossaryCategory[] = [
         sectionId: 'k8s-containers',
       },
       {
+        term: 'Container Registry',
+        definition:
+          'A storage and distribution service for container images \u2014 like npm registry but for Docker images. Examples: Docker Hub, AWS ECR, GitHub Container Registry.',
+        linkId: 'docker-hub',
+        sectionId: 'k8s-containers',
+      },
+      {
         term: 'Pod',
         definition:
           'The smallest deployable unit in Kubernetes \u2014 a wrapper around one or more containers that share networking and storage. Most pods contain a single container.',

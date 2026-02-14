@@ -1,5 +1,4 @@
-export type { InfraLayer, InfraConcept, InfraWorkflow, WorkflowStep, KeyTerm } from './types'
+export type { InfraLayer, InfraConcept, InfraWorkflow, WorkflowStep } from './types'
 export { INFRA_LAYERS } from './layers'
 export { INFRA_WORKFLOWS } from './workflows'
-export { KEY_TERMS } from './keyTerms'
 export { AI_INFRA_GUIDE_SECTIONS, AI_INFRA_START_PAGE_DATA } from './navigation'

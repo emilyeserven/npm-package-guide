@@ -13,6 +13,7 @@ import { glossaryTerms } from '../data/glossaryTerms'
 import type { GlossaryTerm } from '../data/glossaryTerms'
 import { linkById } from '../data/linkRegistry'
 import { getNavTitle } from '../data/navigation'
+import { getGuideForPage } from '../data/guideRegistry'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { badgeBase, badgeMap } from '../data/overallResources'
 import { DataTable } from './DataTable'
@@ -27,10 +28,7 @@ interface FlatGlossaryRow extends GlossaryTerm {
 
 function deriveGuide(sectionId?: string): string {
   if (!sectionId) return 'npm-package'
-  if (sectionId.startsWith('arch-')) return 'architecture'
-  if (sectionId.startsWith('test-')) return 'testing'
-  if (sectionId.startsWith('prompt-')) return 'prompt-engineering'
-  return 'npm-package'
+  return getGuideForPage(sectionId)?.id ?? 'npm-package'
 }
 
 const flatData: FlatGlossaryRow[] = glossaryTerms.flatMap(group =>
@@ -52,7 +50,7 @@ function categoryToKey(cat: string): string {
   return `cat:${cat.toLowerCase().replace(/\s+&\s+/g, '-').replace(/\s+/g, '-')}`
 }
 
-const guideTagList = ['guide:npm-package', 'guide:architecture', 'guide:testing', 'guide:prompt-engineering']
+const guideTagList = ['guide:npm-package', 'guide:architecture', 'guide:testing', 'guide:prompt-engineering', 'guide:ci-cd', 'guide:auth', 'guide:kubernetes', 'guide:ai-infra']
 
 const columnHelper = createColumnHelper<FlatGlossaryRow>()
 

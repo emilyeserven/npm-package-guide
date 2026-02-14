@@ -3,8 +3,11 @@ import { useNavigate } from '@tanstack/react-router'
 
 export function useNavigateToSection() {
   const navigate = useNavigate()
-  return useCallback((id: string, anchorId?: string) => {
-    navigate({ to: '/$sectionId', params: { sectionId: id } })
+  return useCallback((id: string, anchorIdOrOpts?: string | { search: Record<string, string> }) => {
+    const anchorId = typeof anchorIdOrOpts === 'string' ? anchorIdOrOpts : undefined
+    const search = typeof anchorIdOrOpts === 'object' ? anchorIdOrOpts.search : undefined
+
+    navigate({ to: '/$sectionId', params: { sectionId: id }, search: search ?? {} })
     if (anchorId) {
       requestAnimationFrame(() => {
         setTimeout(() => {

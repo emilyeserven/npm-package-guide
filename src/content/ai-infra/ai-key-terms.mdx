@@ -21,16 +21,12 @@ Essential terminology for working with AI infrastructure. Each term includes a c
 <SectionSubheading id="toc-cheat-sheet">Cheat Sheet</SectionSubheading>
 
 <SectionList>
-<ColItem>**Token** &mdash; The basic unit models work with. Roughly &frac34; of a word. "Hello world" &asymp; 2 tokens. Token count determines API pricing and context window usage.</ColItem>
-<ColItem>**Latency** &mdash; Time to first token (TTFT) + time per output token. Your users feel both. Streaming helps mask generation latency by showing tokens as they arrive.</ColItem>
-<ColItem>**Context Window** &mdash; Max tokens a model can process at once (input + output). GPT-4: 128K tokens, Claude: 200K tokens. Exceeding it causes truncation or errors.</ColItem>
-<ColItem>**Hallucination** &mdash; When the model confidently generates incorrect information. RAG (grounding responses in retrieved documents) and guardrails help reduce this.</ColItem>
-<ColItem>**Inference** &mdash; Running a trained model to get predictions. This is the "production" phase &mdash; analogous to handling API requests on your backend server.</ColItem>
-<ColItem>**Embedding** &mdash; A vector (list of numbers) representing the semantic meaning of text. Similar texts produce similar vectors, enabling search by meaning instead of keywords.</ColItem>
+<ColItem>The essential terms &mdash; **Token**, **Latency**, **Context Window**, **Hallucination**, **Inference**, and **Embedding** &mdash; are defined in the <NavLink to="glossary" search={{ guide: "ai-infra" }}>AI Infrastructure Glossary</NavLink> with links to official documentation.</ColItem>
+<ColItem>The glossary also includes additional terms from across the guide: **RAG**, **Fine-Tuning**, **Vector Database**, **RLHF**, **Model Registry**, and **Guardrails**.</ColItem>
 </SectionList>
 
 <SectionSubheading id="toc-next-steps">Next Steps</SectionSubheading>
 
 <SectionList>
-<ColItem>For deeper definitions with links to official documentation, check the <NavLink to="glossary">Glossary</NavLink> &mdash; it includes all of these terms plus many more from across the guide.</ColItem>
+<ColItem>Browse the full <NavLink to="glossary" search={{ guide: "ai-infra" }}>AI Infrastructure Glossary</NavLink> for definitions with links to official documentation.</ColItem>
 </SectionList>

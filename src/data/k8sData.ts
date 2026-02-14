@@ -78,24 +78,6 @@ export const K8S_SECTIONS: K8sSection[] = [
     },
     keyTakeaway:
       'Containers = portable, reproducible app environments. Docker builds them. They\u2019re the atoms of modern infrastructure.',
-    concepts: [
-      {
-        term: 'Dockerfile',
-        def: 'Like a build script. Instructions to create your container image \u2014 similar to how a CI config builds your frontend.',
-      },
-      {
-        term: 'Image',
-        def: 'The built artifact \u2014 like your dist/ folder but for an entire app environment. Immutable and versioned.',
-      },
-      {
-        term: 'Container',
-        def: 'A running instance of an image. Like opening your app in a browser tab \u2014 one image can spawn many containers.',
-      },
-      {
-        term: 'Registry',
-        def: 'Where images are stored and shared \u2014 like npm registry but for containers. Docker Hub, AWS ECR, GitHub Container Registry.',
-      },
-    ],
   },
   {
     id: 'kubernetes',

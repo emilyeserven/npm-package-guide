@@ -26,7 +26,6 @@ Defined in `AI_INFRA_GUIDE_SECTIONS` in `src/data/aiInfraData/navigation.ts`.
 | Type definitions | `src/data/aiInfraData/types.ts` |
 | Layer data | `src/data/aiInfraData/layers.ts` |
 | Workflow data | `src/data/aiInfraData/workflows.ts` |
-| Key terms data | `src/data/aiInfraData/keyTerms.ts` |
 | Navigation & start page | `src/data/aiInfraData/navigation.ts` |
 | Interactive components | `src/components/mdx/ai-infra/` |
 | Link registry | `src/data/linkRegistry/aiInfraLinks.ts` |
@@ -72,7 +71,7 @@ Workflow pages (`ai-wf-*.mdx`) follow a consistent structure:
 
 ### Key terms
 
-`KEY_TERMS` in `keyTerms.ts` provides quick-reference definitions for essential AI infrastructure terminology, rendered on the `ai-key-terms` page.
+Key terms for the guide are defined as glossary entries in `src/data/glossaryTerms/aiInfraTerms.ts`. The `ai-key-terms` page links to the Glossary filtered by the AI Infrastructure guide.
 
 ### Data types
 
@@ -82,7 +81,6 @@ Key interfaces in `src/data/aiInfraData/types.ts`:
 - `InfraConcept` — name/what/analogy/tools
 - `InfraWorkflow` — id/title/description/steps
 - `WorkflowStep` — layer/label/icon
-- `KeyTerm` — term/definition
 
 ## Adding a New Page
 
