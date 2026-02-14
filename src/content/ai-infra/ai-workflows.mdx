@@ -5,8 +5,6 @@ guide: "ai-infra"
 linkRefs:
   - id: "langchain-introduction"
     note: "LangChain provides building blocks for all four workflow patterns"
-  - id: "llamaindex-docs"
-    note: "Specialized for RAG workflows and data retrieval"
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
@@ -14,6 +12,7 @@ linkRefs:
 <Toc>
   <TocLink id="toc-overview">Overview</TocLink>
   <TocLink id="toc-explore">Explore workflows</TocLink>
+  <TocLink id="toc-the-workflows">The four workflows</TocLink>
   <TocLink id="toc-picking">Picking the right pattern</TocLink>
 </Toc>
 
@@ -30,9 +29,20 @@ The infrastructure layers from the previous pages combine in predictable pattern
 
 <SectionSubheading id="toc-explore">Explore Workflows</SectionSubheading>
 
-Select a workflow to trace it through the infrastructure stack.
+Select a workflow to preview its flow through the infrastructure stack.
 
 <WorkflowExplorer />
+
+<SectionSubheading id="toc-the-workflows">The Four Workflows</SectionSubheading>
+
+<SectionList>
+<ColItem>**Simple Chat Completion** &mdash; the most basic pattern. Your frontend sends a prompt, the inference layer generates a response. No external data, no orchestration. <NavLink to="ai-wf-simple-chat" /></ColItem>
+<ColItem>**RAG (Search + Answer)** &mdash; the system searches your data for relevant context before generating an answer. Adds data and orchestration layers on top of inference. <NavLink to="ai-wf-rag" /></ColItem>
+<ColItem>**AI Agent Workflow** &mdash; the model decides what tools to call in a loop, reasoning through multi-step tasks like a coding assistant. The most dynamic pattern. <NavLink to="ai-wf-agent" /></ColItem>
+<ColItem>**Model Fine-Tuning Pipeline** &mdash; specialize a base model on your data through the full training pipeline &mdash; from data preparation to deployment. The most complex pattern. <NavLink to="ai-wf-finetune" /></ColItem>
+</SectionList>
+
+<StepJump to="ai-wf-simple-chat">Start with Simple Chat Completion</StepJump>
 
 <SectionSubheading id="toc-picking">Picking the Right Pattern</SectionSubheading>
 

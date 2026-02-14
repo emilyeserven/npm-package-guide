@@ -1,0 +1,60 @@
+---
+id: "ai-wf-rag"
+title: "RAG (Search + Answer) 🔍"
+guide: "ai-infra"
+linkRefs:
+  - id: "llamaindex-docs"
+    note: "Specialized framework for building RAG pipelines and data retrieval"
+  - id: "pinecone-what-is-vector-db"
+    note: "Explains vector databases, the core data store for RAG workflows"
+  - id: "langchain-introduction"
+    note: "General-purpose framework with strong RAG pipeline support"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-when">When to use this pattern</TocLink>
+  <TocLink id="toc-flow">Step-by-step flow</TocLink>
+  <TocLink id="toc-considerations">Key considerations</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+Retrieval-Augmented Generation (RAG) adds a search step before the model generates an answer. The system embeds the user&apos;s question into a vector, finds similar documents in a <NavLink to="ai-data">vector database</NavLink>, injects the results into the prompt, and then generates an answer grounded in your actual data.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+
+<SectionList>
+<ColItem>RAG solves the biggest limitation of simple chat completion &mdash; the model doesn&apos;t know about your data. Instead of fine-tuning the model on your documents (expensive and slow), RAG retrieves relevant context at query time and includes it in the prompt.</ColItem>
+<ColItem>This pattern involves three infrastructure layers: the <NavLink to="ai-data">data layer</NavLink> for embedding and retrieval, the <NavLink to="ai-orchestration">orchestration layer</NavLink> for prompt assembly and guardrails, and the <NavLink to="ai-inference">inference layer</NavLink> for the final generation step.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-when">When to Use This Pattern</SectionSubheading>
+
+<SectionList>
+<ColItem>**The model needs your data** &mdash; internal documentation, knowledge bases, product catalogs, support tickets, or any proprietary information the model wasn&apos;t trained on.</ColItem>
+<ColItem>**Answers must be grounded and verifiable** &mdash; RAG lets you cite sources, link to specific documents, and reduce hallucination by providing concrete context.</ColItem>
+<ColItem>**Your data changes frequently** &mdash; unlike fine-tuning (which requires retraining), RAG picks up new documents as soon as they&apos;re indexed in the vector database.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-flow">Step-by-Step Flow</SectionSubheading>
+
+Trace this workflow through the infrastructure stack.
+
+<WorkflowDetail workflowId="rag" />
+
+<SectionSubheading id="toc-considerations">Key Considerations</SectionSubheading>
+
+<SectionList>
+<ColItem>**Retrieval quality is the bottleneck** &mdash; if the vector search returns irrelevant documents, the model&apos;s answer will be wrong regardless of how good the model is. Embedding quality, chunk size, and retrieval strategy matter more than model choice.</ColItem>
+<ColItem>**Chunk size tradeoffs** &mdash; smaller chunks give more precise retrieval but may miss context. Larger chunks provide more context but may dilute relevance. Most teams start with 500&ndash;1000 token chunks and tune from there.</ColItem>
+<ColItem>**Added latency** &mdash; the embedding and vector search steps add 50&ndash;200ms of latency compared to a simple chat completion. This is usually acceptable but matters for real-time applications.</ColItem>
+<ColItem>**Guardrails are important** &mdash; the <NavLink to="ai-orchestration">orchestration layer</NavLink> should validate that the model&apos;s response actually uses the retrieved context and doesn&apos;t hallucinate beyond it.</ColItem>
+</SectionList>
+
+<Explainer title="RAG &mdash; a backend analogy">
+RAG is like a search-then-render pattern. When a user asks a question, your backend first queries Elasticsearch (or another search engine) for relevant documents, then uses those results to build the response page. The search step is the vector database query; the render step is the model generating an answer with the retrieved context. Just as search quality determines page relevance, retrieval quality determines answer accuracy.
+</Explainer>

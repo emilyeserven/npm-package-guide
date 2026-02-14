@@ -1,0 +1,58 @@
+---
+id: "ai-wf-agent"
+title: "AI Agent Workflow 🤖"
+guide: "ai-infra"
+linkRefs:
+  - id: "langchain-introduction"
+    note: "Provides agent abstractions, tool integration, and orchestration primitives"
+  - id: "guardrails-ai-docs"
+    note: "Validation framework for constraining and checking agent outputs"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-when">When to use this pattern</TocLink>
+  <TocLink id="toc-flow">Step-by-step flow</TocLink>
+  <TocLink id="toc-considerations">Key considerations</TocLink>
+  <TocLink id="toc-explainer">Backend analogy</TocLink>
+</Toc>
+
+<SectionIntro>
+In an agent workflow, the model doesn&apos;t just answer &mdash; it decides what to do next. Given a task and a set of available tools, the model reasons through a plan, calls tools, inspects results, and loops until it has enough information to respond. This is how coding assistants, research agents, and autonomous systems work.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+
+<SectionList>
+<ColItem>Agent workflows are the most dynamic pattern. Unlike RAG (which follows a fixed retrieve-then-generate flow), agents make decisions at each step. The model might search a database, call an API, read a file, or decide it needs more information &mdash; all without predefined steps.</ColItem>
+<ColItem>This pattern heavily uses the <NavLink to="ai-orchestration">orchestration layer</NavLink> for managing the agent loop, tool dispatch, and guardrails. The <NavLink to="ai-data">data layer</NavLink> and <NavLink to="ai-inference">inference layer</NavLink> are called as needed within each iteration.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-when">When to Use This Pattern</SectionSubheading>
+
+<SectionList>
+<ColItem>**The task requires multi-step reasoning** &mdash; research questions, debugging workflows, data analysis, or anything where the answer depends on intermediate results.</ColItem>
+<ColItem>**Tool use is essential** &mdash; the model needs to search databases, call APIs, execute code, or interact with external systems to complete the task.</ColItem>
+<ColItem>**RAG isn&apos;t enough** &mdash; when a single retrieve-then-generate cycle can&apos;t solve the problem because the model needs to iteratively refine its approach based on what it finds.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-flow">Step-by-Step Flow</SectionSubheading>
+
+Trace this workflow through the infrastructure stack.
+
+<WorkflowDetail workflowId="agent" />
+
+<SectionSubheading id="toc-considerations">Key Considerations</SectionSubheading>
+
+<SectionList>
+<ColItem>**Unpredictable latency** &mdash; because the agent loops until it decides it&apos;s done, response time can vary dramatically. A simple question might take one loop; a complex research task might take ten. Always set maximum iteration limits.</ColItem>
+<ColItem>**Cost can spike** &mdash; each loop iteration involves at least one model call plus any tool calls. A 10-step agent workflow costs roughly 10x a simple completion. Monitor token usage carefully.</ColItem>
+<ColItem>**Guardrails are critical** &mdash; agents can take unintended actions, loop infinitely, or produce harmful outputs. The <NavLink to="ai-orchestration">orchestration layer</NavLink> must enforce output validation, action allowlists, and iteration caps.</ColItem>
+<ColItem>**Error handling is harder** &mdash; when a tool call fails mid-loop, the agent needs to recover gracefully. Design tools to return clear error messages the model can reason about, and implement retry strategies at the orchestration level.</ColItem>
+</SectionList>
+
+<Explainer title="AI agent &mdash; a backend analogy">
+An agent workflow is like a workflow engine (Temporal, AWS Step Functions) where each step dynamically decides the next one. Instead of a predefined DAG of tasks, the &ldquo;orchestrator&rdquo; is the model itself &mdash; it inspects results, decides what tool to call next, and terminates when the goal is met. The key difference from traditional workflow engines is that the routing logic is learned, not coded.
+</Explainer>

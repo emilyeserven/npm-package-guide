@@ -57,6 +57,7 @@ import { K8sFlowDiagram } from './kubernetes/K8sFlowDiagram'
 // ai-infra
 import { InfraLayerExplorer } from './ai-infra/InfraLayerExplorer'
 import { WorkflowExplorer } from './ai-infra/WorkflowExplorer'
+import { WorkflowDetail } from './ai-infra/WorkflowDetail'
 // shared
 import { GuideStartContent } from './GuideStartContent'
 
@@ -129,5 +130,6 @@ export const mdxComponents: MDXComponents = {
   K8sFlowDiagram,
   InfraLayerExplorer,
   WorkflowExplorer,
+  WorkflowDetail,
   GuideStartContent,
 }
