@@ -1,6 +1,6 @@
 ---
 id: "prompt-mistakes-tailwind"
-title: "Tailwind CSS Mistakes 💨"
+title: "Tailwind CSS Mistakes"
 guide: "prompt-engineering"
 usedFootnotes: [1]
 linkRefs:
@@ -13,6 +13,7 @@ linkRefs:
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
+<SeverityBadge categoryId="tailwind" />
 
 <SectionIntro>
 Tailwind CSS is one of the most common AI coding contexts, but models frequently make version-specific mistakes<FnRef n={1} /> — generating v3 configuration syntax for v4 projects, using arbitrary values instead of the built-in scale, constructing dynamic class names that get purged, and forgetting dark mode variants. Specifying your exact Tailwind version and conventions in CLAUDE.md prevents most of these issues.

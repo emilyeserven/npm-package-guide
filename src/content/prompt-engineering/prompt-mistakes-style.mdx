@@ -1,6 +1,6 @@
 ---
 id: "prompt-mistakes-style"
-title: "Style & Formatting Drift 🎨"
+title: "Style & Formatting Drift"
 guide: "prompt-engineering"
 usedFootnotes: [1]
 linkRefs:
@@ -13,6 +13,7 @@ linkRefs:
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
+<SeverityBadge categoryId="style" />
 
 <SectionIntro>
 Lower severity but still annoying &mdash; AI models can drift from your project&rsquo;s coding style, mixing naming conventions, adding unnecessary comments, or ignoring your linter and formatter configuration. Including style rules in your prompt or CLAUDE.md<FnRef n={1} /> keeps output consistent. For setting up ESLint and Prettier as your automated safety net, see <NavLink to="ci-linting" /> in the NPM Package Guide.

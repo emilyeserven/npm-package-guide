@@ -1,6 +1,6 @@
 ---
 id: "prompt-mistakes-security"
-title: "App Security Mistakes 🔒"
+title: "App Security Mistakes"
 guide: "prompt-engineering"
 usedFootnotes: [1, 2]
 linkRefs:
@@ -15,6 +15,7 @@ linkRefs:
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
+<SeverityBadge categoryId="security" />
 
 <SectionIntro>
 Security mistakes in AI-generated code are especially dangerous because the code often looks correct and passes basic testing. AI models routinely generate XSS vectors<FnRef n={1} />, expose secrets in client bundles, use insecure auth patterns, and build queries with string concatenation. Always include explicit security requirements<FnRef n={2} /> in your prompts and CLAUDE.md.

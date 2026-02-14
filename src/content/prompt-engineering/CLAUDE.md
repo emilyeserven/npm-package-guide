@@ -40,7 +40,8 @@ Defined in `PROMPT_GUIDE_SECTIONS` in `src/data/promptData/navigation.ts`.
 
 | Component | Props | Data Source | Purpose |
 |-----------|-------|-------------|---------|
-| `MistakeList` | `categoryId: string` | `MISTAKE_CATEGORIES` in `mistakes.ts` | Renders mistakes for a category with severity badge |
+| `SeverityBadge` | `categoryId: string` | `MISTAKE_CATEGORIES` in `mistakes.ts` | Renders the severity level badge (high/medium/low) for a mistake category |
+| `MistakeList` | `categoryId: string` | `MISTAKE_CATEGORIES` in `mistakes.ts` | Renders mistake items for a category (no badge — use `SeverityBadge` separately) |
 | `TechniqueDetail` | `techniqueId: string` | `CONTEXT_TECHNIQUES` in `techniques.ts` | Deep-dive technique explainer with code example |
 | `CLIReference` | *(none)* | `CLI_GROUPS` in `cli.ts` | Searchable, filterable CLI command table |
 | `TestingMistakes` | `context?: 'e2e' \| 'unit'` | `TESTING_MISTAKES` in `mistakes.ts` | Testing-specific mistake cards, optionally filtered |
@@ -53,7 +54,13 @@ Defined in `PROMPT_GUIDE_SECTIONS` in `src/data/promptData/navigation.ts`.
 
 ### Mistake category pages
 
-Pages in "Common AI Mistakes" use `<MistakeList categoryId="..." />`. Each `MistakeCategory` in `mistakes.ts` has a `severity` level (`high`, `medium`, `low`) that controls badge color. The `SEVERITY_COLORS` object defines light/dark theme colors for each level.
+Pages in "Common AI Mistakes" use severity badges instead of emoji. This is an exception to the project-wide emoji-suffix convention for page titles.
+
+**Title convention:** Common AI Mistakes pages do NOT have emoji suffixes in their MDX frontmatter `title`. Instead, they use severity level badges (H/M/L) in the sidebar and command menu, and a `<SeverityBadge>` component on the page.
+
+**Page layout:** Every mistake category page must place `<SeverityBadge categoryId="..." />` immediately after `<SectionTitle>`, before `<SectionIntro>`. The `<MistakeList>` component renders only the mistake items — it does not include the severity badge.
+
+Each `MistakeCategory` in `mistakes.ts` has a `severity` level (`high`, `medium`, `low`) that controls badge color. The `SEVERITY_COLORS` object defines light/dark theme colors for each level. When adding a new mistake page, also add its severity badge entry to `severityBadges` in both `Sidebar.tsx` and `CommandMenu.tsx`.
 
 ### Technique detail pages
 
@@ -70,8 +77,9 @@ Context management pages use `<TechniqueDetail techniqueId="..." />`. Each techn
 ### Adding a new mistake category
 
 1. Add a `MistakeCategory` to `MISTAKE_CATEGORIES` in `src/data/promptData/mistakes.ts`.
-2. Create `src/content/prompt-engineering/prompt-mistakes-<slug>.mdx` using `<MistakeList categoryId="..." />`.
+2. Create `src/content/prompt-engineering/prompt-mistakes-<slug>.mdx` — the title must **not** have an emoji suffix. Place `<SeverityBadge categoryId="..." />` right after `<SectionTitle>`, then `<SectionIntro>`, `<Toc>`, and `<MistakeList categoryId="..." />`.
 3. Add the page ID to `PROMPT_GUIDE_SECTIONS` under "Common AI Mistakes" in `navigation.ts`.
+4. Add a severity badge entry for the page ID to `severityBadges` in both `src/components/Sidebar.tsx` and `src/components/CommandMenu.tsx`.
 
 ### Adding a new technique
 

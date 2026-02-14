@@ -26,6 +26,7 @@ import { TestPracticeCards } from './testing/TestPracticeCards'
 import { TestChecklist } from './testing/TestChecklist'
 import { TestToolsGrid } from './testing/TestToolsGrid'
 // prompt-engineering
+import { SeverityBadge } from './prompt-engineering/SeverityBadge'
 import { MistakeList } from './prompt-engineering/MistakeList'
 import { TechniqueDetail } from './prompt-engineering/TechniqueDetail'
 import { CLIReference } from './prompt-engineering/CLIReference'
@@ -98,6 +99,7 @@ export const mdxComponents: MDXComponents = {
   TestPracticeCards,
   TestChecklist,
   TestToolsGrid,
+  SeverityBadge,
   MistakeList,
   TechniqueDetail,
   CLIReference,
