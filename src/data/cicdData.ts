@@ -284,24 +284,5 @@ export const CICD_START_PAGE_DATA: StartPageData = {
       description: 'The things that trip people up: npm ci vs install, YAML indentation, fork PR secrets, and more.',
       jumpTo: 'cicd-gotchas',
     },
-    {
-      type: 'bonus',
-      title: 'Resources',
-      description: 'Documentation and tools for CI/CD and GitHub Actions.',
-      customSubItems: [
-        {
-          title: '\u{1F4DA} External Resources',
-          description: 'Curated CI/CD documentation, articles, and tools.',
-          jumpTo: 'external-resources',
-          jumpType: 'guide-filter',
-        },
-        {
-          title: '\u{1F4D6} Glossary',
-          description: 'Key CI/CD and GitHub Actions terms.',
-          jumpTo: 'glossary',
-          jumpType: 'guide-filter',
-        },
-      ],
-    },
   ],
 }

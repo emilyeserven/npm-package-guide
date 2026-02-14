@@ -357,30 +357,6 @@ export const TESTING_START_PAGE_DATA: StartPageData = {
       description: 'A filterable directory of the most popular testing tools in the React ecosystem, with guidance on when to use each one.',
       jumpTo: 'test-tools',
     },
-    {
-      type: 'bonus',
-      title: 'Resources',
-      description: 'Checklists, documentation, and tools for frontend testing.',
-      customSubItems: [
-        {
-          title: '\u2705 Quick Test Review',
-          description: 'An interactive checklist for reviewing test code in pull requests.',
-          jumpTo: 'test-review-checklist',
-        },
-        {
-          title: '\u{1F4DA} External Resources',
-          description: 'Curated testing documentation, articles, and tools.',
-          jumpTo: 'external-resources',
-          jumpType: 'guide-filter',
-        },
-        {
-          title: '\u{1F4D6} Glossary',
-          description: 'Key testing terms and tool definitions.',
-          jumpTo: 'glossary',
-          jumpType: 'guide-filter',
-        },
-      ],
-    },
   ],
 }
 

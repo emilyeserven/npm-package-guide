@@ -223,6 +223,8 @@ Each guide's page order is defined in **one place**: the `*_GUIDE_SECTIONS` arra
 
 Start pages use the data-driven `<GuideStartContent>` component, which auto-derives learning-path sub-items from the `*_GUIDE_SECTIONS` definition via `sectionLabel` references in `StartPageData`. No manual sync needed.
 
+`<GuideStartContent>` also auto-renders a **Resources** section at the bottom of every start page with three tiles (1/3 width each): **External Resources** (pre-filtered by guide), **Glossary** (pre-filtered by guide), and **Checklist** (links to the guide's checklist from `checklistPages`, or shows a "Coming Soon" placeholder if none exists). Do not add manual Resources bonus steps to `StartPageData` — they are handled automatically.
+
 **Top-level resource pages** (`external-resources`, `glossary`) are NOT part of any guide's navigation order. They appear in the sidebar under a dedicated "Resources" icon, in the command menu under a "Resources" group, and on the home page. They do not have Previous/Next navigation.
 
 When adding, removing, or reordering pages within a guide, update the `*_GUIDE_SECTIONS` array in the guide's data file. Everything else updates automatically.

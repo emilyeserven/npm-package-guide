@@ -162,30 +162,6 @@ export const PROMPT_START_PAGE_DATA: StartPageData = {
         'prompt-tools-optimization': 'Headless mode, batch processing, and context management strategies.',
       },
     },
-    {
-      type: 'bonus',
-      title: 'Resources',
-      description: 'Checklists, documentation, and reference material for AI-assisted development.',
-      customSubItems: [
-        {
-          title: '\u2705 CLAUDE.md Checklist',
-          description: 'A comprehensive checklist for building effective CLAUDE.md files.',
-          jumpTo: 'prompt-claudemd-checklist',
-        },
-        {
-          title: '\u{1F4DA} External Resources',
-          description: 'Curated prompt engineering documentation, articles, and tools.',
-          jumpTo: 'external-resources',
-          jumpType: 'guide-filter',
-        },
-        {
-          title: '\u{1F4D6} Glossary',
-          description: 'Key prompt engineering and AI coding tool terms.',
-          jumpTo: 'glossary',
-          jumpType: 'guide-filter',
-        },
-      ],
-    },
   ],
 }
 
