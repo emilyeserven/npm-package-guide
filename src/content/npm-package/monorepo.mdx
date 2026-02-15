@@ -26,10 +26,13 @@ linkRefs:
 
 <SectionIntro>
 Before you write any code, you need to decide how your project will be structured at the repo level. In the JavaScript ecosystem, there are two main approaches: a monolith (one project, one package.json, everything in one place) and a monorepo (one Git repo containing multiple independent packages that can be built, tested, and published separately). This choice affects your tooling, your dependency management, and how you collaborate with other developers.
+</SectionIntro>
 
 <SectionSubheading id="toc-monorepo-structure">Sample Monorepo Structure</SectionSubheading>
 
-A monorepo organizes each package as an independent project inside a shared **packages/** directory. Each package has its own **src/**, **dist/**, **package.json**, and **tsconfig.json** — the same structure you'd use for a standalone project.
+<SectionList>
+<ColItem>A monorepo organizes each package as an independent project inside a shared **packages/** directory. Each package has its own **src/**, **dist/**, **package.json**, and **tsconfig.json** — the same structure you'd use for a standalone project.</ColItem>
+</SectionList>
 
 <pre className="code-block">{`my-org/
 ├── packages/
@@ -58,7 +61,6 @@ A monorepo organizes each package as an independent project inside a shared **pa
 └── tsconfig.json          # shared base config`}</pre>
 
 <SectionNote>Each package inside **packages/** follows the same single-package folder structure described in the <NavLink to="dist" /> section. The root **package.json** typically only contains workspace configuration and shared dev scripts — it doesn't publish anything itself.</SectionNote>
-</SectionIntro>
 
 <SectionSubheading id="toc-col1">{'\u{1F9F1}'} Monolith</SectionSubheading>
 <SectionList>
@@ -81,5 +83,5 @@ Think of a monolith like a single Django or Spring Boot app — one codebase, ev
 </Explainer>
 
 <Gotcha>
-⚠️ A monorepo is not a monolith! The whole point is improved modularity. Each package should have a single responsibility, its own tests, and a clean public API. If your packages are tightly coupled and can't be used independently, you've built a monolith with extra folders — not a real monorepo.
+A monorepo is not a monolith! The whole point is improved modularity. Each package should have a single responsibility, its own tests, and a clean public API. If your packages are tightly coupled and can't be used independently, you've built a monolith with extra folders — not a real monorepo.
 </Gotcha>
