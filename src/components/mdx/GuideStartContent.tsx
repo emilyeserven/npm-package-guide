@@ -2,7 +2,6 @@ import { useNavigate } from '@tanstack/react-router'
 import { guides, getStartPageData, checklistPages } from '../../data/guideRegistry'
 import { contentPages } from '../../content/registry'
 import { getNavTitle } from '../../data/navigation'
-import { JumpButton } from '../JumpButton'
 import { RoadmapSteps } from './npm-package/RoadmapSteps'
 import type { GuideDefinition, StartPageStep, StartPageSubItem } from '../../data/guideTypes'
 import { parseTitle } from '../../helpers/parseTitle'
@@ -80,6 +79,8 @@ function SectionSubItems({ step, guide }: { step: StartPageStep; guide: { id: st
 }
 
 function StepCard({ step, guide }: { step: StartPageStep; guide: { id: string; sections: { label: string | null; ids: string[] }[] } }) {
+  const navigateToSection = useNavigateToSection()
+
   if (step.type === 'bonus') {
     return (
       <div className="step-card bonus-step flex gap-4 py-4.5 relative mt-7 pt-6 border-t-2 border-dashed border-slate-300 dark:border-slate-600">
@@ -102,13 +103,17 @@ function StepCard({ step, guide }: { step: StartPageStep; guide: { id: string; s
         {step.num}
       </div>
       <div className="flex-1 min-w-0">
-        <div className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">{step.title}</div>
-        <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2">{step.description}</div>
-        {step.jumpTo && (
-          <JumpButton jumpTo={step.jumpTo}>
-            {'\u2192'} Deep dive: {getNavTitle(step.jumpTo)}
-          </JumpButton>
+        {step.jumpTo ? (
+          <div
+            className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors inline-flex items-center gap-1"
+            onClick={() => navigateToSection(step.jumpTo!)}
+          >
+            {step.title} <span className="text-blue-500 dark:text-blue-400">{'\u2192'}</span>
+          </div>
+        ) : (
+          <div className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">{step.title}</div>
         )}
+        <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2">{step.description}</div>
         <SectionSubItems step={step} guide={guide} />
       </div>
     </div>
