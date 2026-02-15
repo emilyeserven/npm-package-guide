@@ -18,6 +18,11 @@ export interface K8sCodeExample {
   code: string
 }
 
+export interface K8sYamlLine {
+  line: string
+  note: string | null
+}
+
 export interface K8sFlowStep {
   step: string
   label: string
@@ -36,6 +41,8 @@ export interface K8sSection {
   analogy?: K8sAnalogy
   concepts?: K8sConcept[]
   codeExample?: K8sCodeExample
+  yamlLines?: K8sYamlLine[]
+  yamlFileName?: string
   flow?: K8sFlowStep[]
   keyTakeaway: string
 }
@@ -144,29 +151,31 @@ export const K8S_SECTIONS: K8sSection[] = [
     },
     keyTakeaway:
       'K8s is declarative \u2014 you describe the end state, not the steps. YAML files are how you talk to Kubernetes.',
-    codeExample: {
-      title: 'A simple K8s Deployment (like a vercel.json for backends)',
-      code: `apiVersion: apps/v1
-kind: Deployment          # What type of resource
-metadata:
-  name: my-api            # Name it (like "name" in package.json)
-spec:
-  replicas: 3             # Run 3 copies (auto-scaling!)
-  selector:
-    matchLabels:
-      app: my-api         # How to find the pods
-  template:
-    spec:
-      containers:
-      - name: my-api
-        image: my-api:1.2  # Which Docker image to run
-        ports:
-        - containerPort: 8080
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "500m"    # Half a CPU core`,
-    },
+    yamlFileName: 'deployment.yaml',
+    yamlLines: [
+      { line: 'apiVersion: apps/v1', note: 'Which version of the K8s API to use. "apps/v1" is the stable API group for Deployments \u2014 like specifying which version of a library to import.' },
+      { line: 'kind: Deployment', note: 'The type of K8s resource. A Deployment manages a set of identical pods and handles rolling updates. Other kinds include Service, ConfigMap, Ingress.' },
+      { line: 'metadata:', note: 'Metadata about this resource \u2014 its name, labels, namespace. Like the top-level fields in package.json.' },
+      { line: '  name: my-api', note: 'The unique name for this Deployment within its namespace. You\u2019ll use this name with kubectl commands, like "kubectl get deployment my-api".' },
+      { line: '', note: null },
+      { line: 'spec:', note: 'The desired state specification. This is where you tell K8s what you actually want running.' },
+      { line: '  replicas: 3', note: 'Run 3 identical copies (pods) of your app. If one crashes, K8s automatically spins up a replacement. Like having 3 serverless instances.' },
+      { line: '  selector:', note: 'How the Deployment finds which pods it owns. Must match the labels in the pod template below.' },
+      { line: '    matchLabels:', note: 'Match pods that have these exact key-value labels. This is how K8s resources find each other.' },
+      { line: '      app: my-api', note: 'This label connects the Deployment to its pods. The selector and template labels must match \u2014 K8s uses this to know which pods belong to this Deployment.' },
+      { line: '', note: null },
+      { line: '  template:', note: 'The pod template \u2014 a blueprint for every pod this Deployment creates. Like a component that gets rendered 3 times (once per replica).' },
+      { line: '    spec:', note: 'The pod\u2019s own spec \u2014 what containers to run inside it.' },
+      { line: '      containers:', note: 'List of containers in each pod. Usually just one, but you can run sidecars (logging, proxies) alongside your app.' },
+      { line: '      - name: my-api', note: 'A human-readable name for this container within the pod. Useful for kubectl logs and debugging.' },
+      { line: '        image: my-api:1.2', note: 'The Docker image to run \u2014 "my-api" at tag "1.2". This is what your CI/CD pipeline builds and pushes to a container registry.' },
+      { line: '        ports:', note: 'Ports the container listens on. Declaring them here is informational \u2014 you still need a Service resource to expose them to the network.' },
+      { line: '        - containerPort: 8080', note: 'The port your app listens on inside the container. Must match what your server code actually binds to (like process.env.PORT).' },
+      { line: '        resources:', note: 'Resource requests and limits. Tells K8s how much CPU and memory this container needs. Without these, one container could starve others.' },
+      { line: '          limits:', note: 'The maximum resources this container can use. If it exceeds memory limits, K8s kills and restarts it (OOMKilled).' },
+      { line: '            memory: "256Mi"', note: '256 mebibytes of RAM maximum. Mi = mebibytes (binary). Start conservative and adjust based on monitoring.' },
+      { line: '            cpu: "500m"', note: 'Half a CPU core (500 millicores). "1000m" = 1 full core. Prevents one service from hogging all the CPU on a node.' },
+    ],
   },
   {
     id: 'helm',
@@ -211,27 +220,32 @@ spec:
         def: 'Updates a running release with new values or chart version. Like deploying a new version of your app.',
       },
     ],
-    codeExample: {
-      title: 'Helm values.yaml (like your .env on steroids)',
-      code: `# values.yaml — the knobs you turn
-replicaCount: 3
-image:
-  repository: my-api
-  tag: "1.2.0"            # Which version to deploy
-service:
-  type: ClusterIP
-  port: 8080
-resources:
-  limits:
-    cpu: 500m
-    memory: 256Mi
-# Feature flags for different environments
-features:
-  enableCache: true
-  logLevel: "info"
-# Per-environment overrides:
-# helm install my-app ./chart -f values-prod.yaml`,
-    },
+    yamlFileName: 'values.yaml',
+    yamlLines: [
+      { line: '# values.yaml \u2014 the knobs you turn', note: 'This file contains default configuration for a Helm chart. Teams override these per environment (dev, staging, prod) without touching the templates.' },
+      { line: 'replicaCount: 3', note: 'How many pod replicas to run. In the template, this becomes {{ .Values.replicaCount }}. Override per environment: maybe 1 for dev, 3 for prod.' },
+      { line: '', note: null },
+      { line: 'image:', note: 'Container image configuration block. Groups the repository and tag together so they\u2019re easy to find and override.' },
+      { line: '  repository: my-api', note: 'The Docker image name. In a real chart, this might be "ghcr.io/my-org/my-api" \u2014 a full registry path.' },
+      { line: '  tag: "1.2.0"', note: 'The image version to deploy. CI/CD pipelines typically update just this value: helm upgrade --set image.tag=1.3.0.' },
+      { line: '', note: null },
+      { line: 'service:', note: 'Kubernetes Service configuration. Controls how your app is exposed to network traffic within (or outside) the cluster.' },
+      { line: '  type: ClusterIP', note: 'ClusterIP = internal only (default). Other options: NodePort (exposes on each node\u2019s IP), LoadBalancer (creates a cloud load balancer).' },
+      { line: '  port: 8080', note: 'The port the Service listens on. Traffic to this port gets routed to your pods\u2019 containerPort.' },
+      { line: '', note: null },
+      { line: 'resources:', note: 'CPU and memory limits for each pod. Critical for production \u2014 prevents one service from consuming all cluster resources.' },
+      { line: '  limits:', note: 'Maximum resources a pod can use. K8s enforces these hard limits.' },
+      { line: '    cpu: 500m', note: 'Half a CPU core maximum. Same as the raw YAML, but now it\u2019s a variable you can override per environment.' },
+      { line: '    memory: 256Mi', note: '256 mebibytes RAM maximum. Staging might use 128Mi, production might use 512Mi \u2014 all controlled from values files.' },
+      { line: '', note: null },
+      { line: '# Feature flags for different environments', note: 'Comments in values.yaml serve as documentation. Teams scanning this file can quickly understand what each section controls.' },
+      { line: 'features:', note: 'Application-level feature flags. These get injected as environment variables or config files into your containers via templates.' },
+      { line: '  enableCache: true', note: 'A custom feature flag. The Helm template might render this as an environment variable: ENABLE_CACHE=true. Toggle per environment.' },
+      { line: '  logLevel: "info"', note: 'Another configurable value. Dev might use "debug", production uses "info" or "warn". Changed without rebuilding the image.' },
+      { line: '', note: null },
+      { line: '# Per-environment overrides:', note: 'Helm supports layered values files. The base values.yaml provides defaults; environment-specific files override only what differs.' },
+      { line: '# helm install my-app ./chart -f values-prod.yaml', note: 'This command installs the chart and overlays values-prod.yaml on top of the defaults. That file might only contain replicaCount: 5 and logLevel: "warn".' },
+    ],
   },
   {
     id: 'ecosystem',
