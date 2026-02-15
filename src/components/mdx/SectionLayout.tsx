@@ -17,7 +17,7 @@ export function Toc({ children }: { children: React.ReactNode }) {
 export function Explainer({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mt-5">
-      <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mt-0 mb-2" id="toc-explainer">{'\u{1F4A1}'} {title}</h2>
+      <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-0 mb-2" id="toc-explainer">{'\u{1F4A1}'} {title}</h2>
       <div className="text-sm leading-7 text-slate-800 dark:text-slate-300">{children}</div>
     </div>
   )
@@ -26,7 +26,7 @@ export function Explainer({ title, children }: { title: string; children: React.
 export function Gotcha({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mt-5 mb-2" id="toc-gotcha" style={{ marginTop: 24 }}>{'\u26A0\uFE0F'} Watch out</h2>
+      <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-5 mb-2" id="toc-gotcha" style={{ marginTop: 24 }}>{'\u26A0\uFE0F'} Watch out</h2>
       <div className="mt-0 text-sm leading-relaxed text-slate-800 dark:text-slate-300">{children}</div>
     </>
   )
@@ -41,11 +41,11 @@ export function SectionNote({ children }: { children: React.ReactNode }) {
 }
 
 export function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <h1 className="text-2xl font-bold mb-5 tracking-tight">{children}</h1>
+  return <h1 className="text-3xl font-bold mb-5 tracking-tight">{children}</h1>
 }
 
 export function SectionSubheading({ id, children }: { id: string; children: React.ReactNode }) {
-  return <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mt-5 mb-2 first:mt-0" id={id}>{children}</h2>
+  return <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-5 mb-2 first:mt-0" id={id}>{children}</h2>
 }
 
 export function SectionList({ children }: { children: React.ReactNode }) {

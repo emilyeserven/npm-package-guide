@@ -13,13 +13,13 @@ export function TestingMistakes({ context }: { context?: 'e2e' | 'unit' }) {
     <div>
       {e2eItems.length > 0 && (
         <>
-          <h2 id="toc-e2e" className="text-lg font-bold text-slate-900 dark:text-slate-100 mt-5 mb-2 first:mt-0">
+          <h2 id="toc-e2e" className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-5 mb-2 first:mt-0">
             {'\u{1F310}'} End-to-End (E2E) Testing
           </h2>
           <div className="flex flex-col gap-3 mb-6">
             {e2eItems.map((item, i) => (
               <div key={i}>
-                <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
                   {item.mistake}
                 </h3>
                 <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2">
@@ -37,13 +37,13 @@ export function TestingMistakes({ context }: { context?: 'e2e' | 'unit' }) {
 
       {unitItems.length > 0 && (
         <>
-          <h2 id="toc-unit" className="text-lg font-bold text-slate-900 dark:text-slate-100 mt-5 mb-2">
+          <h2 id="toc-unit" className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-5 mb-2">
             {'\u{1F9EA}'} Unit Testing
           </h2>
           <div className="flex flex-col gap-3">
             {unitItems.map((item, i) => (
               <div key={i}>
-                <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
                   {item.mistake}
                 </h3>
                 <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2">

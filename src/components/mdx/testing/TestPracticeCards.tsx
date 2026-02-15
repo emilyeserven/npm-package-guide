@@ -15,7 +15,7 @@ export function TestPracticeCards({ type }: { type: 'do' | 'dont' }) {
               : 'border-l-[3px] border-l-red-400 dark:border-l-red-400'
           }`}
         >
-          <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1">
+          <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
             <span className={isDo ? 'text-green-500' : 'text-red-500'}>
               {isDo ? '\u2713 ' : '\u2717 '}
             </span>

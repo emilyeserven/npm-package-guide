@@ -163,7 +163,7 @@ export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps)
 
   return (
     <>
-      <h1 className="text-2xl font-bold mb-5 tracking-tight">Glossary</h1>
+      <h1 className="text-3xl font-bold mb-5 tracking-tight">Glossary</h1>
       <p className="text-sm text-gray-500 dark:text-slate-400 mb-4 leading-relaxed">
         Key terms you'll encounter across all guides. Use the filters to narrow by guide or category.
       </p>

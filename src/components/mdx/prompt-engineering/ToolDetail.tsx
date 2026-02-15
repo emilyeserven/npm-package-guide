@@ -29,7 +29,7 @@ export function ToolDetail({ toolId, section }: { toolId: string; section?: Tool
       {(showAll || section === 'bestFor') && tool.bestFor && tool.bestFor.length > 0 && (
         <div className="mb-5">
           {section === 'bestFor' && (
-            <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Best used for</h4>
+            <h4 className="text-lg font-semibold text-slate-700 dark:text-slate-300 mb-2">Best used for</h4>
           )}
           <ul className="list-none m-0 p-0">
             {tool.bestFor.map((item, i) => (
@@ -54,7 +54,7 @@ export function ToolDetail({ toolId, section }: { toolId: string; section?: Tool
                 <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950 rounded-full w-5 h-5 flex items-center justify-center shrink-0">
                   {i + 1}
                 </span>
-                <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                <h4 className="text-lg font-semibold text-slate-800 dark:text-slate-200">
                   {step.title}
                 </h4>
               </div>
@@ -76,7 +76,7 @@ export function ToolDetail({ toolId, section }: { toolId: string; section?: Tool
         <div className="mb-5 space-y-4">
           {tool.examples.map((ex, i) => (
             <div key={i}>
-              <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+              <h4 className="text-lg font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 {ex.title}
               </h4>
               <div className="bg-slate-800 dark:bg-gray-950 text-slate-200 rounded-xl p-4 font-mono text-xs leading-relaxed overflow-x-auto whitespace-pre-wrap break-words">
@@ -97,7 +97,7 @@ export function ToolDetail({ toolId, section }: { toolId: string; section?: Tool
         <div className="mb-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {tool.pros && tool.pros.length > 0 && (
             <div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4">
-              <h4 className="text-sm font-semibold text-emerald-800 dark:text-emerald-300 mb-2 flex items-center gap-1.5">
+              <h4 className="text-lg font-semibold text-emerald-800 dark:text-emerald-300 mb-2 flex items-center gap-1.5">
                 <span>{'\u2705'}</span> Pros
               </h4>
               <ul className="list-none m-0 p-0">
@@ -115,7 +115,7 @@ export function ToolDetail({ toolId, section }: { toolId: string; section?: Tool
           )}
           {tool.cons && tool.cons.length > 0 && (
             <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-xl p-4">
-              <h4 className="text-sm font-semibold text-red-800 dark:text-red-300 mb-2 flex items-center gap-1.5">
+              <h4 className="text-lg font-semibold text-red-800 dark:text-red-300 mb-2 flex items-center gap-1.5">
                 <span>{'\u26A0\uFE0F'}</span> Cons
               </h4>
               <ul className="list-none m-0 p-0">
@@ -137,7 +137,7 @@ export function ToolDetail({ toolId, section }: { toolId: string; section?: Tool
       {/* Tips */}
       {(showAll || section === 'tips') && tool.tips && tool.tips.length > 0 && (
         <div className="mb-5 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
-          <h4 className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-2 flex items-center gap-1.5">
+          <h4 className="text-lg font-semibold text-amber-800 dark:text-amber-300 mb-2 flex items-center gap-1.5">
             <span>{'\u{1F4A1}'}</span> Tips
           </h4>
           <ul className="list-none m-0 p-0">

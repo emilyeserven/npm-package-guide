@@ -122,7 +122,7 @@ export function ChecklistBase({ markdownTitle, sections }: ChecklistBaseProps) {
 
           return (
             <div key={section.id}>
-              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-3">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">
                 {section.icon} {section.name}
               </h3>
               <div className="flex flex-col gap-2">

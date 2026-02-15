@@ -210,7 +210,7 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
   return (
     <>
       <div>
-        <h1 className="text-2xl font-bold mb-5 tracking-tight">External Resources</h1>
+        <h1 className="text-3xl font-bold mb-5 tracking-tight">External Resources</h1>
         <p className="text-sm text-gray-500 dark:text-slate-400 mb-5 leading-relaxed">
           Documentation, articles, courses, tools, and section references in one place. Use the search and filters to find what you need.
         </p>

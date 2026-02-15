@@ -24,7 +24,7 @@ function SubItem({ item, guideId }: { item: StartPageSubItem; guideId: string })
   return (
     <div className="mt-4.5 py-2 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
       <h3
-        className="text-sm font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors inline-flex items-center gap-1"
+        className="text-xl font-bold text-slate-900 dark:text-slate-100 m-0 mb-0.5 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors inline-flex items-center gap-1"
         onClick={handleClick}
       >
         {item.title} <span className="text-blue-500 dark:text-blue-400">{'\u2192'}</span>
@@ -127,7 +127,7 @@ function GuideStartResources({ guideId }: { guideId: string }) {
 
   return (
     <div className="mt-7 pt-6 border-t-2 border-dashed border-slate-300 dark:border-slate-600">
-      <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-4">{'\u{1F4CC}'} Resources</h3>
+      <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4">{'\u{1F4CC}'} Resources</h3>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <button
           className={tileCls}
@@ -185,7 +185,7 @@ function GuideStartRelatedGuides({ guideIds }: { guideIds: string[] }) {
 
   return (
     <div className="mt-7 pt-6 border-t-2 border-dashed border-slate-300 dark:border-slate-600">
-      <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-4">{'\u{1F9ED}'} Related Guides</h3>
+      <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4">{'\u{1F9ED}'} Related Guides</h3>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {relatedGuides.map(g => (
           <button

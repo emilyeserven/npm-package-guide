@@ -9,7 +9,7 @@ export function MistakeList({ categoryId }: { categoryId: string }) {
     <div className="flex flex-col gap-5">
       {category.items.map(item => (
         <div key={item.id}>
-          <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mt-5 mb-2 first:mt-0" id={item.id}>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-5 mb-2 first:mt-0" id={item.id}>
             {item.mistake}
           </h2>
           <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2">
