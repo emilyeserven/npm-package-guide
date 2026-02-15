@@ -96,36 +96,6 @@ export const K8S_SECTIONS: K8sSection[] = [
     },
     keyTakeaway:
       'Kubernetes = \u201CI want 3 copies of my API running, auto-restart if one crashes, and route traffic to all of them.\u201D K8s makes it happen.',
-    concepts: [
-      {
-        term: 'Cluster',
-        def: 'A set of machines (nodes) that Kubernetes manages. Like a server farm. You usually don\u2019t touch individual machines.',
-      },
-      {
-        term: 'Node',
-        def: 'One machine in the cluster. Can be physical or virtual (like an EC2 instance). Runs your containers.',
-      },
-      {
-        term: 'Pod',
-        def: 'The smallest unit in K8s \u2014 a wrapper around one or more containers. Think of it like a single process. Usually 1 pod = 1 container.',
-      },
-      {
-        term: 'Deployment',
-        def: 'Tells K8s: \u201CRun 3 pods of my API, and if one dies, replace it.\u201D Manages rollouts and scaling. This is what you\u2019ll interact with most.',
-      },
-      {
-        term: 'Service',
-        def: 'A stable network address for a set of pods. Pods come and go (they\u2019re ephemeral), but a Service gives them a consistent URL \u2014 like a load balancer.',
-      },
-      {
-        term: 'Namespace',
-        def: 'Like folders for organizing resources. You might have \u201Cdev\u201D, \u201Cstaging\u201D, \u201Cprod\u201D namespaces in one cluster.',
-      },
-      {
-        term: 'Ingress',
-        def: 'Routes external HTTP traffic into your cluster \u2014 like configuring routes in your app\u2019s router, but for the whole cluster.',
-      },
-    ],
   },
   {
     id: 'yaml',

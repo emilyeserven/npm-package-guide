@@ -11,7 +11,6 @@ linkRefs:
 
 <Toc>
   <TocLink id="toc-overview">Overview</TocLink>
-  <TocLink id="toc-explore">Explore workflows</TocLink>
   <TocLink id="toc-the-workflows">The four workflows</TocLink>
   <TocLink id="toc-picking">Picking the right pattern</TocLink>
 </Toc>
@@ -26,12 +25,6 @@ The infrastructure layers from the previous pages combine in predictable pattern
 <ColItem>Each workflow traces a request through the infrastructure stack, showing which layers are involved and in what order. Notice how simpler workflows touch fewer layers, while complex ones (like agents) loop through orchestration and data layers multiple times.</ColItem>
 <ColItem>Understanding these workflows helps you estimate latency, identify bottlenecks, and choose the right architecture for your use case. A simple chat completion involves only the inference layer, while RAG adds data retrieval and orchestration overhead.</ColItem>
 </SectionList>
-
-<SectionSubheading id="toc-explore">Explore Workflows</SectionSubheading>
-
-Select a workflow to preview its flow through the infrastructure stack.
-
-<WorkflowExplorer />
 
 <SectionSubheading id="toc-the-workflows">The Four Workflows</SectionSubheading>
 

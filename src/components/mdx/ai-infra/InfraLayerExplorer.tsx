@@ -26,14 +26,9 @@ function ConceptCard({
           setExpanded(!expanded)
         }
       }}
-      className="rounded-xl border p-4 mb-3 transition-all cursor-pointer"
+      className="py-3 mb-1 transition-all cursor-pointer"
       style={{
-        background: expanded
-          ? ds(layer.accent, layer.darkAccent, isDark)
-          : ds('#ffffff', '#1e293b', isDark),
-        borderColor: expanded ? layer.color + '50' : ds('#e2e8f0', '#334155', isDark),
-        borderLeftWidth: 3,
-        borderLeftColor: layer.color,
+        borderBottom: `1px solid ${ds('#e2e8f0', '#334155', isDark)}`,
       }}
     >
       <div className="flex justify-between items-center">
@@ -46,7 +41,7 @@ function ConceptCard({
         <span
           className="text-xs transition-transform duration-200"
           style={{
-            color: layer.color,
+            color: ds('#94a3b8', '#64748b', isDark),
             transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
           }}
         >
@@ -62,14 +57,8 @@ function ConceptCard({
       </p>
 
       {expanded && (
-        <div className="mt-3 flex flex-col gap-3">
-          <div
-            className="rounded-lg p-3"
-            style={{
-              background: layer.color + '12',
-              border: `1px solid ${layer.color}30`,
-            }}
-          >
+        <div className="mt-2 flex flex-col gap-2">
+          <div className="pl-3 mt-1" style={{ borderLeft: `2px solid ${layer.color}40` }}>
             <div
               className="text-xs font-bold uppercase tracking-wider mb-1"
               style={{ color: layer.color }}
@@ -111,13 +100,7 @@ export function InfraLayerExplorer({ layerId }: { layerId: string }) {
 
   return (
     <div className="mb-6">
-      <div
-        className="rounded-xl p-5 mb-5 border"
-        style={{
-          background: ds(layer.accent, layer.darkAccent, isDark),
-          borderColor: layer.color + '30',
-        }}
-      >
+      <div className="mb-5">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-lg">{layer.icon}</span>
           <span
