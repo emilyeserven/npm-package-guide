@@ -30,6 +30,22 @@ export const kubernetesLinks: RegistryLink[] = [
   },
   // ── Kubernetes ──────────────────────────────────────────────────────
   {
+    id: 'k8s-clusters',
+    url: 'https://kubernetes.io/docs/concepts/architecture/',
+    label: 'Cluster Architecture',
+    source: 'Kubernetes',
+    desc: 'Overview of Kubernetes cluster architecture and components',
+    tags: ['docs', 'free', 'guide:kubernetes'],
+  },
+  {
+    id: 'k8s-nodes',
+    url: 'https://kubernetes.io/docs/concepts/architecture/nodes/',
+    label: 'Nodes',
+    source: 'Kubernetes',
+    desc: 'Understanding nodes \u2014 the machines that run your workloads',
+    tags: ['docs', 'free', 'guide:kubernetes'],
+  },
+  {
     id: 'k8s-concepts',
     url: 'https://kubernetes.io/docs/concepts/',
     label: 'Kubernetes Concepts',

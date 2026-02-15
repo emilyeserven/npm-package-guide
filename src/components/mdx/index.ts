@@ -60,7 +60,6 @@ import { K8sFlowDiagram } from './kubernetes/K8sFlowDiagram'
 import { K8sChecklist } from './kubernetes/K8sChecklist'
 // ai-infra
 import { InfraLayerExplorer } from './ai-infra/InfraLayerExplorer'
-import { WorkflowExplorer } from './ai-infra/WorkflowExplorer'
 import { WorkflowDetail } from './ai-infra/WorkflowDetail'
 import { AiInfraChecklist } from './ai-infra/AiInfraChecklist'
 // nextjs-abstractions
@@ -142,7 +141,6 @@ export const mdxComponents: MDXComponents = {
   K8sFlowDiagram,
   K8sChecklist,
   InfraLayerExplorer,
-  WorkflowExplorer,
   WorkflowDetail,
   AiInfraChecklist,
   ConceptDetail,

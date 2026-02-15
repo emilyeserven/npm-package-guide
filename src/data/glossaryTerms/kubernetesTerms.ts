@@ -40,6 +40,20 @@ export const kubernetesGlossary: GlossaryCategory[] = [
         sectionId: 'k8s-containers',
       },
       {
+        term: 'Cluster (K8s)',
+        definition:
+          'A set of machines (nodes) that Kubernetes manages as a single unit. Consists of a control plane that makes scheduling decisions and worker nodes that run your containerized applications.',
+        linkId: 'k8s-clusters',
+        sectionId: 'k8s-kubernetes',
+      },
+      {
+        term: 'Node (K8s)',
+        definition:
+          'A single machine in a Kubernetes cluster \u2014 physical or virtual (like an EC2 instance). Each node runs a container runtime and the <code>kubelet</code> agent that communicates with the control plane.',
+        linkId: 'k8s-nodes',
+        sectionId: 'k8s-kubernetes',
+      },
+      {
         term: 'Pod',
         definition:
           'The smallest deployable unit in Kubernetes \u2014 a wrapper around one or more containers that share networking and storage. Most pods contain a single container.',
