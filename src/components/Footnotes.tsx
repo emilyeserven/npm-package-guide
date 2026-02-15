@@ -26,7 +26,7 @@ export function FootnotesMDX({ links, usedFootnotes }: FootnotesMDXProps) {
     <div>
       {footnoted.length > 0 && (
         <div className="mt-6 border-t border-slate-200 dark:border-slate-700 pt-4">
-          <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2.5">{'\u{1F4DD}'} Footnotes</h2>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2.5">{'\u{1F4DD}'} Footnotes</h2>
           <div className="flex flex-col gap-0">
             {footnoted.map(link => (
               <div key={link.num} className="flex items-baseline gap-2 py-1.5 border-b border-slate-100 dark:border-slate-800 text-sm leading-normal last:border-b-0" id={`fn-${link.num}`}>
@@ -43,7 +43,7 @@ export function FootnotesMDX({ links, usedFootnotes }: FootnotesMDXProps) {
       )}
       {furtherReading.length > 0 && (
         <div className="mt-6 border-t border-slate-200 dark:border-slate-700 pt-4">
-          <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2.5">{'\u{1F4DA}'} Further Reading</h2>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2.5">{'\u{1F4DA}'} Further Reading</h2>
           <div className="flex flex-col gap-0">
             {furtherReading.map((link, i) => (
               <div key={i} className="flex items-baseline gap-1.5 py-1 text-sm leading-normal">

@@ -4,7 +4,7 @@ import clsx from 'clsx'
 export function CIStep({ heading, id, children }: { heading: string; id?: string; children: ReactNode }) {
   return (
     <div className="mb-6 pb-6 border-b border-slate-200 dark:border-slate-700 last:border-b-0 last:mb-0 last:pb-0">
-      <h2 className="text-xl font-bold mt-0 mb-2 text-slate-900 dark:text-slate-100" id={id}>{heading}</h2>
+      <h2 className="text-2xl font-bold mt-0 mb-2 text-slate-900 dark:text-slate-100" id={id}>{heading}</h2>
       {children}
     </div>
   )
@@ -110,7 +110,7 @@ export function MaintenanceTool({ name, emoji, desc, why, yaml, children }: {
 }) {
   return (
     <div className="mb-6 pb-6 border-b border-slate-200 dark:border-slate-700 last:border-b-0 last:mb-0 last:pb-0">
-      <h2 className="text-xl font-bold mt-0 mb-2 text-slate-900 dark:text-slate-100" id={`toc-${name}`}>{emoji} {name}</h2>
+      <h2 className="text-2xl font-bold mt-0 mb-2 text-slate-900 dark:text-slate-100" id={`toc-${name}`}>{emoji} {name}</h2>
       <div className="text-sm leading-7 text-slate-800 dark:text-slate-300 mb-3">{desc}</div>
       <div className="text-sm leading-7 text-slate-800 dark:text-slate-300 mb-3"><strong>Why it matters:</strong> {why}</div>
       {yaml && (

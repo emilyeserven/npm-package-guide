@@ -71,7 +71,7 @@ export function ToolOverview() {
             >
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-lg">{tool.icon}</span>
-                <h4 className={`text-sm font-semibold ${colors.text} ${colors.darkText}`}>
+                <h4 className={`text-lg font-semibold ${colors.text} ${colors.darkText}`}>
                   {tool.name}
                 </h4>
               </div>
@@ -151,7 +151,7 @@ export function ToolComboPatterns() {
           key={i}
           className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-4"
         >
-          <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-2">
+          <h4 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">
             {combo.name}
           </h4>
           <div className="flex flex-wrap gap-2 mb-2">

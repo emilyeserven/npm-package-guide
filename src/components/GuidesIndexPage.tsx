@@ -60,7 +60,7 @@ export function GuidesIndexPage() {
             }
           >
             <span className="text-3xl mb-3">{guide.icon}</span>
-            <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">
               {guide.title}
             </h2>
             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -71,7 +71,7 @@ export function GuidesIndexPage() {
 
         <div className="flex flex-col items-start text-left p-6 bg-slate-50 dark:bg-slate-800/50 border border-dashed border-slate-300 dark:border-slate-600 rounded-xl">
           <span className="text-3xl mb-3">{'\u{1F6A7}'}</span>
-          <h2 className="text-lg font-bold text-slate-400 dark:text-slate-500 mb-2">
+          <h2 className="text-2xl font-bold text-slate-400 dark:text-slate-500 mb-2">
             More to come...
           </h2>
           <p className="text-sm text-slate-400 dark:text-slate-500 leading-relaxed">
@@ -83,7 +83,7 @@ export function GuidesIndexPage() {
       {/* Single Page Guides section */}
       {singlePageGuides.length > 0 && (
         <div className="mt-12">
-          <h2 className="text-xl font-bold tracking-tight mb-1 text-slate-900 dark:text-slate-100">Single Page Guides</h2>
+          <h2 className="text-2xl font-bold tracking-tight mb-1 text-slate-900 dark:text-slate-100">Single Page Guides</h2>
           <p className="text-gray-500 dark:text-slate-400 text-sm mb-5">
             Focused, standalone tutorials on specific topics.
           </p>
@@ -100,7 +100,7 @@ export function GuidesIndexPage() {
                 }
               >
                 <span className="text-2xl mb-2">{guide.icon}</span>
-                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-1">
                   {guide.title}
                 </h3>
                 <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -114,7 +114,7 @@ export function GuidesIndexPage() {
 
       {/* Checklists section */}
       <div className="mt-12">
-        <h2 className="text-xl font-bold tracking-tight mb-1 text-slate-900 dark:text-slate-100">Checklists</h2>
+        <h2 className="text-2xl font-bold tracking-tight mb-1 text-slate-900 dark:text-slate-100">Checklists</h2>
         <p className="text-gray-500 dark:text-slate-400 text-sm mb-5">
           Implementation checklists extracted from individual guides.
         </p>
@@ -134,7 +134,7 @@ export function GuidesIndexPage() {
                 }
               >
                 <span className="text-2xl mb-2">{icon}</span>
-                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-1">
                   {text}
                 </h3>
                 <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -148,7 +148,7 @@ export function GuidesIndexPage() {
 
       {/* Resources section */}
       <div className="mt-12">
-        <h2 className="text-xl font-bold tracking-tight mb-1 text-slate-900 dark:text-slate-100">Resources</h2>
+        <h2 className="text-2xl font-bold tracking-tight mb-1 text-slate-900 dark:text-slate-100">Resources</h2>
         <p className="text-gray-500 dark:text-slate-400 text-sm mb-5">
           Cross-guide references and learning materials.
         </p>
@@ -180,7 +180,7 @@ export function GuidesIndexPage() {
             className="flex flex-col items-start text-left p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 no-underline"
           >
             <span className="text-2xl mb-2">{'\u{1F3A8}'}</span>
-            <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1 flex items-center gap-1.5">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-1 flex items-center gap-1.5">
               Storybook
               <ExternalLinkIcon className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
             </h3>
