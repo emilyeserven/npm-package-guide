@@ -53,7 +53,7 @@ import { AuthQuiz } from './auth/AuthQuiz'
 // kubernetes
 import { K8sAnalogyCard } from './kubernetes/K8sAnalogyCard'
 import { K8sConceptList } from './kubernetes/K8sConceptList'
-import { K8sCodeBlock } from './kubernetes/K8sCodeBlock'
+import { K8sYamlExplorer } from './kubernetes/K8sYamlExplorer'
 import { K8sFlowDiagram } from './kubernetes/K8sFlowDiagram'
 // ai-infra
 import { InfraLayerExplorer } from './ai-infra/InfraLayerExplorer'
@@ -132,7 +132,7 @@ export const mdxComponents: MDXComponents = {
   AuthQuiz,
   K8sAnalogyCard,
   K8sConceptList,
-  K8sCodeBlock,
+  K8sYamlExplorer,
   K8sFlowDiagram,
   InfraLayerExplorer,
   WorkflowExplorer,

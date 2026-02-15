@@ -23,7 +23,7 @@ All accept `sectionId: string` matching a `K8sSection.id` in `K8S_SECTIONS`.
 |-----------|-------|---------|
 | `K8sAnalogyCard` | `sectionId` | Frontend ↔ infra analogy card |
 | `K8sConceptList` | `sectionId` | Concept term/definition list |
-| `K8sCodeBlock` | `sectionId` | Code example (Dockerfile, YAML manifest) |
+| `K8sYamlExplorer` | `sectionId` | Interactive line-by-line YAML annotation (two-panel, click-to-explain) |
 | `K8sFlowDiagram` | `sectionId` | Color-coded flow diagram |
 
 ## Guide-Specific Conventions
