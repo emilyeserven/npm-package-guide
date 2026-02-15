@@ -22,7 +22,7 @@ Defined in `TESTING_GUIDE_SECTIONS` in `src/data/testingData.ts`. All data in th
 | `TestingPyramid` | *(none)* | Interactive 3-level pyramid; clicking a level navigates to its page |
 | `TestTypeDetail` | `type: TestType` | "What to test" vs. "What NOT to test" card with code example |
 | `TestPracticeCards` | *(none)* | Do's and don'ts cards (green/red border) |
-| `TestChecklist` | *(none)* | Interactive checkbox list with progress bar |
+| `GuideChecklist` | `checklistId` | Unified checklist component. Use `checklistId="test"` for this guide. |
 | `TestToolsGrid` | *(none)* | Filterable grid of testing tools by test type |
 
 ## Guide-Specific Conventions

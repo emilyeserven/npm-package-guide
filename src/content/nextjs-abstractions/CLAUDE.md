@@ -19,7 +19,7 @@ Data directory: `src/data/njaData/` — concepts, checklist, navigation.
 ## Interactive Components
 
 - **`ConceptDetail`** (`conceptId: string`) — Two side-by-side cards ("What Next.js Does" vs. "What You Need"), difficulty badge, and "For Your Stack" section with framework-specific bullets.
-- **`NjaChecklist`** — Wraps shared `ChecklistBase` with a 6-phase migration checklist. Data from `njaData/checklist.ts`.
+- **`GuideChecklist`** (`checklistId="nja"`) — Unified checklist component. Data from `njaData/checklist.ts`.
 
 ## Conventions
 

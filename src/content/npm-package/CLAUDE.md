@@ -22,7 +22,7 @@ Additional data files beyond the standard layout: `src/data/roadmapSteps.ts` (ro
 | Component | Props | Purpose |
 |-----------|-------|---------|
 | `RoadmapSteps` | *(none)* | Interactive roadmap on start page. Data from `roadmapSteps.ts`. |
-| `PublishChecklist` | *(none)* | Pre-publish checklist with progress bar. Data from `checklistItems.ts`. |
+| `GuideChecklist` | `checklistId` | Unified checklist component. Use `checklistId="publish"` for this guide. Data from `checklistItems.ts`. |
 | `CIOverviewCards` | `children` | Grid container for numbered overview cards |
 | `CIFullExample` | `children` | Full workflow YAML with syntax-highlighted `<span>` elements |
 | `CIStep` | `heading`, `id?` | Section heading with optional TOC anchor |

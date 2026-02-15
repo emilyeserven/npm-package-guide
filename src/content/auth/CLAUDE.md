@@ -26,7 +26,7 @@ Data directory: `src/data/authData/` — `types.ts`, `concepts.ts`, `navigation.
 | `OAuthFlow` | *(none)* | Step-by-step Authorization Code flow diagram |
 | `AuthPatterns` | *(none)* | Recommended vs. avoid patterns with code examples |
 | `SecurityThreats` | *(none)* | Threats with severity levels (critical/high/medium) |
-| `AuthChecklist` | *(none)* | Categorized implementation checklist |
+| `GuideChecklist` | `checklistId` | Unified checklist component. Use `checklistId="auth"` for this guide. |
 | `AuthQuiz` | *(none)* | Multiple-choice questions with explanations |
 
 ## Guide-Specific Conventions

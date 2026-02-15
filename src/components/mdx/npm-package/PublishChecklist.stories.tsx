@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { PublishChecklist } from './PublishChecklist'
+import { GuideChecklist } from '../GuideChecklist'
 
-const meta: Meta<typeof PublishChecklist> = {
+const meta: Meta<typeof GuideChecklist> = {
   title: 'MDX/NPM Package/PublishChecklist',
-  component: PublishChecklist,
+  component: GuideChecklist,
 }
 
 export default meta
-type Story = StoryObj<typeof PublishChecklist>
+type Story = StoryObj<typeof GuideChecklist>
 
-export const Default: Story = {}
+export const Default: Story = { args: { checklistId: 'publish' } }

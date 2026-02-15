@@ -27,7 +27,7 @@ Data directory: `src/data/promptData/` — `types.ts`, `mistakes.ts`, `technique
 | `TechniqueDetail` | `techniqueId` | Deep-dive technique explainer with code example |
 | `CLIReference` | *(none)* | Searchable, filterable CLI command table |
 | `TestingMistakes` | `context?: 'e2e' \| 'unit'` | Testing-specific mistake cards |
-| `ClaudeMdChecklist` | *(none)* | Interactive CLAUDE.md configuration checklist |
+| `GuideChecklist` | `checklistId` | Unified checklist component. Use `checklistId="claudemd"` for this guide. |
 | `ToolDetail` | `toolId`, `section?` | Tool explainer; sections: overview, bestFor, implementation, examples, tips |
 | `MetaTooling` | `toolId` | Meta-tooling pattern details |
 | `CodingToolExplorer` | *(none)* | Interactive AI coding tool comparison |

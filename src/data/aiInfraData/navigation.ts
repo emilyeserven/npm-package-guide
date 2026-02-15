@@ -1,5 +1,4 @@
-import type { GuideSection } from '../guideTypes'
-import type { StartPageData } from '../guideTypes'
+import type { GuideSection, StartPageData } from '../guideTypes'
 
 export const AI_INFRA_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['ai-start', 'ai-overview'] },
