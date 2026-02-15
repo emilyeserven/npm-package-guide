@@ -4,7 +4,7 @@ import { FnRef } from './FnRef'
 import { NavLink, NavPill } from './NavLink'
 import { StepJump } from './StepJump'
 import { TocLink } from './TocLink'
-import { SectionIntro, Toc, Explainer, Gotcha, ColItem, SectionNote, SectionTitle, SectionSubheading, SectionList, CodeAccordion, MdxPre } from './SectionLayout'
+import { SectionIntro, Toc, Explainer, Gotcha, ColItem, SectionNote, SectionTitle, SectionSubheading, SectionList, CodeAccordion, MdxPre, DefinitionTable, DefRow } from './SectionLayout'
 // npm-package
 import {
   CIStep, CIStepText, CIYaml, YamlHeading, CITip, CIOverviewCards, CIOverviewCard,
@@ -147,4 +147,6 @@ export const mdxComponents: MDXComponents = {
   NjaChecklist,
   GuideStartContent,
   CodeAccordion,
+  DefinitionTable,
+  DefRow,
 }

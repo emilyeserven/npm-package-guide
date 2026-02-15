@@ -11,7 +11,7 @@ export function CIStep({ heading, id, children }: { heading: string; id?: string
 }
 
 export function CIStepText({ children }: { children: ReactNode }) {
-  return <div className="text-sm leading-7 text-slate-800 dark:text-slate-300 mb-3">{children}</div>
+  return <div className="text-base leading-7 text-slate-800 dark:text-slate-300 mb-3">{children}</div>
 }
 
 export function CIYaml({ children }: { children: ReactNode }) {
@@ -23,7 +23,7 @@ export function YamlHeading({ children }: { children?: ReactNode }) {
 }
 
 export function CITip({ children }: { children: ReactNode }) {
-  return <div className="ci-tip text-sm text-blue-500 dark:text-blue-400 bg-blue-100 dark:bg-blue-500/20 py-2.5 px-3.5 rounded-lg leading-relaxed">{children}</div>
+  return <div className="ci-tip text-base text-blue-500 dark:text-blue-400 bg-blue-100 dark:bg-blue-500/20 py-2.5 px-3.5 rounded-lg leading-relaxed">{children}</div>
 }
 
 export function CIOverviewCards({ children }: { children: ReactNode }) {

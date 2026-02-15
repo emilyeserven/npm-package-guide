@@ -1,8 +1,14 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useMemo, Children, isValidElement } from 'react'
+import {
+  useReactTable,
+  getCoreRowModel,
+  createColumnHelper,
+} from '@tanstack/react-table'
 import clsx from 'clsx'
+import { DataTable } from '../DataTable'
 
 export function SectionIntro({ children }: { children: React.ReactNode }) {
-  return <div className="section-intro text-sm text-slate-800 dark:text-slate-300 leading-7 mb-6">{children}</div>
+  return <div className="section-intro text-base text-slate-800 dark:text-slate-300 leading-7 mb-6">{children}</div>
 }
 
 export function Toc({ children }: { children: React.ReactNode }) {
@@ -18,7 +24,7 @@ export function Explainer({ title, children }: { title: string; children: React.
   return (
     <div className="mt-5">
       <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-0 mb-2" id="toc-explainer">{'\u{1F4A1}'} {title}</h2>
-      <div className="text-sm leading-7 text-slate-800 dark:text-slate-300">{children}</div>
+      <div className="text-base leading-7 text-slate-800 dark:text-slate-300">{children}</div>
     </div>
   )
 }
@@ -27,17 +33,17 @@ export function Gotcha({ children }: { children: React.ReactNode }) {
   return (
     <>
       <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-5 mb-2" id="toc-gotcha" style={{ marginTop: 24 }}>{'\u26A0\uFE0F'} Watch out</h2>
-      <div className="mt-0 text-sm leading-relaxed text-slate-800 dark:text-slate-300">{children}</div>
+      <div className="mt-0 text-base leading-relaxed text-slate-800 dark:text-slate-300">{children}</div>
     </>
   )
 }
 
 export function ColItem({ children }: { children: React.ReactNode }) {
-  return <div className="col-item text-sm leading-relaxed py-2 pl-4 relative text-slate-800 dark:text-slate-300">{children}</div>
+  return <div className="col-item text-base leading-relaxed py-2 pl-4 relative text-slate-800 dark:text-slate-300">{children}</div>
 }
 
 export function SectionNote({ children }: { children: React.ReactNode }) {
-  return <div className="text-sm text-blue-500 dark:text-blue-400 bg-blue-100 dark:bg-blue-500/20 py-2.5 px-3.5 rounded-lg leading-relaxed my-4">{children}</div>
+  return <div className="text-base text-blue-500 dark:text-blue-400 bg-blue-100 dark:bg-blue-500/20 py-2.5 px-3.5 rounded-lg leading-relaxed my-4">{children}</div>
 }
 
 export function SectionTitle({ children }: { children: React.ReactNode }) {
@@ -112,5 +118,65 @@ export function MdxPre(props: React.ComponentProps<'pre'>) {
         props.className
       )}
     />
+  )
+}
+
+// --- Definition Table (TanStack Table) ---
+
+interface DefRowData {
+  term: React.ReactNode
+  definition: React.ReactNode
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function DefRow(_: { term: React.ReactNode; children: React.ReactNode }) {
+  return null // rendered by DefinitionTable, never mounted directly
+}
+
+const columnHelper = createColumnHelper<DefRowData>()
+
+export function DefinitionTable({ termHeader, descHeader, children }: {
+  termHeader?: string
+  descHeader?: string
+  children: React.ReactNode
+}) {
+  const rows: DefRowData[] = useMemo(() =>
+    Children.toArray(children)
+      .filter(isValidElement)
+      .map(child => ({
+        term: (child.props as { term: React.ReactNode }).term,
+        definition: (child.props as { children: React.ReactNode }).children,
+      })),
+    [children],
+  )
+
+  const columns = useMemo(() => [
+    columnHelper.display({
+      id: 'term',
+      header: termHeader ?? 'Setting',
+      cell: ({ row }) => (
+        <strong className="text-slate-900 dark:text-slate-100 whitespace-nowrap">{row.original.term}</strong>
+      ),
+    }),
+    columnHelper.display({
+      id: 'definition',
+      header: descHeader ?? 'Description',
+      cell: ({ row }) => (
+        <span className="text-sm text-slate-700 dark:text-slate-300 leading-snug">{row.original.definition}</span>
+      ),
+    }),
+  ], [termHeader, descHeader])
+
+  // eslint-disable-next-line react-hooks/incompatible-library -- not using React Compiler
+  const table = useReactTable({
+    data: rows,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  })
+
+  return (
+    <div className="mb-5">
+      <DataTable table={table} columnCount={2} emptyMessage="" />
+    </div>
   )
 }

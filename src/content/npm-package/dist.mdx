@@ -76,5 +76,5 @@ Three reasons. First, consumers might not have your build tools — if your src/
 </Explainer>
 
 <Gotcha>
-⚠️ When publishing a package, only dist/ should go to npm — everything else (src/, tests, configs, node_modules) is part of your development workflow, not what consumers receive. If you accidentally publish src/, you're shipping uncompiled TypeScript that consumers can't use directly, plus bloating their node_modules with files they don't need. Always use the 'files' field<FnRef n={1} /> in package.json to whitelist only dist/. Use <Cmd npm="npm pack --dry-run" pnpm="pnpm pack --dry-run" /><FnRef n={2} /> to preview exactly what will be included.
+When publishing a package, only dist/ should go to npm — everything else (src/, tests, configs, node_modules) is part of your development workflow, not what consumers receive. If you accidentally publish src/, you're shipping uncompiled TypeScript that consumers can't use directly, plus bloating their node_modules with files they don't need. Always use the 'files' field<FnRef n={1} /> in package.json to whitelist only dist/. Use <Cmd npm="npm pack --dry-run" pnpm="pnpm pack --dry-run" /><FnRef n={2} /> to preview exactly what will be included.
 </Gotcha>

@@ -56,7 +56,7 @@ Run E2E tests last in your CI pipeline — they're the slowest. If linting, buil
 
 <CIStep heading={'\uD83D\uDCD6 Component Tests (Storybook)'} id="toc-component">
 <CIStepText>
-{'\uD83D\uDCD6'} **Storybook component tests** are a third option worth considering. Storybook can run your stories as tests — each story becomes a test case that verifies a component renders correctly with specific props. This sits between unit tests and E2E tests: it renders real components (like E2E) but runs fast and in isolation (like unit tests). You might choose **unit tests** when testing pure logic, utility functions, hooks, or non-visual behavior. Choose **component tests** (via Storybook) when testing visual rendering, prop variations, interaction flows, and accessibility — especially if you're already writing stories for documentation. The two approaches complement each other: unit tests for logic, component tests for UI. See the <NavLink to="storybook" /> section for more.
+**Storybook component tests** are a third option worth considering. Storybook can run your stories as tests — each story becomes a test case that verifies a component renders correctly with specific props. This sits between unit tests and E2E tests: it renders real components (like E2E) but runs fast and in isolation (like unit tests). You might choose **unit tests** when testing pure logic, utility functions, hooks, or non-visual behavior. Choose **component tests** (via Storybook) when testing visual rendering, prop variations, interaction flows, and accessibility — especially if you're already writing stories for documentation. The two approaches complement each other: unit tests for logic, component tests for UI. See the <NavLink to="storybook" /> section for more.
 </CIStepText>
 </CIStep>
 
@@ -68,13 +68,13 @@ Run E2E tests last in your CI pipeline — they're the slowest. If linting, buil
 
 <CIStep heading={'\u2705 What makes a good test?'} id="toc-good-tests">
 <CIStepText>
-<GoodTestsList>
-  <li>**Independent** — no shared state between tests. Each test should set up its own data and clean up after itself.</li>
-  <li>**Deterministic** — same result every time. Avoid dependencies on dates, random values, or network calls without mocking.</li>
-  <li>**Fast** — especially unit tests. If your test suite takes minutes, developers stop running it.</li>
-  <li>**Readable**<FnRef n={3} /> — someone new should understand what's being tested. Name tests clearly: <code>{"it('returns empty array when no items match filter')"}</code> is better than <code>{"it('test filter')"}</code>.</li>
-  <li>**Behavior-focused**<FnRef n={4} /> — test what the code does, not how it does it. If you refactor internals, your tests should still pass.</li>
-</GoodTestsList>
+<DefinitionTable termHeader="Quality" descHeader="Description">
+  <DefRow term="Independent">No shared state between tests. Each test should set up its own data and clean up after itself.</DefRow>
+  <DefRow term="Deterministic">Same result every time. Avoid dependencies on dates, random values, or network calls without mocking.</DefRow>
+  <DefRow term="Fast">Especially unit tests. If your test suite takes minutes, developers stop running it.</DefRow>
+  <DefRow term={<>Readable<FnRef n={3} /></>}>Someone new should understand what's being tested. Name tests clearly: <code>{"it('returns empty array when no items match filter')"}</code> is better than <code>{"it('test filter')"}</code>.</DefRow>
+  <DefRow term={<>Behavior-focused<FnRef n={4} /></>}>Test what the code does, not how it does it. If you refactor internals, your tests should still pass.</DefRow>
+</DefinitionTable>
 For a more detailed look at testing do's and don'ts, see <NavLink to="test-best-practices" /> in the Testing Guide.
 </CIStepText>
 </CIStep>
