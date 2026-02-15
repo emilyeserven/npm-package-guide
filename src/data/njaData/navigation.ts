@@ -81,7 +81,7 @@ export const NJA_START_PAGE_DATA: StartPageData = {
       description: 'Checklists, glossary terms, and curated documentation for your migration.',
       customSubItems: [
         {
-          title: '\u2705 Migration Checklist',
+          title: '\u{1F9F1} Next.js Migration Checklist',
           description: 'A 6-phase checklist covering planning, backend setup, API migration, frontend refactor, DevOps, and testing.',
           jumpTo: 'nja-checklist',
         },
