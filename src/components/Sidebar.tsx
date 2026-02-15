@@ -269,7 +269,7 @@ function ContentPanel({
         ))}
 
         {/* Auto-generated Resources section for real guides */}
-        {guide.id !== 'checklists' && (() => {
+        {guide.id !== 'checklists' && !guide.singlePage && (() => {
           const checklist = checklistPages.find(cp => cp.sourceGuideId === guide.id)
           const checklistTitle = checklist
             ? parseTitle(contentPages.get(checklist.id)?.title ?? getNavTitle(checklist.id)).text
