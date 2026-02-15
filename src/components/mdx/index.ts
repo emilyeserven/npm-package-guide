@@ -19,6 +19,7 @@ import { DataFlowDiagram } from './architecture/DataFlowDiagram'
 import { LayerDiagram } from './architecture/LayerDiagram'
 import { FrameworkExplorer } from './architecture/FrameworkExplorer'
 import { FrameworkProsCons } from './architecture/FrameworkProsCons'
+import { ArchChecklist } from './architecture/ArchChecklist'
 // testing
 import { TestingPyramid } from './testing/TestingPyramid'
 import { TestTypeDetail } from './testing/TestTypeDetail'
@@ -42,6 +43,7 @@ import { PipelineStages } from './ci-cd/PipelineStages'
 import { YamlExplorer } from './ci-cd/YamlExplorer'
 import { PatternCards } from './ci-cd/PatternCards'
 import { GotchaAccordion } from './ci-cd/GotchaAccordion'
+import { CicdChecklist } from './ci-cd/CicdChecklist'
 // auth
 import { ConceptCards } from './auth/ConceptCards'
 import { JwtParts } from './auth/JwtParts'
@@ -55,10 +57,12 @@ import { K8sAnalogyCard } from './kubernetes/K8sAnalogyCard'
 import { K8sConceptList } from './kubernetes/K8sConceptList'
 import { K8sCodeBlock } from './kubernetes/K8sCodeBlock'
 import { K8sFlowDiagram } from './kubernetes/K8sFlowDiagram'
+import { K8sChecklist } from './kubernetes/K8sChecklist'
 // ai-infra
 import { InfraLayerExplorer } from './ai-infra/InfraLayerExplorer'
 import { WorkflowExplorer } from './ai-infra/WorkflowExplorer'
 import { WorkflowDetail } from './ai-infra/WorkflowDetail'
+import { AiInfraChecklist } from './ai-infra/AiInfraChecklist'
 // nextjs-abstractions
 import { ConceptDetail } from './nextjs-abstractions/ConceptDetail'
 import { NjaChecklist } from './nextjs-abstractions/NjaChecklist'
@@ -101,6 +105,7 @@ export const mdxComponents: MDXComponents = {
   LayerDiagram,
   FrameworkExplorer,
   FrameworkProsCons,
+  ArchChecklist,
   TestingPyramid,
   TestTypeDetail,
   TestPracticeCards,
@@ -123,6 +128,7 @@ export const mdxComponents: MDXComponents = {
   YamlExplorer,
   PatternCards,
   GotchaAccordion,
+  CicdChecklist,
   ConceptCards,
   JwtParts,
   OAuthFlow,
@@ -134,9 +140,11 @@ export const mdxComponents: MDXComponents = {
   K8sConceptList,
   K8sCodeBlock,
   K8sFlowDiagram,
+  K8sChecklist,
   InfraLayerExplorer,
   WorkflowExplorer,
   WorkflowDetail,
+  AiInfraChecklist,
   ConceptDetail,
   NjaChecklist,
   GuideStartContent,

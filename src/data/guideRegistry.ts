@@ -116,6 +116,10 @@ export const checklistPages = [
   { id: 'prompt-claudemd-checklist', sourceGuideId: 'prompt-engineering' },
   { id: 'auth-checklist', sourceGuideId: 'auth' },
   { id: 'nja-checklist', sourceGuideId: 'nextjs-abstractions' },
+  { id: 'arch-checklist', sourceGuideId: 'architecture' },
+  { id: 'cicd-checklist', sourceGuideId: 'ci-cd' },
+  { id: 'k8s-checklist', sourceGuideId: 'kubernetes' },
+  { id: 'ai-checklist', sourceGuideId: 'ai-infra' },
 ]
 
 export const checklistsNavDef: GuideDefinition = {
