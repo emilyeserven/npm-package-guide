@@ -62,6 +62,8 @@ import { InfraLayerExplorer } from './ai-infra/InfraLayerExplorer'
 import { WorkflowDetail } from './ai-infra/WorkflowDetail'
 // nextjs-abstractions
 import { ConceptDetail } from './nextjs-abstractions/ConceptDetail'
+// git-worktrees
+import { WorktreeDiagram } from './git-worktrees/WorktreeDiagram'
 
 export const mdxComponents: MDXComponents = {
   pre: MdxPre,
@@ -136,6 +138,7 @@ export const mdxComponents: MDXComponents = {
   InfraLayerExplorer,
   WorkflowDetail,
   ConceptDetail,
+  WorktreeDiagram,
   GuideStartContent,
   CodeAccordion,
   DefinitionTable,

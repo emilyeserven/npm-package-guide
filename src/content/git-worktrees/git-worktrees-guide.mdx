@@ -1,0 +1,251 @@
+---
+id: "git-worktrees-guide"
+title: "Git Worktrees & Claude Code 🌳"
+guide: "git-worktrees"
+linkRefs:
+  - id: "git-worktree-docs"
+  - id: "git-bare-repo"
+  - id: "claude-code-cli"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-concept">What are Git Worktrees?</TocLink>
+  <TocLink id="toc-setup-existing">Setup: Existing Repo</TocLink>
+  <TocLink id="toc-setup-bare">Setup: Bare Repo</TocLink>
+  <TocLink id="toc-managing">Managing Worktrees</TocLink>
+  <TocLink id="toc-claude">Adding Claude Code</TocLink>
+  <TocLink id="toc-parallel">Workflow: Parallel Dev</TocLink>
+  <TocLink id="toc-review">Workflow: Review Flow</TocLink>
+  <TocLink id="toc-spike">Workflow: Spike & Merge</TocLink>
+  <TocLink id="toc-cleanup">Cleanup & Checklist</TocLink>
+</Toc>
+
+<SectionIntro>
+Parallel development with AI-powered coding — work on multiple branches simultaneously
+without stashing or switching. Give Claude Code its own worktree while you stay
+productive in another.
+</SectionIntro>
+
+<SectionSubheading id="toc-concept">{'\u{1F4A1}'} What are Git Worktrees?</SectionSubheading>
+
+Normally you have one working directory per repo. Worktrees let you check out multiple
+branches into **separate folders** at the same time — no stashing, no context switching,
+no losing your place.
+
+<WorktreeDiagram />
+
+<Explainer title="Why this matters with Claude Code">
+
+You can have Claude Code working autonomously in one worktree while you code in another.
+No conflicts, no waiting. Two separate directories, two separate terminal sessions, one
+shared git history.
+
+</Explainer>
+
+<SectionSubheading id="toc-setup-existing">{'\u{1F4C2}'} Setup: Existing Repo</SectionSubheading>
+
+If you already have a clone, just start adding worktrees from it. Your current directory
+stays on whatever branch it's on.
+
+```bash
+# From your existing clone, just start adding worktrees
+cd my-project
+
+# Your current directory stays on whatever branch it's on
+# Now add a worktree for a new branch
+git worktree add ../my-project-feature -b feature-auth
+```
+
+<SectionSubheading id="toc-setup-bare">{'\u{1F5C4}\uFE0F'} Setup: Bare Repo (Clean Start)</SectionSubheading>
+
+A bare clone has no working directory of its own — it only stores git objects. This means
+every branch lives in a worktree, keeping things symmetrical and clean.
+
+```bash
+# Clone as bare repo (no working directory)
+git clone --bare git@github.com:you/project.git project.bare
+
+cd project.bare
+
+# Create worktrees for each branch you need
+git worktree add ../project-main main
+git worktree add ../project-feature -b feature-auth
+```
+
+<SectionNote>
+**Why bare repos?** A bare repo has no working directory of its own — it only stores git
+objects. This means every branch lives in a worktree, keeping things symmetrical and clean.
+No "default" checkout getting in the way.
+</SectionNote>
+
+<SectionSubheading id="toc-managing">{'\u{1F5C2}\uFE0F'} Managing Worktrees</SectionSubheading>
+
+Essential commands you'll use day to day:
+
+```bash
+# List all worktrees
+git worktree list
+
+# Add a worktree for an existing remote branch
+git worktree add ../project-hotfix origin/hotfix-123
+
+# Add a worktree with a new branch from a specific base
+git worktree add ../project-experiment -b experiment main
+
+# Remove when done (clean up the directory too)
+git worktree remove ../project-feature
+```
+
+<Gotcha>
+
+**One rule:** each branch can only be checked out in one worktree at a time. If `main` is
+checked out in `project-main/`, you can't also check it out elsewhere. Use
+`git worktree list` to see what's where.
+
+</Gotcha>
+
+<SectionNote>
+**Shared state:** all worktrees share the same git objects, remotes, and refs. A commit in
+one worktree is immediately visible (via `git log`) in another. Stashes are shared too.
+</SectionNote>
+
+<SectionSubheading id="toc-claude">{'\u{1F916}'} Adding Claude Code</SectionSubheading>
+
+Run Claude Code in a worktree and let it work autonomously while you stay productive in
+another.
+
+**Terminal 1 — Claude's worktree:**
+
+```bash
+# Navigate to the feature worktree
+cd ../project-feature
+
+# Launch Claude Code in this directory
+claude
+
+# Give it a task and let it work
+# > Add JWT authentication middleware with refresh
+#   token rotation. Write tests. Commit when done.
+```
+
+**Terminal 2 — Your worktree:**
+
+```bash
+# Meanwhile, you're working in main or another branch
+cd ../project-main
+
+# Business as usual — no conflicts with Claude's work
+vim src/components/Header.tsx
+npm run dev
+```
+
+<Explainer title="Headless mode for extra power">
+
+Use `claude --dangerously-skip-permissions` in the worktree to let Claude run commands,
+edit files, and commit without approval prompts. Only use this in isolated worktrees where
+you'll review the diff later.
+
+</Explainer>
+
+<SectionNote>
+**Multiple Claudes:** you can spin up multiple worktrees with a separate Claude Code session
+in each. Three features being built in parallel, all on separate branches, zero conflicts.
+</SectionNote>
+
+<SectionSubheading id="toc-parallel">{'\u{1F501}'} Workflow: Parallel Dev</SectionSubheading>
+
+Set up multiple feature worktrees and run Claude in each one while you work in another:
+
+```bash
+# Set up two feature worktrees
+git worktree add ../wt-auth -b feat/auth
+git worktree add ../wt-dashboard -b feat/dashboard
+
+# Terminal 1: Claude builds auth
+cd ../wt-auth && claude
+
+# Terminal 2: Claude builds dashboard
+cd ../wt-dashboard && claude
+
+# Terminal 3: You do code review, fix bugs, etc.
+cd ../project-main
+```
+
+<SectionNote>
+**Pro tip:** use tmux or terminal splits to monitor all sessions at once. Claude will commit
+to its branch — you review the PR later.
+</SectionNote>
+
+<SectionSubheading id="toc-review">{'\u{1F50D}'} Workflow: Review Flow</SectionSubheading>
+
+After Claude finishes working in a worktree, review the diff and merge:
+
+```bash
+# Claude finished working in wt-auth. Review the diff:
+cd ../wt-auth
+git log --oneline main..HEAD
+git diff main
+
+# Happy? Merge from any worktree:
+cd ../project-main
+git merge feat/auth
+
+# Clean up the worktree
+git worktree remove ../wt-auth
+```
+
+<SectionSubheading id="toc-spike">{'\u{1F9EA}'} Workflow: Spike & Merge</SectionSubheading>
+
+Create a throwaway spike branch and let Claude explore freely. If it works, cherry-pick the
+good parts. If not, delete everything:
+
+```bash
+# Create a throwaway spike branch
+git worktree add ../wt-spike -b spike/try-redis
+
+# Let Claude explore the approach
+cd ../wt-spike && claude
+# > Try replacing our in-memory cache with Redis.
+#   Show me the performance difference. Don't worry
+#   about clean code, this is exploratory.
+
+# If it works → cherry-pick the good parts
+# If it doesn't → just delete the worktree
+git worktree remove --force ../wt-spike
+git branch -D spike/try-redis
+```
+
+<Explainer title="Zero-risk experimentation">
+
+Spikes in worktrees are disposable. Claude can go wild, try things, break things — your
+main code is untouched. Delete the worktree and the branch, and it's like it never happened.
+
+</Explainer>
+
+<SectionSubheading id="toc-cleanup">{'\u2728'} Cleanup & Checklist</SectionSubheading>
+
+Keep things tidy. Remove worktrees when you're done with a branch:
+
+```bash
+# Remove a specific worktree
+git worktree remove ../wt-feature
+
+# Prune stale worktree references
+git worktree prune
+
+# Delete the branch too if merged
+git branch -d feat/auth
+
+# Nuclear option: force remove unclean worktree
+git worktree remove --force ../wt-spike
+```
+
+<GuideChecklist checklistId="git-worktrees" />
+
+<SectionNote>
+**You're set!** You now have a workflow where Claude handles entire features autonomously
+on isolated branches while you stay productive. The key insight: worktrees give you
+filesystem-level isolation, so Claude Code and your editor never step on each other's toes.
+</SectionNote>
