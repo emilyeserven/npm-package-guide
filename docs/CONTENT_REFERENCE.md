@@ -36,7 +36,7 @@ External URLs managed centrally in `src/data/linkRegistry/`. Single source of tr
 
 - **MDX frontmatter** → `linkRefs` resolved to `SectionLink[]` by `src/content/registry.ts`
 - **External Resources page** → entries with `resourceCategory` appear as curated resources
-- **Glossary** → `GlossaryTerm.linkId` references a registry entry
+- **Glossary** → `GlossaryTerm.linkId` (and optional `linkIds`) reference registry entries
 - **`overallResources.ts`** → derives `ResourceGroup[]` from entries with `resourceCategory`
 
 ## Glossary
@@ -49,8 +49,10 @@ Searchable table in `src/components/GlossaryPage.tsx`. Data in `src/data/glossar
 |-------|----------|-------------|
 | `term` | Yes | Display name. Title-case for proper nouns, lowercase for general concepts. |
 | `definition` | Yes | One to two sentences for a backend engineer. Use `<code>` for inline code. |
-| `linkId` | Yes | ID of a `RegistryLink` in `src/data/linkRegistry/`. Must exist. |
-| `sectionId` | No | ID of a content page where this concept is taught. |
+| `linkId` | Yes | ID of a `RegistryLink` in `src/data/linkRegistry/`. Must exist. Primary external reference. |
+| `linkIds` | No | Array of additional `RegistryLink` IDs for extra external references beyond `linkId`. |
+| `sectionId` | No | ID of a content page where this concept is primarily taught. |
+| `sectionIds` | No | Array of additional content page IDs for extra internal links beyond `sectionId`. |
 | `guides` | No | Array of guide IDs this term is relevant to (e.g., `['npm-package', 'ci-cd']`). If omitted, guide is derived from `sectionId`. |
 
 ### Multi-guide terms
@@ -62,13 +64,25 @@ Some concepts span multiple guides (e.g., "Middleware" is relevant to Architectu
 - Terms with different definitions per guide should remain as separate entries in their respective guide files (e.g., "XSS" has security-focused and AI-safety-focused definitions).
 - When `guides` is omitted, the term is associated with a single guide derived from `sectionId` (or defaults to `npm-package` if no `sectionId`).
 
+### Multi-link terms
+
+Some concepts have multiple relevant external references or are taught on multiple internal pages. Use `linkIds` and `sectionIds` for additional links beyond the primary:
+
+- `linkIds: ['second-link-id', 'third-link-id']` — additional external docs beyond `linkId`
+- `sectionIds: ['other-page', 'another-page']` — additional internal pages beyond `sectionId`
+
+When a term has 2+ external links or 2+ internal links, the glossary page renders them as bullet points instead of inline. The primary `linkId`/`sectionId` always appears first.
+
+All IDs in `linkIds` must exist in the link registry; all IDs in `sectionIds` must be valid page IDs. Guides derived from `sectionIds` entries must be included in the `guides` array (validated at build time).
+
 ### Adding a term
 
 1. Ensure the `RegistryLink` exists in `src/data/linkRegistry/`.
 2. Add the term to the appropriate guide file in `src/data/glossaryTerms/`.
 3. Set `sectionId` if the term is explained on a guide page.
 4. Add `guides` if the term spans multiple guides.
-5. Run `pnpm validate` to catch broken references.
+5. Add `linkIds`/`sectionIds` if the term has multiple references.
+6. Run `pnpm validate` to catch broken references.
 
 For editorial guidance on what qualifies as a glossary term, see the `/add-guide` skill.
 
