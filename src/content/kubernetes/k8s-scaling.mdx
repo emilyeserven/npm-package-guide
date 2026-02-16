@@ -1,0 +1,57 @@
+---
+id: "k8s-scaling"
+title: "Scaling & Reliability ⚖️"
+guide: "kubernetes"
+linkRefs:
+  - id: "k8s-hpa"
+    note: "Automatically scale workloads based on resource metrics"
+  - id: "k8s-probes"
+    note: "Configuring liveness, readiness, and startup probes"
+  - id: "k8s-rolling-updates"
+    note: "Updating Deployments with zero-downtime rolling updates"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-frontend">Your frontend context</TocLink>
+  <TocLink id="toc-infra">Infrastructure reality</TocLink>
+  <TocLink id="toc-analogy">The analogy</TocLink>
+  <TocLink id="toc-concepts">Key concepts</TocLink>
+  <TocLink id="toc-code">Example YAML</TocLink>
+  <TocLink id="toc-takeaway">Key takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+Keeping your app healthy under load. You know how CDNs auto-scale and health checks keep origins responsive? K8s can auto-scale your backend pods and use probes to route traffic only to healthy instances.
+</SectionIntro>
+
+<SectionSubheading id="toc-frontend">{'\u{1F5A5}\uFE0F'} Your frontend context</SectionSubheading>
+
+<SectionNote>
+You know how CDNs auto-scale to handle traffic spikes and health checks keep origins responsive? K8s can auto-scale your backend pods and use probes to route traffic only to healthy instances.
+</SectionNote>
+
+<SectionSubheading id="toc-infra">{'\u2601\uFE0F'} Infrastructure reality</SectionSubheading>
+
+<SectionList>
+<ColItem>Horizontal Pod Autoscaler (HPA) adds or removes pods based on CPU, memory, or custom metrics. Liveness probes restart unhealthy containers. Readiness probes prevent traffic to pods that aren't ready yet.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-analogy">{'\u{1F500}'} The analogy</SectionSubheading>
+
+<K8sAnalogyCard sectionId="scaling" />
+
+<SectionSubheading id="toc-concepts">{'\u{1F4D6}'} Key concepts</SectionSubheading>
+
+<K8sConceptList sectionId="scaling" />
+
+<SectionSubheading id="toc-code">{'\u{1F4BB}'} Example YAML</SectionSubheading>
+
+<K8sYamlExplorer sectionId="scaling" />
+
+<SectionSubheading id="toc-takeaway">{'\u{1F4A1}'} Key takeaway</SectionSubheading>
+
+<Explainer title="Remember this">
+Probes keep your app healthy &mdash; liveness restarts broken containers, readiness controls traffic flow. HPA scales pods automatically based on load. Together they make your app self-healing and elastic.
+</Explainer>

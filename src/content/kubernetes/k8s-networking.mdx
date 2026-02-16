@@ -1,0 +1,57 @@
+---
+id: "k8s-networking"
+title: "Networking & Services 🛰️"
+guide: "kubernetes"
+linkRefs:
+  - id: "k8s-services"
+    note: "Stable networking for ephemeral pods via Kubernetes Services"
+  - id: "k8s-ingress"
+    note: "Routing external HTTP/HTTPS traffic into a cluster"
+  - id: "k8s-dns"
+    note: "DNS-based service discovery within a cluster"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-frontend">Your frontend context</TocLink>
+  <TocLink id="toc-infra">Infrastructure reality</TocLink>
+  <TocLink id="toc-analogy">The analogy</TocLink>
+  <TocLink id="toc-concepts">Service types & routing</TocLink>
+  <TocLink id="toc-code">Example YAML</TocLink>
+  <TocLink id="toc-takeaway">Key takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+How traffic reaches your containers. You know how React Router maps URL paths to components? In K8s, Services and Ingress handle routing traffic to the right containers.
+</SectionIntro>
+
+<SectionSubheading id="toc-frontend">{'\u{1F5A5}\uFE0F'} Your frontend context</SectionSubheading>
+
+<SectionNote>
+You know how React Router maps URL paths to components, and your dev server proxies API calls to a backend? In K8s, Services and Ingress handle routing traffic to the right containers.
+</SectionNote>
+
+<SectionSubheading id="toc-infra">{'\u2601\uFE0F'} Infrastructure reality</SectionSubheading>
+
+<SectionList>
+<ColItem>Services provide stable network endpoints for ephemeral pods. Ingress manages external HTTP/HTTPS access. Together they control how traffic flows from the outside world to your containers.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-analogy">{'\u{1F500}'} The analogy</SectionSubheading>
+
+<K8sAnalogyCard sectionId="networking" />
+
+<SectionSubheading id="toc-concepts">{'\u{1F4D6}'} Service types & routing</SectionSubheading>
+
+<K8sConceptList sectionId="networking" />
+
+<SectionSubheading id="toc-code">{'\u{1F4BB}'} Example YAML</SectionSubheading>
+
+<K8sYamlExplorer sectionId="networking" />
+
+<SectionSubheading id="toc-takeaway">{'\u{1F4A1}'} Key takeaway</SectionSubheading>
+
+<Explainer title="Remember this">
+Services give pods stable network identities. Ingress routes external traffic by hostname and path. Together they're the networking layer connecting users to your apps.
+</Explainer>

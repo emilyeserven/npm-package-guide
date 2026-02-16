@@ -13,6 +13,7 @@ Defined in `K8S_GUIDE_SECTIONS` in `src/data/k8sData.ts`. All data in this singl
 | *(start)* | `k8s-start` |
 | Foundations | `k8s-big-picture`, `k8s-containers`, `k8s-kubernetes` |
 | Configuration | `k8s-yaml`, `k8s-helm` |
+| Production Operations | `k8s-networking`, `k8s-config-secrets`, `k8s-debugging`, `k8s-scaling` |
 | The Full Picture | `k8s-ecosystem`, `k8s-flow` |
 
 ## Interactive Components

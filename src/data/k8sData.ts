@@ -218,6 +218,271 @@ export const K8S_SECTIONS: K8sSection[] = [
     ],
   },
   {
+    id: 'networking',
+    icon: '\u{1F6F0}\uFE0F', // 🛰️
+    title: 'Networking & Services',
+    subtitle: 'How traffic reaches your containers',
+    frontend:
+      'You know how React Router maps URL paths to components, and your dev server proxies API calls to a backend? In K8s, Services and Ingress handle routing traffic to the right containers.',
+    infra:
+      'Services provide stable network endpoints for ephemeral pods. Ingress manages external HTTP/HTTPS access. Together they control how traffic flows from the outside world to your containers.',
+    analogy: {
+      frontend: 'React Router + dev server proxy + DNS',
+      infra: 'K8s Services + Ingress + CoreDNS',
+      explain:
+        'React Router maps URLs to components inside your app. K8s Services map network addresses to pods, and Ingress maps external hostnames/paths to Services \u2014 same idea, different layer.',
+    },
+    concepts: [
+      {
+        term: 'ClusterIP (default)',
+        def: 'Internal-only Service. Other pods in the cluster can reach it by name (like \u201Chttp://my-api:8080\u201D), but nothing outside the cluster can. This is the default Service type.',
+      },
+      {
+        term: 'NodePort',
+        def: 'Exposes the Service on a static port (30000\u201332767) on every node\u2019s IP. Useful for development but rarely used in production \u2014 like running your app on localhost:3000.',
+      },
+      {
+        term: 'LoadBalancer',
+        def: 'Creates a cloud load balancer (AWS ALB, GCP LB) that routes external traffic to your pods. The most common way to expose services in production cloud environments.',
+      },
+      {
+        term: 'Ingress Controller',
+        def: 'A reverse proxy (like Nginx) that reads Ingress rules and routes HTTP traffic. One Ingress controller can route traffic for many services based on hostname or URL path.',
+      },
+      {
+        term: 'DNS Resolution in K8s',
+        def: 'Every Service gets a DNS name: \u201Cmy-service.my-namespace.svc.cluster.local\u201D. Pods can reach each other by Service name \u2014 like how \u201Clocalhost\u201D resolves in development.',
+      },
+    ],
+    yamlFileName: 'service.yaml',
+    yamlLines: [
+      { line: 'apiVersion: v1', note: 'Services use the core API (v1), not apps/v1 like Deployments. They\u2019re one of the most fundamental K8s resources.' },
+      { line: 'kind: Service', note: 'A Service gives your pods a stable network identity. Pods are ephemeral (they come and go), but the Service address stays constant.' },
+      { line: 'metadata:', note: null },
+      { line: '  name: my-api', note: 'This name becomes the DNS hostname. Other pods can reach this Service at "http://my-api:8080" within the same namespace.' },
+      { line: '', note: null },
+      { line: 'spec:', note: null },
+      { line: '  type: ClusterIP', note: 'Internal-only (default). Use LoadBalancer for external access, or rely on an Ingress controller to route traffic to ClusterIP services.' },
+      { line: '  selector:', note: 'How the Service finds pods to send traffic to. Must match the labels on your pods \u2014 same concept as the Deployment selector.' },
+      { line: '    app: my-api', note: 'Route traffic to any pod with the label "app: my-api". The Service continuously watches for matching pods and updates its endpoint list.' },
+      { line: '  ports:', note: null },
+      { line: '  - port: 8080', note: 'The port the Service listens on. Other pods connect to this port.' },
+      { line: '    targetPort: 8080', note: 'The port on the pod/container to forward to. Often the same as port, but can differ \u2014 like a reverse proxy mapping 80 \u2192 3000.' },
+      { line: '', note: null },
+      { line: '---', note: 'YAML document separator. Lets you define multiple resources in one file \u2014 like exporting multiple components from one module.' },
+      { line: '', note: null },
+      { line: 'apiVersion: networking.k8s.io/v1', note: 'Ingress lives in the networking API group. Requires an Ingress controller (like nginx-ingress) to be installed in the cluster.' },
+      { line: 'kind: Ingress', note: 'Routes external HTTP/HTTPS traffic to internal Services based on hostname and URL path. Like a reverse proxy config.' },
+      { line: 'metadata:', note: null },
+      { line: '  name: my-api-ingress', note: null },
+      { line: 'spec:', note: null },
+      { line: '  rules:', note: 'A list of routing rules. Each rule maps a hostname and/or path to a backend Service.' },
+      { line: '  - host: api.example.com', note: 'Match requests for this hostname. Like configuring a custom domain in Vercel \u2014 DNS must point to your cluster\u2019s load balancer.' },
+      { line: '    http:', note: null },
+      { line: '      paths:', note: null },
+      { line: '      - path: /', note: 'Match all paths under this host. You can use "/api" or "/v2" to route different paths to different services.' },
+      { line: '        pathType: Prefix', note: '"Prefix" matches the path and all sub-paths. "Exact" matches only the exact path. Like exact vs. fuzzy route matching.' },
+      { line: '        backend:', note: null },
+      { line: '          service:', note: null },
+      { line: '            name: my-api', note: 'Send matching traffic to the "my-api" Service defined above. The Ingress controller resolves this name to pod IPs.' },
+      { line: '            port:', note: null },
+      { line: '              number: 8080', note: 'The port on the Service to forward to. Must match the Service\u2019s port field.' },
+    ],
+    keyTakeaway:
+      'Services give pods stable network identities. Ingress routes external traffic by hostname and path. Together they\u2019re the networking layer connecting users to your apps.',
+  },
+  {
+    id: 'config-secrets',
+    icon: '\u{1F512}', // 🔒
+    title: 'ConfigMaps & Secrets',
+    subtitle: 'Separating config from code',
+    frontend:
+      'You use .env files for API URLs, feature flags, and API keys. K8s has ConfigMaps for non-sensitive config and Secrets for sensitive data \u2014 both injectable into your pods.',
+    infra:
+      'ConfigMaps store configuration as key-value pairs. Secrets store sensitive data (passwords, tokens, certificates) with base64 encoding. Both can be mounted as environment variables or files inside containers.',
+    analogy: {
+      frontend: '.env + .env.local + process.env',
+      infra: 'ConfigMaps + Secrets + volume mounts',
+      explain:
+        'Just like you split .env (committed, non-sensitive) from .env.local (gitignored, sensitive), K8s splits ConfigMaps (config) from Secrets (sensitive). Both get injected into your app\u2019s environment.',
+    },
+    concepts: [
+      {
+        term: 'ConfigMap',
+        def: 'Stores non-confidential key-value data. Inject as environment variables or mount as files. Change config without rebuilding images \u2014 like updating .env without redeploying.',
+      },
+      {
+        term: 'Secret',
+        def: 'Like ConfigMap but for sensitive data (passwords, API keys, TLS certs). Values are base64-encoded (not encrypted by default). Use external secret managers for true encryption.',
+      },
+      {
+        term: 'Environment Variables',
+        def: 'The simplest injection method. Add envFrom or env to your pod spec to make ConfigMap/Secret values available as process.env.MY_VAR inside your container.',
+      },
+      {
+        term: 'Volume Mounts',
+        def: 'Mount a ConfigMap or Secret as files in the container filesystem. Useful for config files (nginx.conf, settings.json) that apps read from disk.',
+      },
+      {
+        term: 'External Secrets Operator',
+        def: 'Syncs secrets from external providers (AWS Secrets Manager, HashiCorp Vault) into K8s Secrets. Keeps real credentials out of YAML files and Git repos.',
+      },
+    ],
+    yamlFileName: 'config.yaml',
+    yamlLines: [
+      { line: 'apiVersion: v1', note: 'ConfigMaps and Secrets use the core API (v1). They\u2019re simple key-value stores that K8s knows how to inject into pods.' },
+      { line: 'kind: ConfigMap', note: 'A ConfigMap holds non-sensitive configuration data. Think of it as a .env file that lives in the cluster.' },
+      { line: 'metadata:', note: null },
+      { line: '  name: my-api-config', note: 'Name used to reference this ConfigMap from pod specs. Keep it descriptive \u2014 like naming your .env files.' },
+      { line: 'data:', note: 'Key-value pairs. Keys become environment variable names or filenames (when volume-mounted). Values are plain strings.' },
+      { line: '  DATABASE_HOST: "postgres.db.svc"', note: 'A K8s DNS name pointing to a database Service. Using ConfigMaps means you can change this per environment without rebuilding.' },
+      { line: '  LOG_LEVEL: "info"', note: 'Application config that varies by environment. Dev might use "debug", production uses "info" \u2014 no code changes needed.' },
+      { line: '  FEATURE_ENABLE_CACHE: "true"', note: 'Feature flags as config. Toggle features by updating the ConfigMap and restarting pods \u2014 like changing .env values.' },
+      { line: '', note: null },
+      { line: '---', note: null },
+      { line: '', note: null },
+      { line: 'apiVersion: v1', note: null },
+      { line: 'kind: Secret', note: 'A Secret holds sensitive data. Structurally similar to ConfigMap but values are base64-encoded and K8s treats them more carefully.' },
+      { line: 'metadata:', note: null },
+      { line: '  name: my-api-secrets', note: null },
+      { line: 'type: Opaque', note: '"Opaque" is the default Secret type for arbitrary key-value data. Other types include "kubernetes.io/tls" for TLS certificates.' },
+      { line: 'stringData:', note: 'Convenience field \u2014 values here are plain text (K8s auto-encodes to base64). The alternative "data" field requires you to pre-encode values.' },
+      { line: '  DB_PASSWORD: "s3cur3-p@ssw0rd"', note: 'Sensitive credentials. In production, use External Secrets Operator to sync from Vault/AWS SM instead of storing in YAML.' },
+      { line: '  API_KEY: "sk-abc123..."', note: 'API tokens, encryption keys, etc. Never commit Secret YAML with real values to Git \u2014 use sealed-secrets or external providers.' },
+    ],
+    keyTakeaway:
+      'ConfigMaps and Secrets separate configuration from code. Change settings per environment without rebuilding images. Use external secret managers for real credentials.',
+  },
+  {
+    id: 'debugging',
+    icon: '\u{1F50D}', // 🔍
+    title: 'Debugging & kubectl',
+    subtitle: 'Your DevTools for Kubernetes',
+    frontend:
+      'You use browser DevTools, console.log, and React DevTools to debug frontend apps. In K8s, kubectl is your primary debugging tool \u2014 it lets you inspect, log, and exec into containers.',
+    infra:
+      'kubectl is the CLI for everything Kubernetes. Inspect resource status with get/describe, read logs, exec into running containers, and check events to understand what\u2019s happening in your cluster.',
+    analogy: {
+      frontend: 'DevTools Console + Network tab + React DevTools',
+      infra: 'kubectl logs + describe + exec',
+      explain:
+        'DevTools lets you inspect elements, watch network calls, and debug state. kubectl does the same for K8s \u2014 inspect pods, watch logs, and debug containers in real time.',
+    },
+    concepts: [
+      {
+        term: 'kubectl get',
+        def: 'List resources. "kubectl get pods" shows all pods (like ls for your cluster). Add "-o wide" for more detail or "-w" to watch changes in real time.',
+      },
+      {
+        term: 'kubectl describe',
+        def: 'Show detailed info about a resource, including events and conditions. The first command to run when something isn\u2019t working \u2014 like checking the browser console for errors.',
+      },
+      {
+        term: 'kubectl logs',
+        def: 'View container stdout/stderr output. Add "-f" to stream in real time (like tail -f). Add "--previous" to see logs from the last crashed container.',
+      },
+      {
+        term: 'kubectl exec',
+        def: 'Run a command inside a running container. "kubectl exec -it my-pod -- /bin/sh" gives you a shell \u2014 like SSH but for containers. Great for checking files, env vars, or network.',
+      },
+      {
+        term: 'Pod Lifecycle',
+        def: 'Pods go through phases: Pending (scheduling), Running, Succeeded/Failed. Common issues: ImagePullBackOff (wrong image), CrashLoopBackOff (app keeps crashing), OOMKilled (out of memory).',
+      },
+      {
+        term: 'Events',
+        def: 'K8s records events for every significant action (scheduling, pulling images, health check failures). "kubectl get events --sort-by=.lastTimestamp" shows the timeline of what happened.',
+      },
+    ],
+    keyTakeaway:
+      'kubectl is your DevTools for K8s. Master get, describe, logs, and exec \u2014 they\u2019ll help you diagnose most issues. Check events when pods won\u2019t start.',
+  },
+  {
+    id: 'scaling',
+    icon: '\u2696\uFE0F', // ⚖️
+    title: 'Scaling & Reliability',
+    subtitle: 'Keeping your app healthy under load',
+    frontend:
+      'You know how CDNs auto-scale to handle traffic spikes and health checks keep origins responsive? K8s can auto-scale your backend pods and use probes to route traffic only to healthy instances.',
+    infra:
+      'Horizontal Pod Autoscaler (HPA) adds or removes pods based on CPU, memory, or custom metrics. Liveness probes restart unhealthy containers. Readiness probes prevent traffic to pods that aren\u2019t ready yet.',
+    analogy: {
+      frontend: 'CDN auto-scaling + health checks + error boundaries',
+      infra: 'HPA + Liveness probes + Readiness probes',
+      explain:
+        'React error boundaries catch crashes and show fallback UI. K8s probes do the same for backend services \u2014 detect failures and either restart containers or stop routing traffic to them.',
+    },
+    concepts: [
+      {
+        term: 'Liveness Probe',
+        def: 'Checks if your app is still alive. If it fails, K8s kills and restarts the container. Use for detecting deadlocks or unrecoverable states. Like a watchdog timer.',
+      },
+      {
+        term: 'Readiness Probe',
+        def: 'Checks if your app is ready to receive traffic. If it fails, K8s removes the pod from the Service\u2019s endpoint list (no traffic routed). Use during startup or when temporarily overloaded.',
+      },
+      {
+        term: 'Startup Probe',
+        def: 'Gives slow-starting containers time to initialize. Until it succeeds, liveness and readiness probes are disabled. Prevents K8s from killing an app that\u2019s just taking a while to boot.',
+      },
+      {
+        term: 'Horizontal Pod Autoscaler (HPA)',
+        def: 'Automatically adjusts replica count based on observed CPU/memory utilization. Set target utilization (e.g., 70% CPU) and min/max replicas \u2014 K8s handles the rest.',
+      },
+      {
+        term: 'Rolling Update',
+        def: 'The default deployment strategy. K8s gradually replaces old pods with new ones, ensuring some are always available. Configurable via maxSurge and maxUnavailable.',
+      },
+      {
+        term: 'Resource Requests vs. Limits',
+        def: 'Requests = guaranteed minimum (K8s uses this for scheduling). Limits = hard maximum (container gets killed if exceeded). Set requests to typical usage, limits to peak.',
+      },
+    ],
+    yamlFileName: 'probes-and-hpa.yaml',
+    yamlLines: [
+      { line: '# Add to your Deployment pod spec:', note: 'Probes are defined per container in your Deployment. They tell K8s how to check if your app is healthy and ready.' },
+      { line: 'containers:', note: null },
+      { line: '- name: my-api', note: null },
+      { line: '  image: my-api:1.2', note: null },
+      { line: '  livenessProbe:', note: 'If this probe fails consecutively, K8s kills and restarts the container. Use a lightweight endpoint that confirms the process is responsive.' },
+      { line: '    httpGet:', note: 'HTTP probes hit an endpoint and check for a 2xx/3xx status code. Alternatives: tcpSocket (port check) or exec (run a command).' },
+      { line: '      path: /healthz', note: 'Common convention: /healthz for liveness, /readyz for readiness. This endpoint should be fast and check core functionality only.' },
+      { line: '      port: 8080', note: null },
+      { line: '    initialDelaySeconds: 15', note: 'Wait 15 seconds after container start before first probe. Gives your app time to initialize without being killed prematurely.' },
+      { line: '    periodSeconds: 10', note: 'Check every 10 seconds. Balance between quick failure detection and not overloading your app with health check requests.' },
+      { line: '', note: null },
+      { line: '  readinessProbe:', note: 'If this fails, the pod is removed from Service endpoints (no traffic). Unlike liveness, failing readiness does NOT restart the pod.' },
+      { line: '    httpGet:', note: null },
+      { line: '      path: /readyz', note: 'This endpoint should verify the app can handle requests \u2014 database connected, caches warm, etc.' },
+      { line: '      port: 8080', note: null },
+      { line: '    initialDelaySeconds: 5', note: 'Start readiness checks sooner than liveness. You want to route traffic as soon as the app is ready, but wait longer before deciding it\u2019s dead.' },
+      { line: '    periodSeconds: 5', note: 'Check frequently so recovered pods start receiving traffic again quickly.' },
+      { line: '', note: null },
+      { line: '---', note: null },
+      { line: '', note: null },
+      { line: 'apiVersion: autoscaling/v2', note: 'HPA v2 supports multiple metrics and custom metrics. v1 only supports CPU.' },
+      { line: 'kind: HorizontalPodAutoscaler', note: 'HPA automatically adjusts the replica count of a Deployment, ReplicaSet, or StatefulSet based on observed metrics.' },
+      { line: 'metadata:', note: null },
+      { line: '  name: my-api-hpa', note: null },
+      { line: 'spec:', note: null },
+      { line: '  scaleTargetRef:', note: 'Which workload to scale. Must match the Deployment name and API version.' },
+      { line: '    apiVersion: apps/v1', note: null },
+      { line: '    kind: Deployment', note: null },
+      { line: '    name: my-api', note: 'The Deployment whose replicas will be adjusted. HPA overwrites the replicas field in your Deployment spec.' },
+      { line: '  minReplicas: 2', note: 'Never go below 2 replicas in production. Ensures availability during deployments, node failures, or low-traffic periods.' },
+      { line: '  maxReplicas: 10', note: 'Upper bound prevents runaway scaling (and runaway costs). Set based on your cluster capacity and budget.' },
+      { line: '  metrics:', note: null },
+      { line: '  - type: Resource', note: null },
+      { line: '    resource:', note: null },
+      { line: '      name: cpu', note: 'Scale based on CPU utilization. When average CPU across all pods exceeds the target, HPA adds more replicas.' },
+      { line: '      target:', note: null },
+      { line: '        type: Utilization', note: null },
+      { line: '        averageUtilization: 70', note: 'Target 70% average CPU. HPA tries to keep utilization near this value by adjusting replicas. Too low = wasteful, too high = slow response.' },
+    ],
+    keyTakeaway:
+      'Probes keep your app healthy \u2014 liveness restarts broken containers, readiness controls traffic flow. HPA scales pods automatically based on load. Together they make your app self-healing and elastic.',
+  },
+  {
     id: 'ecosystem',
     icon: '\u{1F310}', // 🌐
     title: 'The Wider Ecosystem',
@@ -326,6 +591,10 @@ export const K8S_GUIDE_SECTIONS: GuideSection[] = [
     ids: ['k8s-big-picture', 'k8s-containers', 'k8s-kubernetes'],
   },
   { label: 'Configuration', ids: ['k8s-yaml', 'k8s-helm'] },
+  {
+    label: 'Production Operations',
+    ids: ['k8s-networking', 'k8s-config-secrets', 'k8s-debugging', 'k8s-scaling'],
+  },
   { label: 'The Full Picture', ids: ['k8s-ecosystem', 'k8s-flow'] },
 ]
 
@@ -366,6 +635,31 @@ export const K8S_START_PAGE_DATA: StartPageData = {
       description:
         'Read and write the configuration files that define how your app runs in a cluster.',
       jumpTo: 'k8s-yaml',
+    },
+    {
+      type: 'numbered',
+      num: 3,
+      title: 'Production Operations',
+      description:
+        'Networking, configuration management, debugging, and scaling \u2014 the day-to-day of running apps in K8s.',
+      jumpTo: 'k8s-networking',
+    },
+    {
+      type: 'bonus',
+      title: 'Production Operations',
+      description:
+        'Learn how to route traffic, manage config, debug issues, and scale your apps in a Kubernetes cluster.',
+      sectionLabel: 'Production Operations',
+      subItemDescriptions: {
+        'k8s-networking':
+          'Services, Ingress, and DNS \u2014 how traffic reaches your containers.',
+        'k8s-config-secrets':
+          'ConfigMaps and Secrets \u2014 separating configuration from code.',
+        'k8s-debugging':
+          'kubectl commands for inspecting, logging, and troubleshooting pods.',
+        'k8s-scaling':
+          'Auto-scaling, health probes, and deployment strategies for reliability.',
+      },
     },
     {
       type: 'bonus',
