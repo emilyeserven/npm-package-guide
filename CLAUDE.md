@@ -53,14 +53,16 @@ React 19 · TanStack Router (hash-based) · TanStack Table · TypeScript (strict
 - `src/content/<guide-id>/` — MDX pages, auto-discovered by `src/content/registry.ts`
 - `src/data/` — TypeScript data objects; `linkRegistry/` and `glossaryTerms/` split by guide
 - `src/data/guideRegistry.ts` — Central guide registry (metadata, sections, lookup helpers)
-- `src/helpers/` — Utilities (`cmd.ts`, `fnRef.ts`, `darkStyle.ts`)
+- `src/helpers/` — Utilities (`cmd.ts`, `fnRef.ts`, `darkStyle.ts`, `themeColors.ts`)
 - `src/hooks/` — Custom hooks (`usePMContext.tsx`, `useTheme.tsx`)
 
 ## Key Patterns
 
 - **Content as data:** Page content in `src/data/` as TypeScript objects with HTML strings, not inline JSX.
 - **Styling:** Tailwind utility classes. CSS only for pseudo-elements, animations, and third-party selectors.
-- **Dark mode:** Use Tailwind `dark:` variants for static colors. Use `ds()` from `src/helpers/darkStyle.ts` for dynamic inline styles from data. Dark palette: bg `#1e293b`, text `#e2e8f0`, borders `#334155`.
+- **Dark mode:** Use Tailwind `dark:` variants for static colors. Use `ds()` from `src/helpers/darkStyle.ts` for dynamic inline styles from data. For common color pairs (text, backgrounds, borders, shadows), prefer `tc(theme.X, isDark)` from `src/helpers/themeColors.ts` instead of raw `ds()` calls. Dark palette: bg `#1e293b`, text `#e2e8f0`, borders `#334155`.
+- **Checklists:** Use `<GuideChecklist checklistId="..." />` in MDX. All checklist data and metadata is registered in `src/components/mdx/GuideChecklist.tsx`. Do not create per-guide checklist wrapper components.
+- **YAML explorers:** Use `YamlExplorerBase` (`src/components/mdx/YamlExplorerBase.tsx`) for interactive YAML annotation UIs. Guide-specific wrappers pass data and file name to the base.
 - **Page ordering:** Each guide's `*_GUIDE_SECTIONS` array is the single source of truth — sidebar, command menu, prev/next, and home tiles derive automatically.
 - **MDX titles:** Every `title` must end with an emoji suffix (parsed by sidebar and command menu).
 

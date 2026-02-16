@@ -1,5 +1,4 @@
-import type { GuideSection } from '../guideTypes'
-import type { StartPageData } from '../guideTypes'
+import type { GuideSection, StartPageData } from '../guideTypes'
 
 export const AUTH_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['auth-start'] },

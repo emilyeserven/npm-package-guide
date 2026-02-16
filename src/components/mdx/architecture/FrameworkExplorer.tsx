@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { FRAMEWORK_PAGES } from '../../../data/archData'
 import type { FrameworkCapability } from '../../../data/archData'
 import { useIsDark } from '../../../hooks/useTheme'
-import { ds } from '../../../helpers/darkStyle'
+import { theme, tc } from '../../../helpers/themeColors'
 
 function CapabilityBar({ cap, color, accent, darkAccent, isActive, onClick, isDark }: { cap: FrameworkCapability; color: string; accent: string; darkAccent: string; isActive: boolean; onClick: () => void; isDark: boolean }) {
   return (
@@ -13,18 +13,18 @@ function CapabilityBar({ cap, color, accent, darkAccent, isActive, onClick, isDa
         display: "flex", alignItems: "stretch", borderRadius: "10px", overflow: "hidden",
         transition: "all 0.2s ease",
         transform: isActive ? "scale(1.02)" : "scale(1)",
-        boxShadow: isActive ? `0 3px 16px ${color}30` : ds("0 1px 4px #0001", "0 1px 4px #0003", isDark),
+        boxShadow: isActive ? `0 3px 16px ${color}30` : tc(theme.shadowSm, isDark),
       }}
     >
       <div style={{ width: "6px", minHeight: "100%", background: color, opacity: isActive ? 1 : 0.35, transition: "opacity 0.2s" }} />
-      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 16px", background: isActive ? (isDark ? darkAccent : accent) : ds("#fff", "#1e293b", isDark), transition: "background 0.2s" }}>
+      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 16px", background: isActive ? (isDark ? darkAccent : accent) : tc(theme.bgCard, isDark), transition: "background 0.2s" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <span style={{ fontSize: "18px" }}>{cap.icon}</span>
           <div style={{ textAlign: "left" }}>
-            <div style={{ fontSize: "14px", fontWeight: 700, color: isActive ? color : ds("#374151", "#e2e8f0", isDark) }}>{cap.name}</div>
+            <div style={{ fontSize: "14px", fontWeight: 700, color: isActive ? color : tc(theme.textSecondary, isDark) }}>{cap.name}</div>
           </div>
         </div>
-        <span style={{ fontSize: "12px", color: ds("#94a3b8", "#64748b", isDark), transition: "transform 0.2s", transform: isActive ? "rotate(90deg)" : "rotate(0)" }}>{"\u25B6"}</span>
+        <span style={{ fontSize: "12px", color: tc(theme.textMuted, isDark), transition: "transform 0.2s", transform: isActive ? "rotate(90deg)" : "rotate(0)" }}>{"\u25B6"}</span>
       </div>
     </button>
   )
@@ -39,14 +39,14 @@ export function FrameworkExplorer({ frameworkId }: { frameworkId: string }) {
   if (!fw) return <div>Framework not found: {frameworkId}</div>
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", color: ds("#1e293b", "#f1f5f9", isDark) }}>
+    <div style={{ fontFamily: "'DM Sans', sans-serif", color: tc(theme.textPrimary, isDark) }}>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&display=swap" rel="stylesheet" />
 
       {/* Capability bars */}
       <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "28px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "2px", padding: "0 4px" }}>
-          <span style={{ fontSize: "11px", color: ds("#94a3b8", "#64748b", isDark), fontWeight: 600, textTransform: "uppercase", letterSpacing: "1px" }}>Built on: {fw.builtOn.join(" + ")}</span>
-          <div style={{ flex: 1, height: "1px", background: ds("#e2e8f0", "#334155", isDark) }} />
+          <span style={{ fontSize: "11px", color: tc(theme.textMuted, isDark), fontWeight: 600, textTransform: "uppercase", letterSpacing: "1px" }}>Built on: {fw.builtOn.join(" + ")}</span>
+          <div style={{ flex: 1, height: "1px", background: tc(theme.borderDefault, isDark) }} />
         </div>
         {fw.capabilities.map(cap => (
           <CapabilityBar key={cap.id} cap={cap} color={fw.color} accent={fw.accent} darkAccent={fw.darkAccent} isActive={activeId === cap.id} onClick={() => setActiveId(cap.id)} isDark={isDark} />
@@ -64,19 +64,19 @@ export function FrameworkExplorer({ frameworkId }: { frameworkId: string }) {
           </div>
 
           {/* Description */}
-          <div style={{ background: ds("#fff", "#1e293b", isDark), borderRadius: "12px", padding: "18px 20px", boxShadow: ds("0 1px 5px #0001", "0 1px 5px #0003", isDark), borderLeft: `4px solid ${fw.color}` }}>
+          <div style={{ background: tc(theme.bgCard, isDark), borderRadius: "12px", padding: "18px 20px", boxShadow: tc(theme.shadowMd, isDark), borderLeft: `4px solid ${fw.color}` }}>
             <div style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", color: fw.color, marginBottom: "6px" }}>How it works</div>
-            <p style={{ margin: 0, lineHeight: 1.75, fontSize: "14.5px", color: ds("#374151", "#e2e8f0", isDark) }}>{active.description}</p>
+            <p style={{ margin: 0, lineHeight: 1.75, fontSize: "14.5px", color: tc(theme.textSecondary, isDark) }}>{active.description}</p>
           </div>
 
           {/* Key points */}
-          <div style={{ background: ds("#fff", "#1e293b", isDark), borderRadius: "12px", padding: "18px 20px", boxShadow: ds("0 1px 5px #0001", "0 1px 5px #0003", isDark) }}>
+          <div style={{ background: tc(theme.bgCard, isDark), borderRadius: "12px", padding: "18px 20px", boxShadow: tc(theme.shadowMd, isDark) }}>
             <div style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", color: fw.color, marginBottom: "10px" }}>
               {"\u2705"} Key takeaways
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               {active.keyPoints.map((item, i) => (
-                <div key={i} style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "14px", lineHeight: 1.6, color: ds("#374151", "#e2e8f0", isDark) }}>
+                <div key={i} style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "14px", lineHeight: 1.6, color: tc(theme.textSecondary, isDark) }}>
                   <span style={{ background: fw.color, color: "#fff", borderRadius: "50%", width: "20px", height: "20px", minWidth: "20px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: 700, marginTop: "2px" }}>{i + 1}</span>
                   <span>{item}</span>
                 </div>

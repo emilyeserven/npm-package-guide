@@ -1,5 +1,4 @@
-import type { GuideSection } from '../guideTypes'
-import type { StartPageData } from '../guideTypes'
+import type { GuideSection, StartPageData } from '../guideTypes'
 
 export const ARCH_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['arch-start', 'arch-what-is-a-stack'] },

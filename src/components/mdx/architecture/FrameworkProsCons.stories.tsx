@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { FrameworkProsCons } from './FrameworkProsCons'
+import { FrameworkProsCons } from './ArchProsCons'
 
 const meta: Meta<typeof FrameworkProsCons> = {
   title: 'MDX/Architecture/FrameworkProsCons',
