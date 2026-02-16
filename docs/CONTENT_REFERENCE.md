@@ -29,7 +29,8 @@ External URLs managed centrally in `src/data/linkRegistry/`. Single source of tr
    usedFootnotes: [1, 2]
    ```
 3. Add `resourceCategory` and `tags`/`desc` for External Resources page visibility.
-4. For glossary terms, use `linkId` in `GlossaryTerm` to reference entries.
+4. Include `guide:<guideId>` tags for each guide the link is relevant to. Links can have multiple guide tags (e.g., `['guide:auth', 'guide:nextjs-abstractions']`).
+5. For glossary terms, use `linkId` in `GlossaryTerm` to reference entries.
 
 ### Registry connections
 
@@ -50,13 +51,24 @@ Searchable table in `src/components/GlossaryPage.tsx`. Data in `src/data/glossar
 | `definition` | Yes | One to two sentences for a backend engineer. Use `<code>` for inline code. |
 | `linkId` | Yes | ID of a `RegistryLink` in `src/data/linkRegistry/`. Must exist. |
 | `sectionId` | No | ID of a content page where this concept is taught. |
+| `guides` | No | Array of guide IDs this term is relevant to (e.g., `['npm-package', 'ci-cd']`). If omitted, guide is derived from `sectionId`. |
+
+### Multi-guide terms
+
+Some concepts span multiple guides (e.g., "Middleware" is relevant to Architecture, Next.js Abstractions, and Auth). Use the `guides` array to associate a term with multiple guides:
+
+- Always include the guide derived from `sectionId` in the `guides` array (validated at build time).
+- Only add guides where the term is genuinely taught or referenced.
+- Terms with different definitions per guide should remain as separate entries in their respective guide files (e.g., "XSS" has security-focused and AI-safety-focused definitions).
+- When `guides` is omitted, the term is associated with a single guide derived from `sectionId` (or defaults to `npm-package` if no `sectionId`).
 
 ### Adding a term
 
 1. Ensure the `RegistryLink` exists in `src/data/linkRegistry/`.
 2. Add the term to the appropriate guide file in `src/data/glossaryTerms/`.
 3. Set `sectionId` if the term is explained on a guide page.
-4. Run `pnpm validate` to catch broken references.
+4. Add `guides` if the term spans multiple guides.
+5. Run `pnpm validate` to catch broken references.
 
 For editorial guidance on what qualifies as a glossary term, see the `/add-guide` skill.
 

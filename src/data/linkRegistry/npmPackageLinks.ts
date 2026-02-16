@@ -253,7 +253,7 @@ export const npmPackageLinks: RegistryLink[] = [
     label: "pnpm Workspaces docs",
     source: "pnpm",
     desc: "pnpm's workspace protocol for managing monorepo package dependencies with strict isolation",
-    tags: ["docs", "free", "monorepo", "guide:npm-package"],
+    tags: ["docs", "free", "monorepo", "guide:npm-package", "guide:architecture"],
     resourceCategory: "Monorepo Tools & Resources",
   },
 
@@ -374,7 +374,7 @@ export const npmPackageLinks: RegistryLink[] = [
     label: "MDN — JavaScript Modules",
     source: "MDN",
     desc: "ESM import/export syntax that npm packages use for tree-shakeable module distribution",
-    tags: ["docs", "free", "modules", "guide:npm-package"],
+    tags: ["docs", "free", "modules", "guide:npm-package", "guide:architecture"],
     resourceCategory: "Official Documentation",
   },
   {
@@ -391,7 +391,7 @@ export const npmPackageLinks: RegistryLink[] = [
     label: "Tree shaking — dead code elimination",
     source: "MDN",
     desc: "Build optimization that removes unused code from bundles",
-    tags: ["docs", "free", "bundling", "guide:npm-package"],
+    tags: ["docs", "free", "bundling", "guide:npm-package", "guide:architecture"],
   },
   {
     id: "mdn-minification",
@@ -417,7 +417,7 @@ export const npmPackageLinks: RegistryLink[] = [
     label: "Semantic Versioning Specification",
     source: "semver.org",
     desc: "The versioning contract every npm package follows — defines how version numbers communicate breaking changes",
-    tags: ["docs", "free", "versioning", "guide:npm-package"],
+    tags: ["docs", "free", "versioning", "guide:npm-package", "guide:ci-cd"],
     resourceCategory: "Official Documentation",
   },
 
@@ -510,7 +510,7 @@ export const npmPackageLinks: RegistryLink[] = [
     label: "Why Vite",
     source: "Vite",
     desc: "The problems Vite solves compared to older build tools",
-    tags: ["docs", "free", "bundling", "tooling", "guide:npm-package"],
+    tags: ["docs", "free", "bundling", "tooling", "guide:npm-package", "guide:architecture"],
   },
   {
     id: "vitest-getting-started",
@@ -587,7 +587,7 @@ export const npmPackageLinks: RegistryLink[] = [
     label: "ESLint — Getting Started",
     source: "ESLint",
     desc: "The standard JavaScript/TypeScript linter — official setup guide",
-    tags: ["docs", "free", "linting", "guide:npm-package"],
+    tags: ["docs", "free", "linting", "guide:npm-package", "guide:ci-cd"],
   },
   {
     id: "prettier-install",
@@ -753,7 +753,7 @@ export const npmPackageLinks: RegistryLink[] = [
     label: "Understanding GitHub Actions",
     source: "GitHub",
     desc: "How GitHub Actions workflows, jobs, and steps work",
-    tags: ["docs", "free", "ci-cd", "guide:npm-package"],
+    tags: ["docs", "free", "ci-cd", "guide:npm-package", "guide:ci-cd"],
   },
   {
     id: "git-hooks",
@@ -761,7 +761,7 @@ export const npmPackageLinks: RegistryLink[] = [
     label: "Git Hooks",
     source: "Git",
     desc: "Scripts that run automatically at specific points in the Git workflow",
-    tags: ["docs", "free", "ci-cd", "guide:npm-package"],
+    tags: ["docs", "free", "ci-cd", "guide:npm-package", "guide:ci-cd"],
   },
 
   // ─── Versioning tools ─────────────────────────────────────────────
@@ -938,6 +938,6 @@ export const npmPackageLinks: RegistryLink[] = [
     label: "Code Splitting — webpack",
     source: "Webpack",
     desc: "Splitting bundles into smaller chunks loaded on demand to improve page load performance",
-    tags: ["docs", "free", "bundling", "guide:npm-package"],
+    tags: ["docs", "free", "bundling", "guide:npm-package", "guide:architecture", "guide:nextjs-abstractions"],
   },
 ]

@@ -8,7 +8,7 @@ export const kubernetesLinks: RegistryLink[] = [
     label: 'Docker Overview',
     source: 'Docker',
     desc: 'Official introduction to Docker, containers, and images',
-    tags: ['docs', 'free', 'guide:kubernetes'],
+    tags: ['docs', 'free', 'guide:kubernetes', 'guide:ci-cd', 'guide:ai-infra'],
     resourceCategory: 'Official Documentation',
   },
   {
@@ -17,7 +17,7 @@ export const kubernetesLinks: RegistryLink[] = [
     label: 'Dockerfile reference',
     source: 'Docker',
     desc: 'Complete reference for Dockerfile instructions',
-    tags: ['docs', 'free', 'guide:kubernetes'],
+    tags: ['docs', 'free', 'guide:kubernetes', 'guide:ci-cd'],
     resourceCategory: 'Official Documentation',
   },
   {

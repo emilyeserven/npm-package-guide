@@ -67,7 +67,8 @@ export const npmPackageGlossary: GlossaryCategory[] = [
         term: "Semver",
         definition: "Semantic Versioning — a versioning scheme using <code>MAJOR.MINOR.PATCH</code>. Major = breaking changes, minor = new features (backward-compatible), patch = bug fixes.",
         linkId: "semver-spec",
-        sectionId: "versioning"
+        sectionId: "versioning",
+        guides: ['npm-package', 'ci-cd'],
       },
       {
         term: "Range Specifier",
@@ -84,7 +85,8 @@ export const npmPackageGlossary: GlossaryCategory[] = [
         term: "Bundler",
         definition: "A tool that combines multiple source files into optimized output files for distribution. Examples include Vite, webpack, Rollup, and esbuild.",
         linkId: "vite-why",
-        sectionId: "build"
+        sectionId: "build",
+        guides: ['npm-package', 'architecture'],
       },
       {
         term: "Transpiler",
@@ -96,7 +98,8 @@ export const npmPackageGlossary: GlossaryCategory[] = [
         term: "Tree Shaking",
         definition: "A build optimization that removes unused code (dead code elimination). It relies on ES module <code>import</code>/<code>export</code> syntax to detect what's actually used.",
         linkId: "mdn-tree-shaking",
-        sectionId: "build"
+        sectionId: "build",
+        guides: ['npm-package', 'architecture'],
       },
       {
         term: "Minification",
@@ -120,19 +123,22 @@ export const npmPackageGlossary: GlossaryCategory[] = [
         term: "Code Splitting",
         definition: "A build optimization that breaks your application bundle into smaller chunks loaded on demand. Reduces the initial download size by only loading code for the current page or feature.",
         linkId: "webpack-code-splitting",
-        sectionId: "build"
+        sectionId: "build",
+        guides: ['npm-package', 'architecture', 'nextjs-abstractions'],
       },
       {
         term: "ESM (ES Modules)",
         definition: "The official JavaScript module system using <code>import</code> and <code>export</code> syntax. The modern standard that enables tree shaking and static analysis.",
         linkId: "mdn-js-modules",
-        sectionId: "build"
+        sectionId: "build",
+        guides: ['npm-package', 'architecture'],
       },
       {
         term: "CJS (CommonJS)",
         definition: "The older module system used by Node.js, using <code>require()</code> and <code>module.exports</code>. Still widely used in Node.js but being gradually replaced by ESM.",
         linkId: "nodejs-commonjs",
-        sectionId: "build"
+        sectionId: "build",
+        guides: ['npm-package', 'architecture'],
       },
     ]
   },
@@ -201,25 +207,29 @@ export const npmPackageGlossary: GlossaryCategory[] = [
         term: "Linting",
         definition: "Static analysis of code to find problems — style violations, potential bugs, unused variables, etc. ESLint is the standard JavaScript/TypeScript linter.",
         linkId: "eslint-getting-started",
-        sectionId: "ci-linting"
+        sectionId: "ci-linting",
+        guides: ['npm-package', 'ci-cd'],
       },
       {
         term: "Monorepo",
         definition: "A single repository containing multiple related projects or packages. Tools like pnpm workspaces, Nx, or Turborepo help manage builds and dependencies across packages.",
         linkId: "pnpm-workspaces",
-        sectionId: "monorepo"
+        sectionId: "monorepo",
+        guides: ['npm-package', 'architecture'],
       },
       {
         term: "CI (Continuous Integration)",
         definition: "An automated process that runs tests, linting, and builds on every push or pull request. GitHub Actions is a common CI service for open-source packages.",
         linkId: "gh-actions-understanding",
-        sectionId: "ci-overview"
+        sectionId: "ci-overview",
+        guides: ['npm-package', 'ci-cd'],
       },
       {
         term: "Git Hook",
         definition: "A script that runs automatically at specific points in the Git workflow (e.g., before commit or before push). Tools like Husky make it easy to add hooks for linting or testing.",
         linkId: "git-hooks",
-        sectionId: "workflow"
+        sectionId: "workflow",
+        guides: ['npm-package', 'ci-cd'],
       },
       {
         term: "Storybook",

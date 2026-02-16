@@ -109,7 +109,7 @@ export const aiInfraLinks: RegistryLink[] = [
     label: 'OpenAI API Reference',
     source: 'OpenAI',
     desc: 'Complete reference for the OpenAI API \u2014 chat completions, embeddings, and fine-tuning endpoints',
-    tags: ['docs', 'free', 'guide:ai-infra'],
+    tags: ['docs', 'free', 'guide:ai-infra', 'guide:prompt-engineering'],
     resourceCategory: 'Official Documentation',
   },
 ]

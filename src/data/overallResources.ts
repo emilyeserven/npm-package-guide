@@ -61,6 +61,8 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   "guide:auth": { cls: "bg-red-50 text-red-700 dark:bg-red-500/15 dark:text-red-300", label: "Auth Guide" },
   "guide:kubernetes": { cls: "bg-sky-50 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300", label: "Kubernetes Guide" },
   "guide:ai-infra": { cls: "bg-fuchsia-50 text-fuchsia-700 dark:bg-fuchsia-500/15 dark:text-fuchsia-300", label: "AI Infra Guide" },
+  "guide:nextjs-abstractions": { cls: "bg-stone-50 text-stone-700 dark:bg-stone-500/15 dark:text-stone-300", label: "Next.js Guide" },
+  "guide:wp-agents": { cls: "bg-lime-50 text-lime-700 dark:bg-lime-500/15 dark:text-lime-300", label: "WP Agents Guide" },
   // Topic
   publishing: { cls: "bg-yellow-100 text-yellow-800 dark:bg-yellow-500/15 dark:text-yellow-300", label: "Publishing" },
   typescript: { cls: "bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300", label: "TypeScript" },
@@ -94,8 +96,17 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   "cat:authentication-security": { cls: "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300", label: "Authentication & Security" },
   "cat:containers-kubernetes": { cls: "bg-sky-100 text-sky-800 dark:bg-sky-500/15 dark:text-sky-300", label: "Containers & Kubernetes" },
   "cat:ai-infrastructure": { cls: "bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-500/15 dark:text-fuchsia-300", label: "AI Infrastructure" },
+  "cat:routing-server-side-rendering": { cls: "bg-stone-100 text-stone-800 dark:bg-stone-500/15 dark:text-stone-300", label: "Routing & SSR" },
+  "cat:api-middleware": { cls: "bg-slate-100 text-slate-800 dark:bg-slate-500/15 dark:text-slate-300", label: "API & Middleware" },
+  "cat:security-cors": { cls: "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300", label: "Security & CORS" },
+  "cat:data-fetching-configuration": { cls: "bg-teal-100 text-teal-700 dark:bg-teal-500/15 dark:text-teal-300", label: "Data Fetching" },
+  "cat:database-orms": { cls: "bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300", label: "Database & ORMs" },
+  "cat:error-handling-build": { cls: "bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300", label: "Error Handling" },
+  "cat:deployment-infrastructure": { cls: "bg-cyan-100 text-cyan-700 dark:bg-cyan-500/15 dark:text-cyan-300", label: "Deployment" },
+  "cat:wordpress-api": { cls: "bg-lime-100 text-lime-800 dark:bg-lime-500/15 dark:text-lime-300", label: "WordPress API" },
+  "cat:testing-mocking": { cls: "bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-300", label: "Testing & Mocking" },
 };
 
 export const typeTags = new Set(["docs", "article", "course", "video", "repo", "interactive", "free", "paid"]);
 export const topicTags = new Set(["publishing", "typescript", "versioning", "ci-cd", "monorepo", "modules", "tooling", "bundling", "testing", "linting", "architecture", "frameworks", "databases", "prompt-engineering", "kubernetes"]);
-export const guideTags = new Set(["guide:npm-package", "guide:architecture", "guide:testing", "guide:prompt-engineering", "guide:ci-cd", "guide:auth", "guide:kubernetes", "guide:ai-infra"]);
+export const guideTags = new Set(["guide:npm-package", "guide:architecture", "guide:testing", "guide:prompt-engineering", "guide:ci-cd", "guide:auth", "guide:kubernetes", "guide:ai-infra", "guide:nextjs-abstractions", "guide:wp-agents"]);

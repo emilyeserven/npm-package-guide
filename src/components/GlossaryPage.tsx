@@ -21,14 +21,15 @@ import { ExternalLinkIcon } from './ExternalLinkIcon'
 
 interface FlatGlossaryRow extends GlossaryTerm {
   category: string
-  guide: string
+  guideIds: string[]
   url: string
   source: string
 }
 
-function deriveGuide(sectionId?: string): string {
-  if (!sectionId) return 'npm-package'
-  return getGuideForPage(sectionId)?.id ?? 'npm-package'
+function deriveGuides(term: GlossaryTerm): string[] {
+  if (term.guides && term.guides.length > 0) return term.guides
+  if (!term.sectionId) return ['npm-package']
+  return [getGuideForPage(term.sectionId)?.id ?? 'npm-package']
 }
 
 const flatData: FlatGlossaryRow[] = glossaryTerms.flatMap(group =>
@@ -37,7 +38,7 @@ const flatData: FlatGlossaryRow[] = glossaryTerms.flatMap(group =>
     return {
       ...t,
       category: group.category,
-      guide: deriveGuide(t.sectionId),
+      guideIds: deriveGuides(t),
       url: link?.url ?? '',
       source: link?.source ?? '',
     }
@@ -50,7 +51,7 @@ function categoryToKey(cat: string): string {
   return `cat:${cat.toLowerCase().replace(/\s+&\s+/g, '-').replace(/\s+/g, '-')}`
 }
 
-const guideTagList = ['guide:npm-package', 'guide:architecture', 'guide:testing', 'guide:prompt-engineering', 'guide:ci-cd', 'guide:auth', 'guide:kubernetes', 'guide:ai-infra']
+const guideTagList = ['guide:npm-package', 'guide:architecture', 'guide:testing', 'guide:prompt-engineering', 'guide:ci-cd', 'guide:auth', 'guide:kubernetes', 'guide:ai-infra', 'guide:nextjs-abstractions', 'guide:wp-agents']
 
 const columnHelper = createColumnHelper<FlatGlossaryRow>()
 
@@ -71,7 +72,7 @@ export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps)
   const filteredData = useMemo(() => {
     let data = flatData
     if (guideFilter.length > 0) {
-      data = data.filter(row => guideFilter.some(g => g === `guide:${row.guide}`))
+      data = data.filter(row => guideFilter.some(g => row.guideIds.some(gi => g === `guide:${gi}`)))
     }
     if (categoryFilter.length > 0) {
       data = data.filter(row => categoryFilter.some(c => c === categoryToKey(row.category)))
@@ -110,6 +111,16 @@ export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps)
                 </button>
               )}
             </div>
+            {row.guideIds.length > 1 && (
+              <div className="mt-1 flex flex-wrap gap-1">
+                {row.guideIds.map(gid => {
+                  const badge = badgeMap[`guide:${gid}`]
+                  return badge
+                    ? <span key={gid} className={`${badgeBase} ${badge.cls}`}>{badge.label}</span>
+                    : null
+                })}
+              </div>
+            )}
           </div>
         )
       },

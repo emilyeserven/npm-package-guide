@@ -10,6 +10,7 @@ export const kubernetesGlossary: GlossaryCategory[] = [
           'A lightweight, isolated package containing an application and all its dependencies (runtime, libraries, OS config). Shares the host OS kernel, making containers faster and more efficient than virtual machines.',
         linkId: 'docker-overview',
         sectionId: 'k8s-containers',
+        guides: ['kubernetes', 'ci-cd', 'ai-infra'],
       },
       {
         term: 'Docker',
@@ -17,6 +18,7 @@ export const kubernetesGlossary: GlossaryCategory[] = [
           'The most popular tool for building and running containers. A <code>Dockerfile</code> defines the build steps; <code>docker build</code> creates an image; <code>docker run</code> starts a container from that image.',
         linkId: 'docker-overview',
         sectionId: 'k8s-containers',
+        guides: ['kubernetes', 'ci-cd', 'ai-infra'],
       },
       {
         term: 'Dockerfile',
@@ -24,6 +26,7 @@ export const kubernetesGlossary: GlossaryCategory[] = [
           'A text file with instructions for building a Docker image \u2014 like a build script that specifies the base OS, dependencies, app code, and startup command.',
         linkId: 'docker-dockerfile',
         sectionId: 'k8s-containers',
+        guides: ['kubernetes', 'ci-cd'],
       },
       {
         term: 'Container Image',

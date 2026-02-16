@@ -3,6 +3,8 @@ export interface GlossaryTerm {
   definition: string
   linkId: string
   sectionId?: string
+  /** Guide IDs this term is relevant to (e.g., ['npm-package', 'ci-cd']). If omitted, derived from sectionId. */
+  guides?: string[]
 }
 
 export interface GlossaryCategory {

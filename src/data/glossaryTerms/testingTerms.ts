@@ -8,7 +8,8 @@ export const testingGlossary: GlossaryCategory[] = [
         term: "Unit Test",
         definition: "A test that verifies a single function, hook, or module in complete isolation. All external dependencies are mocked or stubbed. Unit tests are the fastest and cheapest tests, forming the wide base of the testing pyramid.",
         linkId: "vitest-getting-started",
-        sectionId: "test-unit"
+        sectionId: "test-unit",
+        guides: ['testing', 'npm-package'],
       },
       {
         term: "Component Test",
@@ -38,7 +39,8 @@ export const testingGlossary: GlossaryCategory[] = [
         term: "Mocking",
         definition: "Replacing real dependencies with controlled substitutes during testing. Mocks let you isolate the code under test, control return values, and verify that functions were called with expected arguments.",
         linkId: "vitest-mocking",
-        sectionId: "test-unit"
+        sectionId: "test-unit",
+        guides: ['testing', 'wp-agents'],
       },
       {
         term: "Code Coverage",

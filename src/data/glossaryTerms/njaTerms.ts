@@ -145,6 +145,7 @@ export const njaGlossary: GlossaryCategory[] = [
         definition: 'When <code>credentials: true</code> is set, cross-origin requests include cookies, authorization headers, and TLS client certificates. Requires explicit <code>Access-Control-Allow-Credentials</code> from the server.',
         linkId: 'mdn-cors',
         sectionId: 'nja-auth',
+        guides: ['nextjs-abstractions', 'auth'],
       },
       {
         term: 'Origin',
@@ -222,6 +223,7 @@ export const njaGlossary: GlossaryCategory[] = [
         definition: 'The practice of securely storing, accessing, and rotating sensitive values like API keys, database passwords, and encryption keys. Never commit secrets to version control.',
         linkId: 'npm-dotenv',
         sectionId: 'nja-env-config',
+        guides: ['nextjs-abstractions', 'kubernetes'],
       },
       {
         term: 'Config Validation',
@@ -327,6 +329,7 @@ export const njaGlossary: GlossaryCategory[] = [
         definition: 'Endpoints (typically <code>GET /health</code>) that return the server\u2019s status. Used by load balancers, container orchestrators, and monitoring tools to detect unhealthy instances.',
         linkId: 'docker-getting-started',
         sectionId: 'nja-deployment',
+        guides: ['nextjs-abstractions', 'kubernetes'],
       },
       {
         term: 'Load Balancing',

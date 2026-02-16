@@ -42,6 +42,9 @@ Top-level resource pages (`external-resources`, `glossary`) are NOT in any guide
 | Duplicate link registry IDs | Two entries with the same `id` in `src/data/linkRegistry/` |
 | Glossary `linkId` references | Term pointing to non-existent link registry entry |
 | Glossary `sectionId` references | Term pointing to non-existent page ID |
+| Glossary `guides` references | Term's `guides` array containing non-existent guide ID |
+| Glossary `guides`/`sectionId` mismatch | Term's `sectionId` derives to a guide not in its `guides` array |
+| Link registry guide tags | Link tag `guide:*` referencing an unknown guide ID |
 | Duplicate page IDs | Same page ID in two different guides |
 | `startPageId` not in sections | Guide start page missing from its `*_GUIDE_SECTIONS` |
 
