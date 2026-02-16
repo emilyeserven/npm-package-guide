@@ -58,7 +58,7 @@ export const authLinks: RegistryLink[] = [
     label: 'Cross-Site Scripting (XSS) \u2014 OWASP',
     source: 'OWASP',
     desc: 'OWASP reference on XSS attack types, impact, and prevention strategies',
-    tags: ['docs', 'free', 'guide:auth'],
+    tags: ['docs', 'free', 'guide:auth', 'guide:prompt-engineering', 'guide:nextjs-abstractions'],
     resourceCategory: 'Articles & Tutorials',
   },
   {
@@ -67,7 +67,7 @@ export const authLinks: RegistryLink[] = [
     label: 'Cross-Site Request Forgery (CSRF) \u2014 OWASP',
     source: 'OWASP',
     desc: 'OWASP reference on CSRF attacks — how they exploit authenticated sessions and how to prevent them',
-    tags: ['docs', 'free', 'guide:auth'],
+    tags: ['docs', 'free', 'guide:auth', 'guide:nextjs-abstractions'],
     resourceCategory: 'Articles & Tutorials',
   },
   {
@@ -76,7 +76,7 @@ export const authLinks: RegistryLink[] = [
     label: 'Content Security Policy (CSP) \u2014 MDN',
     source: 'MDN',
     desc: 'How Content Security Policy headers mitigate XSS and other injection attacks',
-    tags: ['docs', 'free', 'guide:auth'],
+    tags: ['docs', 'free', 'guide:auth', 'guide:nextjs-abstractions'],
   },
   {
     id: 'oauth-net-overview',

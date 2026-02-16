@@ -66,6 +66,7 @@ export const authGlossary: GlossaryCategory[] = [
           'An attack where malicious JavaScript is injected into a web page, potentially stealing tokens from <code>localStorage</code> or executing actions as the user. Defended with HttpOnly cookies, input sanitization, and CSP headers.',
         linkId: 'owasp-xss',
         sectionId: 'auth-security',
+        guides: ['auth', 'prompt-engineering', 'nextjs-abstractions'],
       },
       {
         term: 'CSRF (Cross-Site Request Forgery)',
@@ -73,6 +74,7 @@ export const authGlossary: GlossaryCategory[] = [
           'An attack where a malicious site tricks the user\'s browser into making authenticated requests to your API using existing cookies. Defended with SameSite cookies, CSRF tokens, and Origin header checks.',
         linkId: 'owasp-csrf',
         sectionId: 'auth-security',
+        guides: ['auth', 'nextjs-abstractions'],
       },
       {
         term: 'Content Security Policy (CSP)',
@@ -80,6 +82,7 @@ export const authGlossary: GlossaryCategory[] = [
           'An HTTP header that restricts which scripts, styles, and other resources a page can load. A key defense against XSS \u2014 blocks inline scripts and limits allowed source origins.',
         linkId: 'mdn-csp',
         sectionId: 'auth-security',
+        guides: ['auth', 'nextjs-abstractions'],
       },
       {
         term: 'HttpOnly Cookie',
@@ -115,6 +118,7 @@ export const authGlossary: GlossaryCategory[] = [
           'A browser security mechanism that restricts which origins can make requests to your API. Especially important for cookie-based auth: <code>credentials: "include"</code> requires an explicit origin (no wildcard) and <code>Access-Control-Allow-Credentials: true</code>.',
         linkId: 'mdn-cors',
         sectionId: 'auth-integration',
+        guides: ['auth', 'nextjs-abstractions'],
       },
     ],
   },

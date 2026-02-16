@@ -66,7 +66,7 @@ export const architectureLinks: RegistryLink[] = [
     label: "MDN — Progressive enhancement",
     source: "MDN",
     desc: "Design approach where core functionality works without JavaScript",
-    tags: ["docs", "free", "architecture", "frameworks", "guide:architecture"],
+    tags: ["docs", "free", "architecture", "frameworks", "guide:architecture", "guide:nextjs-abstractions"],
   },
   {
     id: "mdn-web-standards",
@@ -92,7 +92,7 @@ export const architectureLinks: RegistryLink[] = [
     label: "React Server Components",
     source: "React",
     desc: "Components that render entirely on the server, reducing client-side JavaScript",
-    tags: ["docs", "free", "frameworks", "guide:architecture"],
+    tags: ["docs", "free", "frameworks", "guide:architecture", "guide:nextjs-abstractions"],
   },
   {
     id: "nextjs-docs",
@@ -116,7 +116,7 @@ export const architectureLinks: RegistryLink[] = [
     label: "Next.js Server Components",
     source: "Next.js",
     desc: "How Next.js implements React Server Components",
-    tags: ["docs", "free", "frameworks", "guide:architecture"],
+    tags: ["docs", "free", "frameworks", "guide:architecture", "guide:nextjs-abstractions"],
   },
   {
     id: "nextjs-ssg",
@@ -124,7 +124,7 @@ export const architectureLinks: RegistryLink[] = [
     label: "Next.js Static Site Generation",
     source: "Next.js",
     desc: "Pre-building HTML pages at build time for fastest delivery",
-    tags: ["docs", "free", "frameworks", "guide:architecture"],
+    tags: ["docs", "free", "frameworks", "guide:architecture", "guide:nextjs-abstractions"],
   },
   {
     id: "nextjs-routing",
@@ -132,7 +132,7 @@ export const architectureLinks: RegistryLink[] = [
     label: "Next.js File-System Routing",
     source: "Next.js",
     desc: "How Next.js maps file structure to URL routes",
-    tags: ["docs", "free", "frameworks", "guide:architecture"],
+    tags: ["docs", "free", "frameworks", "guide:architecture", "guide:nextjs-abstractions"],
   },
   {
     id: "vercel-docs",
@@ -418,7 +418,7 @@ export const architectureLinks: RegistryLink[] = [
     label: "MDN — REST",
     source: "MDN",
     desc: "Representational State Transfer — the architectural style behind most web APIs",
-    tags: ["docs", "free", "architecture", "guide:architecture"],
+    tags: ["docs", "free", "architecture", "guide:architecture", "guide:nextjs-abstractions", "guide:wp-agents"],
   },
   {
     id: "cloudflare-cdn",
@@ -426,7 +426,7 @@ export const architectureLinks: RegistryLink[] = [
     label: "What is a CDN?",
     source: "Cloudflare",
     desc: "How content delivery networks speed up websites by serving assets from edge locations",
-    tags: ["docs", "free", "architecture", "guide:architecture"],
+    tags: ["docs", "free", "architecture", "guide:architecture", "guide:nextjs-abstractions", "guide:kubernetes"],
   },
   {
     id: "express-middleware",
@@ -434,7 +434,7 @@ export const architectureLinks: RegistryLink[] = [
     label: "Express — Using middleware",
     source: "Express",
     desc: "How middleware functions process requests and responses in Express applications",
-    tags: ["docs", "free", "architecture", "guide:architecture"],
+    tags: ["docs", "free", "architecture", "guide:architecture", "guide:nextjs-abstractions"],
   },
   {
     id: "prisma-docs",

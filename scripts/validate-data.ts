@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { linkRegistry, linkById } from '../src/data/linkRegistry/index.ts'
 import { glossaryTerms } from '../src/data/glossaryTerms/index.ts'
-import { guides, checklistPages } from '../src/data/guideRegistry.ts'
+import { guides, checklistPages, getGuideForPage } from '../src/data/guideRegistry.ts'
 
 let errors = 0
 
@@ -51,6 +51,8 @@ for (const id of staticPageIds) {
 
 // ── 3. Glossary: validate linkId and sectionId references ──────────
 
+const validGuideIds = new Set(guides.map(g => g.id))
+
 console.log('Checking glossary term references...')
 for (const category of glossaryTerms) {
   for (const term of category.terms) {
@@ -65,6 +67,45 @@ for (const category of glossaryTerms) {
         `Glossary term "${term.term}" (category: ${category.category}) ` +
         `has unknown sectionId "${term.sectionId}". Valid page IDs are listed in guide sections.`
       )
+    }
+    if (term.guides) {
+      for (const guideId of term.guides) {
+        if (!validGuideIds.has(guideId)) {
+          error(
+            `Glossary term "${term.term}" (category: ${category.category}) ` +
+            `has unknown guide ID "${guideId}" in guides array. ` +
+            `Valid guide IDs: ${[...validGuideIds].join(', ')}`
+          )
+        }
+      }
+      if (term.sectionId) {
+        const derivedGuide = getGuideForPage(term.sectionId)?.id
+        if (derivedGuide && !term.guides.includes(derivedGuide)) {
+          error(
+            `Glossary term "${term.term}" (category: ${category.category}) ` +
+            `has sectionId "${term.sectionId}" (guide: "${derivedGuide}") ` +
+            `which is not included in its guides array. Add "${derivedGuide}" to the guides array.`
+          )
+        }
+      }
+    }
+  }
+}
+
+// ── 3b. Link registry: validate guide tags ───────────────────────
+
+console.log('Checking link registry guide tags...')
+for (const link of linkRegistry) {
+  if (!link.tags) continue
+  for (const tag of link.tags) {
+    if (tag.startsWith('guide:')) {
+      const guideId = tag.slice(6)
+      if (!validGuideIds.has(guideId)) {
+        error(
+          `Link "${link.id}" has unknown guide tag "${tag}". ` +
+          `Valid guide IDs: ${[...validGuideIds].join(', ')}`
+        )
+      }
     }
   }
 }

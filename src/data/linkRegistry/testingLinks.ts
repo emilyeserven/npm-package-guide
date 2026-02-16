@@ -40,6 +40,6 @@ export const testingLinks: RegistryLink[] = [
     label: "Vitest — Mocking",
     source: "Vitest",
     desc: "How to mock modules, functions, and timers in Vitest for isolated unit tests",
-    tags: ["docs", "free", "testing", "guide:testing"],
+    tags: ["docs", "free", "testing", "guide:testing", "guide:wp-agents"],
   },
 ]

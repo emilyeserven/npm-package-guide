@@ -26,37 +26,43 @@ export const architectureGlossary: GlossaryCategory[] = [
         term: "Server-Side Rendering",
         definition: "Generating HTML on the server for each request, then sending the complete page to the browser. Improves initial load time and SEO compared to client-side rendering.",
         linkId: "nextjs-server-components",
-        sectionId: "arch-fw-nextjs"
+        sectionId: "arch-fw-nextjs",
+        guides: ['architecture', 'nextjs-abstractions'],
       },
       {
         term: "Static Site Generation",
         definition: "Pre-building HTML pages at build time rather than on each request. The fastest delivery method since pages are served as static files from a CDN.",
         linkId: "nextjs-ssg",
-        sectionId: "arch-fw-nextjs"
+        sectionId: "arch-fw-nextjs",
+        guides: ['architecture', 'nextjs-abstractions'],
       },
       {
         term: "Progressive Enhancement",
         definition: "A design approach where the core functionality works without JavaScript, then JavaScript adds richer interactivity. Forms submit normally, then JS enhances them with instant feedback.",
         linkId: "mdn-progressive-enhancement",
-        sectionId: "arch-fw-react-router"
+        sectionId: "arch-fw-react-router",
+        guides: ['architecture', 'nextjs-abstractions'],
       },
       {
         term: "REST API",
         definition: "An API design style using standard HTTP methods (GET, POST, PUT, DELETE) on resource URLs. The dominant pattern for web APIs — e.g., <code>GET /api/users/123</code> returns user data, <code>DELETE /api/users/123</code> removes it.",
         linkId: "mdn-rest",
-        sectionId: "arch-what-is-a-stack"
+        sectionId: "arch-what-is-a-stack",
+        guides: ['architecture', 'nextjs-abstractions', 'wp-agents'],
       },
       {
         term: "Middleware",
         definition: "A function that intercepts HTTP requests and responses in a pipeline. Used for logging, authentication, CORS, error handling, and request parsing. Express and most server frameworks rely heavily on middleware.",
         linkId: "express-middleware",
-        sectionId: "arch-stack-mern"
+        sectionId: "arch-stack-mern",
+        guides: ['architecture', 'nextjs-abstractions', 'auth'],
       },
       {
         term: "CDN",
         definition: "Content Delivery Network — a global network of servers that caches and serves static assets (JS, CSS, images) from locations close to the user. Dramatically reduces latency compared to serving everything from a single origin server.",
         linkId: "cloudflare-cdn",
-        sectionId: "arch-fw-nextjs"
+        sectionId: "arch-fw-nextjs",
+        guides: ['architecture', 'nextjs-abstractions', 'kubernetes'],
       },
     ]
   },
@@ -96,13 +102,15 @@ export const architectureGlossary: GlossaryCategory[] = [
         term: "React Server Components",
         definition: "A React feature that renders components entirely on the server, sending only the HTML result to the browser. Reduces client-side JavaScript and enables direct database access from components.",
         linkId: "react-server-components",
-        sectionId: "arch-fw-nextjs"
+        sectionId: "arch-fw-nextjs",
+        guides: ['architecture', 'nextjs-abstractions'],
       },
       {
         term: "File-System Routing",
         definition: "A convention where a framework maps your project's file and folder structure directly to URL routes, eliminating the need for manual route configuration.",
         linkId: "nextjs-routing",
-        sectionId: "arch-fw-nextjs"
+        sectionId: "arch-fw-nextjs",
+        guides: ['architecture', 'nextjs-abstractions'],
       },
       {
         term: "Loader/Action Pattern",

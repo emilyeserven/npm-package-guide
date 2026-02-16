@@ -18,7 +18,7 @@ export const promptLinks: RegistryLink[] = [
     label: "Prompt Engineering Overview",
     source: "Anthropic",
     desc: "Anthropic's official guide to crafting effective prompts — techniques ordered from broadly effective to specialized",
-    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering"],
+    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering", "guide:ai-infra"],
     resourceCategory: "Official Documentation",
   },
   {
@@ -224,7 +224,7 @@ export const promptLinks: RegistryLink[] = [
     label: "XSS Prevention Cheat Sheet",
     source: "OWASP",
     desc: "OWASP's comprehensive guide to preventing cross-site scripting vulnerabilities",
-    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering"],
+    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering", "guide:auth", "guide:nextjs-abstractions"],
   },
   {
     id: "snyk-open-source",

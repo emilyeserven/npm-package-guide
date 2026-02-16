@@ -45,6 +45,7 @@ export const cicdGlossary: GlossaryCategory[] = [
         definition: "A GitHub repository setting that requires status checks (like CI) to pass before a pull request can be merged. The most important CI/CD configuration to set up first.",
         linkId: "github-branch-protection",
         sectionId: "cicd-patterns",
+        guides: ['ci-cd', 'npm-package'],
       },
       {
         term: "Matrix Strategy",
@@ -57,6 +58,7 @@ export const cicdGlossary: GlossaryCategory[] = [
         definition: "A CI-optimized version of <code>npm install</code>. It\u2019s faster, uses the lockfile exactly, and fails if the lockfile is out of sync with <code>package.json</code>. Always preferred over <code>npm install</code> in pipelines.",
         linkId: "npm-ci-docs",
         sectionId: "cicd-gotchas",
+        guides: ['ci-cd', 'npm-package'],
       },
     ],
   },

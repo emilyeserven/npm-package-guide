@@ -20,7 +20,8 @@ export const promptGlossary: GlossaryCategory[] = [
         term: "Context Window",
         definition: "The maximum amount of text (measured in tokens) that an AI model can process in a single interaction. Managing what goes into the context window is critical for getting accurate results.",
         linkId: "anthropic-prompt-engineering",
-        sectionId: "prompt-ctx-window"
+        sectionId: "prompt-ctx-window",
+        guides: ['prompt-engineering', 'ai-infra'],
       },
       {
         term: "Few-Shot Examples",
@@ -32,7 +33,8 @@ export const promptGlossary: GlossaryCategory[] = [
         term: "Hallucination",
         definition: "When an AI model generates information that sounds plausible but is factually incorrect \u2014 inventing APIs, packages, or methods that don't exist. Explicit version constraints and context reduce hallucination.",
         linkId: "anthropic-prompt-engineering",
-        sectionId: "prompt-mistakes-apis"
+        sectionId: "prompt-mistakes-apis",
+        guides: ['prompt-engineering', 'ai-infra'],
       },
       {
         term: "Chain-of-Thought",
@@ -44,7 +46,8 @@ export const promptGlossary: GlossaryCategory[] = [
         term: "Token",
         definition: "The basic unit of text that AI models process — roughly 3\u20134 characters or about \u00be of a word. Context windows, pricing, and rate limits are all measured in tokens. Understanding token counts helps manage context window budgets.",
         linkId: "anthropic-tokens",
-        sectionId: "prompt-ctx-window"
+        sectionId: "prompt-ctx-window",
+        guides: ['prompt-engineering', 'ai-infra'],
       },
       {
         term: "Prompt Chaining",
@@ -127,7 +130,8 @@ export const promptGlossary: GlossaryCategory[] = [
         term: "XSS (Cross-Site Scripting)",
         definition: "A security vulnerability where an attacker injects malicious scripts into web pages viewed by other users. AI-generated code frequently creates XSS vectors via <code>dangerouslySetInnerHTML</code> or unsanitized user input.",
         linkId: "owasp-xss-prevention",
-        sectionId: "prompt-mistakes-security"
+        sectionId: "prompt-mistakes-security",
+        guides: ['prompt-engineering', 'auth', 'nextjs-abstractions'],
       },
       {
         term: "Tailwind CSS",

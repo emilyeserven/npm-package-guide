@@ -45,6 +45,7 @@ export const aiInfraGlossary: GlossaryCategory[] = [
           "The maximum amount of text (measured in tokens) that a language model can process in a single request. Exceeding it causes truncation or errors. GPT-4\u2019s context window is 128K tokens.",
         linkId: 'openai-api-reference',
         sectionId: 'ai-key-terms',
+        guides: ['ai-infra', 'prompt-engineering'],
       },
       {
         term: 'Token (LLM)',
@@ -52,6 +53,7 @@ export const aiInfraGlossary: GlossaryCategory[] = [
           'The smallest unit of text processed by a language model. Roughly corresponds to ~4 characters or ~0.75 words in English. Token count determines context window usage and API pricing.',
         linkId: 'openai-api-reference',
         sectionId: 'ai-key-terms',
+        guides: ['ai-infra', 'prompt-engineering'],
       },
       {
         term: 'Hallucination',
@@ -59,6 +61,7 @@ export const aiInfraGlossary: GlossaryCategory[] = [
           'When an AI model generates confident-sounding but factually incorrect or fabricated information. RAG and guardrails are common techniques for reducing hallucination in production.',
         linkId: 'openai-api-reference',
         sectionId: 'ai-key-terms',
+        guides: ['ai-infra', 'prompt-engineering'],
       },
       {
         term: 'Latency (AI)',
