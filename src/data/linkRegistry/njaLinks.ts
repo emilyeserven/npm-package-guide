@@ -203,7 +203,7 @@ export const njaLinks: RegistryLink[] = [
     label: 'Cross-Origin Resource Sharing (CORS)',
     source: 'MDN',
     desc: 'Complete guide to how CORS works, preflight requests, and configuring cross-origin access.',
-    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+    tags: ['docs', 'free', 'guide:nextjs-abstractions', 'guide:auth'],
     resourceCategory: 'Official Documentation',
   },
   {

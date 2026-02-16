@@ -87,3 +87,69 @@ export interface QuizQuestion {
   answer: number
   explanation: string
 }
+
+/* ───────────────────────── PKCE ───────────────────────── */
+
+export interface PkceFlowStep {
+  step: number
+  label: string
+  detail: string
+  actor: string
+  code: string
+}
+
+export interface PkceSectionMeta {
+  heading: string
+  intro: string
+  keyTakeaway: string
+}
+
+/* ───────────────────────── TOKEN LIFECYCLE ───────────────────────── */
+
+export interface TokenLifecyclePattern {
+  name: string
+  scenario: string
+  problem: string
+  solution: string
+  code: string
+}
+
+export interface TokenLifecycleSectionMeta {
+  heading: string
+  intro: string
+  keyTakeaway: string
+}
+
+/* ───────────────────────── RBAC ───────────────────────── */
+
+export interface RbacPattern {
+  name: string
+  description: string
+  frontendCode: string
+  backendCode: string
+  frontendLabel: string
+  backendLabel: string
+}
+
+export interface RbacSectionMeta {
+  heading: string
+  intro: string
+  keyTakeaway: string
+}
+
+/* ───────────────────────── INTEGRATION ───────────────────────── */
+
+export interface IntegrationScenario {
+  name: string
+  description: string
+  frontendCode: string
+  backendCode: string
+  httpHeaders: string
+  gotcha: string
+}
+
+export interface IntegrationSectionMeta {
+  heading: string
+  intro: string
+  keyTakeaway: string
+}

@@ -1,0 +1,42 @@
+---
+id: "auth-pkce"
+title: "OAuth in Practice 🔐"
+guide: "auth"
+linkRefs:
+  - id: "auth0-pkce"
+    note: "Deep dive into PKCE — why it exists and the full protocol flow"
+  - id: "oauth-net-auth-code"
+    note: "The Authorization Code grant that PKCE extends"
+  - id: "rfc-7636-pkce"
+    note: "The official PKCE specification (RFC 7636)"
+  - id: "web-crypto-api"
+    note: "Browser API used for SHA-256 hashing in code_challenge generation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-pkce-flow">PKCE: Securing OAuth for SPAs</TocLink>
+  <TocLink id="toc-state-param">The State Parameter</TocLink>
+  <TocLink id="toc-takeaway">Key Takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+You've seen the Authorization Code flow conceptually. Now let's implement it — with PKCE, which is **required** for any SPA that can't safely store a client secret. Click each step to reveal the code.
+</SectionIntro>
+
+<SectionSubheading id="toc-pkce-flow">PKCE: Securing OAuth for SPAs</SectionSubheading>
+
+<PkceFlow />
+
+<SectionSubheading id="toc-state-param">The State Parameter</SectionSubheading>
+
+<Gotcha>
+The `state` parameter is your CSRF defense for OAuth. Generate a random value before redirecting, store it in `sessionStorage`, and reject callbacks where it doesn't match. Without this, an attacker can craft a redirect that logs the victim into the attacker's account.
+</Gotcha>
+
+<SectionSubheading id="toc-takeaway">Key Takeaway</SectionSubheading>
+
+<Explainer title="No secrets in the browser">
+PKCE replaces the client_secret with a dynamic proof. The SPA generates a random verifier, hashes it into a challenge, and the auth server confirms the match during token exchange. If you've used nonce or challenge patterns in backend API authentication (like AWS Signature V4 or webhook verification), PKCE is the same idea adapted for the browser.
+</Explainer>

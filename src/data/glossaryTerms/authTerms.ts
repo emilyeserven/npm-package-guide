@@ -88,6 +88,34 @@ export const authGlossary: GlossaryCategory[] = [
         linkId: 'mdn-set-cookie',
         sectionId: 'auth-frontend',
       },
+      {
+        term: 'RBAC (Role-Based Access Control)',
+        definition:
+          'A permission model where access is granted based on user roles (e.g., "admin", "editor", "viewer"). In frontend apps, RBAC controls what UI elements are shown, but the backend must enforce the actual permissions.',
+        linkId: 'oauth-net-overview',
+        sectionId: 'auth-rbac',
+      },
+      {
+        term: 'BFF (Backend-for-Frontend)',
+        definition:
+          'A thin server that sits between the SPA and the auth provider. It holds the client_secret, manages HttpOnly cookies, and keeps tokens off the browser entirely \u2014 the most secure pattern for SPAs.',
+        linkId: 'oauth-bff-pattern',
+        sectionId: 'auth-integration',
+      },
+      {
+        term: 'Refresh Token Rotation',
+        definition:
+          'A security practice where each use of a refresh token issues a new one and invalidates the old. If a stolen refresh token is reused, the server detects the duplicate and revokes the entire token family.',
+        linkId: 'oauth-net-overview',
+        sectionId: 'auth-refresh',
+      },
+      {
+        term: 'CORS (Cross-Origin Resource Sharing)',
+        definition:
+          'A browser security mechanism that restricts which origins can make requests to your API. Especially important for cookie-based auth: <code>credentials: "include"</code> requires an explicit origin (no wildcard) and <code>Access-Control-Allow-Credentials: true</code>.',
+        linkId: 'mdn-cors',
+        sectionId: 'auth-integration',
+      },
     ],
   },
 ]

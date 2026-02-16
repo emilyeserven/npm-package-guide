@@ -3,7 +3,8 @@ import type { GuideSection, StartPageData } from '../guideTypes'
 export const AUTH_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['auth-start'] },
   { label: 'Foundations', ids: ['auth-core', 'auth-tokens', 'auth-jwt'] },
-  { label: 'Protocols & Patterns', ids: ['auth-oauth', 'auth-frontend'] },
+  { label: 'Protocols & Patterns', ids: ['auth-oauth', 'auth-pkce', 'auth-frontend', 'auth-refresh'] },
+  { label: 'Advanced Patterns', ids: ['auth-rbac', 'auth-integration'] },
   { label: 'Security & Review', ids: ['auth-security', 'auth-quiz'] },
 ]
 
@@ -44,9 +45,33 @@ export const AUTH_START_PAGE_DATA: StartPageData = {
     {
       type: 'numbered',
       num: 5,
+      title: 'OAuth in Practice',
+      description: 'Implement the Authorization Code flow with PKCE \u2014 the code your SPA actually runs during "Sign in with Google."',
+      jumpTo: 'auth-pkce',
+    },
+    {
+      type: 'numbered',
+      num: 6,
       title: 'Frontend Patterns',
       description: 'Implement auth in React \u2014 token storage, context providers, protected routes, and silent refresh.',
       jumpTo: 'auth-frontend',
+    },
+    {
+      type: 'numbered',
+      num: 7,
+      title: 'Token Lifecycle',
+      description: 'Handle token expiry, refresh queuing, rotation, and error recovery without forcing users to re-login.',
+      jumpTo: 'auth-refresh',
+    },
+    {
+      type: 'bonus',
+      title: 'Advanced Patterns',
+      description: 'Role-based access control, backend integration, and the debugging skills that save hours.',
+      sectionLabel: 'Advanced Patterns',
+      subItemDescriptions: {
+        'auth-rbac': 'Frontend RBAC patterns \u2014 permission hooks, gate components, and route guards \u2014 with backend code side by side.',
+        'auth-integration': 'HttpOnly cookies end-to-end, CORS configuration, the BFF pattern, and debugging common auth failures.',
+      },
     },
     {
       type: 'bonus',
@@ -55,7 +80,7 @@ export const AUTH_START_PAGE_DATA: StartPageData = {
       sectionLabel: 'Security & Review',
       subItemDescriptions: {
         'auth-security': 'XSS, CSRF, token theft, and open redirects \u2014 the attacks that target auth and how to defend against them.',
-        'auth-quiz': 'Five questions to test what you\u2019ve learned across the guide.',
+        'auth-quiz': 'Eight questions to test what you\u2019ve learned across the guide.',
       },
     },
   ],

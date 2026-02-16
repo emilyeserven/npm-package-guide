@@ -1,0 +1,35 @@
+---
+id: "auth-integration"
+title: "Backend Integration 🔗"
+guide: "auth"
+linkRefs:
+  - id: "mdn-cors"
+    note: "Comprehensive guide to CORS and how browsers enforce cross-origin policies"
+  - id: "mdn-set-cookie"
+    note: "Set-Cookie header reference — HttpOnly, Secure, and SameSite attributes"
+  - id: "mdn-http-cookies"
+    note: "Cookie fundamentals for understanding browser cookie behavior"
+  - id: "oauth-bff-pattern"
+    note: "IETF best practices for OAuth in browser-based apps including the BFF pattern"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-scenarios">Integration Scenarios</TocLink>
+  <TocLink id="toc-takeaway">Key Takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+Auth doesn't exist in a vacuum. The frontend and backend must agree on how tokens are stored, how cookies are configured, and how CORS is set up. Each scenario below shows the frontend code, backend code, and the HTTP headers involved. Click to expand.
+</SectionIntro>
+
+<SectionSubheading id="toc-scenarios">Integration Scenarios</SectionSubheading>
+
+<IntegrationFlow />
+
+<SectionSubheading id="toc-takeaway">Key Takeaway</SectionSubheading>
+
+<Explainer title="Auth is a contract">
+Auth integration is a contract between frontend and backend. The frontend says "I'll send credentials: include." The backend says "I'll set HttpOnly cookies with SameSite=Lax and CORS with credentials allowed." If either side breaks the contract, auth fails silently — and the debugging tools are your browser's DevTools, not Postman.
+</Explainer>

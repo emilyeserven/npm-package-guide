@@ -48,6 +48,10 @@ import { OAuthFlow } from './auth/OAuthFlow'
 import { AuthPatterns } from './auth/AuthPatterns'
 import { SecurityThreats } from './auth/SecurityThreats'
 import { AuthQuiz } from './auth/AuthQuiz'
+import { PkceFlow } from './auth/PkceFlow'
+import { TokenLifecycle } from './auth/TokenLifecycle'
+import { RbacPatterns } from './auth/RbacPatterns'
+import { IntegrationFlow } from './auth/IntegrationFlow'
 // kubernetes
 import { K8sAnalogyCard } from './kubernetes/K8sAnalogyCard'
 import { K8sConceptList } from './kubernetes/K8sConceptList'
@@ -121,6 +125,10 @@ export const mdxComponents: MDXComponents = {
   AuthPatterns,
   SecurityThreats,
   AuthQuiz,
+  PkceFlow,
+  TokenLifecycle,
+  RbacPatterns,
+  IntegrationFlow,
   K8sAnalogyCard,
   K8sConceptList,
   K8sYamlExplorer,
