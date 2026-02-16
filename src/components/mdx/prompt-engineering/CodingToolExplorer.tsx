@@ -1,12 +1,11 @@
-import { useState } from 'react'
 import { CODING_TOOLS } from '../../../data/promptData'
 import { useIsDark } from '../../../hooks/useTheme'
+import { useExplorer } from '../../../hooks/useExplorer'
 import { ds } from '../../../helpers/darkStyle'
 
 export function CodingToolExplorer() {
   const isDark = useIsDark()
-  const [activeId, setActiveId] = useState<string | null>(null)
-  const active = CODING_TOOLS.find(t => t.id === activeId)
+  const { activeId, toggle, active } = useExplorer(CODING_TOOLS, null)
 
   return (
     <div>
@@ -17,7 +16,7 @@ export function CodingToolExplorer() {
           return (
             <button
               key={tool.id}
-              onClick={() => setActiveId(isActive ? null : tool.id)}
+              onClick={() => toggle(tool.id)}
               className="text-left rounded-xl border p-3.5 transition-all cursor-pointer"
               style={{
                 borderColor: isActive ? ds(tool.accent, tool.darkAccent, isDark) : ds('#e2e8f0', '#334155', isDark),

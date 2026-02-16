@@ -1,5 +1,5 @@
 import { TESTING_MISTAKES } from '../../../data/promptData'
-import { parseInlineCode } from '../../../helpers/inlineCode'
+import { MistakeItemCard } from '../MistakeItem'
 
 export function TestingMistakes({ context }: { context?: 'e2e' | 'unit' }) {
   const items = context
@@ -18,18 +18,7 @@ export function TestingMistakes({ context }: { context?: 'e2e' | 'unit' }) {
           </h2>
           <div className="flex flex-col gap-3 mb-6">
             {e2eItems.map((item, i) => (
-              <div key={i}>
-                <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
-                  {item.mistake}
-                </h3>
-                <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2">
-                  {parseInlineCode(item.example)}
-                </div>
-                <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed flex gap-1.5 items-start">
-                  <span className="shrink-0">{'\u{1F4A1}'}</span>
-                  <span>{item.fix}</span>
-                </div>
-              </div>
+              <MistakeItemCard key={i} item={item} headingLevel="h3" />
             ))}
           </div>
         </>
@@ -42,18 +31,7 @@ export function TestingMistakes({ context }: { context?: 'e2e' | 'unit' }) {
           </h2>
           <div className="flex flex-col gap-3">
             {unitItems.map((item, i) => (
-              <div key={i}>
-                <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
-                  {item.mistake}
-                </h3>
-                <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2">
-                  {parseInlineCode(item.example)}
-                </div>
-                <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed flex gap-1.5 items-start">
-                  <span className="shrink-0">{'\u{1F4A1}'}</span>
-                  <span>{item.fix}</span>
-                </div>
-              </div>
+              <MistakeItemCard key={i} item={item} headingLevel="h3" />
             ))}
           </div>
         </>

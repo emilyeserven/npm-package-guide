@@ -84,75 +84,72 @@ All checklists use a single registry in `GuideChecklist.tsx`. To add a checklist
 
 Inline cross-page links and navigation pills. Self-closing form auto-resolves page titles.
 
-## Consolidation Opportunities
+### Accordion List (`AccordionList.tsx`)
 
-The following guide-specific components duplicate patterns that could benefit from shared bases. These are documented here for future refactoring reference.
+Generic single-open accordion with render props for header and body. Wraps the `useAccordion` hook with customizable item containers, indicators, and styling.
 
-### Accordion pattern
+```tsx
+<AccordionList
+  items={data}
+  renderHeader={(item, i, isDark) => <span>{item.title}</span>}
+  renderBody={(item, i, isDark) => <p>{item.body}</p>}
+  renderIndicator={(expanded, isDark) => <span>{expanded ? '−' : '+'}</span>}
+  itemStyle={(item, isDark, expanded) => ({ borderColor: expanded ? '#blue' : '#gray' })}
+/>
+```
 
-Multiple guide components implement expand/collapse UIs independently:
+**Guide wrappers using it:** `GotchaAccordion` (ci-cd), `AuthPatterns` (auth), `K8sConceptList` (kubernetes).
 
-| Component | Guide | Pattern |
-|-----------|-------|---------|
-| `GotchaAccordion` | ci-cd | List of tips, click to expand |
-| `AuthPatterns` | auth | Patterns with code examples, click to expand |
-| `K8sConceptList` | kubernetes | Term/definition accordion |
+### Status Badge (`StatusBadge.tsx`)
 
-All three use the `useAccordion` hook but build their own container, indicator, and animation. A shared `AccordionList` base component accepting `renderHeader` / `renderBody` props could unify them.
+Themed pill badge for severity/status labels. Pass light/dark color pairs.
 
-### Card / info-card pattern
+```tsx
+<StatusBadge label="critical" colors={{ bg, darkBg, text, darkText, border?, darkBorder? }} />
+```
 
-Several components render styled cards with badges, descriptions, and color-coded borders:
+**Guide wrappers using it:** `SeverityBadge` (prompt-engineering), `SecurityThreats` (auth), `PatternCards` (ci-cd).
 
-| Component | Guide | Pattern |
-|-----------|-------|---------|
-| `ConceptCards` | auth | Cards with left border, badge, sections |
-| `SecurityThreats` | auth | Cards with severity badge, risk/defense |
-| `PatternCards` | ci-cd | Cards with colored tag, description |
-| `TestPracticeCards` | testing | Do/don't cards with green/red border |
-| `K8sAnalogyCard` | kubernetes | Two-column analogy card |
+### Card Base (`CardBase.tsx`)
 
-A shared `InfoCard` base with props for title, badge/tag, sections, and border color would reduce duplication.
+Themed card container with consistent border, background, and optional left accent strip.
 
-### Mistake / do-don't list pattern
+```tsx
+<CardBase accentColor="#6366f1">
+  <h3>Title</h3>
+  <p>Content</p>
+</CardBase>
+```
 
-| Component | Guide | Pattern |
-|-----------|-------|---------|
-| `MistakeList` | prompt-engineering | Mistake title + example + fix |
-| `TestingMistakes` | prompt-engineering | Same structure, grouped by context |
+**Guide components using it:** `ConceptCards` (auth), `SecurityThreats` (auth).
 
-These two are nearly identical in structure and could share a base or be merged.
+### Mistake Item (`MistakeItem.tsx`)
 
-### Explorer pattern (select item → detail panel)
+Shared rendering for mistake entries (title + inline-code example + fix). Avoids duplicating the `parseInlineCode` pattern.
 
-| Component | Guide | Pattern |
-|-----------|-------|---------|
-| `StackExplorer` | architecture | Clickable list → multi-section detail |
-| `FrameworkExplorer` | architecture | Clickable list → detail with "Built on" |
-| `CodingToolExplorer` | prompt-engineering | Grid → detail with strengths/considerations |
+```tsx
+<MistakeItemCard item={{ mistake, example, fix }} headingLevel="h3" />
+```
 
-All three manage `activeId` state and render a conditional detail panel. A `useExplorer<T>()` hook or `ExplorerBase` component with `renderItem` / `renderDetail` props could eliminate repeated selection logic.
+**Guide components using it:** `MistakeList` (prompt-engineering), `TestingMistakes` (prompt-engineering).
 
-### Flow diagram without `TimelineFlow`
+### Explorer Hook (`useExplorer` in `src/hooks/useExplorer.ts`)
 
-| Component | Guide | Could use `TimelineFlow`? |
-|-----------|-------|---------------------------|
-| `DataFlowDiagram` | architecture | Yes — vertical numbered steps |
-| `LayerDiagram` | architecture | No — static layer stack, not a flow |
-| `TestingPyramid` | testing | No — scaled triangle, not sequential |
+Shared state management for "select item → show detail" explorer UIs. Provides `activeId`, `setActiveId`, `active` item, and `toggle`.
 
-`DataFlowDiagram` renders a vertical step list that maps directly to `TimelineFlow`'s API.
+```tsx
+const { activeId, setActiveId, active, toggle } = useExplorer(items, defaultId)
+```
 
-## Severity / Status Badge
-
-`SeverityBadge` exists in `src/components/mdx/prompt-engineering/` but is also reimplemented inline in `SecurityThreats` (auth) and `PatternCards` (ci-cd). If badges are needed in future guides, promote `SeverityBadge` to a shared component.
+**Guide components using it:** `StackExplorer` (architecture), `FrameworkExplorer` (architecture), `CodingToolExplorer` (prompt-engineering).
 
 ## Creating New Components Checklist
 
 Before creating a component in `src/components/mdx/<guide-id>/`:
 
-1. **Check shared components** — Does `SectionLayout`, `TimelineFlow`, `ProsCons`, `YamlExplorerBase`, `ChecklistBase`, or `DefinitionTable` already handle this?
-2. **Check other guide directories** — Does another guide have a similar component? If so, extract a shared base first.
-3. **Evaluate scope** — Will only one guide ever need this? If uncertain, build it as a shared component from the start.
-4. **Keep wrappers thin** — If you do create a guide-specific wrapper, it should only handle data lookup. All rendering logic belongs in the shared base.
-5. **Register in `index.ts`** — All MDX-available components must be exported from `src/components/mdx/index.ts`.
+1. **Check shared components** — Does `SectionLayout`, `TimelineFlow`, `ProsCons`, `AccordionList`, `CardBase`, `StatusBadge`, `MistakeItemCard`, `YamlExplorerBase`, `ChecklistBase`, or `DefinitionTable` already handle this?
+2. **Check shared hooks** — Does `useExplorer`, `useAccordion`, or `useIsDark` already cover the interactivity you need?
+3. **Check other guide directories** — Does another guide have a similar component? If so, extract a shared base first.
+4. **Evaluate scope** — Will only one guide ever need this? If uncertain, build it as a shared component from the start.
+5. **Keep wrappers thin** — If you do create a guide-specific wrapper, it should only handle data lookup. All rendering logic belongs in the shared base.
+6. **Register in `index.ts`** — All MDX-available components must be exported from `src/components/mdx/index.ts`.

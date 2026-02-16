@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { STACK_PAGES } from '../../../data/archData'
 import type { StackComponent } from '../../../data/archData'
 import { useIsDark } from '../../../hooks/useTheme'
+import { useExplorer } from '../../../hooks/useExplorer'
 import { ds } from '../../../helpers/darkStyle'
 import { theme, tc } from '../../../helpers/themeColors'
 
@@ -83,8 +84,7 @@ function PlainDescription({ comp, isDark }: { comp: StackComponent; isDark: bool
 export function StackExplorer({ stackId }: { stackId: string }) {
   const isDark = useIsDark()
   const stack = STACK_PAGES.find(s => s.id === stackId)
-  const [activeId, setActiveId] = useState(stack?.components[0]?.id ?? "")
-  const active = stack?.components.find(c => c.id === activeId)
+  const { activeId, setActiveId, active } = useExplorer(stack?.components ?? [], stack?.components[0]?.id)
   const isPfrn = stackId === "pfrn"
 
   // Letter header: show only when all piece first letters are unique (MERN, PFRN, MEAN, LAMP)
