@@ -15,7 +15,7 @@ linkRefs:
   <TocLink id="toc-frontend">Your frontend context</TocLink>
   <TocLink id="toc-infra">Infrastructure reality</TocLink>
   <TocLink id="toc-analogy">The analogy</TocLink>
-  <TocLink id="toc-concepts">Key concepts</TocLink>
+  <TocLink id="toc-concepts">Key terms</TocLink>
   <TocLink id="toc-code">Example values.yaml</TocLink>
   <TocLink id="toc-takeaway">Key takeaway</TocLink>
 </Toc>
@@ -40,9 +40,16 @@ Writing raw K8s YAML for every environment is like copy-pasting your Vite config
 
 <K8sAnalogyCard sectionId="helm" />
 
-<SectionSubheading id="toc-concepts">{'\u{1F4D6}'} Key concepts</SectionSubheading>
+<SectionSubheading id="toc-concepts">{'\u{1F4D6}'} Key terms</SectionSubheading>
 
-<K8sConceptList sectionId="helm" />
+<DefinitionTable termHeader="Term" descHeader="Definition">
+  <DefRow term="Chart">A package of templated K8s YAML files. Like an npm package but for infrastructure. Has a name, version, and dependencies.</DefRow>
+  <DefRow term="values.yaml">The config file you customize &mdash; like .env but for your whole deployment. Sets replicas, image versions, resource limits, feature flags.</DefRow>
+  <DefRow term="Templates">K8s YAML files with <code>{"{{ .Values.x }}"}</code> placeholders. Helm fills them in from values.yaml. Like JSX but for infrastructure.</DefRow>
+  <DefRow term="Release">A deployed instance of a chart. You can have multiple releases of the same chart (dev, staging, prod) with different values.</DefRow>
+  <DefRow term="helm install">Deploys a chart to your cluster &mdash; like &ldquo;npm install&rdquo; + &ldquo;npm start&rdquo; combined.</DefRow>
+  <DefRow term="helm upgrade">Updates a running release with new values or chart version. Like deploying a new version of your app.</DefRow>
+</DefinitionTable>
 
 <SectionSubheading id="toc-code">{'\u{1F4BB}'} Example values.yaml</SectionSubheading>
 

@@ -44,7 +44,15 @@ Just like the frontend world has Vite, ESLint, Prettier, Storybook... the infra 
 
 <SectionSubheading id="toc-concepts">{'\u{1F30D}'} Ecosystem tools</SectionSubheading>
 
-<K8sConceptList sectionId="ecosystem" />
+<DefinitionTable termHeader="Tool" descHeader="What it does">
+  <DefRow term="kubectl">The CLI for Kubernetes &mdash; like &ldquo;npm&rdquo; or &ldquo;git&rdquo; but for your cluster. kubectl get pods, kubectl logs, kubectl apply.</DefRow>
+  <DefRow term="ArgoCD / Flux">GitOps tools &mdash; they watch a Git repo and auto-deploy when you push changes. Like Vercel&rsquo;s GitHub integration but for K8s.</DefRow>
+  <DefRow term="Terraform">Creates the underlying infrastructure (VMs, networks, databases) that K8s runs ON. If K8s manages apps, Terraform manages the machines.</DefRow>
+  <DefRow term="Prometheus + Grafana">Monitoring stack. Prometheus collects metrics, Grafana visualizes them. Like browser DevTools performance tab for your infra.</DefRow>
+  <DefRow term="Istio / Service Mesh">Manages communication between services &mdash; encryption, retries, traffic splitting. Like a middleware layer for your microservices.</DefRow>
+  <DefRow term="ConfigMaps &amp; Secrets">K8s resources for config and sensitive data. ConfigMap &asymp; .env file, Secret &asymp; .env with encryption for passwords/API keys.</DefRow>
+  <DefRow term="CI/CD Pipeline">GitHub Actions, GitLab CI, etc. Builds your Docker image, pushes it to a registry, then tells Helm/K8s to deploy it.</DefRow>
+</DefinitionTable>
 
 <SectionSubheading id="toc-takeaway">{'\u{1F4A1}'} Key takeaway</SectionSubheading>
 
