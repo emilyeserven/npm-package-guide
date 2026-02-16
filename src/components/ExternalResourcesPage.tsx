@@ -13,7 +13,9 @@ import { linkRegistry } from '../data/linkRegistry'
 import { overallResources, badgeBase, badgeMap, typeTags, topicTags, guideTags } from '../data/overallResources'
 import { contentPages } from '../content/registry'
 import { getNavTitle } from '../data/navigation'
+import { parseTitle } from '../helpers/parseTitle'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
+import { useSidebarPin } from '../hooks/useSidebarPin'
 import { DataTable } from './DataTable'
 
 interface ReferenceRow {
@@ -79,10 +81,12 @@ interface ExternalResourcesPageProps {
 
 export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPageProps) {
   const navigateToSection = useNavigateToSection()
+  const { effectivelyPinned } = useSidebarPin()
   const data = useMemo(() => buildReferenceData(), [])
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [globalFilter, setGlobalFilter] = useState('')
+  const [wideMode, setWideMode] = useState(false)
   const [tagFilter, setTagFilter] = useState<string[]>(
     () => initialGuide ? [`guide:${initialGuide}`] : []
   )
@@ -141,11 +145,9 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
       cell: info => {
         const ids = info.getValue()
         if (ids.length === 0) return <span className="text-xs text-slate-400 dark:text-slate-500">—</span>
-        const linkClass = "inline-nav-link text-xs bg-transparent border-none cursor-pointer p-0 border-b border-dashed border-current hover:border-solid transition-[border-bottom-style] duration-150"
+        const linkClass = "inline-nav-link text-xs bg-transparent border-none cursor-pointer p-0 border-b border-dashed border-blue-400 dark:border-blue-500 hover:border-solid transition-[border-bottom-style] duration-150"
         if (ids.length === 1) {
-          const title = getNavTitle(ids[0])
-          const match = title.match(/^(\S+)\s+(.+)$/)
-          const text = match ? match[2] : title
+          const { text } = parseTitle(getNavTitle(ids[0]))
           return (
             <button
               className={linkClass}
@@ -156,11 +158,9 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
           )
         }
         return (
-          <ul className="list-disc pl-4 m-0 space-y-0.5">
+          <ul className="list-disc pl-4 m-0 space-y-0.5 text-left">
             {ids.map(id => {
-              const title = getNavTitle(id)
-              const match = title.match(/^(\S+)\s+(.+)$/)
-              const text = match ? match[2] : title
+              const { text } = parseTitle(getNavTitle(id))
               return (
                 <li key={id}>
                   <button
@@ -336,13 +336,31 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
           </button>
         </div>
 
-        {/* Results count */}
-        <div className="text-xs text-gray-400 dark:text-slate-500 mb-2.5 font-medium" data-testid="resources-count">
-          {table.getRowModel().rows.length} of {data.length} references
+        {/* Results count + wide toggle */}
+        <div className="flex items-center justify-between mb-2.5">
+          <div className="text-xs text-gray-400 dark:text-slate-500 font-medium" data-testid="resources-count">
+            {table.getRowModel().rows.length} of {data.length} references
+          </div>
+          {!effectivelyPinned && (
+            <button
+              className="text-xs font-medium text-gray-500 dark:text-slate-400 bg-transparent border border-slate-200 dark:border-slate-700 rounded-md px-2.5 py-1 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-600 transition-colors duration-150"
+              onClick={() => setWideMode(prev => !prev)}
+            >
+              {wideMode ? '↙ Compact view' : '↗ Wide view'}
+            </button>
+          )}
         </div>
 
         {/* Table */}
-        <DataTable table={table} columnCount={4} emptyMessage="No references match your filters." />
+        <div
+          className={clsx(wideMode && !effectivelyPinned && 'transition-[width,margin] duration-250')}
+          style={wideMode && !effectivelyPinned ? {
+            width: 'calc(100vw - 2.5rem)',
+            marginLeft: 'calc((100% - 100vw + 2.5rem) / 2)',
+          } : undefined}
+        >
+          <DataTable table={table} columnCount={4} emptyMessage="No references match your filters." />
+        </div>
       </div>
     </>
   )
