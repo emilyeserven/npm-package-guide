@@ -145,7 +145,7 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
       cell: info => {
         const ids = info.getValue()
         if (ids.length === 0) return <span className="text-xs text-slate-400 dark:text-slate-500">—</span>
-        const linkClass = "inline-nav-link text-xs bg-transparent border-none cursor-pointer p-0 border-b border-dashed border-blue-400 dark:border-blue-500 hover:border-solid transition-[border-bottom-style] duration-150"
+        const linkClass = "inline-nav-link text-xs bg-transparent border-0 border-b border-dashed cursor-pointer p-0 border-blue-400 dark:border-blue-500 hover:border-solid transition-[border-bottom-style] duration-150"
         if (ids.length === 1) {
           const { text } = parseTitle(getNavTitle(ids[0]))
           return (
@@ -158,21 +158,22 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
           )
         }
         return (
-          <ul className="list-disc pl-4 m-0 space-y-0.5 text-left">
+          <div className="space-y-0.5 text-left">
             {ids.map(id => {
               const { text } = parseTitle(getNavTitle(id))
               return (
-                <li key={id}>
+                <div key={id} className="flex items-baseline gap-1.5 text-xs">
+                  <span className="text-slate-400 dark:text-slate-500 shrink-0 leading-none">•</span>
                   <button
                     className={linkClass}
                     onClick={() => navigateToSection(id)}
                   >
                     {text}
                   </button>
-                </li>
+                </div>
               )
             })}
-          </ul>
+          </div>
         )
       },
       enableSorting: false,
