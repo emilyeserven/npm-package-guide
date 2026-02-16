@@ -9,6 +9,7 @@ import { K8S_GUIDE_SECTIONS, K8S_START_PAGE_DATA } from './k8sData'
 import { AI_INFRA_GUIDE_SECTIONS, AI_INFRA_START_PAGE_DATA } from './aiInfraData'
 import { NJA_GUIDE_SECTIONS, NJA_START_PAGE_DATA } from './njaData'
 import { WP_AGENTS_GUIDE_SECTIONS } from './wpAgentsData'
+import { GIT_WORKTREES_GUIDE_SECTIONS } from './gitWorktreesData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -104,6 +105,16 @@ export const guides: GuideDefinition[] = [
     description:
       'Generate TypeScript interfaces and test mocks from your WordPress REST API schema using Claude Code Web.',
     sections: WP_AGENTS_GUIDE_SECTIONS,
+    singlePage: true,
+  },
+  {
+    id: 'git-worktrees',
+    icon: '\u{1F333}',        // 🌳
+    title: 'Git Worktrees & Claude Code',
+    startPageId: 'git-worktrees-guide',
+    description:
+      'Use git worktrees for parallel development with Claude Code \u2014 isolated branches, simultaneous sessions, and real workflows.',
+    sections: GIT_WORKTREES_GUIDE_SECTIONS,
     singlePage: true,
   },
 ]

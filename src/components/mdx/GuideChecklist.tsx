@@ -10,6 +10,7 @@ import { K8S_CHECKLIST } from '../../data/k8sChecklist'
 import { AI_INFRA_CHECKLIST } from '../../data/aiInfraData'
 import { NJA_CHECKLIST } from '../../data/njaData'
 import { CLAUDEMD_CHECKLIST } from '../../data/promptData'
+import { GIT_WORKTREES_CHECKLIST } from '../../data/gitWorktreesData'
 
 // ── Sources that need transformation ─────────────────────────────────
 
@@ -62,6 +63,7 @@ const CHECKLIST_REGISTRY: Record<string, ChecklistEntry> = {
   publish:   { title: 'Publish Checklist',                 sections: groupBy(checklistItems, it => it.cat, PUBLISH_ICONS) },
   auth:      { title: 'Auth Implementation Checklist',     sections: groupBy(AUTH_CHECKLIST_ITEMS, it => it.category, AUTH_ICONS) },
   test:      { title: 'Quick Test Review',                 sections: [{ id: 'review', name: 'Review Criteria', icon: '\uD83D\uDCCB', items: TEST_CHECKLIST_ITEMS.map(it => ({ label: it.label, description: it.detail })) }] },
+  'git-worktrees': { title: 'Git Worktrees Checklist',    sections: GIT_WORKTREES_CHECKLIST },
 }
 
 // ── Component ────────────────────────────────────────────────────────
