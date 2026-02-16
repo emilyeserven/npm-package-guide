@@ -48,6 +48,19 @@ Brief intro paragraph.
 </SectionList>
 ```
 
+## Key terms / definition lists
+
+For pages that list key terms, concepts, or tool definitions, use the shared `DefinitionTable` and `DefRow` components directly in MDX. Do **not** create guide-specific concept list components.
+
+```mdx
+<DefinitionTable termHeader="Term" descHeader="Definition">
+  <DefRow term="Example term">Description of the term.</DefRow>
+  <DefRow term="Another term">Its description.</DefRow>
+</DefinitionTable>
+```
+
+`termHeader` and `descHeader` are optional (default to "Setting" / "Description"). Customize them to fit the page context (e.g., `termHeader="Tool"` `descHeader="What it does"`).
+
 ## Start page MDX template
 
 ```mdx
