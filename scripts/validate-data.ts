@@ -5,9 +5,11 @@
  * all point to valid targets. Run via: pnpm validate:data
  */
 
+import fs from 'node:fs'
+import path from 'node:path'
 import { linkRegistry, linkById } from '../src/data/linkRegistry/index.ts'
 import { glossaryTerms } from '../src/data/glossaryTerms/index.ts'
-import { guides } from '../src/data/guideRegistry.ts'
+import { guides, checklistPages } from '../src/data/guideRegistry.ts'
 
 let errors = 0
 
@@ -95,6 +97,89 @@ for (const guide of guides) {
       `Guide "${guide.id}" has startPageId "${guide.startPageId}" ` +
       `which is not listed in its sections. Add it to the guide's section definitions.`
     )
+  }
+}
+
+// ── 6. MDX frontmatter: scan all MDX files ────────────────────────
+
+console.log('Scanning MDX frontmatter...')
+
+const contentDir = path.resolve(import.meta.dirname, '../src/content')
+
+/** Decode YAML unicode escapes (\uXXXX) in quoted strings. */
+function decodeYamlEscapes(s: string): string {
+  return s.replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) =>
+    String.fromCodePoint(parseInt(hex, 16))
+  )
+}
+
+/** Extract YAML frontmatter fields from an MDX file's raw text. */
+function parseFrontmatter(text: string): Record<string, string> {
+  const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+  if (!match) return {}
+  const fields: Record<string, string> = {}
+  for (const line of match[1].split('\n')) {
+    const kv = line.match(/^(\w+):\s*"?([^"]*)"?$/)
+    if (kv) fields[kv[1]] = decodeYamlEscapes(kv[2])
+  }
+  return fields
+}
+
+// Build lookup: guide ID → set of directory names that map to it
+// Directory names match guide IDs exactly (e.g., src/content/auth/ → "auth")
+const guideIdSet = new Set(guides.map(g => g.id))
+
+// Known page IDs that live outside guide sections (checklists, static routes)
+const nonGuidePageIds = new Set([
+  ...checklistPages.map(cp => cp.id),
+  ...staticPageIds,
+])
+
+// IDs exempt from the emoji-suffix rule (prompt-engineering mistake pages use severity badges)
+const emojiExemptPrefixes = ['prompt-mistakes-']
+
+const subdirs = fs.readdirSync(contentDir, { withFileTypes: true })
+  .filter(d => d.isDirectory())
+
+for (const subdir of subdirs) {
+  const dirPath = path.join(contentDir, subdir.name)
+  const mdxFiles = fs.readdirSync(dirPath).filter(f => f.endsWith('.mdx'))
+
+  for (const file of mdxFiles) {
+    const filePath = path.join(dirPath, file)
+    const text = fs.readFileSync(filePath, 'utf-8')
+    const fm = parseFrontmatter(text)
+    const relPath = `src/content/${subdir.name}/${file}`
+
+    if (!fm.id) continue // already caught by registry.ts at runtime
+
+    // 6a. Title emoji suffix check
+    const isExempt = emojiExemptPrefixes.some(p => fm.id.startsWith(p))
+    if (fm.title && !isExempt) {
+      const hasEmoji = /[\u0080-\u{10FFFF}]+$/u.test(fm.title.trim())
+      if (!hasEmoji) {
+        error(
+          `MDX title missing emoji suffix in ${relPath}: "${fm.title}". ` +
+          `Every title must end with an emoji (see CLAUDE.md).`
+        )
+      }
+    }
+
+    // 6b. Orphaned page detection — page ID not in any guide section or known non-guide list
+    if (!allPageIds.has(fm.id) && !nonGuidePageIds.has(fm.id)) {
+      error(
+        `Orphaned page "${fm.id}" in ${relPath} — not listed in any guide's sections ` +
+        `or known static pages. Add it to the appropriate *_GUIDE_SECTIONS array.`
+      )
+    }
+
+    // 6c. Guide-folder mismatch — frontmatter guide field should match directory
+    if (fm.guide && guideIdSet.has(fm.guide) && fm.guide !== subdir.name) {
+      error(
+        `Guide-folder mismatch in ${relPath}: frontmatter says guide="${fm.guide}" ` +
+        `but file is in "${subdir.name}/". Move the file or fix the guide field.`
+      )
+    }
   }
 }
 
