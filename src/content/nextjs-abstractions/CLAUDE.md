@@ -21,7 +21,7 @@ Data directory: `src/data/njaData/` — concepts, checklist, navigation.
 - **`ConceptDetail`** (`conceptId: string`) — Two side-by-side cards ("What Next.js Does" vs. "What You Need"), difficulty badge, and "For Your Stack" section with framework-specific bullets.
 - **`GuideChecklist`** (`checklistId="nja"`) — Unified checklist component. Data from `njaData/checklist.ts`.
 
-## Conventions
+## Guide-Specific Conventions
 
 - Each concept page uses `<ConceptDetail conceptId="..." />` — no inline data.
 - "For Your Stack" notes are generalized (no TanStack/airgapped-specific references).

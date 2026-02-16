@@ -12,6 +12,7 @@ src/data/linkRegistry/aiInfraLinks.ts
 src/data/linkRegistry/njaLinks.ts
 src/data/linkRegistry/testingLinks.ts
 src/data/linkRegistry/cicdLinks.ts
+src/data/linkRegistry/wpAgentsLinks.ts
 
 # Glossary term files (term definitions, 100-350 lines each)
 src/data/glossaryTerms/npmPackageTerms.ts
@@ -23,8 +24,15 @@ src/data/glossaryTerms/aiInfraTerms.ts
 src/data/glossaryTerms/njaTerms.ts
 src/data/glossaryTerms/testingTerms.ts
 src/data/glossaryTerms/cicdTerms.ts
+src/data/glossaryTerms/wpAgentsTerms.ts
 
-# Large monolithic data files (300-2700 lines)
+# Large data files (300+ lines, read on demand when working with specific guides)
 src/data/npmPackageData.ts
 src/data/promptData/techniques.ts
 src/data/archData/stacks.ts
+src/data/archData/frameworks.ts
+src/data/njaData/concepts.ts
+src/data/authData/concepts.ts
+src/data/k8sData.ts
+src/data/testingData.ts
+src/data/promptData/mistakes.ts

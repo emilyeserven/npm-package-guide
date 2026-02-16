@@ -6,7 +6,7 @@ Educational single-page application (SPA) with multiple guides for backend engin
 
 ## Guides
 
-Nine independent guides plus top-level resource pages. All metadata centralized in `src/data/guideRegistry.ts`. Each guide has its own `CLAUDE.md` in its content directory with guide-specific audience, conventions, and component usage.
+Ten independent guides plus top-level resource pages. All metadata centralized in `src/data/guideRegistry.ts`. Each guide has its own `CLAUDE.md` in its content directory with guide-specific audience, conventions, and component usage.
 
 | Guide ID | Title | Start Page |
 |----------|-------|------------|
@@ -19,6 +19,9 @@ Nine independent guides plus top-level resource pages. All metadata centralized 
 | `kubernetes` | Kubernetes & Helm | `k8s-start` |
 | `ai-infra` | AI Infrastructure | `ai-start` |
 | `nextjs-abstractions` | Next.js Abstractions | `nja-start` |
+| `wp-agents` | WordPress API & Agents | `wp-agents-guide` |
+
+Guides are multi-page by default. `wp-agents` is a single-page guide (`singlePage: true` in registry).
 
 Every guide follows the same file layout:
 - **Data:** `src/data/<guideId>Data.ts` (or `src/data/<guideId>Data/` directory)
@@ -65,6 +68,7 @@ React 19 · TanStack Router (hash-based) · TanStack Table · TypeScript (strict
 - **YAML explorers:** Use `YamlExplorerBase` (`src/components/mdx/YamlExplorerBase.tsx`) for interactive YAML annotation UIs. Guide-specific wrappers pass data and file name to the base.
 - **Page ordering:** Each guide's `*_GUIDE_SECTIONS` array is the single source of truth — sidebar, command menu, prev/next, and home tiles derive automatically.
 - **MDX titles:** Every `title` must end with an emoji suffix (parsed by sidebar and command menu).
+- **Checklists content:** Checklist MDX pages live in `src/content/checklist/` (shared directory, not a guide). See `src/content/checklist/CLAUDE.md` for template and rules. Do not add `guide:` frontmatter to checklist pages.
 
 ## Adding or Modifying Guide Pages
 
