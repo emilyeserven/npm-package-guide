@@ -37,6 +37,7 @@ export const wpAgentsGlossary: GlossaryCategory[] = [
         term: 'MSW (Mock Service Worker)',
         definition: 'An API mocking library that intercepts HTTP requests at the network level using Service Workers (browser) or request interception (Node.js). Used to mock WordPress REST API responses in unit tests.',
         linkId: 'msw-docs',
+        linkIds: ['vitest-mocking'],
         sectionId: 'wp-agents-guide',
       },
     ],

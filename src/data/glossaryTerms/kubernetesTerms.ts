@@ -17,6 +17,7 @@ export const kubernetesGlossary: GlossaryCategory[] = [
         definition:
           'The most popular tool for building and running containers. A <code>Dockerfile</code> defines the build steps; <code>docker build</code> creates an image; <code>docker run</code> starts a container from that image.',
         linkId: 'docker-overview',
+        linkIds: ['docker-dockerfile', 'docker-hub'],
         sectionId: 'k8s-containers',
         guides: ['kubernetes', 'ci-cd', 'ai-infra'],
       },
@@ -68,6 +69,7 @@ export const kubernetesGlossary: GlossaryCategory[] = [
         definition:
           'A Kubernetes resource that manages a set of identical pods. Handles scaling (replica count), rolling updates, and automatic rollbacks when things go wrong.',
         linkId: 'k8s-deployments',
+        linkIds: ['k8s-rolling-updates'],
         sectionId: 'k8s-kubernetes',
       },
       {
@@ -96,6 +98,7 @@ export const kubernetesGlossary: GlossaryCategory[] = [
         definition:
           'A package of templated Kubernetes YAML files with a <code>values.yaml</code> config. Helm is the package manager for Kubernetes \u2014 charts let you deploy complex apps with a single <code>helm install</code> command.',
         linkId: 'helm-docs',
+        linkIds: ['helm-charts-intro', 'argocd-docs'],
         sectionId: 'k8s-helm',
       },
       {
@@ -117,6 +120,7 @@ export const kubernetesGlossary: GlossaryCategory[] = [
         definition:
           'A Kubernetes resource for storing sensitive data (passwords, API keys, TLS certificates) as base64-encoded key-value pairs. Structurally similar to ConfigMap but handled more carefully by the cluster.',
         linkId: 'k8s-secrets',
+        linkIds: ['k8s-configmaps', 'k8s-ext-secrets'],
         sectionId: 'k8s-config-secrets',
       },
       {

@@ -8,12 +8,14 @@ export const promptGlossary: GlossaryCategory[] = [
         term: "Prompt Engineering",
         definition: "The practice of crafting inputs to AI models to get better, more reliable outputs. Includes techniques like few-shot examples, chain-of-thought reasoning, and system prompt design.",
         linkId: "anthropic-prompt-engineering",
+        linkIds: ['openai-prompt-engineering', 'learnprompting-org'],
         sectionId: "prompt-mistakes-logic"
       },
       {
         term: "System Prompt",
         definition: "Instructions provided to an AI model that define its role, constraints, and behavior before any user interaction. System prompts set the context that persists across the entire conversation.",
         linkId: "anthropic-system-prompts",
+        linkIds: ['openai-prompt-engineering'],
         sectionId: "prompt-ctx-system-prompt"
       },
       {
@@ -59,6 +61,7 @@ export const promptGlossary: GlossaryCategory[] = [
         term: "Tool Use",
         definition: "The ability for AI models to call external functions or APIs during a conversation — reading files, querying databases, running code, or fetching web data. Extends the model beyond pure text generation.",
         linkId: "anthropic-tool-use",
+        linkIds: ['anthropic-mcp'],
         sectionId: "prompt-tools-mcp"
       },
     ]

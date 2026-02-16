@@ -20,13 +20,18 @@ export const architectureGlossary: GlossaryCategory[] = [
         term: "ORM",
         definition: "Object-Relational Mapping — a technique that lets you query and manipulate a database using objects in your programming language instead of raw SQL. Examples include Django's ORM, Rails' ActiveRecord, and Prisma.",
         linkId: "django-models",
-        sectionId: "arch-stack-django"
+        linkIds: ['prisma-docs', 'drizzle-docs'],
+        sectionId: "arch-stack-django",
+        sectionIds: ['nja-database'],
+        guides: ['architecture', 'nextjs-abstractions'],
       },
       {
         term: "Server-Side Rendering",
         definition: "Generating HTML on the server for each request, then sending the complete page to the browser. Improves initial load time and SEO compared to client-side rendering.",
         linkId: "nextjs-server-components",
+        linkIds: ['webdev-rendering'],
         sectionId: "arch-fw-nextjs",
+        sectionIds: ['nja-ssr'],
         guides: ['architecture', 'nextjs-abstractions'],
       },
       {
@@ -47,14 +52,18 @@ export const architectureGlossary: GlossaryCategory[] = [
         term: "REST API",
         definition: "An API design style using standard HTTP methods (GET, POST, PUT, DELETE) on resource URLs. The dominant pattern for web APIs — e.g., <code>GET /api/users/123</code> returns user data, <code>DELETE /api/users/123</code> removes it.",
         linkId: "mdn-rest",
+        linkIds: ['microsoft-api-design'],
         sectionId: "arch-what-is-a-stack",
+        sectionIds: ['nja-api-routes'],
         guides: ['architecture', 'nextjs-abstractions', 'wp-agents'],
       },
       {
         term: "Middleware",
         definition: "A function that intercepts HTTP requests and responses in a pipeline. Used for logging, authentication, CORS, error handling, and request parsing. Express and most server frameworks rely heavily on middleware.",
         linkId: "express-middleware",
+        linkIds: ['fastify-hooks'],
         sectionId: "arch-stack-mern",
+        sectionIds: ['nja-middleware'],
         guides: ['architecture', 'nextjs-abstractions', 'auth'],
       },
       {
@@ -102,7 +111,9 @@ export const architectureGlossary: GlossaryCategory[] = [
         term: "React Server Components",
         definition: "A React feature that renders components entirely on the server, sending only the HTML result to the browser. Reduces client-side JavaScript and enables direct database access from components.",
         linkId: "react-server-components",
+        linkIds: ['nextjs-server-components'],
         sectionId: "arch-fw-nextjs",
+        sectionIds: ['nja-ssr'],
         guides: ['architecture', 'nextjs-abstractions'],
       },
       {
@@ -110,6 +121,7 @@ export const architectureGlossary: GlossaryCategory[] = [
         definition: "A convention where a framework maps your project's file and folder structure directly to URL routes, eliminating the need for manual route configuration.",
         linkId: "nextjs-routing",
         sectionId: "arch-fw-nextjs",
+        sectionIds: ['nja-routing'],
         guides: ['architecture', 'nextjs-abstractions'],
       },
       {

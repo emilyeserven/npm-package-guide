@@ -23,6 +23,7 @@ export const authGlossary: GlossaryCategory[] = [
         definition:
           'A compact, URL-safe token format with three Base64-encoded parts: header, payload, and signature. JWTs are signed (not encrypted) \u2014 anyone can read the payload, but only the server can issue valid signatures.',
         linkId: 'jwt-io',
+        linkIds: ['npm-jsonwebtoken'],
         sectionId: 'auth-jwt',
       },
       {
@@ -30,6 +31,7 @@ export const authGlossary: GlossaryCategory[] = [
         definition:
           'An authorization framework that lets users grant third-party apps limited access to their resources without sharing passwords. Powers "Sign in with Google/GitHub" flows via the Authorization Code grant.',
         linkId: 'oauth-net-overview',
+        linkIds: ['oauth-net-auth-code', 'openid-connect-spec'],
         sectionId: 'auth-oauth',
       },
       {
@@ -65,6 +67,7 @@ export const authGlossary: GlossaryCategory[] = [
         definition:
           'An attack where malicious JavaScript is injected into a web page, potentially stealing tokens from <code>localStorage</code> or executing actions as the user. Defended with HttpOnly cookies, input sanitization, and CSP headers.',
         linkId: 'owasp-xss',
+        linkIds: ['owasp-xss-prevention', 'mdn-csp'],
         sectionId: 'auth-security',
         guides: ['auth', 'prompt-engineering', 'nextjs-abstractions'],
       },
@@ -81,7 +84,9 @@ export const authGlossary: GlossaryCategory[] = [
         definition:
           'An HTTP header that restricts which scripts, styles, and other resources a page can load. A key defense against XSS \u2014 blocks inline scripts and limits allowed source origins.',
         linkId: 'mdn-csp',
+        linkIds: ['mdn-csp-header', 'helmet-csp'],
         sectionId: 'auth-security',
+        sectionIds: ['nja-csp'],
         guides: ['auth', 'nextjs-abstractions'],
       },
       {
@@ -117,7 +122,9 @@ export const authGlossary: GlossaryCategory[] = [
         definition:
           'A browser security mechanism that restricts which origins can make requests to your API. Especially important for cookie-based auth: <code>credentials: "include"</code> requires an explicit origin (no wildcard) and <code>Access-Control-Allow-Credentials: true</code>.',
         linkId: 'mdn-cors',
+        linkIds: ['npm-cors'],
         sectionId: 'auth-integration',
+        sectionIds: ['nja-cors'],
         guides: ['auth', 'nextjs-abstractions'],
       },
     ],
