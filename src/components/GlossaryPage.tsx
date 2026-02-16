@@ -15,6 +15,7 @@ import { linkById } from '../data/linkRegistry'
 import { getNavTitle } from '../data/navigation'
 import { getGuideForPage } from '../data/guideRegistry'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
+import { useSidebarPin } from '../hooks/useSidebarPin'
 import { badgeBase, badgeMap } from '../data/overallResources'
 import { DataTable } from './DataTable'
 import { ExternalLinkIcon } from './ExternalLinkIcon'
@@ -90,8 +91,10 @@ interface GlossaryPageProps {
 
 export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps) {
   const navigateToSection = useNavigateToSection()
+  const { effectivelyPinned } = useSidebarPin()
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState(initialSearch ?? '')
+  const [wideMode, setWideMode] = useState(false)
   const [guideFilter, setGuideFilter] = useState<string[]>(
     () => initialGuide ? [`guide:${initialGuide}`] : []
   )
@@ -330,12 +333,30 @@ export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps)
         </button>
       </div>
 
-      {/* Results count */}
-      <div className="text-xs text-gray-400 dark:text-slate-500 mb-2.5 font-medium" data-testid="glossary-count">
-        {table.getRowModel().rows.length} of {flatData.length} terms
+      {/* Results count + wide toggle */}
+      <div className="flex items-center justify-between mb-2.5">
+        <div className="text-xs text-gray-400 dark:text-slate-500 font-medium" data-testid="glossary-count">
+          {table.getRowModel().rows.length} of {flatData.length} terms
+        </div>
+        {!effectivelyPinned && (
+          <button
+            className="text-xs font-medium text-gray-500 dark:text-slate-400 bg-transparent border border-slate-200 dark:border-slate-700 rounded-md px-2.5 py-1 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-600 transition-colors duration-150"
+            onClick={() => setWideMode(prev => !prev)}
+          >
+            {wideMode ? '↙ Compact view' : '↗ Wide view'}
+          </button>
+        )}
       </div>
 
-      <DataTable table={table} columnCount={3} emptyMessage="No terms match your search." />
+      <div
+        className={clsx(wideMode && !effectivelyPinned && 'transition-[width,margin] duration-250')}
+        style={wideMode && !effectivelyPinned ? {
+          width: 'calc(100vw - 2.5rem)',
+          marginLeft: 'calc((100% - 100vw + 2.5rem) / 2)',
+        } : undefined}
+      >
+        <DataTable table={table} columnCount={3} emptyMessage="No terms match your search." />
+      </div>
     </>
   )
 }
