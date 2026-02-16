@@ -1,6 +1,7 @@
 import { useIsDark } from '../../../hooks/useTheme'
 import { ds } from '../../../helpers/darkStyle'
 import { AUTH_CONCEPT_SECTIONS } from '../../../data/authData'
+import { CardBase } from '../CardBase'
 
 export function ConceptCards({ sectionId }: { sectionId: 'core' | 'tokens' }) {
   const isDark = useIsDark()
@@ -10,16 +11,7 @@ export function ConceptCards({ sectionId }: { sectionId: 'core' | 'tokens' }) {
   return (
     <div className="flex flex-col gap-4 mb-7">
       {section.concepts.map((c, i) => (
-        <div
-          key={i}
-          className="rounded-xl p-6 border"
-          style={{
-            background: isDark ? '#1e293b' : '#ffffff',
-            borderColor: isDark ? '#334155' : '#e2e8f0',
-            borderLeftWidth: '4px',
-            borderLeftColor: ds(c.color, c.darkColor, isDark),
-          }}
-        >
+        <CardBase key={i} accentColor={ds(c.color, c.darkColor, isDark)} className="p-6">
           <div className="flex justify-between items-start mb-2 flex-wrap gap-2">
             <h3
               className="text-base font-semibold m-0"
@@ -55,7 +47,7 @@ export function ConceptCards({ sectionId }: { sectionId: 'core' | 'tokens' }) {
               </div>
             ))}
           </div>
-        </div>
+        </CardBase>
       ))}
     </div>
   )

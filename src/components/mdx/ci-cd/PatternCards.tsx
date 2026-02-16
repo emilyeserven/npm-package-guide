@@ -1,10 +1,7 @@
 import { CICD_PATTERNS, PATTERN_TAG_STYLES } from '../../../data/cicdData'
-import { useIsDark } from '../../../hooks/useTheme'
-import { ds } from '../../../helpers/darkStyle'
+import { StatusBadge } from '../StatusBadge'
 
 export function PatternCards() {
-  const isDark = useIsDark()
-
   return (
     <div className="grid gap-2.5 my-6">
       {CICD_PATTERNS.map((p) => {
@@ -18,16 +15,12 @@ export function PatternCards() {
               <span className="font-bold text-sm text-slate-800 dark:text-slate-100">
                 {p.name}
               </span>
-              <span
-                className="text-xs font-semibold px-2 py-0.5 rounded"
-                style={{
-                  background: ds(tc.bg, tc.darkBg, isDark),
-                  color: ds(tc.text, tc.darkText, isDark),
-                  border: `1px solid ${ds(tc.border, tc.darkBorder, isDark)}`,
-                }}
-              >
-                {p.tag}
-              </span>
+              <StatusBadge
+                label={p.tag}
+                colors={tc}
+                uppercase={false}
+                className="rounded px-2"
+              />
             </div>
             <p className="m-0 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
               {p.desc}

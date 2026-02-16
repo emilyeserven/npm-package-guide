@@ -1,7 +1,7 @@
-import { useState } from 'react'
 import { FRAMEWORK_PAGES } from '../../../data/archData'
 import type { FrameworkCapability } from '../../../data/archData'
 import { useIsDark } from '../../../hooks/useTheme'
+import { useExplorer } from '../../../hooks/useExplorer'
 import { theme, tc } from '../../../helpers/themeColors'
 
 function CapabilityBar({ cap, color, accent, darkAccent, isActive, onClick, isDark }: { cap: FrameworkCapability; color: string; accent: string; darkAccent: string; isActive: boolean; onClick: () => void; isDark: boolean }) {
@@ -33,8 +33,7 @@ function CapabilityBar({ cap, color, accent, darkAccent, isActive, onClick, isDa
 export function FrameworkExplorer({ frameworkId }: { frameworkId: string }) {
   const isDark = useIsDark()
   const fw = FRAMEWORK_PAGES.find(f => f.id === frameworkId)
-  const [activeId, setActiveId] = useState(fw?.capabilities[0]?.id ?? "")
-  const active = fw?.capabilities.find(c => c.id === activeId)
+  const { activeId, setActiveId, active } = useExplorer(fw?.capabilities ?? [], fw?.capabilities[0]?.id)
 
   if (!fw) return <div>Framework not found: {frameworkId}</div>
 
