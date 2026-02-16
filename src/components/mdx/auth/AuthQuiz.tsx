@@ -34,11 +34,12 @@ export function AuthQuiz() {
   const total = AUTH_QUIZ_QUESTIONS.length
 
   if (state.done) {
-    const emoji = state.score === total ? '🎉' : state.score >= 3 ? '💪' : '📚'
+    const solidThreshold = Math.ceil(total * 0.75)
+    const emoji = state.score === total ? '🎉' : state.score >= solidThreshold ? '💪' : '📚'
     const message =
       state.score === total
         ? "Perfect! You're ready to implement auth confidently."
-        : state.score >= 3
+        : state.score >= solidThreshold
         ? 'Solid foundation! Review the sections you missed.'
         : "Worth reviewing the guide again — you'll nail it next time!"
 

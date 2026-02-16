@@ -29,3 +29,7 @@ Here's what auth actually looks like in frontend code — the patterns you'll us
 <Explainer title="Frontend auth is UX, not security">
 The frontend never truly "enforces" auth — it only provides UX. The backend must always verify tokens and permissions on every request.
 </Explainer>
+
+<SectionNote>
+The Token Refresh interceptor above handles the happy path. For concurrent request queuing, rotation, and error recovery, see <NavLink to="auth-refresh" />.
+</SectionNote>

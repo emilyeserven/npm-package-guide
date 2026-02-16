@@ -13,6 +13,14 @@ export type {
   AuthChecklistItem,
   ChecklistSectionMeta,
   QuizQuestion,
+  PkceFlowStep,
+  PkceSectionMeta,
+  TokenLifecyclePattern,
+  TokenLifecycleSectionMeta,
+  RbacPattern,
+  RbacSectionMeta,
+  IntegrationScenario,
+  IntegrationSectionMeta,
 } from './types'
 
 export {
@@ -28,6 +36,14 @@ export {
   CHECKLIST_SECTION_META,
   AUTH_CHECKLIST_ITEMS,
   AUTH_QUIZ_QUESTIONS,
+  PKCE_SECTION_META,
+  PKCE_FLOW_STEPS,
+  TOKEN_LIFECYCLE_SECTION_META,
+  TOKEN_LIFECYCLE_PATTERNS,
+  RBAC_SECTION_META,
+  RBAC_PATTERNS,
+  INTEGRATION_SECTION_META,
+  INTEGRATION_SCENARIOS,
 } from './concepts'
 
 export { AUTH_GUIDE_SECTIONS, AUTH_START_PAGE_DATA } from './navigation'

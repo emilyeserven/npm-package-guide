@@ -1,0 +1,29 @@
+---
+id: "auth-rbac"
+title: "Roles & Permissions 👥"
+guide: "auth"
+linkRefs:
+  - id: "oauth-net-overview"
+    note: "OAuth 2.0 scopes — the protocol-level foundation for permissions"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-rbac-patterns">RBAC Patterns</TocLink>
+  <TocLink id="toc-takeaway">Key Takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+Backend engineers know RBAC deeply — middleware that checks roles before processing a request. The frontend uses the same patterns for a different purpose: improving UX by hiding actions the user can't perform. Each pattern below shows frontend and backend code side by side. Click to expand.
+</SectionIntro>
+
+<SectionSubheading id="toc-rbac-patterns">RBAC Patterns</SectionSubheading>
+
+<RbacPatterns />
+
+<SectionSubheading id="toc-takeaway">Key Takeaway</SectionSubheading>
+
+<Explainer title="Frontend checks are UX, backend checks are security">
+Every frontend permission check should mirror a backend check. The frontend says "should I show this button?" and the backend says "is this request allowed?" If they ever disagree, trust the backend. The best pattern is permission-aware API responses — let the server tell the frontend what the user can do, so you never have to duplicate authorization logic.
+</Explainer>

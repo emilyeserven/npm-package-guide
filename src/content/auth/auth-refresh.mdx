@@ -1,0 +1,31 @@
+---
+id: "auth-refresh"
+title: "Token Lifecycle 🔄"
+guide: "auth"
+linkRefs:
+  - id: "oauth-net-overview"
+    note: "OAuth 2.0 framework overview including token refresh mechanics"
+  - id: "mdn-http-cookies"
+    note: "Cookie fundamentals for HttpOnly refresh token storage"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-patterns">Token Lifecycle Patterns</TocLink>
+  <TocLink id="toc-takeaway">Key Takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+The basic "refresh on 401" interceptor works for simple apps. In production, you'll face race conditions, stolen tokens, and ambiguous error codes. Here are the patterns that handle every edge case. Click each pattern to see the code.
+</SectionIntro>
+
+<SectionSubheading id="toc-patterns">Token Lifecycle Patterns</SectionSubheading>
+
+<TokenLifecycle />
+
+<SectionSubheading id="toc-takeaway">Key Takeaway</SectionSubheading>
+
+<Explainer title="Think like a backend engineer">
+Token lifecycle management maps directly to patterns you already know: request queuing is a semaphore, refresh rotation is token revocation, and the error recovery matrix is a circuit breaker. The frontend just needs to coordinate these patterns around the browser's request lifecycle.
+</Explainer>
