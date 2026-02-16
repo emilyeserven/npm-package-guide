@@ -62,11 +62,31 @@ for (const category of glossaryTerms) {
         `has unknown linkId "${term.linkId}". Add it to src/data/linkRegistry.ts.`
       )
     }
+    if (term.linkIds) {
+      for (const id of term.linkIds) {
+        if (!linkById.has(id)) {
+          error(
+            `Glossary term "${term.term}" (category: ${category.category}) ` +
+            `has unknown linkIds entry "${id}". Add it to src/data/linkRegistry.ts.`
+          )
+        }
+      }
+    }
     if (term.sectionId && !allPageIds.has(term.sectionId)) {
       error(
         `Glossary term "${term.term}" (category: ${category.category}) ` +
         `has unknown sectionId "${term.sectionId}". Valid page IDs are listed in guide sections.`
       )
+    }
+    if (term.sectionIds) {
+      for (const id of term.sectionIds) {
+        if (!allPageIds.has(id)) {
+          error(
+            `Glossary term "${term.term}" (category: ${category.category}) ` +
+            `has unknown sectionIds entry "${id}". Valid page IDs are listed in guide sections.`
+          )
+        }
+      }
     }
     if (term.guides) {
       for (const guideId of term.guides) {
@@ -86,6 +106,18 @@ for (const category of glossaryTerms) {
             `has sectionId "${term.sectionId}" (guide: "${derivedGuide}") ` +
             `which is not included in its guides array. Add "${derivedGuide}" to the guides array.`
           )
+        }
+      }
+      if (term.sectionIds) {
+        for (const sid of term.sectionIds) {
+          const derivedGuide = getGuideForPage(sid)?.id
+          if (derivedGuide && !term.guides.includes(derivedGuide)) {
+            error(
+              `Glossary term "${term.term}" (category: ${category.category}) ` +
+              `has sectionIds entry "${sid}" (guide: "${derivedGuide}") ` +
+              `which is not included in its guides array. Add "${derivedGuide}" to the guides array.`
+            )
+          }
         }
       }
     }
