@@ -119,6 +119,20 @@ export const guides: GuideDefinition[] = [
   },
 ]
 
+// ── Single Page Guides (combined virtual nav) ───────────────────────
+
+const singlePageGuides = guides.filter(g => g.singlePage)
+
+export const singlePageNavDef: GuideDefinition = {
+  id: 'single-page-guides',
+  icon: '\u{1F4C4}',        // 📄
+  title: 'Single Page Guides',
+  startPageId: singlePageGuides[0]?.startPageId ?? '',
+  description: 'Quick reference guides on focused topics.',
+  sections: [{ label: null, ids: singlePageGuides.flatMap(g => g.sections.flatMap(s => s.ids)) }],
+  singlePage: true,
+}
+
 // ── Checklists (extracted from individual guides) ───────────────────
 
 export const checklistPages = [
@@ -158,10 +172,19 @@ pageToGuide.set('architecture', 'architecture')
 for (const cp of checklistPages) {
   pageToGuide.set(cp.id, 'checklists')
 }
+// Single-page guide pages map to the combined virtual nav
+for (const g of singlePageGuides) {
+  for (const section of g.sections) {
+    for (const id of section.ids) {
+      pageToGuide.set(id, 'single-page-guides')
+    }
+  }
+}
 
 export function getGuideForPage(pageId: string): GuideDefinition | undefined {
   const guideId = pageToGuide.get(pageId)
   if (guideId === 'checklists') return checklistsNavDef
+  if (guideId === 'single-page-guides') return singlePageNavDef
   return guideId ? guides.find(g => g.id === guideId) : undefined
 }
 
