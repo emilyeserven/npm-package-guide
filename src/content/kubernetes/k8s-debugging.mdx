@@ -1,0 +1,62 @@
+---
+id: "k8s-debugging"
+title: "Debugging & kubectl 🔍"
+guide: "kubernetes"
+linkRefs:
+  - id: "k8s-kubectl"
+    note: "CLI reference for interacting with Kubernetes clusters"
+  - id: "k8s-pod-lifecycle"
+    note: "Understanding pod phases and container states"
+  - id: "k8s-troubleshoot-apps"
+    note: "Official guide to debugging application issues"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-frontend">Your frontend context</TocLink>
+  <TocLink id="toc-infra">Infrastructure reality</TocLink>
+  <TocLink id="toc-analogy">The analogy</TocLink>
+  <TocLink id="toc-concepts">Essential commands</TocLink>
+  <TocLink id="toc-gotchas">Common error states</TocLink>
+  <TocLink id="toc-takeaway">Key takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+Your DevTools for Kubernetes. You use browser DevTools and <code>console.log</code> to debug frontend apps. In K8s, <code>kubectl</code> is your primary debugging tool &mdash; it lets you inspect, log, and exec into containers.
+</SectionIntro>
+
+<SectionSubheading id="toc-frontend">{'\u{1F5A5}\uFE0F'} Your frontend context</SectionSubheading>
+
+<SectionNote>
+You use browser DevTools, <code>console.log</code>, and React DevTools to debug frontend apps. In K8s, <code>kubectl</code> is your primary debugging tool &mdash; it lets you inspect, log, and exec into containers.
+</SectionNote>
+
+<SectionSubheading id="toc-infra">{'\u2601\uFE0F'} Infrastructure reality</SectionSubheading>
+
+<SectionList>
+<ColItem><code>kubectl</code> is the CLI for everything Kubernetes. Inspect resource status with <code>get</code>/<code>describe</code>, read logs, exec into running containers, and check events to understand what's happening in your cluster.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-analogy">{'\u{1F500}'} The analogy</SectionSubheading>
+
+<K8sAnalogyCard sectionId="debugging" />
+
+<SectionSubheading id="toc-concepts">{'\u{1F4D6}'} Essential commands</SectionSubheading>
+
+<K8sConceptList sectionId="debugging" />
+
+<SectionSubheading id="toc-gotchas">{'\u26A0\uFE0F'} Common error states</SectionSubheading>
+
+<SectionList>
+<ColItem>**ImagePullBackOff** &mdash; K8s can't pull the container image. Usually a typo in the image name, missing tag, or authentication issue with a private registry.</ColItem>
+<ColItem>**CrashLoopBackOff** &mdash; Container starts but keeps crashing. Check logs with <code>kubectl logs &lt;pod&gt; --previous</code> to see the error from the last crash.</ColItem>
+<ColItem>**OOMKilled** &mdash; Container exceeded its memory limit. Increase the memory limit in your resource spec or optimize your app's memory usage.</ColItem>
+<ColItem>**Pending** &mdash; Pod can't be scheduled. Usually means insufficient cluster resources (CPU/memory), or the node selector/affinity rules can't be satisfied.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-takeaway">{'\u{1F4A1}'} Key takeaway</SectionSubheading>
+
+<Explainer title="Remember this">
+<code>kubectl</code> is your DevTools for K8s. Master <code>get</code>, <code>describe</code>, <code>logs</code>, and <code>exec</code> &mdash; they'll help you diagnose most issues. Check events when pods won't start.
+</Explainer>

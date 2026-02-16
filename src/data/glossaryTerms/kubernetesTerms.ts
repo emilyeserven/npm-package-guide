@@ -100,14 +100,63 @@ export const kubernetesGlossary: GlossaryCategory[] = [
         definition:
           'The command-line tool for interacting with Kubernetes clusters. Used for inspecting resources (<code>kubectl get pods</code>), viewing logs (<code>kubectl logs</code>), and applying configuration (<code>kubectl apply</code>).',
         linkId: 'k8s-kubectl',
-        sectionId: 'k8s-ecosystem',
+        sectionId: 'k8s-debugging',
       },
       {
         term: 'ConfigMap',
         definition:
           'A Kubernetes resource for storing non-confidential configuration data as key-value pairs. Like a <code>.env</code> file that pods can mount as files or environment variables.',
         linkId: 'k8s-configmaps',
-        sectionId: 'k8s-ecosystem',
+        sectionId: 'k8s-config-secrets',
+      },
+      {
+        term: 'Secret (K8s)',
+        definition:
+          'A Kubernetes resource for storing sensitive data (passwords, API keys, TLS certificates) as base64-encoded key-value pairs. Structurally similar to ConfigMap but handled more carefully by the cluster.',
+        linkId: 'k8s-secrets',
+        sectionId: 'k8s-config-secrets',
+      },
+      {
+        term: 'ClusterIP',
+        definition:
+          'The default Kubernetes Service type. Creates an internal-only virtual IP reachable within the cluster. Other pods connect by Service name (e.g., <code>http://my-api:8080</code>), but external traffic cannot reach it directly.',
+        linkId: 'k8s-services',
+        sectionId: 'k8s-networking',
+      },
+      {
+        term: 'LoadBalancer (K8s)',
+        definition:
+          'A Service type that provisions a cloud load balancer (AWS ALB, GCP LB) to route external traffic to your pods. The most common way to expose services to the internet in production.',
+        linkId: 'k8s-services',
+        sectionId: 'k8s-networking',
+      },
+      {
+        term: 'Liveness Probe',
+        definition:
+          'A periodic health check that determines if a container is still running correctly. If it fails, Kubernetes kills and restarts the container. Typically an HTTP GET to a <code>/healthz</code> endpoint.',
+        linkId: 'k8s-probes',
+        sectionId: 'k8s-scaling',
+      },
+      {
+        term: 'Readiness Probe',
+        definition:
+          'A periodic check that determines if a pod is ready to receive traffic. If it fails, the pod is removed from Service endpoints (no traffic routed) but not restarted.',
+        linkId: 'k8s-probes',
+        sectionId: 'k8s-scaling',
+      },
+      {
+        term: 'Horizontal Pod Autoscaler',
+        definition:
+          'A Kubernetes resource (HPA) that automatically adjusts the number of pod replicas based on observed CPU utilization, memory usage, or custom metrics. Like CDN auto-scaling for your backend services.',
+        linkId: 'k8s-hpa',
+        sectionId: 'k8s-scaling',
+      },
+      {
+        term: 'CrashLoopBackOff',
+        definition:
+          'A pod status indicating the container keeps crashing and restarting. Kubernetes applies exponential backoff between restart attempts. Check <code>kubectl logs --previous</code> to see the error from the last crash.',
+        linkId: 'k8s-troubleshoot-apps',
+        sectionId: 'k8s-debugging',
       },
     ],
   },
