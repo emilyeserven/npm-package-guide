@@ -163,7 +163,7 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
               const { text } = parseTitle(getNavTitle(id))
               return (
                 <div key={id} className="flex items-baseline gap-1.5 text-xs">
-                  <span className="text-slate-400 dark:text-slate-500 shrink-0 leading-none">•</span>
+                  <span className="text-slate-400 dark:text-slate-500 shrink-0">•</span>
                   <button
                     className={linkClass}
                     onClick={() => navigateToSection(id)}
