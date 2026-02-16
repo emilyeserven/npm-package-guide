@@ -141,23 +141,38 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
       cell: info => {
         const ids = info.getValue()
         if (ids.length === 0) return <span className="text-xs text-slate-400 dark:text-slate-500">—</span>
+        const linkClass = "inline-nav-link text-xs bg-transparent border-none cursor-pointer p-0 border-b border-dashed border-current hover:border-solid transition-[border-bottom-style] duration-150"
+        if (ids.length === 1) {
+          const title = getNavTitle(ids[0])
+          const match = title.match(/^(\S+)\s+(.+)$/)
+          const text = match ? match[2] : title
+          return (
+            <button
+              className={linkClass}
+              onClick={() => navigateToSection(ids[0])}
+            >
+              {text}
+            </button>
+          )
+        }
         return (
-          <div className="flex flex-wrap gap-1">
+          <ul className="list-disc pl-4 m-0 space-y-0.5">
             {ids.map(id => {
               const title = getNavTitle(id)
               const match = title.match(/^(\S+)\s+(.+)$/)
               const text = match ? match[2] : title
               return (
-                <button
-                  key={id}
-                  className="inline-nav-link text-xs bg-transparent border-none cursor-pointer p-0 whitespace-nowrap"
-                  onClick={() => navigateToSection(id)}
-                >
-                  {text}
-                </button>
+                <li key={id}>
+                  <button
+                    className={linkClass}
+                    onClick={() => navigateToSection(id)}
+                  >
+                    {text}
+                  </button>
+                </li>
               )
             })}
-          </div>
+          </ul>
         )
       },
       enableSorting: false,
