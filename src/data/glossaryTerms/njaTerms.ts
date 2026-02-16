@@ -103,6 +103,7 @@ export const njaGlossary: GlossaryCategory[] = [
         term: 'Request Pipeline',
         definition: 'The ordered sequence of middleware functions that process an HTTP request from arrival to response. Each function can modify the request, respond, or pass control to the next function.',
         linkId: 'express-using-middleware',
+        linkIds: ['fastify-hooks'],
         sectionId: 'nja-middleware',
       },
       {
@@ -132,7 +133,10 @@ export const njaGlossary: GlossaryCategory[] = [
         term: 'Session vs Token Auth',
         definition: 'Two approaches to maintaining login state. Session-based stores state server-side (in Redis, DB) with a cookie ID. Token-based (JWT) stores state in a signed token the client sends with each request.',
         linkId: 'passportjs-docs',
+        linkIds: ['jwt-io'],
         sectionId: 'nja-auth',
+        sectionIds: ['auth-tokens'],
+        guides: ['nextjs-abstractions', 'auth'],
       },
       {
         term: 'Password Hashing',
@@ -144,6 +148,7 @@ export const njaGlossary: GlossaryCategory[] = [
         term: 'CORS Credentials',
         definition: 'When <code>credentials: true</code> is set, cross-origin requests include cookies, authorization headers, and TLS client certificates. Requires explicit <code>Access-Control-Allow-Credentials</code> from the server.',
         linkId: 'mdn-cors',
+        linkIds: ['npm-cors', 'fastify-cors'],
         sectionId: 'nja-auth',
         guides: ['nextjs-abstractions', 'auth'],
       },
@@ -246,6 +251,7 @@ export const njaGlossary: GlossaryCategory[] = [
         term: 'Migrations',
         definition: 'Version-controlled scripts that incrementally modify a database schema (create tables, add columns, etc.). Run in order during deployment to keep the schema in sync with the application.',
         linkId: 'drizzle-docs',
+        linkIds: ['npm-knex'],
         sectionId: 'nja-database',
       },
       {
@@ -264,6 +270,7 @@ export const njaGlossary: GlossaryCategory[] = [
         term: 'Transactions',
         definition: 'A database operation that groups multiple queries into a single atomic unit \u2014 either all succeed or all roll back. Essential for maintaining data consistency.',
         linkId: 'npm-pg',
+        linkIds: ['drizzle-docs'],
         sectionId: 'nja-database',
       },
       {
@@ -328,7 +335,9 @@ export const njaGlossary: GlossaryCategory[] = [
         term: 'Health Checks',
         definition: 'Endpoints (typically <code>GET /health</code>) that return the server\u2019s status. Used by load balancers, container orchestrators, and monitoring tools to detect unhealthy instances.',
         linkId: 'docker-getting-started',
+        linkIds: ['k8s-probes'],
         sectionId: 'nja-deployment',
+        sectionIds: ['k8s-scaling'],
         guides: ['nextjs-abstractions', 'kubernetes'],
       },
       {

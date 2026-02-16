@@ -185,7 +185,7 @@ export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps)
         const catBadge = badgeMap[catKey]
 
         return (
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col items-start gap-1.5">
             {catBadge ? (
               <span className={`${badgeBase} ${catBadge.cls}`}>{catBadge.label}</span>
             ) : (

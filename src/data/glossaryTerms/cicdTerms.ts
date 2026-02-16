@@ -8,6 +8,7 @@ export const cicdGlossary: GlossaryCategory[] = [
         term: "Continuous Integration (CI)",
         definition: "A practice where every code push automatically triggers tests, linting, and builds. CI catches integration bugs immediately rather than at deploy time.",
         linkId: "github-actions-docs",
+        linkIds: ['github-actions-workflow-syntax'],
         sectionId: "cicd-big-picture",
       },
       {
@@ -57,6 +58,7 @@ export const cicdGlossary: GlossaryCategory[] = [
         term: "npm ci",
         definition: "A CI-optimized version of <code>npm install</code>. It\u2019s faster, uses the lockfile exactly, and fails if the lockfile is out of sync with <code>package.json</code>. Always preferred over <code>npm install</code> in pipelines.",
         linkId: "npm-ci-docs",
+        linkIds: ['npm-install', 'github-actions-setup-node'],
         sectionId: "cicd-gotchas",
         guides: ['ci-cd', 'npm-package'],
       },

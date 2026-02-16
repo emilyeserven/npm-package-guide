@@ -8,6 +8,7 @@ export const testingGlossary: GlossaryCategory[] = [
         term: "Unit Test",
         definition: "A test that verifies a single function, hook, or module in complete isolation. All external dependencies are mocked or stubbed. Unit tests are the fastest and cheapest tests, forming the wide base of the testing pyramid.",
         linkId: "vitest-getting-started",
+        linkIds: ['jest-getting-started'],
         sectionId: "test-unit",
         guides: ['testing', 'npm-package'],
       },
@@ -15,12 +16,14 @@ export const testingGlossary: GlossaryCategory[] = [
         term: "Component Test",
         definition: "A test that renders a React component in a simulated DOM and asserts on what the user sees and can interact with. Uses libraries like React Testing Library to query elements by role, label, or text content.",
         linkId: "testing-library-react-intro",
+        linkIds: ['testing-library-queries'],
         sectionId: "test-component"
       },
       {
         term: "End-to-End (E2E) Test",
         definition: "A test that drives a real browser through complete user workflows, testing the full stack (frontend, API, database). E2E tests are the slowest but most realistic tests.",
         linkId: "playwright-home",
+        linkIds: ['cypress-home', 'playwright-best-practices'],
         sectionId: "test-e2e"
       },
       {
