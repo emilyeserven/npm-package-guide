@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from '@tanstack/react-router'
 import clsx from 'clsx'
-import { guides, getGuideForPage, checklistsNavDef, checklistPages, type GuideDefinition } from '../data/guideRegistry'
+import { guides, getGuideForPage, checklistsNavDef, singlePageNavDef, checklistPages, type GuideDefinition } from '../data/guideRegistry'
 import { getNavTitle } from '../data/navigation'
 import { contentPages } from '../content/registry'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
@@ -108,7 +108,7 @@ function IconRail({
       <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5" />
 
       {/* Guide icons */}
-      {guides.map(guide => (
+      {guides.filter(g => !g.singlePage).map(guide => (
         <button
           key={guide.id}
           className={clsx(iconBtnCls, activeGuideId === guide.id ? activeCls : inactiveCls)}
@@ -116,9 +116,19 @@ function IconRail({
           data-testid={`sidebar-guide-icon-${guide.id}`}
         >
           <span className="text-lg leading-none">{guide.icon}</span>
-          <span className={tooltipCls}>{guide.singlePage ? 'Single Page Guides' : guide.title}</span>
+          <span className={tooltipCls}>{guide.title}</span>
         </button>
       ))}
+
+      {/* Single Page Guides (combined) */}
+      <button
+        className={clsx(iconBtnCls, activeGuideId === 'single-page-guides' ? activeCls : inactiveCls)}
+        onClick={() => onSelectGuide('single-page-guides')}
+        data-testid="sidebar-guide-icon-single-page-guides"
+      >
+        <span className="text-lg leading-none">{'\u{1F4C4}'}</span>
+        <span className={tooltipCls}>Single Page Guides</span>
+      </button>
 
       {/* Spacer pushes resource icons + settings to bottom */}
       <div className="mt-auto" />
@@ -483,7 +493,9 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
 
   const activeGuide = activeGuideId === 'checklists'
     ? checklistsNavDef
-    : guides.find(g => g.id === activeGuideId) ?? null
+    : activeGuideId === 'single-page-guides'
+      ? singlePageNavDef
+      : guides.find(g => g.id === activeGuideId) ?? null
   const hasExpandedPanel = activeGuide !== null || showSettings
 
   // Notify parent when expanded panel state changes (for layout margin adjustments)
