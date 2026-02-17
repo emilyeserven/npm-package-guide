@@ -1,5 +1,6 @@
 import { roadmapSteps } from '../../../data/roadmapSteps'
 import { useNavigateToSection } from '../../../hooks/useNavigateToSection'
+import { sanitize } from '../../../helpers/sanitize'
 
 export function RoadmapSteps() {
   const navigateToSection = useNavigateToSection()
@@ -17,13 +18,13 @@ export function RoadmapSteps() {
                 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors inline-flex items-center gap-1"
                 onClick={() => navigateToSection(step.jumpTo!)}
               >
-                <span dangerouslySetInnerHTML={{ __html: step.title }} /> <span className="text-blue-500 dark:text-blue-400">{'\u2192'}</span>
+                <span dangerouslySetInnerHTML={{ __html: sanitize(step.title) }} /> <span className="text-blue-500 dark:text-blue-400">{'\u2192'}</span>
               </div>
             ) : (
-              <div className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1" dangerouslySetInnerHTML={{ __html: step.title }} />
+              <div className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1" dangerouslySetInnerHTML={{ __html: sanitize(step.title) }} />
             )}
-            <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2" dangerouslySetInnerHTML={{ __html: step.desc }} />
-            <div className="step-detail text-xs text-gray-400 dark:text-slate-400 leading-relaxed bg-slate-50 dark:bg-slate-800 rounded-lg py-2.5 px-3.5 mb-2 border border-slate-100 dark:border-slate-700" dangerouslySetInnerHTML={{ __html: step.detail }} />
+            <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2" dangerouslySetInnerHTML={{ __html: sanitize(step.desc) }} />
+            <div className="step-detail text-xs text-gray-400 dark:text-slate-400 leading-relaxed bg-slate-50 dark:bg-slate-800 rounded-lg py-2.5 px-3.5 mb-2 border border-slate-100 dark:border-slate-700" dangerouslySetInnerHTML={{ __html: sanitize(step.detail) }} />
             {step.substep && (
               <div className="mt-4 pl-3.5 border-l-2 border-slate-200 dark:border-slate-700">
                 <h3
