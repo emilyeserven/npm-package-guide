@@ -51,7 +51,7 @@ export function FloatingHeader({ scrolled, onMenuToggle, onSearchClick, effectiv
   }
 
   return (
-    <div className={clsx(
+    <header className={clsx(
       'floating-header fixed top-0 right-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 px-5 transition-[left,box-shadow] duration-250',
       scrolled && 'shadow-md dark:shadow-lg',
       effectivelyPinned ? (hasActiveGuide ? 'left-0 lg:left-90' : 'left-0 lg:left-[52px]') : 'left-0'
@@ -77,6 +77,7 @@ export function FloatingHeader({ scrolled, onMenuToggle, onSearchClick, effectiv
             <button
               className="flex items-center gap-1.5 font-sans text-xs font-semibold h-9 px-2.5 rounded-lg bg-transparent text-gray-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 cursor-pointer transition-all duration-150 whitespace-nowrap hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400"
               onClick={handleHomeClick}
+              aria-label={isChecklist ? 'Go to guide' : 'Go to start page'}
               data-testid="home-button"
             >
               {isChecklist ? (
@@ -110,6 +111,6 @@ export function FloatingHeader({ scrolled, onMenuToggle, onSearchClick, effectiv
           </button>
         </div>
       </div>
-    </div>
+    </header>
   )
 }

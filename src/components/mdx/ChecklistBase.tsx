@@ -82,7 +82,14 @@ export function ChecklistBase({ markdownTitle, sections }: ChecklistBaseProps) {
           <span data-testid="checklist-progress">{checkedCount} of {totalItems} items</span>
           <span>{pct}%</span>
         </div>
-        <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+        <div
+          className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden"
+          role="progressbar"
+          aria-valuenow={checkedCount}
+          aria-valuemin={0}
+          aria-valuemax={totalItems}
+          aria-label={`Checklist progress: ${checkedCount} of ${totalItems} items completed`}
+        >
           <div
             className="h-full bg-blue-500 dark:bg-blue-400 rounded-full transition-all duration-300"
             style={{ width: `${pct}%` }}

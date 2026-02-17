@@ -238,6 +238,7 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
               className="w-full h-10 pl-3.5 pr-9 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-500 outline-none transition-colors duration-150 focus:border-blue-500 dark:focus:border-blue-400"
               type="text"
               placeholder="Search references..."
+              aria-label="Search external resources"
               value={globalFilter}
               onChange={e => setGlobalFilter(e.target.value)}
               data-testid="resources-search"
@@ -246,6 +247,7 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
               <button
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center bg-transparent border-none text-gray-400 dark:text-slate-500 cursor-pointer text-sm hover:text-slate-600 dark:hover:text-slate-300"
                 onClick={() => setGlobalFilter('')}
+                aria-label="Clear search"
                 data-testid="resources-search-clear"
               >
                 &#x2715;
@@ -271,6 +273,7 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
                       isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
                     )}
                     onClick={() => toggleTag(b)}
+                    aria-pressed={isActive}
                     data-testid={`resources-tag-${b}`}
                   >
                     {badge.label}
@@ -294,6 +297,7 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
                       isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
                     )}
                     onClick={() => toggleTag(b)}
+                    aria-pressed={isActive}
                     data-testid={`resources-tag-${b}`}
                   >
                     {badge.label}
@@ -317,6 +321,7 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
                       isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
                     )}
                     onClick={() => toggleTag(b)}
+                    aria-pressed={isActive}
                     data-testid={`resources-tag-${b}`}
                   >
                     {badge.label}
@@ -339,7 +344,7 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
 
         {/* Results count + wide toggle */}
         <div className="flex items-center justify-between mb-2.5">
-          <div className="text-xs text-gray-400 dark:text-slate-500 font-medium" data-testid="resources-count">
+          <div className="text-xs text-gray-400 dark:text-slate-500 font-medium" aria-live="polite" aria-atomic="true" data-testid="resources-count">
             {table.getRowModel().rows.length} of {data.length} references
           </div>
           {!effectivelyPinned && (

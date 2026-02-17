@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react'
+import React, { type ReactNode } from 'react'
 import { useAccordion } from '../../hooks/useAccordion'
 import { useIsDark } from '../../hooks/useTheme'
 import { ds } from '../../helpers/darkStyle'
@@ -66,6 +66,14 @@ export function AccordionList<T>({
             onClick={() => toggle(i)}
             className={`${itemClassName} cursor-pointer transition-all duration-150 ${useButton ? 'w-full text-left border-none' : ''}`}
             style={itemStyle?.(item, isDark, expanded)}
+            aria-expanded={expanded}
+            {...(!useButton && {
+              role: 'button' as const,
+              tabIndex: 0,
+              onKeyDown: (e: React.KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(i) }
+              },
+            })}
           >
             <div className="flex justify-between items-center">
               <div className="flex-1 min-w-0">
