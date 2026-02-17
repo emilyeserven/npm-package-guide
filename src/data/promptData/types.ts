@@ -5,6 +5,8 @@ export interface MistakeItem {
   mistake: string
   example: string
   fix: string
+  /** Link to a page in the Security Awareness guide for a deeper explanation. */
+  deepDivePageId?: string
 }
 
 export interface MistakeCategory {

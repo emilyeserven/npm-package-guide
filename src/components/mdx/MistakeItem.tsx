@@ -4,6 +4,7 @@ interface MistakeItemData {
   mistake: string
   example: string
   fix: string
+  deepDivePageId?: string
 }
 
 /**
@@ -27,6 +28,14 @@ export function MistakeItemCard({ item, headingLevel = 'h2' }: { item: MistakeIt
         <span className="shrink-0">{'\u{1F4A1}'}</span>
         <span>{item.fix}</span>
       </div>
+      {item.deepDivePageId && (
+        <a
+          href={`#/${item.deepDivePageId}`}
+          className="inline-flex items-center gap-1 mt-2 text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline"
+        >
+          Deep dive in Security Awareness guide {'\u2192'}
+        </a>
+      )}
     </div>
   )
 }
