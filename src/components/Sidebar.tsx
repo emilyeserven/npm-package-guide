@@ -55,13 +55,14 @@ function SidebarItem({ id, title, active, onClick }: { id: string; title: string
           : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
       )}
       onClick={() => onClick(id)}
+      aria-current={active ? 'page' : undefined}
       data-testid={`sidebar-item-${id}`}
     >
       <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">{text}</span>
       {badge ? (
         <span className={`w-5 h-5 flex items-center justify-center rounded text-[10px] font-bold shrink-0 ${badge.cls}`}>{badge.letter}</span>
       ) : icon ? (
-        <span className="text-base leading-none opacity-70 shrink-0">{icon}</span>
+        <span className="text-base leading-none opacity-70 shrink-0" aria-hidden="true">{icon}</span>
       ) : null}
     </button>
   )
@@ -96,13 +97,14 @@ function IconRail({
         to="/"
         className={clsx(iconBtnCls, !currentId ? activeCls : inactiveCls)}
         onClick={onHomeClick}
+        aria-label="Home"
         data-testid="sidebar-home-icon"
       >
         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
           <polyline points="9 22 9 12 15 12 15 22"/>
         </svg>
-        <span className={tooltipCls}>Home</span>
+        <span className={tooltipCls} aria-hidden="true">Home</span>
       </Link>
 
       <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5" />
@@ -113,10 +115,11 @@ function IconRail({
           key={guide.id}
           className={clsx(iconBtnCls, activeGuideId === guide.id ? activeCls : inactiveCls)}
           onClick={() => onSelectGuide(guide.id)}
+          aria-label={guide.title}
           data-testid={`sidebar-guide-icon-${guide.id}`}
         >
-          <span className="text-lg leading-none">{guide.icon}</span>
-          <span className={tooltipCls}>{guide.title}</span>
+          <span className="text-lg leading-none" aria-hidden="true">{guide.icon}</span>
+          <span className={tooltipCls} aria-hidden="true">{guide.title}</span>
         </button>
       ))}
 
@@ -124,10 +127,11 @@ function IconRail({
       <button
         className={clsx(iconBtnCls, activeGuideId === 'single-page-guides' ? activeCls : inactiveCls)}
         onClick={() => onSelectGuide('single-page-guides')}
+        aria-label="Single Page Guides"
         data-testid="sidebar-guide-icon-single-page-guides"
       >
-        <span className="text-lg leading-none">{'\u{1F4C4}'}</span>
-        <span className={tooltipCls}>Single Page Guides</span>
+        <span className="text-lg leading-none" aria-hidden="true">{'\u{1F4C4}'}</span>
+        <span className={tooltipCls} aria-hidden="true">Single Page Guides</span>
       </button>
 
       {/* Spacer pushes resource icons + settings to bottom */}
@@ -139,36 +143,40 @@ function IconRail({
       <button
         className={clsx(iconBtnCls, activeGuideId === 'checklists' ? activeCls : inactiveCls)}
         onClick={() => onSelectGuide('checklists')}
+        aria-label="Checklists"
         data-testid="sidebar-icon-checklists"
       >
-        <span className="text-lg leading-none">{'\u2705'}</span>
-        <span className={tooltipCls}>Checklists</span>
+        <span className="text-lg leading-none" aria-hidden="true">{'\u2705'}</span>
+        <span className={tooltipCls} aria-hidden="true">Checklists</span>
       </button>
 
       {/* Resource icons */}
       <button
         className={clsx(iconBtnCls, currentId === 'external-resources' ? activeCls : inactiveCls)}
         onClick={() => onResourceClick('external-resources')}
+        aria-label="External Resources"
         data-testid="sidebar-icon-external-resources"
       >
-        <span className="text-lg leading-none">{'\u{1F4DA}'}</span>
-        <span className={tooltipCls}>External Resources</span>
+        <span className="text-lg leading-none" aria-hidden="true">{'\u{1F4DA}'}</span>
+        <span className={tooltipCls} aria-hidden="true">External Resources</span>
       </button>
       <button
         className={clsx(iconBtnCls, currentId === 'glossary' ? activeCls : inactiveCls)}
         onClick={() => onResourceClick('glossary')}
+        aria-label="Glossary"
         data-testid="sidebar-icon-glossary"
       >
-        <span className="text-lg leading-none">{'\u{1F4D6}'}</span>
-        <span className={tooltipCls}>Glossary</span>
+        <span className="text-lg leading-none" aria-hidden="true">{'\u{1F4D6}'}</span>
+        <span className={tooltipCls} aria-hidden="true">Glossary</span>
       </button>
       <button
         className={clsx(iconBtnCls, inactiveCls)}
         onClick={() => window.open(STORYBOOK_URL, '_blank', 'noopener,noreferrer')}
+        aria-label="Open Storybook"
         data-testid="sidebar-icon-storybook"
       >
-        <span className="text-lg leading-none">{'\u{1F3A8}'}</span>
-        <span className={tooltipCls}>Storybook</span>
+        <span className="text-lg leading-none" aria-hidden="true">{'\u{1F3A8}'}</span>
+        <span className={tooltipCls} aria-hidden="true">Storybook</span>
       </button>
 
       <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5" />
@@ -240,6 +248,7 @@ function ContentPanel({
           <button
             className="hidden lg:flex items-center justify-center w-7 h-7 rounded-md cursor-pointer text-gray-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-150"
             onClick={onTogglePin}
+            aria-label={pinned ? 'Unpin sidebar' : 'Pin sidebar'}
             title={pinned ? 'Unpin sidebar' : 'Pin sidebar'}
             data-testid="sidebar-pin"
           >
@@ -248,6 +257,7 @@ function ContentPanel({
           <button
             className="flex items-center justify-center w-7 h-7 rounded-md cursor-pointer text-lg text-gray-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-150"
             onClick={onClose}
+            aria-label="Close sidebar"
             data-testid="sidebar-close"
           >
             &#x2715;
@@ -299,7 +309,7 @@ function ContentPanel({
                 onClick={() => onResourceNav('external-resources', guide.id)}
               >
                 <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">External Resources</span>
-                <span className="text-base leading-none opacity-70 shrink-0">{'\u{1F4DA}'}</span>
+                <span className="text-base leading-none opacity-70 shrink-0" aria-hidden="true">{'\u{1F4DA}'}</span>
               </button>
               <button
                 className={clsx(
@@ -311,7 +321,7 @@ function ContentPanel({
                 onClick={() => onResourceNav('glossary', guide.id)}
               >
                 <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">Glossary</span>
-                <span className="text-base leading-none opacity-70 shrink-0">{'\u{1F4D6}'}</span>
+                <span className="text-base leading-none opacity-70 shrink-0" aria-hidden="true">{'\u{1F4D6}'}</span>
               </button>
               {checklist && checklistTitle && (
                 <button
@@ -324,7 +334,7 @@ function ContentPanel({
                   onClick={() => onNav(checklist.id)}
                 >
                   <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">{checklistTitle}</span>
-                  <span className="text-base leading-none opacity-70 shrink-0">{'\u2705'}</span>
+                  <span className="text-base leading-none opacity-70 shrink-0" aria-hidden="true">{'\u2705'}</span>
                 </button>
               )}
             </div>
@@ -363,6 +373,7 @@ function SettingsPanel({
           <button
             className="hidden lg:flex items-center justify-center w-7 h-7 rounded-md cursor-pointer text-gray-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-150"
             onClick={onTogglePin}
+            aria-label={pinned ? 'Unpin sidebar' : 'Pin sidebar'}
             title={pinned ? 'Unpin sidebar' : 'Pin sidebar'}
             data-testid="sidebar-pin"
           >
@@ -371,6 +382,7 @@ function SettingsPanel({
           <button
             className="flex items-center justify-center w-7 h-7 rounded-md cursor-pointer text-lg text-gray-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-150"
             onClick={onClose}
+            aria-label="Close sidebar"
             data-testid="sidebar-close"
           >
             &#x2715;
@@ -390,6 +402,7 @@ function SettingsPanel({
                 theme === 'light' ? activeCls : inactiveCls
               )}
               onClick={() => { if (theme !== 'light') toggleTheme() }}
+              aria-pressed={theme === 'light'}
               data-testid="theme-option-light"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -411,6 +424,7 @@ function SettingsPanel({
                 theme === 'dark' ? activeCls : inactiveCls
               )}
               onClick={() => { if (theme !== 'dark') toggleTheme() }}
+              aria-pressed={theme === 'dark'}
               data-testid="theme-option-dark"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -446,6 +460,7 @@ function SettingsPanel({
                 currentPM === 'npm' ? activeCls : inactiveCls
               )}
               onClick={() => setPM('npm')}
+              aria-pressed={currentPM === 'npm'}
               data-testid="pm-option-npm"
             >
               npm
@@ -456,6 +471,7 @@ function SettingsPanel({
                 currentPM === 'pnpm' ? activeCls : inactiveCls
               )}
               onClick={() => setPM('pnpm')}
+              aria-pressed={currentPM === 'pnpm'}
               data-testid="pm-option-pnpm"
             >
               pnpm
@@ -551,7 +567,8 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
   }
 
   return (
-    <div
+    <nav
+      aria-label="Site navigation"
       data-testid="sidebar"
       className={clsx(
         'sidebar fixed top-0 left-0 bottom-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 z-100 flex flex-row transition-[width,translate] duration-250',
@@ -589,6 +606,6 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
           onNav={handleNav}
         />
       )}
-    </div>
+    </nav>
   )
 }

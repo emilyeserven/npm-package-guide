@@ -265,6 +265,7 @@ export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps)
           className="w-full h-10 px-3.5 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-500 outline-none transition-colors duration-150 focus:border-blue-500 dark:focus:border-blue-400"
           type="text"
           placeholder="Search terms..."
+          aria-label="Search glossary terms"
           value={globalFilter}
           onChange={e => setGlobalFilter(e.target.value)}
           data-testid="glossary-search"
@@ -286,6 +287,7 @@ export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps)
                     isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
                   )}
                   onClick={() => toggleGuide(tag)}
+                  aria-pressed={isActive}
                   data-testid={`glossary-guide-${tag}`}
                 >
                   {badge.label}
@@ -312,6 +314,7 @@ export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps)
                     isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
                   )}
                   onClick={() => toggleCategory(key)}
+                  aria-pressed={isActive}
                   data-testid={`glossary-filter-${cat.toLowerCase().replace(/\s+/g, '-')}`}
                 >
                   {badge.label}
@@ -335,7 +338,7 @@ export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps)
 
       {/* Results count + wide toggle */}
       <div className="flex items-center justify-between mb-2.5">
-        <div className="text-xs text-gray-400 dark:text-slate-500 font-medium" data-testid="glossary-count">
+        <div className="text-xs text-gray-400 dark:text-slate-500 font-medium" aria-live="polite" aria-atomic="true" data-testid="glossary-count">
           {table.getRowModel().rows.length} of {flatData.length} terms
         </div>
         {!effectivelyPinned && (

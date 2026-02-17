@@ -109,6 +109,7 @@ export function GlossaryTooltip() {
   return (
     <div
       ref={tooltipRef}
+      role="tooltip"
       className={clsx(
         'gt-tooltip fixed z-[1200] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-3 shadow-lg text-[13px] leading-relaxed text-slate-800 dark:text-slate-300 transition-[opacity,translate] duration-150',
         visible

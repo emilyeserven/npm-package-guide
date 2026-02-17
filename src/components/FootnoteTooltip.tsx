@@ -147,6 +147,7 @@ export function FootnoteTooltip() {
 
   return (
     <div
+      role="tooltip"
       className="fn-tooltip absolute z-50 max-w-72 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg px-3.5 py-2.5 text-sm leading-normal"
       style={{
         position: 'fixed',

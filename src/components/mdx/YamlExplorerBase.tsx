@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useIsDark } from '../../hooks/useTheme'
 import { ds } from '../../helpers/darkStyle'
 import { theme, tc } from '../../helpers/themeColors'
@@ -27,29 +27,42 @@ export function YamlExplorerBase({ lines, fileName }: YamlExplorerBaseProps) {
           </div>
         )}
         <div className="py-3 font-mono text-xs leading-7 overflow-x-auto">
-          {lines.map((item, i) => (
-            <div
-              key={i}
-              onClick={() => item.note ? setActiveLine(activeLine === i ? null : i) : undefined}
-              className="px-4 transition-all duration-150 whitespace-pre"
-              style={{
-                cursor: item.note ? 'pointer' : 'default',
-                background: activeLine === i
-                  ? ds('#f1f5f9', '#334155', isDark)
-                  : 'transparent',
-                borderLeft: activeLine === i
-                  ? `2px solid ${ds('#6366f1', '#818cf8', isDark)}`
-                  : '2px solid transparent',
-                color: item.line === ''
-                  ? 'transparent'
-                  : item.line.startsWith('  ')
-                    ? ds('#7c3aed', '#c4b5fd', isDark)
-                    : tc(theme.textSecondary, isDark),
-              }}
-            >
-              {item.line || '\u00A0'}
-            </div>
-          ))}
+          {lines.map((item, i) => {
+            const isClickable = !!item.note
+            const isActive = activeLine === i
+            return (
+              <div
+                key={i}
+                onClick={isClickable ? () => setActiveLine(isActive ? null : i) : undefined}
+                onKeyDown={isClickable ? (e: React.KeyboardEvent) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    setActiveLine(isActive ? null : i)
+                  }
+                } : undefined}
+                role={isClickable ? 'button' : undefined}
+                tabIndex={isClickable ? 0 : undefined}
+                aria-pressed={isClickable ? isActive : undefined}
+                className="px-4 transition-all duration-150 whitespace-pre"
+                style={{
+                  cursor: isClickable ? 'pointer' : 'default',
+                  background: isActive
+                    ? ds('#f1f5f9', '#334155', isDark)
+                    : 'transparent',
+                  borderLeft: isActive
+                    ? `2px solid ${ds('#6366f1', '#818cf8', isDark)}`
+                    : '2px solid transparent',
+                  color: item.line === ''
+                    ? 'transparent'
+                    : item.line.startsWith('  ')
+                      ? ds('#7c3aed', '#c4b5fd', isDark)
+                      : tc(theme.textSecondary, isDark),
+                }}
+              >
+                {item.line || '\u00A0'}
+              </div>
+            )
+          })}
         </div>
       </div>
 

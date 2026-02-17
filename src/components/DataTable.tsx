@@ -17,16 +17,26 @@ export function DataTable<T>({ table, columnCount, emptyMessage }: DataTableProp
               {headerGroup.headers.map(header => (
                 <th
                   key={header.id}
+                  scope="col"
                   className={clsx(
                     'text-left px-3 py-2.5 text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider bg-slate-50 dark:bg-slate-800/50',
                     header.column.getCanSort() && 'cursor-pointer select-none hover:text-blue-500 dark:hover:text-blue-400'
                   )}
                   onClick={header.column.getToggleSortingHandler()}
+                  aria-sort={
+                    header.column.getCanSort()
+                      ? header.column.getIsSorted() === 'asc'
+                        ? 'ascending'
+                        : header.column.getIsSorted() === 'desc'
+                          ? 'descending'
+                          : 'none'
+                      : undefined
+                  }
                 >
                   <span className="flex items-center gap-1">
                     {flexRender(header.column.columnDef.header, header.getContext())}
                     {header.column.getCanSort() && (
-                      <span className="text-gray-300 dark:text-slate-600 text-xs">
+                      <span className="text-gray-300 dark:text-slate-600 text-xs" aria-hidden="true">
                         {{ asc: ' ▲', desc: ' ▼' }[header.column.getIsSorted() as string] ?? ' ⇅'}
                       </span>
                     )}
