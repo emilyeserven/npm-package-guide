@@ -27,6 +27,7 @@ import { aiInfraGlossary } from './aiInfraTerms'
 import { njaGlossary } from './njaTerms'
 import { wpAgentsGlossary } from './wpAgentsTerms'
 import { gitWorktreesGlossary } from './gitWorktreesTerms'
+import { securityGlossary } from './securityTerms'
 
 export const glossaryTerms: GlossaryCategory[] = [
   ...npmPackageGlossary,
@@ -40,4 +41,5 @@ export const glossaryTerms: GlossaryCategory[] = [
   ...njaGlossary,
   ...wpAgentsGlossary,
   ...gitWorktreesGlossary,
+  ...securityGlossary,
 ]
