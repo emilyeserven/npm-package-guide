@@ -1,0 +1,28 @@
+---
+id: "prompt-mistakes-supply-chain"
+title: "Supply Chain Risks 📦"
+guide: "prompt-engineering"
+linkRefs:
+  - id: "sec-socket-dev"
+    note: "Socket.dev — detects supply chain risks beyond known CVEs, including typosquatting and install scripts."
+  - id: "snyk-open-source"
+    note: "Snyk Open Source — automated dependency vulnerability scanning for CI pipelines."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+<SeverityBadge categoryId="supply-chain" />
+
+<SectionIntro>
+AI assistants suggest packages based on training data — they can't verify whether a package still exists, has been compromised, or is a typosquat<FnRef n={1} />. They also default to permissive version ranges that allow auto-updates to potentially malicious versions. Always vet AI-recommended dependencies<FnRef n={2} />.
+</SectionIntro>
+
+<Toc>
+  <TocLink id="toc-supply-unvetted-packages">Unvetted packages</TocLink>
+  <TocLink id="toc-supply-version-ranges">Permissive version ranges</TocLink>
+  <TocLink id="toc-supply-no-audit">No dependency auditing</TocLink>
+  <TocLink id="toc-supply-prompts">All Prompts</TocLink>
+</Toc>
+
+<MistakeList categoryId="supply-chain" />
+
+<PromptCollection categoryId="supply-chain" />

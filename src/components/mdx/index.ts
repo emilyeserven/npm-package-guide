@@ -64,6 +64,8 @@ import { WorkflowDetail } from './ai-infra/WorkflowDetail'
 import { ConceptDetail } from './nextjs-abstractions/ConceptDetail'
 // git-worktrees
 import { WorktreeDiagram } from './git-worktrees/WorktreeDiagram'
+// security
+import { SecurityTopicDetail } from './security/SecurityTopicDetail'
 
 export const mdxComponents: MDXComponents = {
   pre: MdxPre,
@@ -143,4 +145,5 @@ export const mdxComponents: MDXComponents = {
   CodeAccordion,
   DefinitionTable,
   DefRow,
+  SecurityTopicDetail,
 }

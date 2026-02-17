@@ -1,0 +1,26 @@
+---
+id: "prompt-mistakes-csrf"
+title: "CSRF Vulnerabilities 🎭"
+guide: "prompt-engineering"
+linkRefs:
+  - id: "owasp-csrf-prevention"
+    note: "OWASP CSRF prevention cheat sheet — tokens, SameSite cookies, and double-submit patterns."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+<SeverityBadge categoryId="csrf" />
+
+<SectionIntro>
+AI-generated form handlers and API routes often omit CSRF protection entirely. The code works, passes tests, and looks correct — but any cross-origin page can forge requests against your users<FnRef n={1} />. Always specify CSRF requirements in your prompts and CLAUDE.md.
+</SectionIntro>
+
+<Toc>
+  <TocLink id="toc-csrf-no-token">Missing CSRF tokens</TocLink>
+  <TocLink id="toc-csrf-samesite">Missing SameSite cookies</TocLink>
+  <TocLink id="toc-csrf-get-mutations">GET routes that modify data</TocLink>
+  <TocLink id="toc-csrf-prompts">All Prompts</TocLink>
+</Toc>
+
+<MistakeList categoryId="csrf" />
+
+<PromptCollection categoryId="csrf" />

@@ -10,6 +10,7 @@ import { AI_INFRA_GUIDE_SECTIONS, AI_INFRA_START_PAGE_DATA } from './aiInfraData
 import { NJA_GUIDE_SECTIONS, NJA_START_PAGE_DATA } from './njaData'
 import { WP_AGENTS_GUIDE_SECTIONS } from './wpAgentsData'
 import { GIT_WORKTREES_GUIDE_SECTIONS } from './gitWorktreesData'
+import { SECURITY_GUIDE_SECTIONS, SECURITY_START_PAGE_DATA } from './securityData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -117,6 +118,15 @@ export const guides: GuideDefinition[] = [
     sections: GIT_WORKTREES_GUIDE_SECTIONS,
     singlePage: true,
   },
+  {
+    id: 'security',
+    icon: '\u{1F6E1}\uFE0F',  // 🛡️
+    title: 'Security Awareness',
+    startPageId: 'sec-start',
+    description:
+      'Common web security vulnerabilities explained for developers \u2014 how each attack works, real-world scenarios, and copy-pasteable prevention patterns.',
+    sections: SECURITY_GUIDE_SECTIONS,
+  },
 ]
 
 // ── Single Page Guides (combined virtual nav) ───────────────────────
@@ -206,6 +216,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'kubernetes': K8S_START_PAGE_DATA,
   'ai-infra': AI_INFRA_START_PAGE_DATA,
   'nextjs-abstractions': NJA_START_PAGE_DATA,
+  'security': SECURITY_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {

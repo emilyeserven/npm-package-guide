@@ -1,0 +1,26 @@
+---
+id: "prompt-mistakes-prompt-injection"
+title: "Prompt Injection 🧠"
+guide: "prompt-engineering"
+linkRefs:
+  - id: "sec-owasp-llm-top-10"
+    note: "OWASP Top 10 for LLM Applications — prompt injection is the #1 threat."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+<SeverityBadge categoryId="prompt-injection" />
+
+<SectionIntro>
+When AI generates code for LLM-powered features, it often builds them without injection defenses. Model output gets executed directly, user input mixes with system instructions, and tools get granted excessive permissions<FnRef n={1} />. Prompt injection is the XSS of AI applications — always specify protection patterns.
+</SectionIntro>
+
+<Toc>
+  <TocLink id="toc-prompt-injection-direct-exec">Executing LLM output without validation</TocLink>
+  <TocLink id="toc-prompt-injection-flat-prompt">Missing instruction/data separation</TocLink>
+  <TocLink id="toc-prompt-injection-overprivileged">Overprivileged tool access</TocLink>
+  <TocLink id="toc-prompt-injection-prompts">All Prompts</TocLink>
+</Toc>
+
+<MistakeList categoryId="prompt-injection" />
+
+<PromptCollection categoryId="prompt-injection" />

@@ -21,6 +21,10 @@ linkRefs:
 Security mistakes in AI-generated code are especially dangerous because the code often looks correct and passes basic testing. AI models routinely generate XSS vectors<FnRef n={1} />, expose secrets in client bundles, use insecure auth patterns, and build queries with string concatenation. Always include explicit security requirements<FnRef n={2} /> in your prompts and CLAUDE.md.
 </SectionIntro>
 
+<Explainer>
+For a deeper look at how each vulnerability works, real-world attack scenarios, and copy-pasteable prevention code, see the <NavLink to="sec-start">Security Awareness guide</NavLink>. Each mistake below links to its corresponding deep-dive page.
+</Explainer>
+
 <Toc>
   <TocLink id="toc-xss-raw-html">XSS via unsanitized user content</TocLink>
   <TocLink id="toc-secrets-client">Exposing secrets in client-side code</TocLink>

@@ -6,7 +6,7 @@ Educational single-page application (SPA) with multiple guides for backend engin
 
 ## Guides
 
-Ten independent guides plus top-level resource pages. All metadata centralized in `src/data/guideRegistry.ts`. Each guide has its own `CLAUDE.md` in its content directory with guide-specific audience, conventions, and component usage.
+Twelve independent guides plus top-level resource pages. All metadata centralized in `src/data/guideRegistry.ts`. Each guide has its own `CLAUDE.md` in its content directory with guide-specific audience, conventions, and component usage.
 
 | Guide ID | Title | Start Page |
 |----------|-------|------------|
@@ -20,6 +20,8 @@ Ten independent guides plus top-level resource pages. All metadata centralized i
 | `ai-infra` | AI Infrastructure | `ai-start` |
 | `nextjs-abstractions` | Next.js Abstractions | `nja-start` |
 | `wp-agents` | WordPress API & Agents | `wp-agents-guide` |
+| `git-worktrees` | Git Worktrees & Claude Code | `git-worktrees-guide` |
+| `security` | Security Awareness | `sec-start` |
 
 Guides are multi-page by default. `wp-agents` is a single-page guide (`singlePage: true` in registry).
 
