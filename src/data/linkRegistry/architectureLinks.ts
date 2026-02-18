@@ -100,7 +100,7 @@ export const architectureLinks: RegistryLink[] = [
     label: "Next.js documentation",
     source: "Next.js",
     desc: "The most popular React meta-framework by Vercel",
-    tags: ["docs", "free", "frameworks", "guide:architecture"],
+    tags: ["docs", "free", "frameworks", "guide:architecture", "guide:tanstack-router"],
   },
   {
     id: "nextjs-app-router",
@@ -148,7 +148,7 @@ export const architectureLinks: RegistryLink[] = [
     label: "React Router documentation",
     source: "React Router",
     desc: "React Router v7 full-stack framework mode",
-    tags: ["docs", "free", "frameworks", "guide:architecture"],
+    tags: ["docs", "free", "frameworks", "guide:architecture", "guide:tanstack-router"],
   },
   {
     id: "react-router-data-loading",
