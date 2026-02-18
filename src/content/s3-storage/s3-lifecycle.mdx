@@ -1,0 +1,21 @@
+---
+id: "s3-lifecycle"
+title: "Lifecycle Rules 🔄"
+guide: "s3-storage"
+linkRefs:
+  - id: "aws-s3-lifecycle"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+You don't have to manually move objects between classes. S3 Lifecycle Rules let you automate transitions and deletions based on age. This is where the real cost savings happen.
+</SectionIntro>
+
+<Explainer title="Think of it like email rules">
+Just like an email rule that says "move messages older than 30 days to Archive," a lifecycle rule says "move objects older than 30 days to Standard-IA, and after 90 days move them to Glacier."
+</Explainer>
+
+### Example: User Upload Pipeline
+
+<S3LifecycleTimeline />

@@ -81,6 +81,15 @@ import { TsqProsCons } from './tanstack-query/TsqProsCons'
 import { TsqWhyBoth } from './tanstack-query/TsqWhyBoth'
 // tanstack-router
 import { TsrTopicDetail } from './tanstack-router/TsrTopicDetail'
+// s3-storage
+import { S3ConceptGrid } from './s3-storage/S3ConceptGrid'
+import { StorageClassCards } from './s3-storage/StorageClassCards'
+import { S3ComparisonTable } from './s3-storage/S3ComparisonTable'
+import { S3LifecycleTimeline } from './s3-storage/S3LifecycleTimeline'
+import { S3CostCalculator } from './s3-storage/S3CostCalculator'
+import { S3ClassPicker } from './s3-storage/S3ClassPicker'
+import { S3FrontendPatterns } from './s3-storage/S3FrontendPatterns'
+import { S3Quiz } from './s3-storage/S3Quiz'
 
 export const mdxComponents: MDXComponents = {
   pre: MdxPre,
@@ -173,4 +182,12 @@ export const mdxComponents: MDXComponents = {
   TsqProsCons,
   TsqWhyBoth,
   TsrTopicDetail,
+  S3ConceptGrid,
+  StorageClassCards,
+  S3ComparisonTable,
+  S3LifecycleTimeline,
+  S3CostCalculator,
+  S3ClassPicker,
+  S3FrontendPatterns,
+  S3Quiz,
 }

@@ -1,0 +1,49 @@
+---
+id: "s3-basics"
+title: "S3 Basics ☁️"
+guide: "s3-storage"
+linkRefs:
+  - id: "aws-s3-overview"
+  - id: "aws-s3-concepts"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what-is-s3">What Even Is S3?</TocLink>
+  <TocLink id="toc-analogy">Frontend Analogy</TocLink>
+  <TocLink id="toc-concepts">Key Concepts</TocLink>
+  <TocLink id="toc-why-care">Why Should You Care?</TocLink>
+</Toc>
+
+<SectionIntro>
+S3 stands for **Simple Storage Service**. It's Amazon's cloud storage — think of it as a giant, infinitely scalable hard drive in the sky that you access over the internet.
+</SectionIntro>
+
+<SectionSubheading id="toc-what-is-s3">
+  What Even Is S3?
+</SectionSubheading>
+
+Amazon S3 is an object storage service that lets you store and retrieve any amount of data, from anywhere on the web. It's one of the oldest and most widely used AWS services — launched in 2006.
+
+<SectionSubheading id="toc-analogy">
+  Frontend Analogy
+</SectionSubheading>
+
+<Explainer title="localStorage vs. S3">
+If your `localStorage` is a small drawer in your desk, S3 is an entire warehouse with infinite rooms. You can store anything — images, JSON files, videos, backups, entire static websites — and access it from anywhere with a URL.
+</Explainer>
+
+<SectionSubheading id="toc-concepts">
+  Key Concepts
+</SectionSubheading>
+
+<S3ConceptGrid />
+
+<SectionSubheading id="toc-why-care">
+  Why Should a Frontend Engineer Care?
+</SectionSubheading>
+
+<Explainer title="You already use S3 — you just don't know it">
+If your app serves images, hosts a static site, stores user uploads, or reads JSON config files — there's a good chance S3 is behind it. Understanding storage classes helps you (or your team) avoid paying 10x more than you should.
+</Explainer>
