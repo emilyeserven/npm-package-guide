@@ -1,0 +1,31 @@
+---
+id: "sm-zustand"
+title: "Zustand 🐻"
+guide: "state-management"
+linkRefs:
+  - id: "zustand-docs"
+    note: "Official Zustand documentation and API reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-deep-dive">Deep Dive</TocLink>
+</Toc>
+
+<SectionIntro>
+Zustand is a small, fast, and scalable state management library that uses a simplified flux pattern with hooks as the primary API. Think of it as "what if `useState` was global and smart."
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+
+<SectionList>
+<ColItem>**Tiny footprint** — ~1KB gzipped with zero boilerplate. No providers needed.</ColItem>
+<ColItem>**Surgical re-renders** — built-in selectors mean components only re-render for the specific state they use.</ColItem>
+<ColItem>**Works everywhere** — outside React too (vanilla JS, middleware, tests).</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-deep-dive">Deep Dive</SectionSubheading>
+
+<StateDeepDive techId="zst" />

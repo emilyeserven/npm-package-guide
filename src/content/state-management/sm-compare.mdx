@@ -1,0 +1,26 @@
+---
+id: "sm-compare"
+title: "Side-by-Side Comparison ⚖️"
+guide: "state-management"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-table">Feature Comparison</TocLink>
+  <TocLink id="toc-takeaway">Key Takeaway</TocLink>
+</Toc>
+
+<SectionIntro>
+How do React Context, Zustand, and Redux Toolkit stack up across key dimensions? This table gives you a quick reference for the trade-offs.
+</SectionIntro>
+
+<SectionSubheading id="toc-table">Feature Comparison</SectionSubheading>
+
+<StateComparison />
+
+<SectionSubheading id="toc-takeaway">Key Takeaway</SectionSubheading>
+
+<Gotcha>
+**There is no single "best" tool.** Context is free and simple but limited. Zustand is tiny and flexible with great re-render control. Redux is structured and battle-tested but heavier. Pick the one that matches your app's complexity — and remember that **server state** (API data) should live in React Query, not in any of these.
+</Gotcha>
