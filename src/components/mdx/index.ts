@@ -79,6 +79,8 @@ import { TsqQueryLifecycle } from './tanstack-query/TsqQueryLifecycle'
 import { TsqStateDiagram } from './tanstack-query/TsqStateDiagram'
 import { TsqProsCons } from './tanstack-query/TsqProsCons'
 import { TsqWhyBoth } from './tanstack-query/TsqWhyBoth'
+// tanstack-router
+import { TsrTopicDetail } from './tanstack-router/TsrTopicDetail'
 
 export const mdxComponents: MDXComponents = {
   pre: MdxPre,
@@ -170,4 +172,5 @@ export const mdxComponents: MDXComponents = {
   TsqStateDiagram,
   TsqProsCons,
   TsqWhyBoth,
+  TsrTopicDetail,
 }

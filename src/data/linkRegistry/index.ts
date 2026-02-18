@@ -48,6 +48,7 @@ import { gitWorktreesLinks } from './gitWorktreesLinks'
 import { securityLinks } from './securityLinks'
 import { stateManagementLinks } from './stateManagementLinks'
 import { tanstackQueryLinks } from './tanstackQueryLinks'
+import { tanstackRouterLinks } from './tanstackRouterLinks'
 
 export const linkRegistry: RegistryLink[] = [
   ...npmPackageLinks,
@@ -64,6 +65,7 @@ export const linkRegistry: RegistryLink[] = [
   ...securityLinks,
   ...stateManagementLinks,
   ...tanstackQueryLinks,
+  ...tanstackRouterLinks,
 ]
 
 /** Fast lookup by registry ID */

@@ -13,6 +13,7 @@ import { GIT_WORKTREES_GUIDE_SECTIONS } from './gitWorktreesData'
 import { SECURITY_GUIDE_SECTIONS, SECURITY_START_PAGE_DATA } from './securityData'
 import { SM_GUIDE_SECTIONS, SM_START_PAGE_DATA } from './stateManagementData'
 import { TSQ_GUIDE_SECTIONS, TSQ_START_PAGE_DATA } from './tanstackQueryData'
+import { TSR_GUIDE_SECTIONS, TSR_START_PAGE_DATA } from './tanstackRouterData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -147,6 +148,15 @@ export const guides: GuideDefinition[] = [
       'Server state management with TanStack Query \u2014 caching, deduplication, and the async data layer React is missing.',
     sections: TSQ_GUIDE_SECTIONS,
   },
+  {
+    id: 'tanstack-router',
+    icon: '\u{1F9ED}',        // 🧭
+    title: 'TanStack Router Deep Dive',
+    startPageId: 'tsr-start',
+    description:
+      'A deep comparison of TanStack Router vs React Router vs Next.js \u2014 type safety, search params, data loading, and when to use what.',
+    sections: TSR_GUIDE_SECTIONS,
+  },
 ]
 
 // ── Single Page Guides (combined virtual nav) ───────────────────────
@@ -239,6 +249,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'security': SECURITY_START_PAGE_DATA,
   'state-management': SM_START_PAGE_DATA,
   'tanstack-query': TSQ_START_PAGE_DATA,
+  'tanstack-router': TSR_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {

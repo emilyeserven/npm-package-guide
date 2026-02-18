@@ -30,6 +30,7 @@ import { gitWorktreesGlossary } from './gitWorktreesTerms'
 import { securityGlossary } from './securityTerms'
 import { stateManagementGlossary } from './stateManagementTerms'
 import { tanstackQueryGlossary } from './tanstackQueryTerms'
+import { tanstackRouterGlossary } from './tanstackRouterTerms'
 
 export const glossaryTerms: GlossaryCategory[] = [
   ...npmPackageGlossary,
@@ -46,4 +47,5 @@ export const glossaryTerms: GlossaryCategory[] = [
   ...securityGlossary,
   ...stateManagementGlossary,
   ...tanstackQueryGlossary,
+  ...tanstackRouterGlossary,
 ]
