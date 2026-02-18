@@ -81,6 +81,8 @@ import { TsqProsCons } from './tanstack-query/TsqProsCons'
 import { TsqWhyBoth } from './tanstack-query/TsqWhyBoth'
 // tanstack-router
 import { TsrTopicDetail } from './tanstack-router/TsrTopicDetail'
+// aws-decoded
+import { AwsServiceExplorer } from './aws-decoded/AwsServiceExplorer'
 // s3-storage
 import { S3ConceptGrid } from './s3-storage/S3ConceptGrid'
 import { StorageClassCards } from './s3-storage/StorageClassCards'
@@ -190,4 +192,5 @@ export const mdxComponents: MDXComponents = {
   S3ClassPicker,
   S3FrontendPatterns,
   S3Quiz,
+  AwsServiceExplorer,
 }

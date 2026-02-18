@@ -32,6 +32,7 @@ import { stateManagementGlossary } from './stateManagementTerms'
 import { tanstackQueryGlossary } from './tanstackQueryTerms'
 import { tanstackRouterGlossary } from './tanstackRouterTerms'
 import { s3Glossary } from './s3Terms'
+import { awsDecodedGlossary } from './awsDecodedTerms'
 
 export const glossaryTerms: GlossaryCategory[] = [
   ...npmPackageGlossary,
@@ -50,4 +51,5 @@ export const glossaryTerms: GlossaryCategory[] = [
   ...tanstackQueryGlossary,
   ...tanstackRouterGlossary,
   ...s3Glossary,
+  ...awsDecodedGlossary,
 ]

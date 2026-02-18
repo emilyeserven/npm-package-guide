@@ -1,0 +1,70 @@
+import type { AwsService } from './types'
+
+export const COMPUTE_SERVICES: AwsService[] = [
+  {
+    id: 'ec2',
+    name: 'EC2',
+    fullName: 'Elastic Compute Cloud',
+    cat: 'compute',
+    level: 'beginner',
+    icon: '\u{1F5A5}\uFE0F',
+    short: 'Virtual computers in the cloud. You rent a machine (called an "instance"), pick its power level, and run whatever you want on it.',
+    analogy: 'Renting a desk at a co-working space \u2014 you choose the size, bring your stuff, and leave when you\'re done.',
+    detail: 'EC2 is the bread and butter of AWS. It gives you a virtual machine (VM) \u2014 essentially a computer running in Amazon\'s data center that you can SSH into and control. You choose the operating system (Linux, Windows), the CPU/RAM combo (called "instance types" like t3.micro, m5.large), and you pay by the hour or second.',
+    useCases: [
+      'Hosting a backend API server (Express, Django, Rails)',
+      'Running a build server for CI/CD',
+      'Hosting any application that needs a full OS environment',
+    ],
+    keyTerms: {
+      Instance: 'A single virtual machine',
+      AMI: 'Amazon Machine Image \u2014 a pre-configured OS snapshot',
+      'Security Group': 'A firewall that controls what traffic reaches your instance',
+    },
+    pricing: 'Free tier: 750 hrs/month of t2.micro for 12 months. After: pay per hour based on instance size.',
+    code: '// You don\'t write code TO EC2 directly.\n// You SSH in and run your app:\n\n$ ssh -i mykey.pem ec2-user@3.14.159.26\n$ node server.js  // your app runs here',
+  },
+  {
+    id: 'lightsail',
+    name: 'Lightsail',
+    fullName: 'Amazon Lightsail',
+    cat: 'compute',
+    level: 'beginner',
+    icon: '\u{1F4A1}',
+    short: 'The "easy mode" for hosting. Pre-configured virtual servers with simple, flat-rate pricing. Think of it as EC2 without the complexity.',
+    analogy: 'A furnished apartment \u2014 everything\'s already set up, you just move in.',
+    detail: 'Lightsail bundles compute, storage, and networking into one simple package. It\'s designed for people who don\'t want to learn the full AWS ecosystem just to host a WordPress site or a small Node app. You pick a plan ($3.50 to $160/mo), and you get a server with a static IP, storage, and data transfer included.',
+    useCases: [
+      'Hosting WordPress, Ghost, or other CMS platforms',
+      'Small web apps and APIs',
+      'Dev/test environments',
+      'Personal projects and portfolios',
+    ],
+    keyTerms: {
+      Blueprint: 'A pre-configured server template (e.g., Node.js, WordPress, LAMP)',
+      'Static IP': 'A permanent IP address that doesn\'t change when you restart',
+    },
+    pricing: 'Starts at $3.50/month. Includes compute, storage, and data transfer.',
+  },
+  {
+    id: 'elastic-beanstalk',
+    name: 'Elastic Beanstalk',
+    fullName: 'AWS Elastic Beanstalk',
+    cat: 'compute',
+    level: 'beginner',
+    icon: '\u{1F331}',
+    short: 'Upload your code and AWS automatically handles deployment, scaling, load balancing, and monitoring. Like Heroku, but in the AWS ecosystem.',
+    analogy: 'A self-driving car \u2014 you tell it where to go (upload your app), and it figures out the route, parking, and fuel.',
+    detail: 'Beanstalk is a Platform-as-a-Service (PaaS). You give it your app code (Node.js, Python, Java, Docker, etc.), and it provisions EC2 instances, sets up load balancers, configures auto-scaling, and deploys your code. You can still access the underlying resources if you need to tweak things.',
+    useCases: [
+      'Deploying web apps without learning infrastructure',
+      'Teams that want AWS but not the complexity',
+      'Migrating from Heroku',
+    ],
+    keyTerms: {
+      Environment: 'A running version of your app with all its infrastructure',
+      Platform: 'The runtime (Node.js, Python, Docker, etc.)',
+    },
+    pricing: 'No additional charge \u2014 you only pay for the underlying resources (EC2, load balancers, etc.).',
+  },
+]
