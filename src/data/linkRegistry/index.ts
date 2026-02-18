@@ -50,6 +50,7 @@ import { stateManagementLinks } from './stateManagementLinks'
 import { tanstackQueryLinks } from './tanstackQueryLinks'
 import { tanstackRouterLinks } from './tanstackRouterLinks'
 import { s3Links } from './s3Links'
+import { awsDecodedLinks } from './awsDecodedLinks'
 
 export const linkRegistry: RegistryLink[] = [
   ...npmPackageLinks,
@@ -68,6 +69,7 @@ export const linkRegistry: RegistryLink[] = [
   ...tanstackQueryLinks,
   ...tanstackRouterLinks,
   ...s3Links,
+  ...awsDecodedLinks,
 ]
 
 /** Fast lookup by registry ID */

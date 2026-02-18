@@ -15,6 +15,7 @@ import { SM_GUIDE_SECTIONS, SM_START_PAGE_DATA } from './stateManagementData'
 import { TSQ_GUIDE_SECTIONS, TSQ_START_PAGE_DATA } from './tanstackQueryData'
 import { TSR_GUIDE_SECTIONS, TSR_START_PAGE_DATA } from './tanstackRouterData'
 import { S3_GUIDE_SECTIONS, S3_START_PAGE_DATA } from './s3Data'
+import { AWS_GUIDE_SECTIONS, AWS_START_PAGE_DATA } from './awsDecodedData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -167,6 +168,15 @@ export const guides: GuideDefinition[] = [
       'Understand Amazon S3 storage classes from a frontend engineer\u2019s perspective \u2014 buckets, objects, lifecycle rules, cost optimization, and practical usage patterns.',
     sections: S3_GUIDE_SECTIONS,
   },
+  {
+    id: 'aws-decoded',
+    icon: '\u2601\uFE0F',  // ☁️
+    title: 'AWS Decoded',
+    startPageId: 'aws-start',
+    description:
+      'Every AWS service explained like you\u2019re a frontend engineer who just learned what a server is \u2014 62 services, 11 categories, zero buzzwords.',
+    sections: AWS_GUIDE_SECTIONS,
+  },
 ]
 
 // ── Single Page Guides (combined virtual nav) ───────────────────────
@@ -261,6 +271,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'tanstack-query': TSQ_START_PAGE_DATA,
   'tanstack-router': TSR_START_PAGE_DATA,
   's3-storage': S3_START_PAGE_DATA,
+  'aws-decoded': AWS_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {
