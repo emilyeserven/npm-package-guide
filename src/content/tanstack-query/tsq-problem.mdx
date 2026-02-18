@@ -1,0 +1,45 @@
+---
+id: "tsq-problem"
+title: "The Data Fetching Problem 🤔"
+guide: "tanstack-query"
+linkRefs:
+  - id: "tsq-mdn-fetch"
+  - id: "tsq-axios"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+fetch, XHR, and axios handle the network request. But what about everything else?
+</SectionIntro>
+
+Every React app that talks to a server needs to answer these questions — and with vanilla fetch or axios, you answer all of them by writing custom code. Usually poorly, inconsistently, and differently in each component.
+
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 my-6">
+  <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4">
+    <div className="text-2xl mb-1">🔄</div>
+    <div className="text-sm text-slate-600 dark:text-slate-300">When should I refetch?</div>
+  </div>
+  <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4">
+    <div className="text-2xl mb-1">💾</div>
+    <div className="text-sm text-slate-600 dark:text-slate-300">How do I cache responses?</div>
+  </div>
+  <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4">
+    <div className="text-2xl mb-1">🔀</div>
+    <div className="text-sm text-slate-600 dark:text-slate-300">What if 3 components need the same data?</div>
+  </div>
+  <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4">
+    <div className="text-2xl mb-1">⏳</div>
+    <div className="text-sm text-slate-600 dark:text-slate-300">How do I show stale data while refreshing?</div>
+  </div>
+  <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4">
+    <div className="text-2xl mb-1">⚡</div>
+    <div className="text-sm text-slate-600 dark:text-slate-300">What about optimistic UI updates?</div>
+  </div>
+  <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4">
+    <div className="text-2xl mb-1">📄</div>
+    <div className="text-sm text-slate-600 dark:text-slate-300">How do I handle pagination?</div>
+  </div>
+</div>
+
+TanStack Query provides opinionated, battle-tested answers to all of these questions. It's not a replacement for fetch — it's the **management layer** that sits on top of your transport and orchestrates when, how, and where your server data lives in your app.

@@ -1,0 +1,20 @@
+---
+id: "tsq-lifecycle"
+title: "The Life of a Query 🔁"
+guide: "tanstack-query"
+linkRefs:
+  - id: "tsq-docs"
+  - id: "tsq-tkdodo-blog"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+Step through the complete lifecycle of a query — from the moment a component mounts to garbage collection.
+</SectionIntro>
+
+<TsqQueryLifecycle />
+
+<Gotcha>
+A common source of confusion: **`isLoading` vs `isFetching`**. `isLoading` is true only on the initial load (no cached data). `isFetching` is true during any network request, including background refetches. During a background refetch, `isLoading` is false (cached data is being shown) but `isFetching` is true.
+</Gotcha>
