@@ -140,6 +140,13 @@ body.pnpm .cmd-npm { display: none; }
   @apply py-6 text-center text-sm text-slate-500 dark:text-slate-400;
 }
 
+/* ── Utility: hide scrollbar (icon rail) ──────────────────────────── */
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
 /* ── Animations ───────────────────────────────────────────────────── */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
