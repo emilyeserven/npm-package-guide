@@ -22,6 +22,7 @@ Twelve independent guides plus top-level resource pages. All metadata centralize
 | `wp-agents` | WordPress API & Agents | `wp-agents-guide` |
 | `git-worktrees` | Git Worktrees & Claude Code | `git-worktrees-guide` |
 | `security` | Security Awareness | `sec-start` |
+| `state-management` | React State Management | `sm-start` |
 
 Guides are multi-page by default. `wp-agents` is a single-page guide (`singlePage: true` in registry).
 

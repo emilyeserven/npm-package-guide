@@ -1,0 +1,31 @@
+---
+id: "sm-redux"
+title: "Redux Toolkit 🔮"
+guide: "state-management"
+linkRefs:
+  - id: "redux-toolkit-docs"
+    note: "Official Redux Toolkit documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-deep-dive">Deep Dive</TocLink>
+</Toc>
+
+<SectionIntro>
+Redux Toolkit (RTK) is the industry standard for large-scale state management. It modernizes Redux with opinionated defaults, removing most boilerplate while keeping the strict unidirectional data flow that makes complex apps predictable.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+
+<SectionList>
+<ColItem>**Predictable** — single source of truth with pure reducers and a strict action → reducer → state flow.</ColItem>
+<ColItem>**Best-in-class devtools** — time-travel debugging, action logging, and state diffing out of the box.</ColItem>
+<ColItem>**Massive ecosystem** — middleware (thunk, saga), selectors (reselect), and RTK Query for server state.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-deep-dive">Deep Dive</SectionSubheading>
+
+<StateDeepDive techId="redux" />

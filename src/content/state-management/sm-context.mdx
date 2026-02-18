@@ -1,0 +1,31 @@
+---
+id: "sm-context"
+title: "React Context ⚛️"
+guide: "state-management"
+linkRefs:
+  - id: "react-context-docs"
+    note: "Official React docs on createContext and useContext"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-deep-dive">Deep Dive</TocLink>
+</Toc>
+
+<SectionIntro>
+React Context is the built-in way to pass data through the component tree without prop drilling. It's not technically a state manager — it's a **dependency injection mechanism**. Perfect for values that change rarely and affect many components.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+
+<SectionList>
+<ColItem>**Zero dependencies** — Context ships with React, so there's nothing extra to install.</ColItem>
+<ColItem>**Simple mental model** — a Provider wraps a subtree, and any component below can consume the value with `useContext`.</ColItem>
+<ColItem>**The catch** — every consumer re-renders when *any* value in the context changes. There are no built-in selectors, so you can't subscribe to just a slice of state.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-deep-dive">Deep Dive</SectionSubheading>
+
+<StateDeepDive techId="context" />

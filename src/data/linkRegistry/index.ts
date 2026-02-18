@@ -46,6 +46,7 @@ import { njaLinks } from './njaLinks'
 import { wpAgentsLinks } from './wpAgentsLinks'
 import { gitWorktreesLinks } from './gitWorktreesLinks'
 import { securityLinks } from './securityLinks'
+import { stateManagementLinks } from './stateManagementLinks'
 import { tanstackQueryLinks } from './tanstackQueryLinks'
 
 export const linkRegistry: RegistryLink[] = [
@@ -61,6 +62,7 @@ export const linkRegistry: RegistryLink[] = [
   ...wpAgentsLinks,
   ...gitWorktreesLinks,
   ...securityLinks,
+  ...stateManagementLinks,
   ...tanstackQueryLinks,
 ]
 

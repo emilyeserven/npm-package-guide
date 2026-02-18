@@ -11,6 +11,7 @@ import { NJA_GUIDE_SECTIONS, NJA_START_PAGE_DATA } from './njaData'
 import { WP_AGENTS_GUIDE_SECTIONS } from './wpAgentsData'
 import { GIT_WORKTREES_GUIDE_SECTIONS } from './gitWorktreesData'
 import { SECURITY_GUIDE_SECTIONS, SECURITY_START_PAGE_DATA } from './securityData'
+import { SM_GUIDE_SECTIONS, SM_START_PAGE_DATA } from './stateManagementData'
 import { TSQ_GUIDE_SECTIONS, TSQ_START_PAGE_DATA } from './tanstackQueryData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
@@ -129,6 +130,15 @@ export const guides: GuideDefinition[] = [
     sections: SECURITY_GUIDE_SECTIONS,
   },
   {
+    id: 'state-management',
+    icon: '\u26A1',              // ⚡
+    title: 'React State Management',
+    startPageId: 'sm-start',
+    description:
+      'Context vs Zustand vs Redux \u2014 deep dives, side-by-side comparison, and how React Query changes everything.',
+    sections: SM_GUIDE_SECTIONS,
+  },
+  {
     id: 'tanstack-query',
     icon: '\u{1F504}',        // 🔄
     title: 'TanStack Query',
@@ -227,6 +237,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'ai-infra': AI_INFRA_START_PAGE_DATA,
   'nextjs-abstractions': NJA_START_PAGE_DATA,
   'security': SECURITY_START_PAGE_DATA,
+  'state-management': SM_START_PAGE_DATA,
   'tanstack-query': TSQ_START_PAGE_DATA,
 }
 

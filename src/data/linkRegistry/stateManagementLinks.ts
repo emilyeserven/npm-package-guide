@@ -1,0 +1,57 @@
+import type { RegistryLink } from './index'
+
+export const stateManagementLinks: RegistryLink[] = [
+  {
+    id: 'react-context-docs',
+    url: 'https://react.dev/reference/react/createContext',
+    label: 'React createContext API',
+    source: 'React',
+    desc: 'Official React documentation for createContext and useContext hooks',
+    tags: ['docs', 'free', 'guide:state-management'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'zustand-docs',
+    url: 'https://zustand.docs.pmnd.rs/',
+    label: 'Zustand Documentation',
+    source: 'Zustand',
+    desc: 'Official Zustand documentation — API reference, middleware, recipes, and TypeScript guide',
+    tags: ['docs', 'free', 'guide:state-management'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'redux-toolkit-docs',
+    url: 'https://redux-toolkit.js.org/',
+    label: 'Redux Toolkit Documentation',
+    source: 'Redux',
+    desc: 'Official Redux Toolkit documentation — getting started, tutorials, API reference',
+    tags: ['docs', 'free', 'guide:state-management'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'tanstack-query-docs',
+    url: 'https://tanstack.com/query/latest',
+    label: 'TanStack Query (React Query) Documentation',
+    source: 'TanStack',
+    desc: 'Official TanStack Query documentation — guides, API reference, and examples for server state management',
+    tags: ['docs', 'free', 'guide:state-management'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'zustand-github',
+    url: 'https://github.com/pmndrs/zustand',
+    label: 'Zustand GitHub Repository',
+    source: 'GitHub',
+    desc: 'Zustand source code, examples, and community discussions',
+    tags: ['repo', 'free', 'guide:state-management'],
+  },
+  {
+    id: 'redux-style-guide',
+    url: 'https://redux.js.org/style-guide/',
+    label: 'Redux Style Guide',
+    source: 'Redux',
+    desc: 'Official recommended patterns and best practices for Redux applications',
+    tags: ['docs', 'free', 'guide:state-management'],
+    resourceCategory: 'Articles & Tutorials',
+  },
+]

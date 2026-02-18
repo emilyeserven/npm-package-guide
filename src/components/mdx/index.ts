@@ -66,6 +66,11 @@ import { ConceptDetail } from './nextjs-abstractions/ConceptDetail'
 import { WorktreeDiagram } from './git-worktrees/WorktreeDiagram'
 // security
 import { SecurityTopicDetail } from './security/SecurityTopicDetail'
+// state-management
+import { StateDeepDive } from './state-management/StateDeepDive'
+import { StateComparison } from './state-management/StateComparison'
+import { StateDecisionTree } from './state-management/StateDecisionTree'
+import { StateArchitecture } from './state-management/StateArchitecture'
 // tanstack-query
 import { TsqCodeComparison } from './tanstack-query/TsqCodeComparison'
 import { TsqComparisonTable } from './tanstack-query/TsqComparisonTable'
@@ -154,6 +159,10 @@ export const mdxComponents: MDXComponents = {
   DefinitionTable,
   DefRow,
   SecurityTopicDetail,
+  StateDeepDive,
+  StateComparison,
+  StateDecisionTree,
+  StateArchitecture,
   TsqCodeComparison,
   TsqComparisonTable,
   TsqCacheDemo,
