@@ -1,0 +1,21 @@
+---
+id: "tsq-state-taxonomy"
+title: "Not All State Is Created Equal 🗂️"
+guide: "tanstack-query"
+linkRefs:
+  - id: "tsq-zustand"
+  - id: "tsq-rtk"
+  - id: "tsq-react-hook-form"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+Click each card to explore why different types of state need different tools.
+</SectionIntro>
+
+<TsqStateDiagram />
+
+<Explainer title="Why this matters">
+The biggest mistake teams make is treating all state the same — shoving API responses, UI toggles, and form values into a single Redux store. Each state type has fundamentally different characteristics (sync vs async, shared vs local, ephemeral vs persistent) and works best with tools designed for those characteristics.
+</Explainer>

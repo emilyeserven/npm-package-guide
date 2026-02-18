@@ -1,0 +1,23 @@
+---
+id: "tsq-side-by-side"
+title: "The Same Feature, Four Ways 🔀"
+guide: "tanstack-query"
+linkRefs:
+  - id: "tsq-docs"
+  - id: "tsq-mdn-fetch"
+  - id: "tsq-axios"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+Fetch a list of users. Handle loading, errors, caching, race conditions, and cleanup — all with the same result, but very different levels of effort.
+</SectionIntro>
+
+<TsqCodeComparison />
+
+<Explainer title="Key takeaway">
+The TanStack Query version isn't just shorter — it's **declarative**. You describe *what data you need* and *how fresh it should be*. The library handles the how: caching, deduplication, retries, background refetching, and garbage collection.
+
+The other approaches are **imperative** — you manually orchestrate every step of the data lifecycle, and each component re-implements the same patterns differently.
+</Explainer>

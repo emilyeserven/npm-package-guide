@@ -1,0 +1,72 @@
+---
+id: "tsq-mutations"
+title: "Writes, Not Just Reads ✏️"
+guide: "tanstack-query"
+linkRefs:
+  - id: "tsq-docs"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+Optimistic updates with automatic rollback — the killer feature most people discover last.
+</SectionIntro>
+
+```jsx
+// Mutations: the write side of TanStack Query
+function CreatePost() {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (newPost) =>
+      fetch('/api/posts', {
+        method: 'POST',
+        body: JSON.stringify(newPost),
+      }).then(r => r.json()),
+
+    // ⚡ Optimistic Update
+    onMutate: async (newPost) => {
+      await queryClient.cancelQueries({
+        queryKey: ['posts']
+      });
+      const previous = queryClient.getQueryData(['posts']);
+      queryClient.setQueryData(['posts'], (old) => [
+        ...old,
+        { ...newPost, id: 'temp-id', status: 'pending' },
+      ]);
+      return { previous };
+    },
+
+    // ❌ Rollback on error
+    onError: (err, newPost, context) => {
+      queryClient.setQueryData(
+        ['posts'], context.previous
+      );
+    },
+
+    // ✅ Sync with server on success
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['posts']
+      });
+    },
+  });
+
+  return (
+    <button
+      onClick={() => mutation.mutate({ title: 'New Post' })}
+      disabled={mutation.isPending}
+    >
+      {mutation.isPending ? 'Creating...' : 'Create Post'}
+    </button>
+  );
+}
+```
+
+The mutation lifecycle gives you hooks at every stage: before the request (`onMutate`), on success, on error, and on settled (regardless of outcome). This makes optimistic updates with rollback straightforward — something that requires significant boilerplate with Redux or hand-rolled solutions.
+
+<Explainer title="The mutation pattern">
+1. **`onMutate`** — Cancel in-flight queries, snapshot current data, optimistically update the cache
+2. **`onError`** — Roll back to the snapshot if the server rejects the mutation
+3. **`onSettled`** — Invalidate the query to refetch the true server state, whether the mutation succeeded or failed
+</Explainer>

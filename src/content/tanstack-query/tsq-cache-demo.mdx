@@ -1,0 +1,26 @@
+---
+id: "tsq-cache-demo"
+title: "See the Cache in Action ⚡"
+guide: "tanstack-query"
+linkRefs:
+  - id: "tsq-docs"
+  - id: "tsq-tkdodo-blog"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+Click the buttons to simulate data fetching and observe caching, staleness, and invalidation in real time.
+</SectionIntro>
+
+<TsqCacheDemo />
+
+<SectionSubheading id="how-it-maps">How This Maps to TanStack Query</SectionSubheading>
+
+This demo simulates the core caching behavior:
+
+- **Cache HIT** — when you fetch the same endpoint within the fresh window, no network request fires. This is what `staleTime` controls.
+- **STALE** — after the fresh window expires, data is still shown but marked stale. The next trigger (mount, focus, interval) will refetch silently in the background.
+- **Invalidate** — clicking × is equivalent to `queryClient.invalidateQueries()`. The cache entry is removed and the next fetch starts fresh.
+
+In a real app, all of this happens automatically. You configure `staleTime` and `gcTime` once, and TanStack Query handles the rest.

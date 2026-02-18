@@ -28,6 +28,7 @@ import { njaGlossary } from './njaTerms'
 import { wpAgentsGlossary } from './wpAgentsTerms'
 import { gitWorktreesGlossary } from './gitWorktreesTerms'
 import { securityGlossary } from './securityTerms'
+import { tanstackQueryGlossary } from './tanstackQueryTerms'
 
 export const glossaryTerms: GlossaryCategory[] = [
   ...npmPackageGlossary,
@@ -42,4 +43,5 @@ export const glossaryTerms: GlossaryCategory[] = [
   ...wpAgentsGlossary,
   ...gitWorktreesGlossary,
   ...securityGlossary,
+  ...tanstackQueryGlossary,
 ]
