@@ -119,7 +119,7 @@ function IconRail({
             aria-label={guide.title}
             data-testid={`sidebar-guide-icon-${guide.id}`}
           >
-            <span className="text-lg leading-none" aria-hidden="true">{guide.icon}</span>
+            <span className="text-lg leading-none w-5 h-5 flex items-center justify-center" aria-hidden="true">{guide.icon}</span>
             <span className={tooltipCls} aria-hidden="true">{guide.title}</span>
           </button>
         ))}
@@ -131,7 +131,7 @@ function IconRail({
           aria-label="Single Page Guides"
           data-testid="sidebar-guide-icon-single-page-guides"
         >
-          <span className="text-lg leading-none" aria-hidden="true">{'\u{1F4C4}'}</span>
+          <span className="text-lg leading-none w-5 h-5 flex items-center justify-center" aria-hidden="true">{'\u{1F4C4}'}</span>
           <span className={tooltipCls} aria-hidden="true">Single Page Guides</span>
         </button>
       </div>
@@ -145,7 +145,7 @@ function IconRail({
         aria-label="Checklists"
         data-testid="sidebar-icon-checklists"
       >
-        <span className="text-lg leading-none" aria-hidden="true">{'\u2705'}</span>
+        <span className="text-lg leading-none w-5 h-5 flex items-center justify-center" aria-hidden="true">{'\u2705'}</span>
         <span className={tooltipCls} aria-hidden="true">Checklists</span>
       </button>
 
@@ -156,7 +156,7 @@ function IconRail({
         aria-label="External Resources"
         data-testid="sidebar-icon-external-resources"
       >
-        <span className="text-lg leading-none" aria-hidden="true">{'\u{1F4DA}'}</span>
+        <span className="text-lg leading-none w-5 h-5 flex items-center justify-center" aria-hidden="true">{'\u{1F4DA}'}</span>
         <span className={tooltipCls} aria-hidden="true">External Resources</span>
       </button>
       <button
@@ -165,7 +165,7 @@ function IconRail({
         aria-label="Glossary"
         data-testid="sidebar-icon-glossary"
       >
-        <span className="text-lg leading-none" aria-hidden="true">{'\u{1F4D6}'}</span>
+        <span className="text-lg leading-none w-5 h-5 flex items-center justify-center" aria-hidden="true">{'\u{1F4D6}'}</span>
         <span className={tooltipCls} aria-hidden="true">Glossary</span>
       </button>
       <button
@@ -174,7 +174,7 @@ function IconRail({
         aria-label="Open Storybook"
         data-testid="sidebar-icon-storybook"
       >
-        <span className="text-lg leading-none" aria-hidden="true">{'\u{1F3A8}'}</span>
+        <span className="text-lg leading-none w-5 h-5 flex items-center justify-center" aria-hidden="true">{'\u{1F3A8}'}</span>
         <span className={tooltipCls} aria-hidden="true">Storybook</span>
       </button>
 

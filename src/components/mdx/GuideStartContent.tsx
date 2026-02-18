@@ -141,7 +141,7 @@ function GuideStartResources({ guideId }: { guideId: string }) {
             window.scrollTo({ top: 0, behavior: 'smooth' })
           }}
         >
-          <span className="text-2xl mb-2">{'\u{1F4DA}'}</span>
+          <span className="text-2xl mb-2 w-7 h-7 flex items-center justify-center">{'\u{1F4DA}'}</span>
           <span className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-1">External Resources</span>
           <span className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Curated documentation, articles, and tools.</span>
         </button>
@@ -152,7 +152,7 @@ function GuideStartResources({ guideId }: { guideId: string }) {
             window.scrollTo({ top: 0, behavior: 'smooth' })
           }}
         >
-          <span className="text-2xl mb-2">{'\u{1F4D6}'}</span>
+          <span className="text-2xl mb-2 w-7 h-7 flex items-center justify-center">{'\u{1F4D6}'}</span>
           <span className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-1">Glossary</span>
           <span className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Key terms with links to guide pages and docs.</span>
         </button>
@@ -164,13 +164,13 @@ function GuideStartResources({ guideId }: { guideId: string }) {
               window.scrollTo({ top: 0, behavior: 'smooth' })
             }}
           >
-            <span className="text-2xl mb-2">{'\u2705'}</span>
+            <span className="text-2xl mb-2 w-7 h-7 flex items-center justify-center">{'\u2705'}</span>
             <span className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-1">{checklistTitle.text}</span>
             <span className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Interactive checklist for this guide.</span>
           </button>
         ) : (
           <div className={comingSoonCls}>
-            <span className="text-2xl mb-2">{'\u2705'}</span>
+            <span className="text-2xl mb-2 w-7 h-7 flex items-center justify-center">{'\u2705'}</span>
             <span className="text-sm font-bold text-slate-400 dark:text-slate-500 mb-1">Checklist</span>
             <span className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">Coming soon.</span>
           </div>
@@ -198,7 +198,7 @@ function GuideStartRelatedGuides({ guideIds }: { guideIds: string[] }) {
             className={tileCls}
             onClick={() => navigateToSection(g.startPageId)}
           >
-            <span className="text-2xl mb-2">{g.icon}</span>
+            <span className="text-2xl mb-2 w-7 h-7 flex items-center justify-center">{g.icon}</span>
             <span className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-1">{g.title}</span>
             <span className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{g.description}</span>
           </button>
