@@ -107,37 +107,36 @@ function IconRail({
         <span className={tooltipCls} aria-hidden="true">Home</span>
       </Link>
 
-      <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5" />
+      <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5 shrink-0" />
 
-      {/* Guide icons */}
-      {guides.filter(g => !g.singlePage).map(guide => (
+      {/* Guide icons – scrollable when viewport is short */}
+      <div className="flex-1 min-h-0 overflow-y-auto flex flex-col items-center gap-1 scrollbar-hide">
+        {guides.filter(g => !g.singlePage).map(guide => (
+          <button
+            key={guide.id}
+            className={clsx(iconBtnCls, activeGuideId === guide.id ? activeCls : inactiveCls)}
+            onClick={() => onSelectGuide(guide.id)}
+            aria-label={guide.title}
+            data-testid={`sidebar-guide-icon-${guide.id}`}
+          >
+            <span className="text-lg leading-none" aria-hidden="true">{guide.icon}</span>
+            <span className={tooltipCls} aria-hidden="true">{guide.title}</span>
+          </button>
+        ))}
+
+        {/* Single Page Guides (combined) */}
         <button
-          key={guide.id}
-          className={clsx(iconBtnCls, activeGuideId === guide.id ? activeCls : inactiveCls)}
-          onClick={() => onSelectGuide(guide.id)}
-          aria-label={guide.title}
-          data-testid={`sidebar-guide-icon-${guide.id}`}
+          className={clsx(iconBtnCls, activeGuideId === 'single-page-guides' ? activeCls : inactiveCls)}
+          onClick={() => onSelectGuide('single-page-guides')}
+          aria-label="Single Page Guides"
+          data-testid="sidebar-guide-icon-single-page-guides"
         >
-          <span className="text-lg leading-none" aria-hidden="true">{guide.icon}</span>
-          <span className={tooltipCls} aria-hidden="true">{guide.title}</span>
+          <span className="text-lg leading-none" aria-hidden="true">{'\u{1F4C4}'}</span>
+          <span className={tooltipCls} aria-hidden="true">Single Page Guides</span>
         </button>
-      ))}
+      </div>
 
-      {/* Single Page Guides (combined) */}
-      <button
-        className={clsx(iconBtnCls, activeGuideId === 'single-page-guides' ? activeCls : inactiveCls)}
-        onClick={() => onSelectGuide('single-page-guides')}
-        aria-label="Single Page Guides"
-        data-testid="sidebar-guide-icon-single-page-guides"
-      >
-        <span className="text-lg leading-none" aria-hidden="true">{'\u{1F4C4}'}</span>
-        <span className={tooltipCls} aria-hidden="true">Single Page Guides</span>
-      </button>
-
-      {/* Spacer pushes resource icons + settings to bottom */}
-      <div className="mt-auto" />
-
-      <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5" />
+      <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5 shrink-0" />
 
       {/* Checklists icon */}
       <button
@@ -179,7 +178,7 @@ function IconRail({
         <span className={tooltipCls} aria-hidden="true">Storybook</span>
       </button>
 
-      <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5" />
+      <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5 shrink-0" />
 
       {/* Settings */}
       <button
