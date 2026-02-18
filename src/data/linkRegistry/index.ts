@@ -47,6 +47,7 @@ import { wpAgentsLinks } from './wpAgentsLinks'
 import { gitWorktreesLinks } from './gitWorktreesLinks'
 import { securityLinks } from './securityLinks'
 import { stateManagementLinks } from './stateManagementLinks'
+import { tanstackQueryLinks } from './tanstackQueryLinks'
 
 export const linkRegistry: RegistryLink[] = [
   ...npmPackageLinks,
@@ -62,6 +63,7 @@ export const linkRegistry: RegistryLink[] = [
   ...gitWorktreesLinks,
   ...securityLinks,
   ...stateManagementLinks,
+  ...tanstackQueryLinks,
 ]
 
 /** Fast lookup by registry ID */

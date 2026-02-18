@@ -71,6 +71,14 @@ import { StateDeepDive } from './state-management/StateDeepDive'
 import { StateComparison } from './state-management/StateComparison'
 import { StateDecisionTree } from './state-management/StateDecisionTree'
 import { StateArchitecture } from './state-management/StateArchitecture'
+// tanstack-query
+import { TsqCodeComparison } from './tanstack-query/TsqCodeComparison'
+import { TsqComparisonTable } from './tanstack-query/TsqComparisonTable'
+import { TsqCacheDemo } from './tanstack-query/TsqCacheDemo'
+import { TsqQueryLifecycle } from './tanstack-query/TsqQueryLifecycle'
+import { TsqStateDiagram } from './tanstack-query/TsqStateDiagram'
+import { TsqProsCons } from './tanstack-query/TsqProsCons'
+import { TsqWhyBoth } from './tanstack-query/TsqWhyBoth'
 
 export const mdxComponents: MDXComponents = {
   pre: MdxPre,
@@ -155,4 +163,11 @@ export const mdxComponents: MDXComponents = {
   StateComparison,
   StateDecisionTree,
   StateArchitecture,
+  TsqCodeComparison,
+  TsqComparisonTable,
+  TsqCacheDemo,
+  TsqQueryLifecycle,
+  TsqStateDiagram,
+  TsqProsCons,
+  TsqWhyBoth,
 }
