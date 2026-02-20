@@ -43,7 +43,7 @@ Every guide follows the same file layout:
 
 ## Tech Stack
 
-React 19 · TanStack Router (hash-based) · TanStack Table · TypeScript (strict) · Vite 7 · pnpm · Tailwind CSS v4 + `clsx` · GitHub Pages at `/npm-package-guide/`
+React 19 · TanStack Router (hash-based) · TanStack Table · Zustand · TypeScript (strict) · Vite 7 · pnpm · Tailwind CSS v4 + `clsx` · GitHub Pages at `/npm-package-guide/`
 
 ## Commands
 
@@ -61,10 +61,11 @@ React 19 · TanStack Router (hash-based) · TanStack Table · TypeScript (strict
 - `src/data/` — TypeScript data objects; `linkRegistry/` and `glossaryTerms/` split by guide
 - `src/data/guideRegistry.ts` — Central guide registry (metadata, sections, lookup helpers)
 - `src/helpers/` — Utilities (`cmd.ts`, `fnRef.ts`, `darkStyle.ts`, `themeColors.ts`)
-- `src/hooks/` — Custom hooks (`usePMContext.tsx`, `useTheme.tsx`)
+- `src/hooks/` — Zustand stores and hooks (`useTheme.tsx`, `usePMContext.tsx`, `useUIStore.ts`)
 
 ## Key Patterns
 
+- **State management:** Zustand stores in `src/hooks/` — no React Context providers. `useTheme()` and `useIsDark()` for theme, `usePM()` for package manager, `useUIStore` for sidebar/command-menu/scroll/pin state. Stores sync to DOM and localStorage via module-level subscriptions.
 - **Content as data:** Page content in `src/data/` as TypeScript objects with HTML strings, not inline JSX.
 - **Styling:** Tailwind utility classes. CSS only for pseudo-elements, animations, and third-party selectors.
 - **Dark mode:** Use Tailwind `dark:` variants for static colors. Use `ds()` from `src/helpers/darkStyle.ts` for dynamic inline styles from data. For common color pairs (text, backgrounds, borders, shadows), prefer `tc(theme.X, isDark)` from `src/helpers/themeColors.ts` instead of raw `ds()` calls. Dark palette: bg `#1e293b`, text `#e2e8f0`, borders `#334155`.
