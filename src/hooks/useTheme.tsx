@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { useShallow } from 'zustand/react/shallow'
 
 type Theme = 'light' | 'dark'
 
@@ -33,7 +34,7 @@ applyTheme(useThemeStore.getState().theme)
 useThemeStore.subscribe((state) => applyTheme(state.theme))
 
 export function useTheme() {
-  return useThemeStore((s) => ({ theme: s.theme, toggleTheme: s.toggleTheme }))
+  return useThemeStore(useShallow((s) => ({ theme: s.theme, toggleTheme: s.toggleTheme })))
 }
 
 export function useIsDark(): boolean {

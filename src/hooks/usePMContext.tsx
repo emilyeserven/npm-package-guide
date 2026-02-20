@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { useShallow } from 'zustand/react/shallow'
 
 type PM = 'npm' | 'pnpm'
 
@@ -18,5 +19,5 @@ usePMStore.subscribe((state) => {
 })
 
 export function usePM() {
-  return usePMStore((s) => ({ currentPM: s.currentPM, setPM: s.setPM }))
+  return usePMStore(useShallow((s) => ({ currentPM: s.currentPM, setPM: s.setPM })))
 }
