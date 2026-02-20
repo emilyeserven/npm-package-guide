@@ -9,13 +9,7 @@ import { STORYBOOK_URL } from '../data/navigation'
 import { parseTitle } from '../helpers/parseTitle'
 import { usePM } from '../hooks/usePMContext'
 import { useTheme } from '../hooks/useTheme'
-interface SidebarProps {
-  open: boolean
-  onClose: () => void
-  pinned: boolean
-  onTogglePin: () => void
-  onActiveGuideChange?: (hasGuide: boolean) => void
-}
+import { useUIStore } from '../hooks/useUIStore'
 
 // ── Title resolution ────────────────────────────────────────────────
 
@@ -513,10 +507,16 @@ function SettingsPanel({
 
 // ── Main Sidebar ──────────────────────────────────────────────────────
 
-export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChange }: SidebarProps) {
+export function Sidebar() {
   const navigateToSection = useNavigateToSection()
   const params = useParams({ strict: false }) as { sectionId?: string }
   const currentId = params.sectionId || ''
+
+  const sidebarVisible = useUIStore((s) => s.sidebarOpen || (s.pinned && s.isDesktop))
+  const pinned = useUIStore((s) => s.pinned)
+  const togglePin = useUIStore((s) => s.togglePin)
+  const closeSidebar = useUIStore((s) => s.closeSidebar)
+  const setHasActiveGuide = useUIStore((s) => s.setHasActiveGuide)
 
   const [activeGuideId, setActiveGuideId] = useState<string | null>(() => {
     return getGuideForPage(currentId)?.id ?? null
@@ -525,9 +525,9 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
 
   // Re-sync active guide when sidebar transitions from closed to open
   const [prevOpen, setPrevOpen] = useState(false)
-  if (open !== prevOpen) {
-    setPrevOpen(open)
-    if (open && !showSettings) {
+  if (sidebarVisible !== prevOpen) {
+    setPrevOpen(sidebarVisible)
+    if (sidebarVisible && !showSettings) {
       const expected = getGuideForPage(currentId)?.id ?? null
       if (expected !== activeGuideId) {
         setActiveGuideId(expected)
@@ -542,30 +542,30 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
       : guides.find(g => g.id === activeGuideId) ?? null
   const hasExpandedPanel = activeGuide !== null || showSettings
 
-  // Notify parent when expanded panel state changes (for layout margin adjustments)
+  // Notify store when expanded panel state changes (for layout margin adjustments)
   useEffect(() => {
-    onActiveGuideChange?.(hasExpandedPanel)
-  }, [hasExpandedPanel, onActiveGuideChange])
+    setHasActiveGuide(hasExpandedPanel)
+  }, [hasExpandedPanel, setHasActiveGuide])
 
   const handleNav = (id: string) => {
-    if (!pinned) onClose()
+    if (!pinned) closeSidebar()
     navigateToSection(id)
   }
 
   const handleGuidesHome = () => {
-    if (!pinned) onClose()
+    if (!pinned) closeSidebar()
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleResourceClick = (id: string) => {
     setActiveGuideId(null)
     setShowSettings(false)
-    if (!pinned) onClose()
+    if (!pinned) closeSidebar()
     navigateToSection(id)
   }
 
   const handleResourceNav = (id: string, guideId: string) => {
-    if (!pinned) onClose()
+    if (!pinned) closeSidebar()
     navigateToSection(id, { search: { guide: guideId } })
   }
 
@@ -590,7 +590,7 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
       setActiveGuideId(null)
       setShowSettings(false)
     } else {
-      onClose()
+      closeSidebar()
     }
   }
 
@@ -601,7 +601,7 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
       className={clsx(
         'sidebar fixed top-0 left-0 bottom-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 z-100 flex flex-row transition-[width,translate] duration-250',
         hasExpandedPanel ? 'w-[360px] max-sm:w-[320px]' : 'w-[52px]',
-        open ? 'translate-x-0' : '-translate-x-full'
+        sidebarVisible ? 'translate-x-0' : '-translate-x-full'
       )}
     >
       <IconRail
@@ -621,7 +621,7 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
           onNav={handleNav}
           onResourceNav={handleResourceNav}
           pinned={pinned}
-          onTogglePin={onTogglePin}
+          onTogglePin={togglePin}
           onClose={handleContentPanelClose}
         />
       )}
@@ -629,7 +629,7 @@ export function Sidebar({ open, onClose, pinned, onTogglePin, onActiveGuideChang
       {showSettings && (
         <SettingsPanel
           pinned={pinned}
-          onTogglePin={onTogglePin}
+          onTogglePin={togglePin}
           onClose={handleContentPanelClose}
           onNav={handleNav}
         />

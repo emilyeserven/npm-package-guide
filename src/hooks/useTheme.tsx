@@ -1,16 +1,11 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
+import { create } from 'zustand'
 
 type Theme = 'light' | 'dark'
 
-interface ThemeContextType {
+interface ThemeState {
   theme: Theme
   toggleTheme: () => void
 }
-
-const ThemeContext = createContext<ThemeContextType>({
-  theme: 'light',
-  toggleTheme: () => {},
-})
 
 function getInitialTheme(): Theme {
   try {
@@ -21,32 +16,26 @@ function getInitialTheme(): Theme {
   return 'light'
 }
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(getInitialTheme)
+const useThemeStore = create<ThemeState>((set) => ({
+  theme: getInitialTheme(),
+  toggleTheme: () => set((s) => ({ theme: s.theme === 'light' ? 'dark' : 'light' })),
+}))
 
-  useEffect(() => {
-    document.body.classList.toggle('dark', theme === 'dark')
-    try {
-      localStorage.setItem('theme', theme)
-    } catch { /* ignored */ }
-  }, [theme])
-
-  const toggleTheme = () => setTheme(t => (t === 'light' ? 'dark' : 'light'))
-
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  )
+// Sync DOM on every theme change (including initial)
+function applyTheme(theme: Theme) {
+  document.body.classList.toggle('dark', theme === 'dark')
+  try {
+    localStorage.setItem('theme', theme)
+  } catch { /* ignored */ }
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
+applyTheme(useThemeStore.getState().theme)
+useThemeStore.subscribe((state) => applyTheme(state.theme))
+
 export function useTheme() {
-  return useContext(ThemeContext)
+  return useThemeStore((s) => ({ theme: s.theme, toggleTheme: s.toggleTheme }))
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export function useIsDark(): boolean {
-  const { theme } = useContext(ThemeContext)
-  return theme === 'dark'
+  return useThemeStore((s) => s.theme === 'dark')
 }

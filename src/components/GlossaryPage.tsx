@@ -15,7 +15,7 @@ import { linkById } from '../data/linkRegistry'
 import { getNavTitle } from '../data/navigation'
 import { getGuideForPage } from '../data/guideRegistry'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
-import { useSidebarPin } from '../hooks/useSidebarPin'
+import { useUIStore } from '../hooks/useUIStore'
 import { badgeBase, badgeMap } from '../data/overallResources'
 import { DataTable } from './DataTable'
 import { ExternalLinkIcon } from './ExternalLinkIcon'
@@ -91,7 +91,7 @@ interface GlossaryPageProps {
 
 export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps) {
   const navigateToSection = useNavigateToSection()
-  const { effectivelyPinned } = useSidebarPin()
+  const effectivelyPinned = useUIStore((s) => s.pinned && s.isDesktop)
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState(initialSearch ?? '')
   const [wideMode, setWideMode] = useState(false)

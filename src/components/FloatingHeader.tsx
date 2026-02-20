@@ -1,14 +1,7 @@
 import { useParams, useNavigate } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { checklistPages, guides } from '../data/guideRegistry'
-
-interface FloatingHeaderProps {
-  scrolled: boolean
-  onMenuToggle: () => void
-  onSearchClick: () => void
-  effectivelyPinned?: boolean
-  hasActiveGuide?: boolean
-}
+import { useUIStore } from '../hooks/useUIStore'
 
 function getGuideInfo(sectionId: string | undefined): { title: string; homeId: string | null; isChecklist: boolean } {
   if (!sectionId) return { title: 'Dev Guides', homeId: null, isChecklist: false }
@@ -38,9 +31,15 @@ function getGuideInfo(sectionId: string | undefined): { title: string; homeId: s
 
 const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
 
-export function FloatingHeader({ scrolled, onMenuToggle, onSearchClick, effectivelyPinned, hasActiveGuide }: FloatingHeaderProps) {
+export function FloatingHeader() {
   const navigate = useNavigate()
   const params = useParams({ strict: false }) as { sectionId?: string }
+  const scrolled = useUIStore((s) => s.scrolled)
+  const effectivelyPinned = useUIStore((s) => s.pinned && s.isDesktop)
+  const hasActiveGuide = useUIStore((s) => s.hasActiveGuide)
+  const toggleSidebar = useUIStore((s) => s.toggleSidebar)
+  const setCmdMenuOpen = useUIStore((s) => s.setCmdMenuOpen)
+
   const isGuidesIndex = !params.sectionId
   const { title: guideTitle, homeId, isChecklist } = getGuideInfo(params.sectionId)
   const showHomeButton = !isGuidesIndex && homeId !== null && homeId !== params.sectionId
@@ -59,7 +58,7 @@ export function FloatingHeader({ scrolled, onMenuToggle, onSearchClick, effectiv
       <div className="mx-auto max-w-4xl flex items-center h-13 gap-3.5">
         <button
           className="flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg cursor-pointer shrink-0 transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 hover:shadow-md hover:shadow-blue-500/10"
-          onClick={onMenuToggle}
+          onClick={toggleSidebar}
           aria-label="Open navigation"
           data-testid="menu-toggle"
         >
@@ -96,7 +95,7 @@ export function FloatingHeader({ scrolled, onMenuToggle, onSearchClick, effectiv
           )}
           <button
             className="group relative flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg cursor-pointer shrink-0 transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 hover:shadow-md hover:shadow-blue-500/10"
-            onClick={onSearchClick}
+            onClick={() => setCmdMenuOpen(true)}
             aria-label="Search pages"
             data-testid="search-button"
           >

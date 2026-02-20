@@ -1,7 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { useEffect, type ReactNode } from 'react'
-import { ThemeProvider, useTheme } from '../src/hooks/useTheme'
-import { PMProvider } from '../src/hooks/usePMContext'
+import { useTheme } from '../src/hooks/useTheme'
 import {
   createRouter,
   createRoute,
@@ -11,7 +10,7 @@ import {
 } from '@tanstack/react-router'
 
 /**
- * Syncs the ThemeProvider's internal state with the body class
+ * Syncs the Zustand theme store with the body class
  * set by @storybook/addon-themes withThemeByClassName decorator.
  */
 function ThemeSync({ children }: { children: ReactNode }) {
@@ -34,13 +33,9 @@ function ThemeSync({ children }: { children: ReactNode }) {
 
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider>
-      <ThemeSync>
-        <PMProvider>
-          {children}
-        </PMProvider>
-      </ThemeSync>
-    </ThemeProvider>
+    <ThemeSync>
+      {children}
+    </ThemeSync>
   )
 }
 
