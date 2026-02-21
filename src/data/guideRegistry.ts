@@ -17,6 +17,7 @@ import { TSR_GUIDE_SECTIONS, TSR_START_PAGE_DATA } from './tanstackRouterData'
 import { S3_GUIDE_SECTIONS, S3_START_PAGE_DATA } from './s3Data'
 import { AWS_GUIDE_SECTIONS, AWS_START_PAGE_DATA } from './awsDecodedData'
 import { CS_GUIDE_SECTIONS, CS_START_PAGE_DATA } from './claudeSkillsData'
+import { ZST_GUIDE_SECTIONS, ZST_START_PAGE_DATA } from './zustandData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -187,6 +188,15 @@ export const guides: GuideDefinition[] = [
       'How to write high-quality Claude skills \u2014 from description fields and body writing to bundled resources, do\u2019s & don\u2019ts, and a shipping checklist.',
     sections: CS_GUIDE_SECTIONS,
   },
+  {
+    id: 'zustand',
+    icon: '\u{1F43B}',        // 🐻
+    title: 'Zustand Deep Dive',
+    startPageId: 'zst-start',
+    description:
+      'Everything about Zustand \u2014 from first store to slices, middleware, and production patterns with interactive demos.',
+    sections: ZST_GUIDE_SECTIONS,
+  },
 ]
 
 // ── Single Page Guides (combined virtual nav) ───────────────────────
@@ -283,6 +293,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   's3-storage': S3_START_PAGE_DATA,
   'aws-decoded': AWS_START_PAGE_DATA,
   'claude-skills': CS_START_PAGE_DATA,
+  'zustand': ZST_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {

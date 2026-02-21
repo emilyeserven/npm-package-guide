@@ -1,0 +1,55 @@
+---
+id: "zst-advanced"
+title: "Advanced Patterns 🧠"
+guide: "zustand"
+linkRefs:
+  - id: "zst-github"
+    note: "Zustand GitHub — source, issues, discussions"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-transient">Transient Updates</TocLink>
+  <TocLink id="toc-computed">Computed / Derived State</TocLink>
+  <TocLink id="toc-external">Store Actions Outside the Store</TocLink>
+  <TocLink id="toc-reset">Resetting Store State</TocLink>
+  <TocLink id="toc-testing">Testing Zustand Stores</TocLink>
+  <TocLink id="toc-ref">Quick Reference</TocLink>
+</Toc>
+
+<SectionSubheading id="toc-transient">1. Transient Updates (Non-reactive reads)</SectionSubheading>
+
+Sometimes you need the latest state value without causing a re-render — for animations, timers, or event handlers.
+
+<ZstCodeBlock exampleId="transient" />
+
+<SectionSubheading id="toc-computed">2. Computed / Derived State</SectionSubheading>
+
+Unlike MobX, Zustand doesn't have built-in computed values. Here are two approaches:
+
+<ZstCodeGroup ids="computed-a, computed-b" />
+
+<SectionSubheading id="toc-external">3. Store Actions Outside the Store</SectionSubheading>
+
+Some teams prefer keeping the store as pure data and defining actions separately. This can improve tree-shaking and testability.
+
+<ZstCodeBlock exampleId="external-actions" />
+
+<SectionNote>
+**This is the Zustand maintainer's preferred pattern.** Daishi Kato (Zustand creator) has expressed preference for this "actions outside the store" pattern. Actions are stable references, never cause re-renders, and are trivially testable.
+</SectionNote>
+
+<SectionSubheading id="toc-reset">4. Resetting Store State</SectionSubheading>
+
+<ZstCodeBlock exampleId="reset-pattern" />
+
+<SectionSubheading id="toc-testing">5. Testing Zustand Stores</SectionSubheading>
+
+<ZstCodeBlock exampleId="testing" />
+
+<ZstRerenderViz />
+
+<SectionSubheading id="toc-ref">Quick Reference</SectionSubheading>
+
+<ZstApiRef />

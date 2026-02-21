@@ -1,0 +1,35 @@
+---
+id: "zst-slices"
+title: "Slices Pattern 🍕"
+guide: "zustand"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-compare">Single Store vs Multiple Stores</TocLink>
+  <TocLink id="toc-creating">Creating Slices</TocLink>
+  <TocLink id="toc-combining">Combining Slices</TocLink>
+</Toc>
+
+<SectionIntro>
+As your app grows, you have two choices: many small stores, or one big store with slices. Both work, but the slices pattern gives you the benefits of a single store (cross-slice access) with the organization of separate files.
+</SectionIntro>
+
+<SectionSubheading id="toc-compare">Single Store vs Multiple Stores</SectionSubheading>
+
+<ZstSlicesCompare />
+
+<SectionSubheading id="toc-creating">Creating Slices</SectionSubheading>
+
+Each slice is a plain function that receives `set`, `get`, and `store` — just like the main `create` callback.
+
+<ZstCodeGroup ids="user-slice, cart-slice" />
+
+<SectionSubheading id="toc-combining">Combining Slices</SectionSubheading>
+
+<ZstCodeBlock exampleId="combine-slices" />
+
+<SectionNote>
+**Watch for key collisions.** Since slices are merged into a flat object, make sure your property and action names don't collide across slices. Prefix if needed: `cartItems` vs `userItems`.
+</SectionNote>

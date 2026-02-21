@@ -1,0 +1,54 @@
+---
+id: "zst-middleware"
+title: "Middleware 🔧"
+guide: "zustand"
+linkRefs:
+  - id: "zst-docs"
+    note: "Zustand middleware documentation"
+  - id: "zst-immer"
+    note: "Immer — immutable state with mutable syntax"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-persist">persist — Sync to Storage</TocLink>
+  <TocLink id="toc-devtools">devtools — Redux DevTools</TocLink>
+  <TocLink id="toc-immer">immer — Mutable-style Updates</TocLink>
+  <TocLink id="toc-subscribe-sel">subscribeWithSelector</TocLink>
+  <TocLink id="toc-stacking">Stacking Middleware</TocLink>
+</Toc>
+
+<SectionIntro>
+Zustand middleware wraps the store creator to add functionality. Middleware is composable — you can stack as many as you need.
+</SectionIntro>
+
+<SectionSubheading id="toc-persist">persist — Sync to localStorage/sessionStorage</SectionSubheading>
+
+<ZstCodeBlock exampleId="persist" />
+
+<SectionNote>
+**Persist + Migrations:** The persist middleware supports a `version` number and `migrate` function for handling schema changes across app updates. Essential for production apps.
+</SectionNote>
+
+<SectionSubheading id="toc-devtools">devtools — Redux DevTools integration</SectionSubheading>
+
+<ZstCodeBlock exampleId="devtools" />
+
+<SectionSubheading id="toc-immer">immer — Mutable-style updates</SectionSubheading>
+
+<ZstCodeBlock exampleId="immer" />
+
+<SectionSubheading id="toc-subscribe-sel">subscribeWithSelector — Fine-grained subscriptions</SectionSubheading>
+
+<ZstCodeBlock exampleId="sub-with-sel" />
+
+<SectionSubheading id="toc-stacking">Stacking Middleware</SectionSubheading>
+
+Middleware composes by nesting. Order matters — outer middleware wraps inner middleware.
+
+<ZstCodeBlock exampleId="stack-middleware" />
+
+<SectionNote>
+**Recommended middleware order (outside → inside):** `devtools` → `subscribeWithSelector` → `persist` → `immer`. This ensures DevTools captures everything, persist sees the immutable state, and immer is closest to your code.
+</SectionNote>

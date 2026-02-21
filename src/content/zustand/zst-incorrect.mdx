@@ -1,0 +1,45 @@
+---
+id: "zst-incorrect"
+title: "Incorrect Usage 🚫"
+guide: "zustand"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-sub-all">Subscribing to the Entire Store</TocLink>
+  <TocLink id="toc-mutate">Mutating State Directly</TocLink>
+  <TocLink id="toc-new-ref">New References in Selectors</TocLink>
+  <TocLink id="toc-closure">Stale Closures in Actions</TocLink>
+  <TocLink id="toc-derived">Derived State in the Store</TocLink>
+</Toc>
+
+<SectionIntro>
+These are the most common mistakes developers make with Zustand. Each one can lead to unnecessary re-renders, stale data, or subtle bugs.
+</SectionIntro>
+
+<SectionSubheading id="toc-sub-all">1. Subscribing to the Entire Store</SectionSubheading>
+
+The #1 mistake. If you call the hook without a selector, your component re-renders on *every* state change.
+
+<ZstCodeGroup ids="bad-sub, good-sub" />
+
+<SectionSubheading id="toc-mutate">2. Mutating State Directly</SectionSubheading>
+
+Zustand (without Immer middleware) requires immutable updates. Direct mutation won't trigger re-renders.
+
+<ZstCodeGroup ids="bad-mut, good-mut" />
+
+<SectionSubheading id="toc-new-ref">3. Creating Selectors That Return New References</SectionSubheading>
+
+If your selector creates a new object or array every time, the component will re-render on every state change regardless.
+
+<ZstCodeGroup ids="bad-ref, good-ref" />
+
+<SectionSubheading id="toc-closure">4. Calling Actions Inside the Store Incorrectly</SectionSubheading>
+
+<ZstCodeGroup ids="bad-closure, good-closure" />
+
+<SectionSubheading id="toc-derived">5. Putting Derived State in the Store</SectionSubheading>
+
+<ZstCodeGroup ids="bad-derived, good-derived" />

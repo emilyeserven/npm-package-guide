@@ -1,0 +1,52 @@
+---
+id: "zst-gotchas"
+title: "Gotchas & Pitfalls ⚡"
+guide: "zustand"
+linkRefs:
+  - id: "zst-docs"
+    note: "Zustand SSR documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-equality">Equality Checks & Re-renders</TocLink>
+  <TocLink id="toc-async">Async Actions & Race Conditions</TocLink>
+  <TocLink id="toc-subscribe">Subscribing in useEffect</TocLink>
+  <TocLink id="toc-ssr">SSR / Hydration Mismatches</TocLink>
+  <TocLink id="toc-typescript">TypeScript: Typing the Store</TocLink>
+</Toc>
+
+<SectionIntro>
+Even experienced developers trip on these. Each gotcha includes an explanation and the fix.
+</SectionIntro>
+
+<SectionSubheading id="toc-equality">1. Equality Checks & Re-renders</SectionSubheading>
+
+Zustand uses `Object.is()` (strict reference equality) by default to determine if a component should re-render. This is crucial to understand.
+
+<ZstCodeBlock exampleId="eq-rule" />
+
+<SectionNote>
+**The useShallow trap:** `useShallow` does a **shallow** comparison. It won't help with deeply nested objects. If your state is deeply nested, consider flattening it or using the Immer middleware.
+</SectionNote>
+
+<SectionSubheading id="toc-async">2. Async Actions & Race Conditions</SectionSubheading>
+
+When multiple async actions run concurrently, they can overwrite each other's state.
+
+<ZstCodeGroup ids="bad-race, good-race" />
+
+<SectionSubheading id="toc-subscribe">3. Subscribing in useEffect</SectionSubheading>
+
+<ZstCodeGroup ids="bad-sub-effect, good-sub-effect" />
+
+<SectionSubheading id="toc-ssr">4. SSR / Hydration Mismatches</SectionSubheading>
+
+<SectionNote>
+**Zustand stores are singletons.** In SSR environments, the store is shared across requests on the server by default. If you're doing SSR (even with TanStack Start), you need per-request store isolation. Check the Zustand docs for the `createStore` pattern with React context for SSR.
+</SectionNote>
+
+<SectionSubheading id="toc-typescript">5. TypeScript: Don't Forget to Type the Store</SectionSubheading>
+
+<ZstCodeBlock exampleId="typed-store" />

@@ -1,0 +1,49 @@
+---
+id: "zst-basics"
+title: "Basics 🐻"
+guide: "zustand"
+linkRefs:
+  - id: "zst-docs"
+    note: "Official Zustand documentation and API reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What is Zustand?</TocLink>
+  <TocLink id="toc-first-store">Creating Your First Store</TocLink>
+  <TocLink id="toc-using">Using the Store in Components</TocLink>
+  <TocLink id="toc-set">How set Works</TocLink>
+</Toc>
+
+<SectionIntro>
+Zustand (German for "state") is a small, fast, and scalable state management library for React. It uses a simplified flux-inspired approach with hooks — no providers, no boilerplate, no context wrappers.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">What is Zustand?</SectionSubheading>
+
+<ZstStats />
+
+<SectionSubheading id="toc-first-store">Creating Your First Store</SectionSubheading>
+
+A Zustand store is created with the `create` function. It takes a callback that receives `set` and `get` as arguments.
+
+<ZstCodeBlock exampleId="basic-store" />
+
+<SectionSubheading id="toc-using">Using the Store in Components</SectionSubheading>
+
+The store returns a hook you call directly in your components. No providers needed.
+
+<ZstCodeBlock exampleId="using-store" />
+
+<ZstCounter />
+
+<SectionSubheading id="toc-set">How set Works</SectionSubheading>
+
+The `set` function **shallowly merges** by default — you only need to return the properties you want to update.
+
+<ZstCodeBlock exampleId="set-merge" />
+
+<SectionNote>
+Pass `true` as the second arg to **replace** the entire state instead of merging: `set(newState, true)`. This is rarely needed but useful for resetting to initial state.
+</SectionNote>
