@@ -6,7 +6,7 @@ Educational single-page application (SPA) with multiple guides for backend engin
 
 ## Guides
 
-Twelve independent guides plus top-level resource pages. All metadata centralized in `src/data/guideRegistry.ts`. Each guide has its own `CLAUDE.md` in its content directory with guide-specific audience, conventions, and component usage.
+Nineteen independent guides plus top-level resource pages. All metadata centralized in `src/data/guideRegistry.ts`. Each guide has its own `CLAUDE.md` in its content directory with guide-specific audience, conventions, and component usage.
 
 | Guide ID | Title | Start Page |
 |----------|-------|------------|
@@ -23,10 +23,14 @@ Twelve independent guides plus top-level resource pages. All metadata centralize
 | `git-worktrees` | Git Worktrees & Claude Code | `git-worktrees-guide` |
 | `security` | Security Awareness | `sec-start` |
 | `state-management` | React State Management | `sm-start` |
+| `tanstack-query` | TanStack Query | `tsq-start` |
+| `tanstack-router` | TanStack Router Deep Dive | `tsr-start` |
+| `s3-storage` | Amazon S3 Storage Classes | `s3-start` |
+| `aws-decoded` | AWS Decoded | `aws-start` |
 | `claude-skills` | Anatomy of a Claude Skill | `cs-start` |
 | `zustand` | Zustand Deep Dive | `zst-start` |
 
-Guides are multi-page by default. `wp-agents` is a single-page guide (`singlePage: true` in registry).
+Guides are multi-page by default. `wp-agents` and `git-worktrees` are single-page guides (`singlePage: true` in registry).
 
 Every guide follows the same file layout:
 - **Data:** `src/data/<guideId>Data.ts` (or `src/data/<guideId>Data/` directory)
@@ -98,3 +102,4 @@ Detailed conventions (read on-demand, not needed for most tasks):
 - `docs/CONTENT_REFERENCE.md` — MDX frontmatter, link registry, glossary, footnotes, cross-page links, navigation formatting
 - `docs/DEVELOPMENT_REFERENCE.md` — `ds()` helper, routing, page ordering, build validation, TypeScript/ESLint config, error troubleshooting
 - `docs/COMPONENT_REFERENCE.md` — Shared base components, when to create (or avoid) guide-specific components, consolidation opportunities
+- `src/content/<guide-id>/CLAUDE.md` — Per-guide conventions, audience context, and component usage notes (read when working on a specific guide)

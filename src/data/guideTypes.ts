@@ -11,6 +11,7 @@ export interface GuideDefinition {
   description: string
   sections: GuideSection[]
   singlePage?: boolean
+  startPageData?: StartPageData
 }
 
 // ── Start page data types ────────────────────────────────────────────

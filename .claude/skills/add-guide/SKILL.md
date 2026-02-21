@@ -14,13 +14,12 @@ Claude artifacts are typically monolithic JSX or HTML files with embedded data a
 |------|--------|-------|
 | 1. Identify content boundaries | Find natural page breaks in the monolithic component. Each distinct topic or section heading becomes its own MDX page. | (analysis only) |
 | 2. Create data file | Move inline constants, arrays, and objects into a new typed `.ts` file. Define TypeScript interfaces for data shapes. Import `GuideSection` from `src/data/guideTypes.ts`. Export `<GUIDE>_GUIDE_SECTIONS: GuideSection[]` with labeled section groups. | `src/data/<guide>Data.ts` |
-| 3. Register the guide | Import `<GUIDE>_GUIDE_SECTIONS` from your data file. Add a new entry to the `guides` array in `src/data/guideRegistry.ts` with `id`, `icon`, `title`, `startPageId`, `description`, `sections`. | `src/data/guideRegistry.ts` |
+| 3. Register the guide | Import `<GUIDE>_GUIDE_SECTIONS` and `<GUIDE>_START_PAGE_DATA` from your data file. Add a new entry to the `guides` array in `src/data/guideRegistry.ts` with `id`, `icon`, `title`, `startPageId`, `description`, `sections`, and `startPageData`. | `src/data/guideRegistry.ts` |
 | 4. Create MDX content pages | One `.mdx` file per page with frontmatter (`id`, `title` with emoji suffix, `guide`). Use existing MDX components (`SectionIntro`, `Toc`, `TocLink`, `ColItem`, `Explainer`, etc.). Pages are auto-discovered by `src/content/registry.ts` — no manual import needed. | `src/content/<guide>/*.mdx` |
 | 5. Create Start page data + MDX file | Export `<GUIDE>_START_PAGE_DATA: StartPageData` from the guide's data file. Define `subtitle`, `tip`, and `steps` array with `sectionLabel` references matching the `*_GUIDE_SECTIONS` labels — this makes the learning path auto-derive sub-items from section page lists. Then create `src/content/<guide>/<start-page-id>.mdx` with frontmatter and `<GuideStartContent guideId="<guide-id>" />`. See **Start page MDX template** below. | `src/data/<guide>Data.ts`, `src/content/<guide>/<start>.mdx` |
-| 6. Register start page data | Import the `*_START_PAGE_DATA` in `src/data/guideRegistry.ts` and add it to `startPageDataMap`. The MDX file auto-routes via content registry — no `componentPages.tsx` changes needed. | `src/data/guideRegistry.ts` |
-| 7. Extract interactive components | Stateful or interactive UI (explorers, diagrams, accordions) becomes a standalone component in `src/components/mdx/<guide-id>/` that reads data from `src/data/` via a prop (e.g., `<StackExplorer stackId="mern" />`). Register it in `src/components/mdx/index.ts`. See **Interactive MDX Component Template** below. | `src/components/mdx/<guide-id>/` |
-| 8. Add glossary terms | Add relevant terms to the appropriate file in `src/data/glossaryTerms/` following the glossary conventions below. Ensure each `linkId` exists in the link registry. | `src/data/glossaryTerms/`, `src/data/linkRegistry/` |
-| 9. Verify | Run `pnpm validate` (runs `validate:data` + `lint` + `build`). This catches broken link references, invalid page headings, and TypeScript errors. | — |
+| 6. Extract interactive components | Stateful or interactive UI (explorers, diagrams, accordions) becomes a standalone component in `src/components/mdx/<guide-id>/` that reads data from `src/data/` via a prop (e.g., `<StackExplorer stackId="mern" />`). Register it in `src/components/mdx/index.ts`. See **Interactive MDX Component Template** below. | `src/components/mdx/<guide-id>/` |
+| 7. Add glossary terms | Add relevant terms to the appropriate file in `src/data/glossaryTerms/` following the glossary conventions below. Ensure each `linkId` exists in the link registry. | `src/data/glossaryTerms/`, `src/data/linkRegistry/` |
+| 8. Verify | Run `pnpm validate` (runs `validate:data` + `lint` + `build`). This catches broken link references, invalid page headings, and TypeScript errors. | — |
 
 ## MDX page template
 
@@ -73,7 +72,7 @@ guide: "<guide-id>"
 <GuideStartContent guideId="<guide-id>" />
 ```
 
-The `GuideStartContent` component reads `StartPageData` from `guideRegistry.ts` and renders the learning path automatically. Sub-items are auto-derived from guide sections via `sectionLabel` references. Per-item descriptions are provided via `subItemDescriptions` in the start page data. For items not derivable from sections (cross-guide links), use `customSubItems`.
+The `GuideStartContent` component reads `startPageData` from the guide definition in `guideRegistry.ts` and renders the learning path automatically. Sub-items are auto-derived from guide sections via `sectionLabel` references. Per-item descriptions are provided via `subItemDescriptions` in the start page data. For items not derivable from sections (cross-guide links), use `customSubItems`.
 
 The component also auto-renders a **Resources** section at the bottom of every start page with three tiles: External Resources (pre-filtered by guide), Glossary (pre-filtered by guide), and Checklist (links to the guide's checklist from `checklistPages` in `guideRegistry.ts`, or shows a "Coming Soon" placeholder if none exists). Do **not** add manual Resources bonus steps to `StartPageData` — they are handled automatically.
 

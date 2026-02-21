@@ -1,4 +1,4 @@
-import type { GuideSection, GuideDefinition, StartPageData } from './guideTypes'
+import type { GuideSection, GuideDefinition } from './guideTypes'
 import { NPM_GUIDE_SECTIONS, NPM_START_PAGE_DATA } from './npmPackageData'
 import { ARCH_GUIDE_SECTIONS, ARCH_START_PAGE_DATA } from './archData'
 import { TESTING_GUIDE_SECTIONS, TESTING_START_PAGE_DATA } from './testingData'
@@ -19,7 +19,7 @@ import { AWS_GUIDE_SECTIONS, AWS_START_PAGE_DATA } from './awsDecodedData'
 import { CS_GUIDE_SECTIONS, CS_START_PAGE_DATA } from './claudeSkillsData'
 import { ZST_GUIDE_SECTIONS, ZST_START_PAGE_DATA } from './zustandData'
 
-export type { GuideSection, GuideDefinition, StartPageData }
+export type { GuideSection, GuideDefinition }
 
 // ── All guides ───────────────────────────────────────────────────────
 
@@ -32,6 +32,7 @@ export const guides: GuideDefinition[] = [
     description:
       'Learn the differences between building a web app and an npm package, from project setup through CI/CD and publishing.',
     sections: NPM_GUIDE_SECTIONS,
+    startPageData: NPM_START_PAGE_DATA,
   },
   {
     id: 'architecture',
@@ -41,6 +42,7 @@ export const guides: GuideDefinition[] = [
     description:
       'Understand common frontend architecture patterns and how to structure your projects for maintainability and scale.',
     sections: ARCH_GUIDE_SECTIONS,
+    startPageData: ARCH_START_PAGE_DATA,
   },
   {
     id: 'testing',
@@ -50,6 +52,7 @@ export const guides: GuideDefinition[] = [
     description:
       'Learn frontend testing fundamentals \u2014 the testing pyramid, best practices, and how to choose the right tools for unit, component, and E2E tests.',
     sections: TESTING_GUIDE_SECTIONS,
+    startPageData: TESTING_START_PAGE_DATA,
   },
   {
     id: 'prompt-engineering',
@@ -59,6 +62,7 @@ export const guides: GuideDefinition[] = [
     description:
       'Practical patterns for working with AI coding assistants \u2014 common mistakes to watch for, context management techniques, and CLI commands.',
     sections: PROMPT_GUIDE_SECTIONS,
+    startPageData: PROMPT_START_PAGE_DATA,
   },
   {
     id: 'ci-cd',
@@ -68,6 +72,7 @@ export const guides: GuideDefinition[] = [
     description:
       'Learn CI/CD from scratch \u2014 pipelines, GitHub Actions, YAML workflows, and the patterns that keep teams shipping safely.',
     sections: CICD_GUIDE_SECTIONS,
+    startPageData: CICD_START_PAGE_DATA,
   },
   {
     id: 'auth',
@@ -77,6 +82,7 @@ export const guides: GuideDefinition[] = [
     description:
       'Authentication & Authorization \u2014 from zero to confident implementation.',
     sections: AUTH_GUIDE_SECTIONS,
+    startPageData: AUTH_START_PAGE_DATA,
   },
   {
     id: 'kubernetes',
@@ -86,6 +92,7 @@ export const guides: GuideDefinition[] = [
     description:
       'Understand containers, Kubernetes, and Helm \u2014 from Docker basics to deployment pipelines, with analogies for frontend engineers.',
     sections: K8S_GUIDE_SECTIONS,
+    startPageData: K8S_START_PAGE_DATA,
   },
   {
     id: 'ai-infra',
@@ -95,6 +102,7 @@ export const guides: GuideDefinition[] = [
     description:
       'Understand AI infrastructure from a frontend engineer\u2019s perspective \u2014 from the API calls your React app makes to model serving, vector databases, and GPU clusters.',
     sections: AI_INFRA_GUIDE_SECTIONS,
+    startPageData: AI_INFRA_START_PAGE_DATA,
   },
   {
     id: 'nextjs-abstractions',
@@ -104,6 +112,7 @@ export const guides: GuideDefinition[] = [
     description:
       'The backend & middleware concepts that Next.js abstracts away \u2014 and how to handle them yourself when separating frontend from backend.',
     sections: NJA_GUIDE_SECTIONS,
+    startPageData: NJA_START_PAGE_DATA,
   },
   {
     id: 'wp-agents',
@@ -133,6 +142,7 @@ export const guides: GuideDefinition[] = [
     description:
       'Common web security vulnerabilities explained for developers \u2014 how each attack works, real-world scenarios, and copy-pasteable prevention patterns.',
     sections: SECURITY_GUIDE_SECTIONS,
+    startPageData: SECURITY_START_PAGE_DATA,
   },
   {
     id: 'state-management',
@@ -142,6 +152,7 @@ export const guides: GuideDefinition[] = [
     description:
       'Context vs Zustand vs Redux \u2014 deep dives, side-by-side comparison, and how React Query changes everything.',
     sections: SM_GUIDE_SECTIONS,
+    startPageData: SM_START_PAGE_DATA,
   },
   {
     id: 'tanstack-query',
@@ -151,6 +162,7 @@ export const guides: GuideDefinition[] = [
     description:
       'Server state management with TanStack Query \u2014 caching, deduplication, and the async data layer React is missing.',
     sections: TSQ_GUIDE_SECTIONS,
+    startPageData: TSQ_START_PAGE_DATA,
   },
   {
     id: 'tanstack-router',
@@ -160,6 +172,7 @@ export const guides: GuideDefinition[] = [
     description:
       'A deep comparison of TanStack Router vs React Router vs Next.js \u2014 type safety, search params, data loading, and when to use what.',
     sections: TSR_GUIDE_SECTIONS,
+    startPageData: TSR_START_PAGE_DATA,
   },
   {
     id: 's3-storage',
@@ -169,6 +182,7 @@ export const guides: GuideDefinition[] = [
     description:
       'Understand Amazon S3 storage classes from a frontend engineer\u2019s perspective \u2014 buckets, objects, lifecycle rules, cost optimization, and practical usage patterns.',
     sections: S3_GUIDE_SECTIONS,
+    startPageData: S3_START_PAGE_DATA,
   },
   {
     id: 'aws-decoded',
@@ -178,6 +192,7 @@ export const guides: GuideDefinition[] = [
     description:
       'Every AWS service explained like you\u2019re a frontend engineer who just learned what a server is \u2014 62 services, 11 categories, zero buzzwords.',
     sections: AWS_GUIDE_SECTIONS,
+    startPageData: AWS_START_PAGE_DATA,
   },
   {
     id: 'claude-skills',
@@ -187,6 +202,7 @@ export const guides: GuideDefinition[] = [
     description:
       'How to write high-quality Claude skills \u2014 from description fields and body writing to bundled resources, do\u2019s & don\u2019ts, and a shipping checklist.',
     sections: CS_GUIDE_SECTIONS,
+    startPageData: CS_START_PAGE_DATA,
   },
   {
     id: 'zustand',
@@ -196,6 +212,7 @@ export const guides: GuideDefinition[] = [
     description:
       'Everything about Zustand \u2014 from first store to slices, middleware, and production patterns with interactive demos.',
     sections: ZST_GUIDE_SECTIONS,
+    startPageData: ZST_START_PAGE_DATA,
   },
 ]
 
@@ -276,27 +293,7 @@ export function getNavOrderForPage(pageId: string): string[] {
 
 // ── Start page data lookup ───────────────────────────────────────────
 
-const startPageDataMap: Record<string, StartPageData> = {
-  'npm-package': NPM_START_PAGE_DATA,
-  'architecture': ARCH_START_PAGE_DATA,
-  'testing': TESTING_START_PAGE_DATA,
-  'prompt-engineering': PROMPT_START_PAGE_DATA,
-  'ci-cd': CICD_START_PAGE_DATA,
-  'auth': AUTH_START_PAGE_DATA,
-  'kubernetes': K8S_START_PAGE_DATA,
-  'ai-infra': AI_INFRA_START_PAGE_DATA,
-  'nextjs-abstractions': NJA_START_PAGE_DATA,
-  'security': SECURITY_START_PAGE_DATA,
-  'state-management': SM_START_PAGE_DATA,
-  'tanstack-query': TSQ_START_PAGE_DATA,
-  'tanstack-router': TSR_START_PAGE_DATA,
-  's3-storage': S3_START_PAGE_DATA,
-  'aws-decoded': AWS_START_PAGE_DATA,
-  'claude-skills': CS_START_PAGE_DATA,
-  'zustand': ZST_START_PAGE_DATA,
-}
-
-export function getStartPageData(guideId: string): StartPageData | undefined {
-  return startPageDataMap[guideId]
+export function getStartPageData(guideId: string) {
+  return guides.find(g => g.id === guideId)?.startPageData
 }
 

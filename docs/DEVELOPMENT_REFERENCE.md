@@ -17,6 +17,31 @@ Use for interactive components with dynamic colors from data (can't use Tailwind
 <div className="bg-white dark:bg-slate-800">                           {/* static */}
 ```
 
+## Theme Color Pairs (`tc()`)
+
+`tc()` in `src/helpers/themeColors.ts` is a shorthand for common `ds()` calls using pre-defined color pairs:
+
+```typescript
+import { theme, tc } from '../helpers/themeColors'
+
+// Instead of: ds('#1e293b', '#f1f5f9', isDark)
+tc(theme.textPrimary, isDark)
+```
+
+Available pairs in `theme`:
+
+| Key | Light | Dark | Use for |
+|-----|-------|------|---------|
+| `textPrimary` | `#1e293b` | `#f1f5f9` | Main body text |
+| `textSecondary` | `#374151` | `#e2e8f0` | Detail / paragraph text |
+| `textMuted` | `#94a3b8` | `#64748b` | Labels, captions |
+| `bgCard` | `#fff` | `#1e293b` | Card / panel surface |
+| `borderDefault` | `#e2e8f0` | `#334155` | Standard border |
+| `shadowSm` | `0 1px 4px #0001` | `0 1px 4px #0003` | Subtle shadow |
+| `shadowMd` | `0 1px 5px #0001` | `0 1px 5px #0003` | Medium shadow |
+
+Prefer `tc()` for these common pairs. Use raw `ds()` only for one-off or component-specific color values.
+
 ## Routing
 
 The router resolves pages in order:
