@@ -16,6 +16,7 @@ import { TSQ_GUIDE_SECTIONS, TSQ_START_PAGE_DATA } from './tanstackQueryData'
 import { TSR_GUIDE_SECTIONS, TSR_START_PAGE_DATA } from './tanstackRouterData'
 import { S3_GUIDE_SECTIONS, S3_START_PAGE_DATA } from './s3Data'
 import { AWS_GUIDE_SECTIONS, AWS_START_PAGE_DATA } from './awsDecodedData'
+import { CS_GUIDE_SECTIONS, CS_START_PAGE_DATA } from './claudeSkillsData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -177,6 +178,15 @@ export const guides: GuideDefinition[] = [
       'Every AWS service explained like you\u2019re a frontend engineer who just learned what a server is \u2014 62 services, 11 categories, zero buzzwords.',
     sections: AWS_GUIDE_SECTIONS,
   },
+  {
+    id: 'claude-skills',
+    icon: '\u{1F9E9}',        // 🧩
+    title: 'Anatomy of a Claude Skill',
+    startPageId: 'cs-start',
+    description:
+      'How to write high-quality Claude skills \u2014 from description fields and body writing to bundled resources, do\u2019s & don\u2019ts, and a shipping checklist.',
+    sections: CS_GUIDE_SECTIONS,
+  },
 ]
 
 // ── Single Page Guides (combined virtual nav) ───────────────────────
@@ -272,6 +282,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'tanstack-router': TSR_START_PAGE_DATA,
   's3-storage': S3_START_PAGE_DATA,
   'aws-decoded': AWS_START_PAGE_DATA,
+  'claude-skills': CS_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {
