@@ -15,7 +15,7 @@ import { contentPages } from '../content/registry'
 import { getNavTitle } from '../data/navigation'
 import { parseTitle } from '../helpers/parseTitle'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
-import { useSidebarPin } from '../hooks/useSidebarPin'
+import { useUIStore } from '../hooks/useUIStore'
 import { DataTable } from './DataTable'
 
 interface ReferenceRow {
@@ -81,7 +81,7 @@ interface ExternalResourcesPageProps {
 
 export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPageProps) {
   const navigateToSection = useNavigateToSection()
-  const { effectivelyPinned } = useSidebarPin()
+  const effectivelyPinned = useUIStore((s) => s.pinned && s.isDesktop)
   const data = useMemo(() => buildReferenceData(), [])
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])

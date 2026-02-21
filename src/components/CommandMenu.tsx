@@ -7,11 +7,7 @@ import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { parseTitle } from '../helpers/parseTitle'
 import { STORYBOOK_URL } from '../data/navigation'
 import { ExternalLinkIcon } from './ExternalLinkIcon'
-
-interface CommandMenuProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-}
+import { useUIStore } from '../hooks/useUIStore'
 
 // Severity badge lookup for Common AI Mistakes pages (replaces emoji in command menu)
 const severityBadges: Record<string, { letter: string; cls: string }> = {
@@ -43,31 +39,33 @@ function PageItem({ id, onSelect }: { id: string; onSelect: (id: string) => void
   )
 }
 
-export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
+export function CommandMenu() {
   const navigate = useNavigate()
   const navigateToSection = useNavigateToSection()
+  const cmdMenuOpen = useUIStore((s) => s.cmdMenuOpen)
+  const setCmdMenuOpen = useUIStore((s) => s.setCmdMenuOpen)
 
   const handleSelect = (id: string) => {
-    onOpenChange(false)
+    setCmdMenuOpen(false)
     navigateToSection(id)
   }
 
   const handleHome = () => {
-    onOpenChange(false)
+    setCmdMenuOpen(false)
     navigate({ to: '/' })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleGlossaryTerm = (term: string) => {
-    onOpenChange(false)
+    setCmdMenuOpen(false)
     navigate({ to: '/$sectionId', params: { sectionId: 'glossary' }, search: { search: term } })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   return (
     <Command.Dialog
-      open={open}
-      onOpenChange={onOpenChange}
+      open={cmdMenuOpen}
+      onOpenChange={setCmdMenuOpen}
       label="Navigate to page"
       loop
       overlayClassName="fixed inset-0 bg-slate-900/30 dark:bg-black/50 backdrop-blur-sm"
@@ -108,7 +106,7 @@ export function CommandMenu({ open, onOpenChange }: CommandMenuProps) {
             value="Storybook"
             keywords={['storybook', 'components', 'stories']}
             onSelect={() => {
-              onOpenChange(false)
+              setCmdMenuOpen(false)
               window.open(STORYBOOK_URL, '_blank', 'noopener,noreferrer')
             }}
           >

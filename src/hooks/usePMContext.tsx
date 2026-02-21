@@ -1,29 +1,23 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
+import { create } from 'zustand'
+import { useShallow } from 'zustand/react/shallow'
 
 type PM = 'npm' | 'pnpm'
 
-interface PMContextType {
+interface PMState {
   currentPM: PM
   setPM: (pm: PM) => void
 }
 
-const PMContext = createContext<PMContextType>({ currentPM: 'npm', setPM: () => {} })
+const usePMStore = create<PMState>((set) => ({
+  currentPM: 'npm',
+  setPM: (pm) => set({ currentPM: pm }),
+}))
 
-export function PMProvider({ children }: { children: ReactNode }) {
-  const [currentPM, setCurrentPM] = useState<PM>('npm')
+// Sync body class on PM change
+usePMStore.subscribe((state) => {
+  document.body.classList.toggle('pnpm', state.currentPM === 'pnpm')
+})
 
-  useEffect(() => {
-    document.body.classList.toggle('pnpm', currentPM === 'pnpm')
-  }, [currentPM])
-
-  return (
-    <PMContext.Provider value={{ currentPM, setPM: setCurrentPM }}>
-      {children}
-    </PMContext.Provider>
-  )
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
 export function usePM() {
-  return useContext(PMContext)
+  return usePMStore(useShallow((s) => ({ currentPM: s.currentPM, setPM: s.setPM })))
 }
