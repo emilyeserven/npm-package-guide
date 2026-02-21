@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams, Link } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { guides, getGuideForPage, checklistsNavDef, singlePageNavDef, checklistPages, type GuideDefinition } from '../data/guideRegistry'
@@ -85,18 +85,30 @@ function IconRail({
   onSettingsClick: () => void
   currentId: string
 }) {
-  const iconBtnCls = 'flex items-center justify-center w-10 h-10 rounded-lg border-none cursor-pointer transition-all duration-150 group relative'
+  const iconBtnCls = 'flex items-center justify-center w-10 h-10 shrink-0 rounded-lg border-none cursor-pointer transition-all duration-150'
   const activeCls = 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400'
   const inactiveCls = 'bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
-  const tooltipCls = 'absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 text-[11px] font-normal text-white dark:text-slate-200 bg-slate-800 dark:bg-slate-600 rounded whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-150 group-hover:opacity-100 z-50'
+
+  const railRef = useRef<HTMLDivElement>(null)
+  const [tooltip, setTooltip] = useState<{ text: string; top: number } | null>(null)
+
+  const showTooltip = useCallback((text: string, e: React.MouseEvent) => {
+    const btnRect = e.currentTarget.getBoundingClientRect()
+    const railRect = railRef.current?.getBoundingClientRect()
+    if (!railRect) return
+    setTooltip({ text, top: btnRect.top - railRect.top + btnRect.height / 2 })
+  }, [])
+  const hideTooltip = useCallback(() => setTooltip(null), [])
 
   return (
-    <div className="flex flex-col items-center w-[52px] shrink-0 border-r border-slate-200 dark:border-slate-700 py-3 gap-1 h-full overflow-hidden">
+    <div ref={railRef} className="flex flex-col items-center w-[52px] shrink-0 border-r border-slate-200 dark:border-slate-700 py-3 gap-1 h-full relative">
       {/* Home button */}
       <Link
         to="/"
         className={clsx(iconBtnCls, !currentId ? activeCls : inactiveCls)}
         onClick={onHomeClick}
+        onMouseEnter={(e) => showTooltip('Home', e)}
+        onMouseLeave={hideTooltip}
         aria-label="Home"
         data-testid="sidebar-home-icon"
       >
@@ -104,7 +116,6 @@ function IconRail({
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
           <polyline points="9 22 9 12 15 12 15 22"/>
         </svg>
-        <span className={tooltipCls} aria-hidden="true">Home</span>
       </Link>
 
       <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5 shrink-0" />
@@ -116,11 +127,12 @@ function IconRail({
             key={guide.id}
             className={clsx(iconBtnCls, activeGuideId === guide.id ? activeCls : inactiveCls)}
             onClick={() => onSelectGuide(guide.id)}
+            onMouseEnter={(e) => showTooltip(guide.title, e)}
+            onMouseLeave={hideTooltip}
             aria-label={guide.title}
             data-testid={`sidebar-guide-icon-${guide.id}`}
           >
             <span className="text-lg leading-none w-5 h-5 flex items-center justify-center overflow-hidden" aria-hidden="true">{guide.icon}</span>
-            <span className={tooltipCls} aria-hidden="true">{guide.title}</span>
           </button>
         ))}
 
@@ -128,11 +140,12 @@ function IconRail({
         <button
           className={clsx(iconBtnCls, activeGuideId === 'single-page-guides' ? activeCls : inactiveCls)}
           onClick={() => onSelectGuide('single-page-guides')}
+          onMouseEnter={(e) => showTooltip('Single Page Guides', e)}
+          onMouseLeave={hideTooltip}
           aria-label="Single Page Guides"
           data-testid="sidebar-guide-icon-single-page-guides"
         >
           <span className="text-lg leading-none w-5 h-5 flex items-center justify-center overflow-hidden" aria-hidden="true">{'\u{1F4C4}'}</span>
-          <span className={tooltipCls} aria-hidden="true">Single Page Guides</span>
         </button>
       </div>
 
@@ -142,40 +155,44 @@ function IconRail({
       <button
         className={clsx(iconBtnCls, activeGuideId === 'checklists' ? activeCls : inactiveCls)}
         onClick={() => onSelectGuide('checklists')}
+        onMouseEnter={(e) => showTooltip('Checklists', e)}
+        onMouseLeave={hideTooltip}
         aria-label="Checklists"
         data-testid="sidebar-icon-checklists"
       >
         <span className="text-lg leading-none w-5 h-5 flex items-center justify-center overflow-hidden" aria-hidden="true">{'\u2705'}</span>
-        <span className={tooltipCls} aria-hidden="true">Checklists</span>
       </button>
 
       {/* Resource icons */}
       <button
         className={clsx(iconBtnCls, currentId === 'external-resources' ? activeCls : inactiveCls)}
         onClick={() => onResourceClick('external-resources')}
+        onMouseEnter={(e) => showTooltip('External Resources', e)}
+        onMouseLeave={hideTooltip}
         aria-label="External Resources"
         data-testid="sidebar-icon-external-resources"
       >
         <span className="text-lg leading-none w-5 h-5 flex items-center justify-center overflow-hidden" aria-hidden="true">{'\u{1F4DA}'}</span>
-        <span className={tooltipCls} aria-hidden="true">External Resources</span>
       </button>
       <button
         className={clsx(iconBtnCls, currentId === 'glossary' ? activeCls : inactiveCls)}
         onClick={() => onResourceClick('glossary')}
+        onMouseEnter={(e) => showTooltip('Glossary', e)}
+        onMouseLeave={hideTooltip}
         aria-label="Glossary"
         data-testid="sidebar-icon-glossary"
       >
         <span className="text-lg leading-none w-5 h-5 flex items-center justify-center overflow-hidden" aria-hidden="true">{'\u{1F4D6}'}</span>
-        <span className={tooltipCls} aria-hidden="true">Glossary</span>
       </button>
       <button
         className={clsx(iconBtnCls, inactiveCls)}
         onClick={() => window.open(STORYBOOK_URL, '_blank', 'noopener,noreferrer')}
+        onMouseEnter={(e) => showTooltip('Storybook', e)}
+        onMouseLeave={hideTooltip}
         aria-label="Open Storybook"
         data-testid="sidebar-icon-storybook"
       >
         <span className="text-lg leading-none w-5 h-5 flex items-center justify-center overflow-hidden" aria-hidden="true">{'\u{1F3A8}'}</span>
-        <span className={tooltipCls} aria-hidden="true">Storybook</span>
       </button>
 
       <div className="w-6 h-px bg-slate-200 dark:bg-slate-700 my-1.5 shrink-0" />
@@ -184,6 +201,8 @@ function IconRail({
       <button
         className={clsx(iconBtnCls, showSettings ? activeCls : inactiveCls)}
         onClick={onSettingsClick}
+        onMouseEnter={(e) => showTooltip('Settings', e)}
+        onMouseLeave={hideTooltip}
         aria-label="Settings"
         data-testid="settings-pane-toggle"
       >
@@ -191,8 +210,18 @@ function IconRail({
           <circle cx="12" cy="12" r="3"/>
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
         </svg>
-        <span className={tooltipCls}>Settings</span>
       </button>
+
+      {/* Tooltip – rendered outside scroll container so it's never clipped */}
+      {tooltip && (
+        <div
+          className="absolute left-full ml-2 px-2 py-1 text-[11px] font-normal text-white dark:text-slate-200 bg-slate-800 dark:bg-slate-600 rounded whitespace-nowrap pointer-events-none z-50 hidden lg:block"
+          style={{ top: tooltip.top, transform: 'translateY(-50%)' }}
+          aria-hidden="true"
+        >
+          {tooltip.text}
+        </div>
+      )}
     </div>
   )
 }
