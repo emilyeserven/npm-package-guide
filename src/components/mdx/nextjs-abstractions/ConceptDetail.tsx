@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import parse from 'html-react-parser'
+import { safeParse } from '../../../helpers/sanitize'
 import { useIsDark } from '../../../hooks/useTheme'
 import { ds } from '../../../helpers/darkStyle'
 import { NJA_CONCEPTS } from '../../../data/njaData'
@@ -29,7 +29,7 @@ function StackNoteItem({ note, isDark }: { note: StackNote; isDark: boolean }) {
           className="text-sm leading-relaxed mt-1 mb-0"
           style={{ color: ds('#475569', '#cbd5e1', isDark) }}
         >
-          {parse(note.note)}
+          {safeParse(note.note)}
         </p>
         {note.packages && note.packages.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mt-2">
@@ -95,7 +95,7 @@ export function ConceptDetail({ conceptId }: { conceptId: string }) {
             className="text-sm leading-relaxed m-0"
             style={{ color: ds('#475569', '#cbd5e1', isDark) }}
           >
-            {parse(concept.whatNextDoes)}
+            {safeParse(concept.whatNextDoes)}
           </p>
         </div>
         <div
@@ -115,7 +115,7 @@ export function ConceptDetail({ conceptId }: { conceptId: string }) {
             className="text-sm leading-relaxed m-0"
             style={{ color: ds('#475569', '#cbd5e1', isDark) }}
           >
-            {parse(concept.whatYouNeed)}
+            {safeParse(concept.whatYouNeed)}
           </p>
         </div>
       </div>

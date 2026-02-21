@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import parse from 'html-react-parser'
+import { safeParse } from '../../helpers/sanitize'
 
 export interface ChecklistBaseItem {
   label: string
@@ -149,7 +149,7 @@ export function ChecklistBase({ markdownTitle, sections }: ChecklistBaseProps) {
                       />
                       <div className="min-w-0">
                         <div className={`text-sm font-medium ${isChecked ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-900 dark:text-slate-100'}`}>
-                          {parse(item.label)}
+                          {safeParse(item.label)}
                         </div>
                         {item.description && (
                           <div className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mt-0.5">

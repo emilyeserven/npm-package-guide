@@ -2,6 +2,7 @@ import { PYRAMID_LEVELS } from '../../../data/testingData'
 import type { TestType } from '../../../data/testingData'
 import { useIsDark } from '../../../hooks/useTheme'
 import { ds } from '../../../helpers/darkStyle'
+import { sanitize } from '../../../helpers/sanitize'
 
 export function TestTypeDetail({ type }: { type: TestType }) {
   const isDark = useIsDark()
@@ -18,7 +19,7 @@ export function TestTypeDetail({ type }: { type: TestType }) {
           color: ds('#475569', '#94a3b8', isDark),
           marginBottom: '1rem',
         }}
-        dangerouslySetInnerHTML={{ __html: level.description.replace(/\*\*(.*?)\*\*/g, '<strong style="color: ' + ds('#1e293b', '#e2e8f0', isDark) + '">$1</strong>') }}
+        dangerouslySetInnerHTML={{ __html: sanitize(level.description.replace(/\*\*(.*?)\*\*/g, '<strong style="color: ' + ds('#1e293b', '#e2e8f0', isDark) + '">$1</strong>')) }}
       />
 
       {/* What to Test / What NOT to Test grid */}

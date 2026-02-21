@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-table'
 import type { SortingState } from '@tanstack/react-table'
 import clsx from 'clsx'
-import parse from 'html-react-parser'
+import { safeParse } from '../helpers/sanitize'
 import { glossaryTerms } from '../data/glossaryTerms'
 import type { GlossaryTerm } from '../data/glossaryTerms'
 import { linkById } from '../data/linkRegistry'
@@ -125,7 +125,7 @@ export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps)
 
         return (
           <div>
-            <span>{parse(row.definition)}</span>
+            <span>{safeParse(row.definition)}</span>
             {useBullets ? (
               <ul className="mt-1.5 list-disc pl-4 m-0 space-y-0.5">
                 {row.externalLinks.map((link, i) => (
