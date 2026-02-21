@@ -72,6 +72,7 @@ Top-level resource pages (`external-resources`, `glossary`) are NOT in any guide
 | Link registry guide tags | Link tag `guide:*` referencing an unknown guide ID |
 | Duplicate page IDs | Same page ID in two different guides |
 | `startPageId` not in sections | Guide start page missing from its `*_GUIDE_SECTIONS` |
+| `startPageData` completeness | Multi-page guide missing `startPageData` in its `GuideDefinition` entry |
 
 ## Command Menu (CMD-K)
 

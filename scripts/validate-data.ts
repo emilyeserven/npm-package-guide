@@ -173,6 +173,17 @@ for (const guide of guides) {
   }
 }
 
+// ── 5b. Non-single-page guides must have startPageData ─────────
+
+for (const guide of guides) {
+  if (!guide.singlePage && !guide.startPageData) {
+    error(
+      `Guide "${guide.id}" is not a single-page guide but has no startPageData. ` +
+      `Export *_START_PAGE_DATA from its data file and add it to the guide entry in guideRegistry.ts.`
+    )
+  }
+}
+
 // ── 6. MDX frontmatter: scan all MDX files ────────────────────────
 
 console.log('Scanning MDX frontmatter...')
