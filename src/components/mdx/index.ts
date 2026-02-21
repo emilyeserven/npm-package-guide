@@ -83,6 +83,15 @@ import { TsqWhyBoth } from './tanstack-query/TsqWhyBoth'
 import { TsrTopicDetail } from './tanstack-router/TsrTopicDetail'
 // aws-decoded
 import { AwsServiceExplorer } from './aws-decoded/AwsServiceExplorer'
+// claude-skills
+import { SkillTierCards } from './claude-skills/SkillTierCards'
+import { SkillScenarioCards } from './claude-skills/SkillScenarioCards'
+import { SkillFileBrowser } from './claude-skills/SkillFileBrowser'
+import { SkillDescriptionDemo } from './claude-skills/SkillDescriptionDemo'
+import { SkillWritingTips } from './claude-skills/SkillWritingTips'
+import { SkillResourceCards } from './claude-skills/SkillResourceCards'
+import { SkillDos, SkillDonts } from './claude-skills/SkillDosDonts'
+import { SkillChecklist } from './claude-skills/SkillChecklist'
 // s3-storage
 import { S3ConceptGrid } from './s3-storage/S3ConceptGrid'
 import { StorageClassCards } from './s3-storage/StorageClassCards'
@@ -193,4 +202,13 @@ export const mdxComponents: MDXComponents = {
   S3FrontendPatterns,
   S3Quiz,
   AwsServiceExplorer,
+  SkillTierCards,
+  SkillScenarioCards,
+  SkillFileBrowser,
+  SkillDescriptionDemo,
+  SkillWritingTips,
+  SkillResourceCards,
+  SkillDos,
+  SkillDonts,
+  SkillChecklist,
 }

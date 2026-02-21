@@ -51,6 +51,7 @@ import { tanstackQueryLinks } from './tanstackQueryLinks'
 import { tanstackRouterLinks } from './tanstackRouterLinks'
 import { s3Links } from './s3Links'
 import { awsDecodedLinks } from './awsDecodedLinks'
+import { claudeSkillsLinks } from './claudeSkillsLinks'
 
 export const linkRegistry: RegistryLink[] = [
   ...npmPackageLinks,
@@ -70,6 +71,7 @@ export const linkRegistry: RegistryLink[] = [
   ...tanstackRouterLinks,
   ...s3Links,
   ...awsDecodedLinks,
+  ...claudeSkillsLinks,
 ]
 
 /** Fast lookup by registry ID */
