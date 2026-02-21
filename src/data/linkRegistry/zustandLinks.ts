@@ -1,0 +1,58 @@
+import type { RegistryLink } from './index'
+
+export const zustandLinks: RegistryLink[] = [
+  {
+    id: 'zst-docs',
+    url: 'https://zustand-demo.pmnd.rs/',
+    label: 'Zustand Documentation',
+    source: 'Zustand',
+    desc: 'Official Zustand documentation with guides, API reference, and examples.',
+    tags: ['docs', 'free', 'react', 'guide:zustand'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'zst-github',
+    url: 'https://github.com/pmndrs/zustand',
+    label: 'Zustand GitHub',
+    source: 'GitHub',
+    desc: 'Source code, issue tracker, and discussions for Zustand.',
+    tags: ['docs', 'free', 'react', 'guide:zustand'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'zst-npm',
+    url: 'https://www.npmjs.com/package/zustand',
+    label: 'Zustand on npm',
+    source: 'npm',
+    desc: 'npm package page with install instructions, version history, and bundle size info.',
+    tags: ['docs', 'free', 'react', 'guide:zustand'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'zst-immer',
+    url: 'https://immerjs.github.io/immer/',
+    label: 'Immer Documentation',
+    source: 'Immer',
+    desc: 'Immer lets you write mutable-looking code that produces immutable updates \u2014 used by Zustand\u2019s immer middleware.',
+    tags: ['docs', 'free', 'guide:zustand'],
+    resourceCategory: 'Complementary Libraries',
+  },
+  {
+    id: 'zst-tkdodo-zustand',
+    url: 'https://tkdodo.eu/blog/working-with-zustand',
+    label: 'Working with Zustand (TkDodo)',
+    source: 'TkDodo',
+    desc: 'Best practices for Zustand from the TanStack Query maintainer \u2014 covers store organization, selectors, and testing.',
+    tags: ['article', 'free', 'react', 'guide:zustand'],
+    resourceCategory: 'Learning Resources',
+  },
+  {
+    id: 'zst-redux-devtools',
+    url: 'https://github.com/reduxjs/redux-devtools',
+    label: 'Redux DevTools',
+    source: 'GitHub',
+    desc: 'Browser extension for debugging state changes \u2014 works with Zustand via the devtools middleware.',
+    tags: ['docs', 'free', 'guide:zustand'],
+    resourceCategory: 'Complementary Libraries',
+  },
+]

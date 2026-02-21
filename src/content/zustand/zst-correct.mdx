@@ -1,0 +1,51 @@
+---
+id: "zst-correct"
+title: "Correct Usage ✅"
+guide: "zustand"
+linkRefs:
+  - id: "zst-docs"
+    note: "Official Zustand documentation"
+  - id: "tsq-docs"
+    note: "TanStack Query documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-separate">Separate Actions from State</TocLink>
+  <TocLink id="toc-selectors">Reusable Selector Hooks</TocLink>
+  <TocLink id="toc-outside">Actions Outside of React</TocLink>
+  <TocLink id="toc-tanstack">Using with TanStack Query</TocLink>
+</Toc>
+
+<SectionIntro>
+These patterns keep your Zustand stores clean, performant, and maintainable.
+</SectionIntro>
+
+<SectionSubheading id="toc-separate">1. Separate Actions from State</SectionSubheading>
+
+A clean pattern is to group state and actions logically, or even export actions separately.
+
+<ZstCodeBlock exampleId="clean-org" />
+
+<SectionSubheading id="toc-selectors">2. Create Reusable Selector Hooks</SectionSubheading>
+
+<ZstCodeBlock exampleId="selector-hooks" />
+
+<SectionSubheading id="toc-outside">3. Actions Outside of React</SectionSubheading>
+
+Zustand stores work outside React. Great for utility functions, API interceptors, or routing logic.
+
+<ZstCodeBlock exampleId="outside-react" />
+
+<ZstTodo />
+
+<SectionSubheading id="toc-tanstack">4. Using with TanStack Query</SectionSubheading>
+
+Zustand and TanStack Query complement each other perfectly. Let TanStack Query handle server state; use Zustand for client-only state.
+
+<ZstCodeBlock exampleId="tanstack" />
+
+<SectionNote>
+**The Golden Rule:** Use Zustand for **client state** (UI toggles, form drafts, user preferences, local filters). Use TanStack Query for **server state** (API data, caching, refetching). Don't put API responses in Zustand unless you have a specific reason.
+</SectionNote>

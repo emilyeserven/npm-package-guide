@@ -34,6 +34,7 @@ import { tanstackRouterGlossary } from './tanstackRouterTerms'
 import { s3Glossary } from './s3Terms'
 import { awsDecodedGlossary } from './awsDecodedTerms'
 import { claudeSkillsGlossary } from './claudeSkillsTerms'
+import { zustandGlossary } from './zustandTerms'
 
 export const glossaryTerms: GlossaryCategory[] = [
   ...npmPackageGlossary,
@@ -54,4 +55,5 @@ export const glossaryTerms: GlossaryCategory[] = [
   ...s3Glossary,
   ...awsDecodedGlossary,
   ...claudeSkillsGlossary,
+  ...zustandGlossary,
 ]

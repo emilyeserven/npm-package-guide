@@ -92,6 +92,9 @@ import { SkillWritingTips } from './claude-skills/SkillWritingTips'
 import { SkillResourceCards } from './claude-skills/SkillResourceCards'
 import { SkillDos, SkillDonts } from './claude-skills/SkillDosDonts'
 import { SkillChecklist } from './claude-skills/SkillChecklist'
+// zustand
+import { ZstCodeBlock, ZstCodeGroup, ZstApiRef } from './zustand/ZstCodeBlock'
+import { ZstCounter, ZstTodo, ZstRerenderViz, ZstStats, ZstSlicesCompare } from './zustand/ZstDemos'
 // s3-storage
 import { S3ConceptGrid } from './s3-storage/S3ConceptGrid'
 import { StorageClassCards } from './s3-storage/StorageClassCards'
@@ -211,4 +214,12 @@ export const mdxComponents: MDXComponents = {
   SkillDos,
   SkillDonts,
   SkillChecklist,
+  ZstCodeBlock,
+  ZstCodeGroup,
+  ZstApiRef,
+  ZstCounter,
+  ZstTodo,
+  ZstRerenderViz,
+  ZstStats,
+  ZstSlicesCompare,
 }
