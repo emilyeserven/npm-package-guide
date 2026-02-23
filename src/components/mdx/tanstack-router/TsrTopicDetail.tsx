@@ -1,3 +1,4 @@
+import parse from 'html-react-parser'
 import { useIsDark } from '../../../hooks/useTheme'
 import { ds } from '../../../helpers/darkStyle'
 import { tc, theme } from '../../../helpers/themeColors'
@@ -102,13 +103,15 @@ function OverviewSection({ isDark }: { isDark: boolean }) {
       <p
         className="text-sm leading-relaxed"
         style={{ color: tc(theme.textSecondary, isDark) }}
-        dangerouslySetInnerHTML={{ __html: OVERVIEW_INTRO }}
-      />
+      >
+        {parse(OVERVIEW_INTRO)}
+      </p>
       <p
         className="text-sm leading-relaxed"
         style={{ color: tc(theme.textSecondary, isDark) }}
-        dangerouslySetInnerHTML={{ __html: OVERVIEW_DETAIL }}
-      />
+      >
+        {parse(OVERVIEW_DETAIL)}
+      </p>
 
       {/* Stats grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -161,8 +164,9 @@ function TypeSafetySection({ isDark }: { isDark: boolean }) {
       <p
         className="text-sm leading-relaxed"
         style={{ color: tc(theme.textSecondary, isDark) }}
-        dangerouslySetInnerHTML={{ __html: TYPE_SAFETY_INTRO }}
-      />
+      >
+        {parse(TYPE_SAFETY_INTRO)}
+      </p>
       {renderCodeExamples('typesafety', isDark)}
       <div
         className="rounded-xl border p-4"
@@ -186,8 +190,9 @@ function SearchParamsSection({ isDark }: { isDark: boolean }) {
       <p
         className="text-sm leading-relaxed"
         style={{ color: tc(theme.textSecondary, isDark) }}
-        dangerouslySetInnerHTML={{ __html: SEARCH_PARAMS_INTRO }}
-      />
+      >
+        {parse(SEARCH_PARAMS_INTRO)}
+      </p>
       {renderCodeExamples('searchparams', isDark)}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <CardBase>
@@ -200,8 +205,9 @@ function SearchParamsSection({ isDark }: { isDark: boolean }) {
           <p
             className="text-sm leading-relaxed m-0"
             style={{ color: tc(theme.textSecondary, isDark) }}
-            dangerouslySetInnerHTML={{ __html: SEARCH_PARAMS_RR_DESC }}
-          />
+          >
+            {parse(SEARCH_PARAMS_RR_DESC)}
+          </p>
         </CardBase>
         <CardBase>
           <div
@@ -213,8 +219,9 @@ function SearchParamsSection({ isDark }: { isDark: boolean }) {
           <p
             className="text-sm leading-relaxed m-0"
             style={{ color: tc(theme.textSecondary, isDark) }}
-            dangerouslySetInnerHTML={{ __html: SEARCH_PARAMS_NEXT_DESC }}
-          />
+          >
+            {parse(SEARCH_PARAMS_NEXT_DESC)}
+          </p>
         </CardBase>
       </div>
       <CardBase>
@@ -227,8 +234,9 @@ function SearchParamsSection({ isDark }: { isDark: boolean }) {
         <p
           className="text-sm leading-relaxed m-0"
           style={{ color: tc(theme.textSecondary, isDark) }}
-          dangerouslySetInnerHTML={{ __html: STRUCTURAL_SHARING_DESC }}
-        />
+        >
+          {parse(STRUCTURAL_SHARING_DESC)}
+        </p>
       </CardBase>
     </div>
   )
@@ -240,8 +248,9 @@ function DataLoadingSection({ isDark }: { isDark: boolean }) {
       <p
         className="text-sm leading-relaxed"
         style={{ color: tc(theme.textSecondary, isDark) }}
-        dangerouslySetInnerHTML={{ __html: DATA_LOADING_INTRO }}
-      />
+      >
+        {parse(DATA_LOADING_INTRO)}
+      </p>
       {renderCodeExamples('dataloading', isDark)}
       <div className="flex flex-col gap-3">
         {LOADER_COMPARISONS.map((c) => (
@@ -250,8 +259,9 @@ function DataLoadingSection({ isDark }: { isDark: boolean }) {
             <p
               className="text-sm leading-relaxed m-0 mt-2"
               style={{ color: tc(theme.textSecondary, isDark) }}
-              dangerouslySetInnerHTML={{ __html: c.desc }}
-            />
+            >
+              {parse(c.desc)}
+            </p>
           </CardBase>
         ))}
       </div>
@@ -265,8 +275,9 @@ function RoutingSection({ isDark }: { isDark: boolean }) {
       <p
         className="text-sm leading-relaxed"
         style={{ color: tc(theme.textSecondary, isDark) }}
-        dangerouslySetInnerHTML={{ __html: ROUTING_INTRO }}
-      />
+      >
+        {parse(ROUTING_INTRO)}
+      </p>
       {renderCodeExamples('routing', isDark)}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {ROUTING_COMPARISONS.map((c) => (
@@ -275,8 +286,9 @@ function RoutingSection({ isDark }: { isDark: boolean }) {
             <p
               className="text-sm leading-relaxed m-0 mt-2"
               style={{ color: tc(theme.textSecondary, isDark) }}
-              dangerouslySetInnerHTML={{ __html: c.desc }}
-            />
+            >
+              {parse(c.desc)}
+            </p>
           </CardBase>
         ))}
       </div>
@@ -290,8 +302,9 @@ function CodeSplitSection({ isDark }: { isDark: boolean }) {
       <p
         className="text-sm leading-relaxed"
         style={{ color: tc(theme.textSecondary, isDark) }}
-        dangerouslySetInnerHTML={{ __html: CODE_SPLIT_INTRO }}
-      />
+      >
+        {parse(CODE_SPLIT_INTRO)}
+      </p>
       {renderCodeExamples('codesplit', isDark)}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {CODE_SPLIT_COMPARISONS.map((c) => (
