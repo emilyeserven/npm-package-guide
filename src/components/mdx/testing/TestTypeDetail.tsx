@@ -1,3 +1,4 @@
+import parse from 'html-react-parser'
 import { PYRAMID_LEVELS } from '../../../data/testingData'
 import type { TestType } from '../../../data/testingData'
 import { useIsDark } from '../../../hooks/useTheme'
@@ -18,8 +19,9 @@ export function TestTypeDetail({ type }: { type: TestType }) {
           color: ds('#475569', '#94a3b8', isDark),
           marginBottom: '1rem',
         }}
-        dangerouslySetInnerHTML={{ __html: level.description.replace(/\*\*(.*?)\*\*/g, '<strong style="color: ' + ds('#1e293b', '#e2e8f0', isDark) + '">$1</strong>') }}
-      />
+      >
+        {parse(level.description.replace(/\*\*(.*?)\*\*/g, '<strong style="color: ' + ds('#1e293b', '#e2e8f0', isDark) + '">$1</strong>'))}
+      </p>
 
       {/* What to Test / What NOT to Test grid */}
       <div style={{

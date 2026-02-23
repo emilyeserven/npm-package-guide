@@ -31,6 +31,6 @@ Defined in `src/data/securityData.ts` as `SECURITY_GUIDE_SECTIONS`:
 - All content lives in `SECURITY_TOPICS` data array, not inline in MDX
 - Topic IDs match the page ID suffix (e.g., page `sec-xss` uses `topicId="xss"`)
 - Threat levels: `critical`, `high`, `medium` with corresponding color schemes
-- The `realWorld` field contains HTML (rendered via `dangerouslySetInnerHTML`) for inline code formatting
+- The `realWorld` field contains HTML (rendered via `html-react-parser`) for inline code formatting
 - Prevention code blocks have copy-to-clipboard functionality built in
 - Some link IDs are shared with other guides (e.g., `owasp-top-ten`, `owasp-xss-prevention`, `snyk-open-source`); security-specific links use the `sec-` prefix

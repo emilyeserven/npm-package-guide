@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import parse from 'html-react-parser'
 import { useIsDark } from '../../../hooks/useTheme'
 import { ds } from '../../../helpers/darkStyle'
 import { getSecurityTopic, THREAT_LEVEL_COLORS } from '../../../data/securityData'
@@ -123,8 +124,9 @@ export function SecurityTopicDetail({ topicId }: { topicId: string }) {
             borderColor: ds(colors.border, colors.darkBorder, isDark),
             color: ds('#475569', '#cbd5e1', isDark),
           }}
-          dangerouslySetInnerHTML={{ __html: topic.realWorld }}
-        />
+        >
+          {parse(topic.realWorld)}
+        </div>
       </section>
 
       {/* Prevention */}

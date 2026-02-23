@@ -1,3 +1,4 @@
+import parse from 'html-react-parser'
 import { useIsDark } from '../../../hooks/useTheme'
 import { S3_CONCEPTS, BUCKET_ITEMS } from '../../../data/s3Data'
 import { CardBase } from '../CardBase'
@@ -75,8 +76,9 @@ export function S3ConceptGrid() {
             <p
               className="text-sm leading-relaxed m-0"
               style={{ color: isDark ? '#94a3b8' : '#64748b' }}
-              dangerouslySetInnerHTML={{ __html: concept.description }}
-            />
+            >
+              {parse(concept.description)}
+            </p>
           </CardBase>
         ))}
       </div>
