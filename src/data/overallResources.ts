@@ -1,4 +1,5 @@
 import { linkRegistry } from './linkRegistry'
+import { guides } from './guideRegistry'
 
 interface ResourceItem {
   name: string
@@ -68,6 +69,14 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   "guide:zustand": { cls: "bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300", label: "Zustand Guide" },
   "guide:pwa": { cls: "bg-teal-50 text-teal-700 dark:bg-teal-500/15 dark:text-teal-300", label: "PWA Guide" },
   "guide:cowork": { cls: "bg-orange-50 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300", label: "Cowork Guide" },
+  "guide:security": { cls: "bg-red-50 text-red-700 dark:bg-red-500/15 dark:text-red-300", label: "Security Guide" },
+  "guide:tanstack-query": { cls: "bg-rose-50 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300", label: "TanStack Query Guide" },
+  "guide:tanstack-router": { cls: "bg-stone-50 text-stone-700 dark:bg-stone-500/15 dark:text-stone-300", label: "TanStack Router Guide" },
+  "guide:s3-storage": { cls: "bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300", label: "S3 Storage Guide" },
+  "guide:aws-decoded": { cls: "bg-sky-50 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300", label: "AWS Decoded Guide" },
+  "guide:git-worktrees": { cls: "bg-lime-50 text-lime-700 dark:bg-lime-500/15 dark:text-lime-300", label: "Git Worktrees Guide" },
+  "guide:jscodeshift": { cls: "bg-pink-50 text-pink-700 dark:bg-pink-500/15 dark:text-pink-300", label: "jscodeshift Guide" },
+  "guide:nginx": { cls: "bg-green-50 text-green-700 dark:bg-green-500/15 dark:text-green-300", label: "Nginx Guide" },
   // Topic
   publishing: { cls: "bg-yellow-100 text-yellow-800 dark:bg-yellow-500/15 dark:text-yellow-300", label: "Publishing" },
   typescript: { cls: "bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300", label: "TypeScript" },
@@ -122,4 +131,4 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
 
 export const typeTags = new Set(["docs", "article", "course", "video", "repo", "interactive", "free", "paid"]);
 export const topicTags = new Set(["publishing", "typescript", "versioning", "ci-cd", "monorepo", "modules", "tooling", "bundling", "testing", "linting", "architecture", "frameworks", "databases", "prompt-engineering", "kubernetes"]);
-export const guideTags = new Set(["guide:npm-package", "guide:architecture", "guide:testing", "guide:prompt-engineering", "guide:ci-cd", "guide:auth", "guide:kubernetes", "guide:ai-infra", "guide:nextjs-abstractions", "guide:wp-agents", "guide:state-management", "guide:claude-skills", "guide:zustand", "guide:pwa", "guide:cowork", "guide:coolify-deploy"]);
+export const guideTags = new Set(guides.map(g => `guide:${g.id}`));
