@@ -1,0 +1,62 @@
+---
+id: "ia-patterns"
+title: "Structural Patterns 🧩"
+guide: "info-architecture"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-choosing">Choosing a Pattern</TocLink>
+  <TocLink id="toc-patterns">Common Patterns</TocLink>
+  <TocLink id="toc-combining">Combining Patterns</TocLink>
+  <TocLink id="toc-anti-patterns">Anti-Patterns</TocLink>
+</Toc>
+
+<SectionIntro>
+Structural patterns are reusable solutions for organizing information spaces. Like software design patterns, they give you a proven starting point instead of designing from scratch.
+</SectionIntro>
+
+<SectionSubheading id="toc-choosing">Choosing a Pattern</SectionSubheading>
+
+The right pattern depends on three factors:
+
+<DefinitionTable>
+  <DefRow term="User intent" definition="Are users browsing (exploring) or searching (known target)? Browsing favors hierarchies and hubs; searching favors flat structures with good search." />
+  <DefRow term="Content volume" definition="10 pages can live in a flat list. 100 pages need hierarchy. 1,000 pages need faceted classification and search." />
+  <DefRow term="Content relationships" definition="Is content independent (blog posts) or interconnected (API docs with cross-references)? Independent content suits simpler patterns." />
+</DefinitionTable>
+
+<SectionSubheading id="toc-patterns">Common Patterns</SectionSubheading>
+
+<IaPatternCards />
+
+<SectionSubheading id="toc-combining">Combining Patterns</SectionSubheading>
+
+Real applications almost always combine multiple patterns. A documentation site might use:
+
+- **Hub and spoke** for the home page (hub) linking to guide start pages (spokes)
+- **Hierarchy** within each guide (sections → pages → subheadings)
+- **Sequential** for tutorial flows within guides
+- **Matrix** for a cross-cutting resources page with filters
+
+<Explainer title="This guide as an example">
+This very site combines **hub and spoke** (home page → guides), **hierarchy** (guide → section → page), **sequential** (prev/next within a guide), and **matrix** (External Resources page with guide/category/source filters).
+</Explainer>
+
+The key is that each pattern is applied at the right level. Don't force a single pattern across all levels of your information space.
+
+<SectionSubheading id="toc-anti-patterns">Anti-Patterns</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="The everything drawer" definition="A catch-all category ('Miscellaneous', 'Other', 'Resources') that accumulates items nobody bothered to organize. If a category has no clear definition, its items should be distributed elsewhere." />
+  <DefRow term="The mirror org chart" definition="Navigation that reflects the company's internal structure ('Engineering', 'Marketing', 'Sales') instead of user tasks. Users don't care about your departments." />
+  <DefRow term="The deep tunnel" definition="5+ levels of hierarchy where users lose context. If users need breadcrumbs longer than Home → Section → Page, your hierarchy is too deep." />
+  <DefRow term="The duplicated content" definition="Same content accessible from multiple navigation paths with different labels. Creates confusion — users aren't sure which version is canonical." />
+  <DefRow term="The phantom category" definition="A navigation item that exists as a category but contains only one child. Promote the child or merge it with a sibling category." />
+  <DefRow term="The orphan page" definition="Content reachable only through search or direct URL — not linked from any navigation. If it's worth having, it's worth making findable." />
+</DefinitionTable>
+
+<Gotcha>
+The most insidious anti-pattern is **accidental architecture** — letting the information structure emerge from whatever order content was created, rather than designing it intentionally. Accidental architecture is how you end up with a docs site where "Getting Started" is buried three levels deep.
+</Gotcha>

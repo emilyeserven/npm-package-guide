@@ -1,0 +1,74 @@
+---
+id: "ia-ai-readability"
+title: "IA for AI Agents 🤖"
+guide: "info-architecture"
+linkRefs:
+  - id: "ia-claude-md"
+    note: "Claude Code documentation on CLAUDE.md files"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-why-ai">Why AI Agents Need Good IA</TocLink>
+  <TocLink id="toc-principles">Dual-Audience Principles</TocLink>
+  <TocLink id="toc-codebase">Codebase IA for Agents</TocLink>
+  <TocLink id="toc-context-windows">Designing for Context Windows</TocLink>
+</Toc>
+
+<SectionIntro>
+AI coding agents — Claude Code, GitHub Copilot, Cursor — navigate codebases the same way humans browse websites: by reading entry points, following paths, and building mental models. Good IA makes both humans and AI agents more effective.
+</SectionIntro>
+
+<SectionSubheading id="toc-why-ai">Why AI Agents Need Good IA</SectionSubheading>
+
+AI agents face the same challenges as human users, amplified by constraints:
+
+<DefinitionTable>
+  <DefRow term="Limited context windows" definition="Agents can only 'see' a limited amount of code at once. They need to find the right files quickly, not read everything." />
+  <DefRow term="No visual cues" definition="Agents can't scan a UI layout. They rely on file names, directory structure, and explicit documentation to navigate." />
+  <DefRow term="Pattern matching" definition="Agents excel at recognizing conventions. Consistent naming patterns let them infer where things are without searching." />
+  <DefRow term="Entry point dependency" definition="Agents typically start from a README or CLAUDE.md. If these entry points are missing or stale, the agent starts blind." />
+</DefinitionTable>
+
+The good news: **IA that helps AI agents also helps human developers.** Every principle below has dual benefits.
+
+<SectionSubheading id="toc-principles">Dual-Audience Principles</SectionSubheading>
+
+<IaAiPrincipleCards />
+
+<SectionSubheading id="toc-codebase">Codebase IA for Agents</SectionSubheading>
+
+A well-architected codebase is a well-designed information space <FnRef n={1} />. Consider how this project's structure maps to IA principles:
+
+**Predictable patterns:** Every guide follows the same file layout. An agent asked to find "the glossary terms for the IA guide" can predict the path: `src/data/glossaryTerms/iaTerms.ts`.
+
+**Central registries:** `guideRegistry.ts` is a single file that maps guide IDs to metadata. An agent doesn't need to crawl directories — it reads one file and understands the entire guide structure.
+
+**Self-describing content:** MDX frontmatter (`id`, `title`, `guide`) means each file carries its own metadata. An agent can identify a page's purpose without reading external config.
+
+**Layered documentation:** `CLAUDE.md` at the root provides the big picture. `docs/CONTENT_REFERENCE.md` goes deeper. Per-guide `CLAUDE.md` files provide guide-specific context. Agents load what they need at each level.
+
+<Explainer title="Key insight">
+The best CLAUDE.md files are **information architectures for AI agents.** They answer the same three questions as navigation: Where am I? (project overview), Where can I go? (file structure, commands), How do I get there? (conventions, patterns).
+</Explainer>
+
+<SectionSubheading id="toc-context-windows">Designing for Context Windows</SectionSubheading>
+
+AI agents have a limited amount of text they can process at once — the **context window**. This constraint makes IA decisions critically important:
+
+**Summarize first, detail later.** A CLAUDE.md that starts with a 3-line project summary is more useful than one that starts with build instructions. Agents often only need the summary.
+
+**Use explicit cross-references.** Instead of assuming agents will search, tell them where to look: "See `docs/CONTENT_REFERENCE.md` for MDX conventions." Direct references are cheaper than search.
+
+**Prefer structured data over prose.** A TypeScript type definition communicates structure faster than a paragraph explaining the same thing. Types are parseable; paragraphs require interpretation.
+
+**Keep related information co-located.** If a component's data, types, and registration are spread across 5 files, an agent needs to read all 5. If they're in 2 files, the agent's context is less cluttered.
+
+<Gotcha>
+Don't over-optimize for AI agents at the expense of human readability. If your CLAUDE.md is a machine-parseable config file with no natural language, humans won't maintain it. The best documentation serves both audiences naturally.
+</Gotcha>
+
+<SectionNote>
+Progressive disclosure works for AI agents too. This project's root CLAUDE.md says "detailed conventions in docs/ — read on demand." An agent handling a simple task never loads those files. An agent writing a new guide does. Same principle as showing users a summary with an "expand" button.
+</SectionNote>

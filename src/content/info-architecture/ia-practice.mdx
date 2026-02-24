@@ -1,0 +1,106 @@
+---
+id: "ia-practice"
+title: "Putting It Into Practice 🎯"
+guide: "info-architecture"
+linkRefs:
+  - id: "ia-tree-testing"
+    note: "Guide to tree testing for validating information architecture"
+  - id: "ia-card-sorting"
+    note: "Guide to card sorting exercises"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-card-sorting">Card Sorting</TocLink>
+  <TocLink id="toc-tree-testing">Tree Testing</TocLink>
+  <TocLink id="toc-audit">IA Audit Checklist</TocLink>
+  <TocLink id="toc-iteration">Iterating on IA</TocLink>
+</Toc>
+
+<SectionIntro>
+Good IA comes from research and testing, not intuition alone. This page covers practical techniques for designing, validating, and improving your information architecture.
+</SectionIntro>
+
+<SectionSubheading id="toc-card-sorting">Card Sorting</SectionSubheading>
+
+Card sorting is a research technique where you ask users to group content items into categories <FnRef n={2} />. It reveals how your audience naturally organizes information — which may differ from how *you* think about it.
+
+**Open card sort:** Give users cards (content items) and ask them to create their own groups and name them. Reveals natural categories and labels.
+
+**Closed card sort:** Give users cards and predefined category names. Users place cards into existing categories. Tests whether your categories make sense.
+
+**Hybrid card sort:** Provide some predefined categories but let users add their own. Balances structure with discovery.
+
+<Explainer title="For backend engineers">
+Think of card sorting as **user-driven schema design.** Instead of designing a database schema based on your assumptions, you'd let users describe how they think the data relates. Card sorting does the same thing for content structure.
+</Explainer>
+
+<DefinitionTable>
+  <DefRow term="When to use" definition="When creating a new site, reorganizing existing content, or when analytics show users can't find things." />
+  <DefRow term="How many participants" definition="15–20 users for statistical significance in quantitative analysis. 5–8 for qualitative insights." />
+  <DefRow term="Tools" definition="OptimalSort, Maze, or physical index cards on a table. Even a spreadsheet works for remote card sorts." />
+</DefinitionTable>
+
+<SectionSubheading id="toc-tree-testing">Tree Testing</SectionSubheading>
+
+Tree testing (also called "reverse card sorting") validates a proposed hierarchy <FnRef n={1} />. You present users with a text-only version of your navigation structure — no visual design, no content — and give them tasks to complete.
+
+Example task: *"Where would you find information about deploying to production?"*
+
+Users navigate the tree to find the answer. You measure:
+- **Success rate:** Did they find it?
+- **Directness:** Did they go straight there, or wander?
+- **Time:** How long did it take?
+
+<SectionNote>
+Tree testing isolates the IA from the UI. Users can't rely on visual cues, page content, or search. If they can find things in a bare tree, your structure works. If they can't, no amount of visual polish will fix it.
+</SectionNote>
+
+<DefinitionTable>
+  <DefRow term="When to use" definition="After card sorting (to validate the resulting structure) or when redesigning existing navigation." />
+  <DefRow term="What to test" definition="5–10 tasks covering your most important user goals. Include both common and edge-case scenarios." />
+  <DefRow term="Tools" definition="Treejack (by Optimal Workshop), UXtweak, or a simple prototype built with nested lists." />
+</DefinitionTable>
+
+<SectionSubheading id="toc-audit">IA Audit Checklist</SectionSubheading>
+
+Use this checklist to evaluate an existing information architecture — whether it's a website, a codebase, or a documentation site.
+
+**Organization**
+- Can you describe the organization scheme in one sentence?
+- Does every item have a clear, unambiguous home?
+- Are there catch-all categories ("Other", "Miscellaneous") with more than 3 items?
+- Is the hierarchy 3 levels deep or less?
+
+**Labeling**
+- Are sibling labels grammatically parallel?
+- Could a new user understand every label without explanation?
+- Is the same concept always called the same thing?
+- Do labels describe the content, not the format ("API Reference" not "PDF document")?
+
+**Navigation**
+- Can users answer "Where am I?" from any page?
+- Is every page reachable from navigation (no orphan pages)?
+- Are there escape routes from every flow (back, cancel, home)?
+- Does navigation remain consistent across sections?
+
+**Search**
+- Can users find content using their own vocabulary (synonyms, abbreviations)?
+- Do search results show enough context to evaluate relevance?
+- Are the most important pages ranked highly for obvious queries?
+
+<SectionSubheading id="toc-iteration">Iterating on IA</SectionSubheading>
+
+IA is never finished. Content grows, audiences change, and what worked at 10 pages breaks at 100.
+
+<DefinitionTable>
+  <DefRow term="Watch analytics" definition="High bounce rates on landing pages, frequent searches for the same terms, and low engagement on deep pages all signal IA problems." />
+  <DefRow term="Track search queries" definition="What users search for reveals what they can't find through navigation. If everyone searches for 'deploy', your deploy docs are buried." />
+  <DefRow term="Run periodic tree tests" definition="Test the same tasks every 6–12 months. Declining success rates mean your IA hasn't kept up with content growth." />
+  <DefRow term="Review catch-all categories" definition="If 'Other' or 'Miscellaneous' keeps growing, you need new categories. Catch-all categories are IA debt." />
+</DefinitionTable>
+
+<Explainer title="The IA debt metaphor">
+Like technical debt, **IA debt** accumulates when you add content without restructuring. Every page dumped into a catch-all category, every inconsistent label, every orphaned page is IA debt. Pay it down regularly or the whole structure becomes unmaintainable.
+</Explainer>

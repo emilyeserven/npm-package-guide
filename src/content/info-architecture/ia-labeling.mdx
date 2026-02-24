@@ -1,0 +1,98 @@
+---
+id: "ia-labeling"
+title: "Labeling Systems 🏷️"
+guide: "info-architecture"
+linkRefs:
+  - id: "ia-nngroup-labels"
+    note: "Nielsen Norman Group on writing effective navigation labels"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-why-labels">Why Labels Matter</TocLink>
+  <TocLink id="toc-types">Types of Labels</TocLink>
+  <TocLink id="toc-principles">Labeling Principles</TocLink>
+  <TocLink id="toc-vocabularies">Controlled Vocabularies</TocLink>
+  <TocLink id="toc-code-labels">Labels in Code</TocLink>
+</Toc>
+
+<SectionIntro>
+Labels are the **words and icons** used to represent content. They're the human interface to your information architecture — the bridge between structure and understanding. A perfect organization scheme fails if users can't understand the labels.
+</SectionIntro>
+
+<SectionSubheading id="toc-why-labels">Why Labels Matter</SectionSubheading>
+
+Labels appear everywhere: navigation menus, page headings, link text, button text, form fields, error messages, breadcrumbs, and tooltips. Each label is a micro-decision point where users either understand and continue, or get confused and stop.
+
+Consider two navigation menus for the same content:
+
+<DefinitionTable>
+  <DefRow term="Unclear" definition="'Resources' → 'Library' → 'Assets'" />
+  <DefRow term="Clear" definition="'Documentation' → 'API Reference' → 'Code Examples'" />
+</DefinitionTable>
+
+The first set uses generic words that could mean anything. The second set uses specific, predictable language that tells users exactly what they'll find. The underlying content is identical — only the labels differ.
+
+<SectionSubheading id="toc-types">Types of Labels</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="Heading labels" definition="Page and section titles. They establish context and scope. Every page should have one primary heading that answers 'What is this page about?'" />
+  <DefRow term="Navigation labels" definition="Menu items, sidebar links, breadcrumbs. They must be concise (1–3 words) and distinct from siblings. Users scan rather than read navigation." />
+  <DefRow term="Link labels" definition="Inline text links within content. They should describe the destination, not the action. 'Read the API reference' beats 'Click here'." />
+  <DefRow term="Icon labels" definition="Visual symbols representing concepts. Icons work best when paired with text labels. Standalone icons are ambiguous unless universally recognized (search, home, close)." />
+  <DefRow term="Index labels" definition="Terms in glossaries, tag systems, and search indexes. They need to match the vocabulary users actually use, not internal jargon." />
+</DefinitionTable>
+
+<SectionSubheading id="toc-principles">Labeling Principles</SectionSubheading>
+
+<Explainer title="The clarity test">
+For any label, ask: **Would a new user understand this without explanation?** If the answer is "only if they read the docs first" — the label needs work.
+</Explainer>
+
+**Be specific, not generic.** "Settings" tells users more than "Options." "Deploy to Production" tells more than "Go."
+
+**Be consistent.** If you call it "Projects" in the sidebar, don't call it "Workspaces" in the breadcrumb and "Repositories" in the search results. Pick one term and use it everywhere.
+
+**Be front-loaded.** Users scan the first 2–3 words. Put the most important word first: "Authentication Guide" scans better than "Guide to Authentication."
+
+**Be parallel.** Sibling labels should follow the same grammatical pattern:
+- "Getting Started", "Writing Tests", "Deploying Code" (all gerund phrases)
+- "Install", "Configure", "Deploy" (all imperatives)
+
+Don't mix patterns — "Getting Started", "Installation", "How to Deploy" forces users to parse three different grammatical structures.
+
+<Gotcha>
+Avoid organization-internal terminology. "Sprint Backlog Items" means nothing to an external user. "Task List" does. Jargon in labels is the single most common IA failure in enterprise software.
+</Gotcha>
+
+<SectionSubheading id="toc-vocabularies">Controlled Vocabularies</SectionSubheading>
+
+A **controlled vocabulary** is a predefined set of approved terms for labeling content. Instead of letting every author invent labels, you maintain a shared list.
+
+<DefinitionTable>
+  <DefRow term="Synonym ring" definition="Multiple terms map to one concept. 'Settings', 'Preferences', and 'Configuration' all resolve to the same page. Useful for search." />
+  <DefRow term="Authority file" definition="A canonical list of approved terms. If the glossary says 'Authentication', nobody uses 'Auth' in navigation." />
+  <DefRow term="Taxonomy" definition="A hierarchical vocabulary. 'Frontend' → 'Frameworks' → 'React'. Categories have parent–child relationships." />
+  <DefRow term="Thesaurus" definition="A vocabulary with relationships: broader terms, narrower terms, and related terms. Powers 'See also' links." />
+</DefinitionTable>
+
+<SectionNote>
+This guide's parent site has an informal controlled vocabulary: the link registry standardizes source names ("npm", "MDN", "TypeScript") and the glossary standardizes term definitions across all guides.
+</SectionNote>
+
+<SectionSubheading id="toc-code-labels">Labels in Code</SectionSubheading>
+
+Labeling principles apply to code too <FnRef n={1} />. Backend engineers deal with labels constantly:
+
+<DefinitionTable>
+  <DefRow term="File names" definition="iaData.ts, iaLinks.ts, iaTerms.ts — consistent naming patterns let developers (and AI agents) predict file locations." />
+  <DefRow term="Function names" definition="getGuideById(), resolveLink(), renderFootnotes() — verb+noun describes the action clearly." />
+  <DefRow term="Directory names" definition="src/data/, src/hooks/, src/helpers/ — conventional names match developer expectations." />
+  <DefRow term="Config keys" definition="startPageId, sectionLabel, resourceCategory — descriptive keys are self-documenting." />
+  <DefRow term="Error messages" definition="Clear messages that say what happened AND what to do next, like including the missing ID and where to add it." />
+</DefinitionTable>
+
+<Explainer title="Key insight">
+Good code labeling IS information architecture. When you name a function `getUserProfile()` instead of `fetch()`, you're making an IA decision — choosing a label that communicates structure and intent.
+</Explainer>
