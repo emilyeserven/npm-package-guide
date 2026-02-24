@@ -11,6 +11,7 @@
     "type-check": "tsc -b",
     "preview": "vite preview",
     "test:e2e": "playwright test",
+    "scaffold-guide": "tsx scripts/scaffold-guide.ts",
     "validate:data": "tsx scripts/validate-data.ts",
     "validate": "pnpm validate:data && pnpm lint && pnpm build",
     "storybook": "storybook dev -p 6006",
