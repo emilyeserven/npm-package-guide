@@ -21,6 +21,7 @@ import { ZST_GUIDE_SECTIONS, ZST_START_PAGE_DATA } from './zustandData'
 import { PWA_GUIDE_SECTIONS, PWA_START_PAGE_DATA } from './pwaData'
 import { COWORK_GUIDE_SECTIONS, COWORK_START_PAGE_DATA } from './coworkData'
 import { COOLIFY_GUIDE_SECTIONS, COOLIFY_START_PAGE_DATA } from './coolifyData'
+import { JCS_GUIDE_SECTIONS, JCS_START_PAGE_DATA } from './jscodeshiftData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -249,6 +250,16 @@ export const guides: GuideDefinition[] = [
     sections: COOLIFY_GUIDE_SECTIONS,
     category: 'infrastructure',
   },
+  {
+    id: 'jscodeshift',
+    icon: '🔧',
+    title: 'jscodeshift Codemods',
+    startPageId: 'jcs-start',
+    description:
+      'A toolkit for running codemods over JavaScript and TypeScript source code — automating large-scale refactors with AST-level precision.',
+    sections: JCS_GUIDE_SECTIONS,
+    category: 'ai-tooling',
+  },
 ]
 
 // ── Single Page Guides (combined virtual nav) ───────────────────────
@@ -351,6 +362,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'pwa': PWA_START_PAGE_DATA,
   'cowork': COWORK_START_PAGE_DATA,
   'coolify-deploy': COOLIFY_START_PAGE_DATA,
+  'jscodeshift': JCS_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {

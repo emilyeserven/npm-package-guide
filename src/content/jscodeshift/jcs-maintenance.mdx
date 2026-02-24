@@ -1,0 +1,64 @@
+---
+id: "jcs-maintenance"
+title: "Maintenance & Operations ⚙️"
+guide: "jscodeshift"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-cli">CLI Usage</TocLink>
+  <TocLink id="toc-flags">CLI Flags Reference</TocLink>
+  <TocLink id="toc-rollout">Rollout Strategy</TocLink>
+  <TocLink id="toc-versioning">Versioning & Organizing</TocLink>
+  <TocLink id="toc-pitfalls">Common Pitfalls</TocLink>
+</Toc>
+
+<SectionIntro>
+Running, versioning, and managing codemods at scale.
+</SectionIntro>
+
+<SectionSubheading id="toc-cli">CLI Usage</SectionSubheading>
+
+```bash
+# Basic usage
+npx jscodeshift -t ./transforms/rename-api.ts src/
+
+# Dry run (don't write files)
+npx jscodeshift -t ./transforms/rename-api.ts -d src/
+
+# Print changes to stdout
+npx jscodeshift -t ./transforms/rename-api.ts -p src/
+
+# Specify parser, workers, extensions
+npx jscodeshift \
+  -t ./transforms/rename-api.ts \
+  --parser=tsx \
+  --cpus=4 \
+  --extensions=ts,tsx \
+  --ignore-pattern="**/node_modules/**" \
+  src/
+
+# Pass custom options to your transform
+npx jscodeshift -t ./transforms/rename-api.ts \
+  --oldName=fetch --newName=httpGet \
+  src/
+```
+
+<SectionSubheading id="toc-flags">CLI Flags Reference</SectionSubheading>
+
+<JcsCliFlagsTable />
+
+<SectionSubheading id="toc-rollout">Rollout Strategy</SectionSubheading>
+
+<JcsRolloutTimeline />
+
+<SectionSubheading id="toc-versioning">Versioning & Organizing Codemods</SectionSubheading>
+
+<SectionNote>
+Keep codemods in your repo alongside the code they modify. Name them with a date or version prefix for chronological ordering: `2025-01-rename-api.ts`, `2025-02-migrate-query-v5.ts`. Archive after running — don't delete, they document migration history.
+</SectionNote>
+
+<SectionSubheading id="toc-pitfalls">Common Pitfalls</SectionSubheading>
+
+<JcsPitfallAccordion />

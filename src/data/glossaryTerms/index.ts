@@ -38,6 +38,7 @@ import { zustandGlossary } from './zustandTerms'
 import { pwaGlossary } from './pwaTerms'
 import { coworkGlossary } from './coworkTerms'
 import { coolifyGlossary } from './coolifyTerms'
+import { jscodeshiftGlossary } from './jscodeshiftTerms'
 
 export const glossaryTerms: GlossaryCategory[] = [
   ...npmPackageGlossary,
@@ -62,4 +63,5 @@ export const glossaryTerms: GlossaryCategory[] = [
   ...pwaGlossary,
   ...coworkGlossary,
   ...coolifyGlossary,
+  ...jscodeshiftGlossary,
 ]

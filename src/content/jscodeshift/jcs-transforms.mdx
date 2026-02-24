@@ -1,0 +1,42 @@
+---
+id: "jcs-transforms"
+title: "Writing Transforms ✍️"
+guide: "jscodeshift"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-patterns">Transform Patterns</TocLink>
+  <TocLink id="toc-typescript">TypeScript Support</TocLink>
+</Toc>
+
+<SectionIntro>
+From simple renames to complex migration patterns — four progressively harder examples with side-by-side before/after views.
+</SectionIntro>
+
+<SectionSubheading id="toc-patterns">Transform Patterns</SectionSubheading>
+
+<JcsPlayground patternId="rename" />
+
+<JcsPlayground patternId="imports" />
+
+<JcsPlayground patternId="jsx-props" />
+
+<JcsPlayground patternId="api-migration" />
+
+<SectionSubheading id="toc-typescript">TypeScript Support</SectionSubheading>
+
+For TypeScript files, specify the parser when running the codemod:
+
+```bash
+# CLI
+npx jscodeshift -t transform.ts --parser=tsx src/
+
+# Or set inside the transform:
+export const parser = 'tsx'; // 'babel' | 'tsx' | 'babylon' | 'flow' | 'ts'
+```
+
+<SectionNote>
+The `tsx` parser handles both `.ts` and `.tsx` files. It's the safest default for TypeScript projects.
+</SectionNote>

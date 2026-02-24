@@ -114,6 +114,13 @@ import { CoolifyChecklist } from './coolify-deploy/CoolifyChecklist'
 import { PiModelTable } from './coolify-deploy/PiModelTable'
 import { PiPerformanceAccordion } from './coolify-deploy/PiPerformanceAccordion'
 import { PiGotchaAccordion } from './coolify-deploy/PiGotchaAccordion'
+// jscodeshift
+import { JcsPipeline, JcsConceptCards, JcsAstDemo } from './jscodeshift/JcsConcepts'
+import { JcsMethodTable, JcsCliFlagsTable, JcsNodeTypeTable, JcsBuilderTable, JcsAgentDecisionTable } from './jscodeshift/JcsTables'
+import { JcsPlayground } from './jscodeshift/JcsPlayground'
+import { JcsRecipeAccordion } from './jscodeshift/JcsRecipeAccordion'
+import { JcsTestingChecklist, JcsRolloutTimeline, JcsPitfallAccordion, JcsEcosystemCards } from './jscodeshift/JcsWorkflow'
+import { JcsAgentCards, JcsClaudeWorkflow } from './jscodeshift/JcsAgents'
 // s3-storage
 import { S3ConceptGrid } from './s3-storage/S3ConceptGrid'
 import { StorageClassCards } from './s3-storage/StorageClassCards'
@@ -215,6 +222,22 @@ export const mdxComponents: MDXComponents = {
   TsqProsCons,
   TsqWhyBoth,
   TsrTopicDetail,
+  JcsPipeline,
+  JcsConceptCards,
+  JcsAstDemo,
+  JcsMethodTable,
+  JcsCliFlagsTable,
+  JcsNodeTypeTable,
+  JcsBuilderTable,
+  JcsAgentDecisionTable,
+  JcsPlayground,
+  JcsRecipeAccordion,
+  JcsTestingChecklist,
+  JcsRolloutTimeline,
+  JcsPitfallAccordion,
+  JcsEcosystemCards,
+  JcsAgentCards,
+  JcsClaudeWorkflow,
   S3ConceptGrid,
   StorageClassCards,
   S3ComparisonTable,

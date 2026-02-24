@@ -1,0 +1,122 @@
+---
+id: "jcs-api"
+title: "Core API 🔌"
+guide: "jscodeshift"
+linkRefs:
+  - id: "jcs-repo"
+    note: "Full API documentation in the jscodeshift repository"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-signature">The Transform Signature</TocLink>
+  <TocLink id="toc-finding">Finding Nodes</TocLink>
+  <TocLink id="toc-methods">Collection Methods</TocLink>
+  <TocLink id="toc-building">Building Nodes</TocLink>
+  <TocLink id="toc-formatting">Formatting Options</TocLink>
+</Toc>
+
+<SectionIntro>
+The jQuery-like interface for querying and mutating AST nodes.
+</SectionIntro>
+
+<SectionSubheading id="toc-signature">The Transform Signature</SectionSubheading>
+
+Every codemod exports a single function. This is the entry point that jscodeshift calls for each file it processes.
+
+```ts
+// my-transform.ts
+import type { API, FileInfo, Options } from 'jscodeshift';
+
+export default function transform(
+  file: FileInfo,    // { path, source }
+  api: API,          // { jscodeshift, stats, report }
+  options: Options   // CLI flags passed via --foo=bar
+): string | undefined {
+  const j = api.jscodeshift;
+  const root = j(file.source);
+
+  // ... find and transform nodes ...
+
+  return root.toSource();
+}
+```
+
+<SectionNote>
+Return `undefined` (or don't return) if no changes were made — jscodeshift will skip writing the file. Return a string to overwrite the file's contents.
+</SectionNote>
+
+<SectionSubheading id="toc-finding">Finding Nodes</SectionSubheading>
+
+The `.find()` method searches the tree for nodes matching a type. Chain it with `.filter()` for precision.
+
+```ts
+// Find all Identifier nodes named "oldName"
+root
+  .find(j.Identifier, { name: 'oldName' })
+  .forEach(path => {
+    path.node.name = 'newName';
+  });
+
+// Find all calls to console.log
+root
+  .find(j.CallExpression, {
+    callee: {
+      type: 'MemberExpression',
+      object: { name: 'console' },
+      property: { name: 'log' },
+    }
+  });
+
+// Find imports from a specific module
+root.find(j.ImportDeclaration, {
+  source: { value: 'lodash' }
+});
+```
+
+<SectionSubheading id="toc-methods">Collection Methods</SectionSubheading>
+
+<JcsMethodTable />
+
+<SectionSubheading id="toc-building">Building Nodes</SectionSubheading>
+
+Use the **builders** on the `j` object to create new AST nodes. Builder names are *camelCase* versions of the node types (e.g., `j.importDeclaration()` builds an `ImportDeclaration` node).
+
+```ts
+// Build: import React from 'react';
+j.importDeclaration(
+  [j.importDefaultSpecifier(j.identifier('React'))],
+  j.literal('react')
+);
+
+// Build: const x = 42;
+j.variableDeclaration('const', [
+  j.variableDeclarator(
+    j.identifier('x'),
+    j.numericLiteral(42)
+  )
+]);
+
+// Build: myFn(arg1, arg2)
+j.callExpression(
+  j.identifier('myFn'),
+  [j.identifier('arg1'), j.identifier('arg2')]
+);
+```
+
+<Explainer title="Pro tip">
+Not sure which builder to use? Paste your *desired output* into [AST Explorer](https://astexplorer.net), read the node types from the tree, then translate them into builder calls. Types use `PascalCase`, builders use `camelCase`.
+</Explainer>
+
+<SectionSubheading id="toc-formatting">Formatting Options</SectionSubheading>
+
+```ts
+root.toSource({
+  quote: 'single',         // 'single' | 'double' | 'auto'
+  trailingComma: true,     // add trailing commas
+  tabWidth: 2,             // indentation width
+  useTabs: false,          // tabs vs spaces
+  lineTerminator: '\n',   // line endings
+});
+```
