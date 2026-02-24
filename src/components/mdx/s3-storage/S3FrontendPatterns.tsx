@@ -23,7 +23,7 @@ export function S3FrontendPatterns() {
         generates a temporary signed URL that gives permission to upload or download a specific file for
         a limited time.
       </p>
-      <CodeBlock title="Upload flow \u2014 frontend" code={PRESIGNED_URL_CODE} isDark={isDark} lang="js" />
+      <CodeBlock title={"Upload flow \u2014 frontend"} code={PRESIGNED_URL_CODE} isDark={isDark} lang="js" />
 
       {/* Static Site Hosting */}
       <h3
