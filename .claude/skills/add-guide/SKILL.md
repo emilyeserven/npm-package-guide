@@ -1,40 +1,147 @@
 ---
-description: Convert a Claude artifact into a multi-page MDX guide with data files, interactive components, glossary terms, and link registry entries. Covers the full 9-step workflow, MDX and component templates, glossary editorial guidance, and common pitfalls.
+description: Convert a Claude artifact into a multi-page MDX guide with data files, interactive components, glossary terms, and link registry entries. Covers the full 7-step workflow with copy-pasteable templates for every file type.
 ---
 
 # Adding a New Guide
 
-Claude artifacts are typically monolithic JSX or HTML files with embedded data and inline styles. Every guide in this app originates as a Claude artifact. This skill describes how to decompose an artifact into the multi-page MDX architecture used by this app. The Architecture Guide conversion is the canonical example: the original single-component `ArchitecturePage.tsx` (504 lines) was split into 8 MDX pages, 4 interactive components, and a centralized data file.
+Claude artifacts are typically monolithic JSX or HTML files with embedded data and inline styles. This skill describes how to decompose an artifact into the multi-page MDX architecture used by this app.
 
-> For conventions referenced below (link registry format, MDX frontmatter fields, dark mode helper, navigation formatting), see root `CLAUDE.md`.
+> For conventions referenced below (link registry format, MDX frontmatter fields, dark mode helpers, navigation formatting), see root `CLAUDE.md`.
 
 ## Conversion steps
 
-| Step | Action | Files |
-|------|--------|-------|
+| Step | Action | Files touched |
+|------|--------|---------------|
 | 1. Identify content boundaries | Find natural page breaks in the monolithic component. Each distinct topic or section heading becomes its own MDX page. | (analysis only) |
-| 2. Create data file | Move inline constants, arrays, and objects into a new typed `.ts` file. Define TypeScript interfaces for data shapes. Import `GuideSection` from `src/data/guideTypes.ts`. Export `<GUIDE>_GUIDE_SECTIONS: GuideSection[]` with labeled section groups. | `src/data/<guide>Data.ts` |
-| 3. Register the guide | Import `<GUIDE>_GUIDE_SECTIONS` from your data file. Add a new entry to the `guides` array in `src/data/guideRegistry.ts` with `id`, `icon`, `title`, `startPageId`, `description`, `sections`. | `src/data/guideRegistry.ts` |
-| 4. Create MDX content pages | One `.mdx` file per page with frontmatter (`id`, `title` with emoji suffix, `guide`). Use existing MDX components (`SectionIntro`, `Toc`, `TocLink`, `ColItem`, `Explainer`, etc.). Pages are auto-discovered by `src/content/registry.ts` — no manual import needed. | `src/content/<guide>/*.mdx` |
-| 5. Create Start page data + MDX file | Export `<GUIDE>_START_PAGE_DATA: StartPageData` from the guide's data file. Define `subtitle`, `tip`, and `steps` array with `sectionLabel` references matching the `*_GUIDE_SECTIONS` labels — this makes the learning path auto-derive sub-items from section page lists. Then create `src/content/<guide>/<start-page-id>.mdx` with frontmatter and `<GuideStartContent guideId="<guide-id>" />`. See **Start page MDX template** below. | `src/data/<guide>Data.ts`, `src/content/<guide>/<start>.mdx` |
-| 6. Register start page data | Import the `*_START_PAGE_DATA` in `src/data/guideRegistry.ts` and add it to `startPageDataMap`. The MDX file auto-routes via content registry — no `componentPages.tsx` changes needed. | `src/data/guideRegistry.ts` |
-| 7. Extract interactive components | Stateful or interactive UI (explorers, diagrams, accordions) becomes a standalone component in `src/components/mdx/<guide-id>/` that reads data from `src/data/` via a prop (e.g., `<StackExplorer stackId="mern" />`). Register it in `src/components/mdx/index.ts`. See **Interactive MDX Component Template** below. | `src/components/mdx/<guide-id>/` |
-| 8. Add glossary terms | Add relevant terms to the appropriate file in `src/data/glossaryTerms/` following the glossary conventions below. Ensure each `linkId` exists in the link registry. | `src/data/glossaryTerms/`, `src/data/linkRegistry/` |
-| 9. Verify | Run `pnpm validate` (runs `validate:data` + `lint` + `build`). This catches broken link references, invalid page headings, and TypeScript errors. | — |
+| 2. Create data file | Move inline constants, arrays, and objects into a typed `.ts` file. Export `*_GUIDE_SECTIONS` and `*_START_PAGE_DATA`. See **Data file template**. | `src/data/<guide>Data.ts` |
+| 3. Register the guide | Import sections + start page data. Add to `guides` array and `startPageDataMap`. See **Guide registration**. | `src/data/guideRegistry.ts` |
+| 4. Create MDX content pages | One `.mdx` per page + a start page. Auto-discovered — no imports needed. See **MDX page template** and **Start page template**. | `src/content/<guide-id>/*.mdx` |
+| 5. Extract interactive components | Stateful UI becomes a component in `src/components/mdx/<guide-id>/`. Register in `src/components/mdx/index.ts`. See **Component template**. | `src/components/mdx/<guide-id>/`, `src/components/mdx/index.ts` |
+| 6. Add link registry + glossary | Create per-guide files and wire into barrel `index.ts` files. See **Link registry template** and **Glossary template**. | `src/data/linkRegistry/`, `src/data/glossaryTerms/` |
+| 7. Verify | Run `pnpm validate`. Catches broken link references, missing page IDs, TypeScript errors. | — |
+
+---
+
+## Data file template
+
+Single-file layout (use a `<guide>Data/` directory with `index.ts` re-exports only when the file exceeds ~500 lines).
+
+```ts
+import type { GuideSection, StartPageData } from './guideTypes'
+
+// ── Guide sections ──────────────────────────────────────────────────
+
+export const EXAMPLE_GUIDE_SECTIONS: GuideSection[] = [
+  { label: null, ids: ['ex-start'] },
+  {
+    label: 'Fundamentals',
+    ids: ['ex-basics', 'ex-concepts'],
+  },
+  {
+    label: 'Advanced',
+    ids: ['ex-patterns', 'ex-tips'],
+  },
+]
+
+// ── Start page data ─────────────────────────────────────────────────
+
+export const EXAMPLE_START_PAGE_DATA: StartPageData = {
+  subtitle: 'One-line summary of what the reader will learn.',
+  tip: 'Suggested reading order or prerequisite advice.',
+  steps: [
+    {
+      type: 'numbered',
+      num: 1,
+      title: 'Fundamentals',
+      description: 'What this section covers.',
+      sectionLabel: 'Fundamentals',          // must match a label above
+      subItemDescriptions: {
+        'ex-basics': 'What the Basics page teaches.',
+        'ex-concepts': 'What the Concepts page teaches.',
+      },
+    },
+    {
+      type: 'numbered',
+      num: 2,
+      title: 'Advanced',
+      description: 'What this section covers.',
+      sectionLabel: 'Advanced',
+      subItemDescriptions: {
+        'ex-patterns': 'What the Patterns page teaches.',
+        'ex-tips': 'What the Tips page teaches.',
+      },
+    },
+  ],
+  // relatedGuides: ['other-guide-id'],  // optional
+}
+
+// ── Page-specific data ──────────────────────────────────────────────
+
+export interface ExampleItem {
+  id: string
+  title: string
+  description: string
+  // ... guide-specific fields
+}
+
+export const EXAMPLE_ITEMS: ExampleItem[] = [
+  // ...
+]
+```
+
+Key points:
+- Import `GuideSection` and `StartPageData` from `./guideTypes` (not `guideRegistry`).
+- First section always has `label: null` — it holds only the start page ID.
+- `sectionLabel` in `StartPageData.steps` must exactly match a `label` in `*_GUIDE_SECTIONS`.
+- `subItemDescriptions` keys must match the page IDs in that section.
+
+---
+
+## Guide registration
+
+Two edits to `src/data/guideRegistry.ts`:
+
+**1. Add to `guides` array** (at the bottom, before the closing `]`):
+
+```ts
+import { EXAMPLE_GUIDE_SECTIONS, EXAMPLE_START_PAGE_DATA } from './exampleData'
+
+// in the guides array:
+{
+  id: 'example',
+  icon: '\u{1F4DA}',        // 📚  ← use Unicode escape
+  title: 'Example Guide',
+  startPageId: 'ex-start',
+  description: 'One-line description for the home page tile.',
+  sections: EXAMPLE_GUIDE_SECTIONS,
+},
+```
+
+**2. Add to `startPageDataMap`**:
+
+```ts
+'example': EXAMPLE_START_PAGE_DATA,
+```
+
+---
 
 ## MDX page template
 
 ```mdx
 ---
-id: "guide-page-id"
-title: "Page Title 🔹"
-guide: "guide-id"
+id: "ex-basics"
+title: "Basics 📚"
+guide: "example"
+linkRefs:
+  - id: "example-docs"
+    note: "Official documentation"
 ---
 
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
   <TocLink id="toc-first">First section</TocLink>
+  <TocLink id="toc-second">Second section</TocLink>
 </Toc>
 
 <SectionIntro>
@@ -43,56 +150,57 @@ Brief intro paragraph.
 
 <SectionSubheading id="toc-first">First section</SectionSubheading>
 
-<SectionList>
-<ColItem>Content here.</ColItem>
-</SectionList>
+Content here. Use `<SectionList>` + `<ColItem>` for indented lists, `<SectionNote>` for info callouts, `<Explainer>` for tips, `<Gotcha>` for warnings.
+
+<SectionSubheading id="toc-second">Second section</SectionSubheading>
+
+<MyInteractiveComponent itemId="example-id" />
 ```
+
+Notes:
+- Every `title` **must** end with an emoji suffix. Use the guide's icon emoji for the start page; pick contextually appropriate emojis for other pages.
+- `linkRefs` is optional — only add if the page has footnotes or further reading.
+- `group` frontmatter is optional — used only for special grouping overrides.
+
+## Start page template
+
+```mdx
+---
+id: "ex-start"
+title: "Start Here 📚"
+guide: "example"
+---
+
+<GuideStartContent guideId="example" />
+```
+
+The start page emoji should match the guide's `icon` from the registry. `GuideStartContent` auto-renders the learning path, resources tiles, and header from `StartPageData` — never build start page layouts manually.
 
 ## Key terms / definition lists
 
-For pages that list key terms, concepts, or tool definitions, use the shared `DefinitionTable` and `DefRow` components directly in MDX. Do **not** create guide-specific concept list components.
+Use the shared `DefinitionTable` directly in MDX — do **not** create guide-specific concept list components.
 
 ```mdx
 <DefinitionTable termHeader="Term" descHeader="Definition">
   <DefRow term="Example term">Description of the term.</DefRow>
-  <DefRow term="Another term">Its description.</DefRow>
 </DefinitionTable>
 ```
 
-`termHeader` and `descHeader` are optional (default to "Setting" / "Description"). Customize them to fit the page context (e.g., `termHeader="Tool"` `descHeader="What it does"`).
-
-## Start page MDX template
-
-```mdx
----
-id: "<guide>-start"
-title: "Start Here 🔹"
-guide: "<guide-id>"
 ---
 
-<GuideStartContent guideId="<guide-id>" />
-```
-
-The `GuideStartContent` component reads `StartPageData` from `guideRegistry.ts` and renders the learning path automatically. Sub-items are auto-derived from guide sections via `sectionLabel` references. Per-item descriptions are provided via `subItemDescriptions` in the start page data. For items not derivable from sections (cross-guide links), use `customSubItems`.
-
-The component also auto-renders a **Resources** section at the bottom of every start page with three tiles: External Resources (pre-filtered by guide), Glossary (pre-filtered by guide), and Checklist (links to the guide's checklist from `checklistPages` in `guideRegistry.ts`, or shows a "Coming Soon" placeholder if none exists). Do **not** add manual Resources bonus steps to `StartPageData` — they are handled automatically.
-
-## Interactive MDX Component Template
-
-Minimal template for a new interactive MDX component with dark mode support.
-
-### Component file: `src/components/mdx/<guide-id>/MyComponent.tsx`
+## Interactive component template
 
 ```tsx
+// src/components/mdx/<guide-id>/MyComponent.tsx
 import { useState } from 'react'
-import { useTheme } from '../../../hooks/useTheme'
+import { useIsDark } from '../../../hooks/useTheme'
 import { ds } from '../../../helpers/darkStyle'
+import { tc, theme } from '../../../helpers/themeColors'
 import { MY_DATA } from '../../../data/myGuideData'
 import type { MyDataItem } from '../../../data/myGuideData'
 
 export function MyComponent({ itemId }: { itemId: string }) {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
+  const isDark = useIsDark()
   const [activeId, setActiveId] = useState<string | null>(null)
 
   const item = MY_DATA.find((d: MyDataItem) => d.id === itemId)
@@ -101,8 +209,9 @@ export function MyComponent({ itemId }: { itemId: string }) {
   return (
     <div
       style={{
-        background: ds(item.accent, item.darkAccent, isDark),
-        borderColor: ds(item.color, item.color, isDark),
+        color: tc(theme.textPrimary, isDark),           // common pair — use tc()
+        background: ds(item.accent, item.darkAccent, isDark), // data-driven — use ds()
+        boxShadow: tc(theme.shadowSm, isDark),
       }}
       className="rounded-xl border p-6 mb-6"
     >
@@ -114,76 +223,163 @@ export function MyComponent({ itemId }: { itemId: string }) {
 }
 ```
 
-### Registration: `src/components/mdx/index.ts`
+### Registration in `src/components/mdx/index.ts`
 
-```tsx
+```ts
+// <guide-id>
 import { MyComponent } from './<guide-id>/MyComponent'
-// Add to the mdxComponents object:
+
+// add to mdxComponents object:
 MyComponent,
-```
-
-### Usage in MDX
-
-```mdx
-<MyComponent itemId="example-id" />
 ```
 
 ### Component conventions
 
-- Import data from `src/data/`, never inline in the component
-- Use `useTheme()` + `ds()` for dynamic inline styles with dark mode
-- Use Tailwind `dark:` variants for class-based styling
-- Data interfaces should include `darkAccent` field when components use dynamic accent colors
-- Standard dark palette: backgrounds `#1e293b`, text `#e2e8f0`, borders `#334155`
+- Use `useIsDark()` for the dark mode boolean (not `useTheme()` + manual check).
+- Use `tc(theme.X, isDark)` for common color pairs (text, backgrounds, borders, shadows). Use `ds(light, dark, isDark)` for data-driven accent colors.
+- Use Tailwind `dark:` variants for static class-based styling.
+- Import data from `src/data/`, never inline in components or MDX.
+- Prefer shared bases (`AccordionList`, `TimelineFlow`, `ProsCons`, `CardBase`, `StatusBadge`, `YamlExplorerBase`, `useExplorer`) over building from scratch. See `docs/COMPONENT_REFERENCE.md`.
 
-## Common pitfalls
+---
 
-- Use `className`, not `class` — MDX is JSX, not HTML.
-- Use self-closing JSX tags: `<br />`, `<img />`, not `<br>`, `<img>`.
-- Normalize inline styles and CSS classes into Tailwind utility classes. Prefer Tailwind's built-in scale over arbitrary values (e.g., use `text-sm` instead of `text-[13px]`).
-- Keep data in `src/data/`, not inline in MDX files or components.
-- Start pages use `<GuideStartContent guideId="..." />` — do not build start page layouts manually. Add `StartPageData` to the guide's data file instead.
-- Export `*_GUIDE_SECTIONS` from the data file. Register the guide in `src/data/guideRegistry.ts`.
-- Place new guide-specific interactive MDX components in `src/components/mdx/<guide-id>/`, not at the top level. Register them in `src/components/mdx/index.ts` with the subfolder import path.
-- Register any new interactive MDX components in `src/components/mdx/index.ts` or they won't be available in MDX files.
-- Interactive components with inline styles must support dark mode. Use `useTheme()` and `ds()` helper for theme-conditional values. Add `darkAccent` fields to data interfaces when components use dynamic accent colors.
-- Every MDX page `title` must end with an emoji suffix (see root CLAUDE.md **Navigation Item Formatting**).
+## Link registry template
 
-## What updates automatically
+Create `src/data/linkRegistry/<guideId>Links.ts`:
 
-- **Sidebar**: reads `guides` array from `guideRegistry.ts` — new guide appears automatically
-- **Command menu**: reads `guides` array — new guide sections appear automatically
-- **Home page**: reads `guides` array — new guide tile appears automatically
-- **Navigation (prev/next)**: derived from guide sections — works automatically
-- **Content registry**: auto-discovers new MDX files in `src/content/`
-- **Start page sub-items**: derived from guide sections via `sectionLabel` in `StartPageData` — adding/removing pages from a section automatically updates the start page learning path
-- **Start page Resources tiles**: External Resources, Glossary, and Checklist tiles auto-populate at the bottom of every start page — no manual `customSubItems` needed
-- **Start page header**: title, description, and icon read from `guideRegistry.ts` — changing them updates the start page automatically
-- **Router**: resolves MDX pages via auto-discovery and component pages via `componentPages.tsx` registry — no `router.tsx` edits needed
+```ts
+import type { RegistryLink } from './index'
 
-## Glossary editorial guidance
+export const exampleLinks: RegistryLink[] = [
+  {
+    id: 'example-docs',
+    url: 'https://example.com/docs',
+    label: 'Example Documentation',
+    source: 'Example',
+    desc: 'Official documentation for Example.',
+    tags: ['docs', 'free', 'guide:example'],
+    resourceCategory: 'Official Documentation',
+  },
+]
+```
+
+Then register in `src/data/linkRegistry/index.ts`:
+
+```ts
+import { exampleLinks } from './exampleLinks'
+
+// add to the linkRegistry array:
+...exampleLinks,
+```
+
+ID convention: `{source}-{topic-slug}` (e.g., `"mdn-tree-shaking"`, `"docker-get-started"`). Every link tagged `guide:<id>` appears on that guide's External Resources filter. Set `resourceCategory` for links that should appear on the External Resources page.
+
+---
+
+## Glossary terms template
+
+Create `src/data/glossaryTerms/<guideId>Terms.ts`:
+
+```ts
+import type { GlossaryCategory } from './index'
+
+export const exampleGlossary: GlossaryCategory[] = [
+  {
+    category: 'Example Concepts',
+    terms: [
+      {
+        term: 'Example Term',
+        definition:
+          'One to two sentences for a backend engineer. Use <code>inline code</code> for API names.',
+        linkId: 'example-docs',
+        sectionId: 'ex-basics',
+      },
+    ],
+  },
+]
+```
+
+Then register in `src/data/glossaryTerms/index.ts`:
+
+```ts
+import { exampleGlossary } from './exampleTerms'
+
+// add to the glossaryTerms array:
+...exampleGlossary,
+```
 
 ### What should be a glossary term
 
-Add a glossary entry for:
-- **Technical terms introduced or explained in a guide page** — e.g., "Tree Shaking", "Peer Dependency", "Mocking"
-- **Acronyms and abbreviations** — e.g., "ESM", "CJS", "CI", "ORM"
-- **Tools, libraries, and frameworks** referenced across guides — e.g., "Vitest", "Storybook", "Playwright"
-- **Concepts a backend engineer might not know** — the target audience is backend developers learning frontend; if a term would need a sidebar explanation, it deserves a glossary entry
-
-Do NOT add glossary entries for generic programming terms that any developer would know (e.g., "variable", "function", "loop") unless a guide gives them a specialized frontend meaning.
+Add entries for: technical terms introduced by the guide, acronyms, tools/libraries/frameworks, and concepts a backend engineer might not know. Skip generic programming terms (e.g., "variable", "function") unless the guide gives them a specialized meaning.
 
 ### Category conventions
 
-Terms are grouped into `GlossaryCategory` objects. Current categories: Package Management, Dependencies, Build & Bundling, TypeScript, Package Configuration, Development Workflow, Web Architecture, Databases, Full-Stack Frameworks, Testing Fundamentals, Prompt Engineering, AI Coding Tools.
+Reuse existing categories when possible. When adding a new one, also add a `cat:<slug>` entry to `badgeMap` in `src/data/overallResources.ts` (slug convention: lowercase, spaces → hyphens, drop `&`).
 
-When adding a new category:
-- Pick a name that describes the domain, not a specific guide (categories can span guides).
-- Add a corresponding `cat:<slug>` entry to the `badgeMap` in `src/data/overallResources.ts` so the category filter badge renders on the Glossary page. The slug convention is the category name lowercased with spaces replaced by hyphens and `&` dropped (e.g., `"Build & Bundling"` → `cat:build-bundling`).
+---
+
+## Guide CLAUDE.md template
+
+Create `src/content/<guide-id>/CLAUDE.md`:
+
+```markdown
+# <Guide Title> — Guide CLAUDE.md
+
+## Audience & Purpose
+
+<One paragraph: who this guide is for and what it covers.>
+
+## Section Structure
+
+Defined in `<PREFIX>_GUIDE_SECTIONS` in `src/data/<guide>Data.ts`.
+
+| Section Label | Page IDs |
+|---|---|
+| *(start)* | `<start-id>` |
+| <Section 1> | `<id-1>`, `<id-2>` |
+| <Section 2> | `<id-3>`, `<id-4>` |
+
+## Interactive Components
+
+| Component | Props | Purpose |
+|---|---|---|
+| `<ComponentName>` | `<prop>` (type) | <One-line description> |
+
+## Data Files
+
+- `src/data/<guide>Data.ts` — <Brief description of what data it contains.>
+
+## Guide-Specific Conventions
+
+- <Bullet points about data keying, component patterns, or anything unique to this guide.>
+
+## Adding New Content
+
+1. <Steps to add a new page or extend existing content.>
+```
+
+---
+
+## Common pitfalls
+
+- `className`, not `class` — MDX is JSX.
+- Self-closing tags: `<br />`, `<img />`, not `<br>`, `<img>`.
+- Normalize inline styles into Tailwind utility classes. Prefer Tailwind's built-in scale over arbitrary values.
+- Data in `src/data/`, not inline in MDX or components.
+- Guide-specific components go in `src/components/mdx/<guide-id>/`, not at the top level. Always register in `index.ts`.
+- Every MDX `title` must end with an emoji suffix.
+- Interactive components must support dark mode via `useIsDark()` + `ds()`/`tc()`.
+
+## What updates automatically
+
+- **Sidebar, Command menu, Home page**: read from `guides` array — new guide appears automatically.
+- **Prev/next navigation**: derived from guide sections.
+- **Content registry**: auto-discovers MDX files in `src/content/`.
+- **Start page sub-items**: derived from sections via `sectionLabel` — adding/removing pages updates the learning path.
+- **Start page Resources tiles**: External Resources, Glossary, and Checklist tiles auto-populate — no manual `customSubItems` needed.
+- **Router**: resolves MDX via auto-discovery — no `router.tsx` edits.
 
 ## Post-creation checklist
 
-After creating a new guide, also:
-- Add a per-guide `CLAUDE.md` in the content directory (see existing guides for template)
-- Update the Guides table in root `CLAUDE.md` with the new guide ID, title, and start page
-- Create link registry and glossary terms files for the guide
+1. Add the per-guide `CLAUDE.md` in the content directory (see template above).
+2. Run `pnpm validate` — fix any errors before committing.
