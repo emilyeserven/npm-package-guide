@@ -66,6 +66,7 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   "guide:state-management": { cls: "bg-yellow-50 text-yellow-700 dark:bg-yellow-500/15 dark:text-yellow-300", label: "State Mgmt Guide" },
   "guide:claude-skills": { cls: "bg-violet-50 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300", label: "Claude Skills Guide" },
   "guide:zustand": { cls: "bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300", label: "Zustand Guide" },
+  "guide:pwa": { cls: "bg-teal-50 text-teal-700 dark:bg-teal-500/15 dark:text-teal-300", label: "PWA Guide" },
   // Topic
   publishing: { cls: "bg-yellow-100 text-yellow-800 dark:bg-yellow-500/15 dark:text-yellow-300", label: "Publishing" },
   typescript: { cls: "bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300", label: "TypeScript" },
@@ -112,6 +113,7 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   "cat:claude-skills": { cls: "bg-violet-100 text-violet-800 dark:bg-violet-500/15 dark:text-violet-300", label: "Claude Skills" },
   "cat:zustand-core-concepts": { cls: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300", label: "Zustand — Core Concepts" },
   "cat:zustand-patterns-middleware": { cls: "bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300", label: "Zustand — Patterns" },
+  "cat:progressive-web-apps": { cls: "bg-teal-100 text-teal-800 dark:bg-teal-500/15 dark:text-teal-300", label: "Progressive Web Apps" },
 };
 
 export const typeTags = new Set(["docs", "article", "course", "video", "repo", "interactive", "free", "paid"]);

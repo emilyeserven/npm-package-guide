@@ -95,6 +95,10 @@ import { SkillChecklist } from './claude-skills/SkillChecklist'
 // zustand
 import { ZstCodeBlock, ZstCodeGroup, ZstApiRef } from './zustand/ZstCodeBlock'
 import { ZstCounter, ZstTodo, ZstRerenderViz, ZstStats, ZstSlicesCompare } from './zustand/ZstDemos'
+// pwa
+import { PwaTopicDetail } from './pwa/PwaTopicDetail'
+import { PwaLifecycleDiagram } from './pwa/PwaLifecycleDiagram'
+import { PwaCachingDiagram } from './pwa/PwaCachingDiagram'
 // s3-storage
 import { S3ConceptGrid } from './s3-storage/S3ConceptGrid'
 import { StorageClassCards } from './s3-storage/StorageClassCards'
@@ -222,4 +226,7 @@ export const mdxComponents: MDXComponents = {
   ZstRerenderViz,
   ZstStats,
   ZstSlicesCompare,
+  PwaTopicDetail,
+  PwaLifecycleDiagram,
+  PwaCachingDiagram,
 }

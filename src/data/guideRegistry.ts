@@ -18,6 +18,7 @@ import { S3_GUIDE_SECTIONS, S3_START_PAGE_DATA } from './s3Data'
 import { AWS_GUIDE_SECTIONS, AWS_START_PAGE_DATA } from './awsDecodedData'
 import { CS_GUIDE_SECTIONS, CS_START_PAGE_DATA } from './claudeSkillsData'
 import { ZST_GUIDE_SECTIONS, ZST_START_PAGE_DATA } from './zustandData'
+import { PWA_GUIDE_SECTIONS, PWA_START_PAGE_DATA } from './pwaData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -197,6 +198,15 @@ export const guides: GuideDefinition[] = [
       'Everything about Zustand \u2014 from first store to slices, middleware, and production patterns with interactive demos.',
     sections: ZST_GUIDE_SECTIONS,
   },
+  {
+    id: 'pwa',
+    icon: '\u{1F4F1}',        // 📱
+    title: 'Progressive Web Apps',
+    startPageId: 'pwa-start',
+    description:
+      'Build installable, offline-capable web apps with Service Workers, Web App Manifest, and modern caching strategies \u2014 from fundamentals to Vite + React integration.',
+    sections: PWA_GUIDE_SECTIONS,
+  },
 ]
 
 // ── Single Page Guides (combined virtual nav) ───────────────────────
@@ -294,6 +304,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'aws-decoded': AWS_START_PAGE_DATA,
   'claude-skills': CS_START_PAGE_DATA,
   'zustand': ZST_START_PAGE_DATA,
+  'pwa': PWA_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {
