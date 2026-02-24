@@ -95,6 +95,15 @@ import { SkillChecklist } from './claude-skills/SkillChecklist'
 // zustand
 import { ZstCodeBlock, ZstCodeGroup, ZstApiRef } from './zustand/ZstCodeBlock'
 import { ZstCounter, ZstTodo, ZstRerenderViz, ZstStats, ZstSlicesCompare } from './zustand/ZstDemos'
+// coolify-deploy
+import { TrafficDiagram } from './coolify-deploy/TrafficDiagram'
+import { FoundationAccordion } from './coolify-deploy/FoundationAccordion'
+import { SpaRoutingDiagram } from './coolify-deploy/SpaRoutingDiagram'
+import { CoolifyGotchaAccordion } from './coolify-deploy/CoolifyGotchaAccordion'
+import { CoolifyChecklist } from './coolify-deploy/CoolifyChecklist'
+import { PiModelTable } from './coolify-deploy/PiModelTable'
+import { PiPerformanceAccordion } from './coolify-deploy/PiPerformanceAccordion'
+import { PiGotchaAccordion } from './coolify-deploy/PiGotchaAccordion'
 // s3-storage
 import { S3ConceptGrid } from './s3-storage/S3ConceptGrid'
 import { StorageClassCards } from './s3-storage/StorageClassCards'
@@ -222,4 +231,12 @@ export const mdxComponents: MDXComponents = {
   ZstRerenderViz,
   ZstStats,
   ZstSlicesCompare,
+  TrafficDiagram,
+  FoundationAccordion,
+  SpaRoutingDiagram,
+  CoolifyGotchaAccordion,
+  CoolifyChecklist,
+  PiModelTable,
+  PiPerformanceAccordion,
+  PiGotchaAccordion,
 }

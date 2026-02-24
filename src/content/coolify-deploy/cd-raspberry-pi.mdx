@@ -1,0 +1,120 @@
+---
+id: "cd-raspberry-pi"
+title: "Raspberry Pi 🍓"
+guide: "coolify-deploy"
+group: "Setup & Deploy"
+linkRefs:
+  - id: "raspberry-pi-imager"
+    note: "Official Raspberry Pi Imager tool"
+  - id: "cloudflare-tunnel-docs"
+    note: "Cloudflare Tunnel documentation"
+  - id: "coolify-docs"
+    note: "Coolify documentation for ARM/Pi setup"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-models">Compatible Pi models</TocLink>
+  <TocLink id="toc-flash">Flashing the OS</TocLink>
+  <TocLink id="toc-performance">Performance tuning</TocLink>
+  <TocLink id="toc-networking">Exposing your Pi to the internet</TocLink>
+  <TocLink id="toc-pi-gotchas">Pi-specific gotchas</TocLink>
+</Toc>
+
+<SectionIntro>
+Turn a $35–80 single-board computer into your own PaaS. This section covers Pi-specific hardware, OS setup, performance tuning, and how to expose your homelab apps to the internet.
+</SectionIntro>
+
+<SectionSubheading id="toc-models">Compatible Pi models</SectionSubheading>
+
+<PiModelTable />
+
+<Gotcha type="danger" title="64-bit OS required">
+Coolify does **not** support 32-bit operating systems. Even if your Pi hardware is 64-bit capable, you must be running a 64-bit OS. If you have an existing 32-bit Raspberry Pi OS install, you'll need to reflash — there's no in-place upgrade.
+</Gotcha>
+
+<SectionSubheading id="toc-flash">Flashing the OS</SectionSubheading>
+
+<SectionList>
+<ColItem>**Step 1 — Download Raspberry Pi Imager.** Install the official Raspberry Pi Imager on your computer. Insert a microSD card (32GB+ recommended, but an SSD via USB is far better for performance).</ColItem>
+<ColItem>**Step 2 — Choose a 64-bit OS.** Select either **Raspberry Pi OS Lite (64-bit)** (lightest option, recommended) or **Ubuntu Server 24.04 LTS (ARM64)** (well-tested with Coolify, closer to VPS tutorials).</ColItem>
+<ColItem>**Step 3 — Configure SSH in the Imager.** Click **Next → Edit Settings → Services**. Enable SSH with a **public key** (paste your `~/.ssh/id_ed25519.pub`). This is essential — Coolify needs passwordless, passphrase-free SSH access.</ColItem>
+</SectionList>
+
+<Gotcha type="warn" title="SSH key requirement">
+The SSH key **must not** have a passphrase or 2FA enabled. Coolify uses non-interactive SSH for deployments and server management. If your key has a passphrase, generate a dedicated one: `ssh-keygen -t ed25519 -f ~/.ssh/coolify_key -N ""`
+</Gotcha>
+
+**Step 4 — Flash, boot, and install Coolify.** Write the image, insert the card, power on. Wait a minute for first boot, then SSH in:
+
+```bash
+# Find your Pi on the network
+ssh pi@raspberrypi.local  # or use its IP
+
+# Update everything first
+sudo apt update && sudo apt upgrade -y
+
+# Install Coolify
+curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
+```
+
+Access the dashboard at `http://<your-pi-ip>:8000` from another device on the same network. **Create your admin account immediately** — anyone on the network can register if you don't.
+
+**Step 5 — Verify 64-bit is running:**
+
+```bash
+# Should output aarch64
+uname -m
+
+# Docker should also show ARM64
+docker info | grep Architecture
+```
+
+If `uname -m` returns `armv7l`, you're on 32-bit and need to reflash.
+
+<SectionSubheading id="toc-performance">Performance tuning</SectionSubheading>
+
+A Raspberry Pi isn't a VPS with 8 cores. Docker builds can consume all available RAM and crash the system. These optimizations are essential.
+
+<PiPerformanceAccordion />
+
+<SectionSubheading id="toc-networking">Exposing your Pi to the internet</SectionSubheading>
+
+Your Pi sits behind your home router on a private IP (e.g., `192.168.1.x`). Unlike a VPS, it doesn't have a public IP. You have two options:
+
+**Option A: Cloudflare Tunnel (recommended)** — Creates an encrypted outbound connection from your Pi to Cloudflare's edge network. Traffic flows: `Internet → Cloudflare → Tunnel → your Pi`. No ports need to be open on your router.
+
+<SectionList>
+<ColItem>**Prerequisites** — A free Cloudflare account and a domain with DNS managed by Cloudflare.</ColItem>
+<ColItem>**Create a tunnel** — Go to **Cloudflare Dashboard → Zero Trust → Networks → Tunnels → Create Tunnel**. Choose **Cloudflared** as the type. Name it (e.g., "pi-homelab"). Copy the tunnel token.</ColItem>
+<ColItem>**Install cloudflared on the Pi** — Download the ARM64 binary and register as a system service with your tunnel token.</ColItem>
+<ColItem>**Configure hostnames** — Add public hostnames in your tunnel settings: `coolify.yourdomain.com → http://<pi-local-ip>:8000` for the dashboard, and `*.yourdomain.com → http://localhost:80` for deployed apps.</ColItem>
+<ColItem>**Deploy Cloudflared inside Coolify** — Create a new resource → search for **Cloudflared** in the one-click services → add your tunnel token → deploy. This lets Traefik route tunnel traffic to your apps.</ColItem>
+</SectionList>
+
+<Gotcha type="warn" title="Common confusion: two hostname entries">
+You need **two** hostname entries but only **one tunnel**: the Coolify dashboard (`coolify.yourdomain.com → http://<pi-ip>:8000`) configured at the host level, and deployed apps (`*.yourdomain.com → http://localhost:80`) routed through Coolify's Traefik proxy inside Docker.
+</Gotcha>
+
+<Gotcha type="info" title="Domain setup with Cloudflare Tunnel">
+Set your app domains in Coolify with `http://` (not `https://`), because Cloudflare handles TLS termination at their edge. If you use `https://`, Traefik will try to get a Let's Encrypt cert and conflict with Cloudflare, causing `TOO_MANY_REDIRECTS` errors. In Cloudflare, set SSL/TLS mode to **Full** (not Flexible, not Full Strict).
+</Gotcha>
+
+<Gotcha type="tip" title="Wildcard DNS record">
+Cloudflare Tunnels do **not** automatically create wildcard DNS records. You must manually add a CNAME record: Name = `*`, Target = `<tunnel-id>.cfargotunnel.com`, Proxied = ON.
+</Gotcha>
+
+**Option B: Port Forwarding** — If you have a static public IP (or use dynamic DNS), forward ports 80 and 443 from your router to your Pi's local IP. This exposes your home network directly — use a firewall and keep everything updated.
+
+<Gotcha type="danger" title="Security warning">
+Port forwarding exposes your home IP address and network surface area. At minimum: disable password SSH, keep the system updated, configure UFW, and consider fail2ban. **Cloudflare Tunnel is almost always the better choice for home setups.**
+</Gotcha>
+
+<SectionSubheading id="toc-pi-gotchas">Pi-specific gotchas</SectionSubheading>
+
+<PiGotchaAccordion />
+
+<Explainer title="Summary">
+For the best Pi experience: **Pi 4/5 (4GB+)** + **USB SSD** + **Pi OS Lite 64-bit** + **Cloudflare Tunnel**. This combo gives you a genuinely usable self-hosted PaaS for personal projects, staging environments, and learning — all for under $100 in hardware.
+</Explainer>
