@@ -95,6 +95,10 @@ import { SkillChecklist } from './claude-skills/SkillChecklist'
 // zustand
 import { ZstCodeBlock, ZstCodeGroup, ZstApiRef } from './zustand/ZstCodeBlock'
 import { ZstCounter, ZstTodo, ZstRerenderViz, ZstStats, ZstSlicesCompare } from './zustand/ZstDemos'
+// pwa
+import { PwaTopicDetail } from './pwa/PwaTopicDetail'
+import { PwaLifecycleDiagram } from './pwa/PwaLifecycleDiagram'
+import { PwaCachingDiagram } from './pwa/PwaCachingDiagram'
 // cowork
 import { CoworkStepCards } from './cowork/CoworkStepCards'
 import { CoworkComparisonTable } from './cowork/CoworkComparisonTable'
@@ -237,6 +241,9 @@ export const mdxComponents: MDXComponents = {
   ZstRerenderViz,
   ZstStats,
   ZstSlicesCompare,
+  PwaTopicDetail,
+  PwaLifecycleDiagram,
+  PwaCachingDiagram,
   CoworkStepCards,
   CoworkComparisonTable,
   CoworkCapabilities,
