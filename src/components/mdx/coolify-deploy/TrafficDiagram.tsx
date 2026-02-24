@@ -21,7 +21,7 @@ export function TrafficDiagram() {
           return (
             <div key={step.label} className="contents">
               {i > 0 && (
-                <span className={`font-mono text-base shrink-0 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>\u2192</span>
+                <span className={`font-mono text-base shrink-0 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{'\u2192'}</span>
               )}
               <div className={`px-4 py-2.5 rounded-lg border text-center shrink-0 font-mono text-xs font-medium ${c.bg} ${c.border} ${c.text} ${c.darkBg} ${c.darkBorder} ${c.darkText}`}>
                 {step.label}

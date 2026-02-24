@@ -25,7 +25,7 @@ export function K8sAnalogyCard({ sectionId }: { sectionId: string }) {
         className="text-xs font-bold tracking-widest uppercase mb-3"
         style={{ color: ds('#6366f1', '#818cf8', isDark) }}
       >
-        Frontend \u2194 Infra Analogy
+        Frontend ↔ Infra Analogy
       </div>
 
       <div className="flex gap-3 mb-3 flex-wrap">
@@ -55,7 +55,7 @@ export function K8sAnalogyCard({ sectionId }: { sectionId: string }) {
           className="flex items-center text-xl font-bold"
           style={{ color: ds('#6366f1', '#6366f1', isDark) }}
         >
-          \u2248
+          ≈
         </div>
 
         {/* Infra */}
