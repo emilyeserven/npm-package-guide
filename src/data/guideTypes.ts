@@ -3,6 +3,16 @@ export interface GuideSection {
   ids: string[]
 }
 
+export type GuideCategory = 'frontend' | 'infrastructure' | 'security' | 'ai-tooling' | 'fundamentals'
+
+export const GUIDE_CATEGORY_LABELS: Record<GuideCategory, string> = {
+  frontend: 'Frontend',
+  infrastructure: 'Infrastructure',
+  security: 'Security',
+  'ai-tooling': 'AI & Tooling',
+  fundamentals: 'Fundamentals',
+}
+
 export interface GuideDefinition {
   id: string
   icon: string
@@ -11,6 +21,7 @@ export interface GuideDefinition {
   description: string
   sections: GuideSection[]
   singlePage?: boolean
+  category: GuideCategory
 }
 
 // ── Start page data types ────────────────────────────────────────────
