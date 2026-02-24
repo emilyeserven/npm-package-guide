@@ -1,0 +1,71 @@
+---
+id: "ia-navigation"
+title: "Navigation Design 🧭"
+guide: "info-architecture"
+linkRefs:
+  - id: "ia-nngroup-nav"
+    note: "Nielsen Norman Group's navigation design best practices"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-three-questions">The Three Questions</TocLink>
+  <TocLink id="toc-patterns">Navigation Patterns</TocLink>
+  <TocLink id="toc-wayfinding">Wayfinding Cues</TocLink>
+  <TocLink id="toc-mistakes">Common Navigation Mistakes</TocLink>
+</Toc>
+
+<SectionIntro>
+Navigation is how users **move** through an information space and **orient** themselves within it. Good navigation answers three questions at every point in the experience.
+</SectionIntro>
+
+<SectionSubheading id="toc-three-questions">The Three Questions</SectionSubheading>
+
+At any point in a website, application, or document, users need answers to:
+
+<DefinitionTable>
+  <DefRow term="Where am I?" definition="Breadcrumbs, highlighted nav items, page titles, and visual context tell users their current location." />
+  <DefRow term="Where can I go?" definition="Visible navigation options, links, and calls to action show available destinations." />
+  <DefRow term="How do I get back?" definition="Back buttons, breadcrumbs, logo links, and browser history provide escape routes." />
+</DefinitionTable>
+
+If your interface can't answer all three at a glance, users feel lost — and lost users leave.
+
+<SectionSubheading id="toc-patterns">Navigation Patterns</SectionSubheading>
+
+Every information space combines several navigation types. Each serves a different purpose <FnRef n={1} />:
+
+<IaNavPatternCards />
+
+<Explainer title="Layering navigation types">
+A well-designed application uses multiple navigation types simultaneously. This guide, for example, combines **global** (top-level guide list), **local** (sidebar within the guide), **contextual** (inline NavLinks between pages), **supplementary** (command palette search), and **courtesy** (breadcrumbs, prev/next buttons) navigation.
+</Explainer>
+
+<SectionSubheading id="toc-wayfinding">Wayfinding Cues</SectionSubheading>
+
+Wayfinding is the set of environmental cues that help people orient themselves — a concept borrowed from physical architecture.
+
+In **physical spaces**, wayfinding cues include floor numbers, room signs, color-coded zones, and "You Are Here" maps. In **digital spaces**, the equivalents are:
+
+<DefinitionTable>
+  <DefRow term="Active state indicators" definition="Highlighted sidebar items, bolded breadcrumbs, underlined tabs — showing the current location." />
+  <DefRow term="Visual hierarchy" definition="Larger headings, indented sub-items, grouped sections — showing relationships between content." />
+  <DefRow term="Progress indicators" definition="Step counters, progress bars, section completion — showing how far along the user is." />
+  <DefRow term="Consistent positioning" definition="Navigation always in the same place, logos always link home — building muscle memory." />
+</DefinitionTable>
+
+<Gotcha>
+Don't rely on color alone for wayfinding. About 8% of men have some form of color blindness. Always combine color with other cues: bold text, icons, position, or borders.
+</Gotcha>
+
+<SectionSubheading id="toc-mistakes">Common Navigation Mistakes</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="Too many options" definition="More than 7±2 items in a single navigation level forces users to read rather than scan. Group and prioritize." />
+  <DefRow term="Clever labels" definition="Creative navigation names ('The Lab', 'Mission Control') sacrifice clarity for personality. Users shouldn't have to decode your nav." />
+  <DefRow term="Hidden navigation" definition="Hamburger menus on desktop hide the entire navigation structure. They reduce discoverability — users can't find what they can't see." />
+  <DefRow term="Inconsistent patterns" definition="Navigation that moves, changes, or disappears between pages destroys spatial memory. Keep navigation stable." />
+  <DefRow term="No escape routes" definition="Modal flows, multi-step wizards, or deep hierarchies without back/cancel/home links trap users." />
+  <DefRow term="Dead ends" definition="Pages with no next step — no related links, no call to action, no navigation. Every page should lead somewhere." />
+</DefinitionTable>

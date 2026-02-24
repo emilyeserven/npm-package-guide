@@ -1,0 +1,71 @@
+---
+id: "ia-foundations"
+title: "What is IA? 🏗️"
+guide: "info-architecture"
+linkRefs:
+  - id: "ia-rosenfeld-book"
+    note: "The foundational textbook on information architecture"
+  - id: "ia-nngroup-ia"
+    note: "Nielsen Norman Group's overview of IA principles"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What is Information Architecture?</TocLink>
+  <TocLink id="toc-why">Why Backend Engineers Should Care</TocLink>
+  <TocLink id="toc-pillars">The Four Pillars</TocLink>
+  <TocLink id="toc-ia-vs-ux">IA vs. UX vs. UI</TocLink>
+</Toc>
+
+<SectionIntro>
+**Information Architecture (IA)** is the practice of organizing, structuring, and labeling content so that people can find what they need and understand where they are. It's the blueprint that shapes how users experience an information space — whether that's a website, an API, a codebase, or a documentation site.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">What is Information Architecture?</SectionSubheading>
+
+Think of IA as the structural design of shared information environments. Just as a building architect designs floor plans before walls go up, an information architect designs the structure of content before anyone writes a heading or builds a nav menu.
+
+The term was popularized by Richard Saul Wurman in the 1970s and formalized for the web by Rosenfeld and Morville in their book *Information Architecture for the World Wide Web* <FnRef n={1} />. Their framework identifies four interdependent components that make up any information space.
+
+<SectionNote>
+IA isn't just for "content sites." Every application that presents information to users — dashboards, admin panels, CLIs, API docs — has an information architecture, whether intentional or accidental.
+</SectionNote>
+
+<SectionSubheading id="toc-why">Why Backend Engineers Should Care</SectionSubheading>
+
+If you've ever designed a database schema, you've already done information architecture. Consider the parallels:
+
+<DefinitionTable>
+  <DefRow term="Database normalization" definition="Organizing data to reduce redundancy → IA organizes content to reduce confusion" />
+  <DefRow term="API endpoint structure" definition="Grouping resources logically (/users, /orders) → IA groups pages logically (Guides, Settings)" />
+  <DefRow term="Error codes & messages" definition="Clear naming for debugging → IA uses clear labels for wayfinding" />
+  <DefRow term="Directory structure" definition="Predictable file locations (src/models/, src/routes/) → IA creates predictable content locations" />
+  <DefRow term="Query interfaces" definition="Indexes, filters, full-text search → IA designs search and browse experiences" />
+</DefinitionTable>
+
+The difference is scope: backend IA optimizes for machines and developers; frontend IA optimizes for end users. The principles are the same.
+
+<SectionSubheading id="toc-pillars">The Four Pillars</SectionSubheading>
+
+Rosenfeld and Morville identify four components that together form the foundation of any information architecture <FnRef n={2} />:
+
+<IaPillarCards />
+
+These pillars are interdependent. A great organization scheme fails if labels are confusing. Perfect navigation is useless without clear labeling. Search can't help if content isn't well-organized. The rest of this guide explores each pillar in depth.
+
+<SectionSubheading id="toc-ia-vs-ux">IA vs. UX vs. UI</SectionSubheading>
+
+These terms are often conflated, but they describe different layers:
+
+<DefinitionTable>
+  <DefRow term="Information Architecture (IA)" definition="The structural design — how content is organized, labeled, and connected. Invisible to users when done well." />
+  <DefRow term="User Experience (UX)" definition="The holistic experience of using a product — encompasses IA plus interaction design, usability, and emotional response." />
+  <DefRow term="User Interface (UI)" definition="The visual and interactive surface — colors, typography, buttons, animations. What users see and touch." />
+</DefinitionTable>
+
+<Explainer title="The building analogy">
+**IA** is the floor plan and room labels. **UX** is the flow through the building — are the hallways wide enough? Is the elevator obvious? **UI** is the paint, furniture, and signage. You can have beautiful UI (great paint) with terrible IA (rooms that don't connect logically).
+</Explainer>
+
+For backend engineers, IA is the closest to what you already do: structural thinking. UX and UI add layers on top, but without good IA, those layers paper over a broken foundation.

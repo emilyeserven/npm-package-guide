@@ -22,6 +22,7 @@ import { PWA_GUIDE_SECTIONS, PWA_START_PAGE_DATA } from './pwaData'
 import { COWORK_GUIDE_SECTIONS, COWORK_START_PAGE_DATA } from './coworkData'
 import { COOLIFY_GUIDE_SECTIONS, COOLIFY_START_PAGE_DATA } from './coolifyData'
 import { JCS_GUIDE_SECTIONS, JCS_START_PAGE_DATA } from './jscodeshiftData'
+import { IA_GUIDE_SECTIONS, IA_START_PAGE_DATA } from './iaData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -260,6 +261,16 @@ export const guides: GuideDefinition[] = [
     sections: JCS_GUIDE_SECTIONS,
     category: 'ai-tooling',
   },
+  {
+    id: 'info-architecture',
+    icon: '🗺️',
+    title: 'Information Architecture',
+    startPageId: 'ia-start',
+    description:
+      'The art of organizing information so people and AI agents can find what they need and understand where they are.',
+    sections: IA_GUIDE_SECTIONS,
+    category: 'fundamentals',
+  },
 ]
 
 // ── Single Page Guides (combined virtual nav) ───────────────────────
@@ -363,6 +374,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'cowork': COWORK_START_PAGE_DATA,
   'coolify-deploy': COOLIFY_START_PAGE_DATA,
   'jscodeshift': JCS_START_PAGE_DATA,
+  'info-architecture': IA_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {

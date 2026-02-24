@@ -57,6 +57,7 @@ import { pwaLinks } from './pwaLinks'
 import { coworkLinks } from './coworkLinks'
 import { coolifyLinks } from './coolifyLinks'
 import { jscodeshiftLinks } from './jscodeshiftLinks'
+import { iaLinks } from './iaLinks'
 
 export const linkRegistry: RegistryLink[] = [
   ...npmPackageLinks,
@@ -82,6 +83,7 @@ export const linkRegistry: RegistryLink[] = [
   ...coworkLinks,
   ...coolifyLinks,
   ...jscodeshiftLinks,
+  ...iaLinks,
 ]
 
 /** Fast lookup by registry ID */

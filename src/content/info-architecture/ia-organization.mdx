@@ -1,0 +1,78 @@
+---
+id: "ia-organization"
+title: "Organization Schemes 📂"
+guide: "info-architecture"
+linkRefs:
+  - id: "ia-card-sorting"
+    note: "Guide to card sorting exercises for validating organization"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-exact-vs-ambiguous">Exact vs. Ambiguous</TocLink>
+  <TocLink id="toc-schemes">Organization Schemes</TocLink>
+  <TocLink id="toc-hierarchy">Hierarchy: Broad vs. Deep</TocLink>
+  <TocLink id="toc-faceted">Faceted Classification</TocLink>
+</Toc>
+
+<SectionIntro>
+Organization is the most fundamental IA decision: **how do you group things?** The scheme you choose shapes everything downstream — navigation, labels, and search all depend on a coherent organizational structure.
+</SectionIntro>
+
+<SectionSubheading id="toc-exact-vs-ambiguous">Exact vs. Ambiguous</SectionSubheading>
+
+Organization schemes fall into two broad categories:
+
+**Exact schemes** divide content into mutually exclusive, well-defined categories. An item belongs in one place and one place only. Users can predict where something goes without ambiguity.
+
+**Ambiguous schemes** group content by meaning, topic, or task. Items might reasonably belong in multiple categories. These schemes are harder to design but often more useful because they match how humans think.
+
+<SectionNote>
+Most real-world systems use **hybrid** organization — combining an exact scheme (like alphabetical sort) with an ambiguous one (like topical grouping). Your API docs might group endpoints by resource (topical) but sort them alphabetically within each group (exact).
+</SectionNote>
+
+<SectionSubheading id="toc-schemes">Organization Schemes</SectionSubheading>
+
+<IaSchemeExplorer />
+
+When choosing a scheme, ask: **what question is the user trying to answer?** If they know the name, alphabetical works. If they know the date, chronological works. If they're exploring a topic, topical or task-based schemes serve them better.
+
+Card sorting <FnRef n={1} /> is a research technique for discovering which organization scheme matches your users' mental models. You give users a set of content cards and ask them to group and label them. The resulting clusters reveal natural categories.
+
+<SectionSubheading id="toc-hierarchy">Hierarchy: Broad vs. Deep</SectionSubheading>
+
+Most information spaces use **hierarchical organization** — content nested in a tree structure. The critical design choice is the shape of that tree:
+
+<DefinitionTable>
+  <DefRow term="Broad hierarchy" definition="Many items at each level, few levels deep. Users scan more options per level but reach content faster. Example: a sidebar with 12 top-level items, each with 2–3 child pages." />
+  <DefRow term="Deep hierarchy" definition="Few items at each level, many levels deep. Users make simple choices at each level but click more. Example: Category → Subcategory → Sub-subcategory → Page." />
+</DefinitionTable>
+
+<Explainer title="The rule of thumb">
+Prefer **broad and shallow** over narrow and deep. Research shows users would rather scan 10 clear options on one page than navigate through 3 levels of 3 options each — even though both lead to the same content. Aim for a maximum of **3 levels** in most hierarchies.
+</Explainer>
+
+<Gotcha>
+The filesystem analogy can mislead. Developers are comfortable with deep directory trees (`src/components/mdx/guide-id/ComponentName.tsx`), but end users don't think in file paths. Keep the *user-facing* hierarchy shallow even if the *code* hierarchy is deep.
+</Gotcha>
+
+<SectionSubheading id="toc-faceted">Faceted Classification</SectionSubheading>
+
+Faceted classification lets users filter content along **multiple independent dimensions** simultaneously. Instead of forcing content into a single hierarchy, facets let users approach from any angle.
+
+Consider a component library:
+- **Category:** Layout, Form, Data Display, Feedback
+- **Complexity:** Basic, Intermediate, Advanced
+- **Framework:** React, Vue, Angular
+
+A single hierarchy forces a choice: do you organize by category first, then complexity? Or complexity first? Faceted classification sidesteps this by letting users filter by any combination.
+
+<DefinitionTable>
+  <DefRow term="When to use facets" definition="When content has 3+ independent attributes that users might prioritize differently." />
+  <DefRow term="When to avoid facets" definition="When content is small (under ~50 items) or when one dimension clearly dominates user intent." />
+</DefinitionTable>
+
+<SectionNote>
+This guide's parent site uses faceted classification on the External Resources page — users can filter by guide, category, and source simultaneously. The Glossary page uses guide-based faceting.
+</SectionNote>

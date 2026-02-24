@@ -121,6 +121,12 @@ import { JcsPlayground } from './jscodeshift/JcsPlayground'
 import { JcsRecipeAccordion } from './jscodeshift/JcsRecipeAccordion'
 import { JcsTestingChecklist, JcsRolloutTimeline, JcsPitfallAccordion, JcsEcosystemCards } from './jscodeshift/JcsWorkflow'
 import { JcsAgentCards, JcsClaudeWorkflow } from './jscodeshift/JcsAgents'
+// info-architecture
+import { IaPillarCards } from './info-architecture/IaPillarCards'
+import { IaSchemeExplorer } from './info-architecture/IaSchemeExplorer'
+import { IaNavPatternCards } from './info-architecture/IaNavPatternCards'
+import { IaPatternCards } from './info-architecture/IaPatternCards'
+import { IaAiPrincipleCards } from './info-architecture/IaAiPrincipleCards'
 // s3-storage
 import { S3ConceptGrid } from './s3-storage/S3ConceptGrid'
 import { StorageClassCards } from './s3-storage/StorageClassCards'
@@ -280,4 +286,9 @@ export const mdxComponents: MDXComponents = {
   PiModelTable,
   PiPerformanceAccordion,
   PiGotchaAccordion,
+  IaPillarCards,
+  IaSchemeExplorer,
+  IaNavPatternCards,
+  IaPatternCards,
+  IaAiPrincipleCards,
 }
