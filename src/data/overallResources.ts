@@ -114,8 +114,10 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   "cat:zustand-core-concepts": { cls: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300", label: "Zustand — Core Concepts" },
   "cat:zustand-patterns-middleware": { cls: "bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300", label: "Zustand — Patterns" },
   "cat:cowork-core-concepts": { cls: "bg-orange-100 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300", label: "Cowork — Core Concepts" },
+  "guide:coolify-deploy": { cls: "bg-orange-50 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300", label: "Coolify Deploy Guide" },
+  "cat:self-hosting-deployment": { cls: "bg-orange-100 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300", label: "Self-Hosting & Deployment" },
 };
 
 export const typeTags = new Set(["docs", "article", "course", "video", "repo", "interactive", "free", "paid"]);
 export const topicTags = new Set(["publishing", "typescript", "versioning", "ci-cd", "monorepo", "modules", "tooling", "bundling", "testing", "linting", "architecture", "frameworks", "databases", "prompt-engineering", "kubernetes"]);
-export const guideTags = new Set(["guide:npm-package", "guide:architecture", "guide:testing", "guide:prompt-engineering", "guide:ci-cd", "guide:auth", "guide:kubernetes", "guide:ai-infra", "guide:nextjs-abstractions", "guide:wp-agents", "guide:state-management", "guide:claude-skills", "guide:zustand", "guide:cowork"]);
+export const guideTags = new Set(["guide:npm-package", "guide:architecture", "guide:testing", "guide:prompt-engineering", "guide:ci-cd", "guide:auth", "guide:kubernetes", "guide:ai-infra", "guide:nextjs-abstractions", "guide:wp-agents", "guide:state-management", "guide:claude-skills", "guide:zustand", "guide:cowork", "guide:coolify-deploy"]);

@@ -19,6 +19,7 @@ import { AWS_GUIDE_SECTIONS, AWS_START_PAGE_DATA } from './awsDecodedData'
 import { CS_GUIDE_SECTIONS, CS_START_PAGE_DATA } from './claudeSkillsData'
 import { ZST_GUIDE_SECTIONS, ZST_START_PAGE_DATA } from './zustandData'
 import { COWORK_GUIDE_SECTIONS, COWORK_START_PAGE_DATA } from './coworkData'
+import { COOLIFY_GUIDE_SECTIONS, COOLIFY_START_PAGE_DATA } from './coolifyData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -207,6 +208,15 @@ export const guides: GuideDefinition[] = [
       'Organize files with Claude Cowork \u2014 local documents, Google Drive, and media server workflows with step-by-step prompts.',
     sections: COWORK_GUIDE_SECTIONS,
   },
+  {
+    id: 'coolify-deploy',
+    icon: '\u{1F680}',        // 🚀
+    title: 'Deploy on Coolify',
+    startPageId: 'cd-start',
+    description:
+      'Deploy React + Vite on Coolify \u2014 from DNS fundamentals to production gotchas, including Raspberry Pi self-hosting with Cloudflare Tunnel.',
+    sections: COOLIFY_GUIDE_SECTIONS,
+  },
 ]
 
 // ── Single Page Guides (combined virtual nav) ───────────────────────
@@ -305,6 +315,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'claude-skills': CS_START_PAGE_DATA,
   'zustand': ZST_START_PAGE_DATA,
   'cowork': COWORK_START_PAGE_DATA,
+  'coolify-deploy': COOLIFY_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {

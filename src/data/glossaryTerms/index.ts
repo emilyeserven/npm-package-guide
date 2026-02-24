@@ -36,6 +36,7 @@ import { awsDecodedGlossary } from './awsDecodedTerms'
 import { claudeSkillsGlossary } from './claudeSkillsTerms'
 import { zustandGlossary } from './zustandTerms'
 import { coworkGlossary } from './coworkTerms'
+import { coolifyGlossary } from './coolifyTerms'
 
 export const glossaryTerms: GlossaryCategory[] = [
   ...npmPackageGlossary,
@@ -58,4 +59,5 @@ export const glossaryTerms: GlossaryCategory[] = [
   ...claudeSkillsGlossary,
   ...zustandGlossary,
   ...coworkGlossary,
+  ...coolifyGlossary,
 ]

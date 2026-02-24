@@ -6,28 +6,9 @@ Educational single-page application (SPA) with multiple guides for backend engin
 
 ## Guides
 
-Twelve independent guides plus top-level resource pages. All metadata centralized in `src/data/guideRegistry.ts`. Each guide has its own `CLAUDE.md` in its content directory with guide-specific audience, conventions, and component usage.
+Multiple independent guides plus top-level resource pages. All metadata centralized in `src/data/guideRegistry.ts`. Each guide has its own `CLAUDE.md` in its content directory with guide-specific audience, conventions, and component usage.
 
-| Guide ID | Title | Start Page |
-|----------|-------|------------|
-| `npm-package` | Web App vs. NPM Package | `roadmap` |
-| `architecture` | Architecture Guide | `arch-start` |
-| `testing` | Testing Guide | `test-start` |
-| `prompt-engineering` | Prompt Engineering | `prompt-start` |
-| `ci-cd` | CI/CD & GitHub Actions | `cicd-start` |
-| `auth` | Auth for Frontend Engineers | `auth-start` |
-| `kubernetes` | Kubernetes & Helm | `k8s-start` |
-| `ai-infra` | AI Infrastructure | `ai-start` |
-| `nextjs-abstractions` | Next.js Abstractions | `nja-start` |
-| `wp-agents` | WordPress API & Agents | `wp-agents-guide` |
-| `git-worktrees` | Git Worktrees & Claude Code | `git-worktrees-guide` |
-| `security` | Security Awareness | `sec-start` |
-| `state-management` | React State Management | `sm-start` |
-| `claude-skills` | Anatomy of a Claude Skill | `cs-start` |
-| `zustand` | Zustand Deep Dive | `zst-start` |
-| `cowork` | Cowork Organization Guide | `cw-start` |
-
-Guides are multi-page by default. `wp-agents` is a single-page guide (`singlePage: true` in registry).
+Guide IDs match content directory names — run `ls src/content/` to discover all guides. Full metadata (titles, start pages, sections) is in `guideRegistry.ts`. Guides are multi-page by default; those with `singlePage: true` in the registry are single-page.
 
 Every guide follows the same file layout:
 - **Data:** `src/data/<guideId>Data.ts` (or `src/data/<guideId>Data/` directory)
