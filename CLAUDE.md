@@ -36,6 +36,7 @@ React 19 · TanStack Router (hash-based) · TanStack Table · Zustand · TypeScr
 | `pnpm build` | TypeScript check + Vite build |
 | `pnpm lint` | Run ESLint |
 | `pnpm validate` | Full pipeline: `validate:data` + `lint` + `build` |
+| `pnpm scaffold-guide` | Create boilerplate files for a new guide (see `/add-guide` skill) |
 
 ## Project Structure
 

@@ -84,7 +84,21 @@ All IDs in `linkIds` must exist in the link registry; all IDs in `sectionIds` mu
 5. Add `linkIds`/`sectionIds` if the term has multiple references.
 6. Run `pnpm validate` to catch broken references.
 
-For editorial guidance on what qualifies as a glossary term, see the `/add-guide` skill.
+### What should be a glossary term
+
+Add a glossary entry for:
+- **Technical terms introduced or explained in a guide page** — e.g., "Tree Shaking", "Peer Dependency", "Mocking"
+- **Acronyms and abbreviations** — e.g., "ESM", "CJS", "CI", "ORM"
+- **Tools, libraries, and frameworks** referenced across guides — e.g., "Vitest", "Storybook", "Playwright"
+- **Concepts a backend engineer might not know** — if a term would need a sidebar explanation, it deserves a glossary entry
+
+Do NOT add entries for generic programming terms any developer would know (e.g., "variable", "function", "loop") unless a guide gives them a specialized frontend meaning.
+
+### Category conventions
+
+Terms are grouped into `GlossaryCategory` objects. When adding a new category:
+- Pick a name that describes the domain, not a specific guide (categories can span guides).
+- Add a corresponding `cat:<slug>` entry to `badgeMap` in `src/data/overallResources.ts`. Slug convention: category name lowercased, spaces → hyphens, `&` dropped (e.g., `"Build & Bundling"` → `cat:build-bundling`).
 
 ## Footnotes & References
 
