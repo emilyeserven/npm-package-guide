@@ -1,0 +1,38 @@
+---
+id: "cw-overview"
+title: "Overview 📂"
+guide: "cowork"
+linkRefs:
+  - id: "cw-claude-desktop"
+    note: "Download Claude Desktop to use Cowork"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What is Cowork?</TocLink>
+  <TocLink id="toc-use-cases">Three use cases</TocLink>
+  <TocLink id="toc-capabilities">Capability comparison</TocLink>
+</Toc>
+
+<SectionIntro>
+Claude Cowork transforms file organization from tedious manual work into a single conversation. Point it at a folder, describe what you want, and step away while Claude sorts, renames, restructures, and cleans up your files.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">What is Cowork?</SectionSubheading>
+
+Cowork is a task mode in Claude Desktop that operates on your local files. Unlike Chat (conversational) or Code (programming), Cowork is designed for file management tasks: sorting, renaming, restructuring, deduplicating, and inventorying. It reads file contents to make intelligent decisions about organization.
+
+<SectionNote>
+Cowork is a research preview available on paid Claude plans. It runs locally on your machine — your files never leave your computer unless you explicitly use a cloud connector.
+</SectionNote>
+
+<SectionSubheading id="toc-use-cases">Three use cases</SectionSubheading>
+
+<CoworkOverviewCards />
+
+<SectionSubheading id="toc-capabilities">Capability comparison</SectionSubheading>
+
+Not every operation is available in every context. Local file operations have the broadest support, while cloud connectors are read-only for most actions.
+
+<CoworkComparisonTable />

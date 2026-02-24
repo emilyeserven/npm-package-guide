@@ -95,6 +95,12 @@ import { SkillChecklist } from './claude-skills/SkillChecklist'
 // zustand
 import { ZstCodeBlock, ZstCodeGroup, ZstApiRef } from './zustand/ZstCodeBlock'
 import { ZstCounter, ZstTodo, ZstRerenderViz, ZstStats, ZstSlicesCompare } from './zustand/ZstDemos'
+// cowork
+import { CoworkStepCards } from './cowork/CoworkStepCards'
+import { CoworkComparisonTable } from './cowork/CoworkComparisonTable'
+import { CoworkCapabilities } from './cowork/CoworkCapabilities'
+import { CoworkPluginCards } from './cowork/CoworkPluginCards'
+import { CoworkOverviewCards } from './cowork/CoworkOverviewCards'
 // s3-storage
 import { S3ConceptGrid } from './s3-storage/S3ConceptGrid'
 import { StorageClassCards } from './s3-storage/StorageClassCards'
@@ -222,4 +228,9 @@ export const mdxComponents: MDXComponents = {
   ZstRerenderViz,
   ZstStats,
   ZstSlicesCompare,
+  CoworkStepCards,
+  CoworkComparisonTable,
+  CoworkCapabilities,
+  CoworkPluginCards,
+  CoworkOverviewCards,
 }

@@ -1,0 +1,28 @@
+---
+id: "cw-gdrive"
+title: "Google Drive 📂"
+guide: "cowork"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-limitations">Connector limitations</TocLink>
+  <TocLink id="toc-workflows">Workflows</TocLink>
+</Toc>
+
+<SectionIntro>
+With the Google Drive connector enabled, Cowork can search and read your cloud documents — then combine that data with local file operations. This is useful for pulling scattered Drive content into an organized local structure.
+</SectionIntro>
+
+<SectionSubheading id="toc-limitations">Connector limitations</SectionSubheading>
+
+<Gotcha>
+The Google Drive connector lets Cowork **search and read** files, but it cannot create, rename, move, or delete files in Drive directly. For write operations, Cowork can prepare files locally which you then upload, or use the Chrome extension for browser-based Drive actions.
+</Gotcha>
+
+<SectionSubheading id="toc-workflows">Workflows</SectionSubheading>
+
+Each workflow below includes an example prompt. The last step covers using the Chrome extension to work around Drive's read-only limitation.
+
+<CoworkStepCards pageId="cw-gdrive" />
