@@ -321,7 +321,7 @@ export const njaLinks: RegistryLink[] = [
     label: 'Nginx Beginner\u2019s Guide',
     source: 'Nginx',
     desc: 'Introduction to Nginx as a web server and reverse proxy.',
-    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+    tags: ['docs', 'free', 'guide:nextjs-abstractions', 'guide:nginx'],
     resourceCategory: 'Official Documentation',
   },
   {

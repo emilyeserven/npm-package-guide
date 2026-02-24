@@ -1,0 +1,84 @@
+---
+id: "nginx-core-concepts"
+title: "Core Concepts 🧩"
+guide: "nginx"
+group: "Fundamentals"
+linkRefs:
+  - id: "nginx-directives"
+    note: "Nginx directive reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-hierarchy">The configuration hierarchy</TocLink>
+  <TocLink id="toc-location">Location block matching</TocLink>
+</Toc>
+
+<SectionIntro>
+Nginx configuration is built around a hierarchy of contexts — nested blocks that inherit and override settings. Understanding this structure is the key to mastering Nginx.
+</SectionIntro>
+
+<SectionSubheading id="toc-hierarchy">The Configuration Hierarchy</SectionSubheading>
+
+Every Nginx config file follows the same nesting pattern: **main** context at the top, then `events`, `http`, `server`, and `location` blocks nested inside each other. Each level inherits settings from its parent and can override them.
+
+```nginx
+# Main context (global settings)
+worker_processes auto;        # Match CPU cores
+error_log /var/log/nginx/error.log warn;
+
+events {
+    # Events context — connection handling
+    worker_connections 1024;  # Per worker process
+    multi_accept on;          # Accept multiple connections at once
+}
+
+http {
+    # HTTP context — all web traffic config
+    include       mime.types;
+    sendfile      on;
+    keepalive_timeout 65;
+
+    # Upstream context — define backend servers
+    upstream api_backend {
+        server 127.0.0.1:3000;
+        server 127.0.0.1:3001;
+    }
+
+    server {
+        # Server context — a virtual host
+        listen 80;
+        server_name mysite.com;
+
+        location / {
+            # Location context — URL path matching
+            root /var/www/html;
+            index index.html;
+        }
+
+        location /api/ {
+            proxy_pass http://api_backend;
+        }
+    }
+}
+```
+
+<DefinitionTable>
+  <DefRow term="Main context" definition="Global process settings — worker count, error log path. Everything outside of named blocks." />
+  <DefRow term="events block" definition="Connection handling tuning — max connections per worker, accept strategy." />
+  <DefRow term="http block" definition="All web server configuration. Contains server blocks, upstreams, and shared HTTP settings." />
+  <DefRow term="server block" definition="A virtual host — binds to a port and server name. You can have multiple server blocks for different domains." />
+  <DefRow term="location block" definition="URL path matching rules. Routes requests to static files or proxied backends based on the URL." />
+  <DefRow term="upstream block" definition="Defines a pool of backend servers for load balancing and proxying." />
+</DefinitionTable>
+
+<SectionSubheading id="toc-location">Location Block Matching (Interactive)</SectionSubheading>
+
+Nginx uses a priority system to match incoming URLs to location blocks. Click a URL to see which location block handles it:
+
+<NginxLocationDemo />
+
+<Explainer>
+The `=` prefix is an exact match and has highest priority. The `^~` prefix match stops searching if matched. Regular expressions (`~`, `~*`) are checked in config order. Plain prefix matches use the longest match.
+</Explainer>

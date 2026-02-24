@@ -1,0 +1,74 @@
+---
+id: "nginx-static"
+title: "Serving Static Files 📁"
+guide: "nginx"
+group: "Serving & Proxying"
+linkRefs:
+  - id: "nginx-try-files-ref"
+    note: "Nginx try_files directive reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-spa">Serving a React / Vite SPA</TocLink>
+  <TocLink id="toc-downloads">File download server</TocLink>
+</Toc>
+
+<SectionIntro>
+Nginx excels at serving static files. Whether it's a React SPA, a marketing site, or a file download server, Nginx delivers files with minimal overhead. This is likely your first real use case.
+</SectionIntro>
+
+<SectionSubheading id="toc-spa">Serving a React / Vite SPA</SectionSubheading>
+
+```nginx
+server {
+    listen 80;
+    server_name myapp.example.com;
+    root /var/www/myapp/dist;
+
+    # Gzip compression for faster delivery
+    gzip on;
+    gzip_types text/css application/javascript
+               application/json image/svg+xml;
+    gzip_min_length 1000;
+
+    # Cache static assets aggressively
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # SPA fallback — send all routes to index.html
+    # This is critical for client-side routing
+    # (TanStack Router, React Router, etc.)
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+
+<Gotcha>
+The `try_files` directive is essential for SPAs. Without it, refreshing on `/dashboard` would return a 404 because that file doesn't exist on disk. `try_files` tells Nginx: "Try the exact path first, then try it as a directory, and if nothing matches, serve `index.html` and let the client-side router handle it."
+</Gotcha>
+
+<SectionSubheading id="toc-downloads">File Download Server with Bandwidth Limiting</SectionSubheading>
+
+```nginx
+server {
+    listen 80;
+    server_name files.example.com;
+    root /var/www/downloads;
+
+    # Auto-generate directory listings
+    autoindex on;
+    autoindex_exact_size off;   # Show human-readable sizes
+    autoindex_localtime on;
+
+    # Limit download speed to 1MB/s per connection
+    location / {
+        limit_rate 1m;
+        limit_rate_after 10m;   # Full speed for first 10MB
+    }
+}
+```
