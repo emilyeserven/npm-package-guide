@@ -55,7 +55,7 @@ React 19 · TanStack Router (hash-based) · TanStack Table · Zustand · TypeScr
 - **Dark mode:** Use Tailwind `dark:` variants for static colors. Use `ds()` from `src/helpers/darkStyle.ts` for dynamic inline styles from data. For common color pairs (text, backgrounds, borders, shadows), prefer `tc(theme.X, isDark)` from `src/helpers/themeColors.ts` instead of raw `ds()` calls. Dark palette: bg `#1e293b`, text `#e2e8f0`, borders `#334155`.
 - **Checklists:** Use `<GuideChecklist checklistId="..." />` in MDX. All checklist data and metadata is registered in `src/components/mdx/GuideChecklist.tsx`. Do not create per-guide checklist wrapper components.
 - **YAML explorers:** Use `YamlExplorerBase` (`src/components/mdx/YamlExplorerBase.tsx`) for interactive YAML annotation UIs. Guide-specific wrappers pass data and file name to the base.
-- **Shared over guide-specific:** Always prefer shared components (`SectionLayout`, `TimelineFlow`, `ProsCons`, `DefinitionTable`, etc.) over creating guide-specific ones. Only create a component in `src/components/mdx/<guide-id>/` when the UI is genuinely unique to that guide or when a thin data-lookup wrapper is needed. See `docs/COMPONENT_REFERENCE.md` for the full list of shared bases and consolidation guidance.
+- **Shared over guide-specific:** Always prefer shared components (`SectionLayout`, `TimelineFlow`, `ProsCons`, `DefinitionTable`, etc.) over creating guide-specific ones. Only create a component in `src/components/mdx/<guide-id>/` when the UI is genuinely unique to that guide or when a thin data-lookup wrapper is needed. Use the `/find-component` skill to discover the right shared component for a given need. See `docs/COMPONENT_REFERENCE.md` for the full list of shared bases, pattern-matching quick reference, and consolidation guidance.
 - **Page ordering:** Each guide's `*_GUIDE_SECTIONS` array is the single source of truth — sidebar, command menu, prev/next, and home tiles derive automatically.
 - **MDX titles:** Every `title` must end with an emoji suffix (parsed by sidebar and command menu).
 - **Checklists content:** Checklist MDX pages live in `src/content/checklist/` (shared directory, not a guide). See `src/content/checklist/CLAUDE.md` for template and rules. Do not add `guide:` frontmatter to checklist pages.
@@ -64,10 +64,10 @@ React 19 · TanStack Router (hash-based) · TanStack Table · Zustand · TypeScr
 
 1. Create `src/content/<guide-id>/<page-id>.mdx` with frontmatter: `id`, `title` (emoji suffix), `guide`.
 2. Add the page ID to the guide's `*_GUIDE_SECTIONS` in its data file.
-3. Register any new components in `src/components/mdx/index.ts`.
+3. Register any new components in `src/components/mdx/index.ts`. Use `/find-component` before creating new components to check for shared bases.
 4. Add link entries to `src/data/linkRegistry/<guideId>Links.ts` as needed.
 
-For full guide creation, use the `/add-guide` skill.
+For full guide creation, use the `/add-guide` skill. For component discovery, use the `/find-component` skill.
 
 ## Pre-Push Checklist
 

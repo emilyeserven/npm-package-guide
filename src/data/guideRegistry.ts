@@ -23,6 +23,7 @@ import { COWORK_GUIDE_SECTIONS, COWORK_START_PAGE_DATA } from './coworkData'
 import { COOLIFY_GUIDE_SECTIONS, COOLIFY_START_PAGE_DATA } from './coolifyData'
 import { JCS_GUIDE_SECTIONS, JCS_START_PAGE_DATA } from './jscodeshiftData'
 import { IA_GUIDE_SECTIONS, IA_START_PAGE_DATA } from './iaData'
+import { NGINX_GUIDE_SECTIONS, NGINX_START_PAGE_DATA } from './nginxData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -271,6 +272,16 @@ export const guides: GuideDefinition[] = [
     sections: IA_GUIDE_SECTIONS,
     category: 'fundamentals',
   },
+  {
+    id: 'nginx',
+    icon: '\u{1F310}',        // 🌐
+    title: 'Nginx Essentials',
+    startPageId: 'nginx-start',
+    description:
+      'Nginx from zero to production \u2014 reverse proxy, static files, SSL/TLS, load balancing, security hardening, and Raspberry Pi homelab setups.',
+    sections: NGINX_GUIDE_SECTIONS,
+    category: 'infrastructure',
+  },
 ]
 
 // ── Single Page Guides (combined virtual nav) ───────────────────────
@@ -375,6 +386,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'coolify-deploy': COOLIFY_START_PAGE_DATA,
   'jscodeshift': JCS_START_PAGE_DATA,
   'info-architecture': IA_START_PAGE_DATA,
+  'nginx': NGINX_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {

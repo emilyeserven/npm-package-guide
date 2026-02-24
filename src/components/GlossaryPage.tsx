@@ -16,7 +16,7 @@ import { getNavTitle } from '../data/navigation'
 import { getGuideForPage } from '../data/guideRegistry'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
 import { useUIStore } from '../hooks/useUIStore'
-import { badgeBase, badgeMap } from '../data/overallResources'
+import { badgeBase, badgeMap, guideTags } from '../data/overallResources'
 import { DataTable } from './DataTable'
 import { ExternalLinkIcon } from './ExternalLinkIcon'
 
@@ -80,7 +80,7 @@ function categoryToKey(cat: string): string {
   return `cat:${cat.toLowerCase().replace(/\s+&\s+/g, '-').replace(/\s+/g, '-')}`
 }
 
-const guideTagList = ['guide:npm-package', 'guide:architecture', 'guide:testing', 'guide:prompt-engineering', 'guide:ci-cd', 'guide:auth', 'guide:kubernetes', 'guide:ai-infra', 'guide:nextjs-abstractions', 'guide:wp-agents']
+const guideTagList = Array.from(guideTags)
 
 const columnHelper = createColumnHelper<FlatGlossaryRow>()
 

@@ -1,0 +1,89 @@
+---
+id: "nginx-reverse-proxy"
+title: "Reverse Proxy 🔀"
+guide: "nginx"
+group: "Serving & Proxying"
+linkRefs:
+  - id: "nginx-proxy-pass"
+    note: "Nginx proxy_pass directive reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what-is">What is a reverse proxy?</TocLink>
+  <TocLink id="toc-nodejs">Proxying to Node.js</TocLink>
+  <TocLink id="toc-multi">Multiple services on one domain</TocLink>
+</Toc>
+
+<SectionIntro>
+A reverse proxy sits between clients and your backend servers, forwarding requests on behalf of clients. This is one of Nginx's most powerful features — it lets you expose multiple services on a single domain/port.
+</SectionIntro>
+
+<SectionSubheading id="toc-what-is">Reverse Proxy Flow</SectionSubheading>
+
+<NginxReverseProxyDiagram />
+
+<SectionSubheading id="toc-nodejs">Proxying to a Node.js / Express API</SectionSubheading>
+
+```nginx
+server {
+    listen 80;
+    server_name api.myproject.com;
+
+    location / {
+        # Forward to your Node.js app
+        proxy_pass http://127.0.0.1:3000;
+
+        # Pass real client info to your app
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # WebSocket support (for real-time apps)
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+```
+
+<Gotcha>
+Without `proxy_set_header`, your backend app will see every request as coming from `127.0.0.1` (Nginx itself). Always pass `X-Real-IP` and `X-Forwarded-For` so your app knows the actual client IP — critical for logging, rate limiting, and security.
+</Gotcha>
+
+<SectionSubheading id="toc-multi">Multiple Services on One Domain</SectionSubheading>
+
+Host a frontend, API, and admin panel on one domain:
+
+```nginx
+server {
+    listen 80;
+    server_name myproject.com;
+
+    # Frontend SPA
+    location / {
+        root /var/www/frontend/dist;
+        try_files $uri $uri/ /index.html;
+    }
+
+    # API backend (Node.js on port 3000)
+    location /api/ {
+        proxy_pass http://127.0.0.1:3000/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # Admin dashboard (separate app on port 4000)
+    location /admin/ {
+        proxy_pass http://127.0.0.1:4000/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+<Explainer>
+Notice the trailing slash on `proxy_pass`. `proxy_pass http://127.0.0.1:3000/` strips the matched location prefix — so `/api/users` becomes `/users` on your backend. Without the trailing slash, the full path `/api/users` is forwarded.
+</Explainer>

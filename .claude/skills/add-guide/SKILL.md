@@ -91,7 +91,7 @@ Notes:
 
 Place in `src/components/mdx/<guide-id>/`. Register in `src/components/mdx/index.ts`.
 
-**Before creating a component**, check `docs/COMPONENT_REFERENCE.md` for shared bases: `AccordionList`, `TimelineFlow`, `ProsCons`, `CardBase`, `StatusBadge`, `YamlExplorerBase`, `useExplorer`. Thin data-lookup wrappers are fine; do not reimplement shared patterns.
+**Before creating a component**, use the `/find-component` skill to find the right shared base. It covers `AccordionList`, `TimelineFlow`, `ProsCons`, `CardBase`, `StatusBadge`, `YamlExplorerBase`, `useExplorer`, and more. Thin data-lookup wrappers are fine; do not reimplement shared patterns. See `docs/COMPONENT_REFERENCE.md` for the pattern-matching quick reference table and known duplication anti-patterns.
 
 ```tsx
 // src/components/mdx/<guide-id>/MyComponent.tsx

@@ -1,0 +1,140 @@
+---
+id: "nginx-raspberry-pi"
+title: "Raspberry Pi Projects 🍓"
+guide: "nginx"
+group: "Practical"
+linkRefs:
+  - id: "cloudflare-tunnels"
+    note: "Cloudflare Tunnels for exposing local services"
+  - id: "wireguard-docs"
+    note: "WireGuard VPN documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-dashboard">Pi home dashboard</TocLink>
+  <TocLink id="toc-tuning">Performance tuning</TocLink>
+  <TocLink id="toc-dev-https">Local HTTPS dev server</TocLink>
+</Toc>
+
+<SectionIntro>
+A Raspberry Pi running Nginx is an incredibly capable home server. Low power consumption (~5W), silent operation, and enough horsepower to serve thousands of requests. Here are practical setups.
+</SectionIntro>
+
+<SectionSubheading id="toc-dashboard">Pi Home Dashboard (Proxying Multiple Services)</SectionSubheading>
+
+A central dashboard that routes to all your Pi services — access everything via `pi.local` with clean paths:
+
+```nginx
+server {
+    listen 80;
+    server_name pi.local;
+
+    # Home Assistant (smart home)
+    location /homeassistant/ {
+        proxy_pass http://127.0.0.1:8123/;
+        proxy_set_header Host $host;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+
+    # Pi-hole admin (DNS ad-blocking)
+    location /pihole/ {
+        proxy_pass http://127.0.0.1:8080/admin/;
+        proxy_set_header Host $host;
+    }
+
+    # Grafana (monitoring dashboards)
+    location /grafana/ {
+        proxy_pass http://127.0.0.1:3000/;
+        proxy_set_header Host $host;
+    }
+
+    # Jellyfin (media server)
+    location /media/ {
+        proxy_pass http://127.0.0.1:8096/;
+        proxy_set_header Host $host;
+        # Increase buffer for media streaming
+        proxy_buffering off;
+        client_max_body_size 20G;
+    }
+
+    # Your personal project / portfolio
+    location / {
+        root /var/www/dashboard;
+        index index.html;
+    }
+}
+```
+
+<Explainer>
+To access your Pi from outside your home network, look into Cloudflare Tunnels (free) or WireGuard VPN rather than opening ports on your router. Both are more secure than traditional port forwarding.
+</Explainer>
+
+<SectionSubheading id="toc-tuning">Pi Performance Tuning (Limited Resources)</SectionSubheading>
+
+```nginx
+# Optimized for Raspberry Pi's limited RAM and CPU
+worker_processes auto;        # Usually 4 on Pi 4
+
+events {
+    worker_connections 512;   # Lower than default — Pi has less RAM
+    use epoll;                # Efficient on Linux
+}
+
+http {
+    # Reduce memory usage
+    client_body_buffer_size 10K;
+    client_header_buffer_size 1k;
+    client_max_body_size 8m;
+
+    # Enable sendfile for efficient static file serving
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+
+    # Gzip — saves bandwidth (Pi's CPU can handle it)
+    gzip on;
+    gzip_comp_level 4;        # Balance CPU vs compression
+    gzip_types text/css application/javascript
+               application/json image/svg+xml;
+
+    # Log only errors to reduce SD card writes
+    access_log off;
+    error_log /var/log/nginx/error.log crit;
+}
+```
+
+<Gotcha>
+SD cards have limited write cycles. Disable `access_log` or use a RAM disk (tmpfs) for logs to extend your SD card's lifespan. Alternatively, boot from a USB SSD for much better reliability and performance.
+</Gotcha>
+
+<SectionSubheading id="toc-dev-https">Development Server with Local HTTPS</SectionSubheading>
+
+Serve your Vite dev builds over local HTTPS — useful for testing Service Workers, WebAuthn, etc.:
+
+```nginx
+# Generate self-signed cert:
+# openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+#   -keyout /etc/nginx/ssl/dev.key \
+#   -out /etc/nginx/ssl/dev.crt
+
+server {
+    listen 443 ssl;
+    server_name dev.local;
+
+    ssl_certificate     /etc/nginx/ssl/dev.crt;
+    ssl_certificate_key /etc/nginx/ssl/dev.key;
+
+    # Proxy to Vite dev server
+    location / {
+        proxy_pass http://localhost:5173;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+    }
+}
+```

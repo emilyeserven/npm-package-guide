@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from '@tanstack/react-router'
 import clsx from 'clsx'
-import { checklistPages, guides } from '../data/guideRegistry'
+import { checklistPages, guides, getGuideForPage } from '../data/guideRegistry'
 import { useUIStore } from '../hooks/useUIStore'
 
 function getGuideInfo(sectionId: string | undefined): { title: string; homeId: string | null; isChecklist: boolean } {
@@ -17,16 +17,16 @@ function getGuideInfo(sectionId: string | undefined): { title: string; homeId: s
     }
   }
 
-  if (sectionId.startsWith('arch-') || sectionId === 'architecture')
-    return { title: 'Architecture Guide', homeId: 'arch-start', isChecklist: false }
-  if (sectionId.startsWith('prompt-'))
-    return { title: 'Prompt Engineering', homeId: 'prompt-start', isChecklist: false }
-  if (sectionId.startsWith('test-'))
-    return { title: 'Testing Guide', homeId: 'test-start', isChecklist: false }
   if (sectionId === 'external-resources' || sectionId === 'glossary')
     return { title: 'Dev Guides', homeId: null, isChecklist: false }
-  // NPM Package Guide pages (roadmap, build, ci-*, storybook, etc.)
-  return { title: 'Web App vs. NPM Package Guide', homeId: 'roadmap', isChecklist: false }
+
+  // Dynamically resolve guide from the registry
+  const guide = getGuideForPage(sectionId)
+  if (guide && !guide.singlePage) {
+    return { title: guide.title, homeId: guide.startPageId, isChecklist: false }
+  }
+
+  return { title: 'Dev Guides', homeId: null, isChecklist: false }
 }
 
 const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
