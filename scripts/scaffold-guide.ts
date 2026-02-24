@@ -8,16 +8,29 @@
  * Usage:
  *   pnpm scaffold-guide --id <guide-id> --title <title> --icon <emoji> \
  *     --desc <description> --prefix <PREFIX> --camel <camelName> --start <startPageId> \
- *     [--single-page]
+ *     [--single-page] \
+ *     [--pages "Group:page-id:Title Emoji,Group:page-id2:Title2 Emoji2,..."] \
+ *     [--check-links "link-id-1,link-id-2,..."]
  *
  * Example:
  *   pnpm scaffold-guide --id dns-deep-dive --title "DNS Deep Dive" --icon "🌐" \
  *     --desc "Everything about DNS for frontend engineers." \
- *     --prefix DNS --camel dnsDeepDive --start dns-start
+ *     --prefix DNS --camel dnsDeepDive --start dns-start \
+ *     --pages "Basics:dns-records:DNS Records 📋,Basics:dns-resolution:Resolution Flow 🔄,Advanced:dns-security:DNSSEC 🔒" \
+ *     --check-links "mdn-dns,cloudflare-dns-guide"
+ *
+ * Options:
+ *   --pages        Comma-separated page specs in "Group:pageId:Title Emoji" format.
+ *                  Creates MDX stubs and populates *_GUIDE_SECTIONS automatically.
+ *                  Pages are grouped by the Group label in the sections array.
+ *   --check-links  Comma-separated link IDs to check against the existing registry.
+ *                  Warns about IDs that already exist so you can reuse them instead
+ *                  of creating duplicates.
  *
  * Created files:
  *   src/data/<camel>Data.ts                — Guide sections + start page data stubs
  *   src/content/<guide-id>/<start>.mdx     — Start page MDX
+ *   src/content/<guide-id>/<page-id>.mdx   — Additional page MDX stubs (if --pages)
  *   src/content/<guide-id>/CLAUDE.md       — Guide-specific documentation
  *   src/data/linkRegistry/<camel>Links.ts  — Link registry stub
  *   src/data/glossaryTerms/<camel>Terms.ts — Glossary terms stub
@@ -61,6 +74,8 @@ const prefix = (args.prefix as string)?.toUpperCase()
 const camel = args.camel as string
 const startPageId = args.start as string
 const singlePage = args['single-page'] === true
+const pagesArg = args.pages as string | undefined
+const checkLinksArg = args['check-links'] as string | undefined
 
 const required = { id: guideId, title, icon, desc, prefix, camel, start: startPageId }
 const missing = Object.entries(required).filter(([, v]) => !v).map(([k]) => k)
@@ -69,9 +84,31 @@ if (missing.length > 0) {
   console.error(
     '\nUsage: pnpm scaffold-guide --id <id> --title <title> --icon <emoji> \\\n' +
     '  --desc <description> --prefix <PREFIX> --camel <camel> --start <startId> \\\n' +
-    '  [--single-page]'
+    '  [--single-page] [--pages "Group:pageId:Title Emoji,..."] \\\n' +
+    '  [--check-links "link-id-1,link-id-2,..."]'
   )
   process.exit(1)
+}
+
+// ── Parse --pages specs ──────────────────────────────────────────────
+
+interface PageSpec {
+  group: string
+  pageId: string
+  title: string
+}
+
+const pageSpecs: PageSpec[] = []
+if (pagesArg) {
+  for (const entry of pagesArg.split(',')) {
+    const parts = entry.trim().split(':')
+    if (parts.length < 3) {
+      console.error(`Invalid --pages entry: "${entry}". Expected "Group:pageId:Title Emoji".`)
+      process.exit(1)
+    }
+    const [group, pageId, ...titleParts] = parts
+    pageSpecs.push({ group, pageId, title: titleParts.join(':') })
+  }
 }
 
 // ── Derived names ───────────────────────────────────────────────────
@@ -136,12 +173,51 @@ function modifyFile(filePath: string, description: string, transform: (content: 
   }
 }
 
-// ── Pre-flight check ────────────────────────────────────────────────
+// ── Pre-flight checks ───────────────────────────────────────────────
 
 const registryContent = fs.readFileSync(resolve('src/data/guideRegistry.ts'), 'utf-8')
 if (registryContent.includes(`id: '${guideId}'`)) {
   console.error(`\nGuide "${guideId}" already exists in guideRegistry.ts. Aborting.`)
   process.exit(1)
+}
+
+// Check for duplicate link IDs against existing registry
+if (checkLinksArg) {
+  const idsToCheck = checkLinksArg.split(',').map(s => s.trim()).filter(Boolean)
+  if (idsToCheck.length > 0) {
+    // Collect all existing link IDs by scanning linkRegistry files
+    const linkRegistryDir = resolve('src/data/linkRegistry')
+    const existingIds = new Set<string>()
+    const linkFiles = fs.readdirSync(linkRegistryDir).filter(f => f.endsWith('.ts') && f !== 'index.ts')
+    for (const file of linkFiles) {
+      const content = fs.readFileSync(path.join(linkRegistryDir, file), 'utf-8')
+      const idMatches = content.matchAll(/id:\s*['"]([^'"]+)['"]/g)
+      for (const m of idMatches) existingIds.add(m[1])
+    }
+
+    const duplicates = idsToCheck.filter(id => existingIds.has(id))
+    if (duplicates.length > 0) {
+      console.warn(`\n--- Link ID pre-check ---`)
+      console.warn(`  The following link IDs already exist in the registry:`)
+      for (const id of duplicates) {
+        // Find which file contains it
+        for (const file of linkFiles) {
+          const content = fs.readFileSync(path.join(linkRegistryDir, file), 'utf-8')
+          if (content.includes(`"${id}"`) || content.includes(`'${id}'`)) {
+            console.warn(`    "${id}" — found in ${file}`)
+            break
+          }
+        }
+      }
+      console.warn(`  Reuse these instead of creating duplicates. Add 'guide:${guideId}' to their tags.\n`)
+    }
+
+    const newIds = idsToCheck.filter(id => !existingIds.has(id))
+    if (newIds.length > 0) {
+      console.log(`\n--- Link ID pre-check ---`)
+      console.log(`  ${newIds.length} new link ID(s) are safe to create: ${newIds.join(', ')}`)
+    }
+  }
 }
 
 // ── 1. Create data file ─────────────────────────────────────────────
@@ -150,19 +226,44 @@ console.log('\n--- Creating new files ---')
 
 ensureDir(resolve('src/data'))
 
+// Build sections array from --pages (or leave as stub)
+function buildSectionsLiteral(): string {
+  if (pageSpecs.length === 0) {
+    return singlePage
+      ? `  { label: null, ids: ['${startPageId}'] },\n`
+      : `  { label: null, ids: ['${startPageId}'] },\n  // Add sections: { label: 'Section Name', ids: ['page-id-1', 'page-id-2'] },\n`
+  }
+
+  // Group pages by their group label, preserving order
+  const groups: { label: string; ids: string[] }[] = []
+  for (const spec of pageSpecs) {
+    const existing = groups.find(g => g.label === spec.group)
+    if (existing) {
+      existing.ids.push(spec.pageId)
+    } else {
+      groups.push({ label: spec.group, ids: [spec.pageId] })
+    }
+  }
+
+  let out = `  { label: null, ids: ['${startPageId}'] },\n`
+  for (const g of groups) {
+    out += `  { label: '${g.label.replace(/'/g, "\\'")}', ids: [${g.ids.map(id => `'${id}'`).join(', ')}] },\n`
+  }
+  return out
+}
+
+const sectionsLiteral = buildSectionsLiteral()
+
 const dataContent = singlePage
   ? `import type { GuideSection } from './guideTypes'
 
 export const ${prefix}_GUIDE_SECTIONS: GuideSection[] = [
-  { label: null, ids: ['${startPageId}'] },
-]
+${sectionsLiteral}]
 `
   : `import type { GuideSection, StartPageData } from './guideTypes'
 
 export const ${prefix}_GUIDE_SECTIONS: GuideSection[] = [
-  { label: null, ids: ['${startPageId}'] },
-  // Add sections: { label: 'Section Name', ids: ['page-id-1', 'page-id-2'] },
-]
+${sectionsLiteral}]
 
 export const ${prefix}_START_PAGE_DATA: StartPageData = {
   subtitle: '${desc.replace(/'/g, "\\'")}',
@@ -212,7 +313,48 @@ guide: "${guideId}"
 
 writeNew(path.join(contentDir, `${startPageId}.mdx`), startMdx)
 
+// 2b. Create additional page MDX stubs from --pages
+for (const spec of pageSpecs) {
+  const pageMdx = `---
+id: "${spec.pageId}"
+title: "${spec.title}"
+guide: "${guideId}"
+group: "${spec.group}"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+</Toc>
+
+<SectionIntro>
+TBD — add content here.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+`
+  writeNew(path.join(contentDir, `${spec.pageId}.mdx`), pageMdx)
+}
+
 // ── 3. Create guide CLAUDE.md ───────────────────────────────────────
+
+// Build section table for CLAUDE.md
+function buildClaudeMdSectionTable(): string {
+  let table = `| *(start)* | \`${startPageId}\` |\n`
+  if (pageSpecs.length > 0) {
+    const groups: { label: string; ids: string[] }[] = []
+    for (const spec of pageSpecs) {
+      const existing = groups.find(g => g.label === spec.group)
+      if (existing) existing.ids.push(spec.pageId)
+      else groups.push({ label: spec.group, ids: [spec.pageId] })
+    }
+    for (const g of groups) {
+      table += `| ${g.label} | ${g.ids.map(id => `\`${id}\``).join(', ')} |\n`
+    }
+  }
+  return table
+}
 
 const claudeMdContent = `# ${title} — Guide CLAUDE.md
 
@@ -226,8 +368,7 @@ Defined in \`${prefix}_GUIDE_SECTIONS\` in \`src/data/${dataFileName}.ts\`.
 
 | Section Label | Page IDs |
 |--------------|----------|
-| *(start)* | \`${startPageId}\` |
-
+${buildClaudeMdSectionTable()}
 ## Interactive Components
 
 | Component | Props | Purpose |
@@ -367,8 +508,13 @@ if (skipped > 0) console.log(`  Skipped: ${skipped} (already exist or no change)
 if (errors > 0) console.log(`  Errors:  ${errors}`)
 
 console.log(`\n--- Next steps ---`)
-console.log(`  1. Fill in TBD content in src/data/${dataFileName}.ts (sections, start page data)`)
-console.log(`  2. Create MDX content pages in src/content/${guideId}/`)
+if (pageSpecs.length > 0) {
+  console.log(`  1. Fill in start page data in src/data/${dataFileName}.ts (steps array)`)
+  console.log(`  2. Fill in TBD content in ${pageSpecs.length} page stubs in src/content/${guideId}/`)
+} else {
+  console.log(`  1. Fill in TBD content in src/data/${dataFileName}.ts (sections, start page data)`)
+  console.log(`  2. Create MDX content pages in src/content/${guideId}/`)
+}
 console.log(`  3. Add links to src/data/linkRegistry/${camel}Links.ts`)
 console.log(`  4. Add glossary terms to src/data/glossaryTerms/${camel}Terms.ts`)
 if (!singlePage) {

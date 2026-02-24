@@ -19,26 +19,33 @@ Find natural page breaks in the artifact. Each distinct topic or section heading
 ```bash
 pnpm scaffold-guide --id <guide-id> --title <title> --icon <emoji> \
   --desc <description> --prefix <PREFIX> --camel <camelName> --start <startPageId> \
-  [--single-page]
+  [--single-page] \
+  [--pages "Group:pageId:Title Emoji,Group:pageId2:Title2 Emoji2,..."] \
+  [--check-links "link-id-1,link-id-2,..."]
 ```
 
 This creates all stub files and updates all registries:
 
 | Created | Updated |
 |---------|---------|
-| `src/data/<camel>Data.ts` | `src/data/guideRegistry.ts` (import + entry + map) |
+| `src/data/<camel>Data.ts` (with sections pre-populated) | `src/data/guideRegistry.ts` (import + entry + map) |
 | `src/content/<guide-id>/<start>.mdx` | `src/data/linkRegistry/index.ts` (import + spread) |
-| `src/content/<guide-id>/CLAUDE.md` | `src/data/glossaryTerms/index.ts` (import + spread) |
+| `src/content/<guide-id>/<page-id>.mdx` (per `--pages` entry) | `src/data/glossaryTerms/index.ts` (import + spread) |
+| `src/content/<guide-id>/CLAUDE.md` (with section table) | |
 | `src/data/linkRegistry/<camel>Links.ts` | |
 | `src/data/glossaryTerms/<camel>Terms.ts` | |
+
+**`--pages`** — Comma-separated page specs in `Group:pageId:Title Emoji` format. Creates MDX stubs with frontmatter pre-filled and populates `*_GUIDE_SECTIONS` with grouped entries. This eliminates the manual file-creation step for content pages.
+
+**`--check-links`** — Comma-separated link IDs you plan to use. The script scans the existing link registry and warns about IDs that already exist (with their source file), so you can reuse them instead of creating duplicates. New IDs are confirmed safe.
 
 Naming conventions for `--prefix` and `--camel`: check existing guides in `guideRegistry.ts` imports for the pattern (e.g., `kubernetes` → prefix `K8S`, camel `k8s`; `coolify-deploy` → prefix `COOLIFY`, camel `coolify`).
 
 ### Step 3 — Fill in guide data
 
-Edit `src/data/<camel>Data.ts`. The scaffold creates the stub; fill in:
+Edit `src/data/<camel>Data.ts`. If you used `--pages`, sections are already populated — you only need to fill in `*_START_PAGE_DATA`. Otherwise fill in both:
 
-1. Add sections to `*_GUIDE_SECTIONS` with labeled groups and page IDs. First section always has `label: null` — it holds only the start page ID.
+1. Add sections to `*_GUIDE_SECTIONS` with labeled groups and page IDs. First section always has `label: null` — it holds only the start page ID. *(Skip if `--pages` was used.)*
 2. For multi-page guides, populate `*_START_PAGE_DATA`:
    - `sectionLabel` in steps must exactly match a `label` in `*_GUIDE_SECTIONS`
    - `subItemDescriptions` keys must match page IDs in that section
@@ -48,9 +55,9 @@ The start page MDX (`<GuideStartContent guideId="..." />`) auto-renders: learnin
 
 Use a `<guide>Data/` directory with `index.ts` re-exports only when the file exceeds ~500 lines.
 
-### Step 4 — Create MDX content pages
+### Step 4 — Create or fill in MDX content pages
 
-One `.mdx` file per page in `src/content/<guide-id>/`. Pages are auto-discovered — no manual import needed.
+If `--pages` was used, MDX stubs already exist with frontmatter pre-filled — fill in their content. Otherwise, create one `.mdx` file per page in `src/content/<guide-id>/`. Pages are auto-discovered — no manual import needed.
 
 ```mdx
 ---
