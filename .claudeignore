@@ -1,38 +1,24 @@
-# Large data files - read on demand when working with specific guides
-# These files contain HTML content strings, URL metadata, and term definitions
-# that are rarely needed for general exploration
+# ── Context optimization ──────────────────────────────────────────────
+# Glob patterns auto-scale as new guides are added.
+# Claude can still read any file on demand — these just prevent
+# automatic inclusion during codebase exploration.
 
 # Link registry files (URL metadata, 300-900+ lines each)
-src/data/linkRegistry/npmPackageLinks.ts
-src/data/linkRegistry/architectureLinks.ts
-src/data/linkRegistry/promptLinks.ts
-src/data/linkRegistry/authLinks.ts
-src/data/linkRegistry/kubernetesLinks.ts
-src/data/linkRegistry/aiInfraLinks.ts
-src/data/linkRegistry/njaLinks.ts
-src/data/linkRegistry/testingLinks.ts
-src/data/linkRegistry/cicdLinks.ts
-src/data/linkRegistry/wpAgentsLinks.ts
+src/data/linkRegistry/*Links.ts
 
 # Glossary term files (term definitions, 100-350 lines each)
-src/data/glossaryTerms/npmPackageTerms.ts
-src/data/glossaryTerms/architectureTerms.ts
-src/data/glossaryTerms/promptTerms.ts
-src/data/glossaryTerms/authTerms.ts
-src/data/glossaryTerms/kubernetesTerms.ts
-src/data/glossaryTerms/aiInfraTerms.ts
-src/data/glossaryTerms/njaTerms.ts
-src/data/glossaryTerms/testingTerms.ts
-src/data/glossaryTerms/cicdTerms.ts
-src/data/glossaryTerms/wpAgentsTerms.ts
+src/data/glossaryTerms/*Terms.ts
 
-# Large data files (300+ lines, read on demand when working with specific guides)
-src/data/npmPackageData.ts
-src/data/promptData/techniques.ts
-src/data/archData/stacks.ts
-src/data/archData/frameworks.ts
-src/data/njaData/concepts.ts
-src/data/authData/concepts.ts
-src/data/k8sData.ts
-src/data/testingData.ts
-src/data/promptData/mistakes.ts
+# Guide data files — HTML content strings and interactive-component data.
+# Single-file data modules:
+src/data/*Data.ts
+# Multi-file data directories (each guide's subdirectory):
+src/data/*Data/
+
+# Structural files that grow linearly with each guide.
+# The root CLAUDE.md already contains the guide table and component list.
+src/data/guideRegistry.ts
+src/components/mdx/index.ts
+
+# Reference docs — read on demand, not needed for most tasks.
+docs/
