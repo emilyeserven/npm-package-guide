@@ -143,13 +143,56 @@ const { activeId, setActiveId, active, toggle } = useExplorer(items, defaultId)
 
 **Guide components using it:** `StackExplorer` (architecture), `FrameworkExplorer` (architecture), `CodingToolExplorer` (prompt-engineering).
 
+## Pattern Matching Quick Reference
+
+Use the `/find-component` skill for interactive guidance. The table below maps common UI needs to the correct shared component.
+
+| I need to show... | Shared component | Props / usage |
+|---|---|---|
+| Sequential steps, pipeline, flow | `TimelineFlow` | `items`, `renderIndicator`, `renderContent`, `renderConnector?` |
+| Strengths vs tradeoffs | `ProsCons` | `pros`, `cons`, `bestFor`, `color`, `accent`, `darkAccent` |
+| Collapsible item list (gotchas, tips, FAQs) | `AccordionList` | `items`, `renderHeader`, `renderBody`, `renderIndicator`, `itemStyle?` |
+| Annotated YAML / config file | `YamlExplorerBase` | `lines`, `fileName` |
+| Themed card container | `CardBase` | `accentColor?`, children |
+| Status / severity pill | `StatusBadge` | `label`, `colors: { bg, darkBg, text, darkText, border?, darkBorder? }` |
+| Mistake → example → fix | `MistakeItemCard` | `item: { mistake, example, fix }`, `headingLevel` |
+| Select-one explorer UI | `useExplorer` hook | `(items, defaultId)` → `{ activeId, setActiveId, active, toggle }` |
+| Two-column definitions | `DefinitionTable` + `DefRow` | Use directly in MDX |
+| Code block with copy | `CodeAccordion` | Use directly in MDX |
+| Progress checklist | `GuideChecklist` | Add entry to `CHECKLIST_REGISTRY` — never create per-guide checklist components |
+| Info / tip / warning callout | `SectionNote` / `Explainer` / `Gotcha` | Use directly in MDX |
+| Cross-page link | `NavLink` / `NavPill` / `StepJump` | Use directly in MDX |
+
+### Existing guide patterns worth knowing about
+
+Before building something new, check whether another guide already solved the same problem:
+
+| Pattern | Guides with implementations |
+|---|---|
+| Data-lookup detail panel (`topicId` → rendered sections) | security, pwa, tanstack-router, nextjs-abstractions, testing |
+| Explorer with selection grid + detail pane | architecture, prompt-engineering, aws-decoded, ai-infra |
+| Gotcha/tip accordion (thin `AccordionList` wrapper) | ci-cd, coolify-deploy, jscodeshift |
+| Comparison table | tanstack-query, cowork, s3-storage, nginx |
+| Interactive code demo / calculator | zustand, jscodeshift, s3-storage |
+| Step cards with expandable detail | cowork, npm-package |
+
 ## Creating New Components Checklist
 
-Before creating a component in `src/components/mdx/<guide-id>/`:
+Before creating a component in `src/components/mdx/<guide-id>/`, use the `/find-component` skill or follow this checklist:
 
 1. **Check shared components** — Does `SectionLayout`, `TimelineFlow`, `ProsCons`, `AccordionList`, `CardBase`, `StatusBadge`, `MistakeItemCard`, `YamlExplorerBase`, `ChecklistBase`, or `DefinitionTable` already handle this?
 2. **Check shared hooks** — Does `useExplorer`, `useAccordion`, or `useIsDark` already cover the interactivity you need?
 3. **Check other guide directories** — Does another guide have a similar component? If so, extract a shared base first.
 4. **Evaluate scope** — Will only one guide ever need this? If uncertain, build it as a shared component from the start.
-5. **Keep wrappers thin** — If you do create a guide-specific wrapper, it should only handle data lookup. All rendering logic belongs in the shared base.
+5. **Keep wrappers thin** — If you do create a guide-specific wrapper, it should only handle data lookup. All rendering logic belongs in the shared base. A wrapper exceeding ~30 lines of rendering code is a sign you're reimplementing a shared pattern.
 6. **Register in `index.ts`** — All MDX-available components must be exported from `src/components/mdx/index.ts`.
+
+### Known duplication anti-patterns
+
+These patterns have been duplicated in the past. Always use the shared version:
+
+- **Gotcha/tip accordions** — Use `AccordionList` with a thin wrapper. Do not build custom expand/collapse UIs.
+- **Pros/cons with toggles** — Use `ProsCons`. Do not build separate strengths/weaknesses toggle UIs.
+- **Copy buttons on code** — Use `CodeAccordion`. Do not create per-guide `CopyButton` components.
+- **Checklists** — Use `GuideChecklist` + `CHECKLIST_REGISTRY`. Do not create per-guide checklist components (e.g., `CoolifyChecklist` is legacy).
+- **Concept/definition lists** — Use `DefinitionTable` + `DefRow` in MDX. Do not create guide-specific concept-list components for simple term/definition rendering.
