@@ -1,0 +1,63 @@
+---
+id: "cd-coolify-setup"
+title: "Coolify Setup ⚙️"
+guide: "coolify-deploy"
+group: "Setup & Deploy"
+linkRefs:
+  - id: "coolify-install"
+    note: "Official Coolify installation guide"
+  - id: "nixpacks-docs"
+    note: "Nixpacks build system documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-install">Installing Coolify</TocLink>
+  <TocLink id="toc-git">Connecting your Git repository</TocLink>
+  <TocLink id="toc-build-packs">Understanding build packs</TocLink>
+  <TocLink id="toc-server-settings">Key server settings</TocLink>
+</Toc>
+
+<SectionIntro>
+Install Coolify on your VPS, connect your Git provider, and understand the key settings before you deploy.
+</SectionIntro>
+
+<SectionSubheading id="toc-install">Installing Coolify</SectionSubheading>
+
+Coolify installs on any Ubuntu/Debian VPS with a single command. Minimum specs: 2 CPU cores, 2GB RAM, 30GB disk (builds are resource-intensive).
+
+SSH into your VPS, then run:
+
+```bash
+curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
+```
+
+After installation, access the dashboard at `http://your-server-ip:8000` and create your admin account.
+
+<SectionSubheading id="toc-git">Connecting your Git repository</SectionSubheading>
+
+Coolify supports three ways to connect repos:
+
+<DefinitionTable termHeader="Method" descHeader="Details">
+  <DefRow term="GitHub App (recommended)">The most full-featured option. Install the Coolify GitHub App on your GitHub account/org. This enables automatic deployments on push, PR preview deployments, and private repo access. Go to **Sources** in Coolify, then **Add GitHub App** and follow the OAuth flow.</DefRow>
+  <DefRow term="Deploy Key">Generates an SSH key pair — the public key is added to your repo as a deploy key. Works with GitHub, GitLab, Bitbucket, or any Git host. No webhooks by default (manual deploys), but you can configure them.</DefRow>
+  <DefRow term="Public Repository">Simply paste the HTTPS URL of any public Git repository. Zero configuration needed, but no auto-deploy on push — you'll trigger deploys manually from the Coolify dashboard.</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-build-packs">Understanding build packs</SectionSubheading>
+
+Coolify offers several build packs. For React + Vite, you have two solid options:
+
+<DefinitionTable termHeader="Approach" descHeader="When to use">
+  <DefRow term="Nixpacks (default)">Simple static sites. Coolify auto-detects your project, builds it, and serves `dist/` via Nginx. **Complexity: Low.**</DefRow>
+  <DefRow term="Dockerfile">When you need custom Nginx config (SPA routing, custom headers, caching). You write the Dockerfile yourself. **Complexity: Medium.**</DefRow>
+</DefinitionTable>
+
+<Gotcha type="tip" title="Recommendation">
+If your app uses **TanStack Router** with client-side routing (you almost certainly do), jump to the **SPA Routing** section — you'll likely need the Dockerfile approach to avoid 404 errors on page refresh.
+</Gotcha>
+
+<SectionSubheading id="toc-server-settings">Key server settings</SectionSubheading>
+
+Under **Servers** in Coolify, you can set a **wildcard domain** like `*.apps.yourdomain.com`. Coolify will auto-assign subdomains to new deployments (e.g., `abc123.apps.yourdomain.com`). Useful for PR previews and quick testing. Requires a wildcard DNS A record pointing to your server's IP.

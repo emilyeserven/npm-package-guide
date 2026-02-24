@@ -67,6 +67,7 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   "guide:claude-skills": { cls: "bg-violet-50 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300", label: "Claude Skills Guide" },
   "guide:zustand": { cls: "bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300", label: "Zustand Guide" },
   "guide:pwa": { cls: "bg-teal-50 text-teal-700 dark:bg-teal-500/15 dark:text-teal-300", label: "PWA Guide" },
+  "guide:cowork": { cls: "bg-orange-50 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300", label: "Cowork Guide" },
   // Topic
   publishing: { cls: "bg-yellow-100 text-yellow-800 dark:bg-yellow-500/15 dark:text-yellow-300", label: "Publishing" },
   typescript: { cls: "bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300", label: "TypeScript" },
@@ -114,8 +115,11 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
   "cat:zustand-core-concepts": { cls: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300", label: "Zustand — Core Concepts" },
   "cat:zustand-patterns-middleware": { cls: "bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300", label: "Zustand — Patterns" },
   "cat:progressive-web-apps": { cls: "bg-teal-100 text-teal-800 dark:bg-teal-500/15 dark:text-teal-300", label: "Progressive Web Apps" },
+  "cat:cowork-core-concepts": { cls: "bg-orange-100 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300", label: "Cowork — Core Concepts" },
+  "guide:coolify-deploy": { cls: "bg-orange-50 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300", label: "Coolify Deploy Guide" },
+  "cat:self-hosting-deployment": { cls: "bg-orange-100 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300", label: "Self-Hosting & Deployment" },
 };
 
 export const typeTags = new Set(["docs", "article", "course", "video", "repo", "interactive", "free", "paid"]);
 export const topicTags = new Set(["publishing", "typescript", "versioning", "ci-cd", "monorepo", "modules", "tooling", "bundling", "testing", "linting", "architecture", "frameworks", "databases", "prompt-engineering", "kubernetes"]);
-export const guideTags = new Set(["guide:npm-package", "guide:architecture", "guide:testing", "guide:prompt-engineering", "guide:ci-cd", "guide:auth", "guide:kubernetes", "guide:ai-infra", "guide:nextjs-abstractions", "guide:wp-agents", "guide:state-management", "guide:claude-skills", "guide:zustand"]);
+export const guideTags = new Set(["guide:npm-package", "guide:architecture", "guide:testing", "guide:prompt-engineering", "guide:ci-cd", "guide:auth", "guide:kubernetes", "guide:ai-infra", "guide:nextjs-abstractions", "guide:wp-agents", "guide:state-management", "guide:claude-skills", "guide:zustand", "guide:pwa", "guide:cowork", "guide:coolify-deploy"]);

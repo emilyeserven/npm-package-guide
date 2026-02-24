@@ -54,6 +54,8 @@ import { awsDecodedLinks } from './awsDecodedLinks'
 import { claudeSkillsLinks } from './claudeSkillsLinks'
 import { zustandLinks } from './zustandLinks'
 import { pwaLinks } from './pwaLinks'
+import { coworkLinks } from './coworkLinks'
+import { coolifyLinks } from './coolifyLinks'
 
 export const linkRegistry: RegistryLink[] = [
   ...npmPackageLinks,
@@ -76,6 +78,8 @@ export const linkRegistry: RegistryLink[] = [
   ...claudeSkillsLinks,
   ...zustandLinks,
   ...pwaLinks,
+  ...coworkLinks,
+  ...coolifyLinks,
 ]
 
 /** Fast lookup by registry ID */
