@@ -1,0 +1,74 @@
+---
+id: "cd-spa-routing"
+title: "SPA Routing Fix 🚦"
+guide: "coolify-deploy"
+group: "Configuration"
+linkRefs:
+  - id: "nginx-try-files"
+    note: "Nginx try_files directive reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-problem">The problem explained</TocLink>
+  <TocLink id="toc-fix">The fix</TocLink>
+  <TocLink id="toc-apply">How to apply the fix in Coolify</TocLink>
+  <TocLink id="toc-404-route">Set up a 404 route in your app</TocLink>
+</Toc>
+
+<SectionIntro>
+The single biggest gotcha when deploying any React SPA. If you use TanStack Router, React Router, or any client-side routing — read this.
+</SectionIntro>
+
+<SectionSubheading id="toc-problem">The problem explained</SectionSubheading>
+
+Your React app uses **client-side routing**. When you click a link to `/dashboard`, JavaScript intercepts it, updates the URL bar via the History API, and renders the correct component. No request hits the server.
+
+But when a user **refreshes the page** at `/dashboard` or navigates there directly, the browser sends an actual HTTP request to the server asking for `/dashboard`. The server (Nginx) looks for a file at that path, finds nothing, and returns **404**.
+
+<SpaRoutingDiagram />
+
+<SectionSubheading id="toc-fix">The fix</SectionSubheading>
+
+You need Nginx to serve `index.html` for *any* route it doesn't recognize. This is done with the `try_files` directive:
+
+```nginx
+location / {
+    try_files $uri $uri/ /index.html;
+}
+```
+
+This tells Nginx: "Try to serve the requested file. If it doesn't exist, serve `index.html` instead and let the client-side router figure it out."
+
+<SectionSubheading id="toc-apply">How to apply the fix in Coolify</SectionSubheading>
+
+**Option A: Dockerfile (recommended)** — Use the Dockerfile approach from the Deploy section. You fully control `nginx.conf` in your repo, including the `try_files` fallback. This is the most reliable and portable method.
+
+**Option B: Nixpacks custom config** — If using Nixpacks with "Is Static Site" enabled, Coolify auto-generates an Nginx config. You can customize it:
+
+<SectionList>
+<ColItem>**1. Generate the default config** — In your resource's Configuration page, scroll to the Nginx section. Click **"Generate"** to populate the config editor.</ColItem>
+<ColItem>**2. Add the try_files directive** — Find the `location /` block and add or update it with the `try_files` line shown above.</ColItem>
+<ColItem>**3. Save and redeploy** — Save the custom Nginx config, then redeploy your application.</ColItem>
+</SectionList>
+
+<Gotcha type="warn" title="Known issue">
+There's a known Coolify bug where toggling "Is Static Site" off and back on can reset the Nginx config, breaking routes. If your routes suddenly 404 after a settings change, check if the custom Nginx config was wiped. The Dockerfile approach avoids this entirely because the config lives in your repo.
+</Gotcha>
+
+<SectionSubheading id="toc-404-route">Set up a 404 route in your app</SectionSubheading>
+
+Because `try_files` means Nginx *never* returns a 404 (it always serves `index.html`), you need your client-side router to handle unknown routes. With TanStack Router:
+
+```tsx
+// src/routes/__root.tsx
+export const Route = createRootRoute({
+  notFoundComponent: () => (
+    <div>
+      <h1>404 — Page Not Found</h1>
+      <Link to="/">Go Home</Link>
+    </div>
+  ),
+})
+```

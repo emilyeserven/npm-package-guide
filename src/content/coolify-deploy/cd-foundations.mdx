@@ -1,0 +1,38 @@
+---
+id: "cd-foundations"
+title: "Networking Foundations 🌐"
+guide: "coolify-deploy"
+group: "Foundations"
+linkRefs:
+  - id: "traefik-docs"
+    note: "Official Traefik reverse proxy documentation"
+  - id: "letsencrypt-about"
+    note: "About Let's Encrypt, the free Certificate Authority"
+  - id: "docker-get-started"
+    note: "Docker getting started guide"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-traffic">How traffic reaches your app</TocLink>
+  <TocLink id="toc-deep-dive">Deep dive into each layer</TocLink>
+</Toc>
+
+<SectionIntro>
+Before touching Coolify, you need a mental model of how traffic flows from a user's browser to your React app running in a Docker container.
+</SectionIntro>
+
+<SectionSubheading id="toc-traffic">How traffic reaches your app</SectionSubheading>
+
+When someone types `app.yourdomain.com` into their browser, a chain of systems work together to serve your React app. Here's the full picture:
+
+<TrafficDiagram />
+
+Each box in this diagram represents a system that your request passes through. Understanding what each one does will save you hours of debugging when something goes wrong.
+
+<SectionSubheading id="toc-deep-dive">Deep dive into each layer</SectionSubheading>
+
+Click each topic to expand the details. These are the networking fundamentals that frontend engineers often skip but need to know for self-hosting.
+
+<FoundationAccordion />

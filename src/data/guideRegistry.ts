@@ -18,6 +18,7 @@ import { S3_GUIDE_SECTIONS, S3_START_PAGE_DATA } from './s3Data'
 import { AWS_GUIDE_SECTIONS, AWS_START_PAGE_DATA } from './awsDecodedData'
 import { CS_GUIDE_SECTIONS, CS_START_PAGE_DATA } from './claudeSkillsData'
 import { ZST_GUIDE_SECTIONS, ZST_START_PAGE_DATA } from './zustandData'
+import { COOLIFY_GUIDE_SECTIONS, COOLIFY_START_PAGE_DATA } from './coolifyData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -197,6 +198,15 @@ export const guides: GuideDefinition[] = [
       'Everything about Zustand \u2014 from first store to slices, middleware, and production patterns with interactive demos.',
     sections: ZST_GUIDE_SECTIONS,
   },
+  {
+    id: 'coolify-deploy',
+    icon: '\u{1F680}',        // 🚀
+    title: 'Deploy on Coolify',
+    startPageId: 'cd-start',
+    description:
+      'Deploy React + Vite on Coolify \u2014 from DNS fundamentals to production gotchas, including Raspberry Pi self-hosting with Cloudflare Tunnel.',
+    sections: COOLIFY_GUIDE_SECTIONS,
+  },
 ]
 
 // ── Single Page Guides (combined virtual nav) ───────────────────────
@@ -294,6 +304,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'aws-decoded': AWS_START_PAGE_DATA,
   'claude-skills': CS_START_PAGE_DATA,
   'zustand': ZST_START_PAGE_DATA,
+  'coolify-deploy': COOLIFY_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {

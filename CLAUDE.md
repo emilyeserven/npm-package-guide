@@ -25,6 +25,7 @@ Twelve independent guides plus top-level resource pages. All metadata centralize
 | `state-management` | React State Management | `sm-start` |
 | `claude-skills` | Anatomy of a Claude Skill | `cs-start` |
 | `zustand` | Zustand Deep Dive | `zst-start` |
+| `coolify-deploy` | Deploy on Coolify | `cd-start` |
 
 Guides are multi-page by default. `wp-agents` is a single-page guide (`singlePage: true` in registry).
 
