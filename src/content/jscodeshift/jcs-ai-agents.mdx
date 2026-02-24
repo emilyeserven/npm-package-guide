@@ -1,0 +1,101 @@
+---
+id: "jcs-ai-agents"
+title: "AI Agent Support 🤖"
+guide: "jscodeshift"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-why">Why AI + Codemods?</TocLink>
+  <TocLink id="toc-prompting">Prompting Strategies</TocLink>
+  <TocLink id="toc-claude">Claude Code Integration</TocLink>
+  <TocLink id="toc-mcp">MCP Server Possibilities</TocLink>
+  <TocLink id="toc-decision">When to Use jscodeshift vs. Direct Edits</TocLink>
+  <TocLink id="toc-worktrees">Git Worktrees + AI Codemods</TocLink>
+</Toc>
+
+<SectionIntro>
+How jscodeshift integrates with AI coding agents and LLM workflows.
+</SectionIntro>
+
+<SectionSubheading id="toc-why">Why AI + Codemods?</SectionSubheading>
+
+AI coding agents (Claude Code, Cursor, Copilot, Cline, Aider, etc.) are powerful for individual file edits, but struggle with **codebase-wide consistency**. A refactor touching 200 files needs a deterministic, testable approach — that's where jscodeshift comes in. AI agents can *write* the codemod, while jscodeshift *executes* it reliably.
+
+<JcsAgentCards />
+
+<SectionSubheading id="toc-prompting">Prompting Strategies for AI Agents</SectionSubheading>
+
+<Explainer title="Effective prompt structure">
+When asking an AI agent to write a jscodeshift codemod, provide: (1) a before/after example, (2) the exact AST node types involved (paste from AST Explorer), and (3) edge cases to handle. This collapses the search space dramatically.
+</Explainer>
+
+```ts
+// Example prompt for Claude Code or similar agent:
+//
+// Write a jscodeshift transform that:
+//
+// BEFORE:
+//   import { useQuery } from 'react-query'
+//   const { data } = useQuery('users', fetchUsers)
+//
+// AFTER:
+//   import { useQuery } from '@tanstack/react-query'
+//   const { data } = useQuery({ queryKey: ['users'], queryFn: fetchUsers })
+//
+// Edge cases:
+//   - Handle both string and array queryKey formats
+//   - Preserve existing options object (3rd argument)
+//   - Skip calls that already use the object syntax
+//   - Use parser: 'tsx' for TypeScript support
+//   - Include fixture-based tests
+```
+
+<SectionSubheading id="toc-claude">Claude Code Integration</SectionSubheading>
+
+Claude Code can both write and execute jscodeshift transforms directly in your terminal. Here's the optimal workflow:
+
+<JcsClaudeWorkflow />
+
+<SectionSubheading id="toc-mcp">MCP Server Possibilities</SectionSubheading>
+
+For teams building custom AI tooling, a jscodeshift MCP (Model Context Protocol) server could expose codemods as tools that AI agents can invoke. This would let an agent autonomously decide when a codemod is needed and run it.
+
+```json
+{
+  "name": "run_codemod",
+  "description": "Run a jscodeshift codemod on a directory",
+  "parameters": {
+    "transform": "Path to the jscodeshift transform file",
+    "target": "Directory or glob to transform",
+    "parser": "'babel' | 'tsx' | 'ts' | 'flow'",
+    "dryRun": "boolean — preview only",
+    "options": "Key-value pairs passed to the transform"
+  }
+}
+```
+
+<SectionSubheading id="toc-decision">When to Use jscodeshift vs. Direct Edits</SectionSubheading>
+
+<JcsAgentDecisionTable />
+
+<SectionSubheading id="toc-worktrees">Git Worktrees + AI Codemods</SectionSubheading>
+
+<SectionNote>
+Use **git worktrees** to run codemod experiments in parallel. Create a worktree, have your AI agent generate and run a codemod there, review the diff against main. If it works — merge. If not — delete the worktree and iterate. This keeps your main working tree clean while the AI iterates on the codemod.
+</SectionNote>
+
+```bash
+# Create a worktree for the codemod experiment
+git worktree add ../my-project-codemod -b codemod/migrate-query-v5
+
+# In Claude Code, point at the worktree
+cd ../my-project-codemod
+# Ask Claude Code to generate + run the codemod here
+
+# If it works, merge back
+cd ../my-project
+git merge codemod/migrate-query-v5
+git worktree remove ../my-project-codemod
+```

@@ -1,0 +1,50 @@
+---
+id: "jcs-concepts"
+title: "Core Concepts 🌳"
+guide: "jscodeshift"
+linkRefs:
+  - id: "jcs-astexplorer"
+    note: "Interactive AST visualization with jscodeshift sandbox"
+  - id: "jcs-recast"
+    note: "The parser/printer that preserves formatting"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What is jscodeshift?</TocLink>
+  <TocLink id="toc-why">Why not find-and-replace?</TocLink>
+  <TocLink id="toc-pipeline">The Transform Pipeline</TocLink>
+  <TocLink id="toc-concepts">Core Concepts</TocLink>
+  <TocLink id="toc-ast">Explore the AST</TocLink>
+</Toc>
+
+<SectionIntro>
+**jscodeshift** is a toolkit built by Facebook that wraps the **recast** parser/printer and provides a jQuery-like API for searching and transforming Abstract Syntax Trees (ASTs). It lets you write *codemods* — programmatic transformations that can modify thousands of files automatically while preserving formatting.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">What is jscodeshift?</SectionSubheading>
+
+jscodeshift combines a powerful AST manipulation API with a CLI runner that can process your entire codebase in parallel. Unlike simple text-based transformations, it understands your code's *structure* — making refactors precise, reliable, and repeatable.
+
+<Explainer title="Key insight">
+**recast** is what makes jscodeshift special. Unlike Babel's generator, recast preserves original formatting, comments, and whitespace for any AST nodes you *don't* touch. Only transformed nodes get reprinted.
+</Explainer>
+
+<SectionSubheading id="toc-why">Why not find-and-replace?</SectionSubheading>
+
+Regex-based find-and-replace is brittle. It can't distinguish a variable named `color` from a string `"color"` from a property `.color`. AST-based transforms understand your code's *structure*, not just its text, so they're far more precise and reliable.
+
+<SectionSubheading id="toc-pipeline">The Transform Pipeline</SectionSubheading>
+
+<JcsPipeline />
+
+<SectionSubheading id="toc-concepts">Core Concepts</SectionSubheading>
+
+<JcsConceptCards />
+
+<SectionSubheading id="toc-ast">Explore the AST</SectionSubheading>
+
+Understanding ASTs is the single most important skill for writing codemods. Use [AST Explorer](https://astexplorer.net) (set parser to **recast** and transform to **jscodeshift**) to interactively see how source code maps to tree nodes.
+
+<JcsAstDemo />

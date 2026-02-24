@@ -1,0 +1,104 @@
+---
+id: "jcs-testing"
+title: "Testing Codemods 🧪"
+guide: "jscodeshift"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-structure">Project Structure</TocLink>
+  <TocLink id="toc-utils">Using Test Utilities</TocLink>
+  <TocLink id="toc-fixtures">Fixture-Based Testing</TocLink>
+  <TocLink id="toc-checklist">Testing Checklist</TocLink>
+</Toc>
+
+<SectionIntro>
+Ship transforms with confidence using snapshot-based testing.
+</SectionIntro>
+
+<SectionSubheading id="toc-structure">Project Structure</SectionSubheading>
+
+```
+codemods/
+├── transforms/
+│   ├── rename-api.ts
+│   └── migrate-imports.ts
+├── __testfixtures__/
+│   ├── rename-api.input.ts
+│   ├── rename-api.output.ts
+│   ├── migrate-imports.input.ts
+│   └── migrate-imports.output.ts
+├── __tests__/
+│   ├── rename-api.test.ts
+│   └── migrate-imports.test.ts
+└── package.json
+```
+
+<SectionSubheading id="toc-utils">Using jscodeshift's Test Utilities</SectionSubheading>
+
+```ts
+// __tests__/rename-api.test.ts
+import { applyTransform } from 'jscodeshift/dist/testUtils';
+import transform from '../transforms/rename-api';
+
+describe('rename-api', () => {
+  it('renames fetchData to queryData', () => {
+    const input = `
+      import { fetchData } from './api';
+      const result = fetchData('/users');
+    `;
+
+    const expected = `
+      import { queryData } from './api';
+      const result = queryData('/users');
+    `;
+
+    const output = applyTransform(transform, {}, { source: input });
+    expect(output.trim()).toBe(expected.trim());
+  });
+
+  it('returns undefined when no matches', () => {
+    const input = `const x = 1;`;
+    const output = applyTransform(transform, {}, { source: input });
+    expect(output).toBe(input); // unchanged
+  });
+});
+```
+
+<SectionSubheading id="toc-fixtures">Fixture-Based Testing Pattern</SectionSubheading>
+
+```ts
+// __tests__/utils.ts — reusable test helper
+import fs from 'fs';
+import path from 'path';
+import { applyTransform } from 'jscodeshift/dist/testUtils';
+
+export function testFixture(
+  transformName: string,
+  fixtureName: string,
+  options = {}
+) {
+  const fixtureDir = path.join(__dirname, '../__testfixtures__');
+  const input = fs.readFileSync(
+    path.join(fixtureDir, `${fixtureName}.input.ts`), 'utf8'
+  );
+  const expected = fs.readFileSync(
+    path.join(fixtureDir, `${fixtureName}.output.ts`), 'utf8'
+  );
+  const transform = require(
+    `../transforms/${transformName}`
+  );
+
+  const output = applyTransform(transform, options, {
+    source: input,
+    path: `test.tsx`
+  });
+
+  expect(output.trim()).toBe(expected.trim());
+}
+```
+
+<SectionSubheading id="toc-checklist">Testing Checklist</SectionSubheading>
+
+<JcsTestingChecklist />
