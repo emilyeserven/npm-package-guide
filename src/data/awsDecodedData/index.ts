@@ -1,3 +1,6 @@
+import type { GuideDefinition } from '../guideTypes'
+import { AWS_GUIDE_SECTIONS } from './navigation'
+
 // ── Types ────────────────────────────────────────────────────────────
 export type { AwsCategoryId, AwsLevel, AwsService, AwsCategory } from './types'
 
@@ -62,3 +65,16 @@ export const SERVICE_BY_CATEGORY: Record<AwsCategoryId, AwsService[]> = {
   monitoring: MONITORING_SERVICES,
   frontend_web: FRONTEND_WEB_SERVICES,
 }
+
+export const guideDefinition: GuideDefinition = {
+  id: 'aws-decoded',
+  icon: '\u2601\uFE0F',
+  title: 'AWS Decoded',
+  startPageId: 'aws-start',
+  description:
+    'Every AWS service explained like you\u2019re a frontend engineer who just learned what a server is \u2014 62 services, 11 categories, zero buzzwords.',
+  order: 16,
+  sections: AWS_GUIDE_SECTIONS,
+}
+
+export { AWS_START_PAGE_DATA as startPageData } from './navigation'

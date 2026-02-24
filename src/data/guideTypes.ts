@@ -11,6 +11,8 @@ export interface GuideDefinition {
   description: string
   sections: GuideSection[]
   singlePage?: boolean
+  /** Display order on the home page and sidebar (lower = first). */
+  order?: number
 }
 
 // ── Start page data types ────────────────────────────────────────────

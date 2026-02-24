@@ -296,7 +296,7 @@ export const TAG_COLORS: Record<TestType, { color: string; bg: string; darkBg: s
 
 /* ───────────────────────── NAVIGATION ───────────────────────── */
 
-import type { GuideSection } from './guideTypes'
+import type { GuideSection, GuideDefinition } from './guideTypes'
 import type { StartPageData } from './guideTypes'
 
 export const TESTING_GUIDE_SECTIONS: GuideSection[] = [
@@ -359,4 +359,17 @@ export const TESTING_START_PAGE_DATA: StartPageData = {
     },
   ],
 }
+
+export const guideDefinition: GuideDefinition = {
+  id: 'testing',
+  icon: '\u{1F9EA}',
+  title: 'Testing Guide',
+  startPageId: 'test-start',
+  description:
+    'Learn frontend testing fundamentals \u2014 the testing pyramid, best practices, and how to choose the right tools for unit, component, and E2E tests.',
+  order: 2,
+  sections: TESTING_GUIDE_SECTIONS,
+}
+
+export { TESTING_START_PAGE_DATA as startPageData }
 

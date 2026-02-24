@@ -1,9 +1,21 @@
-import type { GuideSection } from './guideTypes'
+import type { GuideSection, GuideDefinition } from './guideTypes'
 import type { ChecklistBaseSection } from '../components/mdx/ChecklistBase'
 
 export const GIT_WORKTREES_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['git-worktrees-guide'] },
 ]
+
+export const guideDefinition: GuideDefinition = {
+  id: 'git-worktrees',
+  icon: '\u{1F333}',
+  title: 'Git Worktrees & Claude Code',
+  startPageId: 'git-worktrees-guide',
+  description:
+    'Use git worktrees for parallel development with Claude Code \u2014 isolated branches, simultaneous sessions, and real workflows.',
+  order: 10,
+  sections: GIT_WORKTREES_GUIDE_SECTIONS,
+  singlePage: true,
+}
 
 export const GIT_WORKTREES_CHECKLIST: ChecklistBaseSection[] = [
   {

@@ -1,3 +1,6 @@
+import type { GuideDefinition } from '../guideTypes'
+import { AUTH_GUIDE_SECTIONS } from './navigation'
+
 export type {
   AuthConcept,
   AuthConceptSection,
@@ -47,3 +50,16 @@ export {
 } from './concepts'
 
 export { AUTH_GUIDE_SECTIONS, AUTH_START_PAGE_DATA } from './navigation'
+
+export const guideDefinition: GuideDefinition = {
+  id: 'auth',
+  icon: '\u{1F510}',
+  title: 'Auth for Frontend Engineers',
+  startPageId: 'auth-start',
+  description:
+    'Authentication & Authorization \u2014 from zero to confident implementation.',
+  order: 5,
+  sections: AUTH_GUIDE_SECTIONS,
+}
+
+export { AUTH_START_PAGE_DATA as startPageData } from './navigation'

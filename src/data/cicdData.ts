@@ -229,7 +229,7 @@ export const CICD_TIPS: CicdTip[] = [
 
 /* ───────────────────────── NAVIGATION ───────────────────────── */
 
-import type { GuideSection } from './guideTypes'
+import type { GuideSection, GuideDefinition } from './guideTypes'
 import type { StartPageData } from './guideTypes'
 
 export const CICD_GUIDE_SECTIONS: GuideSection[] = [
@@ -286,3 +286,16 @@ export const CICD_START_PAGE_DATA: StartPageData = {
     },
   ],
 }
+
+export const guideDefinition: GuideDefinition = {
+  id: 'ci-cd',
+  icon: '\u2699\uFE0F',
+  title: 'CI/CD & GitHub Actions',
+  startPageId: 'cicd-start',
+  description:
+    'Learn CI/CD from scratch \u2014 pipelines, GitHub Actions, YAML workflows, and the patterns that keep teams shipping safely.',
+  order: 4,
+  sections: CICD_GUIDE_SECTIONS,
+}
+
+export { CICD_START_PAGE_DATA as startPageData }

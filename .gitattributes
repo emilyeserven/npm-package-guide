@@ -1,0 +1,7 @@
+# Auto-resolve additive merge conflicts in registry files.
+# These files are append-only lists; union merge keeps both sides.
+src/data/glossaryTerms/index.ts  merge=union
+src/data/linkRegistry/index.ts   merge=union
+src/components/mdx/index.ts      merge=union
+src/data/guideRegistry.ts        merge=union
+src/data/overallResources.ts     merge=union

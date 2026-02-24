@@ -1,4 +1,5 @@
 import { linkRegistry } from './linkRegistry'
+import { guides } from './guideRegistry'
 
 interface ResourceItem {
   name: string
@@ -116,4 +117,4 @@ export const badgeMap: Record<string, { cls: string; label: string }> = {
 
 export const typeTags = new Set(["docs", "article", "course", "video", "repo", "interactive", "free", "paid"]);
 export const topicTags = new Set(["publishing", "typescript", "versioning", "ci-cd", "monorepo", "modules", "tooling", "bundling", "testing", "linting", "architecture", "frameworks", "databases", "prompt-engineering", "kubernetes"]);
-export const guideTags = new Set(["guide:npm-package", "guide:architecture", "guide:testing", "guide:prompt-engineering", "guide:ci-cd", "guide:auth", "guide:kubernetes", "guide:ai-infra", "guide:nextjs-abstractions", "guide:wp-agents", "guide:state-management", "guide:claude-skills", "guide:zustand"]);
+export const guideTags = new Set(guides.map(g => `guide:${g.id}`));

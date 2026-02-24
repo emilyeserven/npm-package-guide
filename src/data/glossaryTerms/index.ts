@@ -16,44 +16,11 @@ export interface GlossaryCategory {
   terms: GlossaryTerm[]
 }
 
-import { npmPackageGlossary } from './npmPackageTerms'
-import { architectureGlossary } from './architectureTerms'
-import { testingGlossary } from './testingTerms'
-import { promptGlossary } from './promptTerms'
-import { cicdGlossary } from './cicdTerms'
-import { authGlossary } from './authTerms'
-import { kubernetesGlossary } from './kubernetesTerms'
-import { aiInfraGlossary } from './aiInfraTerms'
-import { njaGlossary } from './njaTerms'
-import { wpAgentsGlossary } from './wpAgentsTerms'
-import { gitWorktreesGlossary } from './gitWorktreesTerms'
-import { securityGlossary } from './securityTerms'
-import { stateManagementGlossary } from './stateManagementTerms'
-import { tanstackQueryGlossary } from './tanstackQueryTerms'
-import { tanstackRouterGlossary } from './tanstackRouterTerms'
-import { s3Glossary } from './s3Terms'
-import { awsDecodedGlossary } from './awsDecodedTerms'
-import { claudeSkillsGlossary } from './claudeSkillsTerms'
-import { zustandGlossary } from './zustandTerms'
+// Auto-discover all *Terms.ts files in this directory
+const modules = import.meta.glob<Record<string, GlossaryCategory[]>>(
+  ['./*Terms.ts'],
+  { eager: true },
+)
 
-export const glossaryTerms: GlossaryCategory[] = [
-  ...npmPackageGlossary,
-  ...architectureGlossary,
-  ...testingGlossary,
-  ...promptGlossary,
-  ...cicdGlossary,
-  ...authGlossary,
-  ...kubernetesGlossary,
-  ...aiInfraGlossary,
-  ...njaGlossary,
-  ...wpAgentsGlossary,
-  ...gitWorktreesGlossary,
-  ...securityGlossary,
-  ...stateManagementGlossary,
-  ...tanstackQueryGlossary,
-  ...tanstackRouterGlossary,
-  ...s3Glossary,
-  ...awsDecodedGlossary,
-  ...claudeSkillsGlossary,
-  ...zustandGlossary,
-]
+export const glossaryTerms: GlossaryCategory[] = Object.values(modules)
+  .flatMap(mod => Object.values(mod).flat())

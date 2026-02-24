@@ -3,13 +3,106 @@
  *
  * Checks that glossary terms, guide sections, and link references
  * all point to valid targets. Run via: pnpm validate:data
+ *
+ * Uses fs-based discovery (not import.meta.glob) so it runs in Node.js via tsx.
  */
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { linkRegistry, linkById } from '../src/data/linkRegistry/index.ts'
-import { glossaryTerms } from '../src/data/glossaryTerms/index.ts'
-import { guides, checklistPages, getGuideForPage } from '../src/data/guideRegistry.ts'
+
+const dataDir = path.resolve(import.meta.dirname, '../src/data')
+
+// ── Discovery helpers ─────────────────────────────────────────────────
+
+async function discoverModules(dir: string, pattern: RegExp): Promise<Record<string, unknown>[]> {
+  const files = fs.readdirSync(dir).filter(f => pattern.test(f) && f !== 'index.ts')
+  return Promise.all(files.map(f => import(path.join(dir, f))))
+}
+
+// ── Discover link registry ──────────────────────────────────────────
+
+interface RegistryLink {
+  id: string; url: string; label: string; source: string
+  desc?: string; tags?: string[]; resourceCategory?: string
+}
+
+const linkModules = await discoverModules(path.join(dataDir, 'linkRegistry'), /Links\.ts$/)
+const linkRegistry: RegistryLink[] = linkModules.flatMap(
+  mod => Object.values(mod as Record<string, RegistryLink[]>).flat()
+)
+const linkById = new Map(linkRegistry.map(l => [l.id, l]))
+
+// ── Discover glossary terms ──────────────────────────────────────────
+
+interface GlossaryTerm {
+  term: string; definition: string; linkId: string
+  linkIds?: string[]; sectionId?: string; sectionIds?: string[]; guides?: string[]
+}
+interface GlossaryCategory { category: string; terms: GlossaryTerm[] }
+
+const glossaryModules = await discoverModules(path.join(dataDir, 'glossaryTerms'), /Terms\.ts$/)
+const glossaryTerms: GlossaryCategory[] = glossaryModules.flatMap(
+  mod => Object.values(mod as Record<string, GlossaryCategory[]>).flat()
+)
+
+// ── Discover guide definitions ───────────────────────────────────────
+
+interface GuideSection { label: string | null; ids: string[] }
+interface GuideDefinition {
+  id: string; icon: string; title: string; startPageId: string
+  description: string; sections: GuideSection[]; singlePage?: boolean; order?: number
+}
+
+const guideDataPaths = [
+  ...fs.readdirSync(dataDir)
+    .filter(f => f.endsWith('Data.ts'))
+    .map(f => path.join(dataDir, f)),
+  ...fs.readdirSync(dataDir)
+    .filter(f => {
+      const full = path.join(dataDir, f)
+      return f.endsWith('Data') && fs.statSync(full).isDirectory() && fs.existsSync(path.join(full, 'index.ts'))
+    })
+    .map(f => path.join(dataDir, f, 'index.ts')),
+]
+
+const guideModules = await Promise.all(guideDataPaths.map(f => import(f)))
+const guides: GuideDefinition[] = guideModules
+  .filter(mod => mod.guideDefinition)
+  .map(mod => mod.guideDefinition as GuideDefinition)
+  .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
+
+// ── Static data ──────────────────────────────────────────────────────
+
+const checklistPages = [
+  { id: 'checklist', sourceGuideId: 'npm-package' },
+  { id: 'test-review-checklist', sourceGuideId: 'testing' },
+  { id: 'prompt-claudemd-checklist', sourceGuideId: 'prompt-engineering' },
+  { id: 'auth-checklist', sourceGuideId: 'auth' },
+  { id: 'nja-checklist', sourceGuideId: 'nextjs-abstractions' },
+  { id: 'arch-checklist', sourceGuideId: 'architecture' },
+  { id: 'cicd-checklist', sourceGuideId: 'ci-cd' },
+  { id: 'k8s-checklist', sourceGuideId: 'kubernetes' },
+  { id: 'ai-checklist', sourceGuideId: 'ai-infra' },
+]
+
+// ── Derived lookups ──────────────────────────────────────────────────
+
+const pageToGuide = new Map<string, string>()
+for (const guide of guides) {
+  for (const section of guide.sections) {
+    for (const id of section.ids) {
+      pageToGuide.set(id, guide.id)
+    }
+  }
+}
+pageToGuide.set('architecture', 'architecture')
+
+function getGuideForPage(pageId: string): GuideDefinition | undefined {
+  const guideId = pageToGuide.get(pageId)
+  return guideId ? guides.find(g => g.id === guideId) : undefined
+}
+
+// ── Validation ───────────────────────────────────────────────────────
 
 let errors = 0
 

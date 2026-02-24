@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, GuideDefinition, StartPageData } from './guideTypes'
 
 // ── Types ─────────────────────────────────────────────────────────────
 
@@ -676,3 +676,16 @@ export const K8S_START_PAGE_DATA: StartPageData = {
     },
   ],
 }
+
+export const guideDefinition: GuideDefinition = {
+  id: 'kubernetes',
+  icon: '\u2638\uFE0F',
+  title: 'Kubernetes & Helm',
+  startPageId: 'k8s-start',
+  description:
+    'Understand containers, Kubernetes, and Helm \u2014 from Docker basics to deployment pipelines, with analogies for frontend engineers.',
+  order: 6,
+  sections: K8S_GUIDE_SECTIONS,
+}
+
+export { K8S_START_PAGE_DATA as startPageData }

@@ -18,11 +18,7 @@ import type { SectionLink } from '../../helpers/renderFootnotes'
  *   tags  — type/topic/guide tags for External Resources filtering (optional)
  *   resourceCategory — if set, appears on External Resources under this heading
  *
- * Link entries are split by guide into separate files:
- *   - npmPackageLinks.ts     — NPM Package Guide links
- *   - architectureLinks.ts   — Architecture Guide links
- *   - testingLinks.ts        — Testing Guide links
- *   - promptLinks.ts         — Prompt Engineering Guide links
+ * Link entries are split by guide into separate files (auto-discovered).
  */
 export interface RegistryLink {
   id: string
@@ -34,47 +30,14 @@ export interface RegistryLink {
   resourceCategory?: string
 }
 
-import { npmPackageLinks } from './npmPackageLinks'
-import { architectureLinks } from './architectureLinks'
-import { testingLinks } from './testingLinks'
-import { promptLinks } from './promptLinks'
-import { cicdLinks } from './cicdLinks'
-import { authLinks } from './authLinks'
-import { kubernetesLinks } from './kubernetesLinks'
-import { aiInfraLinks } from './aiInfraLinks'
-import { njaLinks } from './njaLinks'
-import { wpAgentsLinks } from './wpAgentsLinks'
-import { gitWorktreesLinks } from './gitWorktreesLinks'
-import { securityLinks } from './securityLinks'
-import { stateManagementLinks } from './stateManagementLinks'
-import { tanstackQueryLinks } from './tanstackQueryLinks'
-import { tanstackRouterLinks } from './tanstackRouterLinks'
-import { s3Links } from './s3Links'
-import { awsDecodedLinks } from './awsDecodedLinks'
-import { claudeSkillsLinks } from './claudeSkillsLinks'
-import { zustandLinks } from './zustandLinks'
+// Auto-discover all *Links.ts files in this directory
+const modules = import.meta.glob<Record<string, RegistryLink[]>>(
+  ['./*Links.ts'],
+  { eager: true },
+)
 
-export const linkRegistry: RegistryLink[] = [
-  ...npmPackageLinks,
-  ...architectureLinks,
-  ...testingLinks,
-  ...promptLinks,
-  ...cicdLinks,
-  ...authLinks,
-  ...kubernetesLinks,
-  ...aiInfraLinks,
-  ...njaLinks,
-  ...wpAgentsLinks,
-  ...gitWorktreesLinks,
-  ...securityLinks,
-  ...stateManagementLinks,
-  ...tanstackQueryLinks,
-  ...tanstackRouterLinks,
-  ...s3Links,
-  ...awsDecodedLinks,
-  ...claudeSkillsLinks,
-  ...zustandLinks,
-]
+export const linkRegistry: RegistryLink[] = Object.values(modules)
+  .flatMap(mod => Object.values(mod).flat())
 
 /** Fast lookup by registry ID */
 export const linkById = new Map<string, RegistryLink>(
