@@ -1,0 +1,37 @@
+---
+id: "nginx-what-is"
+title: "What Is Nginx? 🌐"
+guide: "nginx"
+group: "Fundamentals"
+linkRefs:
+  - id: "nginx-docs"
+    note: "Official Nginx documentation"
+  - id: "nginx-wikipedia"
+    note: "History and background of Nginx"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-comparison">Apache vs Nginx</TocLink>
+  <TocLink id="toc-architecture">Architecture diagram</TocLink>
+</Toc>
+
+<SectionIntro>
+Nginx (pronounced "engine-x") is an open-source web server that also serves as a reverse proxy, load balancer, HTTP cache, and mail proxy. Created by Igor Sysoev in 2004 to solve the C10K problem — handling 10,000+ concurrent connections — it's now the most widely used web server on the internet.
+</SectionIntro>
+
+<SectionSubheading id="toc-comparison">Apache vs Nginx: The Architecture Difference</SectionSubheading>
+
+<Explainer>
+Think of it like a restaurant: Apache hires a new waiter for every customer. Nginx has a few incredibly efficient waiters who juggle dozens of tables simultaneously using an event-driven approach.
+</Explainer>
+
+<NginxComparison />
+
+<SectionSubheading id="toc-architecture">Nginx Architecture</SectionSubheading>
+
+Nginx uses a master-worker process model with non-blocking, event-driven I/O. A single master process manages configuration and spawns worker processes, each of which can handle thousands of simultaneous connections.
+
+<NginxEventLoopDiagram />

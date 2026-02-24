@@ -130,6 +130,14 @@ import { S3CostCalculator } from './s3-storage/S3CostCalculator'
 import { S3ClassPicker } from './s3-storage/S3ClassPicker'
 import { S3FrontendPatterns } from './s3-storage/S3FrontendPatterns'
 import { S3Quiz } from './s3-storage/S3Quiz'
+// nginx
+import { NginxComparison } from './nginx/NginxComparison'
+import { NginxEventLoopDiagram } from './nginx/NginxEventLoopDiagram'
+import { NginxLocationDemo } from './nginx/NginxLocationDemo'
+import { NginxLoadBalancingDemo } from './nginx/NginxLoadBalancingDemo'
+import { NginxReverseProxyDiagram } from './nginx/NginxReverseProxyDiagram'
+import { NginxEnterpriseDiagram } from './nginx/NginxEnterpriseDiagram'
+import { NginxCommandList } from './nginx/NginxCommandList'
 
 export const mdxComponents: MDXComponents = {
   pre: MdxPre,
@@ -280,4 +288,11 @@ export const mdxComponents: MDXComponents = {
   PiModelTable,
   PiPerformanceAccordion,
   PiGotchaAccordion,
+  NginxComparison,
+  NginxEventLoopDiagram,
+  NginxLocationDemo,
+  NginxLoadBalancingDemo,
+  NginxReverseProxyDiagram,
+  NginxEnterpriseDiagram,
+  NginxCommandList,
 }

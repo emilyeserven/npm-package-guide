@@ -1,0 +1,150 @@
+---
+id: "nginx-enterprise"
+title: "Enterprise Patterns 🏢"
+guide: "nginx"
+group: "Scaling"
+linkRefs:
+  - id: "nginx-caching"
+    note: "Nginx content caching reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-arch">Enterprise architecture</TocLink>
+  <TocLink id="toc-gateway">API gateway</TocLink>
+  <TocLink id="toc-canary">Blue-green / canary deployments</TocLink>
+  <TocLink id="toc-caching">High-availability caching</TocLink>
+</Toc>
+
+<SectionIntro>
+At enterprise scale, Nginx becomes the backbone of your infrastructure — handling millions of requests, complex routing rules, and multi-service architectures. Here's how the big deployments work.
+</SectionIntro>
+
+<SectionSubheading id="toc-arch">Enterprise Architecture</SectionSubheading>
+
+<NginxEnterpriseDiagram />
+
+<SectionSubheading id="toc-gateway">Microservices API Gateway</SectionSubheading>
+
+```nginx
+# Nginx as an API gateway routing to microservices
+# Each team owns their service independently
+
+upstream user_service     { server user-svc:3000; }
+upstream product_service  { server product-svc:3000; }
+upstream order_service    { server order-svc:3000; }
+upstream search_service   { server search-svc:3000; }
+
+# Rate limit tiers
+limit_req_zone $http_x_api_key zone=free:10m rate=10r/m;
+limit_req_zone $http_x_api_key zone=pro:10m  rate=100r/s;
+
+server {
+    listen 443 ssl http2;
+    server_name api.bigcorp.com;
+
+    # API versioning via URL prefix
+    location /v2/users {
+        limit_req zone=pro burst=50 nodelay;
+        proxy_pass http://user_service;
+        proxy_set_header X-Request-ID $request_id;
+    }
+
+    location /v2/products {
+        proxy_pass http://product_service;
+        proxy_cache api_cache;
+        proxy_cache_valid 200 5m;   # Cache 200 responses for 5m
+    }
+
+    location /v2/orders {
+        proxy_pass http://order_service;
+        proxy_read_timeout 30s;     # Orders may take longer
+    }
+
+    location /v2/search {
+        proxy_pass http://search_service;
+        proxy_cache api_cache;
+        proxy_cache_valid 200 1m;
+    }
+
+    # Health check endpoint for orchestrators
+    location /health {
+        access_log off;
+        return 200 '{"status":"ok"}';
+        add_header Content-Type application/json;
+    }
+}
+```
+
+<Explainer>
+The `X-Request-ID` header (`$request_id`) generates a unique ID per request. Pass this through all microservices to trace a single request across your entire system — invaluable for debugging distributed architectures.
+</Explainer>
+
+<SectionSubheading id="toc-canary">Blue-Green / Canary Deployments</SectionSubheading>
+
+```nginx
+# Canary deployment — send 5% of traffic to new version
+upstream app_stable {
+    server 10.0.1.1:3000;
+    server 10.0.1.2:3000;
+    server 10.0.1.3:3000;
+}
+
+upstream app_canary {
+    server 10.0.2.1:3000;
+}
+
+# Use split_clients to route by percentage
+split_clients "$remote_addr$request_uri" $app_version {
+    5%   canary;
+    *    stable;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name app.bigcorp.com;
+
+    location / {
+        proxy_pass http://app_$app_version;
+
+        # Tag response so you know which version served it
+        add_header X-App-Version $app_version;
+    }
+}
+```
+
+<SectionSubheading id="toc-caching">High-Availability Caching Layer</SectionSubheading>
+
+```nginx
+# Nginx as a caching reverse proxy
+# Dramatically reduces load on backend services
+
+proxy_cache_path /var/cache/nginx/api_cache
+    levels=1:2
+    keys_zone=api_cache:100m    # 100MB for cache keys
+    max_size=10g                # 10GB on disk
+    inactive=60m                # Remove unused after 60min
+    use_temp_path=off;
+
+server {
+    listen 443 ssl http2;
+    server_name cdn.bigcorp.com;
+
+    location /static/ {
+        proxy_pass http://origin_servers;
+        proxy_cache api_cache;
+        proxy_cache_valid 200 24h;
+        proxy_cache_valid 404 1m;
+        proxy_cache_use_stale error timeout updating
+            http_500 http_502 http_503;
+
+        # Show cache status in response header
+        add_header X-Cache-Status $upstream_cache_status;
+    }
+}
+```
+
+<Explainer>
+`proxy_cache_use_stale` is a production lifesaver. If your backend goes down, Nginx continues serving stale cached content rather than returning errors. Users see slightly outdated data instead of a broken page.
+</Explainer>

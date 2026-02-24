@@ -1,0 +1,27 @@
+---
+id: "nginx-commands"
+title: "Essential Commands 💻"
+guide: "nginx"
+group: "Practical"
+linkRefs:
+  - id: "nginx-cli"
+    note: "Nginx command-line reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-commands">Commands cheat sheet</TocLink>
+</Toc>
+
+<SectionIntro>
+These are the commands you'll use constantly when working with Nginx. Bookmark this section.
+</SectionIntro>
+
+<SectionSubheading id="toc-commands">Commands cheat sheet</SectionSubheading>
+
+<NginxCommandList />
+
+<Gotcha>
+Never skip `nginx -t` before reloading. A syntax error in your config will cause the reload to fail, potentially taking your site down if you used `systemctl restart` instead of `reload`.
+</Gotcha>

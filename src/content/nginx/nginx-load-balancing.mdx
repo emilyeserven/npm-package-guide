@@ -1,0 +1,71 @@
+---
+id: "nginx-load-balancing"
+title: "Load Balancing ⚖️"
+guide: "nginx"
+group: "Scaling"
+linkRefs:
+  - id: "nginx-upstream"
+    note: "Nginx upstream module reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-simulator">Load balancing strategies</TocLink>
+  <TocLink id="toc-config">Configuration</TocLink>
+</Toc>
+
+<SectionIntro>
+When a single server can't handle the load, Nginx can distribute traffic across multiple backend instances. This is fundamental to scaling any production application.
+</SectionIntro>
+
+<SectionSubheading id="toc-simulator">Load Balancing Strategies (Interactive)</SectionSubheading>
+
+Click "Send Request" to see how different strategies route traffic to backend servers:
+
+<NginxLoadBalancingDemo />
+
+<SectionSubheading id="toc-config">Load Balancing Configuration</SectionSubheading>
+
+```nginx
+upstream api_cluster {
+    # Strategy 1: Round Robin (default)
+    # Requests go to each server in turn
+    server 10.0.0.1:3000;
+    server 10.0.0.2:3000;
+    server 10.0.0.3:3000;
+
+    # Strategy 2: Weighted
+    # server 10.0.0.1:3000 weight=3;  # Gets 3x traffic
+    # server 10.0.0.2:3000 weight=1;
+    # server 10.0.0.3:3000 weight=1;
+
+    # Strategy 3: Least Connections
+    # least_conn;
+    # server 10.0.0.1:3000;
+    # server 10.0.0.2:3000;
+
+    # Strategy 4: IP Hash (sticky sessions)
+    # ip_hash;
+    # server 10.0.0.1:3000;
+    # server 10.0.0.2:3000;
+
+    # Health checks & failover
+    server 10.0.0.4:3000 backup;       # Only if others fail
+    server 10.0.0.5:3000 down;         # Temporarily disabled
+}
+
+server {
+    listen 80;
+
+    location / {
+        proxy_pass http://api_cluster;
+        proxy_next_upstream error timeout http_502 http_503;
+        proxy_connect_timeout 5s;
+    }
+}
+```
+
+<Explainer>
+`ip_hash` ensures the same client always hits the same backend — useful when your app stores sessions in memory. But the better practice is to use stateless backends with external session storage (Redis), so any server can handle any request.
+</Explainer>
