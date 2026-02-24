@@ -1,0 +1,43 @@
+---
+id: "cw-tips"
+title: "Pro Tips 📂"
+guide: "cowork"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-prompts">Writing effective prompts</TocLink>
+  <TocLink id="toc-plugins">Useful plugins</TocLink>
+  <TocLink id="toc-sessions">Session management</TocLink>
+</Toc>
+
+<SectionIntro>
+Get more out of Cowork with better task prompts, relevant plugins, and an understanding of session limitations.
+</SectionIntro>
+
+<SectionSubheading id="toc-prompts">Writing effective prompts</SectionSubheading>
+
+<DefinitionTable termHeader="Tip" descHeader="Example">
+  <DefRow term="Be specific about structure">Use "sort into folders named A, B, C" instead of "organize this".</DefRow>
+  <DefRow term="Specify what NOT to do">Say "don't delete any files" or "skip hidden files starting with .".</DefRow>
+  <DefRow term="Ask for a dry run first">Say "show me what you'd do before making changes" to preview the plan.</DefRow>
+  <DefRow term="Set naming patterns explicitly">Provide a concrete pattern like "YYYY-MM-DD_name.ext" rather than "use consistent names".</DefRow>
+  <DefRow term="Use global instructions">Set folder or global instructions so Cowork always follows your conventions without re-stating them.</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-plugins">Useful plugins</SectionSubheading>
+
+<CoworkPluginCards />
+
+<SectionSubheading id="toc-sessions">Session management</SectionSubheading>
+
+<Gotcha>
+Claude Desktop must remain open for the entire task. Closing the app or putting your computer to sleep ends the session.
+</Gotcha>
+
+<SectionList>
+<ColItem>For large libraries, **break work into smaller batches** — one folder or one show at a time — rather than trying to reorganize everything in a single session.</ColItem>
+<ColItem>Cowork **doesn't retain memory across sessions**, so save your preferred instructions as global or folder-level presets.</ColItem>
+<ColItem>Max plans get **higher usage limits**, which matters when processing hundreds of files in a single session.</ColItem>
+</SectionList>

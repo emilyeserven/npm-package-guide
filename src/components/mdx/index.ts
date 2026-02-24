@@ -95,6 +95,12 @@ import { SkillChecklist } from './claude-skills/SkillChecklist'
 // zustand
 import { ZstCodeBlock, ZstCodeGroup, ZstApiRef } from './zustand/ZstCodeBlock'
 import { ZstCounter, ZstTodo, ZstRerenderViz, ZstStats, ZstSlicesCompare } from './zustand/ZstDemos'
+// cowork
+import { CoworkStepCards } from './cowork/CoworkStepCards'
+import { CoworkComparisonTable } from './cowork/CoworkComparisonTable'
+import { CoworkCapabilities } from './cowork/CoworkCapabilities'
+import { CoworkPluginCards } from './cowork/CoworkPluginCards'
+import { CoworkOverviewCards } from './cowork/CoworkOverviewCards'
 // coolify-deploy
 import { TrafficDiagram } from './coolify-deploy/TrafficDiagram'
 import { FoundationAccordion } from './coolify-deploy/FoundationAccordion'
@@ -231,6 +237,11 @@ export const mdxComponents: MDXComponents = {
   ZstRerenderViz,
   ZstStats,
   ZstSlicesCompare,
+  CoworkStepCards,
+  CoworkComparisonTable,
+  CoworkCapabilities,
+  CoworkPluginCards,
+  CoworkOverviewCards,
   TrafficDiagram,
   FoundationAccordion,
   SpaRoutingDiagram,
