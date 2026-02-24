@@ -10,6 +10,7 @@ import { parseTitle } from '../helpers/parseTitle'
 import { usePM } from '../hooks/usePMContext'
 import { useTheme } from '../hooks/useTheme'
 import { useUIStore } from '../hooks/useUIStore'
+import { usePWAStore } from '../hooks/usePWAStore'
 
 // ── Title resolution ────────────────────────────────────────────────
 
@@ -367,6 +368,18 @@ function ContentPanel({
   )
 }
 
+function formatCacheAge(ts: number | null): string {
+  if (!ts) return 'Unknown'
+  const diff = Date.now() - ts
+  const mins = Math.floor(diff / 60000)
+  if (mins < 1) return 'Just now'
+  if (mins < 60) return `${mins}m ago`
+  const hrs = Math.floor(mins / 60)
+  if (hrs < 24) return `${hrs}h ago`
+  const days = Math.floor(hrs / 24)
+  return `${days}d ago`
+}
+
 function SettingsPanel({
   pinned,
   onTogglePin,
@@ -380,6 +393,11 @@ function SettingsPanel({
 }) {
   const { currentPM, setPM } = usePM()
   const { theme, toggleTheme } = useTheme()
+  const isOnline = usePWAStore((s) => s.isOnline)
+  const cacheTimestamp = usePWAStore((s) => s.cacheTimestamp)
+  const checking = usePWAStore((s) => s.checking)
+  const checkForUpdates = usePWAStore((s) => s.checkForUpdates)
+  const clearCacheAndReload = usePWAStore((s) => s.clearCacheAndReload)
 
   const activeCls = 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold border-blue-200 dark:border-blue-500/30'
   const inactiveCls = 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50'
@@ -499,6 +517,66 @@ function SettingsPanel({
               pnpm
             </button>
           </div>
+        </div>
+
+        <div className="h-px bg-slate-200 dark:bg-slate-700" />
+
+        {/* App Status */}
+        <div>
+          <div className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-2.5">App Status</div>
+
+          {/* Online indicator */}
+          <div className="flex items-center gap-2 mb-3">
+            <span className={clsx(
+              'w-2 h-2 rounded-full shrink-0',
+              isOnline ? 'bg-green-500' : 'bg-red-500'
+            )} />
+            <span className="text-sm text-slate-700 dark:text-slate-300">
+              {isOnline ? 'Online' : 'Offline'}
+            </span>
+          </div>
+
+          {/* Cache age */}
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-sm text-slate-600 dark:text-slate-400">Cache updated</span>
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300" data-testid="cache-age">
+              {formatCacheAge(cacheTimestamp)}
+            </span>
+          </div>
+
+          {/* Action buttons */}
+          <div className="flex flex-col gap-2">
+            <button
+              className={clsx(
+                'flex items-center justify-center gap-2 px-3 py-2 text-sm rounded-lg border cursor-pointer transition-all duration-150',
+                inactiveCls,
+                checking && 'opacity-60 pointer-events-none'
+              )}
+              onClick={checkForUpdates}
+              disabled={checking}
+              data-testid="check-updates-btn"
+            >
+              <svg className={clsx('w-4 h-4', checking && 'animate-spin')} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="23 4 23 10 17 10" />
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+              </svg>
+              {checking ? 'Checking...' : 'Check for Updates'}
+            </button>
+            <button
+              className="flex items-center justify-center gap-2 px-3 py-2 text-sm rounded-lg border cursor-pointer transition-all duration-150 bg-white dark:bg-slate-800 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/30 hover:bg-red-50 dark:hover:bg-red-500/10"
+              onClick={clearCacheAndReload}
+              data-testid="clear-cache-btn"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+              </svg>
+              Clear Cache &amp; Reload
+            </button>
+          </div>
+          <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-2 leading-relaxed">
+            If new guides aren't showing, try checking for updates or clearing the cache.
+          </p>
         </div>
       </div>
     </div>
