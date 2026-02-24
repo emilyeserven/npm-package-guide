@@ -35,10 +35,11 @@ export function Layout() {
     document.title = text !== sectionId ? `${text} | ${BASE_TITLE}` : BASE_TITLE
   }, [sectionId])
 
-  // Focus main content on route changes (not initial load)
+  // Scroll to top and focus main content on route changes (not initial load)
   useEffect(() => {
     if (prevSectionRef.current === sectionId) return
     prevSectionRef.current = sectionId
+    window.scrollTo({ top: 0 })
     requestAnimationFrame(() => {
       const main = document.getElementById('main-content')
       if (main) main.focus({ preventScroll: true })
