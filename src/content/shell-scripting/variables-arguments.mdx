@@ -1,0 +1,93 @@
+---
+id: "variables-arguments"
+title: "Variables & Arguments 📦"
+guide: "shell-scripting"
+group: "Foundations"
+linkRefs:
+  - id: gnu-bash-manual
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-assignment">Variable Assignment</TocLink>
+  <TocLink id="toc-quoting">Quoting Rules</TocLink>
+  <TocLink id="toc-args">Script Arguments & Command Substitution</TocLink>
+  <TocLink id="toc-quiz">Knowledge Check</TocLink>
+</Toc>
+
+<SectionIntro>
+Store data, read inputs, and pass information around.
+</SectionIntro>
+
+<SectionSubheading id="toc-assignment">Variable Assignment</SectionSubheading>
+
+No spaces around `=`. This is the #1 gotcha for beginners.
+
+<CodeAccordion title="variables.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+
+# ✅ Correct — no spaces around =
+NAME="world"
+COUNT=42
+
+# ❌ WRONG — bash thinks "NAME" is a command
+# NAME = "world"
+
+# Reference with $
+echo "Hello, $NAME!"
+
+# Curly braces for clarity
+PREFIX="deploy"
+echo "${PREFIX}_staging"  # → deploy_staging
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-quoting">Quoting Rules</SectionSubheading>
+
+Double quotes allow variable expansion; single quotes treat everything literally.
+
+<CodeAccordion title="Quoting" ext="bash">
+```bash
+DIR="my project"
+
+# Double quotes: variables expand, spaces preserved
+echo "Dir is: $DIR"   # → Dir is: my project
+
+# Single quotes: everything is literal
+echo 'Dir is: $DIR'   # → Dir is: $DIR
+
+# ⚠️ ALWAYS quote variables to handle spaces in paths
+ls "$DIR"    # ✅ One arg: "my project"
+ls $DIR     # ❌ Two args: "my" and "project"
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-args">Script Arguments & Command Substitution</SectionSubheading>
+
+<CodeAccordion title="args.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+
+echo "Script: $0"       # Script name
+echo "First:  $1"       # First argument
+echo "All:    $@"       # All arguments
+echo "Count:  $#"       # Number of arguments
+
+# Command substitution: capture output into a variable
+BRANCH=$(git branch --show-current 2>/dev/null)
+FILES=$(ls -1 | wc -l)
+echo "On $BRANCH with $FILES files"
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-quiz">Knowledge Check</SectionSubheading>
+
+<ShellQuiz
+  question={'🧪 What\'s wrong with MY_VAR = "hello"?'}
+  options={["Need to use let keyword", 'Spaces around = make bash interpret MY_VAR as a command', "Variable names must be lowercase"]}
+  correctIndex={1}
+  correctFeedback={'Correct! No spaces around = in bash. Write MY_VAR="hello".'}
+  incorrectFeedback={'The issue is spaces around =. Bash requires MY_VAR="hello" with no spaces.'}
+/>

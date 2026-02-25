@@ -1,0 +1,90 @@
+---
+id: "preflight-validation"
+title: "Pre-flight Validation ✅"
+guide: "shell-scripting"
+group: "Agent Patterns"
+linkRefs:
+  - id: gnu-bash-manual
+  - id: shellcheck
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-why">Why Pre-flight Checks Matter</TocLink>
+  <TocLink id="toc-commands">Command Existence Checks</TocLink>
+  <TocLink id="toc-versions">Version & Environment Validation</TocLink>
+</Toc>
+
+<SectionIntro>
+Check everything is in place before an agent runs expensive operations.
+</SectionIntro>
+
+<SectionSubheading id="toc-why">Why Pre-flight Checks Matter</SectionSubheading>
+
+An AI agent that charges ahead without checking prerequisites wastes time, tokens, and context window space. A 10-line validation script run *before* a complex task saves dozens of error-correction cycles.
+
+<Explainer title="Agent Workflow">
+Before `npm run build`, validate: Is Node installed? Right version? Does `package.json` exist? Are deps installed? Is there a build script? Each cheap check prevents an expensive failure.
+</Explainer>
+
+<SectionSubheading id="toc-commands">Command Existence Checks</SectionSubheading>
+
+<CodeAccordion title="check-deps.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+
+require_cmd() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    echo "❌ Required: $1" >&2
+    [[ -n "$2" ]] && echo "   Install: $2" >&2
+    return 1
+  fi
+}
+
+MISSING=0
+require_cmd "node" "https://nodejs.org"   || (( MISSING++ ))
+require_cmd "npm"  "Comes with Node.js"  || (( MISSING++ ))
+require_cmd "git"  "https://git-scm.com" || (( MISSING++ ))
+require_cmd "jq"   "brew install jq"     || (( MISSING++ ))
+
+if [ $MISSING -gt 0 ]; then
+  echo "⛔ $MISSING tool(s) missing." >&2; exit 1
+fi
+echo "✅ All dependencies present"
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-versions">Version & Environment Validation</SectionSubheading>
+
+<CodeAccordion title="check-versions.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+
+# Compare semver: returns 0 if $1 >= $2
+version_gte() {
+  printf '%s\n%s' "$2" "$1" | sort -V -C
+}
+
+NODE_V=$(node --version 2>/dev/null | sed 's/^v//')
+if [[ -z "$NODE_V" ]]; then
+  echo "❌ Node.js not installed" >&2; exit 1
+fi
+if ! version_gte "$NODE_V" "18.0.0"; then
+  echo "❌ Node >= 18 required (found $NODE_V)" >&2; exit 1
+fi
+echo "✅ Node.js $NODE_V"
+
+# Validate required env vars
+require_env() {
+  local val="${!1}"
+  [[ -z "$val" ]] && { echo "❌ Missing: $1" >&2; return 1; }
+}
+
+ERR=0
+for V in DATABASE_URL API_KEY AWS_REGION; do
+  require_env "$V" || (( ERR++ ))
+done
+[[ $ERR -gt 0 ]] && { echo "⛔ $ERR env var(s) missing" >&2; exit 1; }
+```
+</CodeAccordion>

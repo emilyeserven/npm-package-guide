@@ -1,0 +1,85 @@
+---
+id: "file-path-checks"
+title: "File & Path Checks 📂"
+guide: "shell-scripting"
+group: "Agent Patterns"
+linkRefs:
+  - id: jq-manual
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-structure">Project Structure Validation</TocLink>
+  <TocLink id="toc-json">JSON Validation with jq</TocLink>
+  <TocLink id="toc-git">Git State Validation</TocLink>
+</Toc>
+
+<SectionIntro>
+Validate project structure and configurations before operating.
+</SectionIntro>
+
+<SectionSubheading id="toc-structure">Project Structure Validation</SectionSubheading>
+
+<CodeAccordion title="validate-project.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+ERRORS=()
+for F in package.json tsconfig.json vite.config.ts; do
+  [[ -f "$F" ]] || ERRORS+=("Missing: $F")
+done
+for D in src src/components public; do
+  [[ -d "$D" ]] || ERRORS+=("Missing dir: $D")
+done
+[[ -d "node_modules" ]] || ERRORS+=("node_modules missing — run npm install")
+if command -v jq >/dev/null 2>&1; then
+  if ! jq -e '.scripts.build' package.json >/dev/null 2>&1; then
+    ERRORS+=("No 'build' script in package.json")
+  fi
+fi
+if [ ${#ERRORS[@]} -gt 0 ]; then
+  echo "⛔ Validation failed:" >&2
+  for E in "${ERRORS[@]}"; do echo "  ❌ $E" >&2; done
+  exit 1
+fi
+echo "✅ Project structure valid"
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-json">JSON Validation with jq</SectionSubheading>
+
+<CodeAccordion title="validate-json.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+
+validate_json() {
+  local file="$1"
+  [[ -f "$file" ]] || { echo "Not found: $file" >&2; return 1; }
+  [[ -s "$file" ]] || { echo "Empty: $file" >&2; return 1; }
+  if ! jq 'empty' "$file" 2>/dev/null; then
+    echo "Invalid JSON: $file" >&2; return 1
+  fi
+}
+validate_json "package.json" || exit 1
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-git">Git State Validation</SectionSubheading>
+
+<CodeAccordion title="check-git.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "❌ Not a git repo" >&2; exit 1
+fi
+BRANCH=$(git branch --show-current)
+echo "📌 Branch: $BRANCH"
+if ! git diff --quiet; then
+  echo "⚠️  Uncommitted changes:"; git diff --stat
+fi
+UNTRACKED=$(git ls-files --others --exclude-standard | wc -l)
+[[ $UNTRACKED -gt 0 ]] && echo "⚠️  $UNTRACKED untracked file(s)"
+```
+</CodeAccordion>

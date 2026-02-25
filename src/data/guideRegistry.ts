@@ -25,6 +25,7 @@ import { JCS_GUIDE_SECTIONS, JCS_START_PAGE_DATA } from './jscodeshiftData'
 import { IA_GUIDE_SECTIONS, IA_START_PAGE_DATA } from './iaData'
 import { NGINX_GUIDE_SECTIONS, NGINX_START_PAGE_DATA } from './nginxData'
 import { GCR_GUIDE_SECTIONS } from './guideCreationData'
+import { SHELL_SCRIPTING_GUIDE_SECTIONS, SHELL_SCRIPTING_START_PAGE_DATA } from './shellScriptingData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -294,6 +295,16 @@ export const guides: GuideDefinition[] = [
     singlePage: true,
     category: 'ai-tooling',
   },
+  {
+    id: 'shell-scripting',
+    icon: '🐚',
+    title: 'Shell Scripting for AI Agents',
+    startPageId: 'shell-start',
+    description:
+      'Master shell scripting patterns that make AI agents faster, safer, and more reliable.',
+    sections: SHELL_SCRIPTING_GUIDE_SECTIONS,
+    category: 'ai-tooling',
+  },
 ]
 
 // ── Single Page Guides (combined virtual nav) ───────────────────────
@@ -399,6 +410,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'jscodeshift': JCS_START_PAGE_DATA,
   'info-architecture': IA_START_PAGE_DATA,
   'nginx': NGINX_START_PAGE_DATA,
+  'shell-scripting': SHELL_SCRIPTING_START_PAGE_DATA,
 }
 
 export function getStartPageData(guideId: string): StartPageData | undefined {

@@ -1,0 +1,118 @@
+---
+id: "cheat-sheet"
+title: "Cheat Sheet 📋"
+guide: "shell-scripting"
+group: "Recipes"
+linkRefs:
+  - id: gnu-bash-manual
+  - id: abs-guide
+  - id: shellcheck
+  - id: explainshell
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-template">Script Template</TocLink>
+  <TocLink id="toc-redirections">Redirections</TocLink>
+  <TocLink id="toc-special-vars">Special Variables</TocLink>
+  <TocLink id="toc-patterns">Common Patterns for Agents</TocLink>
+  <TocLink id="toc-next">Where to Go Next</TocLink>
+</Toc>
+
+<SectionIntro>
+Everything you need on one page.
+</SectionIntro>
+
+<SectionSubheading id="toc-template">Script Template</SectionSubheading>
+
+<CodeAccordion title="template.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+log() { echo "[$(date +%H:%M:%S)] $*"; }
+die() { echo "ERROR: $*" >&2; exit 1; }
+
+cleanup() { rm -rf "${TMPDIR:-}"; }
+trap cleanup EXIT
+
+main() {
+  log "Starting..."
+  # Your code here
+  log "Done!"
+}
+main "$@"
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-redirections">Redirections</SectionSubheading>
+
+<DefinitionTable termHeader="Syntax" descHeader="Meaning">
+  <DefRow term="cmd > file">Redirect stdout (overwrite)</DefRow>
+  <DefRow term="cmd >> file">Append stdout</DefRow>
+  <DefRow term="cmd 2> file">Redirect stderr</DefRow>
+  <DefRow term="cmd &> file">Redirect stdout+stderr</DefRow>
+  <DefRow term="cmd > /dev/null">Discard stdout</DefRow>
+  <DefRow term="echo >&2">Write to stderr</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-special-vars">Special Variables</SectionSubheading>
+
+<DefinitionTable termHeader="Variable" descHeader="Meaning">
+  <DefRow term="$0">Script name</DefRow>
+  <DefRow term="$1 $2 ...">Positional arguments</DefRow>
+  <DefRow term="$@">All args (preserves quoting)</DefRow>
+  <DefRow term="$#">Arg count</DefRow>
+  <DefRow term="$?">Last exit code</DefRow>
+  <DefRow term="$$">Current PID</DefRow>
+  <DefRow term="${`var:-default`}">Default if unset</DefRow>
+  <DefRow term="${`var:?msg`}">Error if unset</DefRow>
+  <DefRow term="${`#var`}">String length</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-patterns">Common Patterns for Agents</SectionSubheading>
+
+<CodeAccordion title="Quick reference" ext="bash">
+```bash
+# Check command exists
+command -v node >/dev/null 2>&1 || die "node required"
+
+# Default values
+PORT="${1:-3000}"
+ENV="${NODE_ENV:-development}"
+
+# Required argument
+TARGET="${1:?Usage: $0 <target>}"
+
+# File exists or die
+[[ -f "$CONFIG" ]] || die "Not found: $CONFIG"
+
+# Safe temp directory
+TMP=$(mktemp -d); trap "rm -rf $TMP" EXIT
+
+# OS detection
+case "$(uname -s)" in
+  Linux*)  SED_FLAG="-i" ;;
+  Darwin*) SED_FLAG="-i ''" ;;
+esac
+
+# Process all .ts files safely
+find src -name "*.ts" -not -path "*/node_modules/*" \
+  | while IFS= read -r f; do echo "$f"; done
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-next">Where to Go Next</SectionSubheading>
+
+<Explainer title="Keep Learning">
+You now have a solid foundation in shell scripting with a focus on making AI agents more efficient.
+
+**Practice:** Take one of the recipe scripts from <NavLink to="agent-scripts" /> and customize it for your own projects — add checks for your framework's config, build tools, or deployment targets.
+
+**Tools to explore:** `shellcheck` — a linter that catches common bash mistakes. Install it and run it on your scripts!
+
+**Advanced topics:** Associative arrays, process substitution (`<(cmd)`), `xargs` for parallelism, and writing custom completions.
+</Explainer>

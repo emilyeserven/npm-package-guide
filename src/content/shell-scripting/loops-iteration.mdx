@@ -1,0 +1,62 @@
+---
+id: "loops-iteration"
+title: "Loops & Iteration 🔄"
+guide: "shell-scripting"
+group: "Foundations"
+linkRefs:
+  - id: gnu-bash-manual
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-for">For Loops</TocLink>
+  <TocLink id="toc-while">While Loops & Reading Lines</TocLink>
+</Toc>
+
+<SectionIntro>
+Process lists, files, and command output efficiently.
+</SectionIntro>
+
+<SectionSubheading id="toc-for">For Loops</SectionSubheading>
+
+<CodeAccordion title="loops.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+
+# Iterate over a list
+for FRUIT in apple banana cherry; do
+  echo "I like $FRUIT"
+done
+
+# Iterate over files
+for FILE in src/*.ts; do
+  echo "Processing: $FILE"
+done
+
+# C-style for loop
+for (( i=0; i<5; i++ )); do
+  echo "Iteration $i"
+done
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-while">While Loops & Reading Lines</SectionSubheading>
+
+<CodeAccordion title="Reading lines safely" ext="bash">
+```bash
+# Read a file line by line (handles spaces correctly)
+while IFS= read -r LINE; do
+  echo "Line: $LINE"
+done < input.txt
+
+# Process command output line by line
+git diff --name-only | while IFS= read -r FILE; do
+  echo "Changed: $FILE"
+done
+```
+</CodeAccordion>
+
+<Gotcha>
+`for LINE in $(cat file)` splits on spaces and glob-expands. Always use `while read` to read files line by line.
+</Gotcha>
