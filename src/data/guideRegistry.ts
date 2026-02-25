@@ -24,6 +24,7 @@ import { COOLIFY_GUIDE_SECTIONS, COOLIFY_START_PAGE_DATA } from './coolifyData'
 import { JCS_GUIDE_SECTIONS, JCS_START_PAGE_DATA } from './jscodeshiftData'
 import { IA_GUIDE_SECTIONS, IA_START_PAGE_DATA } from './iaData'
 import { NGINX_GUIDE_SECTIONS, NGINX_START_PAGE_DATA } from './nginxData'
+import { GCR_GUIDE_SECTIONS } from './guideCreationData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
@@ -281,6 +282,17 @@ export const guides: GuideDefinition[] = [
       'Nginx from zero to production \u2014 reverse proxy, static files, SSL/TLS, load balancing, security hardening, and Raspberry Pi homelab setups.',
     sections: NGINX_GUIDE_SECTIONS,
     category: 'infrastructure',
+  },
+  {
+    id: 'guide-creation',
+    icon: '📝',
+    title: 'Creating a New Guide',
+    startPageId: 'guide-creation-guide',
+    description:
+      'End-to-end walkthrough for adding a new guide to this project — from writing your content artifact through prompting, scaffolding, and validation.',
+    sections: GCR_GUIDE_SECTIONS,
+    singlePage: true,
+    category: 'ai-tooling',
   },
 ]
 

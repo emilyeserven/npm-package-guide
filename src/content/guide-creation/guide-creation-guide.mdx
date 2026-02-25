@@ -1,0 +1,434 @@
+---
+id: "guide-creation-guide"
+title: "Creating a New Guide 📝"
+guide: "guide-creation"
+linkRefs:
+  - id: "gcr-add-guide-skill"
+  - id: "gcr-claude-skills-guide"
+  - id: "gcr-component-reference"
+  - id: "gcr-content-reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">The Big Picture</TocLink>
+  <TocLink id="toc-artifact">Step 1 — Prepare Your Content</TocLink>
+  <TocLink id="toc-prompt">Step 2 — Prompt Claude</TocLink>
+  <TocLink id="toc-scaffold">Step 3 — What the Scaffold Creates</TocLink>
+  <TocLink id="toc-content">Step 4 — Fill in MDX Content</TocLink>
+  <TocLink id="toc-links">Step 5 — Links & Glossary</TocLink>
+  <TocLink id="toc-validate">Step 6 — Validate & Ship</TocLink>
+  <TocLink id="toc-pitfalls">Tips & Common Pitfalls</TocLink>
+</Toc>
+
+<SectionIntro>
+Adding a new guide to this project is a two-part collaboration between you and Claude.
+You bring the subject-matter expertise — a written artifact covering the topic — and Claude
+handles the mechanical work of scaffolding files, wiring registries, and converting your
+prose into the project's MDX component architecture. This guide walks through every step
+end-to-end.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">{'\u{1F5FA}\uFE0F'} The Big Picture</SectionSubheading>
+
+The workflow for adding a guide has three phases:
+
+<DefinitionTable>
+  <DefRow term="1. Write" definition="You write a content artifact — a long-form document covering the topic you want to teach. This can be a Claude conversation artifact, a markdown file, or even rough notes." />
+  <DefRow term="2. Scaffold" definition="Claude runs the scaffold script, which creates all boilerplate files and wires them into the project's registries. You don't touch any of this." />
+  <DefRow term="3. Fill & Polish" definition="Claude converts your artifact into MDX pages using shared components, adds link entries and glossary terms, and validates the build." />
+</DefinitionTable>
+
+<SectionNote>
+**Single-page vs multi-page:** Most guides are multi-page (separate MDX files per topic, a start page with learning path). Focused tutorials or reference guides can use `--single-page` to put everything in one file. The scaffold script handles both modes.
+</SectionNote>
+
+<SectionSubheading id="toc-artifact">{'\u{1F4DD}'} Step 1 — Prepare Your Content</SectionSubheading>
+
+The quality of your guide depends on the quality of your input artifact. Here's what to aim for:
+
+**What makes a good artifact:**
+
+<SectionList>
+<ColItem>**Complete coverage** — don't leave gaps for Claude to guess. If you want a section on caching strategies, write about caching strategies.</ColItem>
+<ColItem>**Clear structure** — use headings to mark natural topic boundaries. Each heading may become its own MDX page (multi-page) or section (single-page).</ColItem>
+<ColItem>**Code examples** — include real, working code blocks. Claude will preserve them in the MDX output.</ColItem>
+<ColItem>**Opinions and context** — this project targets backend engineers learning frontend. Explain *why*, not just *what*.</ColItem>
+<ColItem>**External references** — mention specific docs, blog posts, or tools you want linked. These become link registry entries.</ColItem>
+</SectionList>
+
+<Explainer title="How detailed should your artifact be?">
+
+Think of it like writing a first draft of a technical blog post series. You don't need perfect
+prose — Claude will restructure and format it — but you do need the actual *content*.
+A bullet list of topics is not enough. A 2,000-word document covering each topic with
+examples is ideal.
+
+</Explainer>
+
+**Artifact structure example:**
+
+```markdown
+# Deploying with Docker Compose
+
+## Introduction
+Docker Compose simplifies multi-container setups...
+
+## Core Concepts
+- Services, networks, volumes
+- The docker-compose.yml file structure
+...
+
+## Writing Your First Compose File
+```yaml
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+```
+
+## Common Patterns
+- Development vs production configs
+- Health checks and restart policies
+...
+
+## Troubleshooting
+- Port conflicts, volume permissions, networking gotchas
+```
+
+<Gotcha>
+
+**Don't submit a topic list as your artifact.** An artifact that says "cover Docker networking,
+volumes, and health checks" forces Claude to generate content from general knowledge instead of
+your expertise. Write the actual explanations you want in the guide.
+
+</Gotcha>
+
+<SectionSubheading id="toc-prompt">{'\u{1F4AC}'} Step 2 — Prompt Claude</SectionSubheading>
+
+Once your artifact is ready, prompt Claude using the `/add-guide` skill. The skill converts your artifact into the full guide architecture.
+
+**Basic prompt pattern:**
+
+```text
+/add-guide
+
+Here's my content artifact for a new guide about [topic].
+The guide should be [single-page / multi-page].
+
+[Paste or attach your artifact here]
+```
+
+**Providing scaffold parameters directly:**
+
+If you know the naming conventions, you can include scaffold parameters to save Claude a step:
+
+```text
+/add-guide
+
+Create a guide with these parameters:
+- id: docker-compose
+- title: Docker Compose
+- icon: 🐳
+- description: Multi-container orchestration with Docker Compose...
+- prefix: DC
+- camel: dockerCompose
+- start page: dc-start (multi-page) or docker-compose-guide (single-page)
+- category: infrastructure
+- single-page: yes
+
+[Your artifact content here]
+```
+
+<SectionNote>
+**Naming conventions** — check existing guides in `src/data/guideRegistry.ts` for patterns. The `--prefix` is an ALL_CAPS abbreviation used for exported constants (e.g., `K8S`, `COOLIFY`, `CS`). The `--camel` is the camelCase name for the data file (e.g., `k8s`, `coolify`, `claudeSkills`). The `--id` is kebab-case and matches the content directory name.
+</SectionNote>
+
+**What the `/add-guide` skill does behind the scenes:**
+
+<SectionList>
+<ColItem>**Identifies content boundaries** — finds natural page breaks in your artifact</ColItem>
+<ColItem>**Runs the scaffold script** — creates all boilerplate files and updates registries</ColItem>
+<ColItem>**Fills in data files** — populates guide sections and (for multi-page) start page data</ColItem>
+<ColItem>**Creates MDX pages** — converts your content into MDX with shared components</ColItem>
+<ColItem>**Extracts interactive components** — creates guide-specific components if needed</ColItem>
+<ColItem>**Adds links & glossary** — populates the link registry and glossary terms files</ColItem>
+<ColItem>**Validates** — runs `pnpm validate` to catch errors</ColItem>
+</SectionList>
+
+<Explainer title="What if I don't use /add-guide?">
+
+You can also run the scaffold script manually and fill in content yourself. The skill simply
+automates the full pipeline. See Step 3 below for the manual scaffold command.
+
+</Explainer>
+
+<SectionSubheading id="toc-scaffold">{'\u2699\uFE0F'} Step 3 — What the Scaffold Creates</SectionSubheading>
+
+The scaffold script (`pnpm scaffold-guide`) automates all file creation and registry wiring. Here is the command with all available flags:
+
+```bash
+pnpm scaffold-guide \
+  --id <guide-id> \
+  --title <title> \
+  --icon <emoji> \
+  --desc <description> \
+  --prefix <PREFIX> \
+  --camel <camelName> \
+  --start <startPageId> \
+  [--single-page] \
+  [--pages "Group:pageId:Title Emoji,..."] \
+  [--check-links "link-id-1,link-id-2,..."]
+```
+
+**Files created:**
+
+<DefinitionTable>
+  <DefRow term="src/data/&lt;camel&gt;Data.ts" definition="Guide sections array. For multi-page guides, also contains start page data (learning path steps, descriptions)." />
+  <DefRow term="src/content/&lt;guide-id&gt;/*.mdx" definition="One MDX file per page. Single-page guides get one file; multi-page guides get a start page plus one per --pages entry." />
+  <DefRow term="src/content/&lt;guide-id&gt;/CLAUDE.md" definition="Guide-specific documentation — audience, section structure, component table, conventions." />
+  <DefRow term="src/data/linkRegistry/&lt;camel&gt;Links.ts" definition="Empty link registry file for this guide's external references." />
+  <DefRow term="src/data/glossaryTerms/&lt;camel&gt;Terms.ts" definition="Empty glossary file for this guide's terminology." />
+</DefinitionTable>
+
+**Registries updated automatically:**
+
+<DefinitionTable>
+  <DefRow term="guideRegistry.ts" definition="Adds the import, guide entry in the guides array, and (multi-page only) startPageDataMap entry." />
+  <DefRow term="linkRegistry/index.ts" definition="Adds the import and spreads the guide's links into the combined array." />
+  <DefRow term="glossaryTerms/index.ts" definition="Adds the import and spreads the guide's glossary into the combined array." />
+</DefinitionTable>
+
+<SectionNote>
+**What updates automatically after scaffolding:** The sidebar, command menu, and home page read from the `guides` array — a new guide appears everywhere as soon as it's registered. Prev/next navigation, the content registry, and the router all auto-discover new pages. No manual wiring needed.
+</SectionNote>
+
+**The `--pages` flag (multi-page guides):**
+
+Pre-populates sections and creates MDX stubs with frontmatter:
+
+```bash
+pnpm scaffold-guide --id docker-compose --title "Docker Compose" \
+  --icon "🐳" --desc "Multi-container orchestration..." \
+  --prefix DC --camel dockerCompose --start dc-start \
+  --pages "Core Concepts:dc-services:Services 🔧,Core Concepts:dc-networks:Networks 🌐,Patterns:dc-dev-prod:Dev vs Prod ⚙️"
+```
+
+**The `--check-links` flag:**
+
+Warns about link IDs that already exist so you can reuse them instead of creating duplicates:
+
+```bash
+pnpm scaffold-guide ... --check-links "docker-docs,mdn-containers,docker-compose-ref"
+```
+
+<SectionSubheading id="toc-content">{'\u{1F4C4}'} Step 4 — Fill in MDX Content</SectionSubheading>
+
+Each MDX page follows a consistent pattern using shared components. Here are the building blocks:
+
+**Page structure (single-page guide):**
+
+```mdx
+---
+id: "my-guide"
+title: "My Guide Title 🎯"
+guide: "my-guide-id"
+linkRefs:
+  - id: "some-external-link"
+    note: "Optional footnote text"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-intro">Introduction</TocLink>
+  <TocLink id="toc-setup">Setup</TocLink>
+</Toc>
+
+<SectionIntro>
+One or two paragraphs introducing the guide.
+</SectionIntro>
+
+<SectionSubheading id="toc-intro">🎯 Introduction</SectionSubheading>
+
+Regular markdown content, code blocks, etc.
+```
+
+**Page structure (multi-page — start page):**
+
+```mdx
+---
+id: "my-start"
+title: "My Guide 🎯"
+guide: "my-guide-id"
+---
+
+<GuideStartContent guideId="my-guide-id" />
+```
+
+The start page only contains `<GuideStartContent>` — all data comes from the data file.
+
+**Key components available in MDX:**
+
+<DefinitionTable>
+  <DefRow term="SectionTitle" definition="Page title — always renders {frontmatter.title}." />
+  <DefRow term="Toc / TocLink" definition="Table of contents with anchor links. Each TocLink id must match a SectionSubheading id." />
+  <DefRow term="SectionIntro" definition="Styled intro paragraph below the TOC." />
+  <DefRow term="SectionSubheading" definition="Section header with anchor. Must include an emoji prefix in the text." />
+  <DefRow term="SectionNote" definition="Blue info callout for tips and context." />
+  <DefRow term="Explainer" definition="Green collapsible 'Explain it to me' dropdown — great for optional deep dives." />
+  <DefRow term="Gotcha" definition="Red warning callout for common mistakes." />
+  <DefRow term="SectionList / ColItem" definition="Indented bullet list with consistent styling." />
+  <DefRow term="DefinitionTable / DefRow" definition="Term-definition table for key concepts." />
+  <DefRow term="CodeAccordion" definition="Collapsible code block for long snippets." />
+  <DefRow term="FnRef" definition="Footnote reference — resolves against linkRefs in frontmatter." />
+</DefinitionTable>
+
+<Gotcha>
+
+**Every MDX title must end with an emoji suffix.** The sidebar and command menu parse the emoji from the title. A title like `"Setup Guide"` will break — use `"Setup Guide ⚙️"` instead.
+
+</Gotcha>
+
+<Explainer title="When to create guide-specific components">
+
+Only create a component in `src/components/mdx/<guide-id>/` when the UI is genuinely unique to your
+guide (e.g., an interactive diagram, a specialized explorer). For lists, tables, timelines, pros/cons,
+and accordions, use the shared components. Run `/find-component` to discover what already exists
+before creating anything new.
+
+</Explainer>
+
+<SectionSubheading id="toc-links">{'\u{1F517}'} Step 5 — Links & Glossary</SectionSubheading>
+
+**Link registry entries** live in `src/data/linkRegistry/<camel>Links.ts`. Each entry represents an external URL:
+
+```typescript
+import type { RegistryLink } from './index'
+
+export const dockerComposeLinks: RegistryLink[] = [
+  {
+    id: 'docker-compose-ref',          // {source}-{topic-slug}
+    url: 'https://docs.docker.com/compose/',
+    label: 'Docker Compose Reference',
+    source: 'Docker',
+    desc: 'Official reference for Docker Compose file format.',
+    tags: ['docs', 'guide:docker-compose'],
+    resourceCategory: 'Official Documentation',
+  },
+]
+```
+
+<SectionList>
+<ColItem>**ID convention:** `{source}-{topic-slug}` (e.g., `docker-compose-ref`, `mdn-web-workers`)</ColItem>
+<ColItem>**Tags must include** `guide:<guide-id>` for the External Resources page filter to work</ColItem>
+<ColItem>**`resourceCategory`** groups entries on the External Resources page (e.g., "Official Documentation", "Tutorials", "Tools")</ColItem>
+<ColItem>**Footnotes** use `linkRefs` in MDX frontmatter to resolve `<FnRef n={1} />` to link entries</ColItem>
+</SectionList>
+
+**Glossary terms** live in `src/data/glossaryTerms/<camel>Terms.ts`:
+
+```typescript
+import type { GlossaryCategory } from './index'
+
+export const dockerComposeGlossary: GlossaryCategory[] = [
+  {
+    category: 'Container Orchestration',
+    terms: [
+      {
+        term: 'Docker Compose',
+        definition: 'A tool for defining multi-container applications...',
+        linkId: 'docker-compose-ref',   // must exist in link registry
+        sectionId: 'dc-services',       // optional: links to a guide page
+      },
+    ],
+  },
+]
+```
+
+<SectionNote>
+**Each glossary term needs a `linkId`** that points to an existing link registry entry. Add the link entry first, then reference it from the glossary term.
+</SectionNote>
+
+<SectionSubheading id="toc-validate">{'\u2705'} Step 6 — Validate & Ship</SectionSubheading>
+
+Run the full validation pipeline before committing:
+
+```bash
+pnpm validate
+```
+
+This executes three checks in sequence:
+
+<SectionList>
+<ColItem>**`validate:data`** — checks all link/glossary references are valid, page IDs are unique, frontmatter is correct</ColItem>
+<ColItem>**`lint`** — runs ESLint on all source files</ColItem>
+<ColItem>**`build`** — TypeScript type check + Vite production build</ColItem>
+</SectionList>
+
+**If lint errors occur**, try auto-fixing first:
+
+```bash
+pnpm lint --fix
+```
+
+**If the build fails**, common causes include:
+- Missing emoji suffix on MDX titles
+- Broken `linkId` references in glossary terms
+- Duplicate page IDs across guides
+- TypeScript errors in new components (missing dark mode support, wrong import paths)
+
+<Gotcha>
+
+**Always run `pnpm validate` before pushing.** The build catches errors that the dev server silently
+ignores — like broken cross-references and type mismatches. A green dev server does not mean a
+green build.
+
+</Gotcha>
+
+<SectionSubheading id="toc-pitfalls">{'\u{1F4A1}'} Tips & Common Pitfalls</SectionSubheading>
+
+**Do:**
+
+<SectionList>
+<ColItem>**Write a complete artifact** — the more content you provide, the better the guide turns out</ColItem>
+<ColItem>**Specify single-page vs multi-page** — tell Claude up front so it scaffolds correctly</ColItem>
+<ColItem>**Include your preferred category** — `frontend`, `infrastructure`, `security`, `ai-tooling`, or `fundamentals`</ColItem>
+<ColItem>**List external URLs** you want referenced — Claude will create proper link registry entries</ColItem>
+<ColItem>**Review the generated MDX** — Claude's conversion is good but may miss nuances from your artifact</ColItem>
+</SectionList>
+
+**Don't:**
+
+<SectionList>
+<ColItem>**Don't submit a topic outline** instead of written content — Claude needs your actual explanations</ColItem>
+<ColItem>**Don't manually edit registries** — the scaffold script handles `guideRegistry.ts`, `linkRegistry/index.ts`, and `glossaryTerms/index.ts`</ColItem>
+<ColItem>**Don't create components for things shared components already do** — run `/find-component` first</ColItem>
+<ColItem>**Don't forget the emoji** on every MDX page title — the sidebar parser depends on it</ColItem>
+<ColItem>**Don't use `class` in MDX** — it's JSX, so use `className`. Self-closing tags need the slash: `<br />` not `<br>`</ColItem>
+<ColItem>**Don't inline data in MDX or components** — all data lives in `src/data/`</ColItem>
+</SectionList>
+
+<Explainer title="Multi-page start page gotcha">
+
+For multi-page guides, the start page MDX file should contain only `<GuideStartContent guideId="..." />`.
+All the learning path steps, section descriptions, and navigation tiles are configured in the data file's
+`*_START_PAGE_DATA` export. Building a custom start page layout will break the consistent navigation
+experience.
+
+</Explainer>
+
+<SectionNote>
+**Quick reference — the scaffold command:**
+
+```bash
+pnpm scaffold-guide --id <id> --title <title> --icon <emoji> \
+  --desc <desc> --prefix <PREFIX> --camel <camel> --start <start> \
+  [--single-page] [--pages "Group:id:Title Emoji,..."] \
+  [--check-links "id1,id2,..."]
+```
+
+After running, fill in content in the generated MDX files, add links and glossary entries, then `pnpm validate`.
+</SectionNote>
