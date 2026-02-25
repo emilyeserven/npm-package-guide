@@ -24,7 +24,7 @@ Defined in `COOLIFY_GUIDE_SECTIONS` in `src/data/coolifyData.ts`. All data in th
 | `FoundationAccordion` | *(none)* | Expandable deep dives into DNS, TLS, reverse proxy, Docker, and ports |
 | `SpaRoutingDiagram` | *(none)* | Side-by-side diagram showing client-side nav success vs. page refresh 404 |
 | `CoolifyGotchaAccordion` | *(none)* | Expandable gotchas with severity, cause, and fix |
-| `CoolifyChecklist` | *(none)* | Interactive checklist with checkboxes and progress counter |
+| `GuideChecklist` | `checklistId="coolify"` | Interactive checklist via shared `CHECKLIST_REGISTRY` |
 | `PiModelTable` | *(none)* | Raspberry Pi model compatibility table with color-coded verdicts |
 | `PiPerformanceAccordion` | *(none)* | Pi performance tuning tips (swap, Docker memory, USB SSD, thermal) |
 | `PiGotchaAccordion` | *(none)* | Pi-specific gotchas (ARM images, build speed, NAT, crashes) |
@@ -34,5 +34,5 @@ Defined in `COOLIFY_GUIDE_SECTIONS` in `src/data/coolifyData.ts`. All data in th
 - **Traffic flow:** `TRAFFIC_STEPS` array of `{ label, sublabel?, color }` objects rendered as a horizontal diagram.
 - **Foundation topics:** `FOUNDATION_TOPICS` array with paragraphs, optional bullets, and optional tips with types (`tip`, `info`, `warn`).
 - **Gotcha severity:** `COOLIFY_GOTCHAS` and `PI_GOTCHAS` use `severity: 'red' | 'yellow'` for visual indicators.
-- **Checklist groups:** `DEPLOY_CHECKLIST` is an array of `{ heading, items }` groups rendered as interactive checkboxes.
+- **Checklist groups:** `DEPLOY_CHECKLIST` is an array of `{ heading, items }` groups. Checklist rendering uses `GuideChecklist` with `checklistId="coolify"` (data in `CHECKLIST_REGISTRY`).
 - **Pi models:** `PI_MODELS` array with `verdictColor` for per-row color coding in the compatibility table.

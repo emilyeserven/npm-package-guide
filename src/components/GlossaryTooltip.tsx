@@ -1,114 +1,39 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
 import clsx from 'clsx'
 import { getNavTitle } from '../data/navigation'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
+import { useHoverTooltip } from '../hooks/useHoverTooltip'
 import { ExternalLinkIcon } from './ExternalLinkIcon'
 
-interface TooltipData {
+interface GlossaryData {
   term: string
   def: string
   url: string
   source: string
   sectionId?: string
-  rect: DOMRect
 }
 
+const extractData = (el: HTMLElement): GlossaryData => ({
+  term: el.dataset.glossaryTerm || '',
+  def: el.dataset.glossaryDef || '',
+  url: el.dataset.glossaryUrl || '',
+  source: el.dataset.glossarySource || '',
+  sectionId: el.dataset.glossarySection || undefined,
+})
+
 export function GlossaryTooltip() {
-  const [data, setData] = useState<TooltipData | null>(null)
-  const [visible, setVisible] = useState(false)
-  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const tooltipRef = useRef<HTMLDivElement>(null)
   const navigateToSection = useNavigateToSection()
+  const { data, visible, style, cancelHide, scheduleHide, hide } = useHoverTooltip<GlossaryData>({
+    selector: '.glossary-term',
+    extractData,
+    width: 340,
+    preferAbove: false,
+    tooltipClass: 'gt-tooltip',
+  })
 
-  const cancelHide = useCallback(() => {
-    if (hideTimer.current) {
-      clearTimeout(hideTimer.current)
-      hideTimer.current = null
-    }
-  }, [])
-
-  const scheduleHide = useCallback(() => {
-    cancelHide()
-    hideTimer.current = setTimeout(() => {
-      setVisible(false)
-      // Wait for fade-out transition before clearing data
-      setTimeout(() => setData(null), 150)
-    }, 150)
-  }, [cancelHide])
-
-  const hide = useCallback(() => {
-    cancelHide()
-    setVisible(false)
-    setTimeout(() => setData(null), 150)
-  }, [cancelHide])
-
-  useEffect(() => {
-    function onMouseOver(e: MouseEvent) {
-      const target = (e.target as HTMLElement).closest?.('.glossary-term') as HTMLElement | null
-      if (!target) return
-
-      cancelHide()
-
-      const rect = target.getBoundingClientRect()
-      setData({
-        term: target.dataset.glossaryTerm || '',
-        def: target.dataset.glossaryDef || '',
-        url: target.dataset.glossaryUrl || '',
-        source: target.dataset.glossarySource || '',
-        sectionId: target.dataset.glossarySection || undefined,
-        rect,
-      })
-      // Show after a microtask so the element is positioned before fading in
-      requestAnimationFrame(() => setVisible(true))
-    }
-
-    function onMouseOut(e: MouseEvent) {
-      const related = e.relatedTarget as HTMLElement | null
-      // If moving to the tooltip itself or another glossary-term, don't hide
-      if (related?.closest?.('.gt-tooltip') || related?.closest?.('.glossary-term')) return
-      scheduleHide()
-    }
-
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') hide()
-    }
-
-    function onScroll() {
-      hide()
-    }
-
-    document.addEventListener('mouseover', onMouseOver)
-    document.addEventListener('mouseout', onMouseOut)
-    document.addEventListener('keydown', onKeyDown)
-    window.addEventListener('scroll', onScroll, { passive: true })
-
-    return () => {
-      document.removeEventListener('mouseover', onMouseOver)
-      document.removeEventListener('mouseout', onMouseOut)
-      document.removeEventListener('keydown', onKeyDown)
-      window.removeEventListener('scroll', onScroll)
-      cancelHide()
-    }
-  }, [cancelHide, scheduleHide, hide])
-
-  if (!data) return null
-
-  // Position: below the term, centered horizontally (fixed to viewport)
-  const { rect } = data
-  const tooltipWidth = 340
-  let left = rect.left + rect.width / 2 - tooltipWidth / 2
-  // Clamp to viewport
-  if (left < 8) left = 8
-  if (left + tooltipWidth > window.innerWidth - 8) left = window.innerWidth - 8 - tooltipWidth
-
-  // Show above if near bottom of viewport
-  const spaceBelow = window.innerHeight - rect.bottom
-  const showAbove = spaceBelow < 200
-  const top = showAbove ? rect.top - 8 : rect.bottom + 8
+  if (!data || !style) return null
 
   return (
     <div
-      ref={tooltipRef}
       role="tooltip"
       className={clsx(
         'gt-tooltip fixed z-[1200] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-3 shadow-lg text-[13px] leading-relaxed text-slate-800 dark:text-slate-300 transition-[opacity,translate] duration-150',
@@ -116,12 +41,7 @@ export function GlossaryTooltip() {
           ? 'opacity-100 translate-y-0 pointer-events-auto'
           : 'opacity-0 translate-y-1 pointer-events-none'
       )}
-      style={{
-        left: `${left}px`,
-        top: `${top}px`,
-        width: `${tooltipWidth}px`,
-        transform: showAbove ? 'translateY(-100%)' : undefined,
-      }}
+      style={{ ...style, width: '340px' }}
       onMouseEnter={cancelHide}
       onMouseLeave={scheduleHide}
     >

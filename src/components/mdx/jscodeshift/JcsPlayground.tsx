@@ -1,35 +1,8 @@
-import { useState } from 'react'
 import { useIsDark } from '../../../hooks/useTheme'
 import { ds } from '../../../helpers/darkStyle'
 import { JCS_TRANSFORM_PATTERNS } from '../../../data/jscodeshiftData'
 import type { JcsTransformPattern } from '../../../data/jscodeshiftData'
-
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false)
-  const isDark = useIsDark()
-
-  return (
-    <button
-      onClick={() => {
-        navigator.clipboard.writeText(text)
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
-      }}
-      className="px-2 py-1 rounded text-[10px] font-mono border transition-colors cursor-pointer"
-      style={{
-        background: copied
-          ? ds('#dcfce7', '#14532d', isDark)
-          : ds('#f8fafc', '#1e293b', isDark),
-        borderColor: ds('#e2e8f0', '#334155', isDark),
-        color: copied
-          ? ds('#15803d', '#86efac', isDark)
-          : ds('#94a3b8', '#64748b', isDark),
-      }}
-    >
-      {copied ? '\u2713 copied' : 'copy'}
-    </button>
-  )
-}
+import { CopyButton } from '../CopyButton'
 
 /** Side-by-side transform playground showing transform code + before/after. */
 export function JcsPlayground({ patternId }: { patternId: string }) {
@@ -68,7 +41,7 @@ export function JcsPlayground({ patternId }: { patternId: string }) {
             {pattern.difficulty}
           </span>
         </div>
-        <CopyButton text={pattern.transform} />
+        <CopyButton text={pattern.transform} className="px-2 py-1 rounded text-[10px] font-mono border transition-colors cursor-pointer" />
       </div>
       {/* Panels */}
       <div className="grid grid-cols-1 md:grid-cols-2">

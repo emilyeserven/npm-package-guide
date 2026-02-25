@@ -1,36 +1,9 @@
-import { useState } from 'react'
 import { useIsDark } from '../../../hooks/useTheme'
 import { ds } from '../../../helpers/darkStyle'
 import { getPwaTopic } from '../../../data/pwaData'
+import { CopyButton } from '../CopyButton'
 import { PwaLifecycleDiagram } from './PwaLifecycleDiagram'
 import { PwaCachingDiagram } from './PwaCachingDiagram'
-
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false)
-  const isDark = useIsDark()
-
-  return (
-    <button
-      onClick={() => {
-        navigator.clipboard.writeText(text)
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
-      }}
-      className="absolute top-2 right-2 px-2.5 py-1 rounded text-xs font-mono border transition-colors cursor-pointer"
-      style={{
-        background: copied
-          ? ds('#dcfce7', '#14532d', isDark)
-          : ds('#f8fafc', '#1e293b', isDark),
-        borderColor: ds('#e2e8f0', '#334155', isDark),
-        color: copied
-          ? ds('#15803d', '#86efac', isDark)
-          : ds('#94a3b8', '#64748b', isDark),
-      }}
-    >
-      {copied ? '\u2713 copied' : 'copy'}
-    </button>
-  )
-}
 
 /**
  * Renders full topic content for a PWA guide page.
