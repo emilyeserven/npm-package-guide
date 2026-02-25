@@ -27,7 +27,7 @@ export const promptLinks: RegistryLink[] = [
     label: "Claude Code Overview",
     source: "Anthropic",
     desc: "Official documentation for Claude Code — the AI coding assistant for the terminal",
-    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering"],
+    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering", "guide:claude-md"],
     resourceCategory: "Official Documentation",
   },
   {
@@ -61,7 +61,7 @@ export const promptLinks: RegistryLink[] = [
     label: "Claude Code Memory (CLAUDE.md)",
     source: "Anthropic",
     desc: "How CLAUDE.md files give Claude Code persistent project context across sessions",
-    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering"],
+    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering", "guide:claude-md"],
   },
   {
     id: "anthropic-tool-use",
@@ -128,7 +128,7 @@ export const promptLinks: RegistryLink[] = [
     label: "Claude Code Tips & Best Practices",
     source: "Anthropic",
     desc: "Practical tips for getting the most out of Claude Code in real development workflows",
-    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering"],
+    tags: ["docs", "free", "prompt-engineering", "guide:prompt-engineering", "guide:claude-md"],
   },
   {
     id: "anthropic-tokens",

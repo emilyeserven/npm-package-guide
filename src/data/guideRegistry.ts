@@ -25,6 +25,7 @@ import { JCS_GUIDE_SECTIONS, JCS_START_PAGE_DATA } from './jscodeshiftData'
 import { IA_GUIDE_SECTIONS, IA_START_PAGE_DATA } from './iaData'
 import { NGINX_GUIDE_SECTIONS, NGINX_START_PAGE_DATA } from './nginxData'
 import { GCR_GUIDE_SECTIONS } from './guideCreationData'
+import { CMD_GUIDE_SECTIONS, CMD_START_PAGE_DATA } from './claudeMdData'
 import { SHELL_SCRIPTING_GUIDE_SECTIONS, SHELL_SCRIPTING_START_PAGE_DATA } from './shellScriptingData'
 
 export type { GuideSection, GuideDefinition, StartPageData }
@@ -296,6 +297,16 @@ export const guides: GuideDefinition[] = [
     category: 'ai-tooling',
   },
   {
+    id: 'claude-md',
+    icon: '📋',
+    title: 'Writing Effective CLAUDE.md Files',
+    startPageId: 'cmd-start',
+    description:
+      'How to write, structure, and maintain CLAUDE.md files — file hierarchy, writing principles, anti-patterns, and a self-review checklist.',
+    sections: CMD_GUIDE_SECTIONS,
+    category: 'ai-tooling',
+  },
+  {
     id: 'shell-scripting',
     icon: '🐚',
     title: 'Shell Scripting for AI Agents',
@@ -334,6 +345,7 @@ export const checklistPages = [
   { id: 'cicd-checklist', sourceGuideId: 'ci-cd' },
   { id: 'k8s-checklist', sourceGuideId: 'kubernetes' },
   { id: 'ai-checklist', sourceGuideId: 'ai-infra' },
+  { id: 'cmd-review-checklist', sourceGuideId: 'claude-md' },
 ]
 
 export const checklistsNavDef: GuideDefinition = {
@@ -410,6 +422,7 @@ const startPageDataMap: Record<string, StartPageData> = {
   'jscodeshift': JCS_START_PAGE_DATA,
   'info-architecture': IA_START_PAGE_DATA,
   'nginx': NGINX_START_PAGE_DATA,
+  'claude-md': CMD_START_PAGE_DATA,
   'shell-scripting': SHELL_SCRIPTING_START_PAGE_DATA,
 }
 

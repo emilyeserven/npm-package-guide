@@ -1,0 +1,23 @@
+---
+id: "cmd-hierarchy"
+title: "File Hierarchy & Locations 📂"
+guide: "claude-md"
+linkRefs:
+  - id: "anthropic-claude-md"
+    note: "Official docs on CLAUDE.md file locations and loading order."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+Claude Code supports four memory locations in a hierarchy. Files higher in the hierarchy take precedence and load first.
+</SectionIntro>
+
+<CmdHierarchyTable />
+
+<SectionList>
+<ColItem>Claude recursively reads CLAUDE.md files from cwd up to the root directory</ColItem>
+<ColItem>Nested CLAUDE.md files in subdirectories load only when Claude reads files in those subtrees</ColItem>
+<ColItem>CLAUDE.local.md is auto-added to .gitignore &mdash; ideal for private preferences</ColItem>
+<ColItem>Use the .claude/rules/ directory to split rules into multiple focused files</ColItem>
+</SectionList>

@@ -4,20 +4,6 @@
 
 Frontend and full-stack developers who want to understand PWA fundamentals and build installable, offline-capable web apps. Covers Service Workers, Web App Manifest, caching strategies, and practical Vite + React integration.
 
-## Section Structure
-
-Defined in `src/data/pwaData.ts` as `PWA_GUIDE_SECTIONS`:
-
-| Section | Pages |
-|---------|-------|
-| (Start) | `pwa-start` |
-| Foundations | `pwa-what-is-pwa`, `pwa-core-pillars`, `pwa-app-shell`, `pwa-https` |
-| Service Workers | `pwa-lifecycle`, `pwa-registration`, `pwa-caching-strategies`, `pwa-offline` |
-| Web App Manifest | `pwa-manifest-fields`, `pwa-icons`, `pwa-display-modes`, `pwa-install-prompt` |
-| Architecture | `pwa-app-shell-model`, `pwa-streams`, `pwa-workbox`, `pwa-sw-precache-vs-runtime` |
-| Vite + React | `pwa-vite-pwa-plugin`, `pwa-vite-config`, `pwa-react-hooks`, `pwa-tanstack-offline` |
-| Advanced Patterns | `pwa-bg-sync`, `pwa-push-notifications`, `pwa-periodic-sync`, `pwa-update-flow` |
-
 ## Interactive Components
 
 ### `PwaTopicDetail`

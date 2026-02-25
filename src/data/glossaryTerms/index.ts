@@ -42,6 +42,7 @@ import { jscodeshiftGlossary } from './jscodeshiftTerms'
 import { iaGlossary } from './iaTerms'
 import { nginxGlossary } from './nginxTerms'
 import { guideCreationGlossary } from './guideCreationTerms'
+import { claudeMdGlossary } from './claudeMdTerms'
 import { shellScriptingGlossary } from './shellScriptingTerms'
 
 export const glossaryTerms: GlossaryCategory[] = [
@@ -71,5 +72,6 @@ export const glossaryTerms: GlossaryCategory[] = [
   ...iaGlossary,
   ...nginxGlossary,
   ...guideCreationGlossary,
+  ...claudeMdGlossary,
   ...shellScriptingGlossary,
 ]

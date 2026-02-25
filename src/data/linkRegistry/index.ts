@@ -60,6 +60,7 @@ import { jscodeshiftLinks } from './jscodeshiftLinks'
 import { iaLinks } from './iaLinks'
 import { nginxLinks } from './nginxLinks'
 import { guideCreationLinks } from './guideCreationLinks'
+import { claudeMdLinks } from './claudeMdLinks'
 import { shellScriptingLinks } from './shellScriptingLinks'
 
 export const linkRegistry: RegistryLink[] = [
@@ -89,6 +90,7 @@ export const linkRegistry: RegistryLink[] = [
   ...iaLinks,
   ...nginxLinks,
   ...guideCreationLinks,
+  ...claudeMdLinks,
   ...shellScriptingLinks,
 ]
 

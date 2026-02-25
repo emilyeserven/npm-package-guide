@@ -4,17 +4,6 @@
 
 Developers who want to create high-quality Claude skills. Covers the full lifecycle from understanding what skills are, through writing effective descriptions and body instructions, to bundling resources and shipping with confidence.
 
-## Section Structure
-
-Defined in `src/data/claudeSkillsData.ts` as `CS_GUIDE_SECTIONS`:
-
-| Section | Pages |
-|---------|-------|
-| (Start) | `cs-start` |
-| Foundations | `cs-what`, `cs-when`, `cs-anatomy` |
-| Writing Skills | `cs-description`, `cs-writing`, `cs-resources` |
-| Best Practices | `cs-dos`, `cs-donts`, `cs-checklist` |
-
 ## Interactive Components
 
 ### `SkillTierCards`
@@ -78,4 +67,3 @@ Defined in `src/data/claudeSkillsData.ts` as `CS_GUIDE_SECTIONS`:
 - Each MDX page is minimal: `<SectionTitle>` + one interactive component
 - All content lives in the data file, not inline in MDX
 - Components take no props (each renders a single page's content)
-- All components support dark mode via `useIsDark()` + `ds()` helper

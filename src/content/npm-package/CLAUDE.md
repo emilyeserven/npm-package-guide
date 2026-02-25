@@ -4,17 +4,6 @@
 
 Backend engineers learning to build and publish npm packages. Assumes familiarity with backend CI/CD, package managers, and compiled languages. Teaches npm/pnpm, bundlers, TypeScript config, `package.json` exports, semver, CI pipelines, and publishing workflows.
 
-## Section Structure
-
-Sections defined in `NPM_GUIDE_SECTIONS` in `src/data/npmPackageData.ts`.
-
-| Section Label | Page IDs |
-|--------------|----------|
-| *(start)* | `roadmap` |
-| Building a Package | `bigpicture`, `monorepo`, `npm-vs-pnpm`, `build`, `tsconfig`, `deps`, `dist`, `packagejson`, `typescript`, `versioning`, `workflow` |
-| CI Pipeline & Checks | `ci-overview`, `ci-linting`, `ci-build`, `ci-testing`, `ci-repo-maintenance` |
-| Developer Experience | `storybook` |
-
 Additional data files beyond the standard layout: `src/data/roadmapSteps.ts` (roadmap step data), `src/data/checklistItems.ts` (checklist item data).
 
 ## Interactive Components

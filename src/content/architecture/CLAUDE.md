@@ -4,19 +4,6 @@
 
 Backend engineers learning frontend architecture patterns — tech stacks, full-stack frameworks, and how layers connect. Assumes familiarity with databases, servers, and APIs.
 
-## Section Structure
-
-Defined in `ARCH_GUIDE_SECTIONS` in `src/data/archData/navigation.ts`.
-
-| Section Label | Page IDs |
-|--------------|----------|
-| *(start)* | `arch-start`, `arch-what-is-a-stack` |
-| Stack Alternatives | `arch-stack-mern`, `arch-stack-pfrn`, `arch-stack-mean`, `arch-stack-lamp`, `arch-stack-django`, `arch-stack-rails` |
-| Full-Stack Frameworks | `arch-frameworks-intro`, `arch-fw-nextjs`, `arch-fw-react-router`, `arch-fw-tanstack-start`, `arch-fw-remix` |
-| Putting It Together | `arch-how-it-connects` |
-
-Data directory: `src/data/archData/` — `types.ts`, `stacks.ts`, `frameworks.ts`, `navigation.ts` (barrel-exported).
-
 ## Interactive Components
 
 All accept a string ID prop that looks up data from `archData/`.

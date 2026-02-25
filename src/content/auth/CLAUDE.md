@@ -4,20 +4,6 @@
 
 Backend engineers who understand server-side auth but need to implement it in a frontend context. Teaches tokens, JWTs, OAuth 2.0/OIDC, PKCE implementation, frontend auth patterns, token lifecycle management, RBAC, backend integration, and security threats.
 
-## Section Structure
-
-Defined in `AUTH_GUIDE_SECTIONS` in `src/data/authData/navigation.ts`.
-
-| Section Label | Page IDs |
-|--------------|----------|
-| *(start)* | `auth-start` |
-| Foundations | `auth-core`, `auth-tokens`, `auth-jwt` |
-| Protocols & Patterns | `auth-oauth`, `auth-pkce`, `auth-frontend`, `auth-refresh` |
-| Advanced Patterns | `auth-rbac`, `auth-integration` |
-| Security & Review | `auth-security`, `auth-quiz` |
-
-Data directory: `src/data/authData/` — `types.ts`, `concepts.ts`, `navigation.ts`. See type definitions in `types.ts`.
-
 ## Interactive Components
 
 | Component | Props | Purpose |
