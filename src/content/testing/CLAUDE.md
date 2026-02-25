@@ -4,17 +4,6 @@
 
 Backend engineers learning frontend testing fundamentals. Assumes familiarity with backend testing concepts (unit tests, mocking, CI). Teaches the testing pyramid, what to test at each level, and tool selection.
 
-## Section Structure
-
-Defined in `TESTING_GUIDE_SECTIONS` in `src/data/testingData.ts`. All data in this single file.
-
-| Section Label | Page IDs |
-|--------------|----------|
-| *(start)* | `test-start` |
-| Testing Fundamentals | `test-overview`, `test-unit`, `test-component`, `test-e2e` |
-| Comparing Tests | `test-comparison`, `test-best-practices` |
-| Reference | `test-tools` |
-
 ## Interactive Components
 
 | Component | Props | Purpose |

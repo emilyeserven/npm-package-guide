@@ -4,20 +4,6 @@
 
 Developers (any background) learning practical patterns for working with AI coding assistants. Largest guide with 22+ pages. Covers common AI-generated code mistakes, context management techniques, CLI commands, and advanced tooling (MCP, skills, hooks).
 
-## Section Structure
-
-Defined in `PROMPT_GUIDE_SECTIONS` in `src/data/promptData/navigation.ts`.
-
-| Section Label | Page IDs |
-|--------------|----------|
-| *(start)* | `prompt-start` |
-| Common AI Mistakes | `prompt-mistakes-logic`, `prompt-mistakes-apis`, `prompt-mistakes-structural`, `prompt-mistakes-style`, `prompt-mistakes-react`, `prompt-mistakes-security`, `prompt-mistakes-design`, `prompt-mistakes-tailwind`, `prompt-testing` |
-| Context Management | `prompt-ctx-system-prompt`, `prompt-ctx-claude-md`, `prompt-ctx-chaining`, `prompt-ctx-few-shot`, `prompt-ctx-window`, `prompt-ctx-thinking` |
-| Tooling & Reference | `prompt-coding-tools`, `prompt-cli-reference`, `prompt-meta-tooling` |
-| Advanced Tools | `prompt-tools-mcp`, `prompt-tools-skills`, `prompt-tools-hooks`, `prompt-tools-optimization` |
-
-Data directory: `src/data/promptData/` — `types.ts`, `mistakes.ts`, `techniques.ts`, `cli.ts`, `codingTools.ts`, `navigation.ts`.
-
 ## Interactive Components
 
 | Component | Props | Purpose |

@@ -18,6 +18,8 @@ Every guide follows the same file layout:
 - **Link registry:** `src/data/linkRegistry/<guideId>Links.ts`
 - **Guide-specific docs:** `src/content/<guide-id>/CLAUDE.md`
 
+Guide CLAUDE.md files document only guide-specific information: audience context, interactive component APIs (props and data sources), and conventions unique to that guide. Standard patterns (file layout, shared components, dark mode, adding pages) are covered here and in `docs/`.
+
 ### Top-Level Resources
 
 - **External Resources** (`src/components/ExternalResourcesPage.tsx`) — searchable, filterable table derived from `src/data/linkRegistry/`.

@@ -4,18 +4,6 @@
 
 Developers (especially frontend/full-stack) who need practical security awareness. Each topic explains a vulnerability, shows how it's exploited, and provides copy-pasteable prevention code.
 
-## Section Structure
-
-Defined in `src/data/securityData.ts` as `SECURITY_GUIDE_SECTIONS`:
-
-| Section | Pages |
-|---------|-------|
-| (Start) | `sec-start` |
-| Client-Side Attacks | `sec-xss`, `sec-csrf` |
-| Human & Network Attacks | `sec-phishing`, `sec-mitm`, `sec-dns` |
-| Backend & Supply Chain | `sec-auth`, `sec-injection`, `sec-supply` |
-| AI-Specific | `sec-prompt-injection` |
-
 ## Interactive Components
 
 ### `SecurityTopicDetail`
