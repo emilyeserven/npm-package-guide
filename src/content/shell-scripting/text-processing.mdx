@@ -1,0 +1,89 @@
+---
+id: "text-processing"
+title: "Parsing & Text Processing 🔍"
+guide: "shell-scripting"
+group: "Agent Patterns"
+linkRefs:
+  - id: explainshell
+  - id: jq-manual
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-tools">Essential Tools: grep, sed, awk, cut</TocLink>
+  <TocLink id="toc-pipes">Pipes — The Unix Superpower</TocLink>
+  <TocLink id="toc-heredocs">Here Documents</TocLink>
+</Toc>
+
+<SectionIntro>
+Extract, transform, and process text with the Unix toolkit.
+</SectionIntro>
+
+<SectionSubheading id="toc-tools">Essential Tools: grep, sed, awk, cut</SectionSubheading>
+
+<CodeAccordion title="Text toolkit" ext="bash">
+```bash
+# grep — search for patterns
+grep "TODO" src/*.ts                     # Find TODOs
+grep -r --include="*.ts" "useState" src/  # Recursive
+grep -c "error" app.log                  # Count matches
+grep -l "deprecated" src/**/*.ts          # List matching files
+
+# sed — stream editor (find & replace)
+sed 's/old/new/g' file.txt              # Replace all
+sed -i 's/http:/https:/g' config.yml    # Edit in place
+sed -n '10,20p' file.txt                # Print lines 10-20
+
+# awk — column/field processing
+awk '{print $1}' data.tsv               # First column
+awk -F: '{print $1, $3}' /etc/passwd    # Custom delim
+df -h | awk '$5+0 > 80 {print $6,$5}'  # Disks >80%
+
+# cut — extract fields
+echo "name:age:city" | cut -d: -f2     # → age
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-pipes">Pipes — The Unix Superpower</SectionSubheading>
+
+<CodeAccordion title="Pipe chains" ext="bash">
+```bash
+# Count TypeScript files
+find src -name "*.ts" | wc -l
+
+# Top 5 largest files
+find . -type f -exec du -h {} + | sort -rh | head -5
+
+# Extract unique imports from TS files
+grep -rh "^import" src/ --include="*.ts" \
+  | sed "s/.*from ['\"]//; s/['\"].*//" \
+  | sort -u
+
+# Largest node_modules packages
+du -sh node_modules/*/ 2>/dev/null | sort -rh | head -10
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-heredocs">Here Documents</SectionSubheading>
+
+<CodeAccordion title="Heredocs" ext="bash">
+```bash
+# Multi-line output with variable expansion
+cat <<EOF
+{
+  "name": "$PROJECT_NAME",
+  "version": "1.0.0"
+}
+EOF
+
+# Write a config file
+cat > .env.local <<EOF
+DATABASE_URL=postgres://localhost:5432/mydb
+API_KEY=$GENERATED_KEY
+EOF
+
+# Here string — single-line input
+grep "error" <<< "$LOG_OUTPUT"
+```
+</CodeAccordion>

@@ -135,6 +135,8 @@ import { S3CostCalculator } from './s3-storage/S3CostCalculator'
 import { S3ClassPicker } from './s3-storage/S3ClassPicker'
 import { S3FrontendPatterns } from './s3-storage/S3FrontendPatterns'
 import { S3Quiz } from './s3-storage/S3Quiz'
+// shell-scripting
+import { ShellQuiz } from './shell-scripting/ShellQuiz'
 // nginx
 import { NginxComparison } from './nginx/NginxComparison'
 import { NginxEventLoopDiagram } from './nginx/NginxEventLoopDiagram'
@@ -304,6 +306,7 @@ export const mdxComponents: MDXComponents = {
   IaNavPatternCards,
   IaPatternCards,
   IaAiPrincipleCards,
+  ShellQuiz,
   NginxComparison,
   NginxEventLoopDiagram,
   NginxLocationDemo,

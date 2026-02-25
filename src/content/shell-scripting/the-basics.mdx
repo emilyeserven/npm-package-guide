@@ -1,0 +1,95 @@
+---
+id: "the-basics"
+title: "The Basics 🔧"
+guide: "shell-scripting"
+group: "Foundations"
+linkRefs:
+  - id: gnu-bash-manual
+  - id: explainshell
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What is a Shell Script?</TocLink>
+  <TocLink id="toc-shebang">The Shebang Line</TocLink>
+  <TocLink id="toc-executable">Making It Executable</TocLink>
+  <TocLink id="toc-exit-codes">Exit Codes</TocLink>
+  <TocLink id="toc-quiz">Knowledge Check</TocLink>
+</Toc>
+
+<SectionIntro>
+Everything starts with a shebang and a plan.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">What is a Shell Script?</SectionSubheading>
+
+A shell script is a text file containing commands executed by a Unix shell (`bash`, `zsh`). Instead of typing commands one by one, you write them in a file, make it executable, and run everything at once.
+
+<Explainer title="Why AI Agents Care">
+Agents like Claude Code run shell commands constantly — checking files, running tests, validating environments. Shell scripts let you bundle validation checks that an agent invokes before committing to expensive operations, saving tokens and context window space.
+</Explainer>
+
+<SectionSubheading id="toc-shebang">The Shebang Line</SectionSubheading>
+
+Every script starts with `#!` to tell the system which interpreter to use.
+
+<CodeAccordion title="hello.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+# ↑ Portable shebang — finds bash wherever it's installed
+
+echo "Hello from a shell script!"
+```
+</CodeAccordion>
+
+<SectionNote>
+`#!/usr/bin/env bash` is more portable than `#!/bin/bash` because it searches your `PATH`. On macOS, `/bin/bash` is ancient (3.2), while Homebrew bash lives elsewhere.
+</SectionNote>
+
+<SectionSubheading id="toc-executable">Making It Executable & Running It</SectionSubheading>
+
+<CodeAccordion title="Terminal" ext="bash">
+```bash
+chmod +x hello.sh    # Make executable
+./hello.sh             # Run it
+bash hello.sh          # Or run with bash directly (no chmod needed)
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-exit-codes">Exit Codes — The Language of Success/Failure</SectionSubheading>
+
+Every command returns an exit code. `0` = success, anything else = failure. This is how scripts and AI agents determine what happened.
+
+<CodeAccordion title="exit-codes.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+
+# $? holds the exit code of the last command
+ls /tmp
+echo "Exit code: $?"  # → 0 (success)
+
+ls /nonexistent 2>/dev/null
+echo "Exit code: $?"  # → 2 (failure)
+
+# Set your own exit code
+if [ ! -f "config.json" ]; then
+  echo "ERROR: config.json not found" >&2
+  exit 1
+fi
+```
+</CodeAccordion>
+
+<Explainer title="Agent Pattern">
+Write scripts to `exit 0` on success and `exit 1` on failure — the agent reads the exit code and decides what to do next without parsing output text.
+</Explainer>
+
+<SectionSubheading id="toc-quiz">Knowledge Check</SectionSubheading>
+
+<ShellQuiz
+  question="🧪 What does an exit code of 0 mean?"
+  options={["The script produced no output", "The command succeeded", "An error occurred"]}
+  correctIndex={1}
+  correctFeedback="Correct! In Unix, 0 = success. Any non-zero value indicates failure."
+  incorrectFeedback="Not quite — in Unix, exit code 0 always means the command succeeded."
+/>

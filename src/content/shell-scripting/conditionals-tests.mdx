@@ -1,0 +1,107 @@
+---
+id: "conditionals-tests"
+title: "Conditionals & Tests ⚖️"
+guide: "shell-scripting"
+group: "Foundations"
+linkRefs:
+  - id: gnu-bash-manual
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-if">The if Statement</TocLink>
+  <TocLink id="toc-operators">Test Operators Reference</TocLink>
+  <TocLink id="toc-double-bracket">Double vs Single Brackets</TocLink>
+  <TocLink id="toc-short-circuit">Short-circuit Operators</TocLink>
+  <TocLink id="toc-quiz">Knowledge Check</TocLink>
+</Toc>
+
+<SectionIntro>
+Decision-making is where shell scripts become powerful validation tools.
+</SectionIntro>
+
+<SectionSubheading id="toc-if">The if Statement</SectionSubheading>
+
+<CodeAccordion title="conditionals.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+
+if [ "$1" = "deploy" ]; then
+  echo "Starting deployment..."
+elif [ "$1" = "test" ]; then
+  echo "Running tests..."
+else
+  echo "Usage: $0 {deploy|test}"
+  exit 1
+fi
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-operators">Test Operators Reference</SectionSubheading>
+
+<DefinitionTable termHeader="Operator" descHeader="Meaning">
+  <DefRow term="-f FILE">Exists and is a regular file</DefRow>
+  <DefRow term="-d DIR">Directory exists</DefRow>
+  <DefRow term="-e PATH">Path exists (anything)</DefRow>
+  <DefRow term="-s FILE">Exists and is not empty</DefRow>
+  <DefRow term="-r / -w / -x">Readable / Writable / Executable</DefRow>
+  <DefRow term="-z STR">String is empty</DefRow>
+  <DefRow term="-n STR">String is not empty</DefRow>
+  <DefRow term="= / !=">String equal / not equal</DefRow>
+  <DefRow term="-eq -gt -lt">Number equal / greater / less than</DefRow>
+  <DefRow term="F1 -nt F2">F1 is newer than F2</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-double-bracket">&#91;&#91; &#93;&#93; vs &#91; &#93; — Modern Tests</SectionSubheading>
+
+<CodeAccordion title="Double brackets" ext="bash">
+```bash
+# [[ ]] is a bash extension with safer behavior:
+# - No word splitting on variables
+# - Pattern matching with ==
+# - Regex with =~
+# - Logical && and || inside brackets
+
+if [[ $FILENAME == *.ts ]]; then
+  echo "TypeScript file"
+fi
+
+if [[ $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+  echo "Valid semver"
+fi
+
+if [[ -f "package.json" && -f "tsconfig.json" ]]; then
+  echo "TypeScript Node project"
+fi
+```
+</CodeAccordion>
+
+<SectionNote>
+**Rule of thumb:** Use `[[ ]]` for everything in bash scripts. Only use `[ ]` for strict POSIX `/bin/sh` scripts.
+</SectionNote>
+
+<SectionSubheading id="toc-short-circuit">Short-circuit Operators</SectionSubheading>
+
+<CodeAccordion title="One-liners" ext="bash">
+```bash
+# && = run next only if first succeeds
+npm test && echo "Tests passed!"
+
+# || = run next only if first fails
+command -v node || { echo "Node not installed"; exit 1; }
+
+# Common validation pattern
+[ -f ".env" ] || { echo "Missing .env" >&2; exit 1; }
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-quiz">Knowledge Check</SectionSubheading>
+
+<ShellQuiz
+  question="🧪 Which tests if a file exists AND is a regular file (not a dir)?"
+  options={["-e", "-f", "-d"]}
+  correctIndex={1}
+  correctFeedback="Right! -f checks for a regular file. -e matches anything including dirs."
+  incorrectFeedback="-f tests for a regular file. -e is for any path, -d for directories."
+/>

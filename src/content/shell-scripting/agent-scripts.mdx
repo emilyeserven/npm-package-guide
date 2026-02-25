@@ -1,0 +1,112 @@
+---
+id: "agent-scripts"
+title: "Complete Agent Scripts 🚀"
+guide: "shell-scripting"
+group: "Recipes"
+linkRefs:
+  - id: shellcheck
+  - id: bash-strict-mode
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-preflight">Full Pre-flight Check</TocLink>
+  <TocLink id="toc-security">Security Scan Helper</TocLink>
+  <TocLink id="toc-port">Port Checker</TocLink>
+</Toc>
+
+<SectionIntro>
+Copy-paste-ready scripts that make AI agents dramatically more efficient.
+</SectionIntro>
+
+<SectionSubheading id="toc-preflight">Full Pre-flight Check</SectionSubheading>
+
+<CodeAccordion title="preflight.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+MIN_NODE="18.0.0"
+REQ_FILES=("package.json" "tsconfig.json")
+REQ_CMDS=("node" "npm" "git")
+
+R='\033[0;31m'; G='\033[0;32m'; Y='\033[0;33m'; N='\033[0m'
+ERRS=0; WARNS=0
+pass(){ echo -e "  ${G}✓${N} $1"; }
+fail(){ echo -e "  ${R}✗${N} $1" >&2; ((ERRS++)); }
+ver_gte(){ printf '%s\n%s' "$2" "$1" | sort -V -C; }
+
+echo "🔍 Pre-flight checks..."; echo
+
+echo "Commands:"
+for CMD in "${REQ_CMDS[@]}"; do
+  command -v "$CMD" >/dev/null 2>&1 && pass "$CMD" || fail "$CMD missing"
+done
+
+echo; echo "Files:"
+for F in "${REQ_FILES[@]}"; do
+  [[ -f "$F" ]] && pass "$F" || fail "$F missing"
+done
+
+[[ -d "node_modules" ]] && pass "node_modules" \
+  || fail "node_modules missing — run npm install"
+
+echo
+if [ $ERRS -gt 0 ]; then
+  echo -e "${R}⛔ FAILED: $ERRS error(s)${N}"; exit 1
+else
+  echo -e "${G}✅ All systems go!${N}"
+fi
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-security">Security Scan Helper</SectionSubheading>
+
+<CodeAccordion title="security-scan.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "🔒 Security scan..."; ISSUES=0
+
+# Check for hardcoded secrets
+PATTERNS=("sk-[a-zA-Z0-9]{20}" "ghp_[a-zA-Z0-9]{36}" "AKIA[A-Z0-9]{16}")
+for PAT in "${PATTERNS[@]}"; do
+  MATCHES=$(grep -rlE "$PAT" src/ --include="*.ts" 2>/dev/null || true)
+  if [[ -n "$MATCHES" ]]; then
+    echo "  ⚠️  Possible secret: $PAT"; ((ISSUES++))
+  fi
+done
+
+# Check .gitignore covers env files
+for F in .env .env.local .env.production; do
+  if [[ -f "$F" ]]; then
+    git check-ignore "$F" >/dev/null 2>&1 \
+      && echo "  ✓ $F gitignored" \
+      || { echo "  ❌ $F NOT gitignored!"; ((ISSUES++)); }
+  fi
+done
+
+[[ $ISSUES -eq 0 ]] && echo "✅ Clean" || echo "⚠️  $ISSUES issue(s)"
+exit $ISSUES
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-port">Port Checker</SectionSubheading>
+
+<CodeAccordion title="check-port.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+PORT="${1:-3000}"
+
+if lsof -i :$PORT >/dev/null 2>&1; then
+  PID=$(lsof -ti :$PORT)
+  echo "⚠️  Port $PORT in use (PID $PID)"
+  echo "   Kill it: kill $PID"; exit 1
+else
+  echo "✅ Port $PORT is available"
+fi
+```
+</CodeAccordion>

@@ -61,6 +61,7 @@ import { iaLinks } from './iaLinks'
 import { nginxLinks } from './nginxLinks'
 import { guideCreationLinks } from './guideCreationLinks'
 import { claudeMdLinks } from './claudeMdLinks'
+import { shellScriptingLinks } from './shellScriptingLinks'
 
 export const linkRegistry: RegistryLink[] = [
   ...npmPackageLinks,
@@ -90,6 +91,7 @@ export const linkRegistry: RegistryLink[] = [
   ...nginxLinks,
   ...guideCreationLinks,
   ...claudeMdLinks,
+  ...shellScriptingLinks,
 ]
 
 /** Fast lookup by registry ID */
