@@ -26,14 +26,6 @@ export function PiGotchaAccordion() {
           )}
         </div>
       )}
-      renderIndicator={(expanded) => (
-        <span
-          className="text-lg text-slate-400 dark:text-slate-500 transition-transform duration-200 shrink-0"
-          style={{ transform: expanded ? 'rotate(45deg)' : 'none' }}
-        >
-          +
-        </span>
-      )}
     />
   )
 }
