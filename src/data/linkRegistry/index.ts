@@ -59,6 +59,7 @@ import { coolifyLinks } from './coolifyLinks'
 import { jscodeshiftLinks } from './jscodeshiftLinks'
 import { iaLinks } from './iaLinks'
 import { nginxLinks } from './nginxLinks'
+import { guideCreationLinks } from './guideCreationLinks'
 
 export const linkRegistry: RegistryLink[] = [
   ...npmPackageLinks,
@@ -86,6 +87,7 @@ export const linkRegistry: RegistryLink[] = [
   ...jscodeshiftLinks,
   ...iaLinks,
   ...nginxLinks,
+  ...guideCreationLinks,
 ]
 
 /** Fast lookup by registry ID */
