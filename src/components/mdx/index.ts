@@ -144,6 +144,13 @@ import { NginxReverseProxyDiagram } from './nginx/NginxReverseProxyDiagram'
 import { NginxEnterpriseDiagram } from './nginx/NginxEnterpriseDiagram'
 import { NginxCommandList } from './nginx/NginxCommandList'
 
+import { CmdPrinciples } from './claude-md/CmdPrinciples'
+import { CmdAntiPatterns } from './claude-md/CmdAntiPatterns'
+import { CmdCategories } from './claude-md/CmdCategories'
+import { CmdLayouts } from './claude-md/CmdLayouts'
+import { CmdFeatures } from './claude-md/CmdFeatures'
+import { CmdHierarchyTable } from './claude-md/CmdHierarchyTable'
+
 export const mdxComponents: MDXComponents = {
   pre: MdxPre,
   Cmd,
@@ -304,4 +311,10 @@ export const mdxComponents: MDXComponents = {
   NginxReverseProxyDiagram,
   NginxEnterpriseDiagram,
   NginxCommandList,
+  CmdPrinciples,
+  CmdAntiPatterns,
+  CmdCategories,
+  CmdLayouts,
+  CmdFeatures,
+  CmdHierarchyTable,
 }

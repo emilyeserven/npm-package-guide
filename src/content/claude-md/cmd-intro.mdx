@@ -1,0 +1,29 @@
+---
+id: "cmd-intro"
+title: "What is CLAUDE.md? 📋"
+guide: "claude-md"
+linkRefs:
+  - id: "anthropic-claude-md"
+    note: "Official documentation for CLAUDE.md memory files."
+  - id: "anthropic-claude-code"
+    note: "Claude Code overview — the AI coding assistant that reads CLAUDE.md."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+CLAUDE.md is a special markdown file that Claude Code reads at the start of every conversation. It&rsquo;s your primary way to give Claude persistent context about your project &mdash; things it can&rsquo;t infer from code alone.
+</SectionIntro>
+
+Think of it as onboarding documentation for an AI pair programmer who has amnesia between sessions. Every time Claude Code starts, it knows nothing about your codebase. CLAUDE.md is how you bridge that gap.
+
+<SectionList>
+<ColItem>Loaded automatically at the start of every Claude Code session</ColItem>
+<ColItem>The highest-leverage configuration point in the entire Claude Code harness</ColItem>
+<ColItem>Affects every phase of your workflow &mdash; planning, implementation, testing, review</ColItem>
+<ColItem>Can be shared with your team via source control</ColItem>
+</SectionList>
+
+<Gotcha>
+Because CLAUDE.md goes into every session, a bad line here has exponentially more impact than a bad line of code. Craft it carefully.
+</Gotcha>

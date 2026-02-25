@@ -1,0 +1,65 @@
+---
+id: "cmd-example"
+title: "Complete Example 📄"
+guide: "claude-md"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<SectionIntro>
+Here&rsquo;s a well-structured CLAUDE.md for a typical TypeScript + React project. Notice how concise it is &mdash; under 50 lines.
+</SectionIntro>
+
+<SectionNote>
+Copy this example and adapt it to your project. Replace the stack, commands, and architecture sections with your own details.
+</SectionNote>
+
+<CodeAccordion title="Example CLAUDE.md — Acme Dashboard" ext="MD">
+
+```markdown
+# Acme Dashboard
+
+Internal analytics dashboard for the sales team.
+React SPA with TanStack Router, TanStack Query, and Zustand.
+
+## Stack
+
+- TypeScript (strict mode)
+- React 19 + Vite
+- TanStack Router (file-based routes in src/routes/)
+- TanStack Query for server state
+- Zustand for client state (stores in src/stores/)
+- Tailwind CSS for styling
+- Vitest + React Testing Library for tests
+
+## Commands
+
+- pnpm dev             # dev server on :5173
+- pnpm build           # production build
+- pnpm test:unit       # run unit tests
+- pnpm test -- path    # run a single test file
+- pnpm typecheck       # TypeScript check
+- pnpm lint:fix        # auto-fix with Biome
+
+## Workflow
+
+- Run typecheck after code changes
+- Prefer running single tests, not the full suite
+- Use Biome for formatting (do not format manually)
+- Commit messages: conventional commits (feat:, fix:, chore:)
+
+## Architecture
+
+- API client: src/lib/api.ts (wraps fetch with auth headers)
+- Auth: see src/stores/authStore.ts for the pattern
+- Shared components: src/components/ui/ (shadcn-based)
+- Route loaders handle data fetching via TanStack Query
+
+## Guides
+
+- Testing patterns: @docs/testing.md
+- API conventions: @docs/api-patterns.md
+- Component guidelines: @docs/components.md
+```
+
+</CodeAccordion>
