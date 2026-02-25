@@ -8,15 +8,14 @@ import {
   type SortingState,
   type ColumnFiltersState,
 } from '@tanstack/react-table'
-import clsx from 'clsx'
 import { linkRegistry } from '../data/linkRegistry'
 import { overallResources, badgeBase, badgeMap, typeTags, topicTags, guideTags } from '../data/overallResources'
 import { contentPages } from '../content/registry'
 import { getNavTitle } from '../data/navigation'
 import { parseTitle } from '../helpers/parseTitle'
 import { useNavigateToSection } from '../hooks/useNavigateToSection'
-import { useUIStore } from '../hooks/useUIStore'
 import { DataTable } from './DataTable'
+import { FilterableTableShell, type FilterGroup } from './FilterableTableShell'
 
 interface ReferenceRow {
   name: string
@@ -81,12 +80,10 @@ interface ExternalResourcesPageProps {
 
 export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPageProps) {
   const navigateToSection = useNavigateToSection()
-  const effectivelyPinned = useUIStore((s) => s.pinned && s.isDesktop)
   const data = useMemo(() => buildReferenceData(), [])
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [globalFilter, setGlobalFilter] = useState('')
-  const [wideMode, setWideMode] = useState(false)
   const [tagFilter, setTagFilter] = useState<string[]>(
     () => initialGuide ? [`guide:${initialGuide}`] : []
   )
@@ -221,153 +218,29 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
     setTagFilter([])
   }
 
-  const hasActiveFilters = globalFilter || tagFilter.length > 0
+  const hasActiveFilters = !!(globalFilter || tagFilter.length > 0)
+
+  const filterGroups: FilterGroup[] = [
+    { label: 'Guide', tags: guideTagList, activeFilter: tagFilter, onToggle: toggleTag, testIdPrefix: 'resources-tag' },
+    { label: 'Type', tags: typeTagList, activeFilter: tagFilter, onToggle: toggleTag, testIdPrefix: 'resources-tag' },
+    { label: 'Topic', tags: topicTagList, activeFilter: tagFilter, onToggle: toggleTag, testIdPrefix: 'resources-tag' },
+  ]
 
   return (
-    <>
-      <div>
-        <h1 className="text-3xl font-bold mb-5 tracking-tight">External Resources</h1>
-        <p className="text-sm text-gray-500 dark:text-slate-400 mb-5 leading-relaxed">
-          Documentation, articles, courses, tools, and section references in one place. Use the search and filters to find what you need.
-        </p>
-
-        {/* Search */}
-        <div className="mb-4">
-          <div className="relative">
-            <input
-              className="w-full h-10 pl-3.5 pr-9 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-500 outline-none transition-colors duration-150 focus:border-blue-500 dark:focus:border-blue-400"
-              type="text"
-              placeholder="Search references..."
-              aria-label="Search external resources"
-              value={globalFilter}
-              onChange={e => setGlobalFilter(e.target.value)}
-              data-testid="resources-search"
-            />
-            {globalFilter && (
-              <button
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center bg-transparent border-none text-gray-400 dark:text-slate-500 cursor-pointer text-sm hover:text-slate-600 dark:hover:text-slate-300"
-                onClick={() => setGlobalFilter('')}
-                aria-label="Clear search"
-                data-testid="resources-search-clear"
-              >
-                &#x2715;
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Tag filters */}
-        <div className="flex flex-col gap-4 mb-5">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Guide</span>
-            <div className="flex flex-wrap gap-1.5">
-              {guideTagList.map(b => {
-                const badge = badgeMap[b]
-                if (!badge) return null
-                const isActive = tagFilter.includes(b)
-                return (
-                  <button
-                    key={b}
-                    className={clsx(
-                      `${badgeBase} ${badge.cls} cursor-pointer border-none transition-all duration-150`,
-                      isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
-                    )}
-                    onClick={() => toggleTag(b)}
-                    aria-pressed={isActive}
-                    data-testid={`resources-tag-${b}`}
-                  >
-                    {badge.label}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Type</span>
-            <div className="flex flex-wrap gap-1.5">
-              {typeTagList.map(b => {
-                const badge = badgeMap[b]
-                if (!badge) return null
-                const isActive = tagFilter.includes(b)
-                return (
-                  <button
-                    key={b}
-                    className={clsx(
-                      `${badgeBase} ${badge.cls} cursor-pointer border-none transition-all duration-150`,
-                      isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
-                    )}
-                    onClick={() => toggleTag(b)}
-                    aria-pressed={isActive}
-                    data-testid={`resources-tag-${b}`}
-                  >
-                    {badge.label}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">Topic</span>
-            <div className="flex flex-wrap gap-1.5">
-              {topicTagList.map(b => {
-                const badge = badgeMap[b]
-                if (!badge) return null
-                const isActive = tagFilter.includes(b)
-                return (
-                  <button
-                    key={b}
-                    className={clsx(
-                      `${badgeBase} ${badge.cls} cursor-pointer border-none transition-all duration-150`,
-                      isActive ? 'ring-2 ring-blue-500/40 dark:ring-blue-400/40' : 'opacity-70 hover:opacity-100'
-                    )}
-                    onClick={() => toggleTag(b)}
-                    aria-pressed={isActive}
-                    data-testid={`resources-tag-${b}`}
-                  >
-                    {badge.label}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-          <button
-            className={clsx(
-              "self-start text-xs font-medium text-gray-500 dark:text-slate-400 bg-transparent border-none cursor-pointer px-0 hover:text-blue-500 dark:hover:text-blue-400",
-              !hasActiveFilters && "invisible"
-            )}
-            onClick={clearFilters}
-            data-testid="resources-clear-filters"
-          >
-            Clear filters
-          </button>
-        </div>
-
-        {/* Results count + wide toggle */}
-        <div className="flex items-center justify-between mb-2.5">
-          <div className="text-xs text-gray-400 dark:text-slate-500 font-medium" aria-live="polite" aria-atomic="true" data-testid="resources-count">
-            {table.getRowModel().rows.length} of {data.length} references
-          </div>
-          {!effectivelyPinned && (
-            <button
-              className="text-xs font-medium text-gray-500 dark:text-slate-400 bg-transparent border border-slate-200 dark:border-slate-700 rounded-md px-2.5 py-1 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-600 transition-colors duration-150"
-              onClick={() => setWideMode(prev => !prev)}
-            >
-              {wideMode ? '↙ Compact view' : '↗ Wide view'}
-            </button>
-          )}
-        </div>
-
-        {/* Table */}
-        <div
-          className={clsx(wideMode && !effectivelyPinned && 'transition-[width,margin] duration-250')}
-          style={wideMode && !effectivelyPinned ? {
-            width: 'calc(100vw - 2.5rem)',
-            marginLeft: 'calc((100% - 100vw + 2.5rem) / 2)',
-          } : undefined}
-        >
-          <DataTable table={table} columnCount={4} emptyMessage="No references match your filters." />
-        </div>
-      </div>
-    </>
+    <FilterableTableShell
+      title="External Resources"
+      description="Documentation, articles, courses, tools, and section references in one place. Use the search and filters to find what you need."
+      searchPlaceholder="Search references..."
+      globalFilter={globalFilter}
+      onFilterChange={setGlobalFilter}
+      filterGroups={filterGroups}
+      clearFilters={clearFilters}
+      hasActiveFilters={hasActiveFilters}
+      resultCount={table.getRowModel().rows.length}
+      totalCount={data.length}
+      countLabel="references"
+    >
+      <DataTable table={table} columnCount={4} emptyMessage="No references match your filters." />
+    </FilterableTableShell>
   )
 }

@@ -110,7 +110,6 @@ import { TrafficDiagram } from './coolify-deploy/TrafficDiagram'
 import { FoundationAccordion } from './coolify-deploy/FoundationAccordion'
 import { SpaRoutingDiagram } from './coolify-deploy/SpaRoutingDiagram'
 import { CoolifyGotchaAccordion } from './coolify-deploy/CoolifyGotchaAccordion'
-import { CoolifyChecklist } from './coolify-deploy/CoolifyChecklist'
 import { PiModelTable } from './coolify-deploy/PiModelTable'
 import { PiPerformanceAccordion } from './coolify-deploy/PiPerformanceAccordion'
 import { PiGotchaAccordion } from './coolify-deploy/PiGotchaAccordion'
@@ -290,7 +289,6 @@ export const mdxComponents: MDXComponents = {
   FoundationAccordion,
   SpaRoutingDiagram,
   CoolifyGotchaAccordion,
-  CoolifyChecklist,
   PiModelTable,
   PiPerformanceAccordion,
   PiGotchaAccordion,

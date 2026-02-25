@@ -11,6 +11,7 @@ import { AI_INFRA_CHECKLIST } from '../../data/aiInfraData'
 import { NJA_CHECKLIST } from '../../data/njaData'
 import { CLAUDEMD_CHECKLIST } from '../../data/promptData'
 import { GIT_WORKTREES_CHECKLIST } from '../../data/gitWorktreesData'
+import { DEPLOY_CHECKLIST } from '../../data/coolifyData'
 
 // ── Sources that need transformation ─────────────────────────────────
 
@@ -53,6 +54,14 @@ function groupBy<T>(items: T[], key: (item: T) => string, iconMap: Record<string
   }))
 }
 
+const COOLIFY_ICONS: Record<string, string> = {
+  'Pre-Deploy': '\u{1F680}',
+  Configuration: '\u2699\uFE0F',
+  'SPA Routing': '\u{1F517}',
+  'Post-Deploy': '\u2705',
+  'Raspberry Pi\u2013Specific (if applicable)': '\u{1F353}',
+}
+
 const CHECKLIST_REGISTRY: Record<string, ChecklistEntry> = {
   arch:      { title: 'Architecture Checklist',           sections: ARCH_CHECKLIST },
   cicd:      { title: 'CI/CD Checklist',                  sections: CICD_CHECKLIST },
@@ -64,6 +73,7 @@ const CHECKLIST_REGISTRY: Record<string, ChecklistEntry> = {
   auth:      { title: 'Auth Implementation Checklist',     sections: groupBy(AUTH_CHECKLIST_ITEMS, it => it.category, AUTH_ICONS) },
   test:      { title: 'Quick Test Review',                 sections: [{ id: 'review', name: 'Review Criteria', icon: '\uD83D\uDCCB', items: TEST_CHECKLIST_ITEMS.map(it => ({ label: it.label, description: it.detail })) }] },
   'git-worktrees': { title: 'Git Worktrees Checklist',    sections: GIT_WORKTREES_CHECKLIST },
+  coolify:   { title: 'Coolify Deploy Checklist',          sections: DEPLOY_CHECKLIST.map(g => ({ id: g.heading.toLowerCase().replace(/[^a-z0-9]+/g, '-'), name: g.heading, icon: COOLIFY_ICONS[g.heading] ?? '\u2705', items: g.items.map(label => ({ label })) })) },
 }
 
 // ── Component ────────────────────────────────────────────────────────

@@ -143,6 +143,51 @@ const { activeId, setActiveId, active, toggle } = useExplorer(items, defaultId)
 
 **Guide components using it:** `StackExplorer` (architecture), `FrameworkExplorer` (architecture), `CodingToolExplorer` (prompt-engineering).
 
+### Copy Button (`CopyButton.tsx`)
+
+Small copy-to-clipboard button positioned absolutely within a `relative` parent. Used alongside code blocks in topic detail components.
+
+```tsx
+<div className="relative">
+  <CopyButton text={codeString} />
+  <pre>...</pre>
+</div>
+```
+
+**Guide components using it:** `PwaTopicDetail` (pwa), `SecurityTopicDetail` (security).
+
+### Hover Tooltip Hook (`useHoverTooltip` in `src/hooks/useHoverTooltip.ts`)
+
+Generic tooltip hook for hover-triggered tooltips on document-level CSS selectors. Handles timer-based show/hide, viewport-clamped positioning, above/below flip, and event listener lifecycle.
+
+```tsx
+const { data, visible, style, cancelHide, scheduleHide, hide } = useHoverTooltip<T>({
+  selector: '.my-trigger',
+  extractData: (el) => ({ ... }),
+  width: 340,
+  tooltipClass: 'my-tooltip',
+})
+```
+
+**Components using it:** `GlossaryTooltip`, `FootnoteTooltip`.
+
+### Filterable Table Shell (`FilterableTableShell.tsx`)
+
+Page-level shell for searchable, filterable table pages with badge-based filter rows, results count, and wide/compact toggle.
+
+```tsx
+<FilterableTableShell
+  title="..." description="..."
+  searchPlaceholder="..." globalFilter={filter} onFilterChange={setFilter}
+  filterGroups={groups} clearFilters={clear} hasActiveFilters={hasActive}
+  resultCount={count} totalCount={total} countLabel="items"
+>
+  <DataTable ... />
+</FilterableTableShell>
+```
+
+**Components using it:** `GlossaryPage`, `ExternalResourcesPage`.
+
 ## Pattern Matching Quick Reference
 
 Use the `/find-component` skill for interactive guidance. The table below maps common UI needs to the correct shared component.
@@ -158,8 +203,10 @@ Use the `/find-component` skill for interactive guidance. The table below maps c
 | Mistake → example → fix | `MistakeItemCard` | `item: { mistake, example, fix }`, `headingLevel` |
 | Select-one explorer UI | `useExplorer` hook | `(items, defaultId)` → `{ activeId, setActiveId, active, toggle }` |
 | Two-column definitions | `DefinitionTable` + `DefRow` | Use directly in MDX |
-| Code block with copy | `CodeAccordion` | Use directly in MDX |
+| Code block with copy | `CodeAccordion` (MDX) or `CopyButton` (JSX) | Use `CodeAccordion` in MDX; use `CopyButton` inside component code blocks |
 | Progress checklist | `GuideChecklist` | Add entry to `CHECKLIST_REGISTRY` — never create per-guide checklist components |
+| Hover tooltip on CSS selector | `useHoverTooltip` hook | `selector`, `extractData`, `width`, `tooltipClass` |
+| Filterable table page | `FilterableTableShell` | `filterGroups`, `globalFilter`, `resultCount`, `children` (DataTable) |
 | Info / tip / warning callout | `SectionNote` / `Explainer` / `Gotcha` | Use directly in MDX |
 | Cross-page link | `NavLink` / `NavPill` / `StepJump` | Use directly in MDX |
 
@@ -180,8 +227,8 @@ Before building something new, check whether another guide already solved the sa
 
 Before creating a component in `src/components/mdx/<guide-id>/`, use the `/find-component` skill or follow this checklist:
 
-1. **Check shared components** — Does `SectionLayout`, `TimelineFlow`, `ProsCons`, `AccordionList`, `CardBase`, `StatusBadge`, `MistakeItemCard`, `YamlExplorerBase`, `ChecklistBase`, or `DefinitionTable` already handle this?
-2. **Check shared hooks** — Does `useExplorer`, `useAccordion`, or `useIsDark` already cover the interactivity you need?
+1. **Check shared components** — Does `SectionLayout`, `TimelineFlow`, `ProsCons`, `AccordionList`, `CardBase`, `StatusBadge`, `MistakeItemCard`, `YamlExplorerBase`, `ChecklistBase`, `DefinitionTable`, `CopyButton`, or `FilterableTableShell` already handle this?
+2. **Check shared hooks** — Does `useExplorer`, `useAccordion`, `useHoverTooltip`, or `useIsDark` already cover the interactivity you need?
 3. **Check other guide directories** — Does another guide have a similar component? If so, extract a shared base first.
 4. **Evaluate scope** — Will only one guide ever need this? If uncertain, build it as a shared component from the start.
 5. **Keep wrappers thin** — If you do create a guide-specific wrapper, it should only handle data lookup. All rendering logic belongs in the shared base. A wrapper exceeding ~30 lines of rendering code is a sign you're reimplementing a shared pattern.
@@ -193,6 +240,8 @@ These patterns have been duplicated in the past. Always use the shared version:
 
 - **Gotcha/tip accordions** — Use `AccordionList` with a thin wrapper. Do not build custom expand/collapse UIs.
 - **Pros/cons with toggles** — Use `ProsCons`. Do not build separate strengths/weaknesses toggle UIs.
-- **Copy buttons on code** — Use `CodeAccordion`. Do not create per-guide `CopyButton` components.
-- **Checklists** — Use `GuideChecklist` + `CHECKLIST_REGISTRY`. Do not create per-guide checklist components (e.g., `CoolifyChecklist` is legacy).
+- **Copy buttons on code** — Use `CodeAccordion` in MDX or `CopyButton` from `src/components/mdx/CopyButton.tsx` in JSX. Do not create per-guide `CopyButton` components.
+- **Checklists** — Use `GuideChecklist` + `CHECKLIST_REGISTRY`. Do not create per-guide checklist components.
+- **Hover tooltips** — Use `useHoverTooltip` hook. Do not independently implement timer/positioning/event logic.
+- **Filterable table pages** — Use `FilterableTableShell` for badge-filtered table pages. Do not duplicate search/filter/wide-toggle UI.
 - **Concept/definition lists** — Use `DefinitionTable` + `DefRow` in MDX. Do not create guide-specific concept-list components for simple term/definition rendering.

@@ -1,41 +1,14 @@
-import { useState } from 'react'
 import { useIsDark } from '../../../hooks/useTheme'
 import { ds } from '../../../helpers/darkStyle'
 import { getSecurityTopic, THREAT_LEVEL_COLORS } from '../../../data/securityData'
 import type { ThreatLevel } from '../../../data/securityData'
 import { CardBase } from '../CardBase'
 import { StatusBadge } from '../StatusBadge'
+import { CopyButton } from '../CopyButton'
 
 function threatBadgeColors(level: ThreatLevel) {
   const c = THREAT_LEVEL_COLORS[level]
   return { bg: c.bg, darkBg: c.darkBg, text: c.badge, darkText: c.darkBadge, border: c.border, darkBorder: c.darkBorder }
-}
-
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false)
-  const isDark = useIsDark()
-
-  return (
-    <button
-      onClick={() => {
-        navigator.clipboard.writeText(text)
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
-      }}
-      className="absolute top-2 right-2 px-2.5 py-1 rounded text-xs font-mono border transition-colors cursor-pointer"
-      style={{
-        background: copied
-          ? ds('#dcfce7', '#14532d', isDark)
-          : ds('#f8fafc', '#1e293b', isDark),
-        borderColor: ds('#e2e8f0', '#334155', isDark),
-        color: copied
-          ? ds('#15803d', '#86efac', isDark)
-          : ds('#94a3b8', '#64748b', isDark),
-      }}
-    >
-      {copied ? '\u2713 copied' : 'copy'}
-    </button>
-  )
 }
 
 /**
