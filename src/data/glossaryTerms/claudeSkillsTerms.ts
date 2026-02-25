@@ -1,4 +1,4 @@
-import type { GlossaryCategory } from './index'
+import type { GlossaryCategory } from './types'
 
 export const claudeSkillsGlossary: GlossaryCategory[] = [
   {

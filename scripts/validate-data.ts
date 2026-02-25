@@ -3,13 +3,194 @@
  *
  * Checks that glossary terms, guide sections, and link references
  * all point to valid targets. Run via: pnpm validate:data
+ *
+ * This script uses dynamic imports and fs discovery (not import.meta.glob)
+ * because it runs in Node via tsx, not Vite.
  */
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { linkRegistry, linkById } from '../src/data/linkRegistry/index.ts'
-import { glossaryTerms } from '../src/data/glossaryTerms/index.ts'
-import { guides, checklistPages, getGuideForPage } from '../src/data/guideRegistry.ts'
+import type { RegistryLink } from '../src/data/linkRegistry/types.ts'
+import type { GlossaryCategory } from '../src/data/glossaryTerms/types.ts'
+import type { GuideSection, GuideDefinition } from '../src/data/guideTypes.ts'
+
+// ── Build registries dynamically (no import.meta.glob in tsx) ────────
+
+async function discoverArrayExports<T>(dir: string, suffix: string): Promise<T[]> {
+  const files = fs.readdirSync(dir).filter(f => f.endsWith(suffix))
+  const items: T[] = []
+  for (const file of files) {
+    const mod = await import(path.join(dir, file))
+    for (const val of Object.values(mod)) {
+      if (Array.isArray(val)) items.push(...(val as T[]))
+    }
+  }
+  return items
+}
+
+// Build link registry
+const linkDir = path.resolve(import.meta.dirname, '../src/data/linkRegistry')
+const linkRegistry = await discoverArrayExports<RegistryLink>(linkDir, 'Links.ts')
+const linkById = new Map<string, RegistryLink>(
+  linkRegistry.map(link => [link.id, link])
+)
+
+// Build glossary
+const glossaryDir = path.resolve(import.meta.dirname, '../src/data/glossaryTerms')
+const glossaryTerms = await discoverArrayExports<GlossaryCategory>(glossaryDir, 'Terms.ts')
+
+// Build guide registry — discover all *Data.ts and *Data/index.ts files
+const dataDir = path.resolve(import.meta.dirname, '../src/data')
+const guideDataFiles: string[] = []
+for (const entry of fs.readdirSync(dataDir, { withFileTypes: true })) {
+  if (entry.isFile() && entry.name.endsWith('Data.ts') && entry.name !== 'guideTypes.ts') {
+    guideDataFiles.push(path.join(dataDir, entry.name))
+  } else if (entry.isDirectory() && entry.name.endsWith('Data')) {
+    const indexPath = path.join(dataDir, entry.name, 'index.ts')
+    if (fs.existsSync(indexPath)) {
+      guideDataFiles.push(indexPath)
+    }
+  }
+}
+
+// Import guideRegistry metadata (guideMetas is not exported, but guides/checklistPages are
+// built from import.meta.glob at Vite time). For validation, we dynamically build the
+// same data the registry would produce.
+
+// Discover guide sections and start page data from data modules
+interface GuideDataExports {
+  sections?: GuideSection[]
+  startPageData?: unknown
+}
+
+const guideDataMap = new Map<string, GuideDataExports>()
+for (const filePath of guideDataFiles) {
+  try {
+    const mod = await import(filePath)
+    const exports: GuideDataExports = {}
+    for (const [key, val] of Object.entries(mod)) {
+      if (key.endsWith('_GUIDE_SECTIONS') && Array.isArray(val)) {
+        exports.sections = val as GuideSection[]
+      }
+      if (key.endsWith('_START_PAGE_DATA')) {
+        exports.startPageData = val
+      }
+    }
+    if (exports.sections) {
+      guideDataMap.set(filePath, exports)
+    }
+  } catch {
+    // Directory-based data files import submodules that may re-export
+    // from navigation.ts — try importing navigation.ts directly
+    const dir = path.dirname(filePath)
+    const navPath = path.join(dir, 'navigation.ts')
+    if (fs.existsSync(navPath)) {
+      try {
+        const navMod = await import(navPath)
+        const exports: GuideDataExports = {}
+        for (const [key, val] of Object.entries(navMod)) {
+          if (key.endsWith('_GUIDE_SECTIONS') && Array.isArray(val)) {
+            exports.sections = val as GuideSection[]
+          }
+          if (key.endsWith('_START_PAGE_DATA')) {
+            exports.startPageData = val
+          }
+        }
+        if (exports.sections) {
+          guideDataMap.set(navPath, exports)
+        }
+      } catch {
+        // Skip — Vite build validates these
+      }
+    }
+  }
+}
+
+// Import the guide registry (just the metadata portion — guideMetas is private,
+// so we import it and catch the glob error, or import guideTypes + build locally)
+// Since guideRegistry.ts uses import.meta.glob, we must replicate its logic here.
+// The guideMetas are defined inline in guideRegistry.ts. For validation, we extract
+// the guides from the data modules themselves by reading the file.
+
+// Parse guideMetas from guideRegistry.ts source (each entry is on a single line)
+const registrySource = fs.readFileSync(
+  path.resolve(dataDir, 'guideRegistry.ts'), 'utf-8'
+)
+
+interface GuideMeta {
+  id: string
+  startPageId: string
+  singlePage?: boolean
+}
+
+// Extract just the guideMetas array block, then parse line by line
+const metasBlock = registrySource.match(
+  /const guideMetas:\s*GuideMeta\[\]\s*=\s*\[([\s\S]*?)\n\]/
+)
+const guideMetas: GuideMeta[] = []
+if (metasBlock) {
+  for (const line of metasBlock[1].split('\n')) {
+    const idMatch = line.match(/id:\s*'([^']+)'/)
+    const startMatch = line.match(/startPageId:\s*'([^']+)'/)
+    if (idMatch && startMatch) {
+      const singlePage = /singlePage:\s*true/.test(line)
+      guideMetas.push({ id: idMatch[1], startPageId: startMatch[1], singlePage })
+    }
+  }
+}
+
+// Match guide metas to their data modules by checking startPageId in section IDs
+const guides: GuideDefinition[] = []
+for (const meta of guideMetas) {
+  for (const [, data] of guideDataMap) {
+    if (data.sections) {
+      const allIds = data.sections.flatMap(s => s.ids)
+      if (allIds.includes(meta.startPageId)) {
+        guides.push({
+          ...meta,
+          icon: '',
+          title: '',
+          description: '',
+          sections: data.sections,
+          category: 'fundamentals',
+        })
+        break
+      }
+    }
+  }
+}
+
+// Checklist pages (hardcoded in guideRegistry.ts — parse from source)
+const checklistMatch = registrySource.match(
+  /export const checklistPages\s*=\s*\[([\s\S]*?)\]/
+)
+interface ChecklistPage { id: string; sourceGuideId: string }
+const checklistPages: ChecklistPage[] = []
+if (checklistMatch) {
+  const entries = checklistMatch[1].matchAll(
+    /id:\s*'([^']+)'.*?sourceGuideId:\s*'([^']+)'/g
+  )
+  for (const m of entries) {
+    checklistPages.push({ id: m[1], sourceGuideId: m[2] })
+  }
+}
+
+// Build page-to-guide lookup (simplified version of guideRegistry.ts)
+const pageToGuide = new Map<string, string>()
+for (const guide of guides) {
+  for (const section of guide.sections) {
+    for (const id of section.ids) {
+      pageToGuide.set(id, guide.id)
+    }
+  }
+}
+
+function getGuideForPage(pageId: string): { id: string } | undefined {
+  const guideId = pageToGuide.get(pageId)
+  return guideId ? { id: guideId } : undefined
+}
+
+// ── Validation checks ───────────────────────────────────────────────
 
 let errors = 0
 
@@ -99,23 +280,23 @@ for (const category of glossaryTerms) {
         }
       }
       if (term.sectionId) {
-        const derivedGuide = getGuideForPage(term.sectionId)?.id
-        if (derivedGuide && !term.guides.includes(derivedGuide)) {
+        const derivedGuide = getGuideForPage(term.sectionId)
+        if (derivedGuide && !term.guides.includes(derivedGuide.id)) {
           error(
             `Glossary term "${term.term}" (category: ${category.category}) ` +
-            `has sectionId "${term.sectionId}" (guide: "${derivedGuide}") ` +
-            `which is not included in its guides array. Add "${derivedGuide}" to the guides array.`
+            `has sectionId "${term.sectionId}" (guide: "${derivedGuide.id}") ` +
+            `which is not included in its guides array. Add "${derivedGuide.id}" to the guides array.`
           )
         }
       }
       if (term.sectionIds) {
         for (const sid of term.sectionIds) {
-          const derivedGuide = getGuideForPage(sid)?.id
-          if (derivedGuide && !term.guides.includes(derivedGuide)) {
+          const derivedGuide = getGuideForPage(sid)
+          if (derivedGuide && !term.guides.includes(derivedGuide.id)) {
             error(
               `Glossary term "${term.term}" (category: ${category.category}) ` +
-              `has sectionIds entry "${sid}" (guide: "${derivedGuide}") ` +
-              `which is not included in its guides array. Add "${derivedGuide}" to the guides array.`
+              `has sectionIds entry "${sid}" (guide: "${derivedGuide.id}") ` +
+              `which is not included in its guides array. Add "${derivedGuide.id}" to the guides array.`
             )
           }
         }
@@ -253,6 +434,69 @@ for (const subdir of subdirs) {
         `but file is in "${subdir.name}/". Move the file or fix the guide field.`
       )
     }
+  }
+}
+
+// ── 7. Guide data consistency ────────────────────────────────────────
+
+console.log('Checking guide data consistency...')
+
+// Verify all guideMetas have matching data modules
+for (const meta of guideMetas) {
+  const found = guides.find(g => g.id === meta.id)
+  if (!found) {
+    error(
+      `Guide "${meta.id}" in guideMetas has no matching data module. ` +
+      `Ensure a *Data.ts or *Data/index.ts file exports a *_GUIDE_SECTIONS ` +
+      `array containing startPageId "${meta.startPageId}".`
+    )
+  }
+}
+
+// ── 8. MDX component sectionId cross-references ─────────────────────
+
+console.log('Checking MDX component sectionId references...')
+
+// Scan MDX files for sectionId props used in JSX-like component invocations
+// e.g., <K8sYamlExplorer sectionId="containers" />
+const sectionIdPattern = /sectionId=["']([^"']+)["']/g
+
+for (const subdir of subdirs) {
+  const dirPath = path.join(contentDir, subdir.name)
+  const mdxFiles = fs.readdirSync(dirPath).filter(f => f.endsWith('.mdx'))
+
+  for (const file of mdxFiles) {
+    const filePath = path.join(dirPath, file)
+    const text = fs.readFileSync(filePath, 'utf-8')
+    const relPath = `src/content/${subdir.name}/${file}`
+
+    let match: RegExpExecArray | null
+    while ((match = sectionIdPattern.exec(text)) !== null) {
+      const sectionId = match[1]
+      // sectionId props in wrapper components refer to data section IDs,
+      // not page IDs. These are validated at the component level.
+      // For now, just check they're not obviously broken (empty or whitespace-only).
+      if (!sectionId.trim()) {
+        error(
+          `Empty sectionId prop in ${relPath}. Remove or provide a valid section ID.`
+        )
+      }
+    }
+  }
+}
+
+// ── 9. Link registry completeness ────────────────────────────────────
+
+console.log('Checking link registry completeness...')
+
+// Verify every guide has at least one link tagged with guide:<id>
+for (const guide of guides) {
+  const guideLinkCount = linkRegistry.filter(
+    link => link.tags?.includes(`guide:${guide.id}`)
+  ).length
+  if (guideLinkCount === 0) {
+    // Warn but don't fail — some guides may not need tagged links
+    console.log(`  INFO: Guide "${guide.id}" has no links tagged with "guide:${guide.id}" in the link registry.`)
   }
 }
 
