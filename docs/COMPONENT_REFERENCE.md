@@ -145,16 +145,20 @@ const { activeId, setActiveId, active, toggle } = useExplorer(items, defaultId)
 
 ### Copy Button (`CopyButton.tsx`)
 
-Small copy-to-clipboard button positioned absolutely within a `relative` parent. Used alongside code blocks in topic detail components.
+Small copy-to-clipboard button with theme-aware styling. Default: absolutely positioned for overlay on a `relative` parent. Pass `className` to override positioning/sizing for inline usage.
 
 ```tsx
+{/* Overlay mode (default) */}
 <div className="relative">
   <CopyButton text={codeString} />
   <pre>...</pre>
 </div>
+
+{/* Inline mode */}
+<CopyButton text={code} className="px-2 py-1 rounded text-[10px] font-mono border transition-colors cursor-pointer" />
 ```
 
-**Guide components using it:** `PwaTopicDetail` (pwa), `SecurityTopicDetail` (security).
+**Guide components using it:** `PwaTopicDetail` (pwa), `SecurityTopicDetail` (security), `JcsPlayground` (jscodeshift), `JcsRecipeAccordion` (jscodeshift).
 
 ### Hover Tooltip Hook (`useHoverTooltip` in `src/hooks/useHoverTooltip.ts`)
 
@@ -188,6 +192,23 @@ Page-level shell for searchable, filterable table pages with badge-based filter 
 
 **Components using it:** `GlossaryPage`, `ExternalResourcesPage`.
 
+### Quiz Base (`QuizBase.tsx`)
+
+Multi-question quiz with score tracking, answer reveal with explanations, and a results screen. Guide wrappers pass questions array, accent colors, and completion messages.
+
+```tsx
+<QuizBase
+  questions={QUESTIONS}
+  accent="#6366f1"
+  darkAccent="#6366f1"
+  perfectMessage="Perfect score!"
+  solidMessage="Solid work!"
+  retryMessage="Try again!"
+/>
+```
+
+**Guide components using it:** `AuthQuiz` (auth), `S3Quiz` (s3-storage).
+
 ## Pattern Matching Quick Reference
 
 Use the `/find-component` skill for interactive guidance. The table below maps common UI needs to the correct shared component.
@@ -207,6 +228,7 @@ Use the `/find-component` skill for interactive guidance. The table below maps c
 | Progress checklist | `GuideChecklist` | Add entry to `CHECKLIST_REGISTRY` — never create per-guide checklist components |
 | Hover tooltip on CSS selector | `useHoverTooltip` hook | `selector`, `extractData`, `width`, `tooltipClass` |
 | Filterable table page | `FilterableTableShell` | `filterGroups`, `globalFilter`, `resultCount`, `children` (DataTable) |
+| Multi-question quiz | `QuizBase` | `questions`, `accent`, `darkAccent`, `perfectMessage`, `solidMessage`, `retryMessage` |
 | Info / tip / warning callout | `SectionNote` / `Explainer` / `Gotcha` | Use directly in MDX |
 | Cross-page link | `NavLink` / `NavPill` / `StepJump` | Use directly in MDX |
 
@@ -227,7 +249,7 @@ Before building something new, check whether another guide already solved the sa
 
 Before creating a component in `src/components/mdx/<guide-id>/`, use the `/find-component` skill or follow this checklist:
 
-1. **Check shared components** — Does `SectionLayout`, `TimelineFlow`, `ProsCons`, `AccordionList`, `CardBase`, `StatusBadge`, `MistakeItemCard`, `YamlExplorerBase`, `ChecklistBase`, `DefinitionTable`, `CopyButton`, or `FilterableTableShell` already handle this?
+1. **Check shared components** — Does `SectionLayout`, `TimelineFlow`, `ProsCons`, `AccordionList`, `CardBase`, `StatusBadge`, `MistakeItemCard`, `YamlExplorerBase`, `ChecklistBase`, `DefinitionTable`, `CopyButton`, `FilterableTableShell`, or `QuizBase` already handle this?
 2. **Check shared hooks** — Does `useExplorer`, `useAccordion`, `useHoverTooltip`, or `useIsDark` already cover the interactivity you need?
 3. **Check other guide directories** — Does another guide have a similar component? If so, extract a shared base first.
 4. **Evaluate scope** — Will only one guide ever need this? If uncertain, build it as a shared component from the start.
@@ -244,4 +266,5 @@ These patterns have been duplicated in the past. Always use the shared version:
 - **Checklists** — Use `GuideChecklist` + `CHECKLIST_REGISTRY`. Do not create per-guide checklist components.
 - **Hover tooltips** — Use `useHoverTooltip` hook. Do not independently implement timer/positioning/event logic.
 - **Filterable table pages** — Use `FilterableTableShell` for badge-filtered table pages. Do not duplicate search/filter/wide-toggle UI.
+- **Quizzes** — Use `QuizBase` with guide-specific questions and accent colors. Do not create per-guide quiz components.
 - **Concept/definition lists** — Use `DefinitionTable` + `DefRow` in MDX. Do not create guide-specific concept-list components for simple term/definition rendering.

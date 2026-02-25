@@ -3,21 +3,23 @@ import { useIsDark } from '../../hooks/useTheme'
 import { ds } from '../../helpers/darkStyle'
 
 /**
- * Small copy-to-clipboard button positioned absolutely within a `relative` parent.
- * Used alongside code blocks in topic detail components.
+ * Small copy-to-clipboard button with theme-aware styling.
+ * Default: absolutely positioned for overlay on a `relative` parent.
+ * Pass `className` to override positioning/sizing for inline usage.
  */
-export function CopyButton({ text }: { text: string }) {
+export function CopyButton({ text, className }: { text: string; className?: string }) {
   const [copied, setCopied] = useState(false)
   const isDark = useIsDark()
 
   return (
     <button
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation()
         navigator.clipboard.writeText(text)
         setCopied(true)
         setTimeout(() => setCopied(false), 2000)
       }}
-      className="absolute top-2 right-2 px-2.5 py-1 rounded text-xs font-mono border transition-colors cursor-pointer"
+      className={className ?? 'absolute top-2 right-2 px-2.5 py-1 rounded text-xs font-mono border transition-colors cursor-pointer'}
       style={{
         background: copied
           ? ds('#dcfce7', '#14532d', isDark)

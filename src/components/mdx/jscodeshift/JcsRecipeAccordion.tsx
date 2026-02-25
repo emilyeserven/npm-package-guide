@@ -1,37 +1,9 @@
-import { useState } from 'react'
 import { useIsDark } from '../../../hooks/useTheme'
 import { ds } from '../../../helpers/darkStyle'
 import { AccordionList } from '../AccordionList'
 import { JCS_RECIPES } from '../../../data/jscodeshiftData'
 import type { JcsRecipe } from '../../../data/jscodeshiftData'
-
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false)
-  const isDark = useIsDark()
-
-  return (
-    <button
-      onClick={(e) => {
-        e.stopPropagation()
-        navigator.clipboard.writeText(text)
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
-      }}
-      className="px-2 py-1 rounded text-[10px] font-mono border transition-colors cursor-pointer"
-      style={{
-        background: copied
-          ? ds('#dcfce7', '#14532d', isDark)
-          : ds('#f8fafc', '#1e293b', isDark),
-        borderColor: ds('#e2e8f0', '#334155', isDark),
-        color: copied
-          ? ds('#15803d', '#86efac', isDark)
-          : ds('#94a3b8', '#64748b', isDark),
-      }}
-    >
-      {copied ? '\u2713 copied' : 'copy'}
-    </button>
-  )
-}
+import { CopyButton } from '../CopyButton'
 
 /** Accordion list of real-world codemod recipes. */
 export function JcsRecipeAccordion() {
@@ -49,7 +21,7 @@ export function JcsRecipeAccordion() {
         <div className="flex flex-col gap-4">
           <div className="relative">
             <div className="absolute top-2 right-2 z-10">
-              <CopyButton text={recipe.code} />
+              <CopyButton text={recipe.code} className="px-2 py-1 rounded text-[10px] font-mono border transition-colors cursor-pointer" />
             </div>
             <pre
               className="rounded-lg border p-4 overflow-x-auto text-xs leading-relaxed font-mono m-0"
