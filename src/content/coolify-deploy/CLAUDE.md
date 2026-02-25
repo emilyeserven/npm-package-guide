@@ -4,18 +4,6 @@
 
 Frontend engineers deploying a React + Vite app to their own server for the first time. Covers DNS, TLS, Docker, reverse proxies, Coolify setup, deployment strategies, SPA routing fixes, environment variables, common gotchas, and Raspberry Pi self-hosting with Cloudflare Tunnel.
 
-## Section Structure
-
-Defined in `COOLIFY_GUIDE_SECTIONS` in `src/data/coolifyData.ts`. All data in this single file.
-
-| Section Label | Page IDs |
-|--------------|----------|
-| *(start)* | `cd-start` |
-| Foundations | `cd-foundations` |
-| Setup & Deploy | `cd-coolify-setup`, `cd-raspberry-pi`, `cd-deploy` |
-| Configuration | `cd-spa-routing`, `cd-env-vars` |
-| Reference | `cd-gotchas`, `cd-checklist` |
-
 ## Interactive Components
 
 | Component | Props | Purpose |

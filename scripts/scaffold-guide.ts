@@ -339,36 +339,12 @@ TBD — add content here.
 
 // ── 3. Create guide CLAUDE.md ───────────────────────────────────────
 
-// Build section table for CLAUDE.md
-function buildClaudeMdSectionTable(): string {
-  let table = `| *(start)* | \`${startPageId}\` |\n`
-  if (pageSpecs.length > 0) {
-    const groups: { label: string; ids: string[] }[] = []
-    for (const spec of pageSpecs) {
-      const existing = groups.find(g => g.label === spec.group)
-      if (existing) existing.ids.push(spec.pageId)
-      else groups.push({ label: spec.group, ids: [spec.pageId] })
-    }
-    for (const g of groups) {
-      table += `| ${g.label} | ${g.ids.map(id => `\`${id}\``).join(', ')} |\n`
-    }
-  }
-  return table
-}
-
 const claudeMdContent = `# ${title} — Guide CLAUDE.md
 
 ## Audience & Purpose
 
 TBD — describe the target audience and what this guide teaches.
 
-## Section Structure
-
-Defined in \`${prefix}_GUIDE_SECTIONS\` in \`src/data/${dataFileName}.ts\`.
-
-| Section Label | Page IDs |
-|--------------|----------|
-${buildClaudeMdSectionTable()}
 ## Interactive Components
 
 | Component | Props | Purpose |

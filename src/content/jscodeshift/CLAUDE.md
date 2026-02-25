@@ -4,18 +4,6 @@
 
 Engineers who need to automate large-scale JavaScript/TypeScript code transformations. Covers AST concepts, the jscodeshift API, writing and testing transforms, running them at scale, and integrating with AI coding agents.
 
-## Section Structure
-
-Defined in `JCS_GUIDE_SECTIONS` in `src/data/jscodeshiftData.ts`.
-
-| Section Label | Page IDs |
-|--------------|----------|
-| *(start)* | `jcs-start` |
-| Fundamentals | `jcs-concepts`, `jcs-api` |
-| Patterns | `jcs-transforms`, `jcs-recipes` |
-| Workflow | `jcs-testing`, `jcs-maintenance` |
-| Advanced | `jcs-ai-agents`, `jcs-reference` |
-
 ## Interactive Components
 
 | Component | Props | Purpose |

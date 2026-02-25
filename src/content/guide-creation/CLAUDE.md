@@ -4,22 +4,6 @@
 
 Project contributors who want to add a new guide to this educational SPA. Covers the full workflow: writing a content artifact, prompting Claude with `/add-guide`, understanding the scaffold pipeline, filling in MDX content, adding links and glossary entries, and validating the build.
 
-## Section Structure
-
-Defined in `GCR_GUIDE_SECTIONS` in `src/data/guideCreationData.ts`.
-
-| Section Label | Page IDs |
-|--------------|----------|
-| *(start)* | `guide-creation-guide` |
-
-This is a **single-page guide** — all content lives in one MDX file.
-
-## Interactive Components
-
-| Component | Props | Purpose |
-|-----------|-------|---------|
-| *(none)* | | This guide uses only shared layout components |
-
 ## Guide-Specific Conventions
 
 - **No custom components** — this guide is entirely text, code blocks, and shared layout components (SectionNote, Explainer, Gotcha, DefinitionTable, SectionList).

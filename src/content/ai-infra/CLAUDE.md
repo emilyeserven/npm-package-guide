@@ -4,19 +4,6 @@
 
 Frontend engineers learning AI infrastructure — from model serving and vector databases to GPU clusters and training pipelines. Each layer explained with analogies to familiar frontend concepts.
 
-## Section Structure
-
-Defined in `AI_INFRA_GUIDE_SECTIONS` in `src/data/aiInfraData/navigation.ts`.
-
-| Section Label | Page IDs |
-|--------------|----------|
-| *(start)* | `ai-start`, `ai-overview` |
-| The Stack | `ai-inference`, `ai-orchestration`, `ai-data`, `ai-training`, `ai-compute` |
-| Workflows | `ai-workflows`, `ai-wf-simple-chat`, `ai-wf-rag`, `ai-wf-agent`, `ai-wf-finetune` |
-| Putting It Together | `ai-key-terms` |
-
-Data directory: `src/data/aiInfraData/` — `types.ts`, `layers.ts`, `workflows.ts`, `navigation.ts`.
-
 ## Interactive Components
 
 | Component | Props | Purpose |

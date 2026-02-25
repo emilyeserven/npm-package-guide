@@ -4,10 +4,7 @@
 Backend engineers learning frontend data management — specifically the gap between making HTTP requests (fetch/axios) and managing server state in React applications.
 
 ## Conventions
-- **Page ID prefix:** `tsq-` (e.g., `tsq-problem`, `tsq-lifecycle`)
-- **Data file:** `src/data/tanstackQueryData.ts` — all static content (code examples, feature matrix, lifecycle steps, state types, pros/cons, decision framework)
-- **Accent colors:** amber (`#f59e0b`/`#d97706`), teal (`#14b8a6`/`#0d9488`), rose (`#f43f5e`/`#e11d48`), violet (`#8b5cf6`/`#7c3aed`), sky (`#38bdf8`/`#0284c7`)
-- **Theming:** All components use `useIsDark()` + `tc()`/`ds()` for light/dark support. Colors stored as `[light, dark]` tuples in the data file.
+- **Accent colors:** amber (`#f59e0b`/`#d97706`), teal (`#14b8a6`/`#0d9488`), rose (`#f43f5e`/`#e11d48`), violet (`#8b5cf6`/`#7c3aed`), sky (`#38bdf8`/`#0284c7`). Stored as `[light, dark]` tuples in the data file.
 
 ## Interactive Components
 All in `src/components/mdx/tanstack-query/`:

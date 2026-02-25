@@ -4,17 +4,6 @@
 
 Developers who understand building apps but have not set up CI/CD before. Teaches pipelines, GitHub Actions, YAML workflows, and deployment patterns from scratch.
 
-## Section Structure
-
-Defined in `CICD_GUIDE_SECTIONS` in `src/data/cicdData.ts`. All data in this single file.
-
-| Section Label | Page IDs |
-|--------------|----------|
-| *(start)* | `cicd-start` |
-| Core Concepts | `cicd-big-picture`, `cicd-pipeline`, `cicd-github-actions` |
-| Hands-On | `cicd-yaml`, `cicd-patterns` |
-| Reference | `cicd-gotchas` |
-
 ## Interactive Components
 
 | Component | Props | Purpose |

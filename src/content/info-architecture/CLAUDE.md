@@ -4,17 +4,6 @@
 
 Backend engineers learning how to organize, structure, and label information in frontend applications, documentation sites, and codebases. Bridges database/API design thinking to user-facing IA concepts.
 
-## Section Structure
-
-Defined in `IA_GUIDE_SECTIONS` in `src/data/iaData.ts`.
-
-| Section Label | Page IDs |
-|--------------|----------|
-| *(start)* | `ia-start` |
-| Core Concepts | `ia-foundations`, `ia-organization` |
-| Design Systems | `ia-navigation`, `ia-labeling` |
-| Application | `ia-patterns`, `ia-ai-readability`, `ia-practice` |
-
 ## Interactive Components
 
 | Component | Props | Purpose |

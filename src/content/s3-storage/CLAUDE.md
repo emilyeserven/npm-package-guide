@@ -4,16 +4,6 @@
 
 Backend-aware frontend engineers who interact with S3 indirectly (static hosting, presigned uploads, CDN-served assets) and need to understand storage class trade-offs, lifecycle automation, and cost implications without deep AWS expertise.
 
-## Section Structure
-
-| Section Label | Page IDs |
-|--------------|----------|
-| *(start)* | `s3-start` |
-| Fundamentals | `s3-basics`, `s3-classes` |
-| Analysis | `s3-comparison`, `s3-lifecycle` |
-| Interactive Tools | `s3-calculator`, `s3-picker` |
-| Practical | `s3-frontend`, `s3-quiz` |
-
 ## Data Directory
 
 `src/data/s3Data/` — directory structure with:
