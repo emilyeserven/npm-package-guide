@@ -1,0 +1,68 @@
+---
+id: "payload-ai-tooling"
+title: "AI Tooling for Payload 🤖"
+guide: "payload-cms"
+group: "Advanced"
+linkRefs:
+  - id: "payload-mcp-plugin"
+    note: "Official Payload MCP plugin for AI assistant integration"
+  - id: "payload-ai-plugin"
+    note: "Community AI content generation plugin for Payload"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-mcp">Official MCP plugin</TocLink>
+  <TocLink id="toc-claude-code">Claude Code & CLAUDE.md</TocLink>
+  <TocLink id="toc-ai-content">AI content generation</TocLink>
+  <TocLink id="toc-workflows">AI-powered workflows</TocLink>
+</Toc>
+
+<SectionIntro>
+The Payload ecosystem has rapidly embraced AI-powered development tools. From MCP servers to Claude Code skills, AI can accelerate nearly every phase of building with Payload.
+</SectionIntro>
+
+<SectionSubheading id="toc-mcp">Official MCP plugin</SectionSubheading>
+
+Payload ships an **official MCP (Model Context Protocol) plugin** that turns your Payload instance into an MCP server. Once installed, AI assistants like Claude Desktop, Cursor, or Windsurf can interact with your CMS data directly — listing documents, creating content, updating fields, and querying collections through natural language.
+
+<CodeAccordion title="payload.config.ts — MCP Plugin Setup" language="ts">
+{`import { mcpPlugin } from '@payloadcms/plugin-mcp'
+
+export default buildConfig({
+  plugins: [
+    mcpPlugin(),
+  ],
+  // The plugin auto-generates tools for all collections.
+  // Manage API keys and permissions from the admin panel.
+})`}
+</CodeAccordion>
+
+The plugin auto-generates MCP tools for each collection's CRUD operations, with per-collection access control managed from the admin panel via API keys. It supports custom tools, prompts, and resources so you can expose business logic — not just raw data — to AI agents.
+
+<Explainer title="Connect from anywhere">
+The MCP plugin works with remote connections via `mcp-remote`, meaning you can connect Claude Desktop to a production Payload instance deployed on Vercel. Mobile access through Claude Connectors is also supported.
+</Explainer>
+
+<SectionSubheading id="toc-claude-code">Claude Code & CLAUDE.md</SectionSubheading>
+
+The Payload repository includes a **CLAUDE.md** file — a guide specifically written for Claude Code and Cursor that teaches the AI assistant the project's conventions, architecture, testing patterns, and code style. This means when you use Claude Code in a Payload project, it already understands the patterns to follow.
+
+There are also dedicated **Claude Code skills** published for Payload development that cover collections, hooks, access control, queries, adapters, and advanced patterns. Installing these skills gives Claude deep context about Payload's API surface.
+
+<SectionSubheading id="toc-ai-content">AI content generation</SectionSubheading>
+
+The community-built `@ai-stack/payloadcms` plugin integrates AI content generation directly into the admin panel. Content editors can generate text (via OpenAI, Anthropic, or Google), images (via DALL-E or Imagen), and audio (via ElevenLabs or OpenAI TTS) without leaving the editor. It supports custom prompts, multilingual generation, and field-specific instructions.
+
+A dedicated **MCP scaffolding server** exists for Payload development that can validate your collection configs against best practices, generate code templates, scaffold new projects, and catch common mistakes before you even run the server.
+
+<SectionSubheading id="toc-workflows">AI-powered workflows</SectionSubheading>
+
+Click each workflow pattern to see how AI fits into Payload development.
+
+<PayloadAiWorkflowAccordion />
+
+<Gotcha>
+AI tools can dramatically speed up Payload development, but always review generated configs, access control logic, and hook behavior. A misconfigured access function could expose private data. Use AI as a force multiplier — not a replacement for understanding your own schema.
+</Gotcha>

@@ -1,0 +1,56 @@
+---
+id: "tsai-streaming"
+title: "Streaming & Transports 📡"
+guide: "tanstack-ai"
+group: "Advanced"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-transports">Connection adapters</TocLink>
+  <TocLink id="toc-provider-options">Per-model type safety</TocLink>
+</Toc>
+
+<SectionIntro>
+TanStack AI supports multiple transport layers. The protocol is open and documented — use SSE, HTTP streams, or build your own adapter.
+</SectionIntro>
+
+<SectionSubheading id="toc-transports">Connection adapters</SectionSubheading>
+
+Choose the transport that best fits your infrastructure:
+
+<TsaiCodeTabs exampleId="streaming" />
+
+<DefinitionTable>
+  <DefRow term="SSE (Default)">Server-Sent Events via `fetchServerSentEvents`. The recommended transport — reliable, well-supported, and works through most proxies. Server uses `toServerSentEventsResponse()`.</DefRow>
+  <DefRow term="HTTP Stream">`fetchHttpStream` uses standard HTTP streaming. Useful when SSE isn't supported by your infrastructure.</DefRow>
+  <DefRow term="Custom">Implement the `ConnectionAdapter` interface for WebSocket, gRPC, or any other transport. Must yield stream chunks that match the protocol.</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-provider-options">Per-model type safety</SectionSubheading>
+
+TanStack AI doesn't just abstract away provider differences — it gives you type-safe access to *provider-specific* features. Your IDE knows exactly which options are available for each model.
+
+<CodeAccordion title="provider-options.ts" startOpen>
+{`import { chat } from "@tanstack/ai"
+import { openaiText } from "@tanstack/ai-openai"
+
+// TypeScript knows which options are valid for this model
+const stream = chat({
+  adapter: openaiText("o1"),
+  messages,
+  providerOptions: {
+    reasoning: {    // ← Only available on reasoning models
+      effort: "high",
+    },
+  },
+})
+
+// Switch to GPT-4o? TypeScript flags \`reasoning\` as invalid
+// because GPT-4o doesn't support it. Caught at compile time! 🎉`}
+</CodeAccordion>
+
+<Gotcha>
+**Alpha Note:** TanStack AI is currently in alpha. The API surface is stabilizing but may change. Use with caution in production. The team is actively seeking feedback and contributions.
+</Gotcha>

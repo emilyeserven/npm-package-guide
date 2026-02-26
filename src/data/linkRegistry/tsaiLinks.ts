@@ -1,0 +1,98 @@
+import type { RegistryLink } from './index'
+
+export const tsaiLinks: RegistryLink[] = [
+  // Official
+  {
+    id: 'tanstack-ai-docs',
+    url: 'https://tanstack.com/ai/latest/docs',
+    label: 'TanStack AI Documentation',
+    source: 'TanStack',
+    desc: 'Official TanStack AI documentation — guides, API reference, and examples.',
+    tags: ['guide:tanstack-ai', 'type:docs', 'topic:ai'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'tanstack-ai-github',
+    url: 'https://github.com/TanStack/ai',
+    label: 'TanStack AI GitHub',
+    source: 'GitHub',
+    desc: 'Source code, issues, and discussions for TanStack AI.',
+    tags: ['guide:tanstack-ai', 'type:repo', 'topic:ai'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'tanstack-ai-announcement',
+    url: 'https://tanstack.com/blog/tanstack-ai-alpha-your-ai-your-way',
+    label: 'TanStack AI Alpha Announcement',
+    source: 'TanStack',
+    desc: 'Blog post announcing the TanStack AI alpha release and design philosophy.',
+    tags: ['guide:tanstack-ai', 'type:article', 'topic:ai'],
+    resourceCategory: 'Learning Resources',
+  },
+  // Providers
+  {
+    id: 'openai-api-docs',
+    url: 'https://platform.openai.com/docs/api-reference',
+    label: 'OpenAI API Reference',
+    source: 'OpenAI',
+    desc: 'OpenAI platform API documentation for models like GPT-4o and o1.',
+    tags: ['guide:tanstack-ai', 'type:docs', 'topic:ai'],
+    resourceCategory: 'Provider Documentation',
+  },
+  {
+    id: 'anthropic-api-docs',
+    url: 'https://docs.anthropic.com/en/api',
+    label: 'Anthropic API Reference',
+    source: 'Anthropic',
+    desc: 'Anthropic API documentation for Claude models.',
+    tags: ['guide:tanstack-ai', 'type:docs', 'topic:ai'],
+    resourceCategory: 'Provider Documentation',
+  },
+  {
+    id: 'google-gemini-docs',
+    url: 'https://ai.google.dev/docs',
+    label: 'Google Gemini API',
+    source: 'Google',
+    desc: 'Google AI documentation for Gemini models.',
+    tags: ['guide:tanstack-ai', 'type:docs', 'topic:ai'],
+    resourceCategory: 'Provider Documentation',
+  },
+  {
+    id: 'ollama-docs',
+    url: 'https://ollama.com/',
+    label: 'Ollama',
+    source: 'Ollama',
+    desc: 'Run large language models locally with Ollama.',
+    tags: ['guide:tanstack-ai', 'type:tool', 'topic:ai'],
+    resourceCategory: 'Provider Documentation',
+  },
+  // Complementary
+  {
+    id: 'zod-docs',
+    url: 'https://zod.dev/',
+    label: 'Zod Documentation',
+    source: 'Zod',
+    desc: 'TypeScript-first schema validation library used for tool definitions.',
+    tags: ['guide:tanstack-ai', 'type:docs', 'topic:validation'],
+    resourceCategory: 'Complementary Libraries',
+  },
+  {
+    id: 'vercel-ai-sdk-docs',
+    url: 'https://sdk.vercel.ai/docs',
+    label: 'Vercel AI SDK',
+    source: 'Vercel',
+    desc: 'The Vercel AI SDK — a popular alternative for building AI-powered applications.',
+    tags: ['guide:tanstack-ai', 'type:docs', 'topic:ai'],
+    resourceCategory: 'Complementary Libraries',
+  },
+  // Web Standards
+  {
+    id: 'mdn-sse-api',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events',
+    label: 'Server-Sent Events (MDN)',
+    source: 'MDN',
+    desc: 'MDN reference for Server-Sent Events — the default transport in TanStack AI.',
+    tags: ['guide:tanstack-ai', 'type:reference', 'topic:web-standards'],
+    resourceCategory: 'Web Standards',
+  },
+]

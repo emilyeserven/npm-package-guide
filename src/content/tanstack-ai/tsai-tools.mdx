@@ -1,0 +1,107 @@
+---
+id: "tsai-tools"
+title: "Tools & Approval 🔧"
+guide: "tanstack-ai"
+group: "Advanced"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-isomorphic">Isomorphic tool system</TocLink>
+  <TocLink id="toc-lifecycle">Tool call lifecycle</TocLink>
+  <TocLink id="toc-approval">Tool approval flow</TocLink>
+  <TocLink id="toc-demo">Interactive demo</TocLink>
+  <TocLink id="toc-chat-demo">Simulated chat</TocLink>
+</Toc>
+
+<SectionIntro>
+TanStack AI's tool system uses a two-step pattern: **define once**, then **implement per environment**. Definitions use Zod schemas for full type inference.
+</SectionIntro>
+
+<SectionSubheading id="toc-isomorphic">Isomorphic tool system</SectionSubheading>
+
+The key insight is separating tool *definitions* from tool *implementations*. A single Zod-based definition can be implemented for the server (Node/Bun), the client (browser), or both.
+
+<TsaiCodeTabs exampleId="tool-steps" />
+
+<Explainer>
+Tools defined with `toolDefinition()` get full TypeScript inference — the input parameters and return type are derived from your Zod schemas. Both `.server()` and `.client()` implementations inherit these types automatically.
+</Explainer>
+
+<SectionSubheading id="toc-lifecycle">Tool call lifecycle</SectionSubheading>
+
+Every tool call passes through a well-defined state machine:
+
+<DefinitionTable>
+  <DefRow term="pending">Tool call has been initiated but hasn't started executing yet.</DefRow>
+  <DefRow term="running">Tool is currently executing (server-side or client-side).</DefRow>
+  <DefRow term="approval-requested">Tool requires user consent before execution (when `needsApproval: true`).</DefRow>
+  <DefRow term="output-available">Tool completed successfully — result is available.</DefRow>
+  <DefRow term="output-error">Tool execution failed — error is available.</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-approval">Tool approval flow</SectionSubheading>
+
+For sensitive operations, TanStack AI has built-in support for requiring user approval before a tool executes. Set `needsApproval: true` on the definition:
+
+<CodeAccordion title="tools/email.ts" startOpen>
+{`const sendEmailDef = toolDefinition({
+  name: "send_email",
+  description: "Send an email to a recipient",
+  inputSchema: z.object({
+    to: z.string().email(),
+    subject: z.string(),
+    body: z.string(),
+  }),
+  needsApproval: true,  // ← Pauses execution for user consent
+})`}
+</CodeAccordion>
+
+On the client, render approval UI by checking for the `approval-requested` state:
+
+<CodeAccordion title="Handling approval in React">
+{`const { messages, addToolApprovalResponse } = useChat({
+  connection: fetchServerSentEvents("/api/chat"),
+})
+
+// Render approval UI when a tool needs consent:
+{msg.parts.map((part) => {
+  if (part.type === "tool-call"
+    && part.state === "approval-requested") {
+    return (
+      <div>
+        <p>Approve: {part.name}</p>
+        <button onClick={() =>
+          addToolApprovalResponse({
+            id: part.approval.id,
+            approved: true,
+          })
+        }>Approve</button>
+        <button onClick={() =>
+          addToolApprovalResponse({
+            id: part.approval.id,
+            approved: false,
+          })
+        }>Deny</button>
+      </div>
+    )
+  }
+})}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-demo">Interactive demo</SectionSubheading>
+
+See the approval flow in action — click the button to simulate a tool call that requires user consent:
+
+<TsaiApprovalDemo />
+
+<SectionSubheading id="toc-chat-demo">Simulated chat</SectionSubheading>
+
+This demo simulates the full client-side experience — including thinking tokens, tool calls, and streamed text responses:
+
+<TsaiChatDemo />
+
+<SectionNote>
+This demo simulates the streaming behavior of TanStack AI's `useChat` hook. In a real app, the SSE connection handles all of this automatically.
+</SectionNote>
