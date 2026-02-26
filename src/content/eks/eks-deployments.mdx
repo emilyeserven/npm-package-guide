@@ -1,0 +1,88 @@
+---
+id: "eks-deployments"
+title: "Deploying Apps 🚀"
+guide: "eks"
+linkRefs:
+  - id: "k8s-deployments"
+    note: "Kubernetes Deployments"
+  - id: "k8s-rolling-updates"
+    note: "Rolling update tutorial"
+  - id: "eks-ecr"
+    note: "Amazon ECR"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-pipeline">Deployment pipeline</TocLink>
+  <TocLink id="toc-manifest">Deployment manifest</TocLink>
+  <TocLink id="toc-strategies">Deployment strategies</TocLink>
+  <TocLink id="toc-quiz">Knowledge check</TocLink>
+</Toc>
+
+<SectionIntro>
+Deploying to EKS follows a predictable pipeline: build your container image, push it to a registry (usually ECR), then tell Kubernetes to run it. Here's a complete example deploying a React frontend.
+</SectionIntro>
+
+<SectionSubheading id="toc-pipeline">{'\u{1F4E6}'} Deployment pipeline</SectionSubheading>
+
+The typical flow is: code push triggers CI, CI builds a Docker image, pushes it to ECR, then applies a Kubernetes manifest that references the new image tag. Kubernetes handles the rollout.
+
+<SectionSubheading id="toc-manifest">{'\u{1F4DD}'} Deployment manifest</SectionSubheading>
+
+<CodeAccordion title="deployment.yaml" ext="yaml">
+{`apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: production
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1          # Add 1 extra pod during rollout
+      maxUnavailable: 0    # Never drop below 3 running
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: 123456789.dkr.ecr.us-east-1.amazonaws.com/frontend:v2.1.0
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: 100m        # 0.1 CPU cores reserved
+              memory: 128Mi    # 128 MB memory reserved
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          readinessProbe:      # Don't send traffic until ready
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 5
+          livenessProbe:       # Restart if this fails
+            httpGet:
+              path: /healthz
+              port: 3000
+            periodSeconds: 30`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-strategies">{'\u{1F680}'} Deployment strategies</SectionSubheading>
+
+<EksDeployStrategies />
+
+<Explainer heading="Frontend tip">
+Always set `maxUnavailable: 0` for user-facing services. This ensures your current version stays fully available while the new one rolls out. Combine with readiness probes so traffic only hits healthy pods.
+</Explainer>
+
+<SectionSubheading id="toc-quiz">{'\u2728'} Knowledge check</SectionSubheading>
+
+<EksQuiz quizId="deployments" />

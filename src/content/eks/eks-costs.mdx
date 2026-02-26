@@ -1,0 +1,40 @@
+---
+id: "eks-costs"
+title: "Cost & Tips 💰"
+guide: "eks"
+linkRefs:
+  - id: "eks-pricing"
+    note: "EKS pricing page"
+  - id: "eks-karpenter"
+    note: "Karpenter for cost optimization"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-breakdown">Cost breakdown</TocLink>
+  <TocLink id="toc-when">When EKS makes sense</TocLink>
+  <TocLink id="toc-tips">Optimization tips</TocLink>
+</Toc>
+
+<SectionIntro>
+EKS pricing is straightforward but the total cost depends heavily on your compute choices. The control plane is a flat fee; everything else depends on how you run your workloads.
+</SectionIntro>
+
+<SectionSubheading id="toc-breakdown">{'\u{1F4B0}'} Cost breakdown</SectionSubheading>
+
+<EksCostBreakdown />
+
+<Explainer heading="Cost optimization playbook">
+Use Spot instances for non-critical workloads (up to 90% savings). Right-size pods with VPA. Use Karpenter to bin-pack efficiently. Consolidate ALBs. Monitor with Kubecost or AWS Cost Explorer.
+</Explainer>
+
+<SectionSubheading id="toc-when">{'\u{1F914}'} When EKS makes sense</SectionSubheading>
+
+<EksWhenToUse />
+
+<SectionSubheading id="toc-tips">{'\u{1F4A1}'} Bottom line</SectionSubheading>
+
+<SectionNote>
+A minimal production EKS cluster (control plane + 2x t3.medium nodes + ALB) costs roughly $150–200/month. That's the floor. Scale from there based on workload needs.
+</SectionNote>
