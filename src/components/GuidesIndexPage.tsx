@@ -5,6 +5,7 @@ import { getNavTitle } from '../data/navigation'
 import { parseTitle } from '../helpers/parseTitle'
 import { STORYBOOK_URL } from '../data/navigation'
 import { ExternalLinkIcon } from './ExternalLinkIcon'
+import { usePWAStore } from '../hooks/usePWAStore'
 import type { GuideCategory, GuideDefinition } from '../data/guideTypes'
 import { GUIDE_CATEGORY_LABELS } from '../data/guideTypes'
 
@@ -122,7 +123,20 @@ export function GuidesIndexPage() {
   return (
     <div>
       <div className="mb-7">
-        <h1 className="text-3xl font-bold tracking-tight mb-1">Dev Guides</h1>
+        <div className="flex items-center justify-between gap-3 mb-1">
+          <h1 className="text-3xl font-bold tracking-tight">Dev Guides</h1>
+          <button
+            className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-pointer transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 hover:shadow-sm"
+            onClick={() => usePWAStore.getState().clearCacheAndReload()}
+            title="Clear cache and reload"
+          >
+            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="23 4 23 10 17 10" />
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+            </svg>
+            Refresh Cache
+          </button>
+        </div>
         <p className="text-gray-500 dark:text-slate-400 text-sm">
           Practical guides for backend engineers stepping into the frontend world.
         </p>
