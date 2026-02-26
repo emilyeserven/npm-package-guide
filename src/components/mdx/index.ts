@@ -146,6 +146,12 @@ import { NginxReverseProxyDiagram } from './nginx/NginxReverseProxyDiagram'
 import { NginxEnterpriseDiagram } from './nginx/NginxEnterpriseDiagram'
 import { NginxCommandList } from './nginx/NginxCommandList'
 
+// claude-agents
+import { AgentsComparisonTable } from './claude-agents/AgentsComparisonTable'
+import { AgentsInstructionChecklist } from './claude-agents/AgentsInstructionChecklist'
+import { AgentsUseCases } from './claude-agents/AgentsUseCases'
+import { AgentsCodeViewer } from './claude-agents/AgentsCodeViewer'
+
 import { CmdPrinciples } from './claude-md/CmdPrinciples'
 import { CmdAntiPatterns } from './claude-md/CmdAntiPatterns'
 import { CmdCategories } from './claude-md/CmdCategories'
@@ -320,4 +326,8 @@ export const mdxComponents: MDXComponents = {
   CmdLayouts,
   CmdFeatures,
   CmdHierarchyTable,
+  AgentsComparisonTable,
+  AgentsInstructionChecklist,
+  AgentsUseCases,
+  AgentsCodeViewer,
 }

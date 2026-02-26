@@ -1,0 +1,79 @@
+---
+id: "agents-subagents"
+title: "Subagents 🔀"
+guide: "claude-agents"
+group: "Building"
+linkRefs:
+  - id: "agents-claude-code-docs"
+    note: "Claude Code overview — subagent configuration"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what-sub">What Are Subagents?</TocLink>
+  <TocLink id="toc-builtin">Built-in Subagents</TocLink>
+  <TocLink id="toc-custom">Creating Custom Subagents</TocLink>
+</Toc>
+
+<SectionIntro>
+Subagents are specialized agent instances that run in their own context window. They have custom system prompts, specific tool access, and independent permissions. When Claude encounters a task matching a subagent's description, it delegates automatically.
+</SectionIntro>
+
+<SectionSubheading id="toc-what-sub">What Are Subagents?</SectionSubheading>
+
+Think of subagents as specialists on a team. Rather than one agent trying to do everything, Claude can delegate to focused agents that each excel at a narrow task. Each subagent gets its own context window, so the main agent's context stays clean.
+
+<SectionSubheading id="toc-builtin">Built-in Subagents</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="Explore">A fast, read-only agent optimized for searching and analyzing codebases. Tools: Read, Grep, Glob. Claude delegates to it when it needs to search without making changes.</DefRow>
+  <DefRow term="Plan">A research agent used during plan mode to gather context before presenting a plan. Tools: Read, Grep, Glob. Keeps exploration out of your main context window.</DefRow>
+  <DefRow term="General-purpose">A capable agent for complex, multi-step tasks requiring both exploration and action. Tools: Read, Write, Bash, Grep, Glob. Used when the task needs both reading and writing.</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-custom">Creating Custom Subagents</SectionSubheading>
+
+Custom subagents are Markdown files with YAML frontmatter. Place them in `.claude/agents/` in your project (project-scoped) or `~/.claude/agents/` in your home directory (global).
+
+```markdown
+---
+name: security-reviewer
+description: Reviews code for security vulnerabilities,
+  OWASP Top 10, and authentication/authorization issues
+tools: Read, Grep, Glob
+model: sonnet
+---
+
+You are a senior application security engineer with deep
+expertise in the OWASP Top 10, secure coding practices,
+and common vulnerability patterns.
+
+## Your Process
+
+1. Search for authentication and authorization logic
+2. Look for input validation and sanitization
+3. Check for SQL injection, XSS, and CSRF patterns
+4. Review secrets management and configuration
+5. Identify insecure dependencies
+
+## Output Format
+
+For each finding, provide:
+- Severity: Critical / High / Medium / Low
+- Location: file path and line range
+- Description: what the vulnerability is
+- Recommendation: how to fix it
+- Reference: relevant CWE or OWASP reference
+
+## Rules
+
+- Never modify any files
+- If you're unsure about a finding, flag it as
+  "Needs Review" rather than ignoring it
+- Always check both the happy path and error paths
+```
+
+<Explainer title="Managing subagents">
+You can use `/agents` in Claude Code to see all configured subagents. Use the `memory` frontmatter field to let a subagent persist learnings across sessions.
+</Explainer>
