@@ -1,0 +1,37 @@
+---
+id: "tss-getting-started"
+title: "Getting Started 🎯"
+guide: "tanstack-start"
+group: "Integration"
+linkRefs:
+  - id: "tanstack-start-docs"
+    note: "Official getting started guide"
+  - id: "tanstack-start-examples"
+    note: "Official example projects"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Getting up and running</TocLink>
+  <TocLink id="toc-setup">Setup options</TocLink>
+  <TocLink id="toc-versions">Version pinning</TocLink>
+</Toc>
+
+<SectionIntro>
+The fastest way to start is by cloning the official template. You can also set up from scratch if you prefer understanding each piece.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Getting up and running</SectionSubheading>
+
+TanStack Start uses `app.config.ts` as its main configuration file, which extends Vite's config with Start-specific options like server presets for different deployment targets. The dev server starts at `http://localhost:5173` with instant HMR powered by Vite.
+
+<SectionSubheading id="toc-setup">Setup options</SectionSubheading>
+
+<TssCodeTabs exampleId="getting-started" />
+
+<SectionSubheading id="toc-versions">Version pinning</SectionSubheading>
+
+<Gotcha title="Pin Your Versions">
+During the RC phase, lock your TanStack dependencies to a specific version (e.g., `1.0.0-rc.5` instead of `^1.0.0-rc.5`) to avoid unexpected breaking changes between releases.
+</Gotcha>

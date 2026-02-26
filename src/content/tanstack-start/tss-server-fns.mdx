@@ -1,0 +1,35 @@
+---
+id: "tss-server-fns"
+title: "Server Functions 📡"
+guide: "tanstack-start"
+group: "Routing & Server"
+linkRefs:
+  - id: "tanstack-start-docs"
+    note: "Server functions API reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">What are server functions?</TocLink>
+  <TocLink id="toc-patterns">Server function patterns</TocLink>
+  <TocLink id="toc-how">How they work under the hood</TocLink>
+</Toc>
+
+<SectionIntro>
+Server functions are TanStack Start's mechanism for running code on the server with **full type safety across the network boundary**. They can replace tRPC, GraphQL, or REST for most use cases.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">What are server functions?</SectionSubheading>
+
+A server function is created with `createServerFn()`. It runs on the server but can be called from anywhere — components, loaders, or other server functions. Input validation with Zod ensures type safety at the network boundary, and the validated types flow through to your handler automatically.
+
+<SectionSubheading id="toc-patterns">Server function patterns</SectionSubheading>
+
+<TssCodeTabs exampleId="server-fns" />
+
+<SectionSubheading id="toc-how">How they work under the hood</SectionSubheading>
+
+<SectionNote>
+When called from the server (like during SSR), the function simply executes directly. When called from the browser, TanStack automatically makes a network request to an internal endpoint that runs the function. The developer experience is the same either way — you just call the function.
+</SectionNote>

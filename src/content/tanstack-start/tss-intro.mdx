@@ -1,0 +1,44 @@
+---
+id: "tss-intro"
+title: "What is Start? 🚀"
+guide: "tanstack-start"
+group: "Core Concepts"
+linkRefs:
+  - id: "tanstack-start-docs"
+    note: "Official TanStack Start documentation"
+  - id: "tanstack-start-github"
+    note: "Source code and issue tracker"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What is TanStack Start?</TocLink>
+  <TocLink id="toc-features">Key features</TocLink>
+  <TocLink id="toc-status">Current status</TocLink>
+  <TocLink id="toc-who">Who this is for</TocLink>
+</Toc>
+
+<SectionIntro>
+TanStack Start is a **full-stack React framework** built on TanStack Router and Vite, powered by Nitro for universal deployment. It takes a client-first approach while giving you full server-side capabilities — SSR, streaming, server functions, and API routes — without locking you into opinionated conventions.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">What is TanStack Start?</SectionSubheading>
+
+If you've been building SPAs with TanStack Router and TanStack Query, Start is the natural next step. It augments the Router rather than replacing it, so you can adopt its server-side features incrementally with minimal disruption.
+
+Start gives you everything you need to go full-stack: server-side rendering, streaming hydration, type-safe server functions, composable middleware, and deployment to any JavaScript runtime — all while keeping the client-first DX you already know.
+
+<SectionSubheading id="toc-features">Key features</SectionSubheading>
+
+<TssFeatureCards />
+
+<SectionSubheading id="toc-status">Current status</SectionSubheading>
+
+<SectionNote>
+TanStack Start has reached **v1 Release Candidate** status — it's considered feature-complete with a stable API. The team recommends pinning your dependencies to a specific version if shipping to production during the RC phase.
+</SectionNote>
+
+<SectionSubheading id="toc-who">Who this is for</SectionSubheading>
+
+This guide is for frontend engineers who want to understand how TanStack Start compares to frameworks like Next.js, what its architecture looks like, and how to get started. You don't need to have used TanStack Router before, but familiarity with React and TypeScript is assumed.

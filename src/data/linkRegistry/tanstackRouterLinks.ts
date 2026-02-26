@@ -25,7 +25,7 @@ export const tanstackRouterLinks: RegistryLink[] = [
     label: 'TanStack Start \u2014 Official Docs',
     source: 'TanStack',
     desc: 'Full-stack framework built on TanStack Router with SSR, server functions, and streaming.',
-    tags: ['docs', 'free', 'routing', 'guide:tanstack-router'],
+    tags: ['docs', 'free', 'routing', 'guide:tanstack-router', 'guide:tanstack-start'],
     resourceCategory: 'Routing & Navigation',
   },
 ]

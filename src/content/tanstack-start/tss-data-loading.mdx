@@ -1,0 +1,32 @@
+---
+id: "tss-data-loading"
+title: "Data Loading 📊"
+guide: "tanstack-start"
+group: "Integration"
+linkRefs:
+  - id: "tanstack-start-docs"
+    note: "Data loading patterns"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">How data loading works</TocLink>
+  <TocLink id="toc-patterns">Loading patterns</TocLink>
+</Toc>
+
+<SectionIntro>
+Data loading in TanStack Start combines **route loaders** with server functions. Loaders run before the route renders, ensuring data is available immediately — on the server during SSR and on the client during navigation.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">How data loading works</SectionSubheading>
+
+Each route can define a `loader` function that fetches data before the component renders. Loaders run in parallel with parent loaders (no waterfalls), and the return value is fully typed when accessed via `Route.useLoaderData()`. For more advanced caching and background revalidation, you can integrate TanStack Query directly in your loaders.
+
+<SectionSubheading id="toc-patterns">Loading patterns</SectionSubheading>
+
+<TssCodeTabs exampleId="data-loading" />
+
+<Gotcha title="Static Server Functions">
+When using `staticFunctionMiddleware`, make sure it's the **last** middleware in the chain. The function runs at build time and its result is cached as a static JSON asset.
+</Gotcha>

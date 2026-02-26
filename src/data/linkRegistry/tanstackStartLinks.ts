@@ -1,0 +1,58 @@
+import type { RegistryLink } from './types'
+
+export const tanstackStartLinks: RegistryLink[] = [
+  {
+    id: 'tanstack-start-github',
+    url: 'https://github.com/TanStack/start',
+    label: 'TanStack Start GitHub',
+    source: 'GitHub',
+    desc: 'Source code, issues, and discussions for TanStack Start.',
+    tags: ['guide:tanstack-start', 'repo', 'free'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'tanstack-start-examples',
+    url: 'https://github.com/TanStack/router/tree/main/examples/react',
+    label: 'TanStack Start Examples',
+    source: 'GitHub',
+    desc: 'Official example projects demonstrating various TanStack Start patterns.',
+    tags: ['guide:tanstack-start', 'examples', 'free'],
+    resourceCategory: 'Official Documentation',
+  },
+  {
+    id: 'nitro-docs',
+    url: 'https://nitro.build/',
+    label: 'Nitro Documentation',
+    source: 'UnJS',
+    desc: 'Nitro — the universal web server toolkit that powers TanStack Start deployment across all JavaScript runtimes.',
+    tags: ['guide:tanstack-start', 'docs', 'free'],
+    resourceCategory: 'Related Technology',
+  },
+  {
+    id: 'vite-docs',
+    url: 'https://vite.dev/',
+    label: 'Vite Documentation',
+    source: 'Vite',
+    desc: 'Lightning-fast build tool and dev server that powers TanStack Start.',
+    tags: ['guide:tanstack-start', 'docs', 'free'],
+    resourceCategory: 'Related Technology',
+  },
+  {
+    id: 'tanstack-start-server-fns',
+    url: 'https://tanstack.com/start/latest/docs/framework/react/server-functions',
+    label: 'Server Functions Guide',
+    source: 'TanStack',
+    desc: 'How to create and use type-safe server functions with createServerFn().',
+    tags: ['guide:tanstack-start', 'docs', 'free'],
+    resourceCategory: 'Guides & Tutorials',
+  },
+  {
+    id: 'tanstack-start-middleware',
+    url: 'https://tanstack.com/start/latest/docs/framework/react/middleware',
+    label: 'Middleware Guide',
+    source: 'TanStack',
+    desc: 'Composable middleware for authentication, logging, and dependency injection.',
+    tags: ['guide:tanstack-start', 'docs', 'free'],
+    resourceCategory: 'Guides & Tutorials',
+  },
+]
