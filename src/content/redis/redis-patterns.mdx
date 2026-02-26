@@ -1,0 +1,30 @@
+---
+id: "redis-patterns"
+title: "Use Patterns 🔄"
+guide: "redis"
+group: "Working with Redis"
+linkRefs:
+  - id: "redis-caching"
+    note: "Redis caching best practices"
+  - id: "redis-pubsub"
+    note: "Redis Pub/Sub documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-intro">Why patterns matter</TocLink>
+  <TocLink id="toc-patterns">The five patterns</TocLink>
+</Toc>
+
+<SectionIntro>
+Knowing Redis commands is one thing — knowing *when* and *how* to use them in real applications is another. These are the five patterns you'll encounter most often.
+</SectionIntro>
+
+<SectionSubheading id="toc-intro">Why patterns matter</SectionSubheading>
+
+Each pattern solves a specific problem in a production system. Understanding the trade-offs (consistency vs speed, simplicity vs durability) helps you choose the right approach for your use case. Click "Show implementation" on any pattern to see the code.
+
+<SectionSubheading id="toc-patterns">The five patterns</SectionSubheading>
+
+<RedisPatternCards />

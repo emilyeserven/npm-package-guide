@@ -1,0 +1,32 @@
+---
+id: "redis-architecture"
+title: "Architecture 🏗️"
+guide: "redis"
+group: "Deep Dive"
+linkRefs:
+  - id: "redis-persistence-ref"
+    note: "Redis persistence documentation"
+  - id: "redis-replication-ref"
+    note: "Redis replication guide"
+  - id: "redis-cluster-ref"
+    note: "Redis Cluster documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-internals">How it works</TocLink>
+</Toc>
+
+<SectionIntro>
+Understanding how Redis works under the hood helps you make better decisions about when to use it and how to configure it. Here are the architectural concepts that matter most.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+
+Redis achieves its speed through three architectural choices: keeping all data in memory, processing commands on a single thread (no locking overhead), and using efficient data structure implementations optimized for each type.
+
+<SectionSubheading id="toc-internals">How it works</SectionSubheading>
+
+<RedisArchitectureDiagram />
