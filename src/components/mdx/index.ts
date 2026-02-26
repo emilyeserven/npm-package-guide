@@ -146,6 +146,13 @@ import { NginxReverseProxyDiagram } from './nginx/NginxReverseProxyDiagram'
 import { NginxEnterpriseDiagram } from './nginx/NginxEnterpriseDiagram'
 import { NginxCommandList } from './nginx/NginxCommandList'
 
+// payload-cms
+import { PayloadConceptAccordion } from './payload-cms/PayloadConceptAccordion'
+import { PayloadFlowDiagram } from './payload-cms/PayloadFlowDiagram'
+import { PayloadFeatureAccordion } from './payload-cms/PayloadFeatureAccordion'
+import { PayloadAiWorkflowAccordion } from './payload-cms/PayloadAiWorkflowAccordion'
+import { PayloadQuiz } from './payload-cms/PayloadQuiz'
+
 import { CmdPrinciples } from './claude-md/CmdPrinciples'
 import { CmdAntiPatterns } from './claude-md/CmdAntiPatterns'
 import { CmdCategories } from './claude-md/CmdCategories'
@@ -333,4 +340,9 @@ export const mdxComponents: MDXComponents = {
   TsaiChatDemo,
   TsaiApprovalDemo,
   TsaiComparisonTable,
+  PayloadConceptAccordion,
+  PayloadFlowDiagram,
+  PayloadFeatureAccordion,
+  PayloadAiWorkflowAccordion,
+  PayloadQuiz,
 }

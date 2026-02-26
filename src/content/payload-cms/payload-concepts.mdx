@@ -1,0 +1,39 @@
+---
+id: "payload-concepts"
+title: "Core Concepts 🧱"
+guide: "payload-cms"
+group: "Fundamentals"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-building-blocks">The building blocks</TocLink>
+  <TocLink id="toc-deep-dive">Deep dive into each concept</TocLink>
+</Toc>
+
+<SectionIntro>
+Payload's mental model centers around four building blocks: Collections, Globals, Fields, and Hooks. Everything else flows from these.
+</SectionIntro>
+
+<SectionSubheading id="toc-building-blocks">The building blocks</SectionSubheading>
+
+Payload's architecture is intentionally simple. Once you understand these five concepts, you can build almost anything:
+
+<SectionList>
+  <ColItem>**Collections** — database tables with typed schemas, APIs, and admin UI</ColItem>
+  <ColItem>**Globals** — singleton documents for site-wide settings</ColItem>
+  <ColItem>**Fields** — the schema primitives that define your data shape</ColItem>
+  <ColItem>**Hooks** — lifecycle callbacks for custom logic at any data operation</ColItem>
+  <ColItem>**Access Control** — functions that gate read/write at collection and field level</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-deep-dive">Deep dive into each concept</SectionSubheading>
+
+Click each concept below to expand the details.
+
+<PayloadConceptAccordion />
+
+<Explainer title="Reusable fields">
+Fields are just objects. You can extract common patterns (like a slug field or SEO group) into shared modules and import them across collections. This is plain TypeScript composition — no special plugin API required.
+</Explainer>

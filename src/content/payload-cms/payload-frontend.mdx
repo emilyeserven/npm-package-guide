@@ -1,0 +1,103 @@
+---
+id: "payload-frontend"
+title: "Headless Frontend with TanStack 🖥️"
+guide: "payload-cms"
+group: "Integration"
+linkRefs:
+  - id: "payload-generate-types"
+    note: "Payload generate:types CLI command"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-type-safe-client">Building a type-safe client</TocLink>
+  <TocLink id="toc-tanstack-integration">TanStack Router + Query integration</TocLink>
+  <TocLink id="toc-end-to-end">End-to-end type safety</TocLink>
+</Toc>
+
+<SectionIntro>
+Because Payload is headless, you bring your own frontend. Here's how to wire it up with React, TanStack Router, and TanStack Query for a fully type-safe client.
+</SectionIntro>
+
+<SectionSubheading id="toc-type-safe-client">Building a type-safe client</SectionSubheading>
+
+Payload generates TypeScript types from your config (via `payload generate:types`). You can import these types into your frontend project for end-to-end type safety — your API responses match your collection schemas exactly.
+
+<CodeAccordion title="lib/payload-client.ts" language="ts">
+{`import type { Post } from '../payload-types'  // Generated types
+
+const API_URL = import.meta.env.VITE_PAYLOAD_URL
+
+type PaginatedResponse<T> = {
+  docs: T[]
+  totalDocs: number
+  page: number
+  totalPages: number
+}
+
+export async function getPosts(
+  page = 1
+): Promise<PaginatedResponse<Post>> {
+  const res = await fetch(
+    \`\${API_URL}/api/posts?\` +
+    \`where[status][equals]=published&\` +
+    \`page=\${page}&limit=10&sort=-createdAt\`
+  )
+  if (!res.ok) throw new Error('Failed to fetch posts')
+  return res.json()
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-tanstack-integration">TanStack Router + Query integration</SectionSubheading>
+
+With TanStack Router for routing and TanStack Query for data fetching, you get type-safe loaders that prefetch data before rendering.
+
+<CodeAccordion title="routes/posts.tsx — TanStack Router + Query" language="tsx">
+{`import { createFileRoute } from '@tanstack/react-router'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { getPosts } from '../lib/payload-client'
+
+const postsQueryOptions = (page: number) =>
+  queryOptions({
+    queryKey: ['posts', page],
+    queryFn: () => getPosts(page),
+  })
+
+export const Route = createFileRoute('/posts')({
+  validateSearch: (search) => ({
+    page: Number(search?.page) || 1,
+  }),
+  loaderDeps: ({ search: { page } }) => ({ page }),
+  loader: ({ deps: { page }, context }) =>
+    context.queryClient.ensureQueryData(
+      postsQueryOptions(page)
+    ),
+  component: PostsPage,
+})
+
+function PostsPage() {
+  const { page } = Route.useSearch()
+  const { data } = useSuspenseQuery(
+    postsQueryOptions(page)
+  )
+
+  return (
+    <div>
+      {data.docs.map((post) => (
+        <article key={post.id}>
+          <h2>{post.title}</h2>
+        </article>
+      ))}
+    </div>
+  )
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-end-to-end">End-to-end type safety</SectionSubheading>
+
+Run `payload generate:types` to produce a `payload-types.ts` file. Copy or symlink this into your frontend project. Your TanStack Query hooks, loaders, and components all benefit from the same types that drive the admin panel and API validation.
+
+<SectionNote>
+The generated types include every collection, global, field, and relationship. If you rename a field in your Payload config, TypeScript will flag every frontend reference that needs updating.
+</SectionNote>

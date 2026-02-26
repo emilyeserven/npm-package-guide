@@ -1,0 +1,43 @@
+---
+id: "payload-features"
+title: "Key Features Deep Dive ⚡"
+guide: "payload-cms"
+group: "Advanced"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-features">Feature deep dive</TocLink>
+  <TocLink id="toc-join-field">The join field</TocLink>
+  <TocLink id="toc-deployment">Deployment flexibility</TocLink>
+</Toc>
+
+<SectionIntro>
+Beyond the fundamentals, Payload packs several features that distinguish it from other headless CMS options.
+</SectionIntro>
+
+<SectionSubheading id="toc-features">Feature deep dive</SectionSubheading>
+
+Click each feature to expand the details.
+
+<PayloadFeatureAccordion />
+
+<SectionSubheading id="toc-join-field">The join field</SectionSubheading>
+
+Payload 3.0 introduced the `join` field type, enabling **reverse relationships at the database level**. If a `Movie` has a relationship to a `Director`, you can add a join field on `Director` to surface all their movies — without manual queries or N+1 problems. This is performant, database-level joining.
+
+<SectionSubheading id="toc-deployment">Deployment flexibility</SectionSubheading>
+
+Payload deploys anywhere Node.js runs:
+
+<SectionList>
+  <ColItem>**Vercel** — serverless, one-click deployment templates</ColItem>
+  <ColItem>**Cloudflare Workers** — with D1 (SQLite) and R2 (storage)</ColItem>
+  <ColItem>**Traditional servers** — Docker, VPS, bare metal</ColItem>
+  <ColItem>**Self-hosted** — Coolify, Railway, or your own infrastructure</ColItem>
+</SectionList>
+
+<Explainer title="Leaner in v3">
+In Payload 3.0, the dependency count dropped from 88 to 27, making it significantly leaner and faster to install and deploy.
+</Explainer>
