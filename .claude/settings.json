@@ -5,10 +5,20 @@
       "Bash(pnpm validate:data)",
       "Bash(pnpm lint)",
       "Bash(pnpm lint:fix)",
+      "Bash(pnpm lint --fix)",
       "Bash(pnpm build)",
       "Bash(pnpm dev)",
+      "Bash(pnpm preview)",
       "Bash(pnpm type-check)",
-      "Bash(pnpm scaffold-guide)"
+      "Bash(pnpm test:e2e)",
+      "Bash(pnpm test:e2e *)",
+      "Bash(pnpm scaffold-guide)",
+      "Bash(pnpm scaffold-guide *)",
+      "Bash(ls src/content)",
+      "Bash(ls src/content/)",
+      "Bash(ls src/components/mdx)",
+      "Bash(ls src/components/mdx/)",
+      "Bash(ls src/components/mdx/*)"
     ]
   },
   "hooks": {

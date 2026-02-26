@@ -51,6 +51,7 @@ export function MyWrapper({ itemId }: { itemId: string }) {
 
 ## Step 4 — Register and verify
 
-1. Export from `src/components/mdx/index.ts` (add import + add to `mdxComponents` object).
-2. Use in MDX: `<MyWrapper itemId="example-id" />`.
-3. Run `pnpm validate` to catch TypeScript errors and build issues.
+1. **Shared components** (used across guides): Add import and entry to `src/components/mdx/index.ts`.
+2. **Guide-specific components**: Export from `src/components/mdx/<guide-id>/index.ts` barrel file (auto-discovered — no edit to root `index.ts` needed).
+3. Use in MDX: `<MyWrapper itemId="example-id" />`.
+4. Run `pnpm validate` to catch TypeScript errors and build issues.

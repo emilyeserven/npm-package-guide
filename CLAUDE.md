@@ -10,6 +10,8 @@ Multiple independent guides plus top-level resource pages. Guide metadata is co-
 
 Guide IDs match content directory names — run `ls src/content/` to discover all guides. Full metadata (titles, start pages, sections, dates) is in each guide's `*_GUIDE_MANIFEST`. Guides are multi-page by default; those with `singlePage: true` in their manifest are single-page. Every guide has `dateCreated` and `dateModified` (ISO `YYYY-MM-DD` strings) — displayed on home page tiles and used for date-based sorting.
 
+Guide categories (set in `*_GUIDE_MANIFEST.def.category`): `frontend`, `infrastructure`, `security`, `ai-tooling`, `fundamentals`. Labels are in `src/data/guideTypes.ts`. The scaffold script defaults to `fundamentals` — set the correct category after scaffolding.
+
 Every guide follows the same file layout:
 - **Data:** `src/data/<guideId>Data.ts` (or `src/data/<guideId>Data/` directory)
 - **Content pages:** `src/content/<guide-id>/*.mdx` (auto-discovered)
@@ -71,14 +73,15 @@ React 19 · TanStack Router (hash-based) · TanStack Table · Zustand · TypeScr
 
 ## Adding a New Guide
 
-Use the `/add-guide` skill, which runs `pnpm scaffold-guide`. The scaffolded data file includes a `*_GUIDE_MANIFEST` export — auto-discovered by `guideRegistry.ts`. No manual registration in `guideRegistry.ts` or `mdx/index.ts` is needed. `dateCreated` and `dateModified` are auto-set to the scaffold date; update `dateModified` when making significant content changes to an existing guide.
+Use the `/add-guide` skill, which runs `pnpm scaffold-guide`. The scaffolded data file includes a `*_GUIDE_MANIFEST` export — auto-discovered by `guideRegistry.ts`. No manual registration in `guideRegistry.ts` or `mdx/index.ts` is needed. `dateCreated` and `dateModified` are auto-set to the scaffold date; update `dateModified` when making significant content changes to an existing guide. Naming conventions for `--prefix` (UPPER_CASE constants) and `--camel` (camelCase filenames): derive short forms from the guide ID. Examples: `kubernetes` → `K8S`/`k8s`, `tanstack-query` → `TSQ`/`tsq`, `coolify-deploy` → `COOLIFY`/`coolify`, `ci-cd` → `CICD`/`cicd`. See `.claude/skills/add-guide/REFERENCE.md` for more detail.
 
 For component discovery, use the `/find-component` skill.
 
 ## Pre-Push Checklist
 
-- `pnpm install` then `pnpm validate` (or `validate:data` + `lint` + `build` individually).
-- Try `pnpm lint --fix` first for auto-fixable lint errors.
+1. `pnpm install` (if dependencies changed).
+2. `pnpm lint --fix` — always run first to auto-fix lint errors.
+3. `pnpm validate` — runs `validate:data` + `lint` + `build`. Fix any remaining errors.
 
 ## Reference
 
