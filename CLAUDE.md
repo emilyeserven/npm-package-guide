@@ -47,7 +47,7 @@ React 19 · TanStack Router (hash-based) · TanStack Table · Zustand · TypeScr
 - `src/components/` — Shared React components; `src/components/mdx/` has MDX-available components (auto-discovered from guide barrel files)
 - `src/content/<guide-id>/` — MDX pages, auto-discovered by `src/content/registry.ts`
 - `src/data/` — TypeScript data objects; `linkRegistry/` and `glossaryTerms/` split by guide
-- `src/data/guideRegistry.ts` — Central guide registry (auto-discovers `*_GUIDE_MANIFEST` exports, provides lookup helpers)
+- `src/data/guideRegistry.ts` — Central guide registry (auto-discovers `*_GUIDE_MANIFEST` and `*_CHECKLIST_MANIFEST` exports, provides lookup helpers)
 - `src/helpers/` — Utilities (`cmd.ts`, `fnRef.ts`, `darkStyle.ts`, `themeColors.ts`)
 - `src/hooks/` — Zustand stores and hooks (`useTheme.tsx`, `usePMContext.tsx`, `useUIStore.ts`)
 
@@ -57,7 +57,7 @@ React 19 · TanStack Router (hash-based) · TanStack Table · Zustand · TypeScr
 - **Content as data:** Page content in `src/data/` as TypeScript objects with HTML strings, not inline JSX.
 - **Styling:** Tailwind utility classes. CSS only for pseudo-elements, animations, and third-party selectors.
 - **Dark mode:** Use Tailwind `dark:` variants for static colors. Use `ds()` from `src/helpers/darkStyle.ts` for dynamic inline styles from data. For common color pairs (text, backgrounds, borders, shadows), prefer `tc(theme.X, isDark)` from `src/helpers/themeColors.ts` instead of raw `ds()` calls. Dark palette: bg `#1e293b`, text `#e2e8f0`, borders `#334155`.
-- **Checklists:** Use `<GuideChecklist checklistId="..." />` in MDX. All checklist data and metadata is registered in `src/components/mdx/GuideChecklist.tsx`. Do not create per-guide checklist wrapper components.
+- **Checklists:** Use `<GuideChecklist checklistId="..." />` in MDX. Checklist data is auto-discovered from `*_CHECKLIST_MANIFEST` exports in guide data files. Do not create per-guide checklist wrapper components. See `src/content/checklist/CLAUDE.md` for adding new checklists.
 - **YAML explorers:** Use `YamlExplorerBase` (`src/components/mdx/YamlExplorerBase.tsx`) for interactive YAML annotation UIs. Guide-specific wrappers pass data and file name to the base.
 - **Shared over guide-specific:** Always prefer shared components (`SectionLayout`, `TimelineFlow`, `ProsCons`, `DefinitionTable`, etc.) over creating guide-specific ones. Only create a component in `src/components/mdx/<guide-id>/` when the UI is genuinely unique to that guide or when a thin data-lookup wrapper is needed. Use the `/find-component` skill to discover the right shared component for a given need. See `docs/COMPONENT_REFERENCE.md` for the full list of shared bases, pattern-matching quick reference, and consolidation guidance.
 - **Page ordering:** Each guide's `*_GUIDE_SECTIONS` array is the single source of truth — sidebar, command menu, prev/next, and home tiles derive automatically.

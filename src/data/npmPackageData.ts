@@ -1,4 +1,5 @@
 import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
+export { NPM_CHECKLIST_MANIFEST } from './checklistItems'
 
 export const NPM_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['roadmap'] },

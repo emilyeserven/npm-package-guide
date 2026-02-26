@@ -60,6 +60,7 @@ All registries use `import.meta.glob` — no manual imports or registration need
 | Registry | File pattern | Discovered by |
 |----------|-------------|---------------|
 | Guide manifests | `src/data/*Data.ts` or `src/data/*Data/index.ts` | `guideRegistry.ts` |
+| Checklist manifests | `src/data/*Data.ts` or `src/data/*Data/index.ts` | `guideRegistry.ts` |
 | Link entries | `src/data/linkRegistry/*Links.ts` | `linkRegistry/index.ts` |
 | Glossary terms | `src/data/glossaryTerms/*Terms.ts` | `glossaryTerms/index.ts` |
 | MDX pages | `src/content/**/*.mdx` | `content/registry.ts` |

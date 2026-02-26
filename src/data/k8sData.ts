@@ -1,5 +1,6 @@
-import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest, ChecklistManifest } from './guideTypes'
 import type { YamlLine, ConceptItem } from './sharedDataTypes'
+import { K8S_CHECKLIST } from './k8sChecklist'
 
 // ── Types ─────────────────────────────────────────────────────────────
 
@@ -687,4 +688,12 @@ export const K8S_GUIDE_MANIFEST: GuideManifest = {
     sections: K8S_GUIDE_SECTIONS,
   },
   startPageData: K8S_START_PAGE_DATA,
+}
+
+export const K8S_CHECKLIST_MANIFEST: ChecklistManifest = {
+  id: 'k8s',
+  pageId: 'k8s-checklist',
+  sourceGuideId: 'kubernetes',
+  title: 'Kubernetes Checklist',
+  sections: K8S_CHECKLIST,
 }

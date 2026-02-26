@@ -1,4 +1,4 @@
-import type { GuideSection, GuideManifest } from './guideTypes'
+import type { GuideSection, GuideManifest, ChecklistManifest } from './guideTypes'
 import type { ChecklistBaseSection } from '../components/mdx/ChecklistBase'
 
 export const GIT_WORKTREES_GUIDE_SECTIONS: GuideSection[] = [
@@ -34,4 +34,11 @@ export const GIT_WORKTREES_GUIDE_MANIFEST: GuideManifest = {
     singlePage: true,
     sections: GIT_WORKTREES_GUIDE_SECTIONS,
   },
+}
+
+export const GIT_WORKTREES_CHECKLIST_MANIFEST: ChecklistManifest = {
+  id: 'git-worktrees',
+  sourceGuideId: 'git-worktrees',
+  title: 'Git Worktrees Checklist',
+  sections: GIT_WORKTREES_CHECKLIST,
 }

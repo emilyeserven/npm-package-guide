@@ -1,4 +1,6 @@
 import { cmd } from '../helpers/cmd'
+import type { ChecklistBaseSection } from '../components/mdx/ChecklistBase'
+import type { ChecklistManifest } from './guideTypes'
 
 export interface ChecklistItem {
   text: string
@@ -20,3 +22,35 @@ export const checklistItems: ChecklistItem[] = [
   { text: "Version bumped following semver rules", cat: "Pre-publish", badge: "bg-violet-100 text-violet-800 dark:bg-violet-500/20 dark:text-violet-300" },
   { text: ".npmignore or 'files' field excludes tests, source, and config files", cat: "Config", badge: "bg-pink-100 text-pink-800 dark:bg-pink-500/15 dark:text-pink-300" }
 ]
+
+// ── Transformed for ChecklistBase ────────────────────────────────────
+
+const PUBLISH_ICONS: Record<string, string> = {
+  Build: '\uD83D\uDD27',
+  Types: '\uD83D\uDC8E',
+  Config: '\u2699\uFE0F',
+  Deps: '\uD83D\uDCE6',
+  Docs: '\uD83D\uDCDD',
+  'Pre-publish': '\uD83D\uDE80',
+  Legal: '\uD83D\uDCDC',
+}
+
+function groupByCategory(items: ChecklistItem[]): ChecklistBaseSection[] {
+  const categories = [...new Set(items.map(it => it.cat))]
+  return categories.map(cat => ({
+    id: cat.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+    name: cat,
+    icon: PUBLISH_ICONS[cat] ?? '\u2705',
+    items: items.filter(it => it.cat === cat).map(it => ({ label: it.text })),
+  }))
+}
+
+export const PUBLISH_CHECKLIST: ChecklistBaseSection[] = groupByCategory(checklistItems)
+
+export const NPM_CHECKLIST_MANIFEST: ChecklistManifest = {
+  id: 'publish',
+  pageId: 'checklist',
+  sourceGuideId: 'npm-package',
+  title: 'Publish Checklist',
+  sections: PUBLISH_CHECKLIST,
+}

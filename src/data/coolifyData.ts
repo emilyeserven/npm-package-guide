@@ -488,7 +488,8 @@ export const PI_GOTCHAS: PiGotcha[] = [
 
 /* ───────────────────────── NAVIGATION ───────────────────────── */
 
-import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest, ChecklistManifest } from './guideTypes'
+import type { ChecklistBaseSection } from '../components/mdx/ChecklistBase'
 
 export const COOLIFY_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['cd-start'] },
@@ -559,4 +560,28 @@ export const COOLIFY_GUIDE_MANIFEST: GuideManifest = {
     sections: COOLIFY_GUIDE_SECTIONS,
   },
   startPageData: COOLIFY_START_PAGE_DATA,
+}
+
+// ── Checklist manifest ──────────────────────────────────────────────
+
+const COOLIFY_ICONS: Record<string, string> = {
+  'Pre-Deploy': '\u{1F680}',
+  Configuration: '\u2699\uFE0F',
+  'SPA Routing': '\u{1F517}',
+  'Post-Deploy': '\u2705',
+  'Raspberry Pi\u2013Specific (if applicable)': '\u{1F353}',
+}
+
+export const COOLIFY_CHECKLIST: ChecklistBaseSection[] = DEPLOY_CHECKLIST.map(g => ({
+  id: g.heading.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+  name: g.heading,
+  icon: COOLIFY_ICONS[g.heading] ?? '\u2705',
+  items: g.items.map(label => ({ label })),
+}))
+
+export const COOLIFY_CHECKLIST_MANIFEST: ChecklistManifest = {
+  id: 'coolify',
+  sourceGuideId: 'coolify-deploy',
+  title: 'Coolify Deploy Checklist',
+  sections: COOLIFY_CHECKLIST,
 }

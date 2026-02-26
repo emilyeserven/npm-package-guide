@@ -1,4 +1,6 @@
 import type { YamlLine, ConceptItem } from './sharedDataTypes'
+import type { ChecklistManifest } from './guideTypes'
+import { CICD_CHECKLIST } from './cicdChecklist'
 
 /* ───────────────────────── TYPES ───────────────────────── */
 
@@ -297,4 +299,12 @@ export const CICD_GUIDE_MANIFEST: GuideManifest = {
     sections: CICD_GUIDE_SECTIONS,
   },
   startPageData: CICD_START_PAGE_DATA,
+}
+
+export const CICD_CHECKLIST_MANIFEST: ChecklistManifest = {
+  id: 'cicd',
+  pageId: 'cicd-checklist',
+  sourceGuideId: 'ci-cd',
+  title: 'CI/CD Checklist',
+  sections: CICD_CHECKLIST,
 }

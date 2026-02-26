@@ -1,5 +1,5 @@
 import type { ChecklistSection } from './types'
-import type { GuideSection, StartPageData, GuideManifest } from '../guideTypes'
+import type { GuideSection, StartPageData, GuideManifest, ChecklistManifest } from '../guideTypes'
 import { META_TOOLS } from './techniques'
 
 export const CLAUDEMD_CHECKLIST: ChecklistSection[] = [
@@ -183,4 +183,12 @@ export const PROMPT_GUIDE_MANIFEST: GuideManifest = {
     sections: PROMPT_GUIDE_SECTIONS,
   },
   startPageData: PROMPT_START_PAGE_DATA,
+}
+
+export const PROMPT_CHECKLIST_MANIFEST: ChecklistManifest = {
+  id: 'claudemd',
+  pageId: 'prompt-claudemd-checklist',
+  sourceGuideId: 'prompt-engineering',
+  title: 'CLAUDE.md Checklist',
+  sections: CLAUDEMD_CHECKLIST,
 }

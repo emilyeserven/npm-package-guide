@@ -57,57 +57,53 @@ for (const entry of fs.readdirSync(dataDir, { withFileTypes: true })) {
 // *_GUIDE_MANIFEST that bundles the full GuideDefinition and optional StartPageData.
 // This mirrors the auto-discovery in guideRegistry.ts (which uses import.meta.glob).
 
-import type { GuideManifest } from '../src/data/guideTypes.ts'
+import type { GuideManifest, ChecklistManifest } from '../src/data/guideTypes.ts'
 
-async function extractManifests(modPath: string): Promise<GuideDefinition[]> {
-  const results: GuideDefinition[] = []
+interface ExtractedData {
+  guides: GuideDefinition[]
+  checklists: ChecklistPage[]
+}
+
+async function extractManifests(modPath: string): Promise<ExtractedData> {
+  const result: ExtractedData = { guides: [], checklists: [] }
   try {
     const mod = await import(modPath)
     for (const [key, val] of Object.entries(mod)) {
       if (key.endsWith('_GUIDE_MANIFEST') && val && typeof val === 'object' && 'def' in (val as Record<string, unknown>)) {
-        results.push((val as GuideManifest).def)
+        result.guides.push((val as GuideManifest).def)
+      }
+      if (key.endsWith('_CHECKLIST_MANIFEST') && val && typeof val === 'object' && 'id' in (val as Record<string, unknown>)) {
+        const m = val as ChecklistManifest
+        if (m.pageId) {
+          result.checklists.push({ id: m.pageId, sourceGuideId: m.sourceGuideId })
+        }
       }
     }
   } catch {
     // Skip — Vite build validates these
   }
-  return results
+  return result
 }
 
 const guides: GuideDefinition[] = []
+interface ChecklistPage { id: string; sourceGuideId: string }
+const checklistPages: ChecklistPage[] = []
 
 for (const filePath of guideDataFiles) {
   let found = await extractManifests(filePath)
 
   // For directory-based data, also try navigation.ts directly
-  if (found.length === 0) {
+  if (found.guides.length === 0) {
     const dir = path.dirname(filePath)
     const navPath = path.join(dir, 'navigation.ts')
     if (fs.existsSync(navPath)) {
-      found = await extractManifests(navPath)
+      const navFound = await extractManifests(navPath)
+      found = { guides: navFound.guides, checklists: [...found.checklists, ...navFound.checklists] }
     }
   }
 
-  guides.push(...found)
-}
-
-const registrySource = fs.readFileSync(
-  path.resolve(dataDir, 'guideRegistry.ts'), 'utf-8'
-)
-
-// Checklist pages (hardcoded in guideRegistry.ts — parse from source)
-const checklistMatch = registrySource.match(
-  /export const checklistPages\s*=\s*\[([\s\S]*?)\]/
-)
-interface ChecklistPage { id: string; sourceGuideId: string }
-const checklistPages: ChecklistPage[] = []
-if (checklistMatch) {
-  const entries = checklistMatch[1].matchAll(
-    /id:\s*'([^']+)'.*?sourceGuideId:\s*'([^']+)'/g
-  )
-  for (const m of entries) {
-    checklistPages.push({ id: m[1], sourceGuideId: m[2] })
-  }
+  guides.push(...found.guides)
+  checklistPages.push(...found.checklists)
 }
 
 // Build page-to-guide lookup (simplified version of guideRegistry.ts)

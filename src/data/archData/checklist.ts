@@ -1,4 +1,5 @@
 import type { ChecklistBaseSection } from '../../components/mdx/ChecklistBase'
+import type { ChecklistManifest } from '../guideTypes'
 
 export const ARCH_CHECKLIST: ChecklistBaseSection[] = [
   {
@@ -64,3 +65,11 @@ export const ARCH_CHECKLIST: ChecklistBaseSection[] = [
     ],
   },
 ]
+
+export const ARCH_CHECKLIST_MANIFEST: ChecklistManifest = {
+  id: 'arch',
+  pageId: 'arch-checklist',
+  sourceGuideId: 'architecture',
+  title: 'Architecture Checklist',
+  sections: ARCH_CHECKLIST,
+}
