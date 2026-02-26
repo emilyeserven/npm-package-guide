@@ -1,10 +1,10 @@
 ---
-description: Add content, data, pages, components, glossary terms, link entries, or checklists to an existing guide — or restructure its sections.
+description: Add sections, pages, definitions, data, components, glossary terms, link entries, or checklists to an existing guide — or reorganize its structure.
 ---
 
 # Updating an Existing Guide
 
-Use this skill for any modification to an already-scaffolded guide: expanding data for existing components, adding new pages or sections, adding supporting data (links, glossary, checklist), restructuring, or any combination of these. For creating a brand-new guide from scratch, use `/add-guide` instead.
+Use this skill for any modification to an already-scaffolded guide: adding new sections or pages, expanding definitions and data, adding supporting data (links, glossary, checklist), reorganizing sections, or any combination of these. For creating a brand-new guide from scratch, use `/add-guide` instead.
 
 > **Reference files** (read on-demand):
 > - `REFERENCE.md` (in this skill directory) — section templates, start page step templates, checklist registration patterns, MDX page template
