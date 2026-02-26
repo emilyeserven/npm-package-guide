@@ -1,0 +1,62 @@
+---
+id: "vp-full-pipeline"
+title: "A Complete Workflow 🔄"
+guide: "video-pipeline"
+group: "Practice"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-workflow">End-to-End Workflow</TocLink>
+  <TocLink id="toc-quiz">Knowledge Check</TocLink>
+</Toc>
+
+<SectionIntro>
+Here's how all the pieces connect when a creator uploads a video to a platform like YouTube, Vimeo, or your own custom video service.
+</SectionIntro>
+
+<SectionSubheading id="toc-workflow">End-to-End Workflow</SectionSubheading>
+
+<CodeAccordion title="Full pipeline example" ext="sh">
+<pre><code>{`# Step 1: Inspect the uploaded file
+ffprobe -v quiet -print_format json -show_streams upload.mov
+
+# Step 2: Transcode to multiple qualities
+for res in 1080 720 480 360; do
+  ffmpeg -i upload.mov \\
+    -vf "scale=-2:\${res}" \\
+    -c:v libx264 -preset slow -crf 22 \\
+    -c:a aac -b:a 128k \\
+    -movflags +faststart \\
+    "output_\${res}p.mp4"
+done
+
+# Step 3: Package as HLS
+ffmpeg -i output_1080p.mp4 \\
+  -c copy -f hls \\
+  -hls_time 6 -hls_playlist_type vod \\
+  hls/1080p/playlist.m3u8
+# ... repeat for each quality level
+
+# Step 4: Create master playlist (or generate dynamically)
+# Step 5: Upload HLS directory to CDN / object storage
+# Step 6: Player loads master.m3u8 and begins adaptive playback`}</code></pre>
+</CodeAccordion>
+
+The six steps map directly to the pipeline stages from the <NavLink to="vp-overview">overview</NavLink>:
+
+<SectionList>
+<ColItem>**Step 1** (Inspect) — Use ffprobe to understand the source file's codec, resolution, and bitrate.</ColItem>
+<ColItem>**Step 2** (Transcode) — Generate multiple quality levels. Use CRF for quality-driven encoding, or target bitrate for predictable file sizes.</ColItem>
+<ColItem>**Step 3** (Package) — Segment each quality level into HLS chunks with media playlists.</ColItem>
+<ColItem>**Step 4** (Package) — Create the master playlist that ties all quality levels together.</ColItem>
+<ColItem>**Step 5** (Deliver) — Upload to a CDN. Standard HTTP — no special streaming server needed.</ColItem>
+<ColItem>**Step 6** (Play) — The player loads the master playlist and uses ABR to select the best quality.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-quiz">Knowledge Check</SectionSubheading>
+
+Test your understanding of the concepts covered in this guide:
+
+<VideoQuiz />

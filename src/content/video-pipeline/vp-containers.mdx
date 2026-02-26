@@ -1,0 +1,38 @@
+---
+id: "vp-containers"
+title: "Containers & Codecs 📦"
+guide: "video-pipeline"
+group: "Foundations"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-codecs">Codecs: The Compression Algorithm</TocLink>
+  <TocLink id="toc-containers">Containers: The Wrapper</TocLink>
+  <TocLink id="toc-key-insight">Key Insight</TocLink>
+</Toc>
+
+<SectionIntro>
+These two concepts are the bedrock of all video technology. They're frequently confused, but they do very different jobs.
+</SectionIntro>
+
+<SectionSubheading id="toc-codecs">Codecs: The Compression Algorithm</SectionSubheading>
+
+A **codec** (coder-decoder) is the algorithm that compresses and decompresses video or audio data. It determines *how* the pixels and audio samples are encoded into a smaller representation. Without codecs, video files would be absurdly large — a 2-hour 1080p movie would be over 1 terabyte uncompressed.
+
+Explore the major codecs used in video and audio:
+
+<VideoCodecTabs />
+
+<SectionSubheading id="toc-containers">Containers: The Wrapper</SectionSubheading>
+
+A **container** (sometimes called a wrapper or mux format) is the file format that holds the encoded video, audio, subtitles, metadata, and chapter markers together. Think of the codec as the language the content is written in, and the container as the book binding that holds the pages together.
+
+<ContainerTabs />
+
+<SectionSubheading id="toc-key-insight">Key Insight</SectionSubheading>
+
+<Explainer title="File extensions don't tell the full story">
+An MP4 file isn't a "type of video" — it's a container that can hold H.264, H.265, or AV1 video alongside AAC or MP3 audio. The file extension tells you about the packaging, not the contents. This is why you might see an MP4 file that plays in one player but not another — the player supports the container but not the codec inside.
+</Explainer>

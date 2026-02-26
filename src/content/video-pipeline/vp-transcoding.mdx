@@ -1,0 +1,55 @@
+---
+id: "vp-transcoding"
+title: "Transcoding — The Heavy Lifting ⚙️"
+guide: "video-pipeline"
+group: "Processing"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-why">Why Transcode?</TocLink>
+  <TocLink id="toc-vs">Transcoding vs. Transmuxing</TocLink>
+  <TocLink id="toc-quality">CRF vs. Target Bitrate</TocLink>
+</Toc>
+
+<SectionIntro>
+**Transcoding** is the process of decoding a video from one format and re-encoding it into another. This is the most computationally expensive part of the video pipeline, and it's where most of the magic (and most of the time) happens.
+</SectionIntro>
+
+<SectionSubheading id="toc-why">Why Transcode?</SectionSubheading>
+
+You rarely serve the original file to viewers. Instead, you transcode it into multiple versions optimized for different scenarios:
+
+<SectionList>
+<ColItem>**Codec compatibility** — Converting ProRes (camera output) to H.264 (web-playable).</ColItem>
+<ColItem>**Size reduction** — Re-encoding at a lower bitrate.</ColItem>
+<ColItem>**Resolution variants** — Creating 1080p, 720p, 480p, and 360p versions from a 4K source.</ColItem>
+<ColItem>**Adaptive streaming** — Generating the multiple renditions that HLS/DASH requires.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-vs">Transcoding vs. Transmuxing</SectionSubheading>
+
+**Transmuxing** (or remuxing) changes the container without re-encoding. It's fast because it just repackages the existing compressed data. For example, converting from MKV to MP4 when both support the same codec — the video/audio data stays identical, only the wrapper changes.
+
+**Transcoding** decodes the content and re-encodes it with a different codec, different settings, or different resolution. This is slow and compute-intensive because every frame must be decompressed, processed, and recompressed.
+
+<CodeAccordion title="Transmux vs. Transcode" ext="sh">
+<pre><code>{`# Transmux: MKV → MP4 (fast, no quality loss)
+ffmpeg -i input.mkv -c copy output.mp4
+
+# Transcode: Re-encode to H.264 at a specific bitrate
+ffmpeg -i input.mov -c:v libx264 -b:v 4500k -c:a aac -b:a 128k output.mp4
+
+# Scale down to 720p and transcode
+ffmpeg -i input.mp4 -vf scale=1280:720 -c:v libx264 -crf 23 -c:a aac output_720p.mp4`}</code></pre>
+</CodeAccordion>
+
+<SectionSubheading id="toc-quality">CRF vs. Target Bitrate</SectionSubheading>
+
+There are two main approaches to controlling video quality during encoding:
+
+<DefinitionTable termHeader="Mode" descHeader="How it works">
+  <DefRow term="CRF (Constant Rate Factor)">Targets consistent *visual quality*. The encoder decides how many bits each frame needs. Simple scenes get fewer bits, complex scenes get more. File size varies but quality stays perceptually constant. CRF 18 is visually lossless for H.264, CRF 23 is the default, CRF 28+ gets noticeably lossy.</DefRow>
+  <DefRow term="Target Bitrate">Aims for a specific file size. You say "give me 4.5 Mbps" and the encoder distributes bits accordingly. Required for streaming because the player needs to know the bandwidth requirements in advance. Quality varies — simple scenes look great while complex scenes may get blocky.</DefRow>
+</DefinitionTable>
