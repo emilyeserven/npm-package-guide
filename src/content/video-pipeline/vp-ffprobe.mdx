@@ -1,0 +1,45 @@
+---
+id: "vp-ffprobe"
+title: "ffprobe — Reading Video DNA 🔍"
+guide: "video-pipeline"
+group: "Foundations"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What is ffprobe?</TocLink>
+  <TocLink id="toc-commands">Common Commands</TocLink>
+  <TocLink id="toc-output">Reading the Output</TocLink>
+</Toc>
+
+<SectionIntro>
+**ffprobe** is the diagnostic tool in the FFmpeg suite. Before you transcode anything, you need to understand what you're working with — the codec, resolution, bitrate, frame rate, audio channels, and more.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">What is ffprobe?</SectionSubheading>
+
+ffprobe reads a video file and reports everything about its structure. It's the first tool you reach for when working with any video file — it tells you exactly what's inside before you decide how to process it.
+
+<SectionSubheading id="toc-commands">Common Commands</SectionSubheading>
+
+<CodeAccordion title="ffprobe commands" ext="sh">
+<pre><code>{`# Basic info about a file
+ffprobe input.mp4
+
+# JSON output (great for scripting)
+ffprobe -v quiet -print_format json -show_streams -show_format input.mp4
+
+# Show only video stream info
+ffprobe -v quiet -select_streams v:0 -show_entries stream=codec_name,width,height,bit_rate,r_frame_rate input.mp4`}</code></pre>
+</CodeAccordion>
+
+<SectionSubheading id="toc-output">Reading the Output</SectionSubheading>
+
+Here's what typical ffprobe output looks like for an MP4 file. Click each section to expand:
+
+<FfprobeViewer />
+
+<SectionNote>
+ffprobe output tells you exactly what codecs you're dealing with, what resolution and frame rate the source is, and what bitrate it was encoded at. This is critical information before transcoding — you can't make informed encoding decisions without it.
+</SectionNote>
