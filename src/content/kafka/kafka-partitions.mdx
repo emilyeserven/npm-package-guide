@@ -1,0 +1,43 @@
+---
+id: "kafka-partitions"
+title: "Partitions & Ordering 📊"
+guide: "kafka"
+group: "Data Flow"
+linkRefs:
+  - id: "kafka-partitioning"
+    note: "Kafka partitioning strategy"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-ordering">Ordering guarantees</TocLink>
+  <TocLink id="toc-visualizer">Partition visualizer</TocLink>
+  <TocLink id="toc-choosing-count">Choosing partition count</TocLink>
+</Toc>
+
+<SectionIntro>
+Kafka guarantees ordering **within a partition**, not across partitions. This is why the key matters: records with the same key go to the same partition, ensuring all events for (say) a specific user are processed in order.
+</SectionIntro>
+
+<SectionSubheading id="toc-ordering">Ordering Guarantees</SectionSubheading>
+
+The partition is the unit of ordering in Kafka. Within a single partition, records are strictly ordered by offset. Across partitions, there is no ordering guarantee — records may arrive in any order.
+
+This design is intentional: it allows Kafka to scale horizontally. More partitions means more parallel consumers, which means higher throughput. The trade-off is that you must design your keys carefully to ensure related events land in the same partition.
+
+<Explainer>
+Think of partitions like checkout lanes at a grocery store. Each lane serves customers in order, but there's no guarantee about the ordering *between* lanes. Kafka uses the record key to assign customers (events) to lanes (partitions) — same customer always goes to the same lane.
+</Explainer>
+
+<SectionSubheading id="toc-visualizer">Partition Visualizer</SectionSubheading>
+
+Try producing messages below. Notice how the key determines the partition via a hash function — `user-1` always goes to the same partition:
+
+<KafkaPartitionVisualizer />
+
+<SectionSubheading id="toc-choosing-count">Choosing Partition Count</SectionSubheading>
+
+<SectionNote>
+More partitions = more parallelism (more consumers can read simultaneously), but also more overhead (more files on disk, more leader elections). A common starting point is **2x consumer count** to allow for growth. Partitions can be increased but **never decreased** — choose wisely.
+</SectionNote>

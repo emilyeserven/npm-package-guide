@@ -1,0 +1,45 @@
+---
+id: "kafka-replication"
+title: "Replication & Durability 🔒"
+guide: "kafka"
+group: "Operations & Patterns"
+linkRefs:
+  - id: "kafka-replication-docs"
+    note: "Kafka replication documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-how-replication-works">How replication works</TocLink>
+  <TocLink id="toc-isr">In-sync replicas (ISR)</TocLink>
+  <TocLink id="toc-failure-simulator">Failure simulator</TocLink>
+</Toc>
+
+<SectionIntro>
+Every partition is replicated across multiple brokers. One replica is the **leader** (handles reads/writes), the others are **followers** that stay in sync. If the leader fails, one of the in-sync replicas (ISRs) becomes the new leader automatically.
+</SectionIntro>
+
+<SectionSubheading id="toc-how-replication-works">How Replication Works</SectionSubheading>
+
+When a producer writes to a partition, the record first goes to the leader broker. Followers continuously fetch new records from the leader and append them to their own log. Once all in-sync replicas have the record, it is considered "committed."
+
+<DefinitionTable>
+  <DefRow term="Replication factor">The number of copies of each partition across the cluster. A factor of 3 means each partition exists on 3 brokers.</DefRow>
+  <DefRow term="Leader">The single broker that handles all reads and writes for a partition.</DefRow>
+  <DefRow term="Follower">A broker that maintains a copy of the partition data by replicating from the leader.</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-isr">In-Sync Replicas (ISR)</SectionSubheading>
+
+The ISR set is the subset of replicas that are fully caught up with the leader. Kafka only considers a record committed once all ISR members have it. If a follower falls too far behind, it's removed from the ISR set until it catches up.
+
+<Explainer>
+With `acks=all` and a replication factor of 3, your data survives any 2 broker failures. This is the standard production configuration for critical data.
+</Explainer>
+
+<SectionSubheading id="toc-failure-simulator">Failure Simulator</SectionSubheading>
+
+Click a broker below to simulate a failure. Watch how partition leadership automatically transfers to surviving replicas:
+
+<KafkaReplicationViz />

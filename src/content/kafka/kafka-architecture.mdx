@@ -1,0 +1,53 @@
+---
+id: "kafka-architecture"
+title: "Architecture 🏗️"
+guide: "kafka"
+group: "Fundamentals"
+linkRefs:
+  - id: "kafka-design"
+    note: "Kafka design documentation"
+  - id: "kafka-kraft"
+    note: "KRaft mode — ZooKeeper-less Kafka"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-topology">Cluster topology</TocLink>
+  <TocLink id="toc-coordination">ZooKeeper vs KRaft</TocLink>
+  <TocLink id="toc-key-insight">The key insight</TocLink>
+</Toc>
+
+<SectionIntro>
+A Kafka cluster consists of multiple **brokers** (servers) coordinated by either **ZooKeeper** (legacy) or **KRaft** (the newer, built-in consensus protocol). Data is organized into topics, topics are split into partitions, and partitions are replicated across brokers for fault tolerance.
+</SectionIntro>
+
+<SectionSubheading id="toc-topology">Cluster Topology</SectionSubheading>
+
+<CodeAccordion title="Kafka cluster topology" startOpen>
+{`// Kafka cluster topology
+Producers ──▶ [ Topic: orders ]
+               ├── Partition 0 → Broker 0 (leader), Broker 1, Broker 2
+               ├── Partition 1 → Broker 1 (leader), Broker 2, Broker 0
+               └── Partition 2 → Broker 2 (leader), Broker 0, Broker 1
+
+Consumer Group A ◀── reads from all partitions
+Consumer Group B ◀── independent read, same data`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-coordination">ZooKeeper vs KRaft</SectionSubheading>
+
+Historically, Kafka relied on **Apache ZooKeeper** for cluster metadata and leader election. Starting with Kafka 3.3+, **KRaft** (Kafka Raft) replaces ZooKeeper with a built-in consensus protocol — simplifying operations and removing an external dependency.
+
+<DefinitionTable>
+  <DefRow term="ZooKeeper (legacy)">External coordination service that manages broker metadata, partition leader election, and cluster membership. Being phased out.</DefRow>
+  <DefRow term="KRaft (recommended)">Built-in consensus protocol using the Raft algorithm. Metadata is stored in a special internal topic. Simpler to deploy and operate.</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-key-insight">The Key Insight</SectionSubheading>
+
+Every partition has exactly **one leader broker** that handles all reads and writes for that partition, with follower replicas on other brokers kept in sync. If a leader dies, a follower takes over automatically.
+
+<Gotcha>
+Partitions can be **increased** but **never decreased**. Reducing partitions would require redistributing data and potentially breaking key-based ordering guarantees. Choose your partition count carefully at topic creation time.
+</Gotcha>

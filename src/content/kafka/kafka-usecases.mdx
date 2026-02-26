@@ -1,0 +1,36 @@
+---
+id: "kafka-usecases"
+title: "Use Cases 🔗"
+guide: "kafka"
+group: "Operations & Patterns"
+linkRefs:
+  - id: "kafka-streams"
+    note: "Kafka Streams documentation"
+  - id: "kafka-connect"
+    note: "Kafka Connect documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-where-kafka-shines">Where Kafka shines</TocLink>
+</Toc>
+
+<SectionIntro>
+Kafka excels in scenarios that require high-throughput, fault-tolerant, real-time data streaming. Here are the most common production patterns.
+</SectionIntro>
+
+<SectionSubheading id="toc-where-kafka-shines">Real-World Use Cases</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="📊 Event Sourcing">Store every state change as an immutable event. Rebuild application state by replaying the log. Common in financial systems and e-commerce where audit trails are critical.</DefRow>
+  <DefRow term="🔗 Microservice Communication">Decouple services by communicating through events instead of direct API calls. Service A publishes "order.created" — services B, C, and D each consume it independently.</DefRow>
+  <DefRow term="📈 Real-time Analytics">Stream clickstream data, IoT sensor readings, or financial transactions into Kafka. Process with Kafka Streams or Flink for real-time dashboards.</DefRow>
+  <DefRow term="🔄 Change Data Capture (CDC)">Mirror database changes into Kafka using tools like Debezium. Every INSERT, UPDATE, DELETE becomes an event, enabling real-time data synchronization across systems.</DefRow>
+  <DefRow term="📝 Log Aggregation">Collect logs from hundreds of services into Kafka topics, then route them to Elasticsearch, S3, or monitoring tools. Replaces scattered log files with a centralized, replayable stream.</DefRow>
+  <DefRow term="🤖 ML Feature Pipelines">Stream raw data through transformation pipelines to compute features in real-time. Feed both model training (batch) and inference (real-time) from the same source of truth.</DefRow>
+</DefinitionTable>
+
+<SectionNote>
+**Kafka Connect** makes many of these patterns plug-and-play. It provides pre-built connectors for databases, cloud storage, search engines, and more — no custom consumer code needed.
+</SectionNote>
