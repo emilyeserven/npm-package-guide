@@ -33,19 +33,14 @@ const resources: ResourceTile[] = [
   },
 ]
 
-type SortOption = 'default' | 'title-asc' | 'title-desc' | 'pages-desc' | 'pages-asc'
-  | 'newest' | 'oldest' | 'updated-desc' | 'updated-asc'
+type SortDimension = 'title' | 'pages' | 'created' | 'updated'
+type SortDirection = 'asc' | 'desc'
 
-const SORT_LABELS: Record<SortOption, string> = {
-  default: 'Default',
-  'title-asc': 'Title A\u2013Z',
-  'title-desc': 'Title Z\u2013A',
-  'pages-desc': 'Most Pages',
-  'pages-asc': 'Fewest Pages',
-  'newest': 'Newest First',
-  'oldest': 'Oldest First',
-  'updated-desc': 'Recently Updated',
-  'updated-asc': 'Least Recently Updated',
+const SORT_DIMENSION_LABELS: Record<SortDimension, string> = {
+  title: 'Title',
+  pages: 'Pages',
+  created: 'Created',
+  updated: 'Updated',
 }
 
 const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -65,7 +60,15 @@ export function GuidesIndexPage() {
   const navigate = useNavigate()
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState<GuideCategory | null>(null)
-  const [sort, setSort] = useState<SortOption>('default')
+  const [activeSort, setActiveSort] = useState<{ dimension: SortDimension; direction: SortDirection } | null>(null)
+
+  function handleSortClick(dimension: SortDimension) {
+    setActiveSort(prev => {
+      if (prev?.dimension !== dimension) return { dimension, direction: 'asc' }
+      if (prev.direction === 'asc') return { dimension, direction: 'desc' }
+      return null
+    })
+  }
 
   const filterAndSort = useMemo(() => {
     return (list: GuideDefinition[]) => {
@@ -85,34 +88,22 @@ export function GuidesIndexPage() {
       }
 
       // Sort
-      if (sort !== 'default') {
+      if (activeSort) {
         filtered = [...filtered].sort((a, b) => {
-          switch (sort) {
-            case 'title-asc':
-              return a.title.localeCompare(b.title)
-            case 'title-desc':
-              return b.title.localeCompare(a.title)
-            case 'pages-desc':
-              return getPageCount(b) - getPageCount(a)
-            case 'pages-asc':
-              return getPageCount(a) - getPageCount(b)
-            case 'newest':
-              return b.dateCreated.localeCompare(a.dateCreated)
-            case 'oldest':
-              return a.dateCreated.localeCompare(b.dateCreated)
-            case 'updated-desc':
-              return b.dateModified.localeCompare(a.dateModified)
-            case 'updated-asc':
-              return a.dateModified.localeCompare(b.dateModified)
-            default:
-              return 0
+          let cmp = 0
+          switch (activeSort.dimension) {
+            case 'title':   cmp = a.title.localeCompare(b.title); break
+            case 'pages':   cmp = getPageCount(a) - getPageCount(b); break
+            case 'created': cmp = a.dateCreated.localeCompare(b.dateCreated); break
+            case 'updated': cmp = a.dateModified.localeCompare(b.dateModified); break
           }
+          return activeSort.direction === 'desc' ? -cmp : cmp
         })
       }
 
       return filtered
     }
-  }, [search, activeCategory, sort])
+  }, [search, activeCategory, activeSort])
 
   const multiPageGuides = useMemo(() => filterAndSort(guides.filter(g => !g.singlePage)), [filterAndSort])
   const singlePageGuides = useMemo(() => filterAndSort(guides.filter(g => g.singlePage)), [filterAndSort])
@@ -147,35 +138,47 @@ export function GuidesIndexPage() {
 
       {/* Filter & Sort Controls */}
       <div className="flex flex-col gap-3 mt-6 mb-6">
-        <div className="flex flex-col sm:flex-row gap-3">
-          {/* Search */}
-          <div className="relative flex-1">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input
-              type="text"
-              placeholder="Search guides..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500"
-            />
-          </div>
+        {/* Search — full width */}
+        <div className="relative">
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            placeholder="Search guides..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500"
+          />
+        </div>
 
-          {/* Sort */}
-          <select
-            value={sort}
-            onChange={e => setSort(e.target.value as SortOption)}
-            className="px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 cursor-pointer"
-          >
-            {Object.entries(SORT_LABELS).map(([value, label]) => (
-              <option key={value} value={value}>{label}</option>
-            ))}
-          </select>
+        {/* Sort pills */}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs font-medium text-slate-500 dark:text-slate-400 mr-1">Sort:</span>
+          {(['title', 'pages', 'created', 'updated'] as const).map(dim => {
+            const isActive = activeSort?.dimension === dim
+            const arrow = isActive
+              ? activeSort.direction === 'asc' ? ' \u2191' : ' \u2193'
+              : ''
+            return (
+              <button
+                key={dim}
+                className={`px-3 py-1 text-xs font-medium rounded-full border transition-colors ${
+                  isActive
+                    ? 'bg-blue-500 text-white border-blue-500 dark:bg-blue-600 dark:border-blue-600'
+                    : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500'
+                }`}
+                onClick={() => handleSortClick(dim)}
+              >
+                {SORT_DIMENSION_LABELS[dim]}{arrow}
+              </button>
+            )
+          })}
         </div>
 
         {/* Category pills */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2 mt-1">
+          <span className="text-xs font-medium text-slate-500 dark:text-slate-400 mr-1">Categories:</span>
           <button
             className={`px-3 py-1 text-xs font-medium rounded-full border transition-colors ${
               activeCategory === null
