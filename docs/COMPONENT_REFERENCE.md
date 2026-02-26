@@ -254,7 +254,7 @@ Before creating a component in `src/components/mdx/<guide-id>/`, use the `/find-
 3. **Check other guide directories** — Does another guide have a similar component? If so, extract a shared base first.
 4. **Evaluate scope** — Will only one guide ever need this? If uncertain, build it as a shared component from the start.
 5. **Keep wrappers thin** — If you do create a guide-specific wrapper, it should only handle data lookup. All rendering logic belongs in the shared base. A wrapper exceeding ~30 lines of rendering code is a sign you're reimplementing a shared pattern.
-6. **Register in `index.ts`** — All MDX-available components must be exported from `src/components/mdx/index.ts`.
+6. **Export from guide barrel** — Export new components from the guide directory's `index.ts` barrel file (e.g., `src/components/mdx/<guide-id>/index.ts`). These are auto-discovered by `src/components/mdx/index.ts` via `import.meta.glob` — no need to edit the root `index.ts`.
 
 ### Known duplication anti-patterns
 

@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 // ── Guide sections (sidebar & navigation) ─────────────────────────
 export const TSQ_GUIDE_SECTIONS: GuideSection[] = [
@@ -645,3 +645,16 @@ function CreatePost() {
     </button>
   );
 }`
+
+export const TSQ_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'tanstack-query',
+    icon: '🔄',
+    title: 'TanStack Query',
+    startPageId: 'tsq-start',
+    description: 'Server state management with TanStack Query \u2014 caching, deduplication, and the async data layer React is missing.',
+    category: 'frontend',
+    sections: TSQ_GUIDE_SECTIONS,
+  },
+  startPageData: TSQ_START_PAGE_DATA,
+}

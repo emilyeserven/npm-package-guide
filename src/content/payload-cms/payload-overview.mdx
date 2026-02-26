@@ -1,0 +1,61 @@
+---
+id: "payload-overview"
+title: "What Is Payload CMS 🏗️"
+guide: "payload-cms"
+group: "Fundamentals"
+linkRefs:
+  - id: "payload-docs"
+    note: "Official Payload CMS documentation"
+  - id: "payload-github"
+    note: "Payload CMS open-source repository"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what-is">What is Payload?</TocLink>
+  <TocLink id="toc-headless">What "headless" means</TocLink>
+  <TocLink id="toc-config-first">Config-first approach</TocLink>
+  <TocLink id="toc-comparison">Payload vs. traditional CMS</TocLink>
+</Toc>
+
+<SectionIntro>
+Payload is an open-source headless CMS and application framework built with TypeScript, Node.js, and React. It provides a backend with an auto-generated admin UI, REST and GraphQL APIs, authentication, file storage, and access control — all defined through code.
+</SectionIntro>
+
+<SectionSubheading id="toc-what-is">What is Payload?</SectionSubheading>
+
+Unlike traditional CMS platforms where you configure content models through a GUI, Payload takes a **config-first approach**. Your entire data schema is defined in TypeScript files, which means your content model is version-controlled, type-safe, and easily portable across environments.
+
+<Explainer title="Why developers love it">
+Payload generates full TypeScript types from your config, so your frontend and backend share the same type definitions. No more guessing what shape your API response is.
+</Explainer>
+
+<SectionSubheading id="toc-headless">What "headless" means</SectionSubheading>
+
+The term "headless" means Payload manages your content backend but makes no assumptions about how you render it on the frontend. You consume content through APIs and build your UI with **whatever framework you prefer** — React with TanStack Router, Astro, SvelteKit, a mobile app, or anything that can talk to a REST or GraphQL endpoint.
+
+This separation gives you full control over the presentation layer while Payload handles the data, auth, and admin experience.
+
+<SectionSubheading id="toc-config-first">Config-first approach</SectionSubheading>
+
+Every collection, field, hook, and access control rule lives in TypeScript files. This means:
+
+<SectionList>
+  <ColItem>**Version-controlled** — your schema lives in Git, not trapped in a database</ColItem>
+  <ColItem>**Type-safe** — TypeScript catches schema errors at compile time</ColItem>
+  <ColItem>**Portable** — deploy the same config to dev, staging, and production</ColItem>
+  <ColItem>**Reviewable** — schema changes show up in pull requests</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-comparison">Payload vs. traditional CMS</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="Configuration" definition="WordPress: GUI-based with plugins. Payload: TypeScript config files." />
+  <DefRow term="Type Safety" definition="WordPress: none. Payload: full TypeScript with generated types." />
+  <DefRow term="Frontend" definition="WordPress: tightly coupled themes. Payload: fully decoupled (headless)." />
+  <DefRow term="Database" definition="WordPress: MySQL only. Payload: PostgreSQL, MongoDB, or SQLite." />
+  <DefRow term="Hosting" definition="WordPress: needs a PHP server. Payload: serverless-ready (Vercel, Cloudflare)." />
+  <DefRow term="Extensibility" definition="WordPress: plugins of varying quality. Payload: code-level hooks, endpoints, plugins." />
+  <DefRow term="Cost" definition="WordPress: plugins add up fast. Payload: fully open-source, no license tiers." />
+</DefinitionTable>

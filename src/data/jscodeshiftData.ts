@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 // ── Types ────────────────────────────────────────────────────────────
 
@@ -706,4 +706,17 @@ export const JCS_START_PAGE_DATA: StartPageData = {
       },
     },
   ],
+}
+
+export const JCS_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'jscodeshift',
+    icon: '🔧',
+    title: 'jscodeshift Codemods',
+    startPageId: 'jcs-start',
+    description: 'A toolkit for running codemods over JavaScript and TypeScript source code \u2014 automating large-scale refactors with AST-level precision.',
+    category: 'ai-tooling',
+    sections: JCS_GUIDE_SECTIONS,
+  },
+  startPageData: JCS_START_PAGE_DATA,
 }

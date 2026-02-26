@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 // ── Guide sections ──────────────────────────────────────────────────
 
@@ -372,4 +372,17 @@ const STEP_MAP: Record<string, StepData[]> = {
 
 export function getStepsForPage(pageId: string): StepData[] {
   return STEP_MAP[pageId] ?? []
+}
+
+export const COWORK_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'cowork',
+    icon: '📂',
+    title: 'Cowork Organization Guide',
+    startPageId: 'cw-start',
+    description: 'Organize files with Claude Cowork \u2014 local documents, Google Drive, and media server workflows with step-by-step prompts.',
+    category: 'ai-tooling',
+    sections: COWORK_GUIDE_SECTIONS,
+  },
+  startPageData: COWORK_START_PAGE_DATA,
 }

@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 export const NPM_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['roadmap'] },
@@ -45,4 +45,17 @@ export const NPM_START_PAGE_DATA: StartPageData = {
       },
     },
   ],
+}
+
+export const NPM_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'npm-package',
+    icon: '📦',
+    title: 'Web App vs. NPM Package',
+    startPageId: 'roadmap',
+    description: 'Learn the differences between building a web app and an npm package, from project setup through CI/CD and publishing.',
+    category: 'fundamentals',
+    sections: NPM_GUIDE_SECTIONS,
+  },
+  startPageData: NPM_START_PAGE_DATA,
 }

@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from '../guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from '../guideTypes'
 
 export const S3_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['s3-start'] },
@@ -62,4 +62,17 @@ export const S3_START_PAGE_DATA: StartPageData = {
     },
   ],
   relatedGuides: ['ci-cd', 'architecture'],
+}
+
+export const S3_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 's3-storage',
+    icon: '🗄️',
+    title: 'Amazon S3 Storage Classes',
+    startPageId: 's3-start',
+    description: 'Understand Amazon S3 storage classes from a frontend engineer\u2019s perspective \u2014 buckets, objects, lifecycle rules, cost optimization, and practical usage patterns.',
+    category: 'infrastructure',
+    sections: S3_GUIDE_SECTIONS,
+  },
+  startPageData: S3_START_PAGE_DATA,
 }

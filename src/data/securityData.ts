@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 // ── Types ────────────────────────────────────────────────────────────
 
@@ -823,4 +823,17 @@ export const SECURITY_START_PAGE_DATA: StartPageData = {
       },
     },
   ],
+}
+
+export const SECURITY_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'security',
+    icon: '🛡️',
+    title: 'Security Awareness',
+    startPageId: 'sec-start',
+    description: 'Common web security vulnerabilities explained for developers \u2014 how each attack works, real-world scenarios, and copy-pasteable prevention patterns.',
+    category: 'security',
+    sections: SECURITY_GUIDE_SECTIONS,
+  },
+  startPageData: SECURITY_START_PAGE_DATA,
 }

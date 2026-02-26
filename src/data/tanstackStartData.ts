@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 // ── Types ────────────────────────────────────────────────────────────
 
@@ -653,4 +653,19 @@ export const TSS_START_PAGE_DATA: StartPageData = {
     },
   ],
   relatedGuides: ['tanstack-router', 'tanstack-query', 'tanstack-ai'],
+}
+
+// ── Guide manifest ──────────────────────────────────────────────────
+
+export const TSS_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'tanstack-start',
+    icon: '\u25C6',
+    title: 'TanStack Start',
+    startPageId: 'tss-start',
+    description: 'Full-stack React with TanStack Start \u2014 SSR, streaming, server functions, and type-safe middleware on Vite and Nitro.',
+    category: 'frontend',
+    sections: TSS_GUIDE_SECTIONS,
+  },
+  startPageData: TSS_START_PAGE_DATA,
 }

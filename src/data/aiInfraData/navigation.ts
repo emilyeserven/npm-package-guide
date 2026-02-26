@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from '../guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from '../guideTypes'
 
 export const AI_INFRA_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['ai-start', 'ai-overview'] },
@@ -87,4 +87,17 @@ export const AI_INFRA_START_PAGE_DATA: StartPageData = {
       jumpTo: 'ai-key-terms',
     },
   ],
+}
+
+export const AI_INFRA_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'ai-infra',
+    icon: '🤖',
+    title: 'AI Infrastructure',
+    startPageId: 'ai-start',
+    description: 'Understand AI infrastructure from a frontend engineer\u2019s perspective \u2014 from the API calls your React app makes to model serving, vector databases, and GPU clusters.',
+    category: 'ai-tooling',
+    sections: AI_INFRA_GUIDE_SECTIONS,
+  },
+  startPageData: AI_INFRA_START_PAGE_DATA,
 }

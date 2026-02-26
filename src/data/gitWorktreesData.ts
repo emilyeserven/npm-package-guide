@@ -1,4 +1,4 @@
-import type { GuideSection } from './guideTypes'
+import type { GuideSection, GuideManifest } from './guideTypes'
 import type { ChecklistBaseSection } from '../components/mdx/ChecklistBase'
 
 export const GIT_WORKTREES_GUIDE_SECTIONS: GuideSection[] = [
@@ -20,3 +20,16 @@ export const GIT_WORKTREES_CHECKLIST: ChecklistBaseSection[] = [
     ],
   },
 ]
+
+export const GIT_WORKTREES_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'git-worktrees',
+    icon: '🌳',
+    title: 'Git Worktrees & Claude Code',
+    startPageId: 'git-worktrees-guide',
+    description: 'Use git worktrees for parallel development with Claude Code \u2014 isolated branches, simultaneous sessions, and real workflows.',
+    category: 'ai-tooling',
+    singlePage: true,
+    sections: GIT_WORKTREES_GUIDE_SECTIONS,
+  },
+}

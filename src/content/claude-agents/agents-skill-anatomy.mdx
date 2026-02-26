@@ -1,0 +1,73 @@
+---
+id: "agents-skill-anatomy"
+title: "Anatomy of a Skill 🧬"
+guide: "claude-agents"
+group: "Best Practices"
+linkRefs:
+  - id: "agents-skills-docs"
+    note: "Official Claude Code Skills documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-structure">Directory Structure</TocLink>
+  <TocLink id="toc-files">File Contents</TocLink>
+  <TocLink id="toc-install">Installing and Distributing Skills</TocLink>
+</Toc>
+
+<SectionIntro>
+A skill is a directory containing a SKILL.md file with YAML frontmatter and markdown instructions. It can optionally include supporting files like scripts, templates, and reference data. Here's a complete example of a custom skill.
+</SectionIntro>
+
+<SectionSubheading id="toc-structure">Directory Structure</SectionSubheading>
+
+```
+my-api-skill/
+├── SKILL.md              # Required — instructions + metadata
+├── templates/
+│   ├── endpoint.ts       # Template for new endpoints
+│   └── test.ts           # Template for endpoint tests
+├── scripts/
+│   └── validate.sh       # Validation script Claude can run
+└── references/
+    └── api-conventions.md  # Reference doc for API patterns
+```
+
+<SectionSubheading id="toc-files">File Contents</SectionSubheading>
+
+Browse the key files in a skill directory:
+
+<AgentsCodeViewer tabs={[{"id":"skill","label":"SKILL.md","title":"SKILL.md","content":"---\nname: api-endpoint-builder\ndescription: >\n  Creates REST API endpoints following our team's\n  conventions. Use when building new routes, controllers,\n  or API handlers. Enforces consistent error handling,\n  validation, and response formatting.\n---\n\n# API Endpoint Builder\n\n## When to Use This Skill\n\nUse this skill whenever you need to create or modify\nREST API endpoints in our Express/TypeScript backend.\n\n## Conventions\n\n1. All endpoints use the controller pattern in /src/controllers\n2. Request validation uses Zod schemas in /src/schemas\n3. Responses follow our standard envelope format:\n   `{ data, error, meta }`\n4. Error handling uses our AppError class\n5. All endpoints require authentication unless marked public\n\n## Process\n\n1. Read the template at templates/endpoint.ts\n2. Generate a Zod schema for request validation\n3. Create the controller with proper error handling\n4. Create the route registration in /src/routes\n5. Generate tests using templates/test.ts\n6. Run scripts/validate.sh to check conventions"},{"id":"template","label":"Template","title":"templates/endpoint.ts","content":"// Express + Zod endpoint template\n// Requires: express, zod, and your project's error utils\n\nconst RequestSchema = z.object({\n  // Define your request shape here\n});\n\nexport const handler = asyncHandler(\n  async (req, res, next) => {\n    const validated = RequestSchema.parse(req.body);\n\n    // Implementation here\n\n    res.json({\n      data: result,\n      error: null,\n      meta: null,\n    });\n  }\n);"},{"id":"install","label":"Claude Code Usage","title":"Installing and using skills","content":"# Install from the Anthropic skills marketplace\n/plugin install document-skills@anthropic-agent-skills\n\n# Skills in your project are auto-detected\n# Just place them in .claude/skills/\nmkdir -p .claude/skills/my-api-skill\n# Add your SKILL.md and supporting files\n\n# Claude will see the skill and use it when relevant\n# You can also invoke directly:\n/my-api-skill create user registration endpoint"}]} />
+
+<SectionSubheading id="toc-install">Installing and Distributing Skills</SectionSubheading>
+
+Skills can also be used via the API for programmatic access:
+
+```python
+# pip install anthropic
+response = client.beta.messages.create(
+    model="claude-sonnet-4-5-20250929",
+    max_tokens=4096,
+    betas=["code-execution-2025-08-25", "skills-2025-10-02"],
+    container={
+        "skills": [{
+            "type": "custom",
+            "skill_id": "skill_01AbCd...",
+            "version": "latest"
+        }]
+    },
+    messages=[{
+        "role": "user",
+        "content": "Create a user registration endpoint"
+    }],
+    tools=[{
+        "type": "code_execution_20250825",
+        "name": "code_execution"
+    }],
+)
+```
+
+<Explainer title="Description matters most">
+The `description` field in your frontmatter is critical — it's the first thing Claude reads to decide whether to load a skill. Write it like you're explaining to a colleague when this skill should be used.
+</Explainer>

@@ -1,0 +1,58 @@
+---
+id: "agents-instructions"
+title: "Writing Good Instructions 📝"
+guide: "claude-agents"
+group: "Best Practices"
+linkRefs:
+  - id: "agents-prompt-engineering-docs"
+    note: "Anthropic's prompt engineering guide"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-checklist">Instruction Quality Checklist</TocLink>
+  <TocLink id="toc-principles">Principles for Effective Instructions</TocLink>
+  <TocLink id="toc-progressive">Progressive Disclosure</TocLink>
+</Toc>
+
+<SectionIntro>
+The quality of your agent's instructions directly determines the quality of its output. Whether you're writing a SKILL.md, a subagent prompt, or a system prompt for the Agent SDK, these guidelines apply.
+</SectionIntro>
+
+<SectionSubheading id="toc-checklist">Instruction Quality Checklist</SectionSubheading>
+
+Use this interactive checklist to ensure your instructions cover the essentials:
+
+<AgentsInstructionChecklist />
+
+<SectionSubheading id="toc-principles">Principles for Effective Instructions</SectionSubheading>
+
+**Be specific, not vague**
+
+| | |
+|---|---|
+| **Bad:** | "Review the code and make it better" |
+| **Good:** | "Review TypeScript files in /src for unused variables, missing error handling, and functions longer than 50 lines. Output findings as JSON." |
+
+**Define boundaries explicitly**
+
+| | |
+|---|---|
+| **Bad:** | "Fix any issues you find in the codebase" |
+| **Good:** | "Fix ESLint errors in files under /src/components. Do not modify test files, configuration files, or any file outside /src/components." |
+
+**Include verification steps**
+
+| | |
+|---|---|
+| **Bad:** | "Write tests for the auth module" |
+| **Good:** | "Write tests for the auth module. Run them with `npm test`. If any fail, debug and fix them. Only report success when all tests pass." |
+
+<SectionSubheading id="toc-progressive">Progressive Disclosure</SectionSubheading>
+
+Don't dump everything into a single prompt. Structure your instructions in layers: start with the high-level goal, then provide process steps, then detailed rules. Skills do this naturally through the SKILL.md + subdirectory structure, where Claude loads deeper files only when needed.
+
+<Gotcha>
+The most common mistake is giving too little context about what "good" looks like. If you wouldn't be confident a new hire could do the task with only your instructions, Claude probably can't either.
+</Gotcha>

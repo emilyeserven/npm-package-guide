@@ -1,0 +1,99 @@
+---
+id: "payload-collections"
+title: "Collections in Code 📝"
+guide: "payload-cms"
+group: "Architecture"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-anatomy">Anatomy of a collection</TocLink>
+  <TocLink id="toc-example">A complete example</TocLink>
+  <TocLink id="toc-colocation">Why colocation matters</TocLink>
+</Toc>
+
+<SectionIntro>
+Everything in Payload starts with configuration. A collection config is a TypeScript object that defines your data model, admin UI behavior, access control, hooks, and more. Payload reads these configs at startup and generates everything.
+</SectionIntro>
+
+<SectionSubheading id="toc-anatomy">Anatomy of a collection</SectionSubheading>
+
+A collection config defines:
+
+<SectionList>
+  <ColItem>**`slug`** — the URL-safe name used in API endpoints and database tables</ColItem>
+  <ColItem>**`admin`** — how the collection appears in the admin panel (title field, default columns)</ColItem>
+  <ColItem>**`access`** — functions that control who can read, create, update, and delete</ColItem>
+  <ColItem>**`fields`** — the schema: text, richText, select, relationship, upload, array, blocks, and more</ColItem>
+  <ColItem>**`hooks`** — lifecycle callbacks that run before/after CRUD operations</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-example">A complete example</SectionSubheading>
+
+Here's a `Posts` collection with typed fields, access control, and a hook that auto-sets the author:
+
+<CodeAccordion title="collections/Posts.ts" language="ts">
+{`import type { CollectionConfig } from 'payload'
+
+export const Posts: CollectionConfig = {
+  slug: 'posts',
+  admin: {
+    useAsTitle: 'title',
+    defaultColumns: ['title', 'status', 'publishedAt'],
+  },
+  access: {
+    read: () => true,  // Public read access
+    create: ({ req: { user } }) => Boolean(user),
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'content',
+      type: 'richText',  // Lexical editor
+    },
+    {
+      name: 'status',
+      type: 'select',
+      options: [
+        { label: 'Draft', value: 'draft' },
+        { label: 'Published', value: 'published' },
+      ],
+      defaultValue: 'draft',
+    },
+    {
+      name: 'author',
+      type: 'relationship',
+      relationTo: 'users',
+    },
+    {
+      name: 'featuredImage',
+      type: 'upload',
+      relationTo: 'media',
+    },
+  ],
+  hooks: {
+    beforeChange: [
+      ({ data, req }) => {
+        // Auto-set author on create
+        if (req.user && !data.author) {
+          data.author = req.user.id
+        }
+        return data
+      },
+    ],
+  },
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-colocation">Why colocation matters</SectionSubheading>
+
+Notice how access control, hooks, field validation, and admin UI configuration all live in the same file. This colocation is one of Payload's biggest strengths — there's a single source of truth for each content type.
+
+<Explainer title="Reusable fields">
+Fields are just objects. You can extract common patterns (like a slug field or SEO group) into shared modules and import them across collections. This is plain TypeScript composition — no special plugin API required.
+</Explainer>

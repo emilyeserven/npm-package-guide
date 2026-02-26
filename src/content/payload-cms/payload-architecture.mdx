@@ -1,0 +1,37 @@
+---
+id: "payload-architecture"
+title: "Architecture & Data Flow 🔀"
+guide: "payload-cms"
+group: "Architecture"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-data-flow">How data flows through Payload</TocLink>
+  <TocLink id="toc-database">Database adapters</TocLink>
+</Toc>
+
+<SectionIntro>
+Payload operates as your backend layer, exposing your content through multiple API surfaces. Click each node below to trace how data moves through the system.
+</SectionIntro>
+
+<SectionSubheading id="toc-data-flow">How data flows through Payload</SectionSubheading>
+
+The entire system starts with your `payload.config.ts` file. From there, Payload auto-generates the database schema, admin panel, API endpoints, and TypeScript types. Click each node to see what that layer does.
+
+<PayloadFlowDiagram />
+
+<SectionSubheading id="toc-database">Database adapters</SectionSubheading>
+
+Payload uses a **database adapter pattern**. You choose your database — PostgreSQL (via Drizzle ORM), MongoDB, or SQLite — and Payload handles the rest. The adapter is swappable, so you can change databases without rewriting your schema.
+
+<Gotcha>
+Payload auto-manages migrations for PostgreSQL. When you change your collection schemas, Payload generates migration files that you can review and apply — similar to how Rails or Django handle schema changes.
+</Gotcha>
+
+<DefinitionTable>
+  <DefRow term="PostgreSQL" definition="Uses Drizzle ORM. Auto-managed migrations. Best for production deployments." />
+  <DefRow term="MongoDB" definition="Native driver. Schema-flexible. Good for rapid prototyping or document-heavy data." />
+  <DefRow term="SQLite" definition="File-based. Great for local development, edge deployments (Cloudflare D1), or small projects." />
+</DefinitionTable>

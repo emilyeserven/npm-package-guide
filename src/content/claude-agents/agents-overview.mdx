@@ -1,0 +1,41 @@
+---
+id: "agents-overview"
+title: "What Are Claude Agents 🕵️"
+guide: "claude-agents"
+group: "Foundations"
+linkRefs:
+  - id: "agents-claude-code-docs"
+    note: "Claude Code overview and getting started"
+  - id: "agents-agent-sdk-docs"
+    note: "Agent SDK documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What is a Claude Agent?</TocLink>
+  <TocLink id="toc-ecosystem">The Agent Ecosystem</TocLink>
+</Toc>
+
+<SectionIntro>
+A Claude agent is an autonomous system that uses Claude as its reasoning engine, combined with tools to interact with the real world. Rather than just generating text, agents follow a loop: they gather context, reason about what to do, take action using tools, verify the results, and repeat until the task is done.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">What is a Claude Agent?</SectionSubheading>
+
+The core design principle behind Claude's agent architecture is simple: **give Claude a computer**. With access to a terminal, filesystem, and tools like Bash, Read, Write, and Grep, Claude can work the way a human developer does — searching for information, writing code, running it, debugging, and iterating.
+
+<SectionSubheading id="toc-ecosystem">The Agent Ecosystem</SectionSubheading>
+
+Claude's agent capabilities exist across several layers, each suited to different use cases:
+
+<DefinitionTable>
+  <DefRow term="Claude Code">Anthropic's CLI tool — an agentic coding assistant that runs in your terminal. It reads your codebase, writes and edits files, runs commands, and iterates. This is the foundation that the Agent SDK is built on.</DefRow>
+  <DefRow term="Agent SDK">A Python/TypeScript library that exposes the same agent harness powering Claude Code. Build your own agents with the same tools, context management, and loop that Anthropic uses internally.</DefRow>
+  <DefRow term="Agent Skills">Modular packages of instructions, scripts, and resources that specialize Claude for specific tasks. Think of them as "onboarding guides" that Claude loads when relevant.</DefRow>
+  <DefRow term="Subagents">Specialized agent instances that run in their own context window with custom prompts, tool access, and permissions. Claude can delegate tasks to them automatically.</DefRow>
+</DefinitionTable>
+
+<Explainer title="Getting started">
+You don't need to use all of these. Most people start with Claude Code and Skills, then graduate to the Agent SDK and custom subagents as their needs grow.
+</Explainer>

@@ -29,7 +29,7 @@ All guide pages are MDX and auto-route. Only non-MDX pages need `componentPages.
 
 ## Page Ordering
 
-Each guide's `*_GUIDE_SECTIONS` array (in its data file) automatically drives: sidebar, command menu, prev/next links, and home page tiles via `src/data/guideRegistry.ts`.
+Each guide's `*_GUIDE_SECTIONS` array (in its data file, bundled into `*_GUIDE_MANIFEST`) automatically drives: sidebar, command menu, prev/next links, and home page tiles via `src/data/guideRegistry.ts` (which auto-discovers manifests via `import.meta.glob`).
 
 `<GuideStartContent>` auto-derives learning-path sub-items from sections and renders a Resources section at the bottom (External Resources, Glossary, Checklist tiles). Do not add manual Resources steps to `StartPageData`.
 
