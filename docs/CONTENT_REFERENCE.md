@@ -4,6 +4,8 @@ Detailed conventions for MDX content, link registry, glossary, and cross-page na
 
 ## MDX Frontmatter
 
+MDX files must be directly in `src/content/<guide-id>/` — nested subdirectories are not supported by the auto-discovery glob.
+
 | Field | Required | Type | Description |
 |-------|----------|------|-------------|
 | `id` | Yes | `string` | Unique page identifier (kebab-case). Must match the guide's `*_GUIDE_SECTIONS` array. |

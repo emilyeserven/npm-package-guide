@@ -20,7 +20,7 @@ Find natural page breaks in the artifact. Each distinct topic or section heading
 
 ### Step 2 — Run scaffold script
 
-Run `pnpm scaffold-guide` with the appropriate flags. See `REFERENCE.md` § "Scaffold command" for all flags, naming conventions, and the list of files created/updated.
+Run `pnpm scaffold-guide` with the appropriate flags. Use `--category` to set the guide's category (defaults to `fundamentals`; valid: `frontend`, `infrastructure`, `security`, `ai-tooling`, `fundamentals`). See `REFERENCE.md` § "Scaffold command" for all flags, naming conventions, and the list of files created/updated.
 
 ### Step 3 — Fill in guide data
 

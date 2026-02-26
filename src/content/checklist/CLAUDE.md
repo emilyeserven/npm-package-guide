@@ -40,6 +40,9 @@ All checklists use `<GuideChecklist checklistId="..." />` — a single component
 | `k8s` | Kubernetes Checklist | `src/data/k8sChecklist.ts` |
 | `ai-infra` | AI Infrastructure Checklist | `src/data/aiInfraData/checklist.ts` |
 | `nja` | Next.js Migration Checklist | `src/data/njaData/checklist.ts` |
+| `git-worktrees` | Git Worktrees Checklist | `src/data/gitWorktreesData.ts` |
+| `coolify` | Coolify Deploy Checklist | `src/data/coolifyData.ts` |
+| `cmd-review` | CLAUDE.md Self-Review | `src/data/claudeMdData.ts` |
 
 ## Rules
 

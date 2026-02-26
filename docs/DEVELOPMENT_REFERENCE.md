@@ -50,6 +50,22 @@ Top-level resource pages (`external-resources`, `glossary`) are NOT in any guide
 | MDX title emoji suffix | Title missing trailing emoji (parsed by sidebar and command menu) |
 | Orphaned MDX pages | Page in `src/content/` not listed in any guide's `*_GUIDE_SECTIONS` |
 | Guide-folder mismatch | MDX `guide` frontmatter doesn't match its parent directory |
+| Component `sectionId` props | Empty or whitespace `sectionId` attribute in MDX component invocations |
+| Link registry completeness | INFO: lists guides with no `guide:<id>` tagged links (warns, does not fail) |
+
+## Auto-Discovery
+
+All registries use `import.meta.glob` — no manual imports or registration needed.
+
+| Registry | File pattern | Discovered by |
+|----------|-------------|---------------|
+| Guide manifests | `src/data/*Data.ts` or `src/data/*Data/index.ts` | `guideRegistry.ts` |
+| Link entries | `src/data/linkRegistry/*Links.ts` | `linkRegistry/index.ts` |
+| Glossary terms | `src/data/glossaryTerms/*Terms.ts` | `glossaryTerms/index.ts` |
+| MDX pages | `src/content/**/*.mdx` | `content/registry.ts` |
+| Guide components | `src/components/mdx/*/index.ts` | `components/mdx/index.ts` |
+
+To add a new guide, create files matching these patterns. Do not edit the registry/index files themselves.
 
 ## Command Menu (CMD-K)
 
