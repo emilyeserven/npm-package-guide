@@ -1,0 +1,35 @@
+---
+id: "tss-routing"
+title: "Routing 🧭"
+guide: "tanstack-start"
+group: "Routing & Server"
+linkRefs:
+  - id: "tanstack-router-docs"
+    note: "TanStack Router documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">How routing works</TocLink>
+  <TocLink id="toc-patterns">Routing patterns</TocLink>
+  <TocLink id="toc-navigation">Type-safe navigation</TocLink>
+</Toc>
+
+<SectionIntro>
+TanStack Router powers the entire routing system in Start. It provides **fully inferred type-safe routing** — route params, search params, and loaders are all typed automatically with zero manual annotation.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">How routing works</SectionSubheading>
+
+Routes are generated from your file structure. A Vite plugin watches your `src/routes/` directory and auto-generates `routeTree.gen.ts` — you never edit this file manually. Each route file exports a `Route` constant created by `createFileRoute()`, which provides the path, loaders, validators, and component.
+
+<SectionSubheading id="toc-patterns">Routing patterns</SectionSubheading>
+
+<TssCodeTabs exampleId="routing" />
+
+<SectionSubheading id="toc-navigation">Type-safe navigation</SectionSubheading>
+
+<Explainer title="Type-Safe Navigation">
+When you use `<Link to="/posts/$postId" params={{ postId: '123' }} />`, TypeScript will error if you pass incorrect param names or types. Navigation is validated at compile time — no more runtime 404s from typos.
+</Explainer>

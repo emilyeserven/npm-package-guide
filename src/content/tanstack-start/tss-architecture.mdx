@@ -1,0 +1,45 @@
+---
+id: "tss-architecture"
+title: "Architecture 🏗️"
+guide: "tanstack-start"
+group: "Core Concepts"
+linkRefs:
+  - id: "nitro-docs"
+    note: "Nitro universal server engine"
+  - id: "vite-docs"
+    note: "Vite build tool"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-stack">The technology stack</TocLink>
+  <TocLink id="toc-structure">Project structure</TocLink>
+  <TocLink id="toc-conventions">File conventions</TocLink>
+</Toc>
+
+<SectionIntro>
+TanStack Start is composed of well-defined layers. Each layer adds capability without creating lock-in — you can use TanStack Router without Start, or Start without any specific deployment target.
+</SectionIntro>
+
+<SectionSubheading id="toc-stack">The technology stack</SectionSubheading>
+
+Click each layer to understand its role in the stack:
+
+<TssArchitectureDiagram />
+
+<Explainer title="Key Architectural Principle">
+Unlike frameworks that bundle everything into a monolithic abstraction, Start's layers are **separable**. You can use TanStack Router without Start. You can use Start without any specific deployment target. Each layer adds capability without creating lock-in.
+</Explainer>
+
+<SectionSubheading id="toc-structure">Project structure</SectionSubheading>
+
+A typical TanStack Start project follows this structure:
+
+<TssFileTree />
+
+<SectionSubheading id="toc-conventions">File conventions</SectionSubheading>
+
+<SectionNote>
+Files ending in `.functions.ts` export `createServerFn` wrappers — these are safe to import anywhere (client or server). Files ending in `.server.ts` contain server-only code that should only be imported inside server function handlers.
+</SectionNote>

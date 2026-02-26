@@ -159,6 +159,12 @@ import { TsaiPackageGrid } from './tanstack-ai/TsaiPackageGrid'
 import { TsaiChatDemo } from './tanstack-ai/TsaiChatDemo'
 import { TsaiApprovalDemo } from './tanstack-ai/TsaiApprovalDemo'
 import { TsaiComparisonTable } from './tanstack-ai/TsaiComparisonTable'
+// tanstack-start
+import { TssFeatureCards } from './tanstack-start/TssFeatureCards'
+import { TssArchitectureDiagram } from './tanstack-start/TssArchitectureDiagram'
+import { TssFileTree } from './tanstack-start/TssFileTree'
+import { TssCodeTabs } from './tanstack-start/TssCodeTabs'
+import { TssComparisonView } from './tanstack-start/TssComparisonView'
 
 export const mdxComponents: MDXComponents = {
   pre: MdxPre,
@@ -333,4 +339,9 @@ export const mdxComponents: MDXComponents = {
   TsaiChatDemo,
   TsaiApprovalDemo,
   TsaiComparisonTable,
+  TssFeatureCards,
+  TssArchitectureDiagram,
+  TssFileTree,
+  TssCodeTabs,
+  TssComparisonView,
 }

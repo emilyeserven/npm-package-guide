@@ -1,0 +1,30 @@
+---
+id: "tss-middleware"
+title: "Middleware 🔗"
+guide: "tanstack-start"
+group: "Routing & Server"
+linkRefs:
+  - id: "tanstack-start-docs"
+    note: "Middleware documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">What is middleware?</TocLink>
+  <TocLink id="toc-patterns">Middleware patterns</TocLink>
+</Toc>
+
+<SectionIntro>
+Middleware lets you compose reusable logic that runs before server functions or request handlers. They're **fully typed, composable, and can inject context** that downstream functions receive with type safety.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">What is middleware?</SectionSubheading>
+
+Middleware in TanStack Start is created with `createMiddleware()`. Each middleware can validate requests, inject typed context, and chain with other middleware. The context flows through the chain with full type inference — no manual type annotations needed.
+
+This is particularly powerful for authentication: create an `authMiddleware` once, then attach it to any server function that needs a verified user in context.
+
+<SectionSubheading id="toc-patterns">Middleware patterns</SectionSubheading>
+
+<TssCodeTabs exampleId="middleware" />
