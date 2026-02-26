@@ -1,0 +1,34 @@
+---
+id: "kafka-concepts"
+title: "Core Concepts 🧩"
+guide: "kafka"
+group: "Fundamentals"
+linkRefs:
+  - id: "kafka-intro"
+    note: "Official Kafka introduction and concepts"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-building-blocks">The building blocks</TocLink>
+</Toc>
+
+<SectionIntro>
+Kafka's architecture is built on a small set of powerful primitives. Understanding these six concepts gives you the mental model to reason about any Kafka-based system.
+</SectionIntro>
+
+<SectionSubheading id="toc-building-blocks">The Building Blocks of Kafka</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="📝 Event / Record">The atomic unit of data. Every event has a `key`, a `value`, a `timestamp`, and optional `headers`. Events are immutable once written.</DefRow>
+  <DefRow term="📂 Topic">A named category or feed to which events are published. Think of it as a "table" in a database, or a "folder" in a filesystem. Topics are split into partitions.</DefRow>
+  <DefRow term="🧩 Partition">An ordered, immutable sequence of records. Each record in a partition gets a sequential `offset`. Partitions enable parallelism — they're how Kafka scales horizontally.</DefRow>
+  <DefRow term="🖥️ Broker">A single Kafka server. Brokers store data on disk and serve client requests. A Kafka cluster is a group of brokers working together.</DefRow>
+  <DefRow term="📤 Producer">An application that publishes events to topics. Producers choose which partition a record goes to — usually by hashing the record key.</DefRow>
+  <DefRow term="📥 Consumer">An application that subscribes to topics and processes events. Consumers track their position via `offset` and can join `consumer groups` for parallel processing.</DefRow>
+</DefinitionTable>
+
+<SectionNote>
+Every concept above connects to a dedicated page in this guide. As you progress, you'll see interactive demos for partitions, consumers, replication, and more.
+</SectionNote>

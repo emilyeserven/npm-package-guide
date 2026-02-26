@@ -1,0 +1,32 @@
+---
+id: "kafka-playground"
+title: "Interactive Playground ⚡"
+guide: "kafka"
+group: "Operations & Patterns"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-event-stream">Event stream simulator</TocLink>
+  <TocLink id="toc-takeaways">Key takeaways</TocLink>
+</Toc>
+
+<SectionIntro>
+This simulator demonstrates how events flow from producers through topics and partitions. Hit the button below to produce a stream of events and watch the log output — just like running a Kafka console consumer.
+</SectionIntro>
+
+<SectionSubheading id="toc-event-stream">Event Stream Simulator</SectionSubheading>
+
+<KafkaMessagePlayground />
+
+<SectionSubheading id="toc-takeaways">Key Takeaways</SectionSubheading>
+
+<SectionList>
+  <ColItem>**Kafka is a distributed commit log**, not a message queue — messages persist after consumption.</ColItem>
+  <ColItem>**Ordering is guaranteed within a partition.** Same key → same partition → same order.</ColItem>
+  <ColItem>**Consumer groups enable parallel processing** — Kafka auto-assigns partitions to consumers.</ColItem>
+  <ColItem>**Replication factor 3** means your data survives any 2 broker failures.</ColItem>
+  <ColItem>**Producers control durability via acks:** trade latency for stronger guarantees.</ColItem>
+  <ColItem>**Topics can't reduce partitions** — plan for growth, start with 2x your expected consumer count.</ColItem>
+</SectionList>

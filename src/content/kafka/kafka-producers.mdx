@@ -1,0 +1,58 @@
+---
+id: "kafka-producers"
+title: "Producers 📤"
+guide: "kafka"
+group: "Data Flow"
+linkRefs:
+  - id: "kafka-producer-configs"
+    note: "Producer configuration reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-writing-data">Writing data into Kafka</TocLink>
+  <TocLink id="toc-code-example">Producer code example</TocLink>
+  <TocLink id="toc-ack-levels">Acknowledgement levels</TocLink>
+</Toc>
+
+<SectionIntro>
+Producers send records to topics. The most important decision a producer makes is **which partition to write to**. By default, Kafka hashes the record's key to determine the partition, meaning all records with the same key always land in the same partition — and therefore maintain their ordering.
+</SectionIntro>
+
+<SectionSubheading id="toc-writing-data">Writing Data Into Kafka</SectionSubheading>
+
+When a producer sends a record, three things determine where it lands:
+
+<SectionList>
+  <ColItem>**Key is set** — Kafka hashes the key and maps it to a partition. Same key always goes to the same partition.</ColItem>
+  <ColItem>**Key is null** — Kafka uses a round-robin or sticky partitioner to distribute records evenly across partitions.</ColItem>
+  <ColItem>**Custom partitioner** — You can implement your own logic to route records to specific partitions.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-code-example">Producer Code Example</SectionSubheading>
+
+<CodeAccordion title="Producing a record (conceptual)" startOpen>
+{`producer.send({
+  topic:     "user-events",
+  key:       "user-42",
+  value:     '{"action":"purchase","item":"laptop"}',
+  headers:   { source: "checkout-service" }
+})
+
+// key hash("user-42") % num_partitions → always same partition`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-ack-levels">Acknowledgement Levels</SectionSubheading>
+
+Producers control durability by choosing an `acks` setting — a trade-off between speed and reliability:
+
+<DefinitionTable>
+  <DefRow term="⚡ acks=0">Fire and forget. Fastest, but no delivery guarantee. Producer doesn't wait for broker acknowledgement.</DefRow>
+  <DefRow term="✅ acks=1">Leader acknowledges. Good balance. Record is written to leader's log before ack — but could be lost if leader fails before replication.</DefRow>
+  <DefRow term="🔒 acks=all">All in-sync replicas acknowledge. Strongest guarantee. Slowest, but no data loss as long as at least one replica survives.</DefRow>
+</DefinitionTable>
+
+<Explainer>
+For most production workloads, `acks=all` is the right default. The latency overhead is minimal compared to the risk of data loss. Use `acks=1` only for high-throughput, loss-tolerant data like metrics or logs.
+</Explainer>

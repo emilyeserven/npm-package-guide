@@ -1,0 +1,45 @@
+---
+id: "kafka-consumers"
+title: "Consumers & Groups 📥"
+guide: "kafka"
+group: "Data Flow"
+linkRefs:
+  - id: "kafka-consumer-configs"
+    note: "Consumer configuration reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-pull-model">Pull-based consumption</TocLink>
+  <TocLink id="toc-consumer-groups">Consumer groups</TocLink>
+  <TocLink id="toc-simulator">Interactive simulator</TocLink>
+</Toc>
+
+<SectionIntro>
+Consumers **pull** records from partitions. A **consumer group** is a set of consumers that cooperate to consume a topic — Kafka automatically distributes partitions among the group members so each partition is consumed by exactly one consumer in the group.
+</SectionIntro>
+
+<SectionSubheading id="toc-pull-model">Pull-Based Consumption</SectionSubheading>
+
+Unlike traditional message queues that push messages to consumers, Kafka consumers **pull** data at their own pace. This means:
+
+<SectionList>
+  <ColItem>**Backpressure is natural** — a slow consumer won't be overwhelmed with messages.</ColItem>
+  <ColItem>**Replay is possible** — consumers can seek to any offset and re-read past events.</ColItem>
+  <ColItem>**Offset tracking** — each consumer tracks its position (offset) in each partition it reads from.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-consumer-groups">Consumer Groups</SectionSubheading>
+
+A consumer group enables parallel processing of a topic. Kafka assigns each partition to exactly one consumer within the group. When consumers join or leave, Kafka triggers a **rebalance** — redistributing partitions across the remaining members.
+
+<Gotcha>
+If you have more consumers than partitions, the extra consumers sit idle — they have no partition to read from. This is why the partition count is effectively the upper limit on consumer parallelism within a single group.
+</Gotcha>
+
+<SectionSubheading id="toc-simulator">Interactive Simulator</SectionSubheading>
+
+Try adjusting the number of consumers below to see how Kafka rebalances partition assignments. Notice: if you have more consumers than partitions, some consumers sit idle.
+
+<KafkaConsumerGroupSim />

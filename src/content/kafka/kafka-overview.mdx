@@ -1,0 +1,41 @@
+---
+id: "kafka-overview"
+title: "What is Kafka? 📨"
+guide: "kafka"
+group: "Fundamentals"
+linkRefs:
+  - id: "kafka-docs"
+    note: "Official Apache Kafka documentation"
+  - id: "kafka-wikipedia"
+    note: "History and background of Kafka"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what-is">What is Kafka?</TocLink>
+  <TocLink id="toc-comparison">Kafka vs Traditional MQs</TocLink>
+  <TocLink id="toc-cluster">Live broker cluster</TocLink>
+</Toc>
+
+<SectionIntro>
+Apache Kafka is a **distributed event streaming platform**. Think of it as a massive, fault-tolerant, ordered log of events that multiple applications can write to and read from simultaneously. Originally built at LinkedIn to handle their enormous data pipeline, it now processes trillions of events per day at companies worldwide.
+</SectionIntro>
+
+<SectionSubheading id="toc-what-is">What Makes Kafka Different?</SectionSubheading>
+
+Unlike a traditional message queue where messages are deleted after consumption, Kafka **retains events for a configurable period** (or forever). This means multiple consumers can read the same data independently, replay events, and build entirely different views of the same stream.
+
+<Explainer>
+Think of Kafka like a newspaper: reporters (producers) write articles, Kafka publishes and *keeps* them, and any number of readers (consumers) can go back and read past editions at any time. Traditional message queues are more like a phone call — once the message is delivered, it's gone.
+</Explainer>
+
+<SectionSubheading id="toc-comparison">Kafka vs Traditional Message Queues</SectionSubheading>
+
+<KafkaComparison />
+
+<SectionSubheading id="toc-cluster">Live Broker Cluster</SectionSubheading>
+
+Watch the live cluster below — messages continuously arrive at different brokers, each storing a portion of the overall data:
+
+<KafkaBrokerCluster />
