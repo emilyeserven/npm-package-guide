@@ -151,6 +151,8 @@ export const NGINX_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'nginx-start',
     description: 'Nginx from zero to production \u2014 reverse proxy, static files, SSL/TLS, load balancing, security hardening, and Raspberry Pi homelab setups.',
     category: 'infrastructure',
+    dateCreated: '2026-02-24',
+    dateModified: '2026-02-26',
     sections: NGINX_GUIDE_SECTIONS,
   },
   startPageData: NGINX_START_PAGE_DATA,

@@ -12,6 +12,8 @@ export const GCR_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'guide-creation-guide',
     description: 'End-to-end walkthrough for adding a new guide to this project \u2014 from writing your content artifact through prompting, scaffolding, and validation.',
     category: 'ai-tooling',
+    dateCreated: '2026-02-24',
+    dateModified: '2026-02-26',
     singlePage: true,
     sections: GCR_GUIDE_SECTIONS,
   },

@@ -563,6 +563,8 @@ export const AGENTS_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'agents-start',
     description: 'Skills, Agents, Subagents & the Claude Agent SDK \u2014 understand the full agent ecosystem and when to use each approach.',
     category: 'ai-tooling',
+    dateCreated: '2026-02-26',
+    dateModified: '2026-02-26',
     sections: AGENTS_GUIDE_SECTIONS,
   },
   startPageData: AGENTS_START_PAGE_DATA,

@@ -55,6 +55,8 @@ export const singlePageNavDef: GuideDefinition = {
   sections: [{ label: null, ids: singlePageGuides.flatMap(g => g.sections.flatMap(s => s.ids)) }],
   singlePage: true,
   category: 'fundamentals',
+  dateCreated: '2026-02-16',
+  dateModified: '2026-02-26',
 }
 
 // ── Checklists (extracted from individual guides) ───────────────────
@@ -80,6 +82,8 @@ export const checklistsNavDef: GuideDefinition = {
   description: 'Implementation checklists from all guides.',
   sections: [{ label: null, ids: checklistPages.map(p => p.id) }],
   category: 'fundamentals',
+  dateCreated: '2026-02-16',
+  dateModified: '2026-02-26',
 }
 
 // ── Derived lookups ─────────────────────────────────────────────────

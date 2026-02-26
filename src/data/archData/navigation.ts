@@ -71,6 +71,8 @@ export const ARCH_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'arch-start',
     description: 'Understand common frontend architecture patterns and how to structure your projects for maintainability and scale.',
     category: 'frontend',
+    dateCreated: '2026-02-16',
+    dateModified: '2026-02-26',
     sections: ARCH_GUIDE_SECTIONS,
   },
   startPageData: ARCH_START_PAGE_DATA,

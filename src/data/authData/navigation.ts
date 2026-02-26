@@ -94,6 +94,8 @@ export const AUTH_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'auth-start',
     description: 'Authentication & Authorization \u2014 from zero to confident implementation.',
     category: 'security',
+    dateCreated: '2026-02-16',
+    dateModified: '2026-02-26',
     sections: AUTH_GUIDE_SECTIONS,
   },
   startPageData: AUTH_START_PAGE_DATA,

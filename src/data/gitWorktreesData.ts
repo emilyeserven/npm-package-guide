@@ -29,6 +29,8 @@ export const GIT_WORKTREES_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'git-worktrees-guide',
     description: 'Use git worktrees for parallel development with Claude Code \u2014 isolated branches, simultaneous sessions, and real workflows.',
     category: 'ai-tooling',
+    dateCreated: '2026-02-16',
+    dateModified: '2026-02-26',
     singlePage: true,
     sections: GIT_WORKTREES_GUIDE_SECTIONS,
   },

@@ -833,6 +833,8 @@ export const SECURITY_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'sec-start',
     description: 'Common web security vulnerabilities explained for developers \u2014 how each attack works, real-world scenarios, and copy-pasteable prevention patterns.',
     category: 'security',
+    dateCreated: '2026-02-17',
+    dateModified: '2026-02-26',
     sections: SECURITY_GUIDE_SECTIONS,
   },
   startPageData: SECURITY_START_PAGE_DATA,

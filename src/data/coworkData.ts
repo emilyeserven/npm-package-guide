@@ -382,6 +382,8 @@ export const COWORK_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'cw-start',
     description: 'Organize files with Claude Cowork \u2014 local documents, Google Drive, and media server workflows with step-by-step prompts.',
     category: 'ai-tooling',
+    dateCreated: '2026-02-24',
+    dateModified: '2026-02-26',
     sections: COWORK_GUIDE_SECTIONS,
   },
   startPageData: COWORK_START_PAGE_DATA,

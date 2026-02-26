@@ -259,6 +259,8 @@ export const PAYLOAD_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'payload-start',
     description: 'Payload CMS \u2014 the open-source, code-first headless CMS built on TypeScript and React. Config-first schemas, three API surfaces, and AI tooling.',
     category: 'infrastructure',
+    dateCreated: '2026-02-26',
+    dateModified: '2026-02-26',
     sections: PAYLOAD_GUIDE_SECTIONS,
   },
   startPageData: PAYLOAD_START_PAGE_DATA,

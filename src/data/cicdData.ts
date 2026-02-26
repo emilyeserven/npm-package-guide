@@ -292,6 +292,8 @@ export const CICD_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'cicd-start',
     description: 'Learn CI/CD from scratch \u2014 pipelines, GitHub Actions, YAML workflows, and the patterns that keep teams shipping safely.',
     category: 'infrastructure',
+    dateCreated: '2026-02-16',
+    dateModified: '2026-02-26',
     sections: CICD_GUIDE_SECTIONS,
   },
   startPageData: CICD_START_PAGE_DATA,

@@ -72,6 +72,8 @@ export const S3_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 's3-start',
     description: 'Understand Amazon S3 storage classes from a frontend engineer\u2019s perspective \u2014 buckets, objects, lifecycle rules, cost optimization, and practical usage patterns.',
     category: 'infrastructure',
+    dateCreated: '2026-02-18',
+    dateModified: '2026-02-26',
     sections: S3_GUIDE_SECTIONS,
   },
   startPageData: S3_START_PAGE_DATA,

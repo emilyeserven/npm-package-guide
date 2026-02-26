@@ -554,6 +554,8 @@ export const COOLIFY_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'cd-start',
     description: 'Deploy React + Vite on Coolify \u2014 from DNS fundamentals to production gotchas, including Raspberry Pi self-hosting with Cloudflare Tunnel.',
     category: 'infrastructure',
+    dateCreated: '2026-02-24',
+    dateModified: '2026-02-26',
     sections: COOLIFY_GUIDE_SECTIONS,
   },
   startPageData: COOLIFY_START_PAGE_DATA,

@@ -466,6 +466,8 @@ export const CS_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'cs-start',
     description: 'How to write high-quality Claude skills \u2014 from description fields and body writing to bundled resources, do\u2019s & don\u2019ts, and a shipping checklist.',
     category: 'ai-tooling',
+    dateCreated: '2026-02-21',
+    dateModified: '2026-02-26',
     sections: CS_GUIDE_SECTIONS,
   },
   startPageData: CS_START_PAGE_DATA,

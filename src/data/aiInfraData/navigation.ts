@@ -97,6 +97,8 @@ export const AI_INFRA_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'ai-start',
     description: 'Understand AI infrastructure from a frontend engineer\u2019s perspective \u2014 from the API calls your React app makes to model serving, vector databases, and GPU clusters.',
     category: 'ai-tooling',
+    dateCreated: '2026-02-16',
+    dateModified: '2026-02-26',
     sections: AI_INFRA_GUIDE_SECTIONS,
   },
   startPageData: AI_INFRA_START_PAGE_DATA,

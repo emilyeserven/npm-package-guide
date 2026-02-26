@@ -566,6 +566,8 @@ export const TSAI_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'tsai-start',
     description: 'Build type-safe, provider-agnostic AI experiences with TanStack AI \u2014 streaming, isomorphic tools, and tool approval flows.',
     category: 'frontend',
+    dateCreated: '2026-02-26',
+    dateModified: '2026-02-26',
     sections: TSAI_GUIDE_SECTIONS,
   },
   startPageData: TSAI_START_PAGE_DATA,

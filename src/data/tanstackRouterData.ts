@@ -500,6 +500,8 @@ export const TSR_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'tsr-start',
     description: 'A deep comparison of TanStack Router vs React Router vs Next.js \u2014 type safety, search params, data loading, and when to use what.',
     category: 'frontend',
+    dateCreated: '2026-02-18',
+    dateModified: '2026-02-26',
     sections: TSR_GUIDE_SECTIONS,
   },
   startPageData: TSR_START_PAGE_DATA,

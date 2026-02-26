@@ -457,6 +457,8 @@ export const PWA_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'pwa-start',
     description: 'Build installable, offline-capable web apps with Service Workers, Web App Manifest, and modern caching strategies \u2014 from fundamentals to Vite + React integration.',
     category: 'frontend',
+    dateCreated: '2026-02-24',
+    dateModified: '2026-02-26',
     sections: PWA_GUIDE_SECTIONS,
   },
   startPageData: PWA_START_PAGE_DATA,

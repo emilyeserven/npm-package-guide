@@ -716,6 +716,8 @@ export const JCS_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'jcs-start',
     description: 'A toolkit for running codemods over JavaScript and TypeScript source code \u2014 automating large-scale refactors with AST-level precision.',
     category: 'ai-tooling',
+    dateCreated: '2026-02-24',
+    dateModified: '2026-02-26',
     sections: JCS_GUIDE_SECTIONS,
   },
   startPageData: JCS_START_PAGE_DATA,

@@ -33,6 +33,7 @@ const resources: ResourceTile[] = [
 ]
 
 type SortOption = 'default' | 'title-asc' | 'title-desc' | 'pages-desc' | 'pages-asc'
+  | 'newest' | 'oldest' | 'updated-desc' | 'updated-asc'
 
 const SORT_LABELS: Record<SortOption, string> = {
   default: 'Default',
@@ -40,6 +41,17 @@ const SORT_LABELS: Record<SortOption, string> = {
   'title-desc': 'Title Z\u2013A',
   'pages-desc': 'Most Pages',
   'pages-asc': 'Fewest Pages',
+  'newest': 'Newest First',
+  'oldest': 'Oldest First',
+  'updated-desc': 'Recently Updated',
+  'updated-asc': 'Least Recently Updated',
+}
+
+const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+function formatShortDate(iso: string): string {
+  const [y, m, d] = iso.split('-')
+  return `${SHORT_MONTHS[Number(m) - 1]} ${Number(d)}, ${y}`
 }
 
 function getPageCount(guide: GuideDefinition): number {
@@ -83,6 +95,14 @@ export function GuidesIndexPage() {
               return getPageCount(b) - getPageCount(a)
             case 'pages-asc':
               return getPageCount(a) - getPageCount(b)
+            case 'newest':
+              return b.dateCreated.localeCompare(a.dateCreated)
+            case 'oldest':
+              return a.dateCreated.localeCompare(b.dateCreated)
+            case 'updated-desc':
+              return b.dateModified.localeCompare(a.dateModified)
+            case 'updated-asc':
+              return a.dateModified.localeCompare(b.dateModified)
             default:
               return 0
           }
@@ -206,6 +226,12 @@ export function GuidesIndexPage() {
                   </span>
                 </div>
               </div>
+              <div className="flex items-center gap-3 mb-2 text-[11px] text-slate-400 dark:text-slate-500">
+                <span>Created {formatShortDate(guide.dateCreated)}</span>
+                {guide.dateModified !== guide.dateCreated && (
+                  <span>Updated {formatShortDate(guide.dateModified)}</span>
+                )}
+              </div>
               <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">
                 {guide.title}
               </h2>
@@ -252,6 +278,12 @@ export function GuidesIndexPage() {
                 <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-1">
                   {guide.title}
                 </h3>
+                <div className="flex items-center gap-3 mb-1 text-[11px] text-slate-400 dark:text-slate-500">
+                  <span>Created {formatShortDate(guide.dateCreated)}</span>
+                  {guide.dateModified !== guide.dateCreated && (
+                    <span>Updated {formatShortDate(guide.dateModified)}</span>
+                  )}
+                </div>
                 <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                   {guide.description}
                 </p>

@@ -70,6 +70,8 @@ export const ZST_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'zst-start',
     description: 'Everything about Zustand \u2014 from first store to slices, middleware, and production patterns with interactive demos.',
     category: 'frontend',
+    dateCreated: '2026-02-21',
+    dateModified: '2026-02-26',
     sections: ZST_GUIDE_SECTIONS,
   },
   startPageData: ZST_START_PAGE_DATA,
