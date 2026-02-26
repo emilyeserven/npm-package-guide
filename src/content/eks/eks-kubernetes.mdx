@@ -1,0 +1,41 @@
+---
+id: "eks-kubernetes"
+title: "Kubernetes Primer ⎈"
+guide: "eks"
+linkRefs:
+  - id: "k8s-concepts"
+    note: "Kubernetes official concepts"
+  - id: "k8s-pod-lifecycle"
+    note: "Pod lifecycle documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-intro">Why Kubernetes?</TocLink>
+  <TocLink id="toc-concepts">Core concepts</TocLink>
+  <TocLink id="toc-lifecycle">Pod lifecycle</TocLink>
+  <TocLink id="toc-quiz">Knowledge check</TocLink>
+</Toc>
+
+<SectionIntro>
+Before diving deeper into EKS, you need a mental model of Kubernetes itself. Kubernetes (often called K8s) is a container orchestration platform. It decides *where* your containers run, *restarts* them if they crash, *scales* them up/down, and handles *networking* between them.
+</SectionIntro>
+
+<SectionSubheading id="toc-intro">{'\u{1F4A1}'} Why Kubernetes?</SectionSubheading>
+
+Kubernetes manages WHERE your containers run, HOW MANY copies, WHEN to restart them, and HOW traffic reaches them. It's the standard for container orchestration in production environments.
+
+<SectionSubheading id="toc-concepts">{'\u{1F9E9}'} Core concepts</SectionSubheading>
+
+<EksConceptCards />
+
+<SectionSubheading id="toc-lifecycle">{'\u{1F504}'} Pod lifecycle</SectionSubheading>
+
+Click through the stages to see how a pod moves from scheduling to completion:
+
+<EksPodLifecycle />
+
+<SectionSubheading id="toc-quiz">{'\u2728'} Knowledge check</SectionSubheading>
+
+<EksQuiz quizId="kubernetes" />

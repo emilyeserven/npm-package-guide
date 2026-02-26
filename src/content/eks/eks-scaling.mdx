@@ -1,0 +1,40 @@
+---
+id: "eks-scaling"
+title: "Scaling 📈"
+guide: "eks"
+linkRefs:
+  - id: "k8s-hpa"
+    note: "HPA documentation"
+  - id: "eks-karpenter"
+    note: "Karpenter autoscaler"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-layers">Two scaling layers</TocLink>
+  <TocLink id="toc-demo">Scaling simulation</TocLink>
+  <TocLink id="toc-tools">Scaling tools</TocLink>
+</Toc>
+
+<SectionIntro>
+EKS scaling happens at two layers: **pod scaling** (how many replicas of your app) and **node scaling** (how many EC2 instances in the cluster). They work together — if pods need more room than existing nodes can provide, the node autoscaler kicks in.
+</SectionIntro>
+
+<SectionSubheading id="toc-layers">{'\u{1F4CA}'} Two scaling layers</SectionSubheading>
+
+The Horizontal Pod Autoscaler (HPA) adjusts pod replica counts based on metrics. When pods can't be scheduled because nodes are full, a node autoscaler like Karpenter spins up new EC2 instances to accommodate them.
+
+<SectionSubheading id="toc-demo">{'\u{1F3AE}'} Scaling simulation</SectionSubheading>
+
+Add pods and nodes to see how scaling works. Watch what happens when pods exceed node capacity:
+
+<EksScalingDemo />
+
+<SectionSubheading id="toc-tools">{'\u{1F6E0}\uFE0F'} Scaling tools</SectionSubheading>
+
+<EksScalingTools />
+
+<Explainer heading="Recommendation">
+**Start with HPA + Karpenter.** HPA handles pod scaling, Karpenter handles nodes. This covers 90% of use cases. Add KEDA only if you need event-driven scaling (like scaling workers based on SQS queue depth).
+</Explainer>

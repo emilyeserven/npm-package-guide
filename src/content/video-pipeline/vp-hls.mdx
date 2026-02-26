@@ -1,0 +1,45 @@
+---
+id: "vp-hls"
+title: "HLS — HTTP Live Streaming 🌐"
+guide: "video-pipeline"
+group: "Delivery"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-how">How HLS Works</TocLink>
+  <TocLink id="toc-manifests">Interactive Manifests</TocLink>
+  <TocLink id="toc-dash">HLS vs. DASH</TocLink>
+</Toc>
+
+<SectionIntro>
+**HLS** (HTTP Live Streaming) is the most widely used streaming protocol on the internet. Developed by Apple, it works by splitting video into small chunks (typically 6–10 seconds each) and serving them over standard HTTP. This means any web server or CDN can deliver HLS content — no special streaming server required.
+</SectionIntro>
+
+<SectionSubheading id="toc-how">How HLS Works</SectionSubheading>
+
+The key insight of HLS is that it turns a continuous stream into a series of small HTTP file downloads. The player downloads a manifest file (playlist) that tells it where to find each chunk, then downloads chunks sequentially. To the viewer it looks like continuous playback, but under the hood it's just fetching files.
+
+<Explainer title="Two-level architecture">
+HLS uses a two-level manifest structure. The **master playlist** lists all available quality variants. Each variant has its own **media playlist** that lists the actual `.ts` segment files. This separation is what enables adaptive bitrate switching — the player can jump between media playlists based on network conditions.
+</Explainer>
+
+<SectionSubheading id="toc-manifests">Interactive Manifests</SectionSubheading>
+
+Click any line in the manifests below to see what it does and why it matters:
+
+<HlsManifestViewer />
+
+<SectionSubheading id="toc-dash">HLS vs. DASH</SectionSubheading>
+
+**DASH** (Dynamic Adaptive Streaming over HTTP) is the other major adaptive streaming protocol. It was developed as an open standard by MPEG. Conceptually it works the same way — manifest + segments — but uses an XML-based manifest (`.mpd`) instead of M3U8, and typically uses fMP4 (fragmented MP4) segments instead of MPEG-TS.
+
+In practice, most platforms use HLS because it has near-universal device support. Some use both, and increasingly, HLS with fMP4 segments (instead of `.ts`) bridges the gap between the two.
+
+<DefinitionTable termHeader="Feature" descHeader="Comparison">
+  <DefRow term="Manifest format">HLS uses `.m3u8` (text-based, simple). DASH uses `.mpd` (XML, more complex but more expressive).</DefRow>
+  <DefRow term="Segment format">HLS traditionally uses `.ts` (MPEG-TS). DASH uses fMP4. Modern HLS also supports fMP4 via CMAF.</DefRow>
+  <DefRow term="Device support">HLS works natively on Apple devices and via libraries everywhere else. DASH has no native Apple support.</DefRow>
+  <DefRow term="Standard">HLS is Apple-proprietary (now an RFC). DASH is an ISO standard.</DefRow>
+</DefinitionTable>

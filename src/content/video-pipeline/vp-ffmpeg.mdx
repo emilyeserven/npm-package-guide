@@ -1,0 +1,70 @@
+---
+id: "vp-ffmpeg"
+title: "ffmpeg — The Swiss Army Knife 🛠️"
+guide: "video-pipeline"
+group: "Processing"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-anatomy">Anatomy of a Command</TocLink>
+  <TocLink id="toc-hls-gen">Generating HLS</TocLink>
+  <TocLink id="toc-recipes">Useful Recipes</TocLink>
+</Toc>
+
+<SectionIntro>
+**ffmpeg** is the command-line tool that actually performs all the video transformations. Transcoding, scaling, cropping, filtering, muxing, generating HLS output — ffmpeg does it all. It's the engine behind virtually every video platform and tool you've ever used.
+</SectionIntro>
+
+<SectionSubheading id="toc-anatomy">Anatomy of a Command</SectionSubheading>
+
+<CodeAccordion title="Annotated ffmpeg command" ext="sh">
+<pre><code>{`ffmpeg \\
+  -i input.mp4          # Input file
+  -c:v libx264            # Video codec: H.264 via libx264
+  -preset medium          # Speed/quality trade-off
+  -crf 23                 # Quality target (lower = better)
+  -c:a aac                # Audio codec: AAC
+  -b:a 128k               # Audio bitrate
+  -movflags +faststart    # Move moov atom for web playback
+  output.mp4              # Output file`}</code></pre>
+</CodeAccordion>
+
+<SectionNote>
+The `-movflags +faststart` flag is critical for web video. MP4 files store metadata (the "moov atom") that the player needs before it can begin decoding. By default this metadata is at the end of the file, meaning the entire file must download first. `faststart` moves it to the beginning so playback can start immediately — essential for progressive download and streaming.
+</SectionNote>
+
+<SectionSubheading id="toc-hls-gen">Generating HLS</SectionSubheading>
+
+Here's a real-world ffmpeg command that takes a source video and produces a complete HLS output with multiple quality levels. This is essentially what platforms like YouTube and Twitch run behind the scenes (at much larger scale).
+
+<CodeAccordion title="Multi-bitrate HLS encoding" ext="sh">
+<pre><code>{`# Generate 3 quality variants in one pass
+ffmpeg -i input.mp4 \\
+  # 1080p variant
+  -map 0:v -map 0:a \\
+  -c:v:0 libx264 -b:v:0 4500k \\
+  -vf:0 "scale=1920:1080" \\
+  # 720p variant
+  -map 0:v -map 0:a \\
+  -c:v:1 libx264 -b:v:1 2500k \\
+  -vf:1 "scale=1280:720" \\
+  # 360p variant
+  -map 0:v -map 0:a \\
+  -c:v:2 libx264 -b:v:2 700k \\
+  -vf:2 "scale=640:360" \\
+  # Audio for all variants
+  -c:a aac -b:a 128k \\
+  # HLS output settings
+  -f hls \\
+  -hls_time 10 \\
+  -hls_playlist_type vod \\
+  -master_pl_name master.m3u8 \\
+  -var_stream_map "v:0,a:0 v:1,a:1 v:2,a:2" \\
+  stream_%v/playlist.m3u8`}</code></pre>
+</CodeAccordion>
+
+<SectionSubheading id="toc-recipes">Useful Recipes</SectionSubheading>
+
+<FfmpegRecipes />

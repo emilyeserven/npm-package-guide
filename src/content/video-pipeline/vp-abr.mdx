@@ -1,0 +1,47 @@
+---
+id: "vp-abr"
+title: "Adaptive Bitrate Streaming 📶"
+guide: "video-pipeline"
+group: "Delivery"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What is ABR?</TocLink>
+  <TocLink id="toc-sim">Bandwidth Simulator</TocLink>
+  <TocLink id="toc-algo">The ABR Algorithm</TocLink>
+</Toc>
+
+<SectionIntro>
+**Adaptive Bitrate (ABR)** is the technique that makes modern streaming work on variable networks. Instead of delivering one fixed quality, the player continuously monitors download speed and switches between quality levels in real time.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">What is ABR?</SectionSubheading>
+
+Bad connection on the subway? You get 360p. Back on WiFi? Smooth upgrade to 1080p. ABR eliminates the old "buffer and wait" experience by proactively adjusting quality before stalls occur.
+
+The player maintains multiple quality renditions (generated during the transcoding step) and switches between them segment by segment. Because each HLS segment is independently decodable, the player can change quality at any segment boundary without interrupting playback.
+
+<SectionSubheading id="toc-sim">Bandwidth Simulator</SectionSubheading>
+
+Drag the slider to simulate different network speeds and see which quality level the player would select:
+
+<BitrateSimulator />
+
+<SectionSubheading id="toc-algo">The ABR Algorithm</SectionSubheading>
+
+Real ABR algorithms are surprisingly sophisticated. The naive approach — "pick the highest bitrate below current bandwidth" — leads to constant quality switching (called "oscillation"), which is visually jarring.
+
+Modern players (like hls.js, Shaka Player, and Apple's native player) use **buffer-based algorithms** that consider how much video is already buffered, not just the instantaneous bandwidth measurement.
+
+<SectionList>
+<ColItem>The player maintains a **buffer target** (usually 30–60 seconds).</ColItem>
+<ColItem>If the buffer is healthy, it can afford to try a higher quality.</ColItem>
+<ColItem>If the buffer is draining, it drops quality proactively before the viewer experiences a stall.</ColItem>
+<ColItem>Some algorithms also factor in **screen size** — there's no point delivering 4K to a phone screen.</ColItem>
+</SectionList>
+
+<Gotcha>
+Don't confuse bandwidth and bitrate. **Bandwidth** is your network's available throughput. **Bitrate** is the data rate of the video stream. ABR works by ensuring the selected bitrate stays comfortably below the available bandwidth, with headroom for fluctuations.
+</Gotcha>

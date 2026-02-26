@@ -1,0 +1,42 @@
+---
+id: "vp-overview"
+title: "How Video Gets to Your Screen 📹"
+guide: "video-pipeline"
+group: "Foundations"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-pipeline">The Pipeline</TocLink>
+  <TocLink id="toc-why">Why It Matters</TocLink>
+</Toc>
+
+<SectionIntro>
+Every time you watch a video online, an invisible pipeline has already processed, compressed, split, and delivered that content to you. Understanding this pipeline is the foundation for everything else in this guide.
+</SectionIntro>
+
+<SectionSubheading id="toc-pipeline">The Pipeline</SectionSubheading>
+
+Click any stage below to understand what happens at each step of the video delivery journey:
+
+<VideoPipelineDiagram />
+
+The pipeline transforms raw camera footage into something that can be streamed smoothly over the internet. Each stage has a specific job:
+
+<SectionList>
+<ColItem>**Capture** records the raw video and wraps it in an initial container format.</ColItem>
+<ColItem>**Inspect** reads the file's metadata to understand its codec, resolution, and bitrate.</ColItem>
+<ColItem>**Transcode** re-encodes the video into multiple quality levels optimized for different devices and networks.</ColItem>
+<ColItem>**Package** segments each quality level into small chunks with manifest playlists.</ColItem>
+<ColItem>**Deliver** pushes the segments to a CDN for global, low-latency access.</ColItem>
+<ColItem>**Play** uses adaptive bitrate algorithms to switch quality seamlessly during playback.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-why">Why It Matters</SectionSubheading>
+
+Understanding the pipeline helps you make informed decisions about video infrastructure. Without this knowledge, you might serve a single massive file that buffers constantly, choose the wrong codec for your audience, or skip critical optimizations like adaptive bitrate streaming.
+
+<Explainer title="The scale of the problem">
+An uncompressed 1080p frame is roughly 6 MB. At 30 frames per second, that's 180 MB per second — or about 10.8 GB per minute. A 2-hour movie would be over 1 terabyte. Every stage of the pipeline exists to make this manageable.
+</Explainer>
