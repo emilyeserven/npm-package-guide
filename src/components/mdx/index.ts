@@ -152,6 +152,11 @@ import { PayloadFlowDiagram } from './payload-cms/PayloadFlowDiagram'
 import { PayloadFeatureAccordion } from './payload-cms/PayloadFeatureAccordion'
 import { PayloadAiWorkflowAccordion } from './payload-cms/PayloadAiWorkflowAccordion'
 import { PayloadQuiz } from './payload-cms/PayloadQuiz'
+// claude-agents
+import { AgentsComparisonTable } from './claude-agents/AgentsComparisonTable'
+import { AgentsInstructionChecklist } from './claude-agents/AgentsInstructionChecklist'
+import { AgentsUseCases } from './claude-agents/AgentsUseCases'
+import { AgentsCodeViewer } from './claude-agents/AgentsCodeViewer'
 
 import { CmdPrinciples } from './claude-md/CmdPrinciples'
 import { CmdAntiPatterns } from './claude-md/CmdAntiPatterns'
@@ -345,4 +350,8 @@ export const mdxComponents: MDXComponents = {
   PayloadFeatureAccordion,
   PayloadAiWorkflowAccordion,
   PayloadQuiz,
+  AgentsComparisonTable,
+  AgentsInstructionChecklist,
+  AgentsUseCases,
+  AgentsCodeViewer,
 }

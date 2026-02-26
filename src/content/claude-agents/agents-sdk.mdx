@@ -1,0 +1,91 @@
+---
+id: "agents-sdk"
+title: "The Agent SDK 🛠️"
+guide: "claude-agents"
+group: "Building"
+linkRefs:
+  - id: "agents-agent-sdk-docs"
+    note: "Official Agent SDK documentation"
+  - id: "agents-agent-sdk-github"
+    note: "Agent SDK source on GitHub"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what-sdk">What is the Agent SDK?</TocLink>
+  <TocLink id="toc-capabilities">Core Capabilities</TocLink>
+  <TocLink id="toc-quickstart">Quick Start</TocLink>
+</Toc>
+
+<SectionIntro>
+The Agent SDK (formerly the Claude Code SDK) exposes the same infrastructure that powers Claude Code as a programmable library. It's available in both Python and TypeScript, and gives you access to the agent loop, built-in tools, context management, and session handling.
+</SectionIntro>
+
+<SectionSubheading id="toc-what-sdk">What is the Agent SDK?</SectionSubheading>
+
+The Agent SDK lets you build your own agents using the same foundation as Claude Code. Instead of a CLI, you get a programmatic interface — ideal for CI/CD integrations, background automation, and custom agent architectures.
+
+<SectionSubheading id="toc-capabilities">Core Capabilities</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="Built-in Tools">Read, Write, Bash, Grep, Glob, WebSearch, WebFetch — no setup required</DefRow>
+  <DefRow term="Context Management">Automatic compaction and prompt caching so agents don't run out of context</DefRow>
+  <DefRow term="Permissions">Fine-grained control: bypassPermissions, acceptEdits, default, or custom canUseTool</DefRow>
+  <DefRow term="Subagents">Spawn specialized agents for parallel or isolated tasks</DefRow>
+  <DefRow term="MCP Support">Extend agents with custom tools via Model Context Protocol servers</DefRow>
+  <DefRow term="Structured Output">JSON Schema output format for predictable, parseable results</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-quickstart">Quick Start</SectionSubheading>
+
+The SDK is available in both Python and TypeScript. Here are minimal examples for each:
+
+**Python**
+
+```python
+# pip install claude-agent-sdk
+# requires: ANTHROPIC_API_KEY env var + Claude CLI
+
+async def main():
+    async for message in query(
+        prompt="Find all TODO comments and suggest fixes",
+        options=ClaudeAgentOptions(
+            allowed_tools=["Read", "Grep", "Glob", "Bash"],
+            permission_mode="bypassPermissions",
+            max_turns=50,
+        ),
+    ):
+        if hasattr(message, "result"):
+            print(message.result)
+
+asyncio.run(main())
+```
+
+**TypeScript**
+
+```typescript
+// npm install @anthropic-ai/claude-agent-sdk
+// requires: ANTHROPIC_API_KEY env var + Claude CLI
+
+async function main() {
+  for await (const message of query({
+    prompt: "Find all TODO comments and suggest fixes",
+    options: {
+      allowedTools: ["Read", "Grep", "Glob", "Bash"],
+      permissionMode: "bypassPermissions",
+      maxTurns: 50,
+    },
+  })) {
+    if (message.result) {
+      console.log(message.result);
+    }
+  }
+}
+
+main();
+```
+
+<Gotcha>
+The Agent SDK requires Claude Code CLI to be installed (Node.js 18+) and an Anthropic API key. It also supports Bedrock and Vertex AI authentication.
+</Gotcha>

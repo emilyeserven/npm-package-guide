@@ -1,0 +1,82 @@
+---
+id: "agents-skills-vs-agents"
+title: "Skills vs Agents ⚖️"
+guide: "claude-agents"
+group: "Foundations"
+linkRefs:
+  - id: "agents-skills-docs"
+    note: "Claude Code Skills documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-distinction">The Key Distinction</TocLink>
+  <TocLink id="toc-comparison">Side-by-Side Comparison</TocLink>
+  <TocLink id="toc-when-skill">When to Use a Skill</TocLink>
+  <TocLink id="toc-when-agent">When to Use an Agent</TocLink>
+  <TocLink id="toc-together">Using Both Together</TocLink>
+</Toc>
+
+<SectionIntro>
+Skills and agents are complementary, not competing. The key distinction: skills teach Claude **how** to do something, while agents let Claude **do** something autonomously. A skill makes Claude better at a task; an agent makes Claude execute a task.
+</SectionIntro>
+
+<SectionSubheading id="toc-distinction">The Key Distinction</SectionSubheading>
+
+Think of it this way: a **skill** is like a recipe card — it tells Claude the steps, tools, and conventions for a specific kind of task. An **agent** is the chef — it reads the recipe, gathers ingredients, cooks, tastes, adjusts, and serves the dish.
+
+<SectionSubheading id="toc-comparison">Side-by-Side Comparison</SectionSubheading>
+
+<AgentsComparisonTable />
+
+<SectionSubheading id="toc-when-skill">When to Use a Skill</SectionSubheading>
+
+<SectionList>
+  <ColItem>You want Claude to follow specific processes or conventions every time (e.g., "always use our company's Terraform naming convention")</ColItem>
+  <ColItem>You need Claude to be better at a document type — Excel, PowerPoint, PDF, Word</ColItem>
+  <ColItem>You want to package tribal knowledge so it's available across conversations</ColItem>
+  <ColItem>You're working in claude.ai and want specialized behavior without building infrastructure</ColItem>
+  <ColItem>The same instructions apply to many different tasks and should be reusable</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-when-agent">When to Use an Agent</SectionSubheading>
+
+<SectionList>
+  <ColItem>The task requires multiple steps with branching logic and iteration</ColItem>
+  <ColItem>Claude needs to autonomously decide what tools to use and when</ColItem>
+  <ColItem>You need to integrate with external APIs, databases, or services</ColItem>
+  <ColItem>The workflow needs to run programmatically — in CI/CD, as a cron job, or triggered by events</ColItem>
+  <ColItem>You need structured output, session management, or checkpointing</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-together">Using Both Together</SectionSubheading>
+
+Skills and agents are most powerful when combined. An agent provides the execution engine, while skills provide the domain expertise. You can configure agents to load specific skills, giving them specialized knowledge while retaining autonomous execution capabilities.
+
+```python
+# Agent SDK — using skills with an agent
+client = anthropic.Anthropic()
+
+response = client.beta.messages.create(
+    model="claude-sonnet-4-5-20250929",
+    max_tokens=4096,
+    betas=["code-execution-2025-08-25", "skills-2025-10-02"],
+    container={
+        "skills": [
+            {"type": "anthropic", "skill_id": "xlsx"},
+            {"type": "custom", "skill_id": "my-finance-skill"}
+        ]
+    },
+    messages=[
+        {"role": "user", "content": "Analyze Q3 revenue data"}
+    ],
+    tools=[
+        {"type": "code_execution_20250825", "name": "code_execution"}
+    ],
+)
+```
+
+<SectionNote>
+In this example, the agent has access to both Anthropic's built-in Excel skill and a custom finance skill, giving it deep expertise while still being able to execute autonomously.
+</SectionNote>
