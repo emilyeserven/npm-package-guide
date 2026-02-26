@@ -1,0 +1,62 @@
+---
+id: "eks-security"
+title: "Security & IAM 🔐"
+guide: "eks"
+linkRefs:
+  - id: "eks-irsa"
+    note: "IAM Roles for Service Accounts"
+  - id: "eks-pod-identity"
+    note: "EKS Pod Identity"
+  - id: "eks-security-practices"
+    note: "EKS security best practices"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Security model</TocLink>
+  <TocLink id="toc-layers">Security layers</TocLink>
+  <TocLink id="toc-irsa">IRSA example</TocLink>
+  <TocLink id="toc-quiz">Knowledge check</TocLink>
+</Toc>
+
+<SectionIntro>
+EKS security is built on a layered model that ties Kubernetes RBAC to AWS IAM. The most important concept to understand is **IAM Roles for Service Accounts (IRSA)** — it lets pods assume specific IAM roles without storing credentials.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">{'\u{1F512}'} Security model</SectionSubheading>
+
+EKS security works in layers. Each layer adds defense-in-depth so a breach at one level doesn't compromise the entire cluster.
+
+<SectionSubheading id="toc-layers">{'\u{1F6E1}\uFE0F'} Security layers</SectionSubheading>
+
+<EksSecurityLayers />
+
+<SectionSubheading id="toc-irsa">{'\u{1F511}'} IRSA example</SectionSubheading>
+
+<CodeAccordion title="IRSA — Give a pod S3 access without credentials" ext="yaml">
+{`# 1. Create an IAM role with a trust policy for the K8s service account
+# 2. Annotate the service account:
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: frontend-sa
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::123456789:role/FrontendS3ReadRole
+# 3. Reference it in your deployment:
+spec:
+  template:
+    spec:
+      serviceAccountName: frontend-sa
+      containers:
+        - name: frontend
+          # This pod can now call S3 APIs — no keys needed!`}
+</CodeAccordion>
+
+<Gotcha>
+**Common mistake:** Don't use the node's IAM role for pod permissions. Every pod on that node gets the same access. IRSA gives each pod its own scoped role — principle of least privilege.
+</Gotcha>
+
+<SectionSubheading id="toc-quiz">{'\u2728'} Knowledge check</SectionSubheading>
+
+<EksQuiz quizId="security" />

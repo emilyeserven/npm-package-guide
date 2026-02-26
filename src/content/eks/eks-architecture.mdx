@@ -1,0 +1,45 @@
+---
+id: "eks-architecture"
+title: "EKS Architecture 🏗️"
+guide: "eks"
+linkRefs:
+  - id: "eks-architecture-doc"
+    note: "EKS architecture overview"
+  - id: "eks-managed-nodes"
+    note: "Managed node groups"
+  - id: "eks-fargate"
+    note: "Fargate on EKS"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-layers">Two layers</TocLink>
+  <TocLink id="toc-diagram">Architecture diagram</TocLink>
+  <TocLink id="toc-compute">Compute options</TocLink>
+  <TocLink id="toc-quiz">Knowledge check</TocLink>
+</Toc>
+
+<SectionIntro>
+An EKS cluster has two main layers: the **control plane** (managed by AWS) and the **data plane** (your worker nodes where pods actually run). Understanding this split is key to understanding what you're paying for and what you're responsible for.
+</SectionIntro>
+
+<SectionSubheading id="toc-layers">{'\u{1F4E6}'} Two layers</SectionSubheading>
+
+The control plane runs the API server, etcd, scheduler, and controller manager across multiple availability zones. AWS manages all of this — patches, backups, scaling. The data plane is where your pods actually run on worker nodes that you configure.
+
+<SectionSubheading id="toc-diagram">{'\u{1F5FA}\uFE0F'} Architecture diagram</SectionSubheading>
+
+Hover over each component to see what it contains:
+
+<EksArchitectureDiagram />
+
+<SectionSubheading id="toc-compute">{'\u{1F4BB}'} Compute options</SectionSubheading>
+
+EKS gives you three ways to run your workloads. Each trades off control for convenience:
+
+<EksComputeOptions />
+
+<SectionSubheading id="toc-quiz">{'\u2728'} Knowledge check</SectionSubheading>
+
+<EksQuiz quizId="architecture" />

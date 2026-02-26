@@ -1,0 +1,66 @@
+---
+id: "eks-networking"
+title: "Networking 🌐"
+guide: "eks"
+linkRefs:
+  - id: "eks-vpc-cni"
+    note: "VPC CNI plugin"
+  - id: "eks-load-balancer"
+    note: "AWS Load Balancer Controller"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-vpc-cni">VPC CNI</TocLink>
+  <TocLink id="toc-traffic">Traffic flow</TocLink>
+  <TocLink id="toc-ingress">Ingress example</TocLink>
+  <TocLink id="toc-quiz">Knowledge check</TocLink>
+</Toc>
+
+<SectionIntro>
+Networking is where EKS gets uniquely AWS-flavored. The **VPC CNI plugin** gives every pod a real IP address from your VPC — no overlay network. This means pods can communicate directly with other AWS services (RDS, ElastiCache, etc.) using native VPC networking and security groups.
+</SectionIntro>
+
+<SectionSubheading id="toc-vpc-cni">{'\u{1F310}'} VPC CNI</SectionSubheading>
+
+<SectionNote>
+**AWS Load Balancer Controller** is the standard way to expose EKS services. It automatically provisions ALBs (for HTTP) or NLBs (for TCP/gRPC) when you create Ingress or Service resources. Install it as an add-on.
+</SectionNote>
+
+<SectionSubheading id="toc-traffic">{'\u{1F6A6}'} Traffic flow</SectionSubheading>
+
+<EksTrafficFlow />
+
+<SectionSubheading id="toc-ingress">{'\u{1F4DD}'} Ingress example</SectionSubheading>
+
+<CodeAccordion title="ingress.yaml — Route traffic to your frontend" ext="yaml">
+{`apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: alb
+  rules:
+    - host: app.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 80`}
+</CodeAccordion>
+
+<Explainer heading="Service Mesh">
+For complex microservice architectures, AWS App Mesh or Istio add mTLS, traffic shaping, and observability between services. Overkill for small clusters, essential for large ones.
+</Explainer>
+
+<SectionSubheading id="toc-quiz">{'\u2728'} Knowledge check</SectionSubheading>
+
+<EksQuiz quizId="networking" />

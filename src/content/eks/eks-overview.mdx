@@ -1,0 +1,41 @@
+---
+id: "eks-overview"
+title: "What is EKS? ☁️"
+guide: "eks"
+linkRefs:
+  - id: "eks-docs"
+    note: "Official EKS documentation"
+  - id: "eks-getting-started"
+    note: "Getting started with EKS"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What is EKS?</TocLink>
+  <TocLink id="toc-comparison">EKS vs Self-Hosted</TocLink>
+  <TocLink id="toc-frontend">Frontend perspective</TocLink>
+  <TocLink id="toc-quiz">Knowledge check</TocLink>
+</Toc>
+
+<SectionIntro>
+**Amazon Elastic Kubernetes Service (EKS)** is AWS's managed Kubernetes service. It runs the Kubernetes control plane for you — the API server, etcd database, scheduler, and controllers — across multiple availability zones so you don't have to operate, patch, or worry about the most complex part of Kubernetes.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">{'\u2601\uFE0F'} What is EKS?</SectionSubheading>
+
+You bring your application containers. EKS handles the orchestration infrastructure. Think of it as "Kubernetes without the PhD in distributed systems."
+
+<SectionSubheading id="toc-comparison">{'\u{1F4CA}'} EKS vs Self-Hosted</SectionSubheading>
+
+<EksComparisonTable />
+
+<SectionSubheading id="toc-frontend">{'\u{1F3A8}'} Frontend perspective</SectionSubheading>
+
+<Explainer heading="As a frontend engineer">
+You'll mostly interact with EKS through deployment configs, CI/CD pipelines, and kubectl commands. You don't need to manage servers — but understanding the architecture helps you debug and ship faster.
+</Explainer>
+
+<SectionSubheading id="toc-quiz">{'\u2728'} Knowledge check</SectionSubheading>
+
+<EksQuiz quizId="overview" />
