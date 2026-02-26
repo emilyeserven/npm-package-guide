@@ -62,7 +62,11 @@ React 19 · TanStack Router (hash-based) · TanStack Table · Zustand · TypeScr
 - **MDX titles:** Every `title` must end with an emoji suffix (parsed by sidebar and command menu).
 - **Checklists content:** Checklist MDX pages live in `src/content/checklist/` (shared directory, not a guide). See `src/content/checklist/CLAUDE.md` for template and rules. Do not add `guide:` frontmatter to checklist pages.
 
-## Adding or Modifying Guide Pages
+## Updating an Existing Guide
+
+Use the `/update-guide` skill for a structured workflow covering all update scenarios — adding data, pages, components, links, glossary terms, checklists, or restructuring sections.
+
+Quick reference for adding pages:
 
 1. Create `src/content/<guide-id>/<page-id>.mdx` with frontmatter: `id`, `title` (emoji suffix), `guide`.
 2. Add the page ID to the guide's `*_GUIDE_SECTIONS` in its data file.
