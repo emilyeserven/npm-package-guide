@@ -47,6 +47,7 @@ const guideMetas: GuideMeta[] = [
   { id: 'guide-creation', icon: '📝', title: 'Creating a New Guide', startPageId: 'guide-creation-guide', description: 'End-to-end walkthrough for adding a new guide to this project \u2014 from writing your content artifact through prompting, scaffolding, and validation.', singlePage: true, category: 'ai-tooling' },
   { id: 'claude-md', icon: '📋', title: 'Writing Effective CLAUDE.md Files', startPageId: 'cmd-start', description: 'How to write, structure, and maintain CLAUDE.md files \u2014 file hierarchy, writing principles, anti-patterns, and a self-review checklist.', category: 'ai-tooling' },
   { id: 'shell-scripting', icon: '🐚', title: 'Shell Scripting for AI Agents', startPageId: 'shell-start', description: 'Master shell scripting patterns that make AI agents faster, safer, and more reliable.', category: 'ai-tooling' },
+  { id: 'payload-cms', icon: '🎯', title: 'Payload CMS Field Guide', startPageId: 'payload-start', description: 'Payload CMS \u2014 the open-source, code-first headless CMS built on TypeScript and React. Config-first schemas, three API surfaces, and AI tooling.', category: 'infrastructure' },
 ]
 
 // ── Auto-discover guide data modules ────────────────────────────────

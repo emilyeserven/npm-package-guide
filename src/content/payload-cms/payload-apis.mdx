@@ -1,0 +1,94 @@
+---
+id: "payload-apis"
+title: "Consuming the APIs 🔌"
+guide: "payload-cms"
+group: "Integration"
+linkRefs:
+  - id: "payload-rest-api"
+    note: "Payload REST API reference"
+  - id: "payload-graphql"
+    note: "Payload GraphQL API documentation"
+  - id: "payload-local-api"
+    note: "Payload Local API documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-three-surfaces">Three API surfaces</TocLink>
+  <TocLink id="toc-rest">REST API</TocLink>
+  <TocLink id="toc-graphql">GraphQL</TocLink>
+  <TocLink id="toc-local">Local API</TocLink>
+</Toc>
+
+<SectionIntro>
+Payload exposes three API surfaces for accessing your data. Each shares the same query language, so you learn it once and use it everywhere.
+</SectionIntro>
+
+<SectionSubheading id="toc-three-surfaces">Three API surfaces</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="REST API" definition="Auto-generated RESTful endpoints for every collection. Standard CRUD with Payload's where query syntax." />
+  <DefRow term="GraphQL" definition="Full schema with queries, mutations, and a built-in GraphQL Playground. Reflects your collections and fields exactly." />
+  <DefRow term="Local API" definition="Direct Node.js calls with zero HTTP overhead. Perfect for server-rendered pages, seed scripts, and background jobs." />
+</DefinitionTable>
+
+<SectionSubheading id="toc-rest">REST API</SectionSubheading>
+
+The REST API is auto-generated for every collection. Standard CRUD endpoints follow RESTful conventions, and you can use Payload's query syntax via the `where` parameter.
+
+<CodeAccordion title="Fetch published posts (REST)" language="ts">
+{`// GET /api/posts?where[status][equals]=published&limit=10
+
+const response = await fetch(
+  \`\${PAYLOAD_URL}/api/posts?\` +
+  new URLSearchParams({
+    'where[status][equals]': 'published',
+    'limit': '10',
+    'sort': '-createdAt',
+  })
+)
+const { docs } = await response.json()`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-graphql">GraphQL</SectionSubheading>
+
+Payload auto-generates a full GraphQL schema with queries, mutations, and a built-in GraphQL Playground for exploration. The schema reflects your collections and fields exactly.
+
+<CodeAccordion title="GraphQL query" language="graphql">
+{`query {
+  Posts(
+    where: { status: { equals: "published" } }
+    limit: 10
+    sort: "-createdAt"
+  ) {
+    docs {
+      id
+      title
+      content
+      author { name email }
+    }
+  }
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-local">Local API</SectionSubheading>
+
+The Local API lets you call Payload operations directly in server-side Node.js contexts — no HTTP overhead. This is powerful for seeding data, running background jobs, or server-rendered pages. Access control is bypassed by default (configurable).
+
+<CodeAccordion title="Server-side data fetch (Local API)" language="ts">
+{`import { getPayload } from 'payload'
+import config from '@payload-config'
+
+const payload = await getPayload({ config })
+const posts = await payload.find({
+  collection: 'posts',
+  where: { status: { equals: 'published' } },
+  limit: 10,
+  sort: '-createdAt',
+})`}
+</CodeAccordion>
+
+<SectionNote>
+All three APIs use the same query operators (`equals`, `not_equals`, `greater_than`, `like`, `in`, etc.) and return the same typed response shape. Learn the query language once, use it everywhere.
+</SectionNote>
