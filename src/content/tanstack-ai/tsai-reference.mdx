@@ -1,0 +1,38 @@
+---
+id: "tsai-reference"
+title: "Comparison & Reference 📊"
+guide: "tanstack-ai"
+group: "Reference"
+linkRefs:
+  - id: "tanstack-ai-docs"
+    note: "Full API documentation"
+  - id: "tanstack-ai-github"
+    note: "Source code, issues, and discussions"
+  - id: "vercel-ai-sdk-docs"
+    note: "Vercel AI SDK for comparison"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-comparison">How it compares</TocLink>
+  <TocLink id="toc-cheatsheet">API cheatsheet</TocLink>
+</Toc>
+
+<SectionIntro>
+TanStack AI takes a different approach than existing solutions. Here's how it stacks up and a quick reference for the essential APIs.
+</SectionIntro>
+
+<SectionSubheading id="toc-comparison">How it compares</SectionSubheading>
+
+<TsaiComparisonTable />
+
+<SectionNote>
+TanStack AI's biggest tradeoff is maturity — it's in alpha while Vercel AI SDK is stable. If you need production stability today, Vercel's SDK is battle-tested. If you want provider independence and type safety for a new project, TanStack AI is worth exploring.
+</SectionNote>
+
+<SectionSubheading id="toc-cheatsheet">API cheatsheet</SectionSubheading>
+
+The essential imports and patterns for quick reference:
+
+<TsaiCodeTabs exampleId="reference" />

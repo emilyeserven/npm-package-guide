@@ -1,0 +1,41 @@
+---
+id: "tsai-server"
+title: "Server Setup 🖥️"
+guide: "tanstack-ai"
+group: "Core Concepts"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-provider-setup">Provider setup</TocLink>
+  <TocLink id="toc-pattern">The pattern</TocLink>
+</Toc>
+
+<SectionIntro>
+The server-side is framework-agnostic. Whether you're using TanStack Start, Express, Hono, or plain Node — the `chat()` function works everywhere.
+</SectionIntro>
+
+<SectionSubheading id="toc-provider-setup">Provider setup</SectionSubheading>
+
+Switch between providers by changing the adapter import and model string. Everything else stays the same.
+
+<TsaiCodeTabs exampleId="server-providers" />
+
+<Explainer>
+Notice the pattern: the only thing that changes between providers is the adapter import and the model string. Your `chat()` call, tool definitions, and streaming logic stay identical.
+</Explainer>
+
+<SectionSubheading id="toc-pattern">The pattern</SectionSubheading>
+
+Every server endpoint follows the same three-step pattern:
+
+<SectionList>
+  <ColItem>**1. Parse the request** — Extract `messages` (and optionally tool results) from the incoming request body.</ColItem>
+  <ColItem>**2. Call `chat()`** — Pass the adapter, messages, and any tools. This returns an async iterable stream.</ColItem>
+  <ColItem>**3. Return the response** — Convert the stream to an HTTP response with `toServerSentEventsResponse()`.</ColItem>
+</SectionList>
+
+<SectionNote>
+The `chat()` function handles the full tool loop automatically. If the LLM calls a server tool, `chat()` executes it, feeds the result back, and continues until the LLM produces a final text response.
+</SectionNote>

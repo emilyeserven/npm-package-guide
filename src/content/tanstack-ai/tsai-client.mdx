@@ -1,0 +1,95 @@
+---
+id: "tsai-client"
+title: "The useChat Hook ⚛️"
+guide: "tanstack-ai"
+group: "Core Concepts"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-basic-usage">Basic usage</TocLink>
+  <TocLink id="toc-api">API reference</TocLink>
+  <TocLink id="toc-message-parts">Message parts</TocLink>
+</Toc>
+
+<SectionIntro>
+The `useChat` hook from `@tanstack/ai-react` is your primary interface for building chat UIs. It manages messages, streaming state, tool execution, and approval flows.
+</SectionIntro>
+
+<SectionSubheading id="toc-basic-usage">Basic usage</SectionSubheading>
+
+<CodeAccordion title="components/Chat.tsx" startOpen>
+{`import { useState } from "react"
+import { useChat, fetchServerSentEvents } from "@tanstack/ai-react"
+
+export function Chat() {
+  const [input, setInput] = useState("")
+
+  const { messages, sendMessage, isLoading } = useChat({
+    connection: fetchServerSentEvents("/api/chat"),
+  })
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (input.trim() && !isLoading) {
+      sendMessage(input)
+      setInput("")
+    }
+  }
+
+  return (
+    <div>
+      {messages.map((msg) => (
+        <div key={msg.id}>
+          <strong>{msg.role}</strong>
+          {msg.parts.map((part, i) => {
+            if (part.type === "text")
+              return <span key={i}>{part.content}</span>
+            if (part.type === "thinking")
+              return <em key={i}>💭 {part.content}</em>
+            return null
+          })}
+        </div>
+      ))}
+      <form onSubmit={handleSubmit}>
+        <input value={input}
+          onChange={(e) => setInput(e.target.value)}
+          disabled={isLoading} />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  )
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-api">API reference</SectionSubheading>
+
+The `useChat` hook returns everything you need to build a full-featured chat UI:
+
+<DefinitionTable>
+  <DefRow term="messages">`UIMessage[]` — All messages with typed parts (text, thinking, tool-call, tool-result).</DefRow>
+  <DefRow term="sendMessage">`(content: string) => Promise` — Sends a user message and triggers streaming.</DefRow>
+  <DefRow term="isLoading">`boolean` — True while waiting for a response.</DefRow>
+  <DefRow term="error">`Error | undefined` — Any error from the last request.</DefRow>
+  <DefRow term="stop">`() => void` — Cancels the current stream.</DefRow>
+  <DefRow term="reload">`() => Promise` — Re-sends the last user message.</DefRow>
+  <DefRow term="clear">`() => void` — Resets all messages.</DefRow>
+  <DefRow term="addToolApprovalResponse">`(response) => Promise` — Approve or deny a tool call.</DefRow>
+  <DefRow term="setMessages">`(msgs) => void` — Manually set message state.</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-message-parts">Message parts</SectionSubheading>
+
+Each message contains typed **parts** rather than a single string. This enables rich rendering of different content types:
+
+<SectionList>
+  <ColItem>**`text`** — Standard text content from the model.</ColItem>
+  <ColItem>**`thinking`** — Reasoning/thinking tokens (when supported by the model).</ColItem>
+  <ColItem>**`tool-call`** — A tool invocation with name, arguments, and state (pending, running, approval-requested, output-available, output-error).</ColItem>
+  <ColItem>**`tool-result`** — The output returned by a tool execution.</ColItem>
+</SectionList>
+
+<Explainer>
+The parts-based message model means you can render thinking tokens, tool calls, and text responses with different UI treatments — no string parsing needed.
+</Explainer>
