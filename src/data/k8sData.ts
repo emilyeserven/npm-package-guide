@@ -1,4 +1,5 @@
 import type { GuideSection, StartPageData } from './guideTypes'
+import type { YamlLine, ConceptItem } from './sharedDataTypes'
 
 // ── Types ─────────────────────────────────────────────────────────────
 
@@ -8,20 +9,16 @@ export interface K8sAnalogy {
   explain: string
 }
 
-export interface K8sConcept {
-  term: string
-  def: string
-}
+/** @deprecated Use ConceptItem from sharedDataTypes instead */
+export type K8sConcept = ConceptItem
 
 export interface K8sCodeExample {
   title: string
   code: string
 }
 
-export interface K8sYamlLine {
-  line: string
-  note: string | null
-}
+/** @deprecated Use YamlLine from sharedDataTypes instead */
+export type K8sYamlLine = YamlLine
 
 export interface K8sFlowStep {
   step: string

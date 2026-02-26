@@ -239,6 +239,7 @@ export function ExternalResourcesPage({ initialGuide }: ExternalResourcesPagePro
       resultCount={table.getRowModel().rows.length}
       totalCount={data.length}
       countLabel="references"
+      testId="resources"
     >
       <DataTable table={table} columnCount={4} emptyMessage="No references match your filters." />
     </FilterableTableShell>

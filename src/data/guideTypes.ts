@@ -53,3 +53,15 @@ export interface StartPageData {
   steps: StartPageStep[]
   relatedGuides?: string[]
 }
+
+// ── Guide manifest (co-located in each guide's data file) ───────────
+
+/**
+ * Each guide data file exports a GUIDE_MANIFEST that bundles the
+ * guide definition with its start page data. The guide registry
+ * auto-discovers all manifests via import.meta.glob.
+ */
+export interface GuideManifest {
+  def: GuideDefinition
+  startPageData?: StartPageData
+}

@@ -1,77 +1,20 @@
-export interface GlossaryTerm {
-  term: string
-  definition: string
-  linkId: string
-  /** Additional external references beyond the primary linkId. */
-  linkIds?: string[]
-  sectionId?: string
-  /** Additional internal page links beyond the primary sectionId. */
-  sectionIds?: string[]
-  /** Guide IDs this term is relevant to (e.g., ['npm-package', 'ci-cd']). If omitted, derived from sectionId. */
-  guides?: string[]
-}
+export type { GlossaryTerm, GlossaryCategory } from './types'
+import type { GlossaryCategory } from './types'
 
-export interface GlossaryCategory {
-  category: string
-  terms: GlossaryTerm[]
-}
+// ── Auto-discover all guide-specific glossary files ──────────────────
+//
+// Convention: every *Terms.ts file in this directory exports a
+// GlossaryCategory[] as its sole named export. New guides just need
+// to add a <guideId>Terms.ts file — no manual import list needed.
 
-import { npmPackageGlossary } from './npmPackageTerms'
-import { architectureGlossary } from './architectureTerms'
-import { testingGlossary } from './testingTerms'
-import { promptGlossary } from './promptTerms'
-import { cicdGlossary } from './cicdTerms'
-import { authGlossary } from './authTerms'
-import { kubernetesGlossary } from './kubernetesTerms'
-import { aiInfraGlossary } from './aiInfraTerms'
-import { njaGlossary } from './njaTerms'
-import { wpAgentsGlossary } from './wpAgentsTerms'
-import { gitWorktreesGlossary } from './gitWorktreesTerms'
-import { securityGlossary } from './securityTerms'
-import { stateManagementGlossary } from './stateManagementTerms'
-import { tanstackQueryGlossary } from './tanstackQueryTerms'
-import { tanstackRouterGlossary } from './tanstackRouterTerms'
-import { s3Glossary } from './s3Terms'
-import { awsDecodedGlossary } from './awsDecodedTerms'
-import { claudeSkillsGlossary } from './claudeSkillsTerms'
-import { zustandGlossary } from './zustandTerms'
-import { pwaGlossary } from './pwaTerms'
-import { coworkGlossary } from './coworkTerms'
-import { coolifyGlossary } from './coolifyTerms'
-import { jscodeshiftGlossary } from './jscodeshiftTerms'
-import { iaGlossary } from './iaTerms'
-import { nginxGlossary } from './nginxTerms'
-import { guideCreationGlossary } from './guideCreationTerms'
-import { claudeMdGlossary } from './claudeMdTerms'
-import { shellScriptingGlossary } from './shellScriptingTerms'
+const glossaryModules = import.meta.glob<{ [key: string]: GlossaryCategory[] }>(
+  ['./*Terms.ts'],
+  { eager: true },
+)
 
-export const glossaryTerms: GlossaryCategory[] = [
-  ...npmPackageGlossary,
-  ...architectureGlossary,
-  ...testingGlossary,
-  ...promptGlossary,
-  ...cicdGlossary,
-  ...authGlossary,
-  ...kubernetesGlossary,
-  ...aiInfraGlossary,
-  ...njaGlossary,
-  ...wpAgentsGlossary,
-  ...gitWorktreesGlossary,
-  ...securityGlossary,
-  ...stateManagementGlossary,
-  ...tanstackQueryGlossary,
-  ...tanstackRouterGlossary,
-  ...s3Glossary,
-  ...awsDecodedGlossary,
-  ...claudeSkillsGlossary,
-  ...zustandGlossary,
-  ...pwaGlossary,
-  ...coworkGlossary,
-  ...coolifyGlossary,
-  ...jscodeshiftGlossary,
-  ...iaGlossary,
-  ...nginxGlossary,
-  ...guideCreationGlossary,
-  ...claudeMdGlossary,
-  ...shellScriptingGlossary,
-]
+export const glossaryTerms: GlossaryCategory[] = Object.values(glossaryModules).flatMap(
+  mod => {
+    const arrays = Object.values(mod).filter(Array.isArray)
+    return arrays.flatMap(a => a as GlossaryCategory[])
+  },
+)

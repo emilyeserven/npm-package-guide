@@ -1,98 +1,26 @@
 import type { SectionLink } from '../../helpers/renderFootnotes'
 
-/**
- * Centralized link registry — single source of truth for all external URLs.
- *
- * Every footnote, further-reading link, glossary term URL, and External Resources
- * entry references this registry by ID instead of duplicating metadata.
- *
- * ID convention: {source}-{topic-slug}
- *   e.g. "npm-about", "mdn-tree-shaking", "ts-tsconfig-reference"
- *
- * Fields:
- *   id    — human-readable slug (stable even if URLs change)
- *   url   — the external URL
- *   label — display name for footnotes and the resources table
- *   source — attribution (e.g. "npm", "MDN", "TypeScript")
- *   desc  — description for the External Resources table (optional)
- *   tags  — type/topic/guide tags for External Resources filtering (optional)
- *   resourceCategory — if set, appears on External Resources under this heading
- *
- * Link entries are split by guide into separate files:
- *   - npmPackageLinks.ts     — NPM Package Guide links
- *   - architectureLinks.ts   — Architecture Guide links
- *   - testingLinks.ts        — Testing Guide links
- *   - promptLinks.ts         — Prompt Engineering Guide links
- */
-export interface RegistryLink {
-  id: string
-  url: string
-  label: string
-  source: string
-  desc?: string
-  tags?: string[]
-  resourceCategory?: string
-}
+export type { RegistryLink } from './types'
+import type { RegistryLink } from './types'
 
-import { npmPackageLinks } from './npmPackageLinks'
-import { architectureLinks } from './architectureLinks'
-import { testingLinks } from './testingLinks'
-import { promptLinks } from './promptLinks'
-import { cicdLinks } from './cicdLinks'
-import { authLinks } from './authLinks'
-import { kubernetesLinks } from './kubernetesLinks'
-import { aiInfraLinks } from './aiInfraLinks'
-import { njaLinks } from './njaLinks'
-import { wpAgentsLinks } from './wpAgentsLinks'
-import { gitWorktreesLinks } from './gitWorktreesLinks'
-import { securityLinks } from './securityLinks'
-import { stateManagementLinks } from './stateManagementLinks'
-import { tanstackQueryLinks } from './tanstackQueryLinks'
-import { tanstackRouterLinks } from './tanstackRouterLinks'
-import { s3Links } from './s3Links'
-import { awsDecodedLinks } from './awsDecodedLinks'
-import { claudeSkillsLinks } from './claudeSkillsLinks'
-import { zustandLinks } from './zustandLinks'
-import { pwaLinks } from './pwaLinks'
-import { coworkLinks } from './coworkLinks'
-import { coolifyLinks } from './coolifyLinks'
-import { jscodeshiftLinks } from './jscodeshiftLinks'
-import { iaLinks } from './iaLinks'
-import { nginxLinks } from './nginxLinks'
-import { guideCreationLinks } from './guideCreationLinks'
-import { claudeMdLinks } from './claudeMdLinks'
-import { shellScriptingLinks } from './shellScriptingLinks'
+// ── Auto-discover all guide-specific link files ──────────────────────
+//
+// Convention: every *Links.ts file in this directory exports a
+// RegistryLink[] as its sole named export. New guides just need to
+// add a <guideId>Links.ts file — no manual import list needed.
 
-export const linkRegistry: RegistryLink[] = [
-  ...npmPackageLinks,
-  ...architectureLinks,
-  ...testingLinks,
-  ...promptLinks,
-  ...cicdLinks,
-  ...authLinks,
-  ...kubernetesLinks,
-  ...aiInfraLinks,
-  ...njaLinks,
-  ...wpAgentsLinks,
-  ...gitWorktreesLinks,
-  ...securityLinks,
-  ...stateManagementLinks,
-  ...tanstackQueryLinks,
-  ...tanstackRouterLinks,
-  ...s3Links,
-  ...awsDecodedLinks,
-  ...claudeSkillsLinks,
-  ...zustandLinks,
-  ...pwaLinks,
-  ...coworkLinks,
-  ...coolifyLinks,
-  ...jscodeshiftLinks,
-  ...iaLinks,
-  ...nginxLinks,
-  ...guideCreationLinks,
-  ...claudeMdLinks,
-  ...shellScriptingLinks,
-]
+const linkModules = import.meta.glob<{ [key: string]: RegistryLink[] }>(
+  ['./*Links.ts'],
+  { eager: true },
+)
+
+export const linkRegistry: RegistryLink[] = Object.values(linkModules).flatMap(
+  mod => {
+    // Each module exports exactly one named constant (e.g., npmPackageLinks)
+    const arrays = Object.values(mod).filter(Array.isArray)
+    return arrays.flatMap(a => a as RegistryLink[])
+  },
+)
 
 /** Fast lookup by registry ID */
 export const linkById = new Map<string, RegistryLink>(

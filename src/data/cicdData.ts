@@ -1,4 +1,8 @@
+import type { YamlLine, ConceptItem } from './sharedDataTypes'
+
 /* ───────────────────────── TYPES ───────────────────────── */
+
+export type { YamlLine }
 
 export interface PipelineStage {
   name: string
@@ -6,11 +10,6 @@ export interface PipelineStage {
   color: string
   darkColor: string
   example: string
-}
-
-export interface YamlLine {
-  line: string
-  note: string | null
 }
 
 export interface CicdPattern {
@@ -24,10 +23,8 @@ export interface CicdTip {
   body: string
 }
 
-export interface GhaConceptItem {
-  term: string
-  def: string
-}
+/** @deprecated Use ConceptItem from sharedDataTypes instead */
+export type GhaConceptItem = ConceptItem
 
 export interface PatternTagStyle {
   bg: string

@@ -1,4 +1,4 @@
-import type { RegistryLink } from './index'
+import type { RegistryLink } from './types'
 
 export const npmPackageLinks: RegistryLink[] = [
   // ─── npm (docs.npmjs.com) ──────────────────────────────────────────

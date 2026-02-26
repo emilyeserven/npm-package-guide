@@ -2,11 +2,7 @@ import React, { useState } from 'react'
 import { useIsDark } from '../../hooks/useTheme'
 import { ds } from '../../helpers/darkStyle'
 import { theme, tc } from '../../helpers/themeColors'
-
-interface YamlLine {
-  line: string
-  note: string | null
-}
+import type { YamlLine } from '../../data/sharedDataTypes'
 
 interface YamlExplorerBaseProps {
   lines: YamlLine[]
