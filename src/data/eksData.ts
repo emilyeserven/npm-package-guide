@@ -428,6 +428,8 @@ export const EKS_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'eks-start',
     description: 'Amazon EKS from zero to production \u2014 architecture, networking, scaling, deployments, and security for engineers learning Kubernetes on AWS.',
     category: 'infrastructure',
+    dateCreated: '2026-02-26',
+    dateModified: '2026-02-26',
     sections: EKS_GUIDE_SECTIONS,
   },
   startPageData: EKS_START_PAGE_DATA,

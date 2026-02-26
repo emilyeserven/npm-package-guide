@@ -406,6 +406,8 @@ export const VP_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'vp-start',
     description: 'From raw footage to adaptive streaming \u2014 demystifying ffmpeg, transcoding, HLS, and the video delivery journey.',
     category: 'infrastructure',
+    dateCreated: '2026-02-26',
+    dateModified: '2026-02-26',
     sections: VP_GUIDE_SECTIONS,
   },
   startPageData: VP_START_PAGE_DATA,
