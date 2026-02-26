@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 // ── Types ────────────────────────────────────────────────────────────
 
@@ -456,4 +456,17 @@ export const CS_START_PAGE_DATA: StartPageData = {
       },
     },
   ],
+}
+
+export const CS_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'claude-skills',
+    icon: '🧩',
+    title: 'Anatomy of a Claude Skill',
+    startPageId: 'cs-start',
+    description: 'How to write high-quality Claude skills \u2014 from description fields and body writing to bundled resources, do\u2019s & don\u2019ts, and a shipping checklist.',
+    category: 'ai-tooling',
+    sections: CS_GUIDE_SECTIONS,
+  },
+  startPageData: CS_START_PAGE_DATA,
 }

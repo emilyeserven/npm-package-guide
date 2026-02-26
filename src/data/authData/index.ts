@@ -46,4 +46,4 @@ export {
   INTEGRATION_SCENARIOS,
 } from './concepts'
 
-export { AUTH_GUIDE_SECTIONS, AUTH_START_PAGE_DATA } from './navigation'
+export { AUTH_GUIDE_SECTIONS, AUTH_START_PAGE_DATA , AUTH_GUIDE_MANIFEST } from './navigation'

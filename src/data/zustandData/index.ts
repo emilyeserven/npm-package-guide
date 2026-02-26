@@ -1,4 +1,4 @@
-export { ZST_GUIDE_SECTIONS, ZST_START_PAGE_DATA } from './navigation'
+export { ZST_GUIDE_SECTIONS, ZST_START_PAGE_DATA , ZST_GUIDE_MANIFEST } from './navigation'
 export {
   ZUSTAND_STATS,
   API_REFERENCE,

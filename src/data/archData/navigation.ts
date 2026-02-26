@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from '../guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from '../guideTypes'
 
 export const ARCH_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['arch-start', 'arch-what-is-a-stack'] },
@@ -62,3 +62,16 @@ export const ARCH_START_PAGE_DATA: StartPageData = {
   ],
 }
 
+
+export const ARCH_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'architecture',
+    icon: '🏗️',
+    title: 'Architecture Guide',
+    startPageId: 'arch-start',
+    description: 'Understand common frontend architecture patterns and how to structure your projects for maintainability and scale.',
+    category: 'frontend',
+    sections: ARCH_GUIDE_SECTIONS,
+  },
+  startPageData: ARCH_START_PAGE_DATA,
+}

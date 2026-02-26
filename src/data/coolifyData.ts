@@ -488,7 +488,7 @@ export const PI_GOTCHAS: PiGotcha[] = [
 
 /* ───────────────────────── NAVIGATION ───────────────────────── */
 
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 export const COOLIFY_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['cd-start'] },
@@ -544,4 +544,17 @@ export const COOLIFY_START_PAGE_DATA: StartPageData = {
       jumpTo: 'cd-gotchas',
     },
   ],
+}
+
+export const COOLIFY_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'coolify-deploy',
+    icon: '🚀',
+    title: 'Deploy on Coolify',
+    startPageId: 'cd-start',
+    description: 'Deploy React + Vite on Coolify \u2014 from DNS fundamentals to production gotchas, including Raspberry Pi self-hosting with Cloudflare Tunnel.',
+    category: 'infrastructure',
+    sections: COOLIFY_GUIDE_SECTIONS,
+  },
+  startPageData: COOLIFY_START_PAGE_DATA,
 }

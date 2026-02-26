@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from '../guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from '../guideTypes'
 
 export const ZST_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['zst-start'] },
@@ -60,4 +60,17 @@ export const ZST_START_PAGE_DATA: StartPageData = {
     },
   ],
   relatedGuides: ['state-management', 'tanstack-query'],
+}
+
+export const ZST_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'zustand',
+    icon: '🐻',
+    title: 'Zustand Deep Dive',
+    startPageId: 'zst-start',
+    description: 'Everything about Zustand \u2014 from first store to slices, middleware, and production patterns with interactive demos.',
+    category: 'frontend',
+    sections: ZST_GUIDE_SECTIONS,
+  },
+  startPageData: ZST_START_PAGE_DATA,
 }

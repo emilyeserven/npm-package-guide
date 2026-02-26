@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from '../guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from '../guideTypes'
 
 export const AUTH_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['auth-start'] },
@@ -84,4 +84,17 @@ export const AUTH_START_PAGE_DATA: StartPageData = {
       },
     },
   ],
+}
+
+export const AUTH_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'auth',
+    icon: '🔐',
+    title: 'Auth for Frontend Engineers',
+    startPageId: 'auth-start',
+    description: 'Authentication & Authorization \u2014 from zero to confident implementation.',
+    category: 'security',
+    sections: AUTH_GUIDE_SECTIONS,
+  },
+  startPageData: AUTH_START_PAGE_DATA,
 }

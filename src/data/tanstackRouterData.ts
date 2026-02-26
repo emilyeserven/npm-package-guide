@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 // ── Types ────────────────────────────────────────────────────────────
 
@@ -490,4 +490,17 @@ export const TSR_START_PAGE_DATA: StartPageData = {
       },
     },
   ],
+}
+
+export const TSR_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'tanstack-router',
+    icon: '🧭',
+    title: 'TanStack Router Deep Dive',
+    startPageId: 'tsr-start',
+    description: 'A deep comparison of TanStack Router vs React Router vs Next.js \u2014 type safety, search params, data loading, and when to use what.',
+    category: 'frontend',
+    sections: TSR_GUIDE_SECTIONS,
+  },
+  startPageData: TSR_START_PAGE_DATA,
 }

@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 import type { QuizQuestion } from '../components/mdx/QuizBase'
 
 /* ───────────────────────── TYPES ───────────────────────── */
@@ -249,4 +249,17 @@ export const PAYLOAD_START_PAGE_DATA: StartPageData = {
     },
   ],
   relatedGuides: ['nextjs-abstractions', 'architecture'],
+}
+
+export const PAYLOAD_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'payload-cms',
+    icon: '\uD83C\uDFAF',
+    title: 'Payload CMS Field Guide',
+    startPageId: 'payload-start',
+    description: 'Payload CMS \u2014 the open-source, code-first headless CMS built on TypeScript and React. Config-first schemas, three API surfaces, and AI tooling.',
+    category: 'infrastructure',
+    sections: PAYLOAD_GUIDE_SECTIONS,
+  },
+  startPageData: PAYLOAD_START_PAGE_DATA,
 }

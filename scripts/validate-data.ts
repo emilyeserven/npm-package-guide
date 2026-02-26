@@ -12,7 +12,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import type { RegistryLink } from '../src/data/linkRegistry/types.ts'
 import type { GlossaryCategory } from '../src/data/glossaryTerms/types.ts'
-import type { GuideSection, GuideDefinition } from '../src/data/guideTypes.ts'
+import type { GuideDefinition } from '../src/data/guideTypes.ts'
 
 // ── Build registries dynamically (no import.meta.glob in tsx) ────────
 
@@ -53,112 +53,47 @@ for (const entry of fs.readdirSync(dataDir, { withFileTypes: true })) {
   }
 }
 
-// Import guideRegistry metadata (guideMetas is not exported, but guides/checklistPages are
-// built from import.meta.glob at Vite time). For validation, we dynamically build the
-// same data the registry would produce.
+// Discover guide manifests from data modules. Each guide data file exports a
+// *_GUIDE_MANIFEST that bundles the full GuideDefinition and optional StartPageData.
+// This mirrors the auto-discovery in guideRegistry.ts (which uses import.meta.glob).
 
-// Discover guide sections and start page data from data modules
-interface GuideDataExports {
-  sections?: GuideSection[]
-  startPageData?: unknown
-}
+import type { GuideManifest } from '../src/data/guideTypes.ts'
 
-const guideDataMap = new Map<string, GuideDataExports>()
-for (const filePath of guideDataFiles) {
+async function extractManifests(modPath: string): Promise<GuideDefinition[]> {
+  const results: GuideDefinition[] = []
   try {
-    const mod = await import(filePath)
-    const exports: GuideDataExports = {}
+    const mod = await import(modPath)
     for (const [key, val] of Object.entries(mod)) {
-      if (key.endsWith('_GUIDE_SECTIONS') && Array.isArray(val)) {
-        exports.sections = val as GuideSection[]
+      if (key.endsWith('_GUIDE_MANIFEST') && val && typeof val === 'object' && 'def' in (val as Record<string, unknown>)) {
+        results.push((val as GuideManifest).def)
       }
-      if (key.endsWith('_START_PAGE_DATA')) {
-        exports.startPageData = val
-      }
-    }
-    if (exports.sections) {
-      guideDataMap.set(filePath, exports)
     }
   } catch {
-    // Directory-based data files import submodules that may re-export
-    // from navigation.ts — try importing navigation.ts directly
+    // Skip — Vite build validates these
+  }
+  return results
+}
+
+const guides: GuideDefinition[] = []
+
+for (const filePath of guideDataFiles) {
+  let found = await extractManifests(filePath)
+
+  // For directory-based data, also try navigation.ts directly
+  if (found.length === 0) {
     const dir = path.dirname(filePath)
     const navPath = path.join(dir, 'navigation.ts')
     if (fs.existsSync(navPath)) {
-      try {
-        const navMod = await import(navPath)
-        const exports: GuideDataExports = {}
-        for (const [key, val] of Object.entries(navMod)) {
-          if (key.endsWith('_GUIDE_SECTIONS') && Array.isArray(val)) {
-            exports.sections = val as GuideSection[]
-          }
-          if (key.endsWith('_START_PAGE_DATA')) {
-            exports.startPageData = val
-          }
-        }
-        if (exports.sections) {
-          guideDataMap.set(navPath, exports)
-        }
-      } catch {
-        // Skip — Vite build validates these
-      }
+      found = await extractManifests(navPath)
     }
   }
+
+  guides.push(...found)
 }
 
-// Import the guide registry (just the metadata portion — guideMetas is private,
-// so we import it and catch the glob error, or import guideTypes + build locally)
-// Since guideRegistry.ts uses import.meta.glob, we must replicate its logic here.
-// The guideMetas are defined inline in guideRegistry.ts. For validation, we extract
-// the guides from the data modules themselves by reading the file.
-
-// Parse guideMetas from guideRegistry.ts source (each entry is on a single line)
 const registrySource = fs.readFileSync(
   path.resolve(dataDir, 'guideRegistry.ts'), 'utf-8'
 )
-
-interface GuideMeta {
-  id: string
-  startPageId: string
-  singlePage?: boolean
-}
-
-// Extract just the guideMetas array block, then parse line by line
-const metasBlock = registrySource.match(
-  /const guideMetas:\s*GuideMeta\[\]\s*=\s*\[([\s\S]*?)\n\]/
-)
-const guideMetas: GuideMeta[] = []
-if (metasBlock) {
-  for (const line of metasBlock[1].split('\n')) {
-    const idMatch = line.match(/id:\s*'([^']+)'/)
-    const startMatch = line.match(/startPageId:\s*'([^']+)'/)
-    if (idMatch && startMatch) {
-      const singlePage = /singlePage:\s*true/.test(line)
-      guideMetas.push({ id: idMatch[1], startPageId: startMatch[1], singlePage })
-    }
-  }
-}
-
-// Match guide metas to their data modules by checking startPageId in section IDs
-const guides: GuideDefinition[] = []
-for (const meta of guideMetas) {
-  for (const [, data] of guideDataMap) {
-    if (data.sections) {
-      const allIds = data.sections.flatMap(s => s.ids)
-      if (allIds.includes(meta.startPageId)) {
-        guides.push({
-          ...meta,
-          icon: '',
-          title: '',
-          description: '',
-          sections: data.sections,
-          category: 'fundamentals',
-        })
-        break
-      }
-    }
-  }
-}
 
 // Checklist pages (hardcoded in guideRegistry.ts — parse from source)
 const checklistMatch = registrySource.match(
@@ -441,14 +376,14 @@ for (const subdir of subdirs) {
 
 console.log('Checking guide data consistency...')
 
-// Verify all guideMetas have matching data modules
-for (const meta of guideMetas) {
-  const found = guides.find(g => g.id === meta.id)
-  if (!found) {
+// With auto-discovery, manifests *are* the data modules. Verify each
+// discovered guide's startPageId appears in its own sections.
+for (const guide of guides) {
+  const sectionIds = guide.sections.flatMap(s => s.ids)
+  if (!sectionIds.includes(guide.startPageId)) {
     error(
-      `Guide "${meta.id}" in guideMetas has no matching data module. ` +
-      `Ensure a *Data.ts or *Data/index.ts file exports a *_GUIDE_SECTIONS ` +
-      `array containing startPageId "${meta.startPageId}".`
+      `Guide "${guide.id}" manifest has startPageId "${guide.startPageId}" ` +
+      `which is not listed in its sections. Fix the *_GUIDE_MANIFEST in the data file.`
     )
   }
 }

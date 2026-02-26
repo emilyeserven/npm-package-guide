@@ -18,7 +18,7 @@ export { MONITORING_SERVICES } from './monitoring'
 export { FRONTEND_WEB_SERVICES } from './frontendWeb'
 
 // ── Navigation ──────────────────────────────────────────────────────
-export { AWS_GUIDE_SECTIONS, AWS_START_PAGE_DATA } from './navigation'
+export { AWS_GUIDE_SECTIONS, AWS_START_PAGE_DATA , AWS_GUIDE_MANIFEST } from './navigation'
 
 // ── All services combined ───────────────────────────────────────────
 import { COMPUTE_SERVICES } from './compute'

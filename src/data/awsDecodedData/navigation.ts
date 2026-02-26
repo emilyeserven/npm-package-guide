@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from '../guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from '../guideTypes'
 
 export const AWS_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['aws-start'] },
@@ -75,4 +75,17 @@ export const AWS_START_PAGE_DATA: StartPageData = {
     },
   ],
   relatedGuides: ['s3-storage', 'kubernetes', 'ci-cd', 'ai-infra'],
+}
+
+export const AWS_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'aws-decoded',
+    icon: '☁️',
+    title: 'AWS Decoded',
+    startPageId: 'aws-start',
+    description: 'Every AWS service explained like you\u2019re a frontend engineer who just learned what a server is \u2014 62 services, 11 categories, zero buzzwords.',
+    category: 'infrastructure',
+    sections: AWS_GUIDE_SECTIONS,
+  },
+  startPageData: AWS_START_PAGE_DATA,
 }

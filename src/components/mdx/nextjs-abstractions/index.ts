@@ -1,0 +1,1 @@
+export { ConceptDetail } from './ConceptDetail'

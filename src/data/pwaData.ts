@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 // ── Types ────────────────────────────────────────────────────────────
 
@@ -447,4 +447,17 @@ export const PWA_START_PAGE_DATA: StartPageData = {
       },
     },
   ],
+}
+
+export const PWA_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'pwa',
+    icon: '📱',
+    title: 'Progressive Web Apps',
+    startPageId: 'pwa-start',
+    description: 'Build installable, offline-capable web apps with Service Workers, Web App Manifest, and modern caching strategies \u2014 from fundamentals to Vite + React integration.',
+    category: 'frontend',
+    sections: PWA_GUIDE_SECTIONS,
+  },
+  startPageData: PWA_START_PAGE_DATA,
 }
