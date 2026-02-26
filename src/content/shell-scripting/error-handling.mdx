@@ -1,0 +1,123 @@
+---
+id: "error-handling"
+title: "Error Handling & Traps 🛡️"
+guide: "shell-scripting"
+group: "Agent Patterns"
+linkRefs:
+  - id: bash-strict-mode
+  - id: gnu-bash-manual
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-strict">Strict Mode — The Safety Net</TocLink>
+  <TocLink id="toc-trap">Trap — Cleanup on Exit</TocLink>
+  <TocLink id="toc-retry">Retry Pattern</TocLink>
+  <TocLink id="toc-structured">Structured Output for Agents</TocLink>
+  <TocLink id="toc-quiz">Knowledge Check</TocLink>
+</Toc>
+
+<SectionIntro>
+Fail gracefully and clean up after yourself.
+</SectionIntro>
+
+<SectionSubheading id="toc-strict">Strict Mode — The Safety Net</SectionSubheading>
+
+Always start agent-facing scripts with strict mode.
+
+<CodeAccordion title="strict-mode.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+# -e  → Exit immediately on any error
+# -u  → Error on undefined variables (catches typos!)
+# -o pipefail → Catch errors in pipe chains
+#    Without it: `curl bad-url | jq '.'` reports success
+#    With it: captures curl's actual failure
+```
+</CodeAccordion>
+
+<Explainer title="Agent Rule">
+`set -euo pipefail` should be muscle memory. It turns silent failures into loud ones the agent can detect.
+</Explainer>
+
+<SectionSubheading id="toc-trap">Trap — Cleanup on Exit</SectionSubheading>
+
+<CodeAccordion title="with-cleanup.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+TMPDIR=$(mktemp -d)
+
+cleanup() {
+  local code=$?
+  rm -rf "$TMPDIR"
+  [[ $code -ne 0 ]] && echo "❌ Failed (exit $code)" >&2
+  exit "$code"
+}
+trap cleanup EXIT ERR INT
+
+echo "Working in $TMPDIR"
+cp important.txt "$TMPDIR/backup.txt"
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-retry">Retry Pattern</SectionSubheading>
+
+A retry wrapper prevents agents from getting stuck on transient network failures.
+
+<CodeAccordion title="retry.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+
+retry() {
+  local max="$1"; shift
+  local attempt=1
+  while [ $attempt -le $max ]; do
+    if "$@"; then return 0; fi
+    echo "⚠️  Attempt $attempt/$max failed. Retry in ${attempt}s..." >&2
+    sleep "$attempt"
+    (( attempt++ ))
+  done
+  echo "❌ Failed after $max attempts: $*" >&2
+  return 1
+}
+retry 3 curl -sf "https://api.example.com/health"
+retry 5 npm install
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-structured">Structured Output for Agents</SectionSubheading>
+
+Output JSON so agents can parse results programmatically.
+
+<CodeAccordion title="structured-output.sh" ext="bash">
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+json_result() {
+  local status="$1" msg="$2"
+  printf '{"status":"%s","message":"%s","timestamp":"%s"}\n' \
+    "$status" "$msg" "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+}
+if [[ -f "package.json" ]]; then
+  json_result "pass" "package.json found"
+else
+  json_result "fail" "package.json missing"; exit 1
+fi
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-quiz">Knowledge Check</SectionSubheading>
+
+<ShellQuiz
+  question="🧪 What does set -u do?"
+  options={["Enables undo functionality", "Errors on undefined variables", "Enables UTF-8 mode"]}
+  correctIndex={1}
+  correctFeedback="set -u (nounset) errors when you reference an unset variable — catches typos instantly."
+  incorrectFeedback="set -u errors on undefined variables, catching typos and missing config."
+/>
