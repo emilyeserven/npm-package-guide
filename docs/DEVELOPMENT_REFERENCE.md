@@ -47,6 +47,9 @@ Top-level resource pages (`external-resources`, `glossary`) are NOT in any guide
 | Link registry guide tags | Link tag `guide:*` referencing an unknown guide ID |
 | Duplicate page IDs | Same page ID in two different guides |
 | `startPageId` not in sections | Guide start page missing from its `*_GUIDE_SECTIONS` |
+| MDX title emoji suffix | Title missing trailing emoji (parsed by sidebar and command menu) |
+| Orphaned MDX pages | Page in `src/content/` not listed in any guide's `*_GUIDE_SECTIONS` |
+| Guide-folder mismatch | MDX `guide` frontmatter doesn't match its parent directory |
 
 ## Command Menu (CMD-K)
 

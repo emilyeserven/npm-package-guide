@@ -82,6 +82,9 @@ For component discovery, use the `/find-component` skill.
 1. `pnpm install` (if dependencies changed).
 2. `pnpm lint --fix` — always run first to auto-fix lint errors.
 3. `pnpm validate` — runs `validate:data` + `lint` + `build`. Fix any remaining errors.
+4. `pnpm test:e2e` — run if making sidebar, routing, theme, or checklist changes.
+
+Update `dateModified` in the guide's `*_GUIDE_MANIFEST` if you: add/remove pages, restructure sections, add interactive components, or make substantial content changes. Don't update for typo fixes or minor rewording.
 
 ## Reference
 

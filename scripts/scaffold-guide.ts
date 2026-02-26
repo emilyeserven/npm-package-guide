@@ -8,7 +8,7 @@
  * Usage:
  *   pnpm scaffold-guide --id <guide-id> --title <title> --icon <emoji> \
  *     --desc <description> --prefix <PREFIX> --camel <camelName> --start <startPageId> \
- *     [--single-page] \
+ *     [--category <category>] [--single-page] \
  *     [--pages "Group:page-id:Title Emoji,Group:page-id2:Title2 Emoji2,..."] \
  *     [--check-links "link-id-1,link-id-2,..."]
  *
@@ -16,6 +16,7 @@
  *   pnpm scaffold-guide --id dns-deep-dive --title "DNS Deep Dive" --icon "🌐" \
  *     --desc "Everything about DNS for frontend engineers." \
  *     --prefix DNS --camel dnsDeepDive --start dns-start \
+ *     --category infrastructure \
  *     --pages "Basics:dns-records:DNS Records 📋,Basics:dns-resolution:Resolution Flow 🔄,Advanced:dns-security:DNSSEC 🔒" \
  *     --check-links "mdn-dns,cloudflare-dns-guide"
  *
@@ -35,12 +36,10 @@
  *   src/data/linkRegistry/<camel>Links.ts  — Link registry stub
  *   src/data/glossaryTerms/<camel>Terms.ts — Glossary terms stub
  *
- * Modified files:
- *   src/data/linkRegistry/index.ts         — Import + spread
- *   src/data/glossaryTerms/index.ts        — Import + spread
- *
  * Auto-discovered (no manual registration needed):
  *   guideRegistry.ts discovers *_GUIDE_MANIFEST via import.meta.glob
+ *   linkRegistry/index.ts discovers *Links.ts via import.meta.glob
+ *   glossaryTerms/index.ts discovers *Terms.ts via import.meta.glob
  *   mdx/index.ts discovers guide component barrels via import.meta.glob
  */
 
@@ -79,6 +78,19 @@ const startPageId = args.start as string
 const singlePage = args['single-page'] === true
 const pagesArg = args.pages as string | undefined
 const checkLinksArg = args['check-links'] as string | undefined
+const categoryArg = args.category as string | undefined
+
+const VALID_CATEGORIES = ['frontend', 'infrastructure', 'security', 'ai-tooling', 'fundamentals'] as const
+type GuideCategory = typeof VALID_CATEGORIES[number]
+
+const category: GuideCategory = ((): GuideCategory => {
+  if (!categoryArg) return 'fundamentals'
+  if (!VALID_CATEGORIES.includes(categoryArg as GuideCategory)) {
+    console.error(`Invalid --category "${categoryArg}". Valid values: ${VALID_CATEGORIES.join(', ')}`)
+    process.exit(1)
+  }
+  return categoryArg as GuideCategory
+})()
 
 const required = { id: guideId, title, icon, desc, prefix, camel, start: startPageId }
 const missing = Object.entries(required).filter(([, v]) => !v).map(([k]) => k)
@@ -87,7 +99,7 @@ if (missing.length > 0) {
   console.error(
     '\nUsage: pnpm scaffold-guide --id <id> --title <title> --icon <emoji> \\\n' +
     '  --desc <description> --prefix <PREFIX> --camel <camel> --start <startId> \\\n' +
-    '  [--single-page] [--pages "Group:pageId:Title Emoji,..."] \\\n' +
+    '  [--category <category>] [--single-page] [--pages "Group:pageId:Title Emoji,..."] \\\n' +
     '  [--check-links "link-id-1,link-id-2,..."]'
   )
   process.exit(1)
@@ -131,9 +143,7 @@ function ensureDir(dir: string) {
 }
 
 let created = 0
-let updated = 0
 let skipped = 0
-let errors = 0
 
 function writeNew(filePath: string, content: string) {
   const rel = path.relative(ROOT, filePath)
@@ -147,34 +157,6 @@ function writeNew(filePath: string, content: string) {
   created++
 }
 
-function insertAfterLast(lines: string[], pattern: RegExp, insertion: string): boolean {
-  let lastIndex = -1
-  for (let i = 0; i < lines.length; i++) {
-    if (pattern.test(lines[i])) lastIndex = i
-  }
-  if (lastIndex === -1) return false
-  lines.splice(lastIndex + 1, 0, insertion)
-  return true
-}
-
-function modifyFile(filePath: string, description: string, transform: (content: string) => string | null) {
-  const rel = path.relative(ROOT, filePath)
-  const content = fs.readFileSync(filePath, 'utf-8')
-  try {
-    const result = transform(content)
-    if (result === null || result === content) {
-      console.warn(`  SKIP (no change): ${rel} — ${description}`)
-      skipped++
-      return
-    }
-    fs.writeFileSync(filePath, result)
-    console.log(`  UPDATE: ${rel} — ${description}`)
-    updated++
-  } catch (e) {
-    console.error(`  ERROR: ${rel} — ${description}: ${(e as Error).message}`)
-    errors++
-  }
-}
 
 // ── Pre-flight checks ───────────────────────────────────────────────
 
@@ -271,7 +253,7 @@ export const ${prefix}_GUIDE_MANIFEST: GuideManifest = {
     title: '${title.replace(/'/g, "\\'")}',
     startPageId: '${startPageId}',
     description: '${desc.replace(/'/g, "\\'")}',
-    category: 'fundamentals',
+    category: '${category}',
     dateCreated: '${new Date().toISOString().slice(0, 10)}',
     dateModified: '${new Date().toISOString().slice(0, 10)}',
     singlePage: true,
@@ -297,7 +279,7 @@ export const ${prefix}_GUIDE_MANIFEST: GuideManifest = {
     title: '${title.replace(/'/g, "\\'")}',
     startPageId: '${startPageId}',
     description: '${desc.replace(/'/g, "\\'")}',
-    category: 'fundamentals',
+    category: '${category}',
     dateCreated: '${new Date().toISOString().slice(0, 10)}',
     dateModified: '${new Date().toISOString().slice(0, 10)}',
     sections: ${prefix}_GUIDE_SECTIONS,
@@ -415,60 +397,18 @@ export const ${glossaryVarName}: GlossaryCategory[] = [
 
 writeNew(resolve(`src/data/glossaryTerms/${camel}Terms.ts`), glossaryContent)
 
-// ── 6. (Skipped) guideRegistry.ts auto-discovers *_GUIDE_MANIFEST ───
+// ── All registries auto-discover via import.meta.glob ───────────────
 //
-// No manual registration needed — guideRegistry.ts uses import.meta.glob
-// to discover all *_GUIDE_MANIFEST exports from data files.
-
-console.log('\n--- Updating registries ---')
-
-// ── 7. Update linkRegistry/index.ts ─────────────────────────────────
-
-const linksIndexPath = resolve('src/data/linkRegistry/index.ts')
-const linksImport = `import { ${linksVarName} } from './${camel}Links'`
-const linksSpread = `  ...${linksVarName},`
-
-modifyFile(linksIndexPath, 'add import', content => {
-  if (content.includes(linksImport)) return null
-  const lines = content.split('\n')
-  if (!insertAfterLast(lines, /^import \{ \w+Links \} from '\.\//, linksImport)) return null
-  return lines.join('\n')
-})
-
-modifyFile(linksIndexPath, 'add spread', content => {
-  if (content.includes(linksSpread)) return null
-  const lines = content.split('\n')
-  if (!insertAfterLast(lines, /^\s+\.\.\.\w+Links,$/, linksSpread)) return null
-  return lines.join('\n')
-})
-
-// ── 8. Update glossaryTerms/index.ts ────────────────────────────────
-
-const glossaryIndexPath = resolve('src/data/glossaryTerms/index.ts')
-const glossaryImport = `import { ${glossaryVarName} } from './${camel}Terms'`
-const glossarySpread = `  ...${glossaryVarName},`
-
-modifyFile(glossaryIndexPath, 'add import', content => {
-  if (content.includes(glossaryImport)) return null
-  const lines = content.split('\n')
-  if (!insertAfterLast(lines, /^import \{ \w+Glossary \} from '\.\//, glossaryImport)) return null
-  return lines.join('\n')
-})
-
-modifyFile(glossaryIndexPath, 'add spread', content => {
-  if (content.includes(glossarySpread)) return null
-  const lines = content.split('\n')
-  if (!insertAfterLast(lines, /^\s+\.\.\.\w+Glossary,$/, glossarySpread)) return null
-  return lines.join('\n')
-})
+// No manual registration needed:
+//   guideRegistry.ts discovers *_GUIDE_MANIFEST
+//   linkRegistry/index.ts discovers *Links.ts
+//   glossaryTerms/index.ts discovers *Terms.ts
 
 // ── Summary ─────────────────────────────────────────────────────────
 
 console.log(`\n--- Summary ---`)
 console.log(`  Created: ${created} files`)
-console.log(`  Updated: ${updated} registries`)
-if (skipped > 0) console.log(`  Skipped: ${skipped} (already exist or no change)`)
-if (errors > 0) console.log(`  Errors:  ${errors}`)
+if (skipped > 0) console.log(`  Skipped: ${skipped} (already exist)`)
 
 console.log(`\n--- Next steps ---`)
 if (pageSpecs.length > 0) {
@@ -484,7 +424,5 @@ if (!singlePage) {
   console.log(`  5. Add interactive components to src/components/mdx/${guideId}/ with a barrel index.ts`)
   console.log(`     (auto-discovered — no need to modify src/components/mdx/index.ts)`)
 }
-console.log(`  6. Set the correct category in the GUIDE_MANIFEST in src/data/${dataFileName}.ts`)
-console.log(`  7. Run: pnpm validate`)
+console.log(`  6. Run: pnpm validate`)
 
-if (errors > 0) process.exit(1)
