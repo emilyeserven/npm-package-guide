@@ -152,6 +152,13 @@ import { CmdCategories } from './claude-md/CmdCategories'
 import { CmdLayouts } from './claude-md/CmdLayouts'
 import { CmdFeatures } from './claude-md/CmdFeatures'
 import { CmdHierarchyTable } from './claude-md/CmdHierarchyTable'
+// tanstack-ai
+import { TsaiCodeTabs } from './tanstack-ai/TsaiCodeTabs'
+import { TsaiFeatureCards } from './tanstack-ai/TsaiFeatureCards'
+import { TsaiPackageGrid } from './tanstack-ai/TsaiPackageGrid'
+import { TsaiChatDemo } from './tanstack-ai/TsaiChatDemo'
+import { TsaiApprovalDemo } from './tanstack-ai/TsaiApprovalDemo'
+import { TsaiComparisonTable } from './tanstack-ai/TsaiComparisonTable'
 
 export const mdxComponents: MDXComponents = {
   pre: MdxPre,
@@ -320,4 +327,10 @@ export const mdxComponents: MDXComponents = {
   CmdLayouts,
   CmdFeatures,
   CmdHierarchyTable,
+  TsaiCodeTabs,
+  TsaiFeatureCards,
+  TsaiPackageGrid,
+  TsaiChatDemo,
+  TsaiApprovalDemo,
+  TsaiComparisonTable,
 }

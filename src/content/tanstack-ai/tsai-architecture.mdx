@@ -1,0 +1,56 @@
+---
+id: "tsai-architecture"
+title: "Architecture 🏗️"
+guide: "tanstack-ai"
+group: "Core Concepts"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-data-flow">Data flow</TocLink>
+  <TocLink id="toc-overview">Architecture overview</TocLink>
+</Toc>
+
+<SectionIntro>
+TanStack AI uses a clean client-server architecture connected via Server-Sent Events. The client manages UI state while the server handles LLM orchestration — they communicate via an open, documented protocol.
+</SectionIntro>
+
+<SectionSubheading id="toc-data-flow">Data flow</SectionSubheading>
+
+Here's how data flows through a TanStack AI application:
+
+<DefinitionTable>
+  <DefRow term="React UI">Your components render messages and handle user input.</DefRow>
+  <DefRow term="useChat()">The hook manages all client-side state — messages, loading, streaming, tool execution, and approval flows.</DefRow>
+  <DefRow term="SSE Connection">Server-Sent Events stream data from server to client in real time. The protocol is open and documented.</DefRow>
+  <DefRow term="chat() Server">The server-side function handles LLM orchestration and tool loops. Framework-agnostic — works with TanStack Start, Express, Hono, or plain Node.</DefRow>
+  <DefRow term="LLM Adapter">The provider adapter translates between TanStack AI's unified interface and the specific LLM API (OpenAI, Anthropic, Gemini, Ollama).</DefRow>
+</DefinitionTable>
+
+<Explainer>
+The `useChat` hook manages all client-side state — messages, loading, streaming, tool execution, and approval flows. The server's `chat()` function handles the LLM orchestration and tool loops. They communicate via an open, documented protocol.
+</Explainer>
+
+<SectionSubheading id="toc-overview">Architecture overview</SectionSubheading>
+
+<CodeAccordion title="Architecture diagram" startOpen>
+{`// CLIENT (React)                          SERVER (Node/Bun/etc)
+// ┌─────────────────────┐                 ┌────────────────────────┐
+// │  useChat() hook      │  ←── SSE ──→   │  chat() function       │
+// │  ├─ messages         │                 │  ├─ adapter (provider) │
+// │  ├─ sendMessage()    │                 │  ├─ tools[]            │
+// │  ├─ isLoading        │                 │  └─ streaming          │
+// │  ├─ client tools     │                 └────────────────────────┘
+// │  └─ tool approvals   │
+// └─────────────────────┘`}
+</CodeAccordion>
+
+The architecture follows a clear separation of concerns:
+
+<SectionList>
+  <ColItem>**Client** — React components + the `useChat` hook handle rendering and user interaction. Client tools can execute directly in the browser.</ColItem>
+  <ColItem>**Transport** — SSE (default), HTTP streams, or custom adapters like WebSocket carry streaming data between client and server.</ColItem>
+  <ColItem>**Server** — The `chat()` function orchestrates the conversation loop, including multi-step tool execution. It's framework-agnostic.</ColItem>
+  <ColItem>**Adapter** — Provider-specific adapters translate between TanStack AI's unified interface and each LLM's native API.</ColItem>
+</SectionList>

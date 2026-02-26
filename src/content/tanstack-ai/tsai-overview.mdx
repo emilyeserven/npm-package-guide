@@ -1,0 +1,43 @@
+---
+id: "tsai-overview"
+title: "Overview & Ecosystem 📦"
+guide: "tanstack-ai"
+group: "Getting Started"
+linkRefs:
+  - id: "tanstack-ai-docs"
+    note: "Official TanStack AI documentation"
+  - id: "tanstack-ai-github"
+    note: "Source code and issue tracker"
+  - id: "tanstack-ai-announcement"
+    note: "Blog post announcing the alpha release"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What is TanStack AI?</TocLink>
+  <TocLink id="toc-features">Core features</TocLink>
+  <TocLink id="toc-packages">Package ecosystem</TocLink>
+</Toc>
+
+<SectionIntro>
+TanStack AI is a lightweight, framework-agnostic AI SDK that lets you build AI-powered applications with full TypeScript type safety. Think of it as the "Switzerland of AI tooling" — it connects you directly to the AI providers you choose, with no middleman and no service fees.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">What is TanStack AI?</SectionSubheading>
+
+TanStack AI is currently in **alpha** (v0.5+) and is **open source under the MIT license**. Unlike vendor-specific SDKs, it gives you a single, consistent API across multiple LLM providers — swap between OpenAI, Anthropic, Gemini, or Ollama with a one-line adapter change.
+
+<SectionNote>
+TanStack AI is built by the same team behind TanStack Query, TanStack Router, and TanStack Table — the most popular type-safe libraries in the React ecosystem.
+</SectionNote>
+
+<SectionSubheading id="toc-features">Core features</SectionSubheading>
+
+<TsaiFeatureCards />
+
+<SectionSubheading id="toc-packages">Package ecosystem</SectionSubheading>
+
+TanStack AI is modular by design. Install only what you need — every adapter is tree-shakeable.
+
+<TsaiPackageGrid />
