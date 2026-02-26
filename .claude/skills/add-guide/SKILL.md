@@ -59,6 +59,7 @@ Catches broken link/glossary references, missing emoji suffixes, orphaned pages,
 - **Start page sub-items**: derived from sections via `sectionLabel`.
 - **Start page Resources tiles**: External Resources, Glossary, and Checklist tiles auto-populate.
 - **Router**: resolves MDX via auto-discovery — no `router.tsx` edits.
+- **Guide dates**: `dateCreated` and `dateModified` are auto-set to today's date in the scaffold. Update `dateModified` when making significant content changes to an existing guide.
 
 ## Common pitfalls
 

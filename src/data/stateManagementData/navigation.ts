@@ -54,6 +54,8 @@ export const SM_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'sm-start',
     description: 'Context vs Zustand vs Redux \u2014 deep dives, side-by-side comparison, and how React Query changes everything.',
     category: 'frontend',
+    dateCreated: '2026-02-18',
+    dateModified: '2026-02-26',
     sections: SM_GUIDE_SECTIONS,
   },
   startPageData: SM_START_PAGE_DATA,

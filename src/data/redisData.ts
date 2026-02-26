@@ -493,6 +493,8 @@ export const REDIS_GUIDE_MANIFEST: GuideManifest = {
     description:
       'An interactive guide to Redis — the in-memory data store behind caching, sessions, rate limiting, and real-time systems.',
     category: 'infrastructure',
+    dateCreated: '2026-02-26',
+    dateModified: '2026-02-26',
     sections: REDIS_GUIDE_SECTIONS,
   },
   startPageData: REDIS_START_PAGE_DATA,

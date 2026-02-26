@@ -682,6 +682,8 @@ export const K8S_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'k8s-start',
     description: 'Understand containers, Kubernetes, and Helm \u2014 from Docker basics to deployment pipelines, with analogies for frontend engineers.',
     category: 'infrastructure',
+    dateCreated: '2026-02-16',
+    dateModified: '2026-02-26',
     sections: K8S_GUIDE_SECTIONS,
   },
   startPageData: K8S_START_PAGE_DATA,

@@ -12,6 +12,8 @@ export const MULTIPART_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'multipart-uploads-guide',
     description: 'How files travel from browser to server — multipart encoding, the upload pipeline, common pitfalls, and how to evaluate upload libraries.',
     category: 'frontend',
+    dateCreated: '2026-02-26',
+    dateModified: '2026-02-26',
     singlePage: true,
     sections: MULTIPART_GUIDE_SECTIONS,
   },

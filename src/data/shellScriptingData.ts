@@ -67,6 +67,8 @@ export const SHELL_SCRIPTING_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'shell-start',
     description: 'Master shell scripting patterns that make AI agents faster, safer, and more reliable.',
     category: 'ai-tooling',
+    dateCreated: '2026-02-25',
+    dateModified: '2026-02-26',
     sections: SHELL_SCRIPTING_GUIDE_SECTIONS,
   },
   startPageData: SHELL_SCRIPTING_START_PAGE_DATA,

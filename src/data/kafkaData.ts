@@ -284,6 +284,8 @@ export const KAFKA_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'kafka-start',
     description: 'An interactive guide to distributed event streaming \u2014 from first principles to production patterns.',
     category: 'infrastructure',
+    dateCreated: '2026-02-26',
+    dateModified: '2026-02-26',
     sections: KAFKA_GUIDE_SECTIONS,
   },
   startPageData: KAFKA_START_PAGE_DATA,

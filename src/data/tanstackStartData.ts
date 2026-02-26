@@ -665,6 +665,8 @@ export const TSS_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'tss-start',
     description: 'Full-stack React with TanStack Start \u2014 SSR, streaming, server functions, and type-safe middleware on Vite and Nitro.',
     category: 'frontend',
+    dateCreated: '2026-02-26',
+    dateModified: '2026-02-26',
     sections: TSS_GUIDE_SECTIONS,
   },
   startPageData: TSS_START_PAGE_DATA,

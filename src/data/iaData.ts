@@ -368,6 +368,8 @@ export const IA_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'ia-start',
     description: 'The art of organizing information so people and AI agents can find what they need and understand where they are.',
     category: 'fundamentals',
+    dateCreated: '2026-02-24',
+    dateModified: '2026-02-26',
     sections: IA_GUIDE_SECTIONS,
   },
   startPageData: IA_START_PAGE_DATA,

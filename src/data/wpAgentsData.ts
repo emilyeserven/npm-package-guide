@@ -12,6 +12,8 @@ export const WP_AGENTS_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'wp-agents-guide',
     description: 'Generate TypeScript interfaces and test mocks from your WordPress REST API schema using Claude Code Web.',
     category: 'ai-tooling',
+    dateCreated: '2026-02-16',
+    dateModified: '2026-02-26',
     singlePage: true,
     sections: WP_AGENTS_GUIDE_SECTIONS,
   },

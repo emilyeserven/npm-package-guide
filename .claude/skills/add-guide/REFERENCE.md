@@ -62,6 +62,10 @@ Populate `*_START_PAGE_DATA`:
 
 The start page MDX (`<GuideStartContent guideId="..." />`) auto-renders: learning path, Resources tiles (External Resources, Glossary, Checklist). Do **not** add manual Resources steps.
 
+### Guide dates
+
+Every guide manifest includes `dateCreated` and `dateModified` (ISO `YYYY-MM-DD` strings). The scaffold auto-generates both with today's date. These are displayed on the home page tiles and enable date-based sorting (Newest First, Oldest First, Recently Updated, Least Recently Updated). Update `dateModified` when making significant content changes to an existing guide.
+
 ### Directory threshold
 
 Use a `<guide>Data/` directory with `index.ts` re-exports only when the file exceeds ~500 lines.

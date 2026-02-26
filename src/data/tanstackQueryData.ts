@@ -654,6 +654,8 @@ export const TSQ_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'tsq-start',
     description: 'Server state management with TanStack Query \u2014 caching, deduplication, and the async data layer React is missing.',
     category: 'frontend',
+    dateCreated: '2026-02-18',
+    dateModified: '2026-02-26',
     sections: TSQ_GUIDE_SECTIONS,
   },
   startPageData: TSQ_START_PAGE_DATA,

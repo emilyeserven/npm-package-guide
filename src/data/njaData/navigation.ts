@@ -110,6 +110,8 @@ export const NJA_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'nja-start',
     description: 'The backend & middleware concepts that Next.js abstracts away \u2014 and how to handle them yourself when separating frontend from backend.',
     category: 'frontend',
+    dateCreated: '2026-02-16',
+    dateModified: '2026-02-26',
     sections: NJA_GUIDE_SECTIONS,
   },
   startPageData: NJA_START_PAGE_DATA,

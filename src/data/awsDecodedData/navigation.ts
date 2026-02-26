@@ -85,6 +85,8 @@ export const AWS_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'aws-start',
     description: 'Every AWS service explained like you\u2019re a frontend engineer who just learned what a server is \u2014 62 services, 11 categories, zero buzzwords.',
     category: 'infrastructure',
+    dateCreated: '2026-02-18',
+    dateModified: '2026-02-26',
     sections: AWS_GUIDE_SECTIONS,
   },
   startPageData: AWS_START_PAGE_DATA,

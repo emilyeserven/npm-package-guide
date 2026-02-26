@@ -178,6 +178,8 @@ export const PROMPT_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'prompt-start',
     description: 'Practical patterns for working with AI coding assistants \u2014 common mistakes to watch for, context management techniques, and CLI commands.',
     category: 'ai-tooling',
+    dateCreated: '2026-02-16',
+    dateModified: '2026-02-26',
     sections: PROMPT_GUIDE_SECTIONS,
   },
   startPageData: PROMPT_START_PAGE_DATA,

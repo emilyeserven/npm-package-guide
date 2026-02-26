@@ -369,6 +369,8 @@ export const TESTING_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'test-start',
     description: 'Learn frontend testing fundamentals \u2014 the testing pyramid, best practices, and how to choose the right tools for unit, component, and E2E tests.',
     category: 'fundamentals',
+    dateCreated: '2026-02-16',
+    dateModified: '2026-02-26',
     sections: TESTING_GUIDE_SECTIONS,
   },
   startPageData: TESTING_START_PAGE_DATA,

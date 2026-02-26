@@ -55,6 +55,8 @@ export const NPM_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'roadmap',
     description: 'Learn the differences between building a web app and an npm package, from project setup through CI/CD and publishing.',
     category: 'fundamentals',
+    dateCreated: '2026-02-16',
+    dateModified: '2026-02-26',
     sections: NPM_GUIDE_SECTIONS,
   },
   startPageData: NPM_START_PAGE_DATA,

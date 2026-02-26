@@ -22,6 +22,8 @@ export interface GuideDefinition {
   sections: GuideSection[]
   singlePage?: boolean
   category: GuideCategory
+  dateCreated: string
+  dateModified: string
 }
 
 // ── Start page data types ────────────────────────────────────────────

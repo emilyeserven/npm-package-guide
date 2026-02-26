@@ -482,6 +482,8 @@ export const CMD_GUIDE_MANIFEST: GuideManifest = {
     startPageId: 'cmd-start',
     description: 'How to write, structure, and maintain CLAUDE.md files \u2014 file hierarchy, writing principles, anti-patterns, and a self-review checklist.',
     category: 'ai-tooling',
+    dateCreated: '2026-02-24',
+    dateModified: '2026-02-26',
     sections: CMD_GUIDE_SECTIONS,
   },
   startPageData: CMD_START_PAGE_DATA,

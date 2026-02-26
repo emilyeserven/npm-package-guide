@@ -8,7 +8,7 @@ Educational single-page application (SPA) with multiple guides for backend engin
 
 Multiple independent guides plus top-level resource pages. Guide metadata is co-located in each guide's data file as a `*_GUIDE_MANIFEST` export (auto-discovered by `src/data/guideRegistry.ts` via `import.meta.glob`). Each guide has its own `CLAUDE.md` in its content directory with guide-specific audience, conventions, and component usage.
 
-Guide IDs match content directory names — run `ls src/content/` to discover all guides. Full metadata (titles, start pages, sections) is in each guide's `*_GUIDE_MANIFEST`. Guides are multi-page by default; those with `singlePage: true` in their manifest are single-page.
+Guide IDs match content directory names — run `ls src/content/` to discover all guides. Full metadata (titles, start pages, sections, dates) is in each guide's `*_GUIDE_MANIFEST`. Guides are multi-page by default; those with `singlePage: true` in their manifest are single-page. Every guide has `dateCreated` and `dateModified` (ISO `YYYY-MM-DD` strings) — displayed on home page tiles and used for date-based sorting.
 
 Every guide follows the same file layout:
 - **Data:** `src/data/<guideId>Data.ts` (or `src/data/<guideId>Data/` directory)
@@ -71,7 +71,7 @@ React 19 · TanStack Router (hash-based) · TanStack Table · Zustand · TypeScr
 
 ## Adding a New Guide
 
-Use the `/add-guide` skill, which runs `pnpm scaffold-guide`. The scaffolded data file includes a `*_GUIDE_MANIFEST` export — auto-discovered by `guideRegistry.ts`. No manual registration in `guideRegistry.ts` or `mdx/index.ts` is needed.
+Use the `/add-guide` skill, which runs `pnpm scaffold-guide`. The scaffolded data file includes a `*_GUIDE_MANIFEST` export — auto-discovered by `guideRegistry.ts`. No manual registration in `guideRegistry.ts` or `mdx/index.ts` is needed. `dateCreated` and `dateModified` are auto-set to the scaffold date; update `dateModified` when making significant content changes to an existing guide.
 
 For component discovery, use the `/find-component` skill.
 
