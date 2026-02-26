@@ -1,0 +1,48 @@
+---
+id: "redis-overview"
+title: "What is Redis 🔴"
+guide: "redis"
+group: "Fundamentals"
+linkRefs:
+  - id: "redis-docs"
+    note: "Official Redis documentation"
+  - id: "redis-commands-ref"
+    note: "Complete Redis commands reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what-is">What is Redis?</TocLink>
+  <TocLink id="toc-speed">How fast is it?</TocLink>
+  <TocLink id="toc-try-it">Try it yourself</TocLink>
+  <TocLink id="toc-takeaways">Key takeaways</TocLink>
+</Toc>
+
+<SectionIntro>
+Redis is an in-memory data store that keeps its entire dataset in RAM. This makes it extraordinarily fast — sub-millisecond response times for most operations. It started as a simple key-value cache, but has evolved into a full-featured data structure server.
+</SectionIntro>
+
+<SectionSubheading id="toc-what-is">What is Redis?</SectionSubheading>
+
+Think of Redis as the layer that sits between your application and your database. Instead of hitting PostgreSQL every time someone loads a page, you check Redis first. If the data is there (a "cache hit"), you return it instantly. If not (a "cache miss"), you query the database, store the result in Redis for next time, and return it.
+
+But caching is just the beginning. Redis is also used for session management, rate limiting, real-time leaderboards, pub/sub messaging, job queues, and more. It's one of those tools that shows up in virtually every production stack.
+
+<SectionSubheading id="toc-speed">How fast is it, really?</SectionSubheading>
+
+<SpeedComparison />
+
+<SectionSubheading id="toc-try-it">Try it yourself</SectionSubheading>
+
+This is a simulated Redis terminal. Try `SET name "Emily"` then `GET name`. Type `HELP` for available commands.
+
+<RedisTerminal />
+
+<SectionSubheading id="toc-takeaways">Key takeaways</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="In-Memory">All data lives in RAM — that's why it's fast</DefRow>
+  <DefRow term="Single-Threaded">One thread, no locks, every operation is atomic</DefRow>
+  <DefRow term="Data Structures">Not just key-value — lists, sets, sorted sets, streams</DefRow>
+</DefinitionTable>

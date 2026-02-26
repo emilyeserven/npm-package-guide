@@ -1,0 +1,36 @@
+---
+id: "redis-commands"
+title: "Commands ⌨️"
+guide: "redis"
+group: "Working with Redis"
+linkRefs:
+  - id: "redis-commands-ref"
+    note: "Complete Redis commands reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-essentials">Essential commands</TocLink>
+  <TocLink id="toc-practice">Practice</TocLink>
+</Toc>
+
+<SectionIntro>
+Redis has hundreds of commands, but you'll use about 20 of them 90% of the time. Here are the essentials, grouped by data type.
+</SectionIntro>
+
+<SectionSubheading id="toc-essentials">Essential commands</SectionSubheading>
+
+Select a category to explore the most common commands for each data type.
+
+<RedisCommandReference />
+
+<Gotcha>
+Avoid using `KEYS` in production. It scans every key in the database and blocks the server (single-threaded!) until complete. Use `SCAN` for key iteration instead.
+</Gotcha>
+
+<SectionSubheading id="toc-practice">Practice</SectionSubheading>
+
+Try the commands above in this simulated terminal.
+
+<RedisTerminal />
