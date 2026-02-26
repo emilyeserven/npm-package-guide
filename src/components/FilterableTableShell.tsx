@@ -23,6 +23,8 @@ interface FilterableTableShellProps {
   resultCount: number
   totalCount: number
   countLabel: string
+  /** Prefix for data-testid attributes (e.g. "resources" → "resources-search") */
+  testId?: string
   /** Pass the DataTable as children */
   children: ReactNode
 }
@@ -39,6 +41,7 @@ export function FilterableTableShell({
   resultCount,
   totalCount,
   countLabel,
+  testId,
   children,
 }: FilterableTableShellProps) {
   const effectivelyPinned = useUIStore((s) => s.pinned && s.isDesktop)
@@ -59,12 +62,14 @@ export function FilterableTableShell({
             aria-label={searchPlaceholder}
             value={globalFilter}
             onChange={e => onFilterChange(e.target.value)}
+            {...(testId ? { 'data-testid': `${testId}-search` } : {})}
           />
           {globalFilter && (
             <button
               className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center bg-transparent border-none text-gray-400 dark:text-slate-500 cursor-pointer text-sm hover:text-slate-600 dark:hover:text-slate-300"
               onClick={() => onFilterChange('')}
               aria-label="Clear search"
+              {...(testId ? { 'data-testid': `${testId}-search-clear` } : {})}
             >
               &#x2715;
             </button>
@@ -105,6 +110,7 @@ export function FilterableTableShell({
             !hasActiveFilters && "invisible"
           )}
           onClick={clearFilters}
+          {...(testId ? { 'data-testid': `${testId}-clear-filters` } : {})}
         >
           Clear filters
         </button>
@@ -112,7 +118,7 @@ export function FilterableTableShell({
 
       {/* Results count + wide toggle */}
       <div className="flex items-center justify-between mb-2.5">
-        <div className="text-xs text-gray-400 dark:text-slate-500 font-medium" aria-live="polite" aria-atomic="true">
+        <div className="text-xs text-gray-400 dark:text-slate-500 font-medium" aria-live="polite" aria-atomic="true" {...(testId ? { 'data-testid': `${testId}-count` } : {})}>
           {resultCount} of {totalCount} {countLabel}
         </div>
         {!effectivelyPinned && (

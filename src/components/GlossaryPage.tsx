@@ -280,6 +280,7 @@ export function GlossaryPage({ initialGuide, initialSearch }: GlossaryPageProps)
       resultCount={table.getRowModel().rows.length}
       totalCount={flatData.length}
       countLabel="terms"
+      testId="glossary"
     >
       <DataTable table={table} columnCount={3} emptyMessage="No terms match your search." />
     </FilterableTableShell>
