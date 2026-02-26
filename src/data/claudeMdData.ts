@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 import type { ChecklistBaseSection } from '../components/mdx/ChecklistBase'
 
 // ── Types ────────────────────────────────────────────────────────────
@@ -472,4 +472,17 @@ export const CMD_START_PAGE_DATA: StartPageData = {
     },
   ],
   relatedGuides: ['prompt-engineering', 'claude-skills'],
+}
+
+export const CMD_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'claude-md',
+    icon: '📋',
+    title: 'Writing Effective CLAUDE.md Files',
+    startPageId: 'cmd-start',
+    description: 'How to write, structure, and maintain CLAUDE.md files \u2014 file hierarchy, writing principles, anti-patterns, and a self-review checklist.',
+    category: 'ai-tooling',
+    sections: CMD_GUIDE_SECTIONS,
+  },
+  startPageData: CMD_START_PAGE_DATA,
 }

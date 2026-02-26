@@ -1,5 +1,5 @@
 import type { ChecklistSection } from './types'
-import type { GuideSection, StartPageData } from '../guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from '../guideTypes'
 import { META_TOOLS } from './techniques'
 
 export const CLAUDEMD_CHECKLIST: ChecklistSection[] = [
@@ -169,3 +169,16 @@ export const PROMPT_START_PAGE_DATA: StartPageData = {
   ],
 }
 
+
+export const PROMPT_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'prompt-engineering',
+    icon: '🧠',
+    title: 'Prompt Engineering',
+    startPageId: 'prompt-start',
+    description: 'Practical patterns for working with AI coding assistants \u2014 common mistakes to watch for, context management techniques, and CLI commands.',
+    category: 'ai-tooling',
+    sections: PROMPT_GUIDE_SECTIONS,
+  },
+  startPageData: PROMPT_START_PAGE_DATA,
+}

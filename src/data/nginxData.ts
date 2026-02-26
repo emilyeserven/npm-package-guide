@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 // ── Types ───────────────────────────────────────────────────────────
 
@@ -141,4 +141,17 @@ export const NGINX_START_PAGE_DATA: StartPageData = {
     },
   ],
   relatedGuides: ['coolify-deploy', 'kubernetes'],
+}
+
+export const NGINX_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'nginx',
+    icon: '🌐',
+    title: 'Nginx Essentials',
+    startPageId: 'nginx-start',
+    description: 'Nginx from zero to production \u2014 reverse proxy, static files, SSL/TLS, load balancing, security hardening, and Raspberry Pi homelab setups.',
+    category: 'infrastructure',
+    sections: NGINX_GUIDE_SECTIONS,
+  },
+  startPageData: NGINX_START_PAGE_DATA,
 }

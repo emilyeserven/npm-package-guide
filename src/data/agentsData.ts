@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 // ── Types ────────────────────────────────────────────────────────────
 
@@ -553,4 +553,17 @@ export const AGENTS_START_PAGE_DATA: StartPageData = {
     },
   ],
   relatedGuides: ['claude-skills', 'prompt-engineering', 'claude-md'],
+}
+
+export const AGENTS_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'claude-agents',
+    icon: '\uD83D\uDD75\uFE0F',
+    title: 'Claude Agents Guide',
+    startPageId: 'agents-start',
+    description: 'Skills, Agents, Subagents & the Claude Agent SDK \u2014 understand the full agent ecosystem and when to use each approach.',
+    category: 'ai-tooling',
+    sections: AGENTS_GUIDE_SECTIONS,
+  },
+  startPageData: AGENTS_START_PAGE_DATA,
 }

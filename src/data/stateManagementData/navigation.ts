@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from '../guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from '../guideTypes'
 
 export const SM_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['sm-start'] },
@@ -44,4 +44,17 @@ export const SM_START_PAGE_DATA: StartPageData = {
       },
     },
   ],
+}
+
+export const SM_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'state-management',
+    icon: '⚡',
+    title: 'React State Management',
+    startPageId: 'sm-start',
+    description: 'Context vs Zustand vs Redux \u2014 deep dives, side-by-side comparison, and how React Query changes everything.',
+    category: 'frontend',
+    sections: SM_GUIDE_SECTIONS,
+  },
+  startPageData: SM_START_PAGE_DATA,
 }

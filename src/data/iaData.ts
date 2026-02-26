@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 // ── Guide sections ──────────────────────────────────────────────────
 
@@ -359,3 +359,16 @@ export const IA_AI_PRINCIPLES: IaAiPrinciple[] = [
     example: 'MDX frontmatter (id, title, guide) makes each page self-describing without external lookup.',
   },
 ]
+
+export const IA_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'info-architecture',
+    icon: '🗺️',
+    title: 'Information Architecture',
+    startPageId: 'ia-start',
+    description: 'The art of organizing information so people and AI agents can find what they need and understand where they are.',
+    category: 'fundamentals',
+    sections: IA_GUIDE_SECTIONS,
+  },
+  startPageData: IA_START_PAGE_DATA,
+}

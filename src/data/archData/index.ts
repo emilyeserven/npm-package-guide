@@ -1,5 +1,5 @@
 export type { StackComponent, FrameworkCapability, DataFlowItem } from './types'
 export { LAYER_COLORS, DATA_FLOW, STACK_PAGES } from './stacks'
 export { FRAMEWORK_PAGES } from './frameworks'
-export { ARCH_GUIDE_SECTIONS, ARCH_START_PAGE_DATA } from './navigation'
+export { ARCH_GUIDE_SECTIONS, ARCH_START_PAGE_DATA , ARCH_GUIDE_MANIFEST } from './navigation'
 export { ARCH_CHECKLIST } from './checklist'

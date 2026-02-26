@@ -6,9 +6,9 @@ Educational single-page application (SPA) with multiple guides for backend engin
 
 ## Guides
 
-Multiple independent guides plus top-level resource pages. All metadata centralized in `src/data/guideRegistry.ts`. Each guide has its own `CLAUDE.md` in its content directory with guide-specific audience, conventions, and component usage.
+Multiple independent guides plus top-level resource pages. Guide metadata is co-located in each guide's data file as a `*_GUIDE_MANIFEST` export (auto-discovered by `src/data/guideRegistry.ts` via `import.meta.glob`). Each guide has its own `CLAUDE.md` in its content directory with guide-specific audience, conventions, and component usage.
 
-Guide IDs match content directory names — run `ls src/content/` to discover all guides. Full metadata (titles, start pages, sections) is in `guideRegistry.ts`. Guides are multi-page by default; those with `singlePage: true` in the registry are single-page.
+Guide IDs match content directory names — run `ls src/content/` to discover all guides. Full metadata (titles, start pages, sections) is in each guide's `*_GUIDE_MANIFEST`. Guides are multi-page by default; those with `singlePage: true` in their manifest are single-page.
 
 Every guide follows the same file layout:
 - **Data:** `src/data/<guideId>Data.ts` (or `src/data/<guideId>Data/` directory)
@@ -42,10 +42,10 @@ React 19 · TanStack Router (hash-based) · TanStack Table · Zustand · TypeScr
 
 ## Project Structure
 
-- `src/components/` — Shared React components; `src/components/mdx/` has MDX-available components (register in `index.ts`)
+- `src/components/` — Shared React components; `src/components/mdx/` has MDX-available components (auto-discovered from guide barrel files)
 - `src/content/<guide-id>/` — MDX pages, auto-discovered by `src/content/registry.ts`
 - `src/data/` — TypeScript data objects; `linkRegistry/` and `glossaryTerms/` split by guide
-- `src/data/guideRegistry.ts` — Central guide registry (metadata, sections, lookup helpers)
+- `src/data/guideRegistry.ts` — Central guide registry (auto-discovers `*_GUIDE_MANIFEST` exports, provides lookup helpers)
 - `src/helpers/` — Utilities (`cmd.ts`, `fnRef.ts`, `darkStyle.ts`, `themeColors.ts`)
 - `src/hooks/` — Zustand stores and hooks (`useTheme.tsx`, `usePMContext.tsx`, `useUIStore.ts`)
 
@@ -66,10 +66,14 @@ React 19 · TanStack Router (hash-based) · TanStack Table · Zustand · TypeScr
 
 1. Create `src/content/<guide-id>/<page-id>.mdx` with frontmatter: `id`, `title` (emoji suffix), `guide`.
 2. Add the page ID to the guide's `*_GUIDE_SECTIONS` in its data file.
-3. Register any new components in `src/components/mdx/index.ts`. Use `/find-component` before creating new components to check for shared bases.
+3. Add new components to `src/components/mdx/<guide-id>/` and export them from the directory's `index.ts` barrel file (auto-discovered — no need to edit `src/components/mdx/index.ts`). Use `/find-component` before creating new components to check for shared bases.
 4. Add link entries to `src/data/linkRegistry/<guideId>Links.ts` as needed.
 
-For full guide creation, use the `/add-guide` skill. For component discovery, use the `/find-component` skill.
+## Adding a New Guide
+
+Use the `/add-guide` skill, which runs `pnpm scaffold-guide`. The scaffolded data file includes a `*_GUIDE_MANIFEST` export — auto-discovered by `guideRegistry.ts`. No manual registration in `guideRegistry.ts` or `mdx/index.ts` is needed.
+
+For component discovery, use the `/find-component` skill.
 
 ## Pre-Push Checklist
 

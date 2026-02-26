@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from '../guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from '../guideTypes'
 
 export const NJA_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['nja-start'] },
@@ -100,4 +100,17 @@ export const NJA_START_PAGE_DATA: StartPageData = {
       ],
     },
   ],
+}
+
+export const NJA_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'nextjs-abstractions',
+    icon: '🧱',
+    title: 'Next.js Abstractions',
+    startPageId: 'nja-start',
+    description: 'The backend & middleware concepts that Next.js abstracts away \u2014 and how to handle them yourself when separating frontend from backend.',
+    category: 'frontend',
+    sections: NJA_GUIDE_SECTIONS,
+  },
+  startPageData: NJA_START_PAGE_DATA,
 }

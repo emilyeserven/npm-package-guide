@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 import type { YamlLine, ConceptItem } from './sharedDataTypes'
 
 // ── Types ─────────────────────────────────────────────────────────────
@@ -672,4 +672,17 @@ export const K8S_START_PAGE_DATA: StartPageData = {
       },
     },
   ],
+}
+
+export const K8S_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'kubernetes',
+    icon: '☸️',
+    title: 'Kubernetes & Helm',
+    startPageId: 'k8s-start',
+    description: 'Understand containers, Kubernetes, and Helm \u2014 from Docker basics to deployment pipelines, with analogies for frontend engineers.',
+    category: 'infrastructure',
+    sections: K8S_GUIDE_SECTIONS,
+  },
+  startPageData: K8S_START_PAGE_DATA,
 }

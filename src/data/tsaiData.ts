@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 // ── Guide sections (sidebar & navigation) ─────────────────────────
 export const TSAI_GUIDE_SECTIONS: GuideSection[] = [
@@ -557,3 +557,16 @@ export const TSAI_INSTALL_EXAMPLES = [
   { label: 'With Anthropic', cmd: 'npm install @tanstack/ai @tanstack/ai-react @tanstack/ai-anthropic' },
   { label: 'Multi-provider', cmd: 'npm install @tanstack/ai @tanstack/ai-react @tanstack/ai-openai @tanstack/ai-anthropic @tanstack/ai-gemini' },
 ]
+
+export const TSAI_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'tanstack-ai',
+    icon: '✨',
+    title: 'TanStack AI',
+    startPageId: 'tsai-start',
+    description: 'Build type-safe, provider-agnostic AI experiences with TanStack AI \u2014 streaming, isomorphic tools, and tool approval flows.',
+    category: 'frontend',
+    sections: TSAI_GUIDE_SECTIONS,
+  },
+  startPageData: TSAI_START_PAGE_DATA,
+}

@@ -1,4 +1,4 @@
-import type { GuideSection, StartPageData } from './guideTypes'
+import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
 
 export const SHELL_SCRIPTING_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['shell-start'] },
@@ -57,4 +57,17 @@ export const SHELL_SCRIPTING_START_PAGE_DATA: StartPageData = {
       jumpTo: 'agent-scripts',
     },
   ],
+}
+
+export const SHELL_SCRIPTING_GUIDE_MANIFEST: GuideManifest = {
+  def: {
+    id: 'shell-scripting',
+    icon: '🐚',
+    title: 'Shell Scripting for AI Agents',
+    startPageId: 'shell-start',
+    description: 'Master shell scripting patterns that make AI agents faster, safer, and more reliable.',
+    category: 'ai-tooling',
+    sections: SHELL_SCRIPTING_GUIDE_SECTIONS,
+  },
+  startPageData: SHELL_SCRIPTING_START_PAGE_DATA,
 }
