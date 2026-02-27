@@ -1,0 +1,47 @@
+---
+id: "ws-why"
+title: "Why WebSockets? ⚡"
+guide: "websockets"
+group: "Fundamentals"
+linkRefs:
+  - id: "mdn-websocket-api"
+    note: "MDN WebSocket API reference"
+  - id: "rfc-6455"
+    note: "The WebSocket Protocol specification"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-problem">The request-response problem</TocLink>
+  <TocLink id="toc-workarounds">The old workarounds</TocLink>
+  <TocLink id="toc-comparison">HTTP Polling vs WebSocket</TocLink>
+</Toc>
+
+<SectionIntro>
+HTTP follows a **request-response** pattern: the client asks, the server answers, and the connection closes. This works beautifully for fetching pages and submitting forms, but breaks down when you need the server to *push* data to the client the moment something happens.
+</SectionIntro>
+
+<SectionSubheading id="toc-problem">The request-response problem</SectionSubheading>
+
+Think of a chat app, a stock ticker, a multiplayer game, or a collaborative editor. In each case, the server has new data and needs to deliver it **immediately** — without waiting for the client to ask first.
+
+The fundamental issue is that HTTP was designed for document retrieval, not real-time communication. Every interaction requires the client to initiate contact. The server can never "call you back."
+
+<SectionSubheading id="toc-workarounds">The old workarounds</SectionSubheading>
+
+Before WebSockets, developers hacked together solutions — all with serious trade-offs:
+
+<SectionList>
+  <ColItem>**Short polling** — the client sends requests every N seconds asking "anything new?" Most return empty. Wastes bandwidth and adds latency.</ColItem>
+  <ColItem>**Long polling** — the client sends a request and the server holds it open until there's data. Better latency, but still creates a new connection for every message.</ColItem>
+  <ColItem>**Server-Sent Events (SSE)** — the server pushes data over a long-lived HTTP connection. One-directional only (server to client), but good for notification feeds.</ColItem>
+</SectionList>
+
+<Explainer>
+WebSockets solve all of these limitations by establishing a single persistent, full-duplex connection. Either side can send data at any time with minimal overhead — just 2 bytes of framing per message instead of hundreds of bytes of HTTP headers.
+</Explainer>
+
+<SectionSubheading id="toc-comparison">{'\u{1f504}'} HTTP Polling vs WebSocket</SectionSubheading>
+
+<WsPollingComparison />

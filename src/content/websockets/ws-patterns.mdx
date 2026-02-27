@@ -1,0 +1,99 @@
+---
+id: "ws-patterns"
+title: "Reconnection & Heartbeats 💓"
+guide: "websockets"
+group: "Production"
+linkRefs:
+  - id: "ws-npm"
+    note: "ws — the most popular Node.js WebSocket library"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-reconnection">Exponential backoff reconnection</TocLink>
+  <TocLink id="toc-heartbeat">Application-level heartbeats</TocLink>
+  <TocLink id="toc-viz">Heartbeat visualization</TocLink>
+</Toc>
+
+<SectionIntro>
+Real-world WebSocket connections *will* drop — phones lose signal, laptops sleep, servers redeploy. Production code needs automatic reconnection with exponential backoff, and heartbeats to detect dead connections early.
+</SectionIntro>
+
+<SectionSubheading id="toc-reconnection">{'\u{1f504}'} Exponential backoff reconnection</SectionSubheading>
+
+<CodeAccordion title="Reconnecting WebSocket with backoff and jitter" language="typescript">
+{`function createReconnectingSocket(url: string) {
+  let ws: WebSocket | null = null;
+  let retries = 0;
+  const MAX_RETRIES = 10;
+  const BASE_DELAY = 1000; // 1 second
+
+  function connect() {
+    ws = new WebSocket(url);
+
+    ws.addEventListener('open', () => {
+      retries = 0; // Reset on successful connect
+      startHeartbeat();
+    });
+
+    ws.addEventListener('close', (e) => {
+      if (e.code !== 1000 && retries < MAX_RETRIES) {
+        const delay = Math.min(
+          BASE_DELAY * 2 ** retries,
+          30000 // cap at 30 seconds
+        );
+        // Add jitter to prevent thundering herd
+        const jitter = delay * (0.5 + Math.random() * 0.5);
+        setTimeout(connect, jitter);
+        retries++;
+      }
+    });
+  }
+
+  connect();
+  return { getSocket: () => ws };
+}`}
+</CodeAccordion>
+
+<Explainer>
+**Jitter** is critical. Without it, if your server restarts and 10,000 clients all reconnect at the same time with the same backoff schedule, they'll create a "thundering herd" that overwhelms the server again. Adding randomness spreads the reconnection attempts over time.
+</Explainer>
+
+<SectionSubheading id="toc-heartbeat">{'\u{1f493}'} Application-level heartbeats</SectionSubheading>
+
+<CodeAccordion title="Ping/pong heartbeat implementation" language="typescript">
+{`// The browser handles protocol-level ping/pong automatically.
+// But you often need application-level heartbeats too,
+// because some proxies/firewalls kill idle connections.
+
+let heartbeatTimer: ReturnType<typeof setInterval>;
+let missedPongs = 0;
+
+function startHeartbeat() {
+  heartbeatTimer = setInterval(() => {
+    if (missedPongs >= 2) {
+      ws.close(4000, 'Heartbeat timeout');
+      return;
+    }
+    ws.send(JSON.stringify({ type: 'ping' }));
+    missedPongs++;
+  }, 30000); // every 30 seconds
+}
+
+// Reset counter when server responds
+ws.addEventListener('message', (e) => {
+  const msg = JSON.parse(e.data);
+  if (msg.type === 'pong') missedPongs = 0;
+});`}
+</CodeAccordion>
+
+<SectionNote>
+The WebSocket protocol has its own ping/pong frames (opcodes `0x9` and `0xA`), but the browser JavaScript API doesn't expose them. That's why production apps implement application-level ping/pong as JSON messages — it gives you control over the heartbeat interval and timeout behavior.
+</SectionNote>
+
+<SectionSubheading id="toc-viz">{'\u{1f3d3}'} Heartbeat visualization</SectionSubheading>
+
+Watch ping and pong messages bounce between client and server:
+
+<WsHeartbeatViz />

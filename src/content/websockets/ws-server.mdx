@@ -1,0 +1,95 @@
+---
+id: "ws-server"
+title: "Building a Server 🏗️"
+guide: "websockets"
+group: "Production"
+linkRefs:
+  - id: "ws-npm"
+    note: "ws — lightweight WebSocket server for Node.js"
+  - id: "socketio-docs"
+    note: "Socket.IO documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-echo">Echo server with ws</TocLink>
+  <TocLink id="toc-setup">Project setup</TocLink>
+  <TocLink id="toc-libraries">Library choices</TocLink>
+</Toc>
+
+<SectionIntro>
+The `ws` library is the most popular WebSocket server for Node.js — lightweight, fast, and spec-compliant. Here's a minimal but production-aware echo server.
+</SectionIntro>
+
+<SectionSubheading id="toc-echo">{'\u{1f4e1}'} Echo server with ws</SectionSubheading>
+
+<CodeAccordion title="WebSocket echo server — server.ts" language="typescript">
+{`import { WebSocketServer, WebSocket } from 'ws';
+
+const wss = new WebSocketServer({ port: 8080 });
+
+wss.on('connection', (ws, req) => {
+  const ip = req.socket.remoteAddress;
+  console.log(\`New client: \${ip}\`);
+
+  ws.on('message', (data, isBinary) => {
+    const msg = isBinary ? data : data.toString();
+
+    // Handle application-level ping
+    try {
+      const parsed = JSON.parse(msg as string);
+      if (parsed.type === 'ping') {
+        ws.send(JSON.stringify({ type: 'pong' }));
+        return;
+      }
+    } catch {} // Not JSON, that's fine
+
+    // Echo to all connected clients
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(msg, { binary: isBinary });
+      }
+    });
+  });
+
+  ws.on('close', () => {
+    console.log(\`Client disconnected: \${ip}\`);
+  });
+
+  // Send welcome message
+  ws.send(JSON.stringify({
+    type: 'system',
+    text: 'Welcome! You are connected.'
+  }));
+});
+
+console.log('WebSocket server running on ws://localhost:8080');`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-setup">{'\u{1f6e0}\ufe0f'} Project setup</SectionSubheading>
+
+<Explainer>
+Run `npm init -y && npm install ws && npm install -D @types/ws tsx`, then execute with `npx tsx server.ts`. For production, compile with `tsc` and run the output JavaScript directly.
+</Explainer>
+
+The key patterns in the server code above:
+
+<SectionList>
+  <ColItem>**Connection event** gives you the raw HTTP request (`req`) for reading headers, cookies, or IP addresses.</ColItem>
+  <ColItem>**Binary handling** — check `isBinary` to determine whether to treat the data as a Buffer or convert to a string.</ColItem>
+  <ColItem>**Broadcasting** — iterate over `wss.clients` to send to all connected clients. Check `readyState === WebSocket.OPEN` first.</ColItem>
+  <ColItem>**Application-level ping/pong** — parse JSON messages and respond to `{"type":"ping"}` with `{"type":"pong"}`.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-libraries">{'\u{1f4da}'} Library choices</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="ws">Lightweight, spec-compliant, fast. The standard choice for Node.js WebSocket servers. No extras — you build your own abstractions.</DefRow>
+  <DefRow term="Socket.IO">Adds rooms, namespaces, auto-reconnection, and HTTP long-polling fallback. Heavier, but reduces boilerplate for real-time apps. Requires a Socket.IO client (not a plain WebSocket).</DefRow>
+  <DefRow term="uWebSockets.js">Extreme performance (written in C++). Use when you need to handle tens of thousands of concurrent connections on a single server.</DefRow>
+</DefinitionTable>
+
+<Gotcha>
+Socket.IO is **not** a WebSocket library — it's a real-time framework that *uses* WebSockets as one of its transports. A plain `new WebSocket()` in the browser cannot connect to a Socket.IO server. If you want standard WebSocket compatibility, use `ws`.
+</Gotcha>

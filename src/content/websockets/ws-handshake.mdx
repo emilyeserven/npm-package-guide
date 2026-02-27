@@ -1,0 +1,39 @@
+---
+id: "ws-handshake"
+title: "The Opening Handshake 🤝"
+guide: "websockets"
+group: "Fundamentals"
+linkRefs:
+  - id: "rfc-6455"
+    note: "RFC 6455 — The WebSocket Protocol"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-upgrade">The HTTP upgrade</TocLink>
+  <TocLink id="toc-demo">Interactive handshake</TocLink>
+  <TocLink id="toc-key">The Sec-WebSocket-Key</TocLink>
+</Toc>
+
+<SectionIntro>
+WebSockets don't invent a new protocol from scratch. Instead, they **upgrade** an existing HTTP connection. This is clever — it means WebSockets work through proxies, load balancers, and firewalls that already understand HTTP.
+</SectionIntro>
+
+<SectionSubheading id="toc-upgrade">The HTTP upgrade</SectionSubheading>
+
+The process is called the **opening handshake**, and it happens entirely over a single HTTP request/response pair. The client sends an `Upgrade: websocket` header, and the server responds with `101 Switching Protocols`. After that, the HTTP connection is "hijacked" — the underlying TCP socket is reused directly for WebSocket frames.
+
+No more HTTP headers, no more request/response. Just raw bidirectional communication.
+
+<SectionSubheading id="toc-demo">{'\u{1f50d}'} Interactive handshake</SectionSubheading>
+
+Click the button below to step through each phase of the opening handshake:
+
+<WsHandshakeDemo />
+
+<SectionSubheading id="toc-key">{'\u{1f511}'} The Sec-WebSocket-Key</SectionSubheading>
+
+<SectionNote>
+The `Sec-WebSocket-Key` is a random Base64 value the client sends. The server concatenates it with a magic GUID (`258EAFA5-E914-47DA-95CA-C5AB0DC85B11`), hashes the result with SHA-1, and sends back the Base64 of that hash as `Sec-WebSocket-Accept`. This proves the server actually understands WebSocket — it's **not** a security mechanism.
+</SectionNote>
