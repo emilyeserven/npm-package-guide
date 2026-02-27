@@ -1,5 +1,4 @@
-import type { GuideSection, StartPageData, GuideManifest } from './guideTypes'
-import type { ChecklistBaseSection } from '../components/mdx/ChecklistBase'
+import type { GuideSection, StartPageData, GuideManifest, ChecklistManifest, ChecklistBaseSection } from './guideTypes'
 
 // ── Types ────────────────────────────────────────────────────────────
 
@@ -487,4 +486,12 @@ export const CMD_GUIDE_MANIFEST: GuideManifest = {
     sections: CMD_GUIDE_SECTIONS,
   },
   startPageData: CMD_START_PAGE_DATA,
+}
+
+export const CMD_REVIEW_CHECKLIST_MANIFEST: ChecklistManifest = {
+  id: 'cmd-review',
+  pageId: 'cmd-review-checklist',
+  sourceGuideId: 'claude-md',
+  title: 'CLAUDE.md Self-Review',
+  sections: CMD_REVIEW_CHECKLIST,
 }

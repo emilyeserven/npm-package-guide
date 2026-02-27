@@ -20,7 +20,7 @@ Find natural page breaks in the artifact. Each distinct topic or section heading
 
 ### Step 2 — Run scaffold script
 
-Run `pnpm scaffold-guide` with the appropriate flags. See `REFERENCE.md` § "Scaffold command" for all flags, naming conventions, and the list of files created/updated.
+Run `pnpm scaffold-guide` with the appropriate flags. Use `--category` to set the guide's category (defaults to `fundamentals`; valid: `frontend`, `infrastructure`, `security`, `ai-tooling`, `fundamentals`). See `REFERENCE.md` § "Scaffold command" for all flags, naming conventions, and the list of files created/updated.
 
 ### Step 3 — Fill in guide data
 
@@ -32,7 +32,7 @@ If `--pages` was used, MDX stubs already exist with frontmatter pre-filled — f
 
 ### Step 5 — Extract interactive components
 
-Place in `src/components/mdx/<guide-id>/`. Register in `src/components/mdx/index.ts`.
+Place in `src/components/mdx/<guide-id>/` and export from the directory's `index.ts` barrel file (auto-discovered — no need to edit `src/components/mdx/index.ts`).
 
 **Before creating a component**, use the `/find-component` skill to check for shared bases. See `REFERENCE.md` § "Component template" for the full boilerplate with dark mode patterns.
 
@@ -67,7 +67,7 @@ Catches broken link/glossary references, missing emoji suffixes, orphaned pages,
 - Tailwind utility classes over inline styles. Prefer built-in scale (`text-sm`) over arbitrary values (`text-[13px]`).
 - Data in `src/data/`, not inline in MDX or components.
 - Start pages: `<GuideStartContent guideId="..." />` only — never build manually.
-- Guide-specific components go in `src/components/mdx/<guide-id>/`, not at the top level. Always register in `index.ts`.
+- Guide-specific components go in `src/components/mdx/<guide-id>/`, not at the top level. Export from the guide's barrel `index.ts` (auto-discovered).
 - Every MDX `title` must end with an emoji suffix.
 - Interactive components must support dark mode via `useIsDark()` + `ds()`/`tc()`.
 

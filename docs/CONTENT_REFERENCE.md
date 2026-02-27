@@ -4,6 +4,8 @@ Detailed conventions for MDX content, link registry, glossary, and cross-page na
 
 ## MDX Frontmatter
 
+MDX files must be directly in `src/content/<guide-id>/` — nested subdirectories are not supported by the auto-discovery glob.
+
 | Field | Required | Type | Description |
 |-------|----------|------|-------------|
 | `id` | Yes | `string` | Unique page identifier (kebab-case). Must match the guide's `*_GUIDE_SECTIONS` array. |
@@ -80,7 +82,7 @@ All IDs in `linkIds` must exist in the link registry; all IDs in `sectionIds` mu
 1. Ensure the `RegistryLink` exists in `src/data/linkRegistry/`.
 2. Add the term to the appropriate guide file in `src/data/glossaryTerms/`.
 3. Set `sectionId` if the term is explained on a guide page.
-4. Add `guides` if the term spans multiple guides.
+4. Add `guides` if the term spans multiple guides. **Important:** If you set both `sectionId` and `guides`, the guide derived from `sectionId` must be included in the `guides` array (validated at build time). Same rule applies for each entry in `sectionIds`.
 5. Add `linkIds`/`sectionIds` if the term has multiple references.
 6. Run `pnpm validate` to catch broken references.
 

@@ -20,6 +20,7 @@ import type {
   IntegrationScenario,
   IntegrationSectionMeta,
 } from './types'
+import type { ChecklistBaseSection, ChecklistManifest } from '../guideTypes'
 
 /* ───────────────────────── CONCEPT SECTIONS (core + tokens) ───────────────────────── */
 
@@ -1129,3 +1130,33 @@ app.post('/api/auth/login', (req, res) => {
     gotcha: 'The browser DevTools Network and Application tabs are your primary debugging tools for auth issues. Postman bypasses browser security rules entirely, so it\'s not a reliable test.',
   },
 ]
+
+/* ───────────────────────── CHECKLIST MANIFEST ───────────────────────── */
+
+const AUTH_ICONS: Record<string, string> = {
+  Storage: '\uD83D\uDCBE',
+  Tokens: '\uD83C\uDFAB',
+  Architecture: '\uD83C\uDFD7\uFE0F',
+  OAuth: '\uD83D\uDD11',
+  Security: '\uD83D\uDEE1\uFE0F',
+}
+
+function groupByCategory(items: AuthChecklistItem[]): ChecklistBaseSection[] {
+  const categories = [...new Set(items.map(it => it.category))]
+  return categories.map(cat => ({
+    id: cat.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+    name: cat,
+    icon: AUTH_ICONS[cat] ?? '\u2705',
+    items: items.filter(it => it.category === cat).map(it => ({ label: it.text })),
+  }))
+}
+
+export const AUTH_CHECKLIST: ChecklistBaseSection[] = groupByCategory(AUTH_CHECKLIST_ITEMS)
+
+export const AUTH_CHECKLIST_MANIFEST: ChecklistManifest = {
+  id: 'auth',
+  pageId: 'auth-checklist',
+  sourceGuideId: 'auth',
+  title: 'Auth Implementation Checklist',
+  sections: AUTH_CHECKLIST,
+}

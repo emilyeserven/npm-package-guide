@@ -56,6 +56,23 @@ export interface StartPageData {
   relatedGuides?: string[]
 }
 
+// ── Checklist manifest (co-located in each guide's data file) ────────
+
+import type { ChecklistBaseSection } from '../components/mdx/ChecklistBase'
+export type { ChecklistBaseSection }
+
+/**
+ * Each guide data file that has a checklist exports a *_CHECKLIST_MANIFEST.
+ * The guide registry auto-discovers all manifests via import.meta.glob.
+ */
+export interface ChecklistManifest {
+  id: string              // checklist ID used in MDX: <GuideChecklist checklistId="arch" />
+  pageId?: string         // MDX page ID: "arch-checklist" (omit if no checklist page yet)
+  sourceGuideId: string   // guide this checklist belongs to: "architecture"
+  title: string           // display title: "Architecture Checklist"
+  sections: ChecklistBaseSection[]
+}
+
 // ── Guide manifest (co-located in each guide's data file) ───────────
 
 /**

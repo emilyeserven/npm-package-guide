@@ -1,15 +1,15 @@
-import type { GuideSection, GuideDefinition, GuideManifest, StartPageData } from './guideTypes'
+import type { GuideSection, GuideDefinition, GuideManifest, StartPageData, ChecklistManifest } from './guideTypes'
 
 export type { GuideSection, GuideDefinition, StartPageData }
 
-// ── Auto-discover guide manifests ────────────────────────────────────
+// ── Auto-discover guide + checklist manifests ────────────────────────
 //
-// Each guide's data file exports a *_GUIDE_MANIFEST that bundles the
-// full GuideDefinition (including sections) and optional StartPageData.
-// import.meta.glob discovers them — adding a new guide only requires
-// creating a data file with the manifest export. No manual list needed.
+// Each guide's data file exports a *_GUIDE_MANIFEST and optionally a
+// *_CHECKLIST_MANIFEST. import.meta.glob discovers both — adding a new
+// guide or checklist only requires exporting the manifest from the data
+// file. No manual list needed.
 
-type GuideDataModule = { [key: string]: GuideManifest | unknown }
+type GuideDataModule = { [key: string]: GuideManifest | ChecklistManifest | unknown }
 
 const dataModules = import.meta.glob<GuideDataModule>(
   ['./*Data.ts', './*Data/index.ts'],
@@ -26,10 +26,13 @@ function findExport<T>(mod: GuideDataModule, suffix: string): T | undefined {
 
 // Collect all manifests from discovered data modules
 const manifests: GuideManifest[] = []
+const checklistManifests: ChecklistManifest[] = []
 
 for (const mod of Object.values(dataModules)) {
   const manifest = findExport<GuideManifest>(mod, '_GUIDE_MANIFEST')
   if (manifest) manifests.push(manifest)
+  const checklist = findExport<ChecklistManifest>(mod, '_CHECKLIST_MANIFEST')
+  if (checklist) checklistManifests.push(checklist)
 }
 
 // ── Build the guides array ──────────────────────────────────────────
@@ -59,20 +62,19 @@ export const singlePageNavDef: GuideDefinition = {
   dateModified: '2026-02-26',
 }
 
-// ── Checklists (extracted from individual guides) ───────────────────
+// ── Checklists (auto-discovered from *_CHECKLIST_MANIFEST exports) ──
 
-export const checklistPages = [
-  { id: 'checklist', sourceGuideId: 'npm-package' },
-  { id: 'test-review-checklist', sourceGuideId: 'testing' },
-  { id: 'prompt-claudemd-checklist', sourceGuideId: 'prompt-engineering' },
-  { id: 'auth-checklist', sourceGuideId: 'auth' },
-  { id: 'nja-checklist', sourceGuideId: 'nextjs-abstractions' },
-  { id: 'arch-checklist', sourceGuideId: 'architecture' },
-  { id: 'cicd-checklist', sourceGuideId: 'ci-cd' },
-  { id: 'k8s-checklist', sourceGuideId: 'kubernetes' },
-  { id: 'ai-checklist', sourceGuideId: 'ai-infra' },
-  { id: 'cmd-review-checklist', sourceGuideId: 'claude-md' },
-]
+// Sort by pageId for deterministic sidebar ordering regardless of glob order
+checklistManifests.sort((a, b) => (a.pageId ?? a.id).localeCompare(b.pageId ?? b.id))
+
+export const checklistPages = checklistManifests
+  .filter(m => m.pageId)
+  .map(m => ({ id: m.pageId!, sourceGuideId: m.sourceGuideId }))
+
+/** Checklist data lookup for GuideChecklist component */
+export const checklistRegistry = new Map(
+  checklistManifests.map(m => [m.id, { title: m.title, sections: m.sections }]),
+)
 
 export const checklistsNavDef: GuideDefinition = {
   id: 'checklists',

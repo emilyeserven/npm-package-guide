@@ -296,7 +296,7 @@ export const TAG_COLORS: Record<TestType, { color: string; bg: string; darkBg: s
 
 /* ───────────────────────── NAVIGATION ───────────────────────── */
 
-import type { GuideSection, GuideManifest } from './guideTypes'
+import type { GuideSection, GuideManifest, ChecklistManifest, ChecklistBaseSection } from './guideTypes'
 import type { StartPageData } from './guideTypes'
 
 export const TESTING_GUIDE_SECTIONS: GuideSection[] = [
@@ -374,4 +374,21 @@ export const TESTING_GUIDE_MANIFEST: GuideManifest = {
     sections: TESTING_GUIDE_SECTIONS,
   },
   startPageData: TESTING_START_PAGE_DATA,
+}
+
+// ── Checklist manifest ──────────────────────────────────────────────
+
+export const TESTING_CHECKLIST: ChecklistBaseSection[] = [{
+  id: 'review',
+  name: 'Review Criteria',
+  icon: '\uD83D\uDCCB',
+  items: CHECKLIST_ITEMS.map(it => ({ label: it.label, description: it.detail })),
+}]
+
+export const TESTING_CHECKLIST_MANIFEST: ChecklistManifest = {
+  id: 'test',
+  pageId: 'test-review-checklist',
+  sourceGuideId: 'testing',
+  title: 'Quick Test Review',
+  sections: TESTING_CHECKLIST,
 }
