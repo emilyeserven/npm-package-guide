@@ -1,0 +1,97 @@
+---
+id: "tl-analyze"
+title: "Analyze API 📝"
+guide: "twelvelabs"
+group: "Core APIs"
+linkRefs:
+  - id: "twelvelabs-docs"
+    note: "Analyze API reference (formerly Generate)"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-basic">Basic Analysis</TocLink>
+  <TocLink id="toc-structured">Structured Output</TocLink>
+  <TocLink id="toc-streaming">Streaming</TocLink>
+  <TocLink id="toc-prompts">Prompt Ideas</TocLink>
+</Toc>
+
+<SectionIntro>
+The Analyze API (formerly Generate) uses **Pegasus** to generate text about your videos. Send any prompt — it understands what's happening in the video and responds accordingly. This powers summaries, chapters, descriptions, Q&A, and any custom text generation.
+</SectionIntro>
+
+<SectionSubheading id="toc-basic">Basic Analysis</SectionSubheading>
+
+<CodeAccordion title="Basic analysis with a prompt" lang="js" open>
+{`const result = await client.analyze.create({
+  videoId: "6298d673f1090f1100476d4c",
+  prompt: "Provide a detailed summary of this video, including " +
+         "the main topic, key points discussed, and any " +
+         "conclusions or takeaways.",
+  temperature: 0.2,  // lower = more focused
+  maxTokens: 2000,
+});
+console.log(result);`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-structured">Structured Output</SectionSubheading>
+
+<CodeAccordion title="Structured JSON output" lang="js" open>
+{`const result = await client.analyze.create({
+  videoId: videoId,
+  prompt: "Analyze this video and extract structured information.",
+  temperature: 0.2,
+  responseFormat: {
+    type: "json_schema",
+    jsonSchema: {
+      type: "object",
+      properties: {
+        title: { type: "string" },
+        summary: { type: "string" },
+        chapters: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              timestamp: { type: "string" },
+              title: { type: "string" },
+              description: { type: "string" },
+            },
+          },
+        },
+        keywords: {
+          type: "array",
+          items: { type: "string" },
+        },
+      },
+    },
+  },
+  maxTokens: 3000,
+});
+console.log(JSON.parse(result));`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-streaming">Streaming</SectionSubheading>
+
+<CodeAccordion title="Streaming responses" lang="js" open>
+{`const stream = await client.analyze.createStream({
+  videoId: videoId,
+  prompt: "Describe what happens in this video scene by scene.",
+  maxTokens: 2000,
+});
+
+for await (const event of stream) {
+  if (event.eventType === "text_generation") {
+    process.stdout.write(event.text);
+  }
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-prompts">Prompt Ideas</SectionSubheading>
+
+<TlPromptIdeas />
+
+<Gotcha>
+The maximum prompt length is **2,000 tokens**. Pegasus supports videos up to 60 minutes. The `/generate` endpoint still works but will be deprecated July 30, 2025 — migrate to `/analyze`.
+</Gotcha>

@@ -1,0 +1,158 @@
+---
+id: "tl-workflow"
+title: "Full Workflow 🔄"
+guide: "twelvelabs"
+group: "Integration"
+linkRefs:
+  - id: "twelvelabs-docs"
+    note: "Full API reference for all endpoints"
+  - id: "twelvelabs-sdk"
+    note: "JavaScript SDK documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-complete">Complete Example</TocLink>
+  <TocLink id="toc-frontend">Frontend Integration</TocLink>
+</Toc>
+
+<SectionIntro>
+Here's a complete example that ties all the APIs together — creating an index, uploading a video, searching it, analyzing it, and generating embeddings.
+</SectionIntro>
+
+<SectionSubheading id="toc-complete">Complete Example</SectionSubheading>
+
+<CodeAccordion title="complete-workflow.js" lang="js" open>
+{`const client = new TwelveLabs({
+  apiKey: process.env.TWELVELABS_API_KEY,
+});
+
+async function main() {
+  // ─── 1. Create an Index ─────────────────────────
+  const index = await client.indexes.create({
+    indexName: "product-demos",
+    models: [
+      { modelName: "marengo2.7", modelOptions: ["visual", "audio"] },
+      { modelName: "pegasus1.2", modelOptions: ["visual", "audio"] },
+    ],
+  });
+  console.log(\`✓ Index created: \${index.id}\`);
+
+  // ─── 2. Upload a Video ──────────────────────────
+  const task = await client.tasks.create({
+    indexId: index.id,
+    videoFile: fs.createReadStream("./demo-video.mp4"),
+    userMetadata: { type: "product-demo", version: "2.0" },
+  });
+  const completed = await client.tasks.waitForDone(task.id, {
+    callback: (t) => console.log(\`  Indexing: \${t.status}\`),
+  });
+  console.log(\`✓ Video indexed: \${completed.videoId}\`);
+
+  // ─── 3. Search the Video ────────────────────────
+  const searchResults = await client.search.create({
+    indexId: index.id,
+    searchOptions: ["visual", "conversation"],
+    query_text: "new feature walkthrough",
+  });
+  console.log("\\n🔍 Search results:");
+  for (const match of searchResults.data) {
+    console.log(\`  \${match.start}s → \${match.end}s (score: \${match.score})\`);
+  }
+
+  // ─── 4. Analyze the Video ──────────────────────
+  const analysis = await client.analyze.create({
+    videoId: completed.videoId,
+    prompt: "Create a structured summary with title, overview, " +
+           "key features demonstrated, and target audience.",
+    temperature: 0.2,
+    responseFormat: {
+      type: "json_schema",
+      jsonSchema: {
+        type: "object",
+        properties: {
+          title: { type: "string" },
+          overview: { type: "string" },
+          features: {
+            type: "array",
+            items: { type: "string" },
+          },
+          targetAudience: { type: "string" },
+        },
+      },
+    },
+    maxTokens: 2000,
+  });
+  console.log("\\n📝 Analysis:", JSON.parse(analysis));
+
+  // ─── 5. Generate Embeddings ─────────────────────
+  const embedTask = await client.embed.tasks.create({
+    modelName: "Marengo-retrieval-2.7",
+    videoFile: fs.createReadStream("./demo-video.mp4"),
+    videoEmbeddingScope: ["clip", "video"],
+  });
+  const embedResult = await client.embed.tasks.waitForDone(embedTask.id);
+  const embeddings = await client.embed.tasks.retrieve(embedTask.id, {
+    embeddingOption: ["visual-text"],
+  });
+  console.log(
+    \`\\n⬡ Generated \${embeddings.videoEmbedding.segments.length} embeddings\`
+  );
+}
+
+main().catch(console.error);`}
+</CodeAccordion>
+
+<Explainer>
+For production apps, consider using **TanStack Query** to manage API calls with caching, retries, and loading states. Wrap each TwelveLabs SDK call in a query function for automatic background refetching and stale-while-revalidate behavior.
+</Explainer>
+
+<SectionSubheading id="toc-frontend">Frontend Integration</SectionSubheading>
+
+<CodeAccordion title="hooks/useTwelveLabs.ts — TanStack Query integration" lang="ts">
+{`const client = new TwelveLabs({
+  apiKey: import.meta.env.VITE_TWELVELABS_API_KEY,
+});
+
+// Fetch all indexes
+export function useIndexes() {
+  return useQuery({
+    queryKey: ["twelvelabs", "indexes"],
+    queryFn: () => client.indexes.list(),
+  });
+}
+
+// Search videos
+export function useVideoSearch(indexId: string, query: string) {
+  return useQuery({
+    queryKey: ["twelvelabs", "search", indexId, query],
+    queryFn: () =>
+      client.search.create({
+        indexId,
+        searchOptions: ["visual", "conversation"],
+        query_text: query,
+      }),
+    enabled: !!query && !!indexId,
+  });
+}
+
+// Upload video mutation
+export function useUploadVideo() {
+  return useMutation({
+    mutationFn: async ({
+      indexId,
+      file,
+    }: {
+      indexId: string;
+      file: File;
+    }) => {
+      const task = await client.tasks.create({
+        indexId,
+        videoFile: file,
+      });
+      return client.tasks.waitForDone(task.id);
+    },
+  });
+}`}
+</CodeAccordion>
