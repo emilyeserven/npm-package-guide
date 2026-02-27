@@ -20,12 +20,12 @@ linkRefs:
 </Toc>
 
 <SectionIntro>
-Understanding how Redis works under the hood helps you make better decisions about when to use it and how to configure it. Here are the architectural concepts that matter most.
+You don't need to operate Redis to benefit from understanding its architecture. Knowing why it's fast helps you make better decisions about caching strategies, debug slow API responses, and understand the trade-offs when your backend team discusses infrastructure.
 </SectionIntro>
 
 <SectionSubheading id="toc-overview">Overview</SectionSubheading>
 
-Redis achieves its speed through three architectural choices: keeping all data in memory, processing commands on a single thread (no locking overhead), and using efficient data structure implementations optimized for each type.
+Redis achieves its speed through three architectural choices: in-memory storage (why `fetch()` responses are fast), a single-threaded event loop (why operations are atomic and race-condition-free), and purpose-built data structures (why a leaderboard query is O(log N) instead of O(N log N)).
 
 <SectionSubheading id="toc-internals">How it works</SectionSubheading>
 

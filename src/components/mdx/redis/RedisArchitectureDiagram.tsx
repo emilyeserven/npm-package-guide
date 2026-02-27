@@ -4,7 +4,7 @@ import { tc, theme } from '../../../helpers/themeColors'
 
 function EventLoopSection() {
   const isDark = useIsDark()
-  const clients = ['Client 1', 'Client 2', 'Client 3', 'Client N']
+  const clients = ['Your React App', 'Another User', 'Mobile App', 'Admin Dashboard']
 
   return (
     <div
@@ -21,9 +21,10 @@ function EventLoopSection() {
         className="text-sm leading-relaxed mb-4"
         style={{ color: ds('#64748b', '#94a3b8', isDark) }}
       >
-        Redis processes all commands on a single thread using an event loop (similar to how Node.js works).
-        This sounds like a limitation, but it&apos;s actually a superpower: no locks, no race conditions, every
-        command is atomic. A single Redis instance can handle 100,000+ operations per second.
+        Redis uses a single-threaded event loop &mdash; exactly like JavaScript in the browser. Just as your
+        React app processes events one at a time on the main thread, Redis processes commands one at a time in
+        memory. Every command is atomic (no race conditions), and a single instance handles 100,000+ ops/sec.
+        This is why your API can cache-check in microseconds.
       </p>
       <div className="grid grid-cols-4 gap-2 font-mono text-xs text-center">
         {clients.map((c) => (
@@ -83,7 +84,7 @@ function PersistenceSection() {
       color: '#d97706',
       darkColor: '#fbbf24',
       description:
-        'Point-in-time snapshots saved to disk at intervals. Fast to restore, but you lose data between snapshots. Think of it like auto-save in a video game.',
+        'Takes a snapshot of all cached data at regular intervals. Fast to restore, but data cached between snapshots is lost. Think of it like auto-save — you lose recent unsaved work.',
       config: 'save 60 1000',
       configNote: '# snapshot every 60s if 1000+ writes',
     },
@@ -92,7 +93,7 @@ function PersistenceSection() {
       color: '#059669',
       darkColor: '#34d399',
       description:
-        'Logs every write operation. More durable (can be configured to fsync every second or every write). Slower to restore but loses almost no data. Like a transaction log.',
+        'Logs every write to a file. More durable — almost no data loss on crash. Slower to restore. Like a browser undo history where every action is recorded.',
       config: 'appendonly yes',
       configNote: '# enable AOF',
     },
@@ -110,7 +111,9 @@ function PersistenceSection() {
         Persistence Options
       </h4>
       <p className="text-sm leading-relaxed mb-4" style={{ color: ds('#64748b', '#94a3b8', isDark) }}>
-        &ldquo;But what if the server crashes?&rdquo; Redis has two strategies to survive restarts:
+        What if your hosting provider restarts the server? Redis has two strategies to survive restarts.
+        You don&apos;t configure these as a frontend dev, but knowing they exist explains why cached data
+        sometimes disappears after a deploy.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {options.map((opt) => (
@@ -155,17 +158,17 @@ function ScalingSection() {
     {
       num: '01',
       title: 'Replication',
-      desc: 'Leader/follower setup. Writes go to the leader, reads can go to replicas. Scales read throughput horizontally.',
+      desc: 'Read replicas handle more concurrent API requests. When 10,000 users load your dashboard simultaneously, replicas prevent a bottleneck.',
     },
     {
       num: '02',
       title: 'Sentinel',
-      desc: 'Monitors your Redis instances and automatically promotes a replica to leader if the leader goes down. High availability without manual intervention.',
+      desc: 'Automatic failover. If the Redis server goes down, a backup takes over in seconds. Your frontend never sees an error — the API just keeps responding.',
     },
     {
       num: '03',
       title: 'Cluster',
-      desc: 'Shards data across multiple nodes using hash slots (16,384 of them). Scales both reads AND writes. Each node handles a subset of keys.',
+      desc: 'Splits data across multiple servers when one machine isn\'t enough. Transparent to your API code — the caching your frontend relies on stays the same.',
     },
   ]
 
@@ -178,7 +181,7 @@ function ScalingSection() {
       }}
     >
       <h4 className="font-bold mb-4 mt-0" style={{ color: tc(theme.textPrimary, isDark) }}>
-        Scaling Strategies
+        Why Redis Stays Fast at Scale
       </h4>
       <div className="space-y-3">
         {strategies.map((item) => (

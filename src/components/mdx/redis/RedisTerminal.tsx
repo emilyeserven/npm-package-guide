@@ -11,8 +11,8 @@ export function RedisTerminal() {
   const isDark = useIsDark()
   const [input, setInput] = useState('')
   const [history, setHistory] = useState<HistoryEntry[]>([
-    { type: 'info', text: 'Welcome to Redis Playground. Try some commands!' },
-    { type: 'info', text: 'Examples: SET name "Emily" · GET name · INCR counter' },
+    { type: 'info', text: 'Redis Playground \u2014 this simulates what runs on your server.' },
+    { type: 'info', text: 'Try: SET api:cache:user:1 "Emily" \u00b7 GET api:cache:user:1 \u00b7 INCR pageviews' },
   ])
   const store = useRef<Record<string, string>>({})
   const inputRef = useRef<HTMLInputElement>(null)

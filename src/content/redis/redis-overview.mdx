@@ -20,29 +20,33 @@ linkRefs:
 </Toc>
 
 <SectionIntro>
-Redis is an in-memory data store that keeps its entire dataset in RAM. This makes it extraordinarily fast — sub-millisecond response times for most operations. It started as a simple key-value cache, but has evolved into a full-featured data structure server.
+Every time your React app loads data in milliseconds instead of seconds, there's often a caching layer involved. Redis is the most widely used one — an in-memory data store that sits between your frontend and the database, making API responses instant.
 </SectionIntro>
 
 <SectionSubheading id="toc-what-is">What is Redis?</SectionSubheading>
 
-Think of Redis as the layer that sits between your application and your database. Instead of hitting PostgreSQL every time someone loads a page, you check Redis first. If the data is there (a "cache hit"), you return it instantly. If not (a "cache miss"), you query the database, store the result in Redis for next time, and return it.
+Think of Redis as `localStorage` for your server. Just like `localStorage` lets your frontend store data in the browser for fast access, Redis lets your API server store data in RAM. The difference? Redis is shared across all users, supports rich data structures, and auto-expires data with TTL.
 
-But caching is just the beginning. Redis is also used for session management, rate limiting, real-time leaderboards, pub/sub messaging, job queues, and more. It's one of those tools that shows up in virtually every production stack.
+When your dashboard calls `fetch('/api/user/me')`, the API checks Redis first. If the data is there (a "cache hit"), it returns in under 1ms. If not (a "cache miss"), it queries the database (~50ms), caches the result in Redis for next time, and returns it.
+
+But caching is just the beginning. Redis also powers session management (how your login persists), rate limiting (how your API blocks abuse), real-time features (how your chat messages arrive instantly), and more. It's the invisible layer behind most of the fast apps you use every day.
 
 <SectionSubheading id="toc-speed">How fast is it, really?</SectionSubheading>
+
+When your `fetch()` call hits an API backed by Redis, here's the difference it makes:
 
 <SpeedComparison />
 
 <SectionSubheading id="toc-try-it">Try it yourself</SectionSubheading>
 
-This is a simulated Redis terminal. Try `SET name "Emily"` then `GET name`. Type `HELP` for available commands.
+This simulated terminal shows what happens on the server when your frontend makes API calls. Try `SET api:cache:user:1 "Emily"` then `GET api:cache:user:1`. Type `HELP` for available commands.
 
 <RedisTerminal />
 
 <SectionSubheading id="toc-takeaways">Key takeaways</SectionSubheading>
 
 <DefinitionTable>
-  <DefRow term="In-Memory">All data lives in RAM — that's why it's fast</DefRow>
-  <DefRow term="Single-Threaded">One thread, no locks, every operation is atomic</DefRow>
-  <DefRow term="Data Structures">Not just key-value — lists, sets, sorted sets, streams</DefRow>
+  <DefRow term="In-Memory">All data lives in RAM — that's why your API can respond in {'<'}1ms</DefRow>
+  <DefRow term="Single-Threaded">One thread processes all commands — no race conditions, every operation is atomic</DefRow>
+  <DefRow term="Data Structures">Not just strings — lists, sets, sorted sets (like JavaScript Map, Set, and Array on the server)</DefRow>
 </DefinitionTable>
