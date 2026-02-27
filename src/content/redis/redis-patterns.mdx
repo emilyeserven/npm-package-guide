@@ -18,12 +18,12 @@ linkRefs:
 </Toc>
 
 <SectionIntro>
-Knowing Redis commands is one thing — knowing *when* and *how* to use them in real applications is another. These are the five patterns you'll encounter most often.
+Knowing Redis commands is one thing — understanding the patterns behind your favorite app's speed is another. These five patterns explain why pages load instantly, chats feel real-time, and API abuse gets blocked before it reaches the database.
 </SectionIntro>
 
 <SectionSubheading id="toc-intro">Why patterns matter</SectionSubheading>
 
-Each pattern solves a specific problem in a production system. Understanding the trade-offs (consistency vs speed, simplicity vs durability) helps you choose the right approach for your use case. Click "Show implementation" on any pattern to see the code.
+Each pattern solves a specific frontend performance problem. Cache-aside is why your product page loads in 50ms. Pub/Sub is how your chat messages arrive instantly. Rate limiting is why bots can't hammer your login endpoint. Understanding these helps you debug performance issues, architect better data-fetching strategies, and communicate with backend teams. Click "Show implementation" on any pattern to see the code.
 
 <SectionSubheading id="toc-patterns">The five patterns</SectionSubheading>
 

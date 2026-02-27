@@ -11,9 +11,9 @@ interface BarConfig {
 }
 
 const BARS: BarConfig[] = [
-  { label: 'Redis (RAM)', time: '~0.1ms', targetMs: 300, color: '#34d399' },
-  { label: 'PostgreSQL', time: '~5ms', targetMs: 2200, color: '#38bdf8' },
-  { label: 'Disk Read', time: '~10ms', targetMs: 4000, color: '#fb923c' },
+  { label: 'API with Redis cache', time: '~0.1ms', targetMs: 300, color: '#34d399' },
+  { label: 'API \u2192 Database', time: '~5ms', targetMs: 2200, color: '#38bdf8' },
+  { label: 'API \u2192 Disk Read', time: '~10ms', targetMs: 4000, color: '#fb923c' },
 ]
 
 export function SpeedComparison() {
@@ -91,8 +91,8 @@ export function SpeedComparison() {
       </button>
       {done && (
         <p className="text-sm" style={{ color: tc(theme.textMuted, isDark) }}>
-          Redis is ~100x faster than a typical database query because RAM access time is measured in
-          nanoseconds, while disk access is measured in milliseconds.
+          With Redis, your API responds ~100x faster because the data is already in RAM. This is the
+          difference between your page feeling &ldquo;instant&rdquo; and showing a loading spinner.
         </p>
       )}
     </div>
