@@ -1,0 +1,35 @@
+---
+id: "ws-simulator"
+title: "Live WebSocket Simulator 🧪"
+guide: "websockets"
+group: "The Browser API"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-echo">Echo server simulation</TocLink>
+  <TocLink id="toc-tips">What to try</TocLink>
+</Toc>
+
+<SectionIntro>
+This is a fully simulated WebSocket connection running in your browser. It behaves like a real echo server — send a message and it comes back. You can also see ping/pong heartbeats keeping the connection alive.
+</SectionIntro>
+
+<SectionSubheading id="toc-echo">{'\u{1f4e1}'} Echo server simulation</SectionSubheading>
+
+<WsSimulator />
+
+<SectionSubheading id="toc-tips">{'\u{1f4a1}'} What to try</SectionSubheading>
+
+<SectionList>
+  <ColItem>**Connect and disconnect** — watch the status dot and log entries for the full connection lifecycle.</ColItem>
+  <ColItem>**Send JSON** — the preset button sends a structured JSON message, mimicking a real chat application.</ColItem>
+  <ColItem>**Send Binary** — simulates sending a Float64 value as an ArrayBuffer. In real apps, binary is used for audio streams, game state, and file transfer.</ColItem>
+  <ColItem>**Send 10 rapid** — fires 10 messages in quick succession to demonstrate how WebSocket handles burst traffic with minimal overhead.</ColItem>
+  <ColItem>**Watch heartbeats** — after connecting, ping/pong messages appear every 8 seconds to keep the connection alive.</ColItem>
+</SectionList>
+
+<Explainer>
+In a real application, the echo server would be replaced by your backend logic — routing messages to other clients, saving to a database, or broadcasting to a channel. The WebSocket API on the client side stays exactly the same.
+</Explainer>

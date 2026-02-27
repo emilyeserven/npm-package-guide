@@ -1,0 +1,46 @@
+---
+id: "ws-alternatives"
+title: "When Not to Use WebSockets 🧭"
+guide: "websockets"
+group: "Production"
+linkRefs:
+  - id: "mdn-sse"
+    note: "MDN Server-Sent Events reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-comparison">The decision framework</TocLink>
+  <TocLink id="toc-rule">Rule of thumb</TocLink>
+  <TocLink id="toc-considerations">Production considerations</TocLink>
+</Toc>
+
+<SectionIntro>
+WebSockets are powerful, but they're not always the right tool. Keeping a persistent connection open has costs — server memory, load balancer configuration, reconnection logic, and state management. Here's a framework for choosing.
+</SectionIntro>
+
+<SectionSubheading id="toc-comparison">{'\u{1f4ca}'} The decision framework</SectionSubheading>
+
+<WsAlternativesComparison />
+
+<SectionSubheading id="toc-rule">{'\u{1f4a1}'} Rule of thumb</SectionSubheading>
+
+<SectionNote>
+If the client only needs to *receive* updates — use **Server-Sent Events (SSE)**. They're simpler, use standard HTTP, handle reconnection automatically, and work great with HTTP/2 multiplexing. Only reach for WebSockets when you need the client to send data *back* in real-time too.
+</SectionNote>
+
+<SectionSubheading id="toc-considerations">{'\u{1f527}'} Production considerations</SectionSubheading>
+
+Before choosing WebSockets, consider these operational requirements:
+
+<SectionList>
+  <ColItem>**Load balancing** — WebSocket connections are stateful. You need sticky sessions or a shared pub/sub layer (Redis, NATS) to broadcast across multiple server instances.</ColItem>
+  <ColItem>**Proxy configuration** — some corporate proxies, firewalls, and CDNs don't support WebSocket upgrades. You may need a fallback transport.</ColItem>
+  <ColItem>**Connection limits** — each WebSocket connection holds a TCP socket open. Plan for the maximum concurrent connections your server can handle.</ColItem>
+  <ColItem>**Authentication** — you can't send custom headers in the browser's `new WebSocket()` constructor. Common patterns: pass a token as a query parameter, or authenticate via HTTP first and use a session cookie.</ColItem>
+</SectionList>
+
+<Explainer>
+For most CRUD applications, standard HTTP with occasional polling is the simplest and most maintainable choice. WebSockets shine when latency matters — chat, gaming, live collaboration, and financial trading. Don't add complexity unless the use case demands it.
+</Explainer>

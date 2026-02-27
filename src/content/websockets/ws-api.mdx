@@ -1,0 +1,66 @@
+---
+id: "ws-api"
+title: "Using the Browser API 🖥️"
+guide: "websockets"
+group: "The Browser API"
+linkRefs:
+  - id: "mdn-websocket-api"
+    note: "MDN WebSocket API reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-creating">Creating a connection</TocLink>
+  <TocLink id="toc-lifecycle">The connection lifecycle</TocLink>
+  <TocLink id="toc-readystate">readyState reference</TocLink>
+</Toc>
+
+<SectionIntro>
+The browser's `WebSocket` API is refreshingly simple — four events, two methods, and a handful of properties. Let's walk through the entire lifecycle.
+</SectionIntro>
+
+<SectionSubheading id="toc-creating">{'\u{1f517}'} Creating a connection</SectionSubheading>
+
+<CodeAccordion title="Basic WebSocket usage" language="javascript">
+{`// Use wss:// for secure connections (like https://)
+const socket = new WebSocket('wss://echo.websocket.org');
+
+// Connection opened
+socket.addEventListener('open', (event) => {
+  console.log('Connected!');
+  socket.send('Hello Server!');
+});
+
+// Listen for messages
+socket.addEventListener('message', (event) => {
+  console.log('Received:', event.data);
+});
+
+// Connection closed
+socket.addEventListener('close', (event) => {
+  console.log(\`Closed: \${event.code} \${event.reason}\`);
+});
+
+// Handle errors
+socket.addEventListener('error', (event) => {
+  console.error('WebSocket error', event);
+});`}
+</CodeAccordion>
+
+The four events you need to know: `open`, `message`, `close`, and `error`. That's the entire event surface of the API.
+
+<SectionSubheading id="toc-lifecycle">{'\u{1f504}'} The connection lifecycle</SectionSubheading>
+
+Every WebSocket connection moves through four phases. Hover over each phase to highlight it:
+
+<WsLifecycle />
+
+<SectionSubheading id="toc-readystate">{'\u{1f4cb}'} readyState reference</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="CONNECTING (0)">Handshake in progress</DefRow>
+  <DefRow term="OPEN (1)">Connected and ready</DefRow>
+  <DefRow term="CLOSING (2)">Close handshake in progress</DefRow>
+  <DefRow term="CLOSED (3)">Connection terminated</DefRow>
+</DefinitionTable>

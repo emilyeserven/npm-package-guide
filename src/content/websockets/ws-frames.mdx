@@ -1,0 +1,51 @@
+---
+id: "ws-frames"
+title: "WebSocket Frames 🔬"
+guide: "websockets"
+group: "Under the Hood"
+linkRefs:
+  - id: "rfc-6455"
+    note: "RFC 6455 Section 5 — Data Framing"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-structure">Frame structure</TocLink>
+  <TocLink id="toc-inspector">Interactive frame inspector</TocLink>
+  <TocLink id="toc-opcodes">Opcode types</TocLink>
+  <TocLink id="toc-masking">Why masking?</TocLink>
+</Toc>
+
+<SectionIntro>
+After the handshake, all data is sent in **frames** — small, efficiently-structured packets. Unlike HTTP where every request carries heavy headers, a WebSocket frame adds only 2–14 bytes of overhead.
+</SectionIntro>
+
+<SectionSubheading id="toc-structure">{'\u{1f9e9}'} Frame structure</SectionSubheading>
+
+Every WebSocket frame starts with a FIN bit and an opcode, followed by a mask flag and payload length. Client-to-server frames include a 4-byte masking key, then the payload data itself.
+
+The minimal frame is just 2 bytes (for a server-to-client message with a payload under 126 bytes). Client frames add 4 bytes for the masking key.
+
+<SectionSubheading id="toc-inspector">{'\u{1f50d}'} Interactive frame inspector</SectionSubheading>
+
+Hover over each byte to see what it does. This frame encodes the text message "Hello":
+
+<WsFrameInspector />
+
+<SectionSubheading id="toc-opcodes">{'\u{1f3af}'} Opcode types</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="Continuation (0x0)">Continues a fragmented message</DefRow>
+  <DefRow term="Text (0x1)">UTF-8 text data</DefRow>
+  <DefRow term="Binary (0x2)">Binary (ArrayBuffer / Blob)</DefRow>
+  <DefRow term="Close (0x8)">Connection close request</DefRow>
+  <DefRow term="Ping (0x9)">Heartbeat request</DefRow>
+  <DefRow term="Pong (0xA)">Heartbeat response</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-masking">{'\u{1f6e1}\ufe0f'} Why masking?</SectionSubheading>
+
+<Explainer>
+Client-to-server frames *must* be masked (XOR'd with a random 4-byte key). This isn't for encryption — it prevents cache poisoning attacks where a malicious page could trick intermediary proxies into caching bad data. Server-to-client frames are never masked.
+</Explainer>

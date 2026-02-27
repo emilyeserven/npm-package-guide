@@ -1,0 +1,86 @@
+---
+id: "ws-sending"
+title: "Sending Data 📤"
+guide: "websockets"
+group: "Under the Hood"
+linkRefs:
+  - id: "mdn-websocket-api"
+    note: "MDN WebSocket.send() reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-text-json">Text and JSON</TocLink>
+  <TocLink id="toc-binary">Binary data</TocLink>
+  <TocLink id="toc-backpressure">Backpressure with bufferedAmount</TocLink>
+</Toc>
+
+<SectionIntro>
+The `send()` method accepts strings, `ArrayBuffer`, `Blob`, and `ArrayBufferView`. Most applications send JSON-encoded strings, but binary is essential for things like audio streaming, file transfer, and game state.
+</SectionIntro>
+
+<SectionSubheading id="toc-text-json">{'\u{1f4dd}'} Text and JSON</SectionSubheading>
+
+<CodeAccordion title="Sending text and JSON" language="javascript">
+{`// Plain text
+socket.send('Hello!');
+
+// JSON — the most common pattern
+socket.send(JSON.stringify({
+  type: 'chat',
+  user: 'Emily',
+  text: 'WebSockets are fast!',
+  timestamp: Date.now()
+}));`}
+</CodeAccordion>
+
+JSON is the most common data format over WebSockets. Structure your messages with a `type` field so the receiver can route them to the right handler — this is a universal pattern across chat apps, multiplayer games, and real-time dashboards.
+
+<SectionSubheading id="toc-binary">{'\u{1f4be}'} Binary data</SectionSubheading>
+
+<CodeAccordion title="Sending and receiving binary data" language="javascript">
+{`// Tell the socket you want binary data as ArrayBuffer
+socket.binaryType = 'arraybuffer';
+
+// Send binary data
+const buffer = new ArrayBuffer(8);
+const view = new Float64Array(buffer);
+view[0] = 3.14159;
+socket.send(buffer);
+
+// Receive binary data
+socket.addEventListener('message', (e) => {
+  if (e.data instanceof ArrayBuffer) {
+    const floats = new Float64Array(e.data);
+    console.log('Received float:', floats[0]);
+  }
+});`}
+</CodeAccordion>
+
+<SectionNote>
+Set `socket.binaryType = 'arraybuffer'` before receiving binary data. The default is `'blob'`, which is less convenient for most use cases. ArrayBuffer gives you direct typed-array access for reading structured binary data.
+</SectionNote>
+
+<SectionSubheading id="toc-backpressure">{'\u{1f6a6}'} Backpressure with bufferedAmount</SectionSubheading>
+
+<CodeAccordion title="Backpressure flow control" language="javascript">
+{`// bufferedAmount tells you how many bytes are queued
+// Useful for backpressure / flow control
+
+function sendWithBackpressure(socket, data) {
+  const MAX_BUFFERED = 1024 * 64; // 64KB
+
+  if (socket.bufferedAmount > MAX_BUFFERED) {
+    // Queue is backed up — wait before sending more
+    setTimeout(() => sendWithBackpressure(socket, data), 100);
+    return;
+  }
+
+  socket.send(data);
+}`}
+</CodeAccordion>
+
+<Gotcha>
+If you send data faster than the network can deliver it, the browser queues it in memory. The `bufferedAmount` property tells you how many bytes are waiting. Always check this when sending high-frequency data (game state updates, audio frames) to avoid memory pressure.
+</Gotcha>

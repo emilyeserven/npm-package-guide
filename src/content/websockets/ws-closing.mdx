@@ -1,0 +1,57 @@
+---
+id: "ws-closing"
+title: "Close Codes 🚪"
+guide: "websockets"
+group: "Under the Hood"
+linkRefs:
+  - id: "rfc-6455"
+    note: "RFC 6455 Section 7 — Closing the Connection"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-handshake">The close handshake</TocLink>
+  <TocLink id="toc-codes">Common close codes</TocLink>
+  <TocLink id="toc-abnormal">Abnormal closure</TocLink>
+</Toc>
+
+<SectionIntro>
+Closing a WebSocket isn't instant — there's a **close handshake**. One side sends a Close frame with an optional status code and reason, and the other side responds with its own Close frame. Only then does the TCP connection drop.
+</SectionIntro>
+
+<SectionSubheading id="toc-handshake">{'\u{1f91d}'} The close handshake</SectionSubheading>
+
+<CodeAccordion title="Graceful close with code inspection" language="javascript">
+{`// Initiate a graceful close
+socket.close(1000, 'Normal closure');
+
+// Handle close with code inspection
+socket.addEventListener('close', (e) => {
+  if (e.wasClean) {
+    console.log(\`Clean close: \${e.code}\`);
+  } else {
+    console.warn('Connection died unexpectedly');
+  }
+});`}
+</CodeAccordion>
+
+The `wasClean` property tells you whether the close handshake completed normally. If the connection dropped without a proper Close frame exchange (network failure, server crash), `wasClean` will be `false`.
+
+<SectionSubheading id="toc-codes">{'\u{1f522}'} Common close codes</SectionSubheading>
+
+<WsCloseCodeExplorer />
+
+<SectionSubheading id="toc-abnormal">{'\u26a0\ufe0f'} Abnormal closure</SectionSubheading>
+
+<Gotcha>
+You'll never *send* code `1006` — the browser generates it locally when the connection drops without a proper Close frame. If you see this code, it almost always means a network failure or the server crashed. Check your server logs and network connectivity.
+</Gotcha>
+
+Custom close codes in the `4000–4999` range are reserved for application use. Use them for domain-specific close reasons:
+
+<SectionList>
+  <ColItem>`4000` — Heartbeat timeout (the server didn't respond to pings)</ColItem>
+  <ColItem>`4001` — Authentication expired (token refresh needed)</ColItem>
+  <ColItem>`4002` — Rate limited (too many messages sent)</ColItem>
+</SectionList>
