@@ -1,0 +1,65 @@
+---
+id: "go-starter-projects"
+title: "Starter Projects 🚀"
+guide: "go-lang"
+group: "Practical"
+linkRefs:
+  - id: "go-tour"
+    note: "Interactive browser-based Go tutorial"
+  - id: "go-by-example"
+    note: "Annotated code examples for every concept"
+  - id: "go-effective"
+    note: "Idiomatic patterns from the Go team"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-setup">Setup</TocLink>
+  <TocLink id="toc-projects">Projects</TocLink>
+  <TocLink id="toc-resources">Recommended resources</TocLink>
+</Toc>
+
+<SectionIntro>
+Hands-on projects, ordered from simplest to more involved. Each one teaches core Go concepts that matter for backend development.
+</SectionIntro>
+
+<SectionSubheading id="toc-setup">Setup</SectionSubheading>
+
+<CodeAccordion title="Install & Initialize" ext="bash">
+```bash
+# Install Go (macOS)
+brew install go
+
+# Verify installation
+go version
+
+# Create a new project
+mkdir my-go-app && cd my-go-app
+go mod init github.com/yourname/my-go-app
+
+# Run your code
+go run main.go
+
+# Build a binary
+go build -o my-go-app
+```
+</CodeAccordion>
+
+<SectionSubheading id="toc-projects">Projects</SectionSubheading>
+
+<GoProjectCard index={0} />
+<GoProjectCard index={1} />
+<GoProjectCard index={2} />
+<GoProjectCard index={3} />
+<GoProjectCard index={4} />
+
+<SectionSubheading id="toc-resources">Recommended resources</SectionSubheading>
+
+<SectionNote>
+**Official Tour:** `tour.golang.org` — interactive, browser-based Go tutorial.
+
+**Go by Example:** `gobyexample.com` — annotated code examples for every concept.
+
+**Effective Go:** `go.dev/doc/effective_go` — idiomatic patterns from the Go team.
+</SectionNote>

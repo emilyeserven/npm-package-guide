@@ -1,0 +1,41 @@
+---
+id: "go-vs-python"
+title: "Go vs Python ⚖️"
+guide: "go-lang"
+group: "Comparisons"
+linkRefs:
+  - id: "go-official-site"
+    note: "Go official website"
+  - id: "python-fastapi-docs"
+    note: "FastAPI documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-comparison">Feature comparison</TocLink>
+  <TocLink id="toc-side-by-side">Side-by-side code</TocLink>
+  <TocLink id="toc-quiz">Test your understanding</TocLink>
+</Toc>
+
+<SectionIntro>
+Both are popular backend languages, but they have very different design philosophies. Here's how they stack up in the areas that matter.
+</SectionIntro>
+
+<SectionSubheading id="toc-comparison">Feature comparison</SectionSubheading>
+
+<GoCompareTable />
+
+<SectionSubheading id="toc-side-by-side">The same task in both languages</SectionSubheading>
+
+A simple HTTP server that returns JSON. Notice Go's standard library vs Python needing FastAPI.
+
+<GoCodeCompare exampleId="http-server" />
+
+<SectionNote>
+**Rule of thumb:** If you're building something that needs to be fast, concurrent, and deployed as a single binary — Go. If you're doing data science, ML, or rapid scripting — Python. For web APIs, both are great — it depends on your team and performance needs.
+</SectionNote>
+
+<SectionSubheading id="toc-quiz">Test your understanding</SectionSubheading>
+
+<GoQuiz />

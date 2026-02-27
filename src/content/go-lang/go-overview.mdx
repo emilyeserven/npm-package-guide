@@ -1,0 +1,37 @@
+---
+id: "go-overview"
+title: "What Is Go 🐹"
+guide: "go-lang"
+group: "Fundamentals"
+linkRefs:
+  - id: "go-official-site"
+    note: "Go official website"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-use-cases">Where Go shines</TocLink>
+  <TocLink id="toc-philosophy">The opinionated philosophy</TocLink>
+  <TocLink id="toc-mental-model">The mental model shift</TocLink>
+</Toc>
+
+<SectionIntro>
+A pragmatic language built by Google for the problems that matter at scale — networking, concurrency, and fast deployment. Go isn't trying to do everything. It was designed with very specific problems in mind, and it solves them exceptionally well.
+</SectionIntro>
+
+<SectionSubheading id="toc-use-cases">Where Go shines</SectionSubheading>
+
+<GoUseCaseGrid section="useCases" />
+
+<SectionSubheading id="toc-philosophy">Why Go is opinionated (and that's the point)</SectionSubheading>
+
+Coming from JavaScript/TypeScript, Go will feel restrictive at first. That's by design. Fewer choices means more consistency across every Go codebase you encounter.
+
+<GoAccordion section="philosophy" />
+
+<SectionSubheading id="toc-mental-model">The mental model shift</SectionSubheading>
+
+<Explainer title="Different brain, better engineer">
+In frontend, you think in components, reactivity, and state flows. In Go, you think in data structures, interfaces, and concurrent pipelines. It's a different brain — and it'll make you a better engineer overall.
+</Explainer>

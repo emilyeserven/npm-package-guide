@@ -1,0 +1,47 @@
+---
+id: "go-frontend-lens"
+title: "The Frontend Lens 🔍"
+guide: "go-lang"
+group: "Practical"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-familiar">What will feel familiar vs alien</TocLink>
+  <TocLink id="toc-mindset">The big adjustments</TocLink>
+  <TocLink id="toc-where-fits">Where Go fits in your stack</TocLink>
+  <TocLink id="toc-not-the-move">Where Go is NOT the move</TocLink>
+</Toc>
+
+<SectionIntro>
+You've spent years building UIs with React and TypeScript. Here's what to expect, what'll trip you up, and what'll click immediately.
+</SectionIntro>
+
+<SectionSubheading id="toc-familiar">What will feel familiar vs alien</SectionSubheading>
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-3 my-5">
+  <SectionNote>
+  **What will feel familiar:** Static typing, JSON handling (struct tags are like schema definitions), module systems (`go mod` ≈ `npm`), and the concept of interfaces. Your TypeScript intuition translates surprisingly well.
+  </SectionNote>
+
+  <Gotcha title="What will feel alien">
+  No ternary expressions, no spread operator, no destructuring, no `Array.map/filter/reduce`. You'll write a lot of `for` loops. There's no optional chaining either.
+  </Gotcha>
+</div>
+
+<SectionSubheading id="toc-mindset">The big adjustments</SectionSubheading>
+
+<GoAccordion section="mindset" />
+
+<SectionSubheading id="toc-where-fits">Where Go fits in your stack</SectionSubheading>
+
+You don't need to abandon TypeScript. Here are realistic scenarios where adding Go to your toolkit pays off.
+
+<GoUseCaseGrid section="frontendUses" />
+
+<SectionSubheading id="toc-not-the-move">Where Go is NOT the move</SectionSubheading>
+
+<Gotcha title="Skip Go when...">
+Don't reach for Go for: **data science / ML** (use Python), **complex ORMs and database migrations** (TypeScript ecosystem with Prisma/Drizzle is better here), or if your entire team is already deep in the Node.js ecosystem and there's no performance bottleneck to solve.
+</Gotcha>
