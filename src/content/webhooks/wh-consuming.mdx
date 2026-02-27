@@ -1,0 +1,93 @@
+---
+id: "wh-consuming"
+title: "Consuming Webhooks 📡"
+guide: "webhooks"
+linkRefs:
+  - id: "wh-stripe-webhooks"
+    note: "Stripe's webhook documentation covers endpoint setup and signature verification."
+  - id: "wh-hono"
+    note: "Hono — lightweight web framework for edge and Node.js environments."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-key-insight">The key insight</TocLink>
+  <TocLink id="toc-endpoint-setup">Setting up a webhook endpoint</TocLink>
+  <TocLink id="toc-handler-structure">Handler structure</TocLink>
+</Toc>
+
+<SectionIntro>
+As a frontend developer, **consuming webhooks** is the most common scenario you'll encounter. This means receiving webhooks from a third-party service and reacting to them. You need a server endpoint to do this — webhooks are server-to-server.
+</SectionIntro>
+
+<SectionSubheading id="toc-key-insight">The key insight</SectionSubheading>
+
+<Gotcha>
+You can't receive a webhook directly in the browser. A webhook is a server calling *your* server. If your frontend app needs to react to webhook events, the pattern is: webhook hits your server → your server updates a database or pushes to the client via WebSocket/SSE.
+</Gotcha>
+
+<SectionSubheading id="toc-endpoint-setup">Setting up a webhook endpoint</SectionSubheading>
+
+Here's a minimal Express.js webhook endpoint. Even if you normally work in React, this is approachable — it's just handling an HTTP request:
+
+<CodeAccordion title="Express.js webhook endpoint" language="typescript" startOpen>
+{`import express from 'express'
+
+const app = express()
+
+// IMPORTANT: Use raw body for signature verification
+app.post('/api/webhooks/stripe',
+  express.raw({ type: 'application/json' }),
+  async (req, res) => {
+    // 1. Verify signature (see Security section)
+    const event = verifyWebhook(req)
+
+    // 2. Handle the event type
+    switch (event.type) {
+      case 'payment_intent.succeeded':
+        await handlePaymentSuccess(event.data.object)
+        break
+      case 'customer.subscription.deleted':
+        await handleCancellation(event.data.object)
+        break
+    }
+
+    // 3. Always respond 200 quickly
+    res.status(200).json({ received: true })
+})`}
+</CodeAccordion>
+
+The same pattern in Hono (a lightweight framework popular for edge runtimes):
+
+<CodeAccordion title="Hono webhook endpoint" language="typescript">
+{`import { Hono } from 'hono'
+
+const app = new Hono()
+
+app.post('/api/webhooks/stripe', async (c) => {
+  // Get raw body for signature verification
+  const rawBody = await c.req.text()
+  const signature = c.req.header('stripe-signature')
+
+  const event = verifyWebhook(rawBody, signature)
+
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      await handlePaymentSuccess(event.data.object)
+      break
+  }
+
+  return c.json({ received: true })
+})`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-handler-structure">Handler structure</SectionSubheading>
+
+Every webhook handler follows the same three-step structure:
+
+<SectionList>
+  <ColItem title="1. Verify the signature">Confirm the request is authentic using the provider's signature header and your shared secret. Never skip this step.</ColItem>
+  <ColItem title="2. Route by event type">Use the `type` field in the payload to determine what action to take. Most providers use dot-notation event types like `payment_intent.succeeded`.</ColItem>
+  <ColItem title="3. Respond 200 immediately">Acknowledge receipt quickly. Do heavy processing asynchronously (via a job queue) to avoid timeouts and retries.</ColItem>
+</SectionList>

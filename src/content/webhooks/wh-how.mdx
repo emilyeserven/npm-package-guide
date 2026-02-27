@@ -1,0 +1,70 @@
+---
+id: "wh-how"
+title: "How They Work 🔄"
+guide: "webhooks"
+linkRefs:
+  - id: "wh-svix-docs"
+    note: "Svix — open-source webhook delivery infrastructure with built-in retries and verification."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-lifecycle">The webhook lifecycle</TocLink>
+  <TocLink id="toc-payload">What a payload looks like</TocLink>
+  <TocLink id="toc-headers">Important headers</TocLink>
+</Toc>
+
+<SectionIntro>
+The lifecycle of a webhook is surprisingly simple. There are only two actors: the **provider** (the service sending webhooks) and the **consumer** (you, receiving them).
+</SectionIntro>
+
+<SectionSubheading id="toc-lifecycle">The webhook lifecycle</SectionSubheading>
+
+<WebhookFlowDiagram />
+
+The complete lifecycle in four steps:
+
+<SectionList>
+  <ColItem title="1. You register a URL">You tell the provider "send events to https://myapp.com/api/webhooks/stripe". This is usually done in their dashboard or via their API.</ColItem>
+  <ColItem title="2. An event occurs">Something happens in the provider's system — a payment completes, a user signs up, a file is uploaded.</ColItem>
+  <ColItem title="3. Provider sends an HTTP POST">The provider constructs a JSON payload describing the event and POSTs it to your registered URL. This includes a signature header so you can verify it's really from them.</ColItem>
+  <ColItem title="4. You process and respond 200">Your server receives the request, verifies the signature, processes the event, and responds with a `200 OK`. If you don't respond quickly (usually within 5–30 seconds), the provider will retry.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-payload">What a payload looks like</SectionSubheading>
+
+Here's a typical webhook payload from Stripe. If you've ever fetched data from a REST API, this will look familiar — because it's the exact same format.
+
+<CodeAccordion title="Stripe webhook payload" language="json" startOpen>
+{`{
+  "id": "evt_1NqIXXAm4JFjM1",
+  "type": "payment_intent.succeeded",
+  "created": 1693420800,
+  "data": {
+    "object": {
+      "id": "pi_3NqIXXAm4JFjM1",
+      "amount": 2000,
+      "currency": "usd",
+      "status": "succeeded",
+      "customer": "cus_ABC123"
+    }
+  }
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-headers">Important headers</SectionSubheading>
+
+<SectionNote>
+Webhooks come with **HTTP headers** you'll use for verification, like `Stripe-Signature`, `X-Hub-Signature-256` (GitHub), or `svix-signature`. These are how you confirm the request is legitimate and hasn't been tampered with.
+</SectionNote>
+
+Common webhook headers across providers:
+
+<DefinitionTable>
+  <DefRow term="Stripe-Signature" definition="Stripe's HMAC signature header — includes timestamp and signature hash." />
+  <DefRow term="X-Hub-Signature-256" definition="GitHub's HMAC-SHA256 signature for validating webhook deliveries." />
+  <DefRow term="svix-signature" definition="Used by Svix-based providers (Clerk, Resend, etc.)." />
+  <DefRow term="X-Webhook-Id" definition="Unique event identifier for idempotency and deduplication." />
+  <DefRow term="X-Webhook-Timestamp" definition="Unix timestamp for replay attack prevention." />
+</DefinitionTable>

@@ -1,0 +1,48 @@
+---
+id: "wh-what"
+title: "What Are Webhooks ⚡"
+guide: "webhooks"
+linkRefs:
+  - id: "wh-stripe-webhooks"
+    note: "Stripe's webhook documentation — the gold standard for webhook provider UX."
+  - id: "wh-github-webhooks"
+    note: "GitHub's webhook documentation for repository and organization events."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-concept">The core concept</TocLink>
+  <TocLink id="toc-polling-vs-webhooks">Polling vs. webhooks</TocLink>
+  <TocLink id="toc-where-seen">Where you've already seen them</TocLink>
+</Toc>
+
+<SectionIntro>
+A webhook is an HTTP request that a server sends **to your server** when something interesting happens. That's it. It's just an HTTP POST request with a JSON payload, sent automatically in response to an event.
+</SectionIntro>
+
+<SectionSubheading id="toc-concept">The core concept</SectionSubheading>
+
+The key insight is the **direction**: instead of *you* asking a service for updates, the service *tells you* when something changes. This is the fundamental difference between polling and webhooks.
+
+<Explainer>
+Think of it like the difference between `setInterval` polling an API versus an `EventSource` / `WebSocket` pushing you updates. Except with webhooks, the "push" is a plain HTTP POST from their server to yours — no persistent connection needed.
+</Explainer>
+
+<SectionSubheading id="toc-polling-vs-webhooks">Polling vs. webhooks</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="Polling (the old way)" definition={`"Hey Stripe, any new payments?" repeated every 30 seconds. Wastes requests, adds latency, and can hit rate limits.`} />
+  <DefRow term="Webhooks (the smart way)" definition={`"Stripe, POST to this URL when someone pays." Instant notifications, zero wasted requests, scales beautifully.`} />
+</DefinitionTable>
+
+<SectionSubheading id="toc-where-seen">Where you've already seen them</SectionSubheading>
+
+If you've done any frontend work with third-party services, you've probably been on the receiving end of webhooks without realizing it:
+
+<SectionList>
+  <ColItem title="Stripe / Payment providers">Payment succeeded, subscription cancelled, invoice created</ColItem>
+  <ColItem title="GitHub">Push events, PR opened, issue commented, deployment status</ColItem>
+  <ColItem title="Slack / Discord">Slash commands, interactive messages, event subscriptions</ColItem>
+  <ColItem title="CMS platforms">Content published, entry updated, asset uploaded</ColItem>
+</SectionList>
