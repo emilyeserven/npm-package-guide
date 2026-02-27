@@ -1,0 +1,5 @@
+export type { GoUseCase, GoAccordionItem, GoCompareRow, GoCodeExample, GoConceptRow, GoProject } from './types'
+export { GO_USE_CASES, GO_PHILOSOPHY_ITEMS } from './overviewData'
+export { GO_VS_PYTHON_TABLE, GO_QUIZ_QUESTIONS, GO_HTTP_SERVER_EXAMPLE, GO_TS_CODE_EXAMPLES, GO_CONCEPT_MAP } from './comparisonData'
+export { GO_MINDSET_ITEMS, GO_FRONTEND_USES, GO_STARTER_PROJECTS } from './practicalData'
+export { GO_GUIDE_SECTIONS, GO_START_PAGE_DATA, GO_GUIDE_MANIFEST } from './navigation'
