@@ -1,0 +1,108 @@
+---
+id: "fastify-tanstack"
+title: "Pairing with TanStack 🔗"
+guide: "fastify"
+group: "Integration"
+linkRefs:
+  - id: "tanstack-query-docs"
+    note: "TanStack Query documentation"
+  - id: "tanstack-router-docs"
+    note: "TanStack Router documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-api-client">API client setup</TocLink>
+  <TocLink id="toc-query-hooks">TanStack Query + Fastify routes</TocLink>
+  <TocLink id="toc-validation-synergy">The validation synergy</TocLink>
+  <TocLink id="toc-router">TanStack Router integration</TocLink>
+</Toc>
+
+<SectionIntro>
+Fastify's design pairs beautifully with TanStack Query on the frontend. The pattern is clean: Fastify handles validation, serialization, and security; TanStack Query handles caching, deduplication, and background refetching.
+</SectionIntro>
+
+<SectionSubheading id="toc-api-client">API Client Setup</SectionSubheading>
+
+<CodeAccordion title="web/src/lib/api.ts" language="TypeScript" startOpen>
+{`const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:3001'
+
+export async function api<T>(
+  path: string,
+  options?: RequestInit
+): Promise<T> {
+  const res = await fetch(\`\${API_BASE}\${path}\`, {
+    credentials: 'include',  // Send cookies for auth
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+    ...options,
+  })
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}))
+    throw new Error(error.message ?? \`API error: \${res.status}\`)
+  }
+
+  return res.json()
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-query-hooks">TanStack Query + Fastify Routes</SectionSubheading>
+
+<CodeAccordion title="web/src/routes/users.tsx" language="TypeScript" startOpen>
+{`import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { api } from '../lib/api'
+
+// Fetches from: GET /api/users
+// Fastify validates response schema, strips extra fields
+export function useUsers() {
+  return useQuery({
+    queryKey: ['users'],
+    queryFn: () => api<User[]>('/api/users'),
+  })
+}
+
+// Posts to: POST /api/users
+// Fastify validates body schema, returns 400 if invalid
+export function useCreateUser() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (data: CreateUser) =>
+      api<User>('/api/users', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] })
+    },
+  })
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-validation-synergy">The Validation Synergy</SectionSubheading>
+
+<Explainer>
+Fastify validates the request body against the JSON schema and returns a detailed 400 error if it fails. TanStack Query's `onError` callback picks this up and you can display the validation error in your form — all without writing custom validation logic on both sides. If you share types via TypeBox, you get end-to-end type safety.
+</Explainer>
+
+<SectionSubheading id="toc-router">TanStack Router Integration</SectionSubheading>
+
+TanStack Router's `loader` pattern works seamlessly with Fastify APIs. Pre-fetch data during route transitions and have it cached by the time the component mounts:
+
+<CodeAccordion title="web/src/routes/users/$userId.tsx" language="TypeScript" startOpen>
+{`import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/users/$userId')({
+  loader: async ({ params, context }) => {
+    return context.queryClient.ensureQueryData({
+      queryKey: ['users', params.userId],
+      queryFn: () => api<User>(\`/api/users/\${params.userId}\`),
+    })
+  },
+  component: UserDetail,
+})`}
+</CodeAccordion>

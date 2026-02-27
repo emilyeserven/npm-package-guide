@@ -1,0 +1,55 @@
+---
+id: "fastify-vite-react"
+title: "Fastify + Vite + React ⚛️"
+guide: "fastify"
+group: "Integration"
+linkRefs:
+  - id: "fastify-vite-plugin"
+    note: "@fastify/vite — official Vite integration"
+  - id: "fastify-static"
+    note: "@fastify/static — serve static files"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-patterns">Three integration patterns</TocLink>
+  <TocLink id="toc-production">Serving the production build</TocLink>
+</Toc>
+
+<SectionIntro>
+There are two main patterns for combining Fastify with a Vite-powered React SPA. Your choice depends on whether you want a single server or separate frontend/backend processes.
+</SectionIntro>
+
+<SectionSubheading id="toc-patterns">Three Integration Patterns</SectionSubheading>
+
+Use the tabs below to compare three approaches. The **Separate Servers** pattern is recommended for most teams.
+
+<FastifyServerTabs />
+
+<SectionSubheading id="toc-production">Serving the Production Build</SectionSubheading>
+
+Regardless of which approach you use, in production you'll want to serve Vite's built output. Here's the `@fastify/static` setup for the "separate servers" approach:
+
+<CodeAccordion title="plugins/static.ts" language="TypeScript" startOpen>
+{`import fastifyStatic from '@fastify/static'
+import path from 'node:path'
+
+app.register(fastifyStatic, {
+  root: path.join(import.meta.dirname, '../web/dist'),
+  prefix: '/',
+})
+
+// SPA fallback: serve index.html for client-side routes
+app.setNotFoundHandler(async (request, reply) => {
+  if (request.url.startsWith('/api')) {
+    reply.code(404).send({ error: 'Not Found' })
+  } else {
+    return reply.sendFile('index.html')
+  }
+})`}
+</CodeAccordion>
+
+<Explainer>
+The SPA fallback pattern is the same concept as Nginx's `try_files $uri /index.html` — unmatched non-API routes get the app shell, and the client-side router (TanStack Router) takes over from there.
+</Explainer>

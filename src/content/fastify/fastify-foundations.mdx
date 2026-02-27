@@ -1,0 +1,73 @@
+---
+id: "fastify-foundations"
+title: "What Fastify Is & Why It's Fast ⚡"
+guide: "fastify"
+group: "Foundations"
+linkRefs:
+  - id: "fastify-official-docs"
+    note: "Official Fastify documentation"
+  - id: "fastify-github"
+    note: "Fastify GitHub repository"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">Overview</TocLink>
+  <TocLink id="toc-mental-model">Mental model for frontend engineers</TocLink>
+  <TocLink id="toc-principles">Core principles</TocLink>
+  <TocLink id="toc-vs-express">How it differs from Express</TocLink>
+</Toc>
+
+<SectionIntro>
+Fastify is a web framework for Node.js that obsesses over performance and developer experience. Born in 2016, inspired by Hapi and Express, it has grown into one of the most downloaded backend frameworks in the ecosystem — over 10 million downloads per month as of v5.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">Overview</SectionSubheading>
+
+Where Express processes requests through a linear middleware chain, **Fastify uses a directed acyclic graph (DAG) of encapsulated plugins**, a JSON Schema-based validation and serialization engine (powered by `fast-json-stringify`), and the high-performance `pino` logger built in by default.
+
+The result: depending on code complexity, Fastify can serve **up to 76,000+ requests per second** on commodity hardware. For the kinds of API routes your React app hits — JSON serialization, validation, auth checks — the difference is tangible.
+
+<SectionSubheading id="toc-mental-model">Mental Model for Frontend Engineers</SectionSubheading>
+
+<Explainer>
+Think of Fastify like a compiled, typed framework that happens to be written in JavaScript. Its schema-first approach is comparable to how TypeScript catches errors at build time — Fastify catches malformed requests and serializes responses using compiled JSON schemas, not `JSON.stringify()`.
+</Explainer>
+
+<SectionSubheading id="toc-principles">Core Principles</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="Performance">
+    Requests are routed via `find-my-way`, a radix-tree router that resolves paths in O(k) time (where k is path length), not O(n) like Express's linear matching.
+  </DefRow>
+  <DefRow term="Encapsulation">
+    Plugins create isolated scopes. A database decorator registered inside a plugin won't leak into unrelated routes, preventing cross-dependency tangles.
+  </DefRow>
+  <DefRow term="Schema-first">
+    JSON Schema validates incoming requests and serializes outgoing responses at compile time, before your first request even hits.
+  </DefRow>
+  <DefRow term="Extensibility">
+    Hooks, decorators, and plugins let you extend every aspect of the framework without monkey-patching internals.
+  </DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-vs-express">How It Differs from Express</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="Routing">
+    Express uses a linear middleware chain. Fastify uses a radix-tree router (`find-my-way`) that resolves in O(k) time.
+  </DefRow>
+  <DefRow term="Middleware vs. Plugins">
+    Express has middleware functions in a flat chain. Fastify has encapsulated plugins in a tree structure with isolated scopes.
+  </DefRow>
+  <DefRow term="Validation">
+    Express requires third-party middleware (e.g., `express-validator`). Fastify has built-in JSON Schema validation that compiles at startup.
+  </DefRow>
+  <DefRow term="Serialization">
+    Express uses `JSON.stringify()` for every response. Fastify uses `fast-json-stringify` with compiled serializers, which is 2-3x faster.
+  </DefRow>
+  <DefRow term="Logging">
+    Express has no built-in logger. Fastify ships with `pino`, a structured JSON logger that's orders of magnitude faster than `console.log`.
+  </DefRow>
+</DefinitionTable>

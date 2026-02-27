@@ -1,0 +1,97 @@
+---
+id: "fastify-plugins"
+title: "The Plugin System 🔌"
+guide: "fastify"
+group: "Plugin System"
+linkRefs:
+  - id: "fastify-plugins-docs"
+    note: "Official plugins documentation"
+  - id: "fastify-plugin-npm"
+    note: "fastify-plugin on npm"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-everything-is-plugin">Everything is a plugin</TocLink>
+  <TocLink id="toc-encapsulation">Encapsulation vs. fastify-plugin</TocLink>
+  <TocLink id="toc-encapsulation-tree">Visualizing the encapsulation tree</TocLink>
+  <TocLink id="toc-routes-as-plugins">Routes as plugins</TocLink>
+</Toc>
+
+<SectionIntro>
+This is the single most important concept to internalize. **In Fastify, everything is a plugin.** Your routes, your database connection, your auth logic — all registered via `app.register()`. This creates a tree of encapsulated scopes.
+</SectionIntro>
+
+<SectionSubheading id="toc-everything-is-plugin">Everything Is a Plugin</SectionSubheading>
+
+<CodeAccordion title="plugins/db.ts" language="TypeScript" startOpen>
+{`import fp from 'fastify-plugin'
+
+export default fp(async function dbPlugin(app, opts) {
+  const pool = createPool(opts.connectionString)
+
+  // Decorate the Fastify instance
+  app.decorate('db', pool)
+
+  // Cleanup on shutdown
+  app.addHook('onClose', async () => {
+    await pool.end()
+  })
+})`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-encapsulation">Encapsulation vs. `fastify-plugin`</SectionSubheading>
+
+By default, `register` creates a new scope. Anything you decorate inside that scope won't be visible to parent or sibling plugins. This is powerful because it prevents your auth plugin's state from leaking into your analytics routes.
+
+But sometimes you *want* a plugin to be visible everywhere — like a database connection. That's where `fastify-plugin` (imported as `fp`) comes in. Wrapping your plugin with `fp()` **breaks encapsulation upward**, exposing decorators to the parent scope.
+
+<Explainer>
+**Rule of thumb:** Use `fp()` for shared infrastructure (database, config, auth utilities). Use bare `register()` for feature-specific routes and logic that should stay isolated.
+</Explainer>
+
+<SectionSubheading id="toc-encapsulation-tree">Visualizing the Encapsulation Tree</SectionSubheading>
+
+<CodeAccordion title="app structure" language="diagram" startOpen>
+{`Root (app)
+ ├── fp(dbPlugin)     ← Escapes scope, db visible everywhere
+ ├── fp(authPlugin)   ← Escapes scope, auth utilities everywhere
+ │
+ ├── register(usersRoutes, { prefix: '/api/users' })
+ │   ↳ Isolated scope. Can see db + auth.
+ │     Decorators here are NOT visible to sibling plugins.
+ │
+ └── register(postsRoutes, { prefix: '/api/posts' })
+     ↳ Isolated scope. Can see db + auth.
+       Cannot see anything from usersRoutes.`}
+</CodeAccordion>
+
+This structure looks a lot like how you'd organize React components — parent context flows down, but siblings are isolated. The `prefix` option automatically namespaces all routes declared inside that plugin.
+
+<SectionSubheading id="toc-routes-as-plugins">Routes as Plugins</SectionSubheading>
+
+<CodeAccordion title="routes/users.ts" language="TypeScript">
+{`import { FastifyPluginAsync } from 'fastify'
+
+const usersRoutes: FastifyPluginAsync = async (app) => {
+  app.get('/', async (request, reply) => {
+    const users = await app.db.query('SELECT * FROM users')
+    return users
+  })
+
+  app.get('/:id', async (request, reply) => {
+    const { id } = request.params as { id: string }
+    return app.db.query('SELECT * FROM users WHERE id = $1', [id])
+  })
+}
+
+export default usersRoutes`}
+</CodeAccordion>
+
+<CodeAccordion title="server.ts — registering with prefix" language="TypeScript">
+{`// In your main server file:
+app.register(import('./routes/users.js'), { prefix: '/api/users' })
+// GET /api/users      → list all
+// GET /api/users/:id  → get one`}
+</CodeAccordion>

@@ -1,0 +1,95 @@
+---
+id: "fastify-validation"
+title: "Schema Validation 📋"
+guide: "fastify"
+group: "Validation & Security"
+linkRefs:
+  - id: "fastify-validation-docs"
+    note: "Official validation and serialization docs"
+  - id: "fastify-typebox"
+    note: "TypeBox — TypeScript-first JSON Schema"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-overview">How schema validation works</TocLink>
+  <TocLink id="toc-route-schema">Route schema example</TocLink>
+  <TocLink id="toc-response-whitelist">Response whitelisting</TocLink>
+  <TocLink id="toc-typebox">TypeBox for TypeScript-first schemas</TocLink>
+</Toc>
+
+<SectionIntro>
+Fastify's schema system is one of its most powerful features. You define JSON Schemas for your route's **params**, **querystring**, **body**, **headers**, and **response**. Fastify compiles these into optimized validation and serialization functions at startup.
+</SectionIntro>
+
+<SectionSubheading id="toc-overview">How Schema Validation Works</SectionSubheading>
+
+When you define a schema on a route, Fastify compiles it at startup using `ajv` (for validation) and `fast-json-stringify` (for serialization). This means validation and serialization are done by pre-compiled functions, not generic runtime checks.
+
+<SectionList>
+  <ColItem>**Body** — Validates the request payload. Returns 400 if invalid.</ColItem>
+  <ColItem>**Params** — Validates route parameters like `:id`.</ColItem>
+  <ColItem>**Querystring** — Validates query string parameters.</ColItem>
+  <ColItem>**Headers** — Validates specific request headers.</ColItem>
+  <ColItem>**Response** — Serializes and **whitelists** output fields. Unrecognized properties are stripped.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-route-schema">Route Schema Example</SectionSubheading>
+
+<CodeAccordion title="routes/users.ts" language="TypeScript" startOpen>
+{`app.post('/users', {
+  schema: {
+    body: {
+      type: 'object',
+      required: ['email', 'name'],
+      properties: {
+        email:  { type: 'string', format: 'email' },
+        name:   { type: 'string', minLength: 1 },
+        avatar: { type: 'string', format: 'uri' }
+      },
+      additionalProperties: false
+    },
+    response: {
+      201: {
+        type: 'object',
+        properties: {
+          id:    { type: 'string' },
+          email: { type: 'string' },
+          name:  { type: 'string' }
+        }
+      }
+    }
+  }
+}, async (request, reply) => {
+  const user = await createUser(request.body)
+  reply.code(201)
+  return user
+})`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-response-whitelist">Response Whitelisting</SectionSubheading>
+
+<Gotcha>
+The `response` schema doesn't just document your API — it acts as a **whitelist**. Properties not listed in the schema are *stripped from the response*. This means if your database query accidentally returns a `password_hash` field, Fastify's serializer will silently drop it. This is a huge win for frontend-backend security.
+</Gotcha>
+
+<SectionSubheading id="toc-typebox">TypeBox for TypeScript-First Schemas</SectionSubheading>
+
+Writing raw JSON Schema objects gets tedious. `@sinclair/typebox` lets you define schemas that produce both runtime JSON Schema *and* a TypeScript type. Fastify has a first-party type provider for it.
+
+<CodeAccordion title="schemas/user.ts" language="TypeScript" startOpen>
+{`import { Type, Static } from '@sinclair/typebox'
+
+export const CreateUserSchema = Type.Object({
+  email: Type.String({ format: 'email' }),
+  name:  Type.String({ minLength: 1 }),
+  avatar: Type.Optional(Type.String({ format: 'uri' }))
+})
+
+// TypeScript type derived from the schema
+export type CreateUser = Static<typeof CreateUserSchema>
+// { email: string; name: string; avatar?: string }`}
+</CodeAccordion>
+
+Install `@fastify/type-provider-typebox` and configure your Fastify instance to use it. Your request body, params, and query will be correctly typed in handlers automatically.

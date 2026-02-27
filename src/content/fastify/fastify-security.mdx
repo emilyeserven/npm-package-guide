@@ -1,0 +1,145 @@
+---
+id: "fastify-security"
+title: "Security Scaffolding 🔒"
+guide: "fastify"
+group: "Validation & Security"
+linkRefs:
+  - id: "fastify-helmet"
+    note: "@fastify/helmet — security headers"
+  - id: "fastify-cors-plugin"
+    note: "@fastify/cors — cross-origin resource sharing"
+  - id: "fastify-rate-limit"
+    note: "@fastify/rate-limit — request throttling"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-security-baseline">The security baseline</TocLink>
+  <TocLink id="toc-plugin-grid">Essential security plugins</TocLink>
+  <TocLink id="toc-wiring">Wiring them together</TocLink>
+  <TocLink id="toc-per-route">Per-route rate limiting</TocLink>
+  <TocLink id="toc-csrf">CSRF protection</TocLink>
+</Toc>
+
+<SectionIntro>
+If you're building an API that a React SPA will consume, these plugins are not optional nice-to-haves — they are the security baseline. Think of them as the `Content-Security-Policy`, `Strict-Transport-Security`, and rate-limiting headers your browser expects from any serious production server.
+</SectionIntro>
+
+<SectionSubheading id="toc-security-baseline">The Security Baseline</SectionSubheading>
+
+<SectionNote>
+**Registration order matters.** Register security plugins before your route plugins. Helmet's `onRequest` hook needs to fire before your route handler. Rate limiting fires on `onRequest` by default, so an attacker is blocked before any expensive computation happens.
+</SectionNote>
+
+<SectionSubheading id="toc-plugin-grid">Essential Security Plugins</SectionSubheading>
+
+<FastifyPluginCards />
+
+<SectionSubheading id="toc-wiring">Wiring Them Together</SectionSubheading>
+
+<CodeAccordion title="plugins/security.ts" language="TypeScript" startOpen>
+{`import fp from 'fastify-plugin'
+import helmet from '@fastify/helmet'
+import cors from '@fastify/cors'
+import rateLimit from '@fastify/rate-limit'
+import cookie from '@fastify/cookie'
+
+export default fp(async function securityPlugin(app) {
+
+  // 1. Security headers
+  await app.register(helmet, {
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc:  ["'self'", "'unsafe-inline'"],
+        styleSrc:   ["'self'", "'unsafe-inline'"],
+        imgSrc:     ["'self'", "data:", "https:"],
+      }
+    }
+  })
+
+  // 2. CORS — allow your Vite dev server
+  await app.register(cors, {
+    origin: [
+      'http://localhost:5173',  // Vite dev
+      'https://yourapp.com'     // Production
+    ],
+    credentials: true,          // Allow cookies
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  })
+
+  // 3. Rate limiting
+  await app.register(rateLimit, {
+    global: true,
+    max: 100,              // 100 requests...
+    timeWindow: '1 minute',  // ...per minute, per IP
+  })
+
+  // 4. Cookies (needed for CSRF, sessions)
+  await app.register(cookie, {
+    secret: process.env.COOKIE_SECRET,
+  })
+})`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-per-route">Per-Route Rate Limiting</SectionSubheading>
+
+The global rate limit of 100/min is a reasonable baseline, but auth endpoints should be much stricter to prevent credential stuffing.
+
+<CodeAccordion title="routes/auth.ts" language="TypeScript">
+{`app.post('/login', {
+  config: {
+    rateLimit: {
+      max: 5,
+      timeWindow: '15 minutes'
+    }
+  }
+}, async (request, reply) => {
+  // auth logic...
+})`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-csrf">CSRF Protection with Cookie-Based Auth</SectionSubheading>
+
+If your SPA uses HTTP-only cookies for auth (which is more secure than storing JWTs in localStorage), you need CSRF protection. Fastify's CSRF plugin generates tokens that your frontend includes in request headers.
+
+<CodeAccordion title="Server-side setup" language="TypeScript">
+{`import csrf from '@fastify/csrf-protection'
+
+await app.register(csrf, {
+  cookieOpts: { signed: true }
+})
+
+// Endpoint for your SPA to fetch a CSRF token
+app.get('/api/csrf-token', async (req, reply) => {
+  return { token: reply.generateCsrf() }
+})
+
+// Protected mutation route
+app.post('/api/orders', {
+  onRequest: app.csrfProtection
+}, async (req, reply) => {
+  // Safe — CSRF token has been verified
+})`}
+</CodeAccordion>
+
+<CodeAccordion title="React-side: sending the CSRF token" language="TypeScript">
+{`// In your TanStack Query mutation
+const { data: csrfData } = useQuery({
+  queryKey: ['csrf'],
+  queryFn: () => fetch('/api/csrf-token').then(r => r.json())
+})
+
+const mutation = useMutation({
+  mutationFn: (order) => fetch('/api/orders', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-csrf-token': csrfData.token,
+    },
+    credentials: 'include',
+    body: JSON.stringify(order)
+  })
+})`}
+</CodeAccordion>

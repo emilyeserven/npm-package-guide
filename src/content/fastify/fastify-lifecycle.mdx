@@ -1,0 +1,88 @@
+---
+id: "fastify-lifecycle"
+title: "Hooks & Lifecycle 🔄"
+guide: "fastify"
+group: "Plugin System"
+linkRefs:
+  - id: "fastify-lifecycle-docs"
+    note: "Official lifecycle documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-request-lifecycle">The request lifecycle</TocLink>
+  <TocLink id="toc-which-hook">Which hook when?</TocLink>
+  <TocLink id="toc-timing-example">Practical example: timing requests</TocLink>
+  <TocLink id="toc-app-hooks">Application lifecycle hooks</TocLink>
+</Toc>
+
+<SectionIntro>
+Fastify provides fine-grained hooks that fire at specific points in the request lifecycle. Unlike Express middleware (which is one big chain), each hook has a defined purpose and position.
+</SectionIntro>
+
+<SectionSubheading id="toc-request-lifecycle">The Request Lifecycle</SectionSubheading>
+
+Click any step in the diagram below to see what it does. Blue steps are hooks — you can register functions at each point. They're all scoped by encapsulation, so a hook registered inside a plugin only fires for that plugin's routes.
+
+<FastifyLifecycleFlow />
+
+<SectionSubheading id="toc-which-hook">Which Hook When?</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="onRequest">
+    First hook. Request body hasn't been parsed yet. Perfect for auth token validation, request logging, or CORS checks.
+  </DefRow>
+  <DefRow term="preParsing">
+    Before body parsing. Can transform or decompress the incoming stream.
+  </DefRow>
+  <DefRow term="preValidation">
+    After parsing, before schema validation. Good for custom input sanitization.
+  </DefRow>
+  <DefRow term="preHandler">
+    After validation, right before your handler. The most common hook for auth guards, data loading, and permission checks.
+  </DefRow>
+  <DefRow term="preSerialization">
+    Before serializing the response payload. Can reshape output data.
+  </DefRow>
+  <DefRow term="onSend">
+    After serialization. Can modify the final payload string or set custom headers.
+  </DefRow>
+  <DefRow term="onResponse">
+    After response is sent. Fire-and-forget. Perfect for logging, metrics, or analytics.
+  </DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-timing-example">Practical Example: Timing Every Request</SectionSubheading>
+
+<CodeAccordion title="plugins/timing.ts" language="TypeScript" startOpen>
+{`import fp from 'fastify-plugin'
+
+export default fp(async function(app) {
+  app.addHook('onRequest', async (request) => {
+    request.startTime = performance.now()
+  })
+
+  app.addHook('onResponse', async (request, reply) => {
+    const duration = performance.now() - request.startTime
+    request.log.info({
+      url: request.url,
+      statusCode: reply.statusCode,
+      duration: \`\${duration.toFixed(2)}ms\`
+    })
+  })
+})`}
+</CodeAccordion>
+
+Since this uses `fp()`, the timing hooks apply to every route in the application. The structured pino logger outputs JSON, which is easily parsed by log aggregation tools.
+
+<SectionSubheading id="toc-app-hooks">Application Lifecycle Hooks</SectionSubheading>
+
+Beyond request hooks, Fastify also has app-level hooks for startup and shutdown orchestration:
+
+<SectionList>
+  <ColItem>**`onReady`** — fires when the server is ready but not yet listening. Good for warming caches.</ColItem>
+  <ColItem>**`onListen`** — fires once the server is actively accepting connections.</ColItem>
+  <ColItem>**`preClose`** — fires when `app.close()` is called, before closing connections.</ColItem>
+  <ColItem>**`onClose`** — fires during graceful shutdown. Clean up database pools, flush logs, etc.</ColItem>
+</SectionList>
