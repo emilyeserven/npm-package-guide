@@ -1,0 +1,57 @@
+---
+id: "wh-tools"
+title: "Development Tools 🧰"
+guide: "webhooks"
+linkRefs:
+  - id: "wh-ngrok"
+    note: "ngrok — the most popular tunneling tool for exposing local servers to the internet."
+  - id: "wh-hookdeck"
+    note: "Hookdeck — managed webhook infrastructure with delivery monitoring."
+  - id: "wh-svix-docs"
+    note: "Svix — open-source webhook delivery platform."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-local-dev">Local development tunnels</TocLink>
+  <TocLink id="toc-inspection">Payload inspection</TocLink>
+  <TocLink id="toc-managed">Managed infrastructure</TocLink>
+</Toc>
+
+<SectionIntro>
+When developing locally, your `localhost` isn't publicly accessible. These tools create a tunnel so webhook providers can reach your machine, and help you inspect and debug webhook payloads.
+</SectionIntro>
+
+<SectionSubheading id="toc-local-dev">Local development tunnels</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="ngrok" definition="The classic. Run ngrok http 3000 and get a public URL that tunnels to your local server. Free tier available with session limits." />
+  <DefRow term="Cloudflare Tunnel" definition="Free alternative to ngrok. Run cloudflared tunnel for a secure tunnel without exposing ports. No session time limits." />
+  <DefRow term="localtunnel" definition="Open-source alternative. Run lt --port 3000 for a quick tunnel. Less reliable than ngrok but completely free." />
+</DefinitionTable>
+
+<Explainer>
+For most webhook development, ngrok is the fastest path. Install it, run `ngrok http 3000`, and paste the generated URL into your webhook provider's dashboard. Your local server will receive real webhook events.
+</Explainer>
+
+<SectionSubheading id="toc-inspection">Payload inspection</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="webhook.site" definition="Instant URL that captures any incoming webhook. Perfect for inspecting payloads before writing any code. Shows headers, body, and query params." />
+  <DefRow term="RequestBin" definition="Similar to webhook.site — generates a URL that collects and displays incoming HTTP requests. Useful for debugging payload formats." />
+</DefinitionTable>
+
+<SectionNote>
+Start with webhook.site to understand what a provider sends (headers, body shape, event types) before writing any handler code. It's much faster than setting up a local endpoint for exploration.
+</SectionNote>
+
+<SectionSubheading id="toc-managed">Managed infrastructure</SectionSubheading>
+
+If you're building a service that *sends* webhooks, consider using managed infrastructure instead of building retry logic from scratch:
+
+<DefinitionTable>
+  <DefRow term="Svix" definition="Open-source webhook delivery platform. Handles signing, retries, delivery logging, and consumer management. Self-host or use their hosted service." />
+  <DefRow term="Hookdeck" definition="Managed webhook infrastructure. Automatic retries, signature verification, delivery monitoring, and replay capabilities." />
+  <DefRow term="Inngest" definition="Serverless event-driven functions. Not webhook-specific, but handles the event delivery, retry, and scheduling infrastructure that webhook systems need." />
+</DefinitionTable>

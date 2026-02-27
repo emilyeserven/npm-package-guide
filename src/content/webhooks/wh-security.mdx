@@ -1,0 +1,80 @@
+---
+id: "wh-security"
+title: "Security and Verification 🔐"
+guide: "webhooks"
+linkRefs:
+  - id: "wh-mdn-subtle-crypto"
+    note: "MDN Web Crypto API — the modern way to perform cryptographic operations in JavaScript."
+  - id: "wh-owasp-webhook"
+    note: "OWASP webhook security best practices."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-why-verify">Why verification matters</TocLink>
+  <TocLink id="toc-hmac">How HMAC verification works</TocLink>
+  <TocLink id="toc-implementation">Verification in practice</TocLink>
+  <TocLink id="toc-measures">Additional security measures</TocLink>
+</Toc>
+
+<SectionIntro>
+This is the part most people skip, and it's the part that matters most. Anyone can send an HTTP POST to your webhook URL. Without verification, an attacker could forge events and trick your app into granting access, processing refunds, or worse.
+</SectionIntro>
+
+<SectionSubheading id="toc-why-verify">Why verification matters</SectionSubheading>
+
+<Gotcha>
+**Never skip signature verification.** An unverified webhook endpoint is an open door. It takes 10 lines of code to verify, and it's the difference between a secure system and a critical vulnerability.
+</Gotcha>
+
+<SectionSubheading id="toc-hmac">How HMAC verification works</SectionSubheading>
+
+The concept is elegant: both you and the provider share a secret key. When the provider sends a webhook, they hash the request body with this key. You do the same hash on your end and compare. If they match, the request is authentic and unmodified.
+
+<WebhookHmacFlow />
+
+<SectionSubheading id="toc-implementation">Verification in practice</SectionSubheading>
+
+<CodeAccordion title="HMAC signature verification" language="typescript" startOpen>
+{`import crypto from 'node:crypto'
+
+function verifyWebhookSignature(
+  payload: string,
+  signature: string,
+  timestamp: string,
+  secret: string
+): boolean {
+  // 1. Reject old timestamps (prevent replay attacks)
+  const age = Date.now() - Number(timestamp)
+  if (age > 300_000) { // 5 min tolerance
+    return false
+  }
+
+  // 2. Compute expected signature
+  const expected = crypto
+    .createHmac('sha256', secret)
+    .update(\`\${timestamp}.\${payload}\`)
+    .digest('hex')
+
+  // 3. Timing-safe comparison (prevents timing attacks)
+  return crypto.timingSafeEqual(
+    Buffer.from(expected),
+    Buffer.from(signature)
+  )
+}`}
+</CodeAccordion>
+
+<Gotcha>
+**Raw body gotcha:** You must verify the signature against the **raw request body**, not a parsed-and-re-stringified version. Parsing JSON and then `JSON.stringify()`-ing it can change whitespace or key order, which breaks the signature. This is why Express uses `express.raw()` for webhook routes.
+</Gotcha>
+
+<SectionSubheading id="toc-measures">Additional security measures</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="Signature verification" definition="Prevents forged and tampered requests." />
+  <DefRow term="Timestamp checking" definition="Prevents replay attacks — reject events older than 5 minutes." />
+  <DefRow term="Idempotency keys" definition="Prevents duplicate processing when providers retry delivery." />
+  <DefRow term="IP allowlisting" definition="Blocks requests from unknown source IP addresses." />
+  <DefRow term="HTTPS only" definition="Prevents payload interception in transit." />
+</DefinitionTable>

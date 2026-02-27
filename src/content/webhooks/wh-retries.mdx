@@ -1,0 +1,86 @@
+---
+id: "wh-retries"
+title: "Retry Strategies ♻️"
+guide: "webhooks"
+linkRefs:
+  - id: "wh-bullmq"
+    note: "BullMQ — Redis-based job queue for Node.js with built-in retry and backoff support."
+  - id: "wh-inngest"
+    note: "Inngest — serverless event-driven functions with automatic retries and scheduling."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-why-retry">Why retries matter</TocLink>
+  <TocLink id="toc-backoff">Exponential backoff</TocLink>
+  <TocLink id="toc-production">Production retry systems</TocLink>
+</Toc>
+
+<SectionIntro>
+Webhook endpoints go down. Networks hiccup. Servers restart. A robust retry strategy is the difference between a webhook system that "mostly works" and one that's production-grade.
+</SectionIntro>
+
+<SectionSubheading id="toc-why-retry">Why retries matter</SectionSubheading>
+
+When your webhook delivery gets a non-2xx response (or times out), you need to try again. But you can't just retry immediately in a tight loop — that can overwhelm a struggling server and make things worse.
+
+<Gotcha>
+In production, don't use `setTimeout` for retries. Use a proper job queue like BullMQ, Inngest, or a database-backed scheduler. `setTimeout` won't survive server restarts, so pending retries will be lost.
+</Gotcha>
+
+<SectionSubheading id="toc-backoff">Exponential backoff</SectionSubheading>
+
+The standard pattern is exponential backoff — each retry waits longer than the last:
+
+<CodeAccordion title="Retry with exponential backoff" language="typescript" startOpen>
+{`const RETRY_DELAYS = [
+  60_000,       // 1 minute
+  300_000,      // 5 minutes
+  1_800_000,    // 30 minutes
+  7_200_000,    // 2 hours
+  86_400_000,   // 24 hours
+]
+
+async function deliverWithRetry(
+  sub: WebhookSubscription,
+  event: Record<string, unknown>,
+  attempt = 0
+) {
+  try {
+    await dispatchWebhook(sub, event)
+    // Success — record delivery
+    await recordDelivery(sub.id, 'delivered', attempt)
+  } catch (err) {
+    if (attempt < RETRY_DELAYS.length) {
+      // Schedule retry (use a job queue in production)
+      await queue.add('webhook-retry', {
+        subId: sub.id,
+        event,
+        attempt: attempt + 1,
+      }, {
+        delay: RETRY_DELAYS[attempt],
+      })
+    } else {
+      // Max retries exceeded — disable webhook
+      await disableWebhook(sub.id)
+      await notifyUser(sub, 'Webhook disabled after repeated failures')
+    }
+  }
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-production">Production retry systems</SectionSubheading>
+
+For production use, delegate retries to a proper job queue:
+
+<DefinitionTable>
+  <DefRow term="BullMQ" definition="Redis-based queue for Node.js. Supports delayed jobs, backoff strategies, rate limiting, and job prioritization. The most popular choice for self-hosted webhook delivery." />
+  <DefRow term="Inngest" definition="Serverless event-driven functions. Retries, scheduling, and fan-out are built into the platform. No queue infrastructure to manage." />
+  <DefRow term="Database-backed" definition="Store pending deliveries in your database with a next_retry_at timestamp. A cron job or worker polls for due deliveries. Simple but effective." />
+  <DefRow term="Svix / Hookdeck" definition="Managed webhook infrastructure. They handle delivery, retries, signature verification, and monitoring. The fastest path to production-grade webhooks." />
+</DefinitionTable>
+
+<SectionNote>
+Most providers retry 3–5 times over 24 hours. Stripe retries up to 3 days. After max retries, disable the webhook and notify the user — don't keep hammering dead endpoints.
+</SectionNote>

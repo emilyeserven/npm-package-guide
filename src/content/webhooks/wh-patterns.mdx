@@ -1,0 +1,68 @@
+---
+id: "wh-patterns"
+title: "Patterns and Pitfalls ⚠️"
+guide: "webhooks"
+linkRefs:
+  - id: "wh-stripe-webhooks"
+    note: "Stripe's webhook best practices cover idempotency and fast acknowledgement."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-respond-first">Respond 200 first, process later</TocLink>
+  <TocLink id="toc-idempotent">Idempotent handlers</TocLink>
+  <TocLink id="toc-pitfalls">Pitfalls to avoid</TocLink>
+  <TocLink id="toc-simulator">Interactive simulation</TocLink>
+</Toc>
+
+<SectionIntro>
+The difference between a webhook integration that "works in dev" and one that's production-grade comes down to a few key patterns. Here are the ones that matter most.
+</SectionIntro>
+
+<SectionSubheading id="toc-respond-first">Respond 200 first, process later</SectionSubheading>
+
+The single most important pattern. Acknowledge receipt immediately, then do your heavy processing asynchronously. If your handler takes too long, the provider will think delivery failed and retry — causing duplicate processing.
+
+<CodeAccordion title="Async processing pattern" language="typescript" startOpen>
+{`app.post('/webhooks', async (req, res) => {
+  const event = verifyWebhook(req)
+
+  // Respond immediately
+  res.status(200).json({ received: true })
+
+  // Process in background (queue, worker, etc.)
+  await queue.add('process-webhook', event)
+})`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-idempotent">Idempotent handlers</SectionSubheading>
+
+Webhooks can be delivered more than once. Your handler must be safe to run multiple times with the same event. Use the event ID to deduplicate.
+
+<CodeAccordion title="Idempotent handler with deduplication" language="typescript">
+{`async function handlePayment(event: WebhookEvent) {
+  // Check if we already processed this event
+  const existing = await db.webhookEvents.findUnique({
+    where: { eventId: event.id }
+  })
+
+  if (existing) return // Already handled, skip
+
+  // Process and record atomically
+  await db.$transaction([
+    db.webhookEvents.create({ data: { eventId: event.id } }),
+    db.orders.update({ /* ... */ }),
+  ])
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-pitfalls">Pitfalls to avoid</SectionSubheading>
+
+<WebhookPitfallTable />
+
+<SectionSubheading id="toc-simulator">Interactive simulation</SectionSubheading>
+
+Try the webhook simulator below to see how events flow from a provider through to your endpoint — including what happens when a forged request is detected.
+
+<WebhookSimulator />

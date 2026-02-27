@@ -1,0 +1,111 @@
+---
+id: "wh-frontend"
+title: "Webhooks to Frontend 🖥️"
+guide: "webhooks"
+linkRefs:
+  - id: "wh-tanstack-query"
+    note: "TanStack Query documentation — covers refetching, polling, and cache invalidation."
+  - id: "wh-mdn-sse"
+    note: "MDN Server-Sent Events reference — one-way real-time push from server to browser."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-problem">The problem</TocLink>
+  <TocLink id="toc-relay-patterns">Relay patterns</TocLink>
+  <TocLink id="toc-tanstack-query">TanStack Query pattern</TocLink>
+  <TocLink id="toc-sse">SSE pattern</TocLink>
+</Toc>
+
+<SectionIntro>
+Since webhooks land on your server, you need a way to relay that information to your frontend. Here are the most common patterns, from simplest to most real-time.
+</SectionIntro>
+
+<SectionSubheading id="toc-problem">The problem</SectionSubheading>
+
+Webhooks are server-to-server. Your React app running in the browser can't receive them directly. You need an intermediary — your server processes the webhook, and then your frontend picks up the changes through one of several relay patterns.
+
+<SectionSubheading id="toc-relay-patterns">Relay patterns</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="TanStack Query Invalidation" definition="Webhook updates a DB → Your frontend uses TanStack Query with polling or refetch-on-focus to pick up changes. Simplest approach." />
+  <DefRow term="Server-Sent Events (SSE)" definition="Webhook hits your server → Server pushes to client via SSE → React updates instantly. Great for real-time UIs." />
+  <DefRow term="WebSocket" definition="Webhook hits server → Server broadcasts via WebSocket → Client receives. Best for bidirectional, high-frequency updates." />
+  <DefRow term="Database + Polling" definition="Webhook writes to DB → TanStack Query polls at a reasonable interval. Simple, reliable, works at any scale." />
+</DefinitionTable>
+
+<SectionSubheading id="toc-tanstack-query">TanStack Query pattern</SectionSubheading>
+
+The simplest approach — no extra infrastructure needed. The webhook updates your database on the server side, and TanStack Query picks up the changes on the next refetch:
+
+<CodeAccordion title="TanStack Query with refetch" language="typescript" startOpen>
+{`// In your React component — no webhook code here!
+// The webhook already updated the DB on the server side.
+// You just need fresh data.
+
+import { useQuery } from '@tanstack/react-query'
+
+function SubscriptionStatus() {
+  const { data } = useQuery({
+    queryKey: ['subscription'],
+    queryFn: () => fetch('/api/subscription').then(r => r.json()),
+    // Refetch when window regains focus
+    refetchOnWindowFocus: true,
+    // Or poll every 30 seconds for near-real-time
+    refetchInterval: 30_000,
+  })
+
+  return <div>Status: {data?.status}</div>
+}`}
+</CodeAccordion>
+
+<Explainer>
+This pattern works well for most use cases. The user sees updated data within seconds, and you don't need to set up WebSocket or SSE infrastructure. Start here and add real-time push only if the UX demands it.
+</Explainer>
+
+<SectionSubheading id="toc-sse">SSE pattern</SectionSubheading>
+
+For truly real-time updates, use Server-Sent Events. Your server holds open a connection and pushes events as they arrive:
+
+<CodeAccordion title="SSE endpoint (server)" language="typescript">
+{`// Server: push events to connected clients
+app.get('/api/events', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream')
+  res.setHeader('Cache-Control', 'no-cache')
+  res.setHeader('Connection', 'keep-alive')
+
+  // When a webhook arrives, push to this client
+  const handler = (event: WebhookEvent) => {
+    res.write(\`data: \${JSON.stringify(event)}\\n\\n\`)
+  }
+
+  eventEmitter.on('webhook', handler)
+  req.on('close', () => eventEmitter.off('webhook', handler))
+})`}
+</CodeAccordion>
+
+<CodeAccordion title="SSE client (React)" language="typescript">
+{`// Client: listen for server-sent events
+import { useEffect } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
+
+function useWebhookSSE() {
+  const queryClient = useQueryClient()
+
+  useEffect(() => {
+    const source = new EventSource('/api/events')
+
+    source.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+
+      // Invalidate relevant queries when events arrive
+      if (data.type === 'payment_intent.succeeded') {
+        queryClient.invalidateQueries({ queryKey: ['payments'] })
+      }
+    }
+
+    return () => source.close()
+  }, [queryClient])
+}`}
+</CodeAccordion>

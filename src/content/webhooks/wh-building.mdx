@@ -1,0 +1,89 @@
+---
+id: "wh-building"
+title: "Building Webhook Endpoints 🏗️"
+guide: "webhooks"
+linkRefs:
+  - id: "wh-svix-docs"
+    note: "Svix provides open-source webhook infrastructure — see how the pros build it."
+  - id: "wh-hookdeck"
+    note: "Hookdeck — managed webhook infrastructure with automatic retries and monitoring."
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-provider-role">The provider's responsibilities</TocLink>
+  <TocLink id="toc-dispatcher">Building a webhook dispatcher</TocLink>
+  <TocLink id="toc-payload-design">Payload design</TocLink>
+</Toc>
+
+<SectionIntro>
+When you're building a service or API that *sends* webhooks, you're on the provider side. This means you need to design a system that reliably delivers events to your users' servers.
+</SectionIntro>
+
+<SectionSubheading id="toc-provider-role">The provider's responsibilities</SectionSubheading>
+
+<SectionList>
+  <ColItem title="1. Let users register URLs">Provide a UI or API where users can specify their webhook endpoint URL and which events they want to subscribe to. Store these registrations in your database.</ColItem>
+  <ColItem title="2. Create event payloads">When something happens, build a consistent JSON payload. Include the event type, a timestamp, a unique ID, and the relevant data. Keep the schema stable — breaking changes will break your users' integrations.</ColItem>
+  <ColItem title="3. Sign the payload">Generate an HMAC signature using a shared secret. Include this in the request headers so consumers can verify the request came from you.</ColItem>
+  <ColItem title="4. Deliver with retries">Send the HTTP POST and track the response. If you don't get a 2xx, retry with exponential backoff. After enough failures, alert the user and disable the webhook.</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-dispatcher">Building a webhook dispatcher</SectionSubheading>
+
+<CodeAccordion title="Webhook dispatcher with HMAC signing" language="typescript" startOpen>
+{`import crypto from 'node:crypto'
+
+interface WebhookSubscription {
+  id: string
+  url: string
+  secret: string
+  events: string[]
+}
+
+async function dispatchWebhook(
+  sub: WebhookSubscription,
+  event: Record<string, unknown>
+) {
+  const payload = JSON.stringify(event)
+  const timestamp = Date.now()
+
+  // Create HMAC signature
+  const signature = crypto
+    .createHmac('sha256', sub.secret)
+    .update(\`\${timestamp}.\${payload}\`)
+    .digest('hex')
+
+  const response = await fetch(sub.url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Webhook-Signature': signature,
+      'X-Webhook-Timestamp': String(timestamp),
+      'X-Webhook-Id': crypto.randomUUID(),
+    },
+    body: payload,
+    signal: AbortSignal.timeout(10_000), // 10s timeout
+  })
+
+  if (!response.ok) {
+    throw new Error(\`Webhook delivery failed: \${response.status}\`)
+  }
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-payload-design">Payload design</SectionSubheading>
+
+A well-designed webhook payload includes everything the consumer needs to process the event:
+
+<DefinitionTable>
+  <DefRow term="id" definition="A unique event identifier (e.g., evt_1NqIXXAm4JFjM1). Consumers use this for idempotency." />
+  <DefRow term="type" definition="Dot-notation event type (e.g., payment_intent.succeeded). The primary routing key for consumers." />
+  <DefRow term="created" definition="Unix timestamp of when the event occurred. Consumers use this for ordering and replay detection." />
+  <DefRow term="data.object" definition="The full resource that triggered the event. Include enough data that consumers don't need to make an API call back to you." />
+</DefinitionTable>
+
+<Explainer>
+Keep your payload schema stable. Additive changes (new fields) are fine, but removing or renaming fields is a breaking change that will break your users' integrations. Version your webhooks if you need to make breaking changes.
+</Explainer>
