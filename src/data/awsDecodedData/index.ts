@@ -48,6 +48,11 @@ export const ALL_AWS_SERVICES: AwsService[] = [
   ...FRONTEND_WEB_SERVICES,
 ]
 
+/** Lookup a single service by its ID */
+export function getAwsService(serviceId: string): AwsService | undefined {
+  return ALL_AWS_SERVICES.find(s => s.id === serviceId)
+}
+
 /** Lookup: category ID → services in that category */
 export const SERVICE_BY_CATEGORY: Record<AwsCategoryId, AwsService[]> = {
   compute: COMPUTE_SERVICES,

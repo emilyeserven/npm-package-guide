@@ -29,6 +29,13 @@ export interface AwsService {
   keyTerms: Record<string, string>
   pricing: string
   code?: string
+  howItWorks?: string
+  whenNotToUse?: string[]
+  gotchas?: string[]
+  relatedServices?: string[]
+  relatedGuides?: string[]
+  cliExample?: string
+  cdkExample?: string
 }
 
 export interface AwsCategory {
