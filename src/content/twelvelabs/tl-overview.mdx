@@ -1,0 +1,44 @@
+---
+id: "tl-overview"
+title: "What is TwelveLabs? 🎬"
+guide: "twelvelabs"
+group: "Foundations"
+linkRefs:
+  - id: "twelvelabs-docs"
+    note: "Official TwelveLabs documentation"
+  - id: "twelvelabs-playground"
+    note: "Interactive API playground for testing"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-platform">The Platform</TocLink>
+  <TocLink id="toc-apis">Three Core APIs</TocLink>
+  <TocLink id="toc-concepts">Core Concepts</TocLink>
+</Toc>
+
+<SectionIntro>
+TwelveLabs is a video understanding platform that provides AI-powered APIs for searching, analyzing, and generating embeddings from video content. Unlike generic vision models that process individual frames, TwelveLabs' models are **video-native** — they understand temporal relationships, spoken words, visual context, and audio signals together.
+</SectionIntro>
+
+<SectionSubheading id="toc-platform">The Platform</SectionSubheading>
+
+TwelveLabs processes video content across **multiple modalities simultaneously** — visual frames, audio tracks, speech/dialogue, and on-screen text. This multimodal approach means search queries like "the part where someone explains gradient descent near a whiteboard" actually work.
+
+<SectionNote>
+Unlike frame-by-frame image analysis, TwelveLabs' models understand **temporal relationships** — they know that events happen in sequence and can track context across an entire video.
+</SectionNote>
+
+<SectionSubheading id="toc-apis">Three Core APIs</SectionSubheading>
+
+<TlApiCards />
+
+<SectionSubheading id="toc-concepts">Core Concepts</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="Index">A container for your videos, similar to a database table. Each index is configured with specific models and modalities.</DefRow>
+  <DefRow term="Task">A video upload/processing job. When you upload a video, a task tracks its indexing progress until it's ready.</DefRow>
+  <DefRow term="Model">The AI model used for processing. Marengo handles search & embeddings; Pegasus handles text generation.</DefRow>
+  <DefRow term="Modality">The type of data to analyze — visual (frames), audio (sounds/music), or conversation (speech).</DefRow>
+</DefinitionTable>

@@ -1,0 +1,83 @@
+---
+id: "tl-embed"
+title: "Embed API 🧩"
+guide: "twelvelabs"
+group: "Core APIs"
+linkRefs:
+  - id: "twelvelabs-docs"
+    note: "Embed API reference and integration guides"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-text-image">Text & Image Embeddings</TocLink>
+  <TocLink id="toc-video">Video Embeddings</TocLink>
+  <TocLink id="toc-use-cases">Use Cases</TocLink>
+</Toc>
+
+<SectionIntro>
+The Embed API generates **1024-dimensional vectors** from video, text, images, and audio. All modalities share the same latent space, enabling any-to-any search. This powers semantic search, recommendation systems, RAG pipelines, and anomaly detection.
+</SectionIntro>
+
+<SectionSubheading id="toc-text-image">Text & Image Embeddings</SectionSubheading>
+
+<CodeAccordion title="Create embeddings for text and images" lang="js" open>
+{`// Create a text embedding
+const textEmbed = await client.embed.create({
+  modelName: "Marengo-retrieval-2.7",
+  text: "A person demonstrating yoga poses outdoors",
+});
+console.log(textEmbed.embeddings[0].embedding);
+// → Float32Array(1024) [0.123, -0.456, 0.789, ...]
+
+// Create an image embedding
+const imageEmbed = await client.embed.create({
+  modelName: "Marengo-retrieval-2.7",
+  image_url: "https://example.com/yoga-pose.jpg",
+});
+
+// These vectors live in the same space —
+// you can compute cosine similarity between them!`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-video">Video Embeddings</SectionSubheading>
+
+<CodeAccordion title="Generate video embeddings with clip segmentation" lang="js" open>
+{`// Create a video embedding task
+const task = await client.embed.tasks.create({
+  modelName: "Marengo-retrieval-2.7",
+  videoFile: fs.createReadStream("./videos/lecture.mp4"),
+  videoEmbeddingScope: ["clip", "video"],
+  // "clip" → per-segment embeddings
+  // "video" → single embedding for the whole video
+});
+
+// Wait for processing
+const status = await client.embed.tasks.waitForDone(task.id, {
+  callback: (t) => console.log(\`Status: \${t.status}\`),
+});
+
+// Retrieve the embeddings
+const result = await client.embed.tasks.retrieve(task.id, {
+  embeddingOption: ["visual-text", "audio"],
+});
+
+// Each segment has its own embedding + timestamps
+if (result.videoEmbedding?.segments) {
+  for (const seg of result.videoEmbedding.segments) {
+    console.log(\`\${seg.startOffsetSec}s → \${seg.endOffsetSec}s\`);
+    console.log(\`Scope: \${seg.embeddingScope}\`);
+    console.log(\`Dims: \${seg.float?.length}\`);
+    // → 1024 dimensions
+  }
+}`}
+</CodeAccordion>
+
+<Explainer>
+Video embeddings are stored for **7 days**. For long-term storage, save them to a vector database like Pinecone, MongoDB Atlas, LanceDB, or Milvus. TwelveLabs has official integrations with all of these.
+</Explainer>
+
+<SectionSubheading id="toc-use-cases">Use Cases</SectionSubheading>
+
+<TlEmbedUseCases />

@@ -1,0 +1,37 @@
+---
+id: "tl-search"
+title: "Search API 🔍"
+guide: "twelvelabs"
+group: "Core APIs"
+linkRefs:
+  - id: "twelvelabs-docs"
+    note: "Search API reference and examples"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-examples">Search Examples</TocLink>
+  <TocLink id="toc-options">Search Options</TocLink>
+</Toc>
+
+<SectionIntro>
+The Search API finds specific moments within your indexed videos. It supports text queries, image queries, and multiple search modalities that can be combined for precision. Powered by the **Marengo** model.
+</SectionIntro>
+
+<SectionSubheading id="toc-examples">Search Examples</SectionSubheading>
+
+<TlSearchTabs />
+
+<Explainer>
+Search supports **36 languages** including Arabic, Chinese, Japanese, Korean, and most European languages. Use semantic search to query in one language and find content in another.
+</Explainer>
+
+<SectionSubheading id="toc-options">Search Options</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term='"visual"'>Matches based on what's visible in frames — objects, scenes, actions, people, colors</DefRow>
+  <DefRow term='"conversation"'>Matches based on spoken words and dialogue in the video</DefRow>
+  <DefRow term='"text_in_video"'>Matches text visible on screen — titles, captions, signs, code on screen</DefRow>
+  <DefRow term='"audio"'>Matches based on sounds, music, and environmental audio</DefRow>
+</DefinitionTable>
