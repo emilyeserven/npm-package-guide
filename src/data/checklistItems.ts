@@ -1,6 +1,5 @@
 import { cmd } from '../helpers/cmd'
-import type { ChecklistBaseSection } from '../components/mdx/ChecklistBase'
-import type { ChecklistManifest } from './guideTypes'
+import type { ChecklistBaseSection, ChecklistManifest } from './guideTypes'
 
 export interface ChecklistItem {
   text: string

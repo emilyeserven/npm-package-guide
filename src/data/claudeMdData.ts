@@ -1,5 +1,4 @@
-import type { GuideSection, StartPageData, GuideManifest, ChecklistManifest } from './guideTypes'
-import type { ChecklistBaseSection } from '../components/mdx/ChecklistBase'
+import type { GuideSection, StartPageData, GuideManifest, ChecklistManifest, ChecklistBaseSection } from './guideTypes'
 
 // ── Types ────────────────────────────────────────────────────────────
 

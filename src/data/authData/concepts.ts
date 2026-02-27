@@ -20,8 +20,7 @@ import type {
   IntegrationScenario,
   IntegrationSectionMeta,
 } from './types'
-import type { ChecklistBaseSection } from '../../components/mdx/ChecklistBase'
-import type { ChecklistManifest } from '../guideTypes'
+import type { ChecklistBaseSection, ChecklistManifest } from '../guideTypes'
 
 /* ───────────────────────── CONCEPT SECTIONS (core + tokens) ───────────────────────── */
 

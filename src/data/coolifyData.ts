@@ -488,8 +488,7 @@ export const PI_GOTCHAS: PiGotcha[] = [
 
 /* ───────────────────────── NAVIGATION ───────────────────────── */
 
-import type { GuideSection, StartPageData, GuideManifest, ChecklistManifest } from './guideTypes'
-import type { ChecklistBaseSection } from '../components/mdx/ChecklistBase'
+import type { GuideSection, StartPageData, GuideManifest, ChecklistManifest, ChecklistBaseSection } from './guideTypes'
 
 export const COOLIFY_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['cd-start'] },

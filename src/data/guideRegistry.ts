@@ -64,6 +64,9 @@ export const singlePageNavDef: GuideDefinition = {
 
 // ── Checklists (auto-discovered from *_CHECKLIST_MANIFEST exports) ──
 
+// Sort by pageId for deterministic sidebar ordering regardless of glob order
+checklistManifests.sort((a, b) => (a.pageId ?? a.id).localeCompare(b.pageId ?? b.id))
+
 export const checklistPages = checklistManifests
   .filter(m => m.pageId)
   .map(m => ({ id: m.pageId!, sourceGuideId: m.sourceGuideId }))

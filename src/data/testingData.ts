@@ -296,9 +296,8 @@ export const TAG_COLORS: Record<TestType, { color: string; bg: string; darkBg: s
 
 /* ───────────────────────── NAVIGATION ───────────────────────── */
 
-import type { GuideSection, GuideManifest, ChecklistManifest } from './guideTypes'
+import type { GuideSection, GuideManifest, ChecklistManifest, ChecklistBaseSection } from './guideTypes'
 import type { StartPageData } from './guideTypes'
-import type { ChecklistBaseSection } from '../components/mdx/ChecklistBase'
 
 export const TESTING_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['test-start'] },

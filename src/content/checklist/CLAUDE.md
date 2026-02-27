@@ -34,7 +34,7 @@ All checklists use `<GuideChecklist checklistId="..." />` — a single component
 1. Export a `*_CHECKLIST_MANIFEST` from the guide's data file (must match `*Data.ts` or `*Data/index.ts` glob pattern):
 
 ```typescript
-import type { ChecklistManifest } from './guideTypes'
+import type { ChecklistBaseSection, ChecklistManifest } from './guideTypes'
 
 export const MY_CHECKLIST_MANIFEST: ChecklistManifest = {
   id: 'my-checklist',          // used in MDX: <GuideChecklist checklistId="my-checklist" />
@@ -48,6 +48,8 @@ export const MY_CHECKLIST_MANIFEST: ChecklistManifest = {
 2. Create the MDX page in `src/content/checklist/` using the template above.
 
 No manual registration needed — `guideRegistry.ts` auto-discovers all `*_CHECKLIST_MANIFEST` exports.
+
+**Important:** The manifest must be exported from a file matching `*Data.ts` or `*Data/index.ts`. If checklist data lives in a non-standard file (e.g., `checklistItems.ts`), re-export the manifest from the guide's `*Data.ts` file: `export { MY_CHECKLIST_MANIFEST } from './checklistItems'`.
 
 ## Rules
 

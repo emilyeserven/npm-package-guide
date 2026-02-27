@@ -1,5 +1,4 @@
-import type { ChecklistBaseSection } from '../../components/mdx/ChecklistBase'
-import type { ChecklistManifest } from '../guideTypes'
+import type { ChecklistBaseSection, ChecklistManifest } from '../guideTypes'
 
 export const AI_INFRA_CHECKLIST: ChecklistBaseSection[] = [
   {
