@@ -2,4 +2,4 @@ export type { InfraLayer, InfraConcept, InfraWorkflow, WorkflowStep } from './ty
 export { INFRA_LAYERS } from './layers'
 export { INFRA_WORKFLOWS } from './workflows'
 export { AI_INFRA_GUIDE_SECTIONS, AI_INFRA_START_PAGE_DATA , AI_INFRA_GUIDE_MANIFEST } from './navigation'
-export { AI_INFRA_CHECKLIST } from './checklist'
+export { AI_INFRA_CHECKLIST, AI_INFRA_CHECKLIST_MANIFEST } from './checklist'

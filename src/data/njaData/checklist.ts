@@ -1,4 +1,4 @@
-import type { ChecklistBaseSection } from '../../components/mdx/ChecklistBase'
+import type { ChecklistBaseSection, ChecklistManifest } from '../guideTypes'
 
 export const NJA_CHECKLIST: ChecklistBaseSection[] = [
   {
@@ -95,3 +95,11 @@ export const NJA_CHECKLIST: ChecklistBaseSection[] = [
     ],
   },
 ]
+
+export const NJA_CHECKLIST_MANIFEST: ChecklistManifest = {
+  id: 'nja',
+  pageId: 'nja-checklist',
+  sourceGuideId: 'nextjs-abstractions',
+  title: 'Next.js Migration Checklist',
+  sections: NJA_CHECKLIST,
+}

@@ -27,22 +27,32 @@ All checklists use `ChecklistBase` (`src/components/mdx/ChecklistBase.tsx`): pro
 
 ## Unified Checklist Component
 
-All checklists use `<GuideChecklist checklistId="..." />` — a single component with a built-in registry. Do NOT create per-guide wrapper components. To add a new checklist, add its data and metadata to the registry in `src/components/mdx/GuideChecklist.tsx`.
+All checklists use `<GuideChecklist checklistId="..." />` — a single component that looks up data from the auto-discovered checklist registry. Do NOT create per-guide wrapper components.
 
-| Checklist ID | Title | Data Source |
-|-------------|-------|-----------|
-| `publish` | Publish Checklist | `src/data/checklistItems.ts` |
-| `test` | Quick Test Review | `src/data/testingData.ts` |
-| `auth` | Auth Implementation | `src/data/authData/concepts.ts` |
-| `claudemd` | CLAUDE.md Checklist | `src/data/promptData/navigation.ts` |
-| `arch` | Architecture Checklist | `src/data/archData/checklist.ts` |
-| `cicd` | CI/CD Checklist | `src/data/cicdChecklist.ts` |
-| `k8s` | Kubernetes Checklist | `src/data/k8sChecklist.ts` |
-| `ai-infra` | AI Infrastructure Checklist | `src/data/aiInfraData/checklist.ts` |
-| `nja` | Next.js Migration Checklist | `src/data/njaData/checklist.ts` |
+### Adding a new checklist
+
+1. Export a `*_CHECKLIST_MANIFEST` from the guide's data file (must match `*Data.ts` or `*Data/index.ts` glob pattern):
+
+```typescript
+import type { ChecklistBaseSection, ChecklistManifest } from './guideTypes'
+
+export const MY_CHECKLIST_MANIFEST: ChecklistManifest = {
+  id: 'my-checklist',          // used in MDX: <GuideChecklist checklistId="my-checklist" />
+  pageId: 'my-checklist-page', // MDX page ID (omit if no checklist page)
+  sourceGuideId: 'my-guide',   // guide ID for "Go to Guide" link
+  title: 'My Checklist',
+  sections: MY_CHECKLIST,      // ChecklistBaseSection[]
+}
+```
+
+2. Create the MDX page in `src/content/checklist/` using the template above.
+
+No manual registration needed — `guideRegistry.ts` auto-discovers all `*_CHECKLIST_MANIFEST` exports.
+
+**Important:** The manifest must be exported from a file matching `*Data.ts` or `*Data/index.ts`. If checklist data lives in a non-standard file (e.g., `checklistItems.ts`), re-export the manifest from the guide's `*Data.ts` file: `export { MY_CHECKLIST_MANIFEST } from './checklistItems'`.
 
 ## Rules
 
-- Do NOT add `guide:` field to frontmatter (guide association managed by `checklistPages` in `guideRegistry.ts`)
+- Do NOT add `guide:` field to frontmatter (guide association derived from `*_CHECKLIST_MANIFEST.sourceGuideId`)
 - Do NOT add `<NavPill>` "Back to Start Here" links, `<Toc>` sections, or custom checkbox styling
-- Checklist pages show a "Go to Guide" floating header link (mapping in `checklistPages` in `guideRegistry.ts`)
+- Checklist pages show a "Go to Guide" floating header link (auto-derived from `checklistPages` in `guideRegistry.ts`)

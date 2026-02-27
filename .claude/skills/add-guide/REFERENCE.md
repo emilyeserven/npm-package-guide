@@ -7,7 +7,7 @@ Detailed templates and examples for the add-guide skill workflow. Read on-demand
 ```bash
 pnpm scaffold-guide --id <guide-id> --title <title> --icon <emoji> \
   --desc <description> --prefix <PREFIX> --camel <camelName> --start <startPageId> \
-  [--single-page] \
+  [--category <category>] [--single-page] \
   [--pages "Group:pageId:Title Emoji,Group:pageId2:Title2 Emoji2,..."] \
   [--check-links "link-id-1,link-id-2,..."]
 ```
@@ -23,27 +23,30 @@ pnpm scaffold-guide --id <guide-id> --title <title> --icon <emoji> \
 | `--prefix` | UPPER_CASE prefix for constants (e.g., `K8S`, `COOLIFY`) |
 | `--camel` | camelCase name for files (e.g., `k8s`, `coolify`) |
 | `--start` | Start page ID |
+| `--category` | Guide category: `frontend`, `infrastructure`, `security`, `ai-tooling`, `fundamentals` (default: `fundamentals`) |
 | `--single-page` | Mark as single-page guide |
 | `--pages` | Comma-separated page specs: `Group:pageId:Title Emoji` |
 | `--check-links` | Comma-separated link IDs to check for duplicates |
 
 ### Naming conventions
 
-Check existing guides in `guideRegistry.ts` imports for the pattern:
+See root `CLAUDE.md` § "Adding a New Guide" for examples. Derive short forms from the guide ID:
 - `kubernetes` → prefix `K8S`, camel `k8s`
 - `coolify-deploy` → prefix `COOLIFY`, camel `coolify`
 - `tanstack-query` → prefix `TSQ`, camel `tsq`
 
-### Files created and updated
+### Files created
 
-| Created | Updated |
-|---------|---------|
-| `src/data/<camel>Data.ts` (with sections pre-populated) | `src/data/guideRegistry.ts` (import + entry + map) |
-| `src/content/<guide-id>/<start>.mdx` | `src/data/linkRegistry/index.ts` (import + spread) |
-| `src/content/<guide-id>/<page-id>.mdx` (per `--pages` entry) | `src/data/glossaryTerms/index.ts` (import + spread) |
-| `src/content/<guide-id>/CLAUDE.md` (with section table) | |
-| `src/data/linkRegistry/<camel>Links.ts` | |
-| `src/data/glossaryTerms/<camel>Terms.ts` | |
+All registries use `import.meta.glob` auto-discovery — no manual registration in `guideRegistry.ts`, `linkRegistry/index.ts`, or `glossaryTerms/index.ts` is needed.
+
+| File | Purpose |
+|------|---------|
+| `src/data/<camel>Data.ts` | Guide sections, start page data, and `*_GUIDE_MANIFEST` |
+| `src/content/<guide-id>/<start>.mdx` | Start page MDX |
+| `src/content/<guide-id>/<page-id>.mdx` | Additional page stubs (if `--pages`) |
+| `src/content/<guide-id>/CLAUDE.md` | Guide-specific documentation template |
+| `src/data/linkRegistry/<camel>Links.ts` | Link registry stub (auto-discovered) |
+| `src/data/glossaryTerms/<camel>Terms.ts` | Glossary terms stub (auto-discovered) |
 
 ## Data file structure
 
