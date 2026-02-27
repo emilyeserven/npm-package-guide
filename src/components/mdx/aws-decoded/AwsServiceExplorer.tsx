@@ -4,6 +4,7 @@ import { ds } from '../../../helpers/darkStyle'
 import { tc, theme } from '../../../helpers/themeColors'
 import { CardBase } from '../CardBase'
 import { StatusBadge } from '../StatusBadge'
+import { useNavigateToSection } from '../../../hooks/useNavigateToSection'
 import type { AwsCategoryId, AwsService } from '../../../data/awsDecodedData/types'
 import { AWS_CATEGORIES, LEVEL_COLORS } from '../../../data/awsDecodedData/categories'
 import { SERVICE_BY_CATEGORY } from '../../../data/awsDecodedData'
@@ -45,6 +46,7 @@ function CodeBlock({ code, isDark }: { code: string; isDark: boolean }) {
 
 function ServiceCard({ service, isDark }: { service: AwsService; isDark: boolean }) {
   const [open, setOpen] = useState(false)
+  const navigate = useNavigateToSection()
   const cat = AWS_CATEGORIES[service.cat]
   const color = cat.color
 
@@ -220,6 +222,15 @@ function ServiceCard({ service, isDark }: { service: AwsService; isDark: boolean
             <span className="shrink-0">{'\u{1F4B0}'}</span>
             {service.pricing}
           </div>
+
+          {/* View full details link */}
+          <button
+            className="self-start text-sm font-semibold border-none bg-transparent cursor-pointer px-0 py-0"
+            style={{ color }}
+            onClick={() => navigate(`aws-${service.id}`)}
+          >
+            View full details {'\u2192'}
+          </button>
         </div>
       )}
     </div>

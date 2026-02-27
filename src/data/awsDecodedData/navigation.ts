@@ -3,27 +3,55 @@ import type { GuideSection, StartPageData, GuideManifest } from '../guideTypes'
 export const AWS_GUIDE_SECTIONS: GuideSection[] = [
   { label: null, ids: ['aws-start'] },
   {
-    label: 'Core Infrastructure',
-    ids: ['aws-compute', 'aws-storage', 'aws-database', 'aws-networking'],
+    label: 'Compute',
+    ids: ['aws-compute', 'aws-ec2', 'aws-lightsail', 'aws-elastic-beanstalk'],
+  },
+  {
+    label: 'Storage',
+    ids: ['aws-storage', 'aws-s3', 'aws-ebs', 'aws-efs', 'aws-s3-glacier', 'aws-transfer-family'],
+  },
+  {
+    label: 'Database',
+    ids: ['aws-database', 'aws-rds', 'aws-dynamodb', 'aws-aurora', 'aws-elasticache', 'aws-documentdb', 'aws-redshift', 'aws-athena', 'aws-opensearch'],
+  },
+  {
+    label: 'Networking',
+    ids: ['aws-networking', 'aws-cloudfront', 'aws-route53', 'aws-vpc', 'aws-elb', 'aws-api-gateway', 'aws-global-accelerator', 'aws-direct-connect'],
   },
   {
     label: 'Security & Identity',
-    ids: ['aws-security'],
+    ids: ['aws-security', 'aws-iam', 'aws-cognito', 'aws-secrets-manager', 'aws-kms', 'aws-waf', 'aws-certificate-manager', 'aws-organizations'],
   },
   {
-    label: 'Modern Architectures',
-    ids: ['aws-serverless', 'aws-containers'],
+    label: 'Serverless',
+    ids: ['aws-serverless', 'aws-lambda', 'aws-step-functions', 'aws-eventbridge', 'aws-sqs', 'aws-sns', 'aws-kinesis'],
   },
   {
-    label: 'Developer Experience',
-    ids: ['aws-devtools', 'aws-ai-ml', 'aws-monitoring', 'aws-frontend'],
+    label: 'Containers',
+    ids: ['aws-containers', 'aws-ecs', 'aws-fargate', 'aws-ecr', 'aws-eks'],
+  },
+  {
+    label: 'Developer Tools',
+    ids: ['aws-devtools', 'aws-codepipeline', 'aws-codebuild', 'aws-cloudformation', 'aws-cdk', 'aws-sam', 'aws-cloudshell'],
+  },
+  {
+    label: 'AI & Machine Learning',
+    ids: ['aws-ai-ml', 'aws-bedrock', 'aws-sagemaker', 'aws-rekognition', 'aws-polly', 'aws-transcribe', 'aws-textract'],
+  },
+  {
+    label: 'Monitoring & Management',
+    ids: ['aws-monitoring', 'aws-cloudwatch', 'aws-cloudtrail', 'aws-systems-manager', 'aws-x-ray', 'aws-config', 'aws-backup'],
+  },
+  {
+    label: 'Frontend & Web',
+    ids: ['aws-frontend', 'aws-amplify', 'aws-appsync', 'aws-ses', 'aws-pinpoint'],
   },
 ]
 
 export const AWS_START_PAGE_DATA: StartPageData = {
   subtitle: 'Every AWS service explained like you\'re a frontend engineer who just learned what a server is.',
-  tip: 'Each category page lets you expand any service to see its full explanation, frontend analogy, use cases, key terms, and pricing.',
-  headingText: '\u2601\uFE0F 62 Services. 11 Categories. 0 Buzzwords Required.',
+  tip: 'Each service has its own dedicated page with deep explanations, code examples, CLI commands, gotchas, and links to related guides.',
+  headingText: '\u2601\uFE0F 62 Services. 11 Categories. Deep Dives on Every One.',
   headingDescription: 'No jargon walls. No gatekeeping. Just clear, practical explanations with analogies you\'ll actually remember.',
   steps: [
     {
@@ -31,12 +59,12 @@ export const AWS_START_PAGE_DATA: StartPageData = {
       num: 1,
       title: 'Core Infrastructure',
       description: 'The foundational services that run your apps \u2014 virtual machines, file storage, databases, and networking.',
-      sectionLabel: 'Core Infrastructure',
+      sectionLabel: 'Compute',
       subItemDescriptions: {
-        'aws-compute': 'EC2, Lightsail, Elastic Beanstalk \u2014 where your code actually runs',
-        'aws-storage': 'S3, EBS, EFS, Glacier \u2014 where your files live',
-        'aws-database': 'RDS, DynamoDB, Aurora, ElastiCache \u2014 where your data is structured',
-        'aws-networking': 'CloudFront, Route 53, VPC, load balancers \u2014 how traffic flows',
+        'aws-compute': '3 services \u2014 EC2, Lightsail, Elastic Beanstalk',
+        'aws-storage': '5 services \u2014 S3, EBS, EFS, Glacier, Transfer Family',
+        'aws-database': '8 services \u2014 RDS, DynamoDB, Aurora, ElastiCache, and more',
+        'aws-networking': '7 services \u2014 CloudFront, Route 53, VPC, load balancers, and more',
       },
     },
     {
@@ -46,7 +74,7 @@ export const AWS_START_PAGE_DATA: StartPageData = {
       description: 'Who can do what in your AWS account \u2014 IAM, user auth, secrets, encryption, and firewalls.',
       sectionLabel: 'Security & Identity',
       subItemDescriptions: {
-        'aws-security': 'IAM, Cognito, Secrets Manager, KMS, WAF, ACM, Organizations',
+        'aws-security': '7 services \u2014 IAM, Cognito, Secrets Manager, KMS, WAF, ACM, Organizations',
       },
     },
     {
@@ -54,10 +82,10 @@ export const AWS_START_PAGE_DATA: StartPageData = {
       num: 3,
       title: 'Modern Architectures',
       description: 'Serverless functions, event-driven patterns, and container orchestration.',
-      sectionLabel: 'Modern Architectures',
+      sectionLabel: 'Serverless',
       subItemDescriptions: {
-        'aws-serverless': 'Lambda, Step Functions, EventBridge, SQS, SNS, Kinesis',
-        'aws-containers': 'ECS, Fargate, ECR, EKS \u2014 Docker on AWS',
+        'aws-serverless': '6 services \u2014 Lambda, Step Functions, EventBridge, SQS, SNS, Kinesis',
+        'aws-containers': '4 services \u2014 ECS, Fargate, ECR, EKS',
       },
     },
     {
@@ -65,12 +93,12 @@ export const AWS_START_PAGE_DATA: StartPageData = {
       num: 4,
       title: 'Developer Experience',
       description: 'CI/CD pipelines, infrastructure-as-code, AI/ML APIs, monitoring, and frontend-friendly tools.',
-      sectionLabel: 'Developer Experience',
+      sectionLabel: 'Developer Tools',
       subItemDescriptions: {
-        'aws-devtools': 'CodePipeline, CloudFormation, CDK, SAM \u2014 deploy and manage infrastructure',
-        'aws-ai-ml': 'Bedrock, SageMaker, Rekognition, Polly, Transcribe \u2014 AI APIs you can call today',
-        'aws-monitoring': 'CloudWatch, CloudTrail, X-Ray, Systems Manager \u2014 see what\'s happening',
-        'aws-frontend': 'Amplify, AppSync, SES, Pinpoint \u2014 built for frontend developers',
+        'aws-devtools': '6 services \u2014 CodePipeline, CloudFormation, CDK, SAM, and more',
+        'aws-ai-ml': '6 services \u2014 Bedrock, SageMaker, Rekognition, Polly, Transcribe, Textract',
+        'aws-monitoring': '6 services \u2014 CloudWatch, CloudTrail, X-Ray, Systems Manager, and more',
+        'aws-frontend': '4 services \u2014 Amplify, AppSync, SES, Pinpoint',
       },
     },
   ],
@@ -83,10 +111,10 @@ export const AWS_GUIDE_MANIFEST: GuideManifest = {
     icon: '☁️',
     title: 'AWS Decoded',
     startPageId: 'aws-start',
-    description: 'Every AWS service explained like you\u2019re a frontend engineer who just learned what a server is \u2014 62 services, 11 categories, zero buzzwords.',
+    description: 'Every AWS service explained like you\u2019re a frontend engineer who just learned what a server is \u2014 62 services with dedicated deep-dive pages, code examples, and cross-links to related guides.',
     category: 'infrastructure',
     dateCreated: '2026-02-18',
-    dateModified: '2026-02-26',
+    dateModified: '2026-02-27',
     sections: AWS_GUIDE_SECTIONS,
   },
   startPageData: AWS_START_PAGE_DATA,
