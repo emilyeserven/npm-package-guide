@@ -1,0 +1,106 @@
+---
+id: "fastify-production"
+title: "Production Patterns 🏭"
+guide: "fastify"
+group: "Production"
+linkRefs:
+  - id: "fastify-official-docs"
+    note: "Official Fastify documentation"
+  - id: "fastify-pino"
+    note: "pino — fast JSON logger for Node.js"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-graceful-shutdown">Graceful shutdown</TocLink>
+  <TocLink id="toc-error-handling">Error handling</TocLink>
+  <TocLink id="toc-logging">Logging in production</TocLink>
+  <TocLink id="toc-env-config">Environment config</TocLink>
+</Toc>
+
+<SectionIntro>
+Getting Fastify into production requires a few key patterns: graceful shutdown to avoid dropped connections, structured error handling, proper pino logging configuration, and environment variable validation.
+</SectionIntro>
+
+<SectionSubheading id="toc-graceful-shutdown">Graceful Shutdown</SectionSubheading>
+
+Fastify has built-in support for graceful shutdown via `app.close()`. The `onClose` hooks fire in reverse registration order, letting your plugins clean up connections in the right sequence.
+
+<CodeAccordion title="server.ts" language="TypeScript" startOpen>
+{`const signals = ['SIGINT', 'SIGTERM']
+
+for (const signal of signals) {
+  process.on(signal, async () => {
+    app.log.info(\`Received \${signal}, shutting down...\`)
+    await app.close()
+    process.exit(0)
+  })
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-error-handling">Error Handling</SectionSubheading>
+
+Fastify has a structured error handling system. You can set custom error handlers per plugin scope:
+
+<CodeAccordion title="plugins/error-handler.ts" language="TypeScript" startOpen>
+{`app.setErrorHandler(async (error, request, reply) => {
+  request.log.error(error)
+
+  // Validation errors from schemas
+  if (error.validation) {
+    return reply.code(400).send({
+      error: 'Validation Error',
+      details: error.validation,
+    })
+  }
+
+  // Everything else
+  const statusCode = error.statusCode ?? 500
+  reply.code(statusCode).send({
+    error: statusCode >= 500 ? 'Internal Server Error' : error.message,
+  })
+})`}
+</CodeAccordion>
+
+<SectionNote>
+Error handlers are scoped by encapsulation just like hooks. You can have a specific error handler for your auth routes that returns different error shapes than your general API routes.
+</SectionNote>
+
+<SectionSubheading id="toc-logging">Logging in Production</SectionSubheading>
+
+Fastify's built-in pino logger outputs structured JSON. In development you'll want pretty-printing; in production you'll want raw JSON piped to a log aggregator.
+
+<CodeAccordion title="server.ts" language="TypeScript">
+{`const app = Fastify({
+  logger: {
+    level: process.env.LOG_LEVEL ?? 'info',
+    transport: process.env.NODE_ENV !== 'production'
+      ? { target: 'pino-pretty' }
+      : undefined,
+  },
+})`}
+</CodeAccordion>
+
+Install `pino-pretty` as a dev dependency. In production, pipe stdout to your aggregator: `node server.js | pino-transport-target`.
+
+<SectionSubheading id="toc-env-config">Environment Config with `@fastify/env`</SectionSubheading>
+
+Rather than manually reading `process.env`, use `@fastify/env` to validate your environment variables with a JSON schema at startup. This catches misconfiguration before your server handles its first request.
+
+<CodeAccordion title="plugins/env.ts" language="TypeScript">
+{`import fastifyEnv from '@fastify/env'
+
+const schema = {
+  type: 'object',
+  required: ['DATABASE_URL', 'COOKIE_SECRET'],
+  properties: {
+    DATABASE_URL:   { type: 'string' },
+    COOKIE_SECRET:  { type: 'string', minLength: 32 },
+    PORT:           { type: 'number', default: 3001 },
+    NODE_ENV:       { type: 'string', default: 'development' },
+  },
+}
+
+await app.register(fastifyEnv, { schema, dotenv: true })`}
+</CodeAccordion>

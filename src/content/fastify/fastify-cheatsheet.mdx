@@ -1,0 +1,79 @@
+---
+id: "fastify-cheatsheet"
+title: "Cheatsheet 📝"
+guide: "fastify"
+group: "Production"
+linkRefs:
+  - id: "fastify-official-docs"
+    note: "Official Fastify API reference"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-api-reference">API quick reference</TocLink>
+  <TocLink id="toc-install-script">Full security stack install</TocLink>
+</Toc>
+
+<SectionIntro>
+Quick reference for the Fastify APIs you'll use most frequently.
+</SectionIntro>
+
+<SectionSubheading id="toc-api-reference">API Quick Reference</SectionSubheading>
+
+<CodeAccordion title="Fastify API Quick Reference" language="reference" startOpen>
+{`// ─── INSTANCE ───
+const app = Fastify({ logger, trustProxy, ... })
+app.register(plugin, opts)         // Register a plugin (creates scope)
+app.decorate('name', value)        // Add property to instance
+app.decorateRequest('name', val)   // Add property to request objects
+app.decorateReply('name', val)     // Add property to reply objects
+app.addHook('hookName', handler)   // Register lifecycle hook
+
+// ─── ROUTING ───
+app.get(path, opts, handler)
+app.post(path, opts, handler)
+app.put(path, opts, handler)
+app.delete(path, opts, handler)
+app.route({ method, url, schema, handler, ... })
+
+// ─── REQUEST (in handler) ───
+request.body          // Parsed body
+request.params        // Route params (:id → { id })
+request.query         // Query string parsed
+request.headers       // Request headers
+request.ip            // Client IP (respects trustProxy)
+request.log           // Child pino logger with request ID
+
+// ─── REPLY (in handler) ───
+reply.code(201)          // Set status code
+reply.header(key, val)   // Set response header
+reply.type('text/html')  // Set content-type
+reply.send(payload)      // Send response
+reply.redirect(url)      // Redirect
+return payload           // In async handler — equivalent to send()
+
+// ─── LIFECYCLE ───
+app.listen({ port, host })
+app.close()
+app.ready()
+app.inject(opts)         // Test helper: simulate HTTP request`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-install-script">Full Security Stack Install</SectionSubheading>
+
+<CodeAccordion title="terminal" language="bash" startOpen>
+{`npm i fastify \\
+  @fastify/cors \\
+  @fastify/helmet \\
+  @fastify/rate-limit \\
+  @fastify/cookie \\
+  @fastify/csrf-protection \\
+  @fastify/jwt \\
+  @fastify/sensible \\
+  @fastify/static \\
+  @fastify/env \\
+  fastify-plugin
+
+npm i -D typescript @types/node tsx pino-pretty`}
+</CodeAccordion>

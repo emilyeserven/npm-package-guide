@@ -1,0 +1,81 @@
+---
+id: "fastify-getting-started"
+title: "Getting Started 🚀"
+guide: "fastify"
+group: "Foundations"
+linkRefs:
+  - id: "fastify-official-docs"
+    note: "Official getting started guide"
+  - id: "fastify-tsx"
+    note: "tsx — TypeScript execution for Node.js"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-minimal-server">Minimal server</TocLink>
+  <TocLink id="toc-project-setup">Full project setup</TocLink>
+  <TocLink id="toc-key-differences">Key differences from Express</TocLink>
+</Toc>
+
+<SectionIntro>
+Let's set up a minimal Fastify server. Fastify v5 is the current major, and it fully supports ESM out of the box.
+</SectionIntro>
+
+<SectionSubheading id="toc-minimal-server">Minimal Server</SectionSubheading>
+
+<CodeAccordion title="server.ts" language="TypeScript" startOpen>
+{`import Fastify from 'fastify'
+
+const app = Fastify({
+  logger: true,  // Built-in pino logger
+})
+
+// Declare a route
+app.get('/', async (request, reply) => {
+  return { hello: 'world' }
+})
+
+// Start the server
+try {
+  await app.listen({ port: 3001 })
+} catch (err) {
+  app.log.error(err)
+  process.exit(1)
+}`}
+</CodeAccordion>
+
+That's it. Fastify returns JSON by default when you return an object from an async handler. No `res.json()` needed. The logger outputs structured JSON via pino, which is orders of magnitude faster than `console.log`.
+
+<SectionSubheading id="toc-project-setup">Full Project Setup</SectionSubheading>
+
+<CodeAccordion title="terminal" language="bash">
+{`# Scaffold the project
+mkdir my-fastify-api && cd my-fastify-api
+npm init -y
+npm i fastify
+npm i -D typescript @types/node tsx
+
+# tsconfig.json — ESM + modern Node
+npx tsc --init --target ES2022 --module NodeNext \\
+  --moduleResolution NodeNext --outDir dist
+
+# Add to package.json
+# "type": "module"
+# "scripts": {
+#   "dev": "tsx watch src/server.ts",
+#   "build": "tsc",
+#   "start": "node dist/server.js"
+# }`}
+</CodeAccordion>
+
+Using `tsx` gives you hot-reload in development without a full build step. For production, compile with `tsc` and run the plain JS output.
+
+<SectionSubheading id="toc-key-differences">Key Differences from Express Handlers</SectionSubheading>
+
+<SectionList>
+  <ColItem>**Return values** — In async handlers, `return { data }` sends JSON automatically. No need for `res.json()`.</ColItem>
+  <ColItem>**Request/Reply** — Fastify uses `request` and `reply` (not `req`/`res`). The `reply` object has methods like `reply.code(201)` and `reply.header()`.</ColItem>
+  <ColItem>**Built-in logger** — Every request gets a child logger with a unique request ID. Use `request.log.info()` instead of `console.log()`.</ColItem>
+  <ColItem>**No callback style** — Fastify is async-first. All handlers and hooks should be async functions.</ColItem>
+</SectionList>
