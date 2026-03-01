@@ -5,6 +5,8 @@ export interface MistakeItem {
   mistake: string
   example: string
   fix: string
+  /** Short, copy-pasteable rule for CLAUDE.md / skills to prevent this mistake. */
+  prompt: string
   /** Link to a page in the Security Awareness guide for a deeper explanation. */
   deepDivePageId?: string
 }
@@ -50,6 +52,8 @@ export interface TestingMistake {
   mistake: string
   example: string
   fix: string
+  /** Short, copy-pasteable rule for CLAUDE.md / skills to prevent this mistake. */
+  prompt: string
 }
 
 export interface ChecklistItem {

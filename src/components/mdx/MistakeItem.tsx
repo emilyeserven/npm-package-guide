@@ -4,11 +4,12 @@ interface MistakeItemData {
   mistake: string
   example: string
   fix: string
+  prompt: string
   deepDivePageId?: string
 }
 
 /**
- * Shared rendering for a single mistake entry (title + example + fix).
+ * Shared rendering for a single mistake entry (title + example + fix + prompt).
  * Used by both MistakeList (prompt-engineering categories) and
  * TestingMistakes (grouped by e2e/unit context).
  */
@@ -24,10 +25,14 @@ export function MistakeItemCard({ item, headingLevel = 'h2' }: { item: MistakeIt
       <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2">
         {parseInlineCode(item.example)}
       </div>
-      <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed flex gap-1.5 items-start">
-        <span className="shrink-0">{'\u{1F4A1}'}</span>
-        <span>{item.fix}</span>
+      <div className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed mb-2">
+        {item.fix}
       </div>
+      <pre className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md p-3 m-0 overflow-x-auto">
+        <code className="text-sm text-slate-800 dark:text-slate-300 font-mono leading-relaxed whitespace-pre-wrap">
+          {item.prompt}
+        </code>
+      </pre>
       {item.deepDivePageId && (
         <a
           href={`#/${item.deepDivePageId}`}
