@@ -14,6 +14,7 @@
     "scaffold-guide": "tsx scripts/scaffold-guide.ts",
     "validate:data": "tsx scripts/validate-data.ts",
     "validate": "pnpm validate:data && pnpm lint && pnpm build",
+    "fix-and-validate": "pnpm lint:fix && pnpm validate",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

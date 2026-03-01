@@ -24,5 +24,19 @@ pnpm install
 npx playwright install --with-deps chromium || echo "Warning: Playwright browser install failed (e2e tests may not work)"
 
 echo ""
+
+# ── Quick project health check ──────────────────────────────────────
+echo "--- Project Health ---"
+
+guide_count=$(ls -d src/content/*/ 2>/dev/null | wc -l)
+echo "  Guides: ${guide_count}"
+
+if pnpm validate:data 2>/dev/null; then
+  echo "  Data validation: PASS"
+else
+  echo "  Data validation: ISSUES — run 'pnpm validate:data' for details"
+fi
+
+echo ""
 echo "--- Ready ---"
-echo "  Dependencies installed. Run 'pnpm validate' to verify the project builds."
+echo "  Dependencies installed. Run 'pnpm fix-and-validate' to lint-fix and verify the project builds."

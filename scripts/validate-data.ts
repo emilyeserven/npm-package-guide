@@ -151,13 +151,48 @@ function getGuideForPage(pageId: string): { id: string } | undefined {
   return guideId ? { id: guideId } : undefined
 }
 
+// ── Helpers: fuzzy matching for actionable error hints ────────────────
+
+/** Simple Levenshtein distance for short strings. */
+function levenshtein(a: string, b: string): number {
+  const m = a.length, n = b.length
+  const d: number[][] = Array.from({ length: m + 1 }, (_, i) =>
+    Array.from({ length: n + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0))
+  )
+  for (let i = 1; i <= m; i++)
+    for (let j = 1; j <= n; j++)
+      d[i][j] = Math.min(
+        d[i - 1][j] + 1,
+        d[i][j - 1] + 1,
+        d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1),
+      )
+  return d[m][n]
+}
+
+/** Return up to `max` closest matches from `candidates` for `target`. */
+function suggestSimilar(target: string, candidates: Iterable<string>, max = 3): string[] {
+  const scored: [string, number][] = []
+  for (const c of candidates) {
+    // Prefer prefix matches, then Levenshtein distance
+    const dist = c.startsWith(target.slice(0, 4)) ? levenshtein(target, c) - 1 : levenshtein(target, c)
+    if (dist <= Math.max(target.length * 0.6, 4)) scored.push([c, dist])
+  }
+  return scored.sort((a, b) => a[1] - b[1]).slice(0, max).map(([s]) => s)
+}
+
 // ── Validation checks ───────────────────────────────────────────────
 
 let errors = 0
+let warnings = 0
 
 function error(msg: string) {
   console.error(`  ERROR: ${msg}`)
   errors++
+}
+
+function warn(msg: string) {
+  console.warn(`  WARN: ${msg}`)
+  warnings++
 }
 
 // ── 1. Link registry: check for duplicate IDs ──────────────────────
@@ -199,33 +234,45 @@ console.log('Checking glossary term references...')
 for (const category of glossaryTerms) {
   for (const term of category.terms) {
     if (!linkById.has(term.linkId)) {
+      const similar = suggestSimilar(term.linkId, linkById.keys())
       error(
         `Glossary term "${term.term}" (category: ${category.category}) ` +
-        `has unknown linkId "${term.linkId}". Add it to src/data/linkRegistry.ts.`
+        `has unknown linkId "${term.linkId}".` +
+        (similar.length > 0 ? ` Did you mean: ${similar.join(', ')}?` : '') +
+        ` Add it to src/data/linkRegistry/.`
       )
     }
     if (term.linkIds) {
       for (const id of term.linkIds) {
         if (!linkById.has(id)) {
+          const similar = suggestSimilar(id, linkById.keys())
           error(
             `Glossary term "${term.term}" (category: ${category.category}) ` +
-            `has unknown linkIds entry "${id}". Add it to src/data/linkRegistry.ts.`
+            `has unknown linkIds entry "${id}".` +
+            (similar.length > 0 ? ` Did you mean: ${similar.join(', ')}?` : '') +
+            ` Add it to src/data/linkRegistry/.`
           )
         }
       }
     }
     if (term.sectionId && !allPageIds.has(term.sectionId)) {
+      const similar = suggestSimilar(term.sectionId, allPageIds)
       error(
         `Glossary term "${term.term}" (category: ${category.category}) ` +
-        `has unknown sectionId "${term.sectionId}". Valid page IDs are listed in guide sections.`
+        `has unknown sectionId "${term.sectionId}".` +
+        (similar.length > 0 ? ` Did you mean: ${similar.join(', ')}?` : '') +
+        ` Valid page IDs are listed in guide sections.`
       )
     }
     if (term.sectionIds) {
       for (const id of term.sectionIds) {
         if (!allPageIds.has(id)) {
+          const similar = suggestSimilar(id, allPageIds)
           error(
             `Glossary term "${term.term}" (category: ${category.category}) ` +
-            `has unknown sectionIds entry "${id}". Valid page IDs are listed in guide sections.`
+            `has unknown sectionIds entry "${id}".` +
+            (similar.length > 0 ? ` Did you mean: ${similar.join(', ')}?` : '') +
+            ` Valid page IDs are listed in guide sections.`
           )
         }
       }
@@ -382,9 +429,14 @@ for (const subdir of subdirs) {
 
     // 6b. Orphaned page detection — page ID not in any guide section or known non-guide list
     if (!allPageIds.has(fm.id) && !nonGuidePageIds.has(fm.id)) {
+      // Suggest the likely guide based on the directory name
+      const likelyGuide = guides.find(g => g.id === subdir.name)
+      const guideHint = likelyGuide
+        ? ` This file is in the "${subdir.name}/" directory — add "${fm.id}" to the *_GUIDE_SECTIONS array in the "${subdir.name}" guide data file.`
+        : ''
       error(
         `Orphaned page "${fm.id}" in ${relPath} — not listed in any guide's sections ` +
-        `or known static pages. Add it to the appropriate *_GUIDE_SECTIONS array.`
+        `or known static pages.${guideHint}`
       )
     }
 
@@ -471,12 +523,148 @@ for (const guide of guides) {
   }
 }
 
+// ── 10. Component barrel export validation ────────────────────────────
+
+console.log('Checking component barrel exports...')
+
+const mdxDir = path.resolve(import.meta.dirname, '../src/components/mdx')
+const mdxSubdirs = fs.readdirSync(mdxDir, { withFileTypes: true })
+  .filter(d => d.isDirectory())
+
+for (const dir of mdxSubdirs) {
+  const dirPath = path.join(mdxDir, dir.name)
+  const barrelPath = path.join(dirPath, 'index.ts')
+
+  // Get all .tsx files in this directory
+  const tsxFiles = fs.readdirSync(dirPath)
+    .filter(f => f.endsWith('.tsx') && !f.endsWith('.stories.tsx'))
+
+  if (tsxFiles.length === 0) continue
+
+  if (!fs.existsSync(barrelPath)) {
+    error(
+      `Guide component directory "src/components/mdx/${dir.name}/" has ${tsxFiles.length} ` +
+      `.tsx file(s) but no index.ts barrel file. Create one that re-exports all components.`
+    )
+    continue
+  }
+
+  // Check that each .tsx file is mentioned in the barrel
+  const barrelContent = fs.readFileSync(barrelPath, 'utf-8')
+  for (const file of tsxFiles) {
+    const baseName = file.replace('.tsx', '')
+    // Check for export { X } from './X' or export { default as X } from './X' patterns
+    if (!barrelContent.includes(`./${baseName}`) && !barrelContent.includes(`'./${baseName}'`) && !barrelContent.includes(`"./${baseName}"`)) {
+      warn(
+        `Component "src/components/mdx/${dir.name}/${file}" may not be exported from ` +
+        `its barrel file (index.ts). Add: export { ${baseName} } from './${baseName}'`
+      )
+    }
+  }
+}
+
+// ── 11. dateModified staleness detection (git-aware) ──────────────────
+
+// Only check if git is available and we're in a git repo
+import { execSync } from 'node:child_process'
+
+function getGitChangedFiles(): string[] {
+  try {
+    // Compare against the default branch (main/master) to detect all changed files
+    const defaultBranch = (() => {
+      try {
+        return execSync('git rev-parse --verify main 2>/dev/null', { encoding: 'utf-8' }).trim() ? 'main' : 'master'
+      } catch {
+        try {
+          execSync('git rev-parse --verify master 2>/dev/null', { encoding: 'utf-8' })
+          return 'master'
+        } catch { return null }
+      }
+    })()
+
+    if (!defaultBranch) return []
+
+    // Get files changed vs default branch (staged + unstaged + untracked)
+    const diffOutput = execSync(
+      `git diff --name-only ${defaultBranch} 2>/dev/null || git diff --name-only HEAD 2>/dev/null`,
+      { encoding: 'utf-8' }
+    ).trim()
+    const untrackedOutput = execSync(
+      'git ls-files --others --exclude-standard 2>/dev/null',
+      { encoding: 'utf-8' }
+    ).trim()
+
+    return [...diffOutput.split('\n'), ...untrackedOutput.split('\n')].filter(Boolean)
+  } catch {
+    return []
+  }
+}
+
+console.log('Checking dateModified staleness...')
+
+const changedFiles = getGitChangedFiles()
+if (changedFiles.length > 0) {
+  // Map changed files to guide IDs
+  const guidesWithChanges = new Set<string>()
+  for (const file of changedFiles) {
+    // Match content files: src/content/<guide-id>/
+    const contentMatch = file.match(/^src\/content\/([^/]+)\//)
+    if (contentMatch && guideIdSet.has(contentMatch[1])) {
+      // Ignore CLAUDE.md changes — those don't warrant dateModified updates
+      if (!file.endsWith('CLAUDE.md')) {
+        guidesWithChanges.add(contentMatch[1])
+      }
+    }
+    // Match component files: src/components/mdx/<guide-id>/
+    const compMatch = file.match(/^src\/components\/mdx\/([^/]+)\//)
+    if (compMatch && guideIdSet.has(compMatch[1])) {
+      guidesWithChanges.add(compMatch[1])
+    }
+    // Match data files: src/data/<camelId>Data (file or directory)
+    const dataMatch = file.match(/^src\/data\/([^/]+)Data/)
+    if (dataMatch) {
+      // camelCase data filename → try to find matching guide
+      for (const guide of guides) {
+        if (file.includes(`${guide.id}`) || file.toLowerCase().includes(guide.id.replace(/-/g, ''))) {
+          guidesWithChanges.add(guide.id)
+        }
+      }
+    }
+  }
+
+  // Check if dateModified was also updated for guides with substantive changes
+  const today = new Date().toISOString().slice(0, 10)
+  for (const guideId of guidesWithChanges) {
+    const guide = guides.find(g => g.id === guideId)
+    if (!guide) continue
+
+    // Check if dateModified is current (within reason — same day)
+    const isDataFileChanged = changedFiles.some(f =>
+      f.match(/^src\/data\//) && (f.includes(guideId) || f.toLowerCase().includes(guideId.replace(/-/g, '')))
+    )
+
+    // If the data file itself was changed, the developer likely already updated dateModified
+    if (isDataFileChanged) continue
+
+    if (guide.dateModified !== today) {
+      warn(
+        `Guide "${guideId}" has changed files but dateModified is "${guide.dateModified}" (today: ${today}). ` +
+        `Update dateModified in its *_GUIDE_MANIFEST if these are substantive changes.`
+      )
+    }
+  }
+} else {
+  console.log('  (no git changes detected — skipping staleness check)')
+}
+
 // ── Results ────────────────────────────────────────────────────────
 
 console.log('')
 if (errors > 0) {
-  console.error(`Validation failed with ${errors} error(s).`)
+  console.error(`Validation failed with ${errors} error(s)${warnings > 0 ? ` and ${warnings} warning(s)` : ''}.`)
   process.exit(1)
+} else if (warnings > 0) {
+  console.log(`All data validations passed with ${warnings} warning(s).`)
 } else {
   console.log('All data validations passed.')
 }
