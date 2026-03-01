@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { useParams, useNavigate } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { checklistPages, guides, getGuideForPage } from '../data/guideRegistry'
 import { useUIStore } from '../hooks/useUIStore'
+import { copyPageAsMarkdown } from '../helpers/copyAsMarkdown'
 
 function getGuideInfo(sectionId: string | undefined): { title: string; homeId: string | null; isChecklist: boolean } {
   if (!sectionId) return { title: 'Dev Guides', homeId: null, isChecklist: false }
@@ -40,9 +42,19 @@ export function FloatingHeader() {
   const toggleSidebar = useUIStore((s) => s.toggleSidebar)
   const setCmdMenuOpen = useUIStore((s) => s.setCmdMenuOpen)
 
+  const [copied, setCopied] = useState(false)
+
   const isGuidesIndex = !params.sectionId
   const { title: guideTitle, homeId, isChecklist } = getGuideInfo(params.sectionId)
   const showHomeButton = !isGuidesIndex && homeId !== null && homeId !== params.sectionId
+
+  const handleCopyMarkdown = async () => {
+    const ok = await copyPageAsMarkdown()
+    if (ok) {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
 
   const handleHomeClick = () => {
     navigate({ to: '/$sectionId', params: { sectionId: homeId! } })
@@ -93,6 +105,28 @@ export function FloatingHeader() {
               {isChecklist ? 'Go to Guide' : 'Start Here'}
             </button>
           )}
+          <button
+            className={clsx(
+              'group relative flex items-center justify-center w-9 h-9 border rounded-lg cursor-pointer shrink-0 transition-all duration-150',
+              copied
+                ? 'border-green-400 dark:border-green-500 text-green-600 dark:text-green-400'
+                : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 hover:shadow-md hover:shadow-blue-500/10'
+            )}
+            onClick={handleCopyMarkdown}
+            aria-label="Copy page as markdown"
+            data-testid="copy-markdown-button"
+          >
+            {copied ? (
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            ) : (
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+              </svg>
+            )}
+          </button>
           <button
             className="group relative flex items-center justify-center w-9 h-9 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg cursor-pointer shrink-0 transition-all duration-150 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 hover:shadow-md hover:shadow-blue-500/10"
             onClick={() => setCmdMenuOpen(true)}

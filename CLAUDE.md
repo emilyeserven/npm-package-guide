@@ -48,7 +48,7 @@ React 19 · TanStack Router (hash-based) · TanStack Table · Zustand · TypeScr
 - `src/content/<guide-id>/` — MDX pages, auto-discovered by `src/content/registry.ts`
 - `src/data/` — TypeScript data objects; `linkRegistry/` and `glossaryTerms/` split by guide
 - `src/data/guideRegistry.ts` — Central guide registry (auto-discovers `*_GUIDE_MANIFEST` and `*_CHECKLIST_MANIFEST` exports, provides lookup helpers)
-- `src/helpers/` — Utilities (`cmd.ts`, `fnRef.ts`, `darkStyle.ts`, `themeColors.ts`)
+- `src/helpers/` — Utilities (`cmd.ts`, `fnRef.ts`, `darkStyle.ts`, `themeColors.ts`, `copyAsMarkdown.ts`)
 - `src/hooks/` — Zustand stores and hooks (`useTheme.tsx`, `usePMContext.tsx`, `useUIStore.ts`)
 
 ## Key Patterns
