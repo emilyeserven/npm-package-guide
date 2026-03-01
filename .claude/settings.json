@@ -14,11 +14,20 @@
       "Bash(pnpm test:e2e *)",
       "Bash(pnpm scaffold-guide)",
       "Bash(pnpm scaffold-guide *)",
+      "Bash(pnpm fix-and-validate)",
+      "Bash(pnpm storybook)",
+      "Bash(pnpm build-storybook)",
       "Bash(ls src/content)",
       "Bash(ls src/content/)",
       "Bash(ls src/components/mdx)",
       "Bash(ls src/components/mdx/)",
-      "Bash(ls src/components/mdx/*)"
+      "Bash(ls src/components/mdx/*)",
+      "Bash(ls src/data)",
+      "Bash(ls src/data/)",
+      "Bash(ls src/data/linkRegistry)",
+      "Bash(ls src/data/linkRegistry/)",
+      "Bash(ls src/data/glossaryTerms)",
+      "Bash(ls src/data/glossaryTerms/)"
     ]
   },
   "hooks": {

@@ -40,6 +40,7 @@ React 19 · TanStack Router (hash-based) · TanStack Table · Zustand · TypeScr
 | `pnpm build` | TypeScript check + Vite build |
 | `pnpm lint` | Run ESLint |
 | `pnpm validate` | Full pipeline: `validate:data` + `lint` + `build` |
+| `pnpm fix-and-validate` | Auto-fix lint errors then run full validation pipeline |
 | `pnpm scaffold-guide` | Create boilerplate files for a new guide (see `/add-guide` skill) |
 
 ## Project Structure
@@ -63,6 +64,12 @@ React 19 · TanStack Router (hash-based) · TanStack Table · Zustand · TypeScr
 - **Page ordering:** Each guide's `*_GUIDE_SECTIONS` array is the single source of truth — sidebar, command menu, prev/next, and home tiles derive automatically.
 - **MDX titles:** Every `title` must end with an emoji suffix (parsed by sidebar and command menu).
 - **Checklists content:** Checklist MDX pages live in `src/content/checklist/` (shared directory, not a guide). See `src/content/checklist/CLAUDE.md` for template and rules. Do not add `guide:` frontmatter to checklist pages.
+
+## Skill Quick Reference
+
+- **New guide from scratch** → `/add-guide` (runs `pnpm scaffold-guide`, then fill in content)
+- **Modifying an existing guide** (pages, data, components, glossary, links, checklists) → `/update-guide`
+- **Before creating ANY new component** → `/find-component` first (prevents duplication)
 
 ## Updating an Existing Guide
 

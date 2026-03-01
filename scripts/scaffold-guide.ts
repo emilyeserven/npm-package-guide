@@ -24,6 +24,7 @@
  *   --pages        Comma-separated page specs in "Group:pageId:Title Emoji" format.
  *                  Creates MDX stubs and populates *_GUIDE_SECTIONS automatically.
  *                  Pages are grouped by the Group label in the sections array.
+ *   --dry-run      Preview what files would be created without writing to disk.
  *   --check-links  Comma-separated link IDs to check against the existing registry.
  *                  Warns about IDs that already exist so you can reuse them instead
  *                  of creating duplicates.
@@ -79,6 +80,7 @@ const singlePage = args['single-page'] === true
 const pagesArg = args.pages as string | undefined
 const checkLinksArg = args['check-links'] as string | undefined
 const categoryArg = args.category as string | undefined
+const dryRun = args['dry-run'] === true
 
 const VALID_CATEGORIES = ['frontend', 'infrastructure', 'security', 'ai-tooling', 'fundamentals'] as const
 type GuideCategory = typeof VALID_CATEGORIES[number]
@@ -99,7 +101,8 @@ if (missing.length > 0) {
   console.error(
     '\nUsage: pnpm scaffold-guide --id <id> --title <title> --icon <emoji> \\\n' +
     '  --desc <description> --prefix <PREFIX> --camel <camel> --start <startId> \\\n' +
-    '  [--category <category>] [--single-page] [--pages "Group:pageId:Title Emoji,..."] \\\n' +
+    '  [--category <category>] [--single-page] [--dry-run] \\\n' +
+    '  [--pages "Group:pageId:Title Emoji,..."] \\\n' +
     '  [--check-links "link-id-1,link-id-2,..."]'
   )
   process.exit(1)
@@ -139,7 +142,7 @@ function resolve(...parts: string[]): string {
 }
 
 function ensureDir(dir: string) {
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
+  if (!dryRun && !fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
 }
 
 let created = 0
@@ -152,6 +155,11 @@ function writeNew(filePath: string, content: string) {
     skipped++
     return
   }
+  if (dryRun) {
+    console.log(`  WOULD CREATE: ${rel} (${content.split('\n').length} lines)`)
+    created++
+    return
+  }
   fs.writeFileSync(filePath, content)
   console.log(`  CREATE: ${rel}`)
   created++
@@ -162,9 +170,13 @@ function writeNew(filePath: string, content: string) {
 
 // Check if data file already exists (indicates guide is already set up)
 const dataFilePath = resolve(`src/data/${dataFileName}.ts`)
-if (fs.existsSync(dataFilePath)) {
+if (fs.existsSync(dataFilePath) && !dryRun) {
   console.error(`\nData file src/data/${dataFileName}.ts already exists. Guide "${guideId}" may already be scaffolded. Aborting.`)
   process.exit(1)
+}
+
+if (dryRun) {
+  console.log('\n--- DRY RUN (no files will be written) ---')
 }
 
 // Check for duplicate link IDs against existing registry
@@ -406,8 +418,8 @@ writeNew(resolve(`src/data/glossaryTerms/${camel}Terms.ts`), glossaryContent)
 
 // ── Summary ─────────────────────────────────────────────────────────
 
-console.log(`\n--- Summary ---`)
-console.log(`  Created: ${created} files`)
+console.log(`\n--- Summary${dryRun ? ' (dry run)' : ''} ---`)
+console.log(`  ${dryRun ? 'Would create' : 'Created'}: ${created} files`)
 if (skipped > 0) console.log(`  Skipped: ${skipped} (already exist)`)
 
 console.log(`\n--- Next steps ---`)
