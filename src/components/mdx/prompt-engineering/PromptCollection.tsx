@@ -8,7 +8,7 @@ export function PromptCollection({ categoryId }: { categoryId: string }) {
   if (!category) return null
 
   const markdownText = category.items
-    .map((item, i) => `${i + 1}. ${item.fix}`)
+    .map((item, i) => `${i + 1}. ${item.prompt}`)
     .join('\n')
 
   const handleCopy = () => {
