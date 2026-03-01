@@ -17,6 +17,17 @@ Use for interactive components with dynamic colors from data (can't use Tailwind
 <div className="bg-white dark:bg-slate-800">                           {/* static */}
 ```
 
+## Copy as Markdown (`copyAsMarkdown.ts`)
+
+The floating header includes a clipboard button (left of the Search button) that copies the current page body as markdown. The helper `copyPageAsMarkdown()` in `src/helpers/copyAsMarkdown.ts`:
+
+1. Clones the `<main id="main-content">` DOM to avoid mutation.
+2. Strips prev/next navigation buttons.
+3. Converts HTML to markdown via [turndown](https://github.com/mixmark-io/turndown) (ATX headings, fenced code blocks).
+4. Copies the result to the clipboard.
+
+The button lives in `FloatingHeader.tsx` and shows a checkmark icon for 2 seconds after a successful copy.
+
 ## Routing
 
 The router resolves pages in order:
