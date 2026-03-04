@@ -1,0 +1,103 @@
+---
+id: "ba-client"
+title: "Client SDK 📱"
+guide: "better-auth"
+group: "Integration"
+linkRefs:
+  - id: "betterauth-docs"
+    note: "Official BetterAuth documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-create">Creating the client</TocLink>
+  <TocLink id="toc-signup">Sign up & sign in</TocLink>
+  <TocLink id="toc-session">Using the session hook</TocLink>
+  <TocLink id="toc-types">Type inference</TocLink>
+</Toc>
+
+<SectionIntro>
+BetterAuth provides framework-specific client imports. For React, you get reactive hooks that automatically re-render when auth state changes. The client uses "better-fetch" under the hood — a typed wrapper around the native fetch API.
+</SectionIntro>
+
+<SectionSubheading id="toc-create">Creating the client</SectionSubheading>
+
+<CodeAccordion title="src/lib/auth-client.ts" code={`import { createAuthClient } from "better-auth/react"
+
+export const authClient = createAuthClient({
+  baseURL: "http://localhost:3000",
+  // fetchOptions: { credentials: "include" }
+})
+
+// Destructure for convenience
+export const {
+  signIn,
+  signUp,
+  signOut,
+  useSession,
+  getSession,
+} = authClient`} />
+
+<SectionSubheading id="toc-signup">Sign up & sign in</SectionSubheading>
+
+<CodeAccordion title="SignUp.tsx" code={`import { signUp } from "@/lib/auth-client"
+
+async function handleSignUp(email: string, password: string, name: string) {
+  const { data, error } = await signUp.email({
+    email,
+    password,
+    name,
+  })
+  if (error) {
+    console.error(error.message)
+  }
+  // data contains { user, session }
+}`} />
+
+<CodeAccordion title="SignIn.tsx" code={`import { signIn } from "@/lib/auth-client"
+
+async function handleSignIn(email: string, password: string) {
+  const { data, error } = await signIn.email({
+    email,
+    password,
+  })
+}`} />
+
+<SectionSubheading id="toc-session">Using the session hook</SectionSubheading>
+
+<CodeAccordion title="Dashboard.tsx" code={`import { useSession } from "@/lib/auth-client"
+
+function Dashboard() {
+  const { data: session, isPending } = useSession()
+
+  if (isPending) return <div>Loading...</div>
+  if (!session) return <div>Not authenticated</div>
+
+  return (
+    <div>
+      <h1>Welcome, {session.user.name}</h1>
+      <p>Email: {session.user.email}</p>
+    </div>
+  )
+}`} />
+
+<SectionNote>
+The `useSession` hook is reactive — it automatically re-renders when sign-in, sign-out, or session refresh happens. Certain endpoints trigger atom signals that keep all `useSession` consumers in sync.
+</SectionNote>
+
+<SectionSubheading id="toc-types">Type inference</SectionSubheading>
+
+<CodeAccordion title="types.ts — Infer types from your config" code={`import type { auth } from "./auth" // your server auth instance
+
+// Infer session & user types from your config + plugins
+type Session = typeof auth.$Infer.Session
+type User = typeof auth.$Infer.Session.user
+
+// For separate client/server projects, pass the type generic
+import { createAuthClient } from "better-auth/react"
+import type { auth } from "server/auth"
+
+const authClient = createAuthClient<typeof auth>({
+  baseURL: "http://localhost:3000",
+})`} />

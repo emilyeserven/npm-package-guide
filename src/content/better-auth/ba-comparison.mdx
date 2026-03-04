@@ -1,0 +1,45 @@
+---
+id: "ba-comparison"
+title: "vs Others ⚔️"
+guide: "better-auth"
+group: "Reference"
+linkRefs:
+  - id: "betterauth-docs"
+    note: "Official BetterAuth documentation"
+  - id: "authjs-docs"
+    note: "Auth.js (NextAuth) documentation"
+  - id: "clerk-docs"
+    note: "Clerk authentication platform"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-table">Feature comparison</TocLink>
+  <TocLink id="toc-verdict">When to choose what</TocLink>
+  <TocLink id="toc-quiz">Knowledge check</TocLink>
+</Toc>
+
+<SectionIntro>
+Here's how BetterAuth stacks up against Auth.js (NextAuth) and Clerk — the two most common alternatives in the TypeScript ecosystem.
+</SectionIntro>
+
+<SectionSubheading id="toc-table">Feature comparison</SectionSubheading>
+
+<BauthComparisonTable />
+
+<SectionSubheading id="toc-verdict">When to choose what</SectionSubheading>
+
+<SectionNote>
+BetterAuth's sweet spot is teams that want the ownership and flexibility of self-hosted auth, with the feature breadth that previously required a paid service like Clerk. Auth.js remains viable for simple Next.js-only apps, and Clerk is still excellent if you want zero auth code and don't mind vendor lock-in.
+</SectionNote>
+
+<DefinitionTable>
+  <DefRow term="Choose BetterAuth when">You want self-hosted, framework-agnostic auth with enterprise features (SSO, orgs, 2FA) and full database ownership.</DefRow>
+  <DefRow term="Choose Auth.js when">You're building a simple Next.js app with basic social login and don't need advanced features like 2FA or multi-tenancy.</DefRow>
+  <DefRow term="Choose Clerk when">You want polished pre-built auth UI with zero custom code and don't mind vendor lock-in and per-MAU pricing.</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-quiz">Knowledge check</SectionSubheading>
+
+<BauthQuiz />

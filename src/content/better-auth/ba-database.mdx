@@ -1,0 +1,87 @@
+---
+id: "ba-database"
+title: "Database & Adapters 🗄️"
+guide: "better-auth"
+group: "Setup"
+linkRefs:
+  - id: "betterauth-docs"
+    note: "Official BetterAuth documentation"
+  - id: "drizzle-docs"
+    note: "Drizzle ORM documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-adapters">ORM adapters</TocLink>
+  <TocLink id="toc-redis">Secondary storage (Redis)</TocLink>
+</Toc>
+
+<SectionIntro>
+BetterAuth supports three official ORM adapters plus a built-in Kysely adapter for raw connection strings. You can also use secondary storage (like Redis) for high-performance session lookups.
+</SectionIntro>
+
+<SectionSubheading id="toc-adapters">ORM adapters</SectionSubheading>
+
+<CodeAccordion title="Drizzle" code={`import { betterAuth } from "better-auth"
+import { drizzleAdapter } from "better-auth/adapters/drizzle"
+import { db } from "./db"
+
+export const auth = betterAuth({
+  database: drizzleAdapter(db, {
+    provider: "pg", // "mysql" | "sqlite"
+    // schema, // pass your drizzle schema for joins
+  }),
+  experimental: {
+    joins: true, // 2-3x faster session lookups
+  },
+})`} />
+
+<CodeAccordion title="Prisma" code={`import { betterAuth } from "better-auth"
+import { prismaAdapter } from "better-auth/adapters/prisma"
+import { PrismaClient } from "@prisma/client"
+
+const prisma = new PrismaClient()
+
+export const auth = betterAuth({
+  database: prismaAdapter(prisma, {
+    provider: "postgresql",
+  }),
+})`} />
+
+<CodeAccordion title="MongoDB" code={`import { betterAuth } from "better-auth"
+import { mongodbAdapter } from "better-auth/adapters/mongodb"
+import { client } from "./db"
+
+export const auth = betterAuth({
+  database: mongodbAdapter(client),
+})`} />
+
+<CodeAccordion title="Raw connection string" code={`import { betterAuth } from "better-auth"
+import { Pool } from "pg"
+
+export const auth = betterAuth({
+  database: new Pool({
+    connectionString: process.env.DATABASE_URL,
+  }),
+})`} />
+
+<SectionSubheading id="toc-redis">Secondary storage (Redis)</SectionSubheading>
+
+<CodeAccordion title="auth.ts — Redis secondary storage" code={`import { betterAuth } from "better-auth"
+import { createRedisStorage } from "@better-auth/redis-storage"
+import Redis from "ioredis"
+
+const redis = new Redis(process.env.REDIS_URL)
+
+export const auth = betterAuth({
+  database: drizzleAdapter(db, { provider: "pg" }),
+  secondaryStorage: createRedisStorage(redis),
+  session: {
+    storeSessionInDatabase: true, // persist to DB too
+  },
+})`} />
+
+<SectionNote>
+When secondary storage is defined, sessions are stored there by default (not the database). Set `storeSessionInDatabase: true` if you want both. For fully stateless mode, omit the database entirely and enable cookie caching.
+</SectionNote>

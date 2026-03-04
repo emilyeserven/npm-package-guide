@@ -1,0 +1,92 @@
+---
+id: "ba-social"
+title: "Social Auth 🌐"
+guide: "better-auth"
+group: "Integration"
+linkRefs:
+  - id: "betterauth-docs"
+    note: "Official BetterAuth documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-config">Server configuration</TocLink>
+  <TocLink id="toc-client">Client-side social sign-in</TocLink>
+  <TocLink id="toc-state">Passing additional OAuth state</TocLink>
+</Toc>
+
+<SectionIntro>
+Adding social login is just a few lines of config. BetterAuth supports Google, GitHub, Apple, Discord, Microsoft, Twitter, and many more. You can also use the `genericOAuth` plugin for any OAuth 2.0 / OIDC provider.
+</SectionIntro>
+
+<SectionSubheading id="toc-config">Server configuration</SectionSubheading>
+
+<CodeAccordion title="auth.ts — Social providers" code={`import { betterAuth } from "better-auth"
+
+export const auth = betterAuth({
+  database: drizzleAdapter(db, { provider: "pg" }),
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    },
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    },
+    discord: {
+      clientId: process.env.DISCORD_CLIENT_ID!,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET!,
+    },
+  },
+})`} />
+
+<SectionSubheading id="toc-client">Client-side social sign-in</SectionSubheading>
+
+<CodeAccordion title="SocialLogin.tsx" code={`import { signIn } from "@/lib/auth-client"
+
+function SocialLogin() {
+  return (
+    <div>
+      <button onClick={() =>
+        signIn.social({ provider: "google" })
+      }>
+        Sign in with Google
+      </button>
+      <button onClick={() =>
+        signIn.social({ provider: "github" })
+      }>
+        Sign in with GitHub
+      </button>
+    </div>
+  )
+}`} />
+
+<SectionSubheading id="toc-state">Passing additional OAuth state</SectionSubheading>
+
+Since v1.4, you can pass arbitrary data through the OAuth flow and access it in hooks:
+
+<CodeAccordion title="auth-client.ts — Passing state" code={`await signIn.social({
+  provider: "google",
+  additionalData: {
+    referralCode: "ABC123",
+    source: "landing-page",
+  },
+})`} />
+
+<CodeAccordion title="auth.ts — Accessing state in server hooks" code={`import { betterAuth } from "better-auth"
+import { getOAuthState, createAuthMiddleware } from "better-auth/api"
+
+export const auth = betterAuth({
+  // ... config
+  hooks: {
+    before: createAuthMiddleware(async (ctx) => {
+      const data = await getOAuthState<{
+        referralCode: string
+        source: string
+      }>()
+      console.log(data) // { referralCode: "ABC123", source: "landing-page" }
+    }),
+  },
+})`} />

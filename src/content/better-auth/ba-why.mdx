@@ -1,0 +1,37 @@
+---
+id: "ba-why"
+title: "Why BetterAuth 💡"
+guide: "better-auth"
+group: "Fundamentals"
+linkRefs:
+  - id: "betterauth-docs"
+    note: "Official BetterAuth documentation"
+  - id: "authjs-docs"
+    note: "Auth.js (NextAuth) documentation"
+  - id: "clerk-docs"
+    note: "Clerk authentication platform"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-problem">The auth problem in TypeScript</TocLink>
+  <TocLink id="toc-advantages">Core advantages</TocLink>
+</Toc>
+
+<SectionIntro>
+Auth in the TypeScript ecosystem has been a persistent pain point. Auth.js (formerly NextAuth) is tightly coupled to Next.js, Clerk is a paid SaaS where you don't own the data, and rolling your own is a massive time sink. BetterAuth hits a sweet spot: open-source, self-hosted, framework-agnostic, and genuinely comprehensive.
+</SectionIntro>
+
+<SectionSubheading id="toc-problem">The auth problem in TypeScript</SectionSubheading>
+
+Most TypeScript auth solutions force you into one of three trade-offs: framework lock-in (Auth.js), vendor lock-in (Clerk), or building from scratch. BetterAuth was designed to avoid all three.
+
+<SectionSubheading id="toc-advantages">Core advantages</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="You own the data">Everything lives in your database. No vendor lock-in, no data residency concerns. If you need to meet strict compliance requirements (government, healthcare, finance), this is a huge deal.</DefRow>
+  <DefRow term="Framework agnostic from day one">BetterAuth wasn't built for Next.js and then ported — it was framework-agnostic from day one. Hono, Express, Fastify, Elysia, TanStack Start, SvelteKit, Astro — all first-class citizens.</DefRow>
+  <DefRow term="Enterprise features aren't bolted on">SSO, SAML, SCIM, multi-tenancy, and RBAC are official plugins, not third-party hacks. You can go from a side project to enterprise-grade without swapping auth libraries.</DefRow>
+  <DefRow term="Outstanding DX">Automatic schema generation, a CLI that handles migrations, type-safe client hooks, and built-in AI tooling (MCP server, Claude Code skills) mean you spend less time on auth plumbing.</DefRow>
+</DefinitionTable>

@@ -1,0 +1,61 @@
+---
+id: "ba-sessions"
+title: "Session Management 🍪"
+guide: "better-auth"
+group: "Advanced"
+linkRefs:
+  - id: "betterauth-docs"
+    note: "Official BetterAuth documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-strategies">Session strategies</TocLink>
+  <TocLink id="toc-config">Session config options</TocLink>
+  <TocLink id="toc-stateless">Fully stateless (no database)</TocLink>
+</Toc>
+
+<SectionIntro>
+BetterAuth supports multiple session strategies, from database-backed sessions with Redis caching to fully stateless JWT-based sessions with zero database.
+</SectionIntro>
+
+<SectionSubheading id="toc-strategies">Session strategies</SectionSubheading>
+
+<BauthSessionCards />
+
+<SectionSubheading id="toc-config">Session config options</SectionSubheading>
+
+<CodeAccordion title="auth.ts — Session configuration" code={`export const auth = betterAuth({
+  // ...
+  session: {
+    expiresIn: 60 * 60 * 24 * 7, // 7 days (default)
+    updateAge: 60 * 60 * 24,      // refresh every 24h
+    cookieCache: {
+      enabled: true,
+      maxAge: 60 * 5,   // 5 min cache
+      // strategy: "compact" | "jwt" | "jwe"
+      // version: 1,  // bump to invalidate all sessions
+    },
+  },
+})`} />
+
+<SectionSubheading id="toc-stateless">Fully stateless (no database)</SectionSubheading>
+
+<CodeAccordion title="auth.ts — Stateless mode" code={`import { betterAuth } from "better-auth"
+
+// Since v1.4: omit database entirely
+export const auth = betterAuth({
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    },
+  },
+  // No database config = stateless mode
+  // Sessions stored entirely in cookies
+})`} />
+
+<SectionNote>
+Stateless mode is great for lightweight apps where you only need social OAuth and don't need to store user data server-side. You can still call `getAccessToken()` and `accountInfo()` without a database.
+</SectionNote>

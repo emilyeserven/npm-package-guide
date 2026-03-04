@@ -1,0 +1,44 @@
+---
+id: "ba-architecture"
+title: "Architecture 🏗️"
+guide: "better-auth"
+group: "Fundamentals"
+linkRefs:
+  - id: "betterauth-docs"
+    note: "Official BetterAuth documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-split">Server-client split</TocLink>
+  <TocLink id="toc-diagram">Architecture diagram</TocLink>
+  <TocLink id="toc-tables">Core database tables</TocLink>
+</Toc>
+
+<SectionIntro>
+BetterAuth follows a server-client split. The **server instance** exposes an HTTP handler you mount on any backend framework. The **client SDK** talks to that handler and gives you typed hooks and methods on the frontend.
+</SectionIntro>
+
+<SectionSubheading id="toc-split">Server-client split</SectionSubheading>
+
+BetterAuth's handler is a standard `Request → Response` function. This is why it works with any framework that can handle HTTP — you mount it as a catch-all route, and BetterAuth manages everything under `/api/auth/*`.
+
+<SectionSubheading id="toc-diagram">Architecture diagram</SectionSubheading>
+
+<BauthArchDiagram />
+
+<SectionNote>
+BetterAuth's handler is just a standard `Request → Response` function. This is why it works with any framework that can handle HTTP — you **mount** or **catch-all route** it, and BetterAuth manages everything under `/api/auth/*`.
+</SectionNote>
+
+<SectionSubheading id="toc-tables">Core database tables</SectionSubheading>
+
+The core tables are **user**, **session**, **account**, and **verification**. Plugins can extend the schema — for example, the organization plugin adds `organization`, `member`, and `invitation` tables. The CLI auto-generates and migrates all of this for you.
+
+<DefinitionTable>
+  <DefRow term="user">Stores user profiles — email, name, image, verification status.</DefRow>
+  <DefRow term="session">Active sessions tied to users. Tracks expiry and refresh timing.</DefRow>
+  <DefRow term="account">Links auth providers (email, Google, GitHub) to users. Supports multiple accounts per user.</DefRow>
+  <DefRow term="verification">Stores pending email verifications, password resets, and magic link tokens.</DefRow>
+</DefinitionTable>
