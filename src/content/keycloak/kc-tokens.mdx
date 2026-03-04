@@ -1,0 +1,96 @@
+---
+id: "kc-tokens"
+title: "Tokens Deep Dive 🪙"
+guide: "keycloak"
+group: "Integration"
+linkRefs:
+  - id: "kc-jwt-io"
+    note: "Decode and inspect JWTs visually"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-three-tokens">The Three Tokens</TocLink>
+  <TocLink id="toc-jwt-anatomy">Inside a JWT</TocLink>
+  <TocLink id="toc-best-practices">Token Best Practices</TocLink>
+  <TocLink id="toc-roles">Extracting Roles</TocLink>
+</Toc>
+
+<SectionIntro>
+Understanding the three tokens Keycloak issues and what to do with each one.
+</SectionIntro>
+
+<SectionSubheading id="toc-three-tokens">The Three Tokens</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="Access Token (5 min)">Authorize API requests. Send as `Bearer` header. Contains roles and claims. Store in memory.</DefRow>
+  <DefRow term="ID Token (5 min)">Identity proof for the frontend. Contains user profile info (name, email). Store in memory.</DefRow>
+  <DefRow term="Refresh Token (30 min)">Get new access/ID tokens without re-authenticating. Sent to token endpoint only. Store in memory or secure storage.</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-jwt-anatomy">Inside a JWT Access Token</SectionSubheading>
+
+Keycloak JWTs are base64-encoded JSON with three dot-separated parts: header, payload, and signature.
+
+<CodeAccordion title="Decoded JWT payload (simplified)" language="json" startOpen>
+{`{
+  "exp":        1709500800,
+  "iss":        "http://localhost:8080/realms/my-app",
+  "aud":        "account",
+  "sub":        "a1b2c3d4-...",
+  "azp":        "react-app",
+  "scope":      "openid profile email",
+  "realm_access": {
+    "roles": ["admin", "user"]
+  },
+  "resource_access": {
+    "react-app": {
+      "roles": ["editor"]
+    }
+  },
+  "preferred_username": "emily",
+  "email":      "emily@example.com",
+  "name":       "Emily Serven"
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-best-practices">Token Handling Best Practices</SectionSubheading>
+
+<Explainer title="Do">
+Store tokens in memory (JS variables). Let the OIDC library manage refresh. Validate tokens server-side on every API request. Keep access token lifetimes short (5 min). Use PKCE for all browser flows.
+</Explainer>
+
+<Gotcha>
+**Don't:** Store tokens in localStorage (XSS-vulnerable). Parse/trust tokens on the frontend for authorization decisions. Use long-lived access tokens. Send tokens to third-party APIs. Log tokens in production.
+</Gotcha>
+
+<SectionNote>
+**Frontend Auth ≠ Security:** The frontend can use tokens to show/hide UI, but the backend must *always* validate tokens and enforce permissions. A user can modify any client-side check.
+</SectionNote>
+
+<SectionSubheading id="toc-roles">Extracting Roles for UI Logic</SectionSubheading>
+
+<CodeAccordion title="src/hooks/useRoles.ts" language="typescript" startOpen>
+{`import { useAuth } from "react-oidc-context";
+
+export function useRoles() {
+  const auth = useAuth();
+  const token = auth.user?.profile as Record<string, any>;
+
+  const realmRoles: string[] =
+    token?.realm_access?.roles ?? [];
+
+  const hasRole = (role: string) =>
+    realmRoles.includes(role);
+
+  const hasAnyRole = (...roles: string[]) =>
+    roles.some((r) => realmRoles.includes(r));
+
+  return { realmRoles, hasRole, hasAnyRole };
+}
+
+// Usage:
+// const { hasRole } = useRoles();
+// {hasRole("admin") && <AdminPanel />}`}
+</CodeAccordion>

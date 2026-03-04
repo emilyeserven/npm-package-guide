@@ -1,0 +1,56 @@
+---
+id: "kc-overview"
+title: "What is Keycloak 🏰"
+guide: "keycloak"
+group: "Foundations"
+linkRefs:
+  - id: "kc-docs"
+    note: "Official Keycloak documentation"
+  - id: "kc-github"
+    note: "Keycloak GitHub repository (CNCF)"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-why-care">Why Frontend Engineers Should Care</TocLink>
+  <TocLink id="toc-strengths">Key Strengths</TocLink>
+  <TocLink id="toc-tradeoffs">The Tradeoffs</TocLink>
+  <TocLink id="toc-versions">Version Landscape</TocLink>
+</Toc>
+
+<SectionIntro>
+Keycloak is an open-source identity and access management (IAM) solution maintained under the CNCF. It handles authentication, authorization, and user management so you don't have to build it from scratch.
+</SectionIntro>
+
+<SectionSubheading id="toc-why-care">Why Frontend Engineers Should Care</SectionSubheading>
+
+Keycloak acts as your centralized authentication server. Instead of building login forms, token management, session handling, MFA, social login, and role-based access from scratch, you delegate all of it to Keycloak. Your React app becomes a **relying party** — it redirects users to Keycloak for login and receives secure tokens back.
+
+<SectionSubheading id="toc-strengths">Key Strengths</SectionSubheading>
+
+<SectionList>
+  <ColItem>**Single Sign-On (SSO)** — users log in once and access multiple apps via OIDC or SAML</ColItem>
+  <ColItem>**Social Login** — built-in Google, GitHub, Facebook, and custom identity provider integration</ColItem>
+  <ColItem>**User Federation** — connect to existing LDAP or Active Directory user stores</ColItem>
+  <ColItem>**Fine-Grained Authorization** — RBAC (role-based), groups, and policy-based access control</ColItem>
+  <ColItem>**Customizable Auth Flows** — visual editor for login steps, MFA, conditional step-up auth</ColItem>
+  <ColItem>**Passkeys & WebAuthn** — passwordless authentication (fully supported since v26.4)</ColItem>
+  <ColItem>**Admin Console & REST API** — manage everything via UI or programmatically</ColItem>
+  <ColItem>**MCP Integration** — can serve as an OAuth2 authorization server for MCP servers (v26.5+)</ColItem>
+</SectionList>
+
+<SectionSubheading id="toc-tradeoffs">The Tradeoffs</SectionSubheading>
+
+<Gotcha>
+Keycloak is powerful but operationally complex. Self-hosting means you own upgrades, database management, clustering, and security patches. The learning curve is steep — expect to spend time on configuration before it clicks. For smaller projects, managed auth services like Clerk or Auth0 may get you running faster. For enterprise and self-hosted requirements (especially airgapped environments), Keycloak is hard to beat.
+</Gotcha>
+
+<SectionSubheading id="toc-versions">Version Landscape</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="26.5.x (Latest)">JWT Authorization Grants, Workflows (IGA), MCP server guide, OpenTelemetry</DefRow>
+  <DefRow term="26.4.x (Stable)">Passkeys, FAPI 2.0, DPoP, Federated Client Auth (SPIFFE/K8s)</DefRow>
+  <DefRow term="26.3.x (Maintenance)">OIDC improvements, security patches</DefRow>
+  <DefRow term="25.x and below (EOL)">Legacy — upgrade recommended</DefRow>
+</DefinitionTable>

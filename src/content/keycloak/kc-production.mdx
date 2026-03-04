@@ -1,0 +1,53 @@
+---
+id: "kc-production"
+title: "Production Patterns 🚀"
+guide: "keycloak"
+group: "Production & Review"
+linkRefs:
+  - id: "kc-production-guide"
+    note: "Keycloak production configuration guide"
+  - id: "kc-keycloakify"
+    note: "Build Keycloak themes with React"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-checklist">Production Checklist</TocLink>
+  <TocLink id="toc-topology">Deployment Topology</TocLink>
+  <TocLink id="toc-theming">Theme Customization</TocLink>
+  <TocLink id="toc-ha">High Availability</TocLink>
+</Toc>
+
+<SectionIntro>
+What changes when you go from localhost to real deployments.
+</SectionIntro>
+
+<SectionSubheading id="toc-checklist">Production Checklist</SectionSubheading>
+
+<KcProductionChecklist />
+
+<SectionSubheading id="toc-topology">Deployment Topology</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="Browser (React SPA)">Served from CDN. Communicates with Keycloak for auth and API server for data — all over HTTPS.</DefRow>
+  <DefRow term="Keycloak (auth.example.com)">Handles all authentication flows, token issuance, and user management. Runs behind a reverse proxy with TLS.</DefRow>
+  <DefRow term="API Server (api.example.com)">Validates JWT signatures against Keycloak's JWKS endpoint. Enforces authorization on every request.</DefRow>
+  <DefRow term="PostgreSQL Database">Stores Keycloak's realm config, users, sessions. Use a managed database service for reliability.</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-theming">Branding the Login Page</SectionSubheading>
+
+Keycloak's login, registration, and account pages are fully themeable. You can create custom themes using FreeMarker templates and CSS, or use community solutions like `keycloakify` to build themes with React.
+
+<SectionNote>
+Theme files live in `themes/your-theme/login/` and include templates for login, registration, OTP, and error pages. Deploy by mounting the theme directory into the Keycloak container.
+</SectionNote>
+
+<SectionSubheading id="toc-ha">High Availability & Clustering</SectionSubheading>
+
+For production HA, Keycloak supports running multiple instances behind a load balancer. Since v26.4, multi-availability-zone deployments are simplified. Session state is shared via Infinispan (embedded by default), and you can configure external Infinispan clusters for larger deployments.
+
+<Explainer title="Sticky Sessions">
+Sticky sessions on the load balancer simplify things but aren't strictly required. Keycloak distributes session state across the cluster via Infinispan's distributed cache.
+</Explainer>
