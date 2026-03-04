@@ -285,7 +285,7 @@ export const njaLinks: RegistryLink[] = [
     label: 'Drizzle ORM Documentation',
     source: 'Drizzle',
     desc: 'Lightweight, type-safe SQL ORM for TypeScript.',
-    tags: ['docs', 'free', 'guide:nextjs-abstractions'],
+    tags: ['docs', 'free', 'guide:nextjs-abstractions', 'guide:better-auth'],
     resourceCategory: 'Official Documentation',
   },
   {

@@ -1,0 +1,63 @@
+---
+id: "ba-plugins"
+title: "Plugin Ecosystem 🧩"
+guide: "better-auth"
+group: "Advanced"
+linkRefs:
+  - id: "betterauth-docs"
+    note: "Official BetterAuth documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-browse">Browse plugins</TocLink>
+  <TocLink id="toc-example">Example: Adding 2FA + Passkeys</TocLink>
+</Toc>
+
+<SectionIntro>
+Plugins are what make BetterAuth genuinely comprehensive. Each plugin adds server endpoints, client methods, and database schema — and the CLI handles migration for all of them.
+</SectionIntro>
+
+<SectionSubheading id="toc-browse">Browse plugins</SectionSubheading>
+
+<BauthPluginBrowser />
+
+<SectionSubheading id="toc-example">Example: Adding 2FA + Passkeys</SectionSubheading>
+
+<CodeAccordion title="auth.ts — Server plugins" code={`import { betterAuth } from "better-auth"
+import { twoFactor, passkey } from "better-auth/plugins"
+
+export const auth = betterAuth({
+  database: drizzleAdapter(db, { provider: "pg" }),
+  plugins: [
+    twoFactor({
+      issuer: "My App",
+      // otpOptions: { digits: 6, period: 30 }
+    }),
+    passkey({
+      rpID: "myapp.com",
+      rpName: "My App",
+    }),
+  ],
+})`} />
+
+<CodeAccordion title="auth-client.ts — Client plugins" code={`import { createAuthClient } from "better-auth/react"
+import { twoFactorClient, passkeyClient } from "better-auth/client/plugins"
+
+export const authClient = createAuthClient({
+  plugins: [
+    twoFactorClient(),
+    passkeyClient(),
+  ],
+})
+
+// Now available:
+// authClient.twoFactor.enable()
+// authClient.twoFactor.verifyTotp({ code })
+// authClient.passkey.register()
+// authClient.passkey.authenticate()`} />
+
+<Gotcha title="Both server and client plugins required">
+Both server and client plugins are usually required. Adding `twoFactor()` on the server without `twoFactorClient()` on the client means you won't get the typed methods. After adding plugins, re-run `npx auth@latest generate` to update your schema.
+</Gotcha>

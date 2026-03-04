@@ -1,0 +1,97 @@
+---
+id: "ba-tanstack"
+title: "TanStack Integration ⚛️"
+guide: "better-auth"
+group: "Integration"
+linkRefs:
+  - id: "betterauth-docs"
+    note: "Official BetterAuth documentation"
+  - id: "tanstack-start-docs"
+    note: "TanStack Start documentation"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-cookie">Server: TanStack Start cookie plugin</TocLink>
+  <TocLink id="toc-route">Mount the handler as an API route</TocLink>
+  <TocLink id="toc-client">Client: React hooks</TocLink>
+  <TocLink id="toc-ssr">Server-side session access</TocLink>
+</Toc>
+
+<SectionIntro>
+BetterAuth has first-class support for TanStack Start. A dedicated cookie plugin ensures sessions work correctly with TanStack Start's SSR cookie handling.
+</SectionIntro>
+
+<SectionSubheading id="toc-cookie">Server: TanStack Start cookie plugin</SectionSubheading>
+
+<CodeAccordion title="src/lib/auth.ts" code={`import { betterAuth } from "better-auth"
+import { tanstackStartCookies } from "better-auth/tanstack-start"
+import { drizzleAdapter } from "better-auth/adapters/drizzle"
+import { db } from "./db"
+
+export const auth = betterAuth({
+  database: drizzleAdapter(db, { provider: "pg" }),
+  emailAndPassword: { enabled: true },
+  plugins: [
+    tanstackStartCookies(),
+    // must be the LAST plugin in the array
+  ],
+})`} />
+
+<Gotcha title="Plugin renamed in v1.4">
+The `tanstackStartCookies()` plugin was renamed from `reactStartCookies()` in v1.4. If you're upgrading, update the import. It must be the **last plugin** in the array.
+</Gotcha>
+
+<SectionSubheading id="toc-route">Mount the handler as an API route</SectionSubheading>
+
+<CodeAccordion title="src/routes/api/auth/$.ts" code={`import { auth } from "@/lib/auth"
+import { createAPIFileRoute } from "@tanstack/react-start/api"
+
+export const APIRoute = createAPIFileRoute("/api/auth/$")({
+  GET: ({ request }) => auth.handler(request),
+  POST: ({ request }) => auth.handler(request),
+})`} />
+
+<SectionSubheading id="toc-client">Client: React hooks</SectionSubheading>
+
+<CodeAccordion title="src/lib/auth-client.ts" code={`import { createAuthClient } from "better-auth/react"
+
+export const { useSession, signIn, signUp, signOut } = createAuthClient()`} />
+
+<SectionSubheading id="toc-ssr">Server-side session access</SectionSubheading>
+
+<CodeAccordion title="src/routes/dashboard.tsx — Loader with auth guard" code={`import { createFileRoute, redirect } from "@tanstack/react-router"
+import { createServerFn } from "@tanstack/react-start"
+import { auth } from "@/lib/auth"
+import { getWebRequest } from "@tanstack/react-start/server"
+
+const getSession = createServerFn({ method: "GET" }).handler(
+  async () => {
+    const request = getWebRequest()
+    const session = await auth.api.getSession({
+      headers: request.headers,
+    })
+    return session
+  }
+)
+
+export const Route = createFileRoute("/dashboard")({
+  beforeLoad: async () => {
+    const session = await getSession()
+    if (!session) {
+      throw redirect({ to: "/login" })
+    }
+    return { session }
+  },
+  component: DashboardPage,
+})
+
+function DashboardPage() {
+  const { session } = Route.useRouteContext()
+  return <h1>Welcome, {session.user.name}</h1>
+}`} />
+
+<Explainer title="Route-level auth guards">
+You can use `auth.api.getSession()` in any server function or loader by passing the request headers. This pattern works great with TanStack Router's `beforeLoad` for route-level auth guards.
+</Explainer>

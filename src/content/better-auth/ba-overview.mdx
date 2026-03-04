@@ -1,0 +1,36 @@
+---
+id: "ba-overview"
+title: "Overview 🔐"
+guide: "better-auth"
+group: "Fundamentals"
+linkRefs:
+  - id: "betterauth-docs"
+    note: "Official BetterAuth documentation"
+  - id: "betterauth-github"
+    note: "BetterAuth GitHub repository"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-what">What is BetterAuth?</TocLink>
+  <TocLink id="toc-highlights">Key highlights</TocLink>
+</Toc>
+
+<SectionIntro>
+BetterAuth is a framework-agnostic authentication and authorization library for TypeScript. It gives you credential auth, social login, session management, and email verification out of the box — and a plugin ecosystem that adds 2FA, passkeys, multi-tenancy, SSO, and more with minimal config.
+</SectionIntro>
+
+<SectionSubheading id="toc-what">What is BetterAuth?</SectionSubheading>
+
+BetterAuth handles the entire auth stack: user registration, login (email/password, social OAuth, passwordless), session management, and authorization. Unlike hosted services like Clerk, everything runs on your own server and stores data in your own database.
+
+The library follows a server-client architecture. You create a server instance that exposes an HTTP handler, mount it on any backend framework (Hono, Express, Fastify, Elysia, TanStack Start), and use a typed client SDK on the frontend for reactive hooks and auth methods.
+
+<SectionSubheading id="toc-highlights">Key highlights</SectionSubheading>
+
+<BauthFeatureCards />
+
+<Explainer title="What's new in v1.5">
+As of v1.5, BetterAuth supports stateless sessions with zero database config, TanStack Start integration via a dedicated cookie plugin, and database joins for 2-3x performance improvements on session lookups.
+</Explainer>
