@@ -1,0 +1,216 @@
+---
+id: "kc-react"
+title: "React Integration ⚛️"
+guide: "keycloak"
+group: "Integration"
+linkRefs:
+  - id: "kc-react-oidc-context"
+    note: "react-oidc-context library for OIDC in React"
+  - id: "kc-keycloak-js"
+    note: "Official keycloak-js adapter"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-oidc-lib">react-oidc-context (Recommended)</TocLink>
+  <TocLink id="toc-keycloak-js">keycloak-js Alternative</TocLink>
+  <TocLink id="toc-protected-routes">Protected Routes</TocLink>
+  <TocLink id="toc-api-calls">Authenticated API Calls</TocLink>
+</Toc>
+
+<SectionIntro>
+Two approaches to integrating Keycloak with React — using the standard OIDC library or the Keycloak-specific adapter.
+</SectionIntro>
+
+<SectionSubheading id="toc-oidc-lib">Using react-oidc-context + oidc-client-ts</SectionSubheading>
+
+This is the vendor-agnostic approach. It works with any OIDC provider, not just Keycloak — making your code portable if you ever switch providers.
+
+<CodeAccordion title="src/auth.ts — OIDC config" language="typescript" startOpen>
+{`// Install: npm install react-oidc-context oidc-client-ts
+import type { AuthProviderProps } from "react-oidc-context";
+
+export const oidcConfig: AuthProviderProps = {
+  authority: "http://localhost:8080/realms/my-app",
+  client_id: "react-app",
+  redirect_uri: "http://localhost:5173/",
+  post_logout_redirect_uri: "http://localhost:5173/",
+  scope: "openid profile email",
+  onSigninCallback: () => {
+    // Remove OIDC query params from URL after login
+    window.history.replaceState({}, "", window.location.pathname);
+  },
+};`}
+</CodeAccordion>
+
+<CodeAccordion title="src/main.tsx — Provider setup" language="tsx">
+{`import { AuthProvider } from "react-oidc-context";
+import { oidcConfig } from "./auth";
+import { App } from "./App";
+
+createRoot(document.getElementById("root")!).render(
+  <AuthProvider {...oidcConfig}>
+    <App />
+  </AuthProvider>
+);`}
+</CodeAccordion>
+
+<CodeAccordion title="src/App.tsx — Using the auth hook" language="tsx">
+{`import { useAuth } from "react-oidc-context";
+
+export function App() {
+  const auth = useAuth();
+
+  if (auth.isLoading) return <div>Loading...</div>;
+  if (auth.error) return <div>Error: {auth.error.message}</div>;
+
+  if (!auth.isAuthenticated) {
+    return (
+      <button onClick={() => auth.signinRedirect()}>
+        Log in
+      </button>
+    );
+  }
+
+  return (
+    <div>
+      <p>Hello, {auth.user?.profile.preferred_username}</p>
+      <button onClick={() => auth.signoutRedirect()}>
+        Log out
+      </button>
+    </div>
+  );
+}`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-keycloak-js">keycloak-js Alternative</SectionSubheading>
+
+The official Keycloak JavaScript adapter. More tightly coupled to Keycloak, but gives you Keycloak-specific features like built-in token refresh and account management links.
+
+<CodeAccordion title="src/keycloak.ts — Direct adapter" language="typescript">
+{`import Keycloak from "keycloak-js";
+
+export const keycloak = new Keycloak({
+  url: "http://localhost:8080",
+  realm: "my-app",
+  clientId: "react-app",
+});
+
+export async function initKeycloak() {
+  const authenticated = await keycloak.init({
+    onLoad: "check-sso",
+    pkceMethod: "S256",
+    checkLoginIframe: false,
+    silentCheckSsoRedirectUri:
+      \`\${window.location.origin}/silent-check-sso.html\`,
+  });
+
+  // Auto-refresh tokens before expiry
+  setInterval(async () => {
+    if (keycloak.authenticated) {
+      await keycloak.updateToken(30);
+    }
+  }, 10000);
+
+  return authenticated;
+}`}
+</CodeAccordion>
+
+<Gotcha>
+**React Strict Mode Warning:** In development, React 18+ double-invokes effects, which can cause `keycloak.init()` to be called twice. Either disable Strict Mode during development or guard with a ref to ensure single initialization.
+</Gotcha>
+
+<SectionSubheading id="toc-protected-routes">Protected Routes with TanStack Router</SectionSubheading>
+
+Using TanStack Router's `beforeLoad` to guard routes based on auth state:
+
+<CodeAccordion title="Layout route guard" language="typescript">
+{`// src/routes/_authenticated.tsx
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { getAuth } from "../auth";
+
+export const Route = createFileRoute("/_authenticated")({
+  beforeLoad: async () => {
+    const auth = getAuth();
+    if (!auth.isAuthenticated) {
+      auth.signinRedirect();
+      throw redirect({ to: "/" });
+    }
+  },
+  component: AuthenticatedLayout,
+});
+
+function AuthenticatedLayout() {
+  return <Outlet />;
+}`}
+</CodeAccordion>
+
+<CodeAccordion title="Role-based route guard" language="typescript">
+{`export const Route = createFileRoute("/_authenticated/admin")({
+  beforeLoad: async () => {
+    const auth = getAuth();
+    const roles = auth.user?.profile?.realm_access?.roles ?? [];
+    if (!roles.includes("admin")) {
+      throw redirect({ to: "/unauthorized" });
+    }
+  },
+});`}
+</CodeAccordion>
+
+<SectionSubheading id="toc-api-calls">Authenticated API Calls</SectionSubheading>
+
+Creating an authenticated fetch wrapper and using it with TanStack Query:
+
+<CodeAccordion title="src/api/client.ts — Auth fetch wrapper" language="typescript">
+{`import { getAuth } from "../auth";
+
+export async function authFetch(
+  url: string,
+  options: RequestInit = {}
+) {
+  const auth = getAuth();
+
+  if (auth.user?.expired) {
+    await auth.signinSilent();
+  }
+
+  const token = auth.user?.access_token;
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      ...options.headers,
+      Authorization: \`Bearer \${token}\`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (response.status === 401) {
+    auth.signinRedirect();
+    throw new Error("Unauthorized");
+  }
+
+  if (!response.ok) {
+    throw new Error(\`API Error: \${response.status}\`);
+  }
+
+  return response.json();
+}`}
+</CodeAccordion>
+
+<CodeAccordion title="TanStack Query hook with auth" language="typescript">
+{`import { useQuery } from "@tanstack/react-query";
+import { authFetch } from "../api/client";
+
+export function useProjects() {
+  return useQuery({
+    queryKey: ["projects"],
+    queryFn: () => authFetch("/api/projects"),
+    staleTime: 5 * 60 * 1000,
+    retry: (count, error) => {
+      if (error.message === "Unauthorized") return false;
+      return count < 3;
+    },
+  });
+}`}
+</CodeAccordion>

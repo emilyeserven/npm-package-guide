@@ -1,0 +1,47 @@
+---
+id: "kc-flows"
+title: "Authentication Flows 🔄"
+guide: "keycloak"
+group: "Foundations"
+linkRefs:
+  - id: "kc-oidc-spec"
+    note: "OpenID Connect specification"
+---
+
+<SectionTitle>{frontmatter.title}</SectionTitle>
+
+<Toc>
+  <TocLink id="toc-pkce-flow">Authorization Code + PKCE</TocLink>
+  <TocLink id="toc-deprecated">Deprecated Flows</TocLink>
+  <TocLink id="toc-silent-sso">Silent SSO & Token Refresh</TocLink>
+</Toc>
+
+<SectionIntro>
+Understanding the Authorization Code Flow with PKCE — the only flow you should use for browser-based SPAs.
+</SectionIntro>
+
+<SectionSubheading id="toc-pkce-flow">Authorization Code Grant + PKCE</SectionSubheading>
+
+This is the recommended flow for all public clients (SPAs). PKCE (Proof Key for Code Exchange) prevents authorization code interception attacks without needing a client secret.
+
+<KcAuthFlow />
+
+<SectionSubheading id="toc-deprecated">Deprecated Flows</SectionSubheading>
+
+<Gotcha>
+These flows should **not** be used for browser-based SPAs.
+</Gotcha>
+
+<DefinitionTable>
+  <DefRow term="Implicit Flow">Tokens exposed in URL fragments. No refresh tokens. Deprecated by OAuth 2.1.</DefRow>
+  <DefRow term="Resource Owner Password (ROPC)">Your app handles the password directly — defeats the purpose of delegated auth.</DefRow>
+  <DefRow term="Client Credentials">Machine-to-machine only. No user context. Not for SPAs.</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-silent-sso">Silent SSO & Token Refresh</SectionSubheading>
+
+OIDC clients can perform **silent authentication** using a hidden iframe that checks if the user still has an active session on Keycloak. This enables seamless SSO across multiple apps without re-prompting for credentials.
+
+<SectionNote>
+For token refresh, the library uses the refresh token to get new access tokens before expiry — all happening in the background. Configure `silentCheckSsoRedirectUri` to point to a small static HTML file that handles the redirect callback in the iframe.
+</SectionNote>
