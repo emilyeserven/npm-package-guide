@@ -11,20 +11,31 @@ linkRefs:
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
+  <TocLink id="toc-lifecycle">The session lifecycle</TocLink>
   <TocLink id="toc-strategies">Session strategies</TocLink>
   <TocLink id="toc-config">Session config options</TocLink>
   <TocLink id="toc-stateless">Fully stateless (no database)</TocLink>
 </Toc>
 
 <SectionIntro>
-BetterAuth supports multiple session strategies, from database-backed sessions with Redis caching to fully stateless JWT-based sessions with zero database.
+BetterAuth supports multiple session strategies, from database-backed sessions with Redis caching to fully stateless JWT-based sessions with zero database. Understanding the trade-offs helps you pick the right approach for your app.
 </SectionIntro>
+
+<SectionSubheading id="toc-lifecycle">The session lifecycle</SectionSubheading>
+
+When a user signs in, BetterAuth creates a session record (in the database, Redis, or a signed cookie depending on your config), generates a session token, and sets it as an HTTP-only cookie. On subsequent requests, the cookie is sent automatically by the browser. BetterAuth reads the token, validates it, and resolves the session — either by looking it up in the database, checking Redis, or verifying a JWT signature.
+
+Sessions expire after a configurable duration (`expiresIn`). To avoid forcing users to re-authenticate frequently, BetterAuth can silently refresh the session on active requests (`updateAge`). Cookie caching (`cookieCache`) adds another optimization: it stores session data directly in the cookie for a short window, eliminating database lookups entirely for cached requests.
 
 <SectionSubheading id="toc-strategies">Session strategies</SectionSubheading>
 
 <BauthSessionCards />
 
+The strategy you choose determines what's stored in the session cookie. **Compact** stores just a session ID (smallest cookie, requires a DB or Redis lookup on every request). **JWT** stores the session payload as a signed but readable token (no DB lookup, but the payload is visible to the client). **JWE** encrypts the JWT payload (no DB lookup, and the client can't read the contents).
+
 <SectionSubheading id="toc-config">Session config options</SectionSubheading>
+
+The three key decisions are `expiresIn`, `updateAge`, and `cookieCache`. **`expiresIn`** controls the maximum session lifetime — shorter is more secure, longer is more convenient. **`updateAge`** controls how often the session's expiry is refreshed on active use — this balances database writes against session freshness. **`cookieCache`** eliminates database lookups for a configurable window by storing session data in the cookie itself.
 
 <CodeAccordion title="auth.ts — Session configuration" code={`export const auth = betterAuth({
   // ...
@@ -34,17 +45,18 @@ BetterAuth supports multiple session strategies, from database-backed sessions w
     cookieCache: {
       enabled: true,
       maxAge: 60 * 5,   // 5 min cache
-      // strategy: "compact" | "jwt" | "jwe"
-      // version: 1,  // bump to invalidate all sessions
     },
   },
 })`} />
 
 <SectionSubheading id="toc-stateless">Fully stateless (no database)</SectionSubheading>
 
+Since v1.4, you can omit the database config entirely. In stateless mode, sessions live exclusively in signed cookies — no database reads or writes for auth at all. This is ideal for MVPs, internal tools, or apps where social OAuth is sufficient and you don't need to store user profiles server-side.
+
+The trade-off is clear: no database means no server-side session revocation. You can't "log out all devices" or invalidate a specific session from the server. If that's acceptable for your use case, stateless mode eliminates all auth infrastructure beyond the BetterAuth handler itself.
+
 <CodeAccordion title="auth.ts — Stateless mode" code={`import { betterAuth } from "better-auth"
 
-// Since v1.4: omit database entirely
 export const auth = betterAuth({
   socialProviders: {
     google: {
@@ -57,5 +69,5 @@ export const auth = betterAuth({
 })`} />
 
 <SectionNote>
-Stateless mode is great for lightweight apps where you only need social OAuth and don't need to store user data server-side. You can still call `getAccessToken()` and `accountInfo()` without a database.
+Stateless mode still supports `getAccessToken()` and `accountInfo()` — these work by reading the OAuth tokens stored in the session cookie. You can still call social provider APIs without a database.
 </SectionNote>

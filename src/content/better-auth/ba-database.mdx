@@ -13,31 +13,46 @@ linkRefs:
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
-  <TocLink id="toc-adapters">ORM adapters</TocLink>
+  <TocLink id="toc-pattern">The adapter pattern</TocLink>
+  <TocLink id="toc-adapters">Choosing an adapter</TocLink>
+  <TocLink id="toc-examples">Adapter examples</TocLink>
   <TocLink id="toc-redis">Secondary storage (Redis)</TocLink>
 </Toc>
 
 <SectionIntro>
-BetterAuth supports three official ORM adapters plus a built-in Kysely adapter for raw connection strings. You can also use secondary storage (like Redis) for high-performance session lookups.
+BetterAuth never talks to your database directly. Instead, it uses an adapter layer that translates auth operations into your ORM's query language. This means you keep your existing ORM, schema workflow, and migration tooling — BetterAuth just plugs into it.
 </SectionIntro>
 
-<SectionSubheading id="toc-adapters">ORM adapters</SectionSubheading>
+<SectionSubheading id="toc-pattern">The adapter pattern</SectionSubheading>
 
-<CodeAccordion title="Drizzle" code={`import { betterAuth } from "better-auth"
+When BetterAuth needs to create a user, look up a session, or store an OAuth account link, it calls adapter methods like `create`, `findOne`, and `update`. The adapter translates these into the query syntax your ORM understands. This is why you can switch between Drizzle and Prisma without changing any auth logic — only the adapter import changes.
+
+The `generate` CLI command also uses adapter awareness: it outputs schema in the correct format for your ORM (Drizzle schema files, Prisma schema blocks, etc.), so your auth tables follow the same conventions as the rest of your database.
+
+<SectionSubheading id="toc-adapters">Choosing an adapter</SectionSubheading>
+
+<DefinitionTable>
+  <DefRow term="Drizzle">Best for most new projects. Supports joins mode for 2-3x faster session lookups. Works with PostgreSQL, MySQL, and SQLite.</DefRow>
+  <DefRow term="Prisma">The most popular TypeScript ORM. Use this if your project already uses Prisma and you don't want to add a second ORM.</DefRow>
+  <DefRow term="MongoDB">For document-database projects. Adapter handles the translation from BetterAuth's relational model to MongoDB collections.</DefRow>
+  <DefRow term="Raw connection string">BetterAuth's built-in Kysely adapter. Pass a `Pool` or connection URL directly — no external ORM needed. Good for minimal setups.</DefRow>
+</DefinitionTable>
+
+<SectionSubheading id="toc-examples">Adapter examples</SectionSubheading>
+
+The adapter is passed to the `database` key in your config. Here's what Drizzle and Prisma look like — MongoDB and raw connection strings follow the same one-import pattern.
+
+<CodeAccordion title="Drizzle adapter" code={`import { betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
 import { db } from "./db"
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg", // "mysql" | "sqlite"
-    // schema, // pass your drizzle schema for joins
   }),
-  experimental: {
-    joins: true, // 2-3x faster session lookups
-  },
 })`} />
 
-<CodeAccordion title="Prisma" code={`import { betterAuth } from "better-auth"
+<CodeAccordion title="Prisma adapter" code={`import { betterAuth } from "better-auth"
 import { prismaAdapter } from "better-auth/adapters/prisma"
 import { PrismaClient } from "@prisma/client"
 
@@ -49,24 +64,13 @@ export const auth = betterAuth({
   }),
 })`} />
 
-<CodeAccordion title="MongoDB" code={`import { betterAuth } from "better-auth"
-import { mongodbAdapter } from "better-auth/adapters/mongodb"
-import { client } from "./db"
-
-export const auth = betterAuth({
-  database: mongodbAdapter(client),
-})`} />
-
-<CodeAccordion title="Raw connection string" code={`import { betterAuth } from "better-auth"
-import { Pool } from "pg"
-
-export const auth = betterAuth({
-  database: new Pool({
-    connectionString: process.env.DATABASE_URL,
-  }),
-})`} />
+<Explainer title="Joins mode (Drizzle)">
+By default, BetterAuth makes separate queries for sessions and users. With `experimental.joins: true` and a Drizzle schema passed to the adapter, it uses SQL joins instead — reducing session lookups from 2 queries to 1. This is a 2-3x performance improvement and is recommended for production.
+</Explainer>
 
 <SectionSubheading id="toc-redis">Secondary storage (Redis)</SectionSubheading>
+
+For high-traffic applications, you can add Redis as a secondary storage layer. When configured, BetterAuth reads sessions from Redis first (sub-millisecond lookups) and falls back to the database. This is useful when session lookup latency matters — think thousands of concurrent users — but for most apps, the default database storage with cookie caching is sufficient.
 
 <CodeAccordion title="auth.ts — Redis secondary storage" code={`import { betterAuth } from "better-auth"
 import { createRedisStorage } from "@better-auth/redis-storage"
@@ -83,5 +87,5 @@ export const auth = betterAuth({
 })`} />
 
 <SectionNote>
-When secondary storage is defined, sessions are stored there by default (not the database). Set `storeSessionInDatabase: true` if you want both. For fully stateless mode, omit the database entirely and enable cookie caching.
+When secondary storage is defined, sessions are stored there by default (not the database). Set `storeSessionInDatabase: true` if you want both. For most applications, skip Redis entirely and use cookie caching instead — it eliminates database lookups for a configurable window without any extra infrastructure.
 </SectionNote>

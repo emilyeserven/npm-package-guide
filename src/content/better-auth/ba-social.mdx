@@ -11,16 +11,25 @@ linkRefs:
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
+  <TocLink id="toc-how">How social auth works</TocLink>
   <TocLink id="toc-config">Server configuration</TocLink>
   <TocLink id="toc-client">Client-side social sign-in</TocLink>
-  <TocLink id="toc-state">Passing additional OAuth state</TocLink>
+  <TocLink id="toc-state">Passing data through the OAuth flow</TocLink>
 </Toc>
 
 <SectionIntro>
-Adding social login is just a few lines of config. BetterAuth supports Google, GitHub, Apple, Discord, Microsoft, Twitter, and many more. You can also use the `genericOAuth` plugin for any OAuth 2.0 / OIDC provider.
+Social auth in BetterAuth is declarative, not imperative. You declare which OAuth providers you want in your server config, and the client SDK automatically gets typed `signIn.social()` methods. No manual redirect URL construction, no callback route handlers, no token exchange logic.
 </SectionIntro>
 
+<SectionSubheading id="toc-how">How social auth works</SectionSubheading>
+
+When a user clicks "Sign in with Google," BetterAuth handles the entire OAuth dance behind the scenes: it generates the authorization URL with the correct scopes and redirect URI, redirects the user to the provider, receives the callback with an authorization code, exchanges it for tokens, fetches the user's profile, creates or links an account in your database, issues a session, and sets the session cookie. All you provide is the OAuth client ID and secret.
+
+BetterAuth supports Google, GitHub, Apple, Discord, Microsoft, Twitter, and many more out of the box. For any OAuth 2.0 / OIDC provider not in the built-in list, the `genericOAuth` plugin handles arbitrary providers.
+
 <SectionSubheading id="toc-config">Server configuration</SectionSubheading>
+
+Each provider entry in `socialProviders` needs just a `clientId` and `clientSecret`. BetterAuth registers the callback URL at `/api/auth/callback/<provider>` automatically — you just need to add that URL to your OAuth app's allowed redirects in the provider's dashboard.
 
 <CodeAccordion title="auth.ts — Social providers" code={`import { betterAuth } from "better-auth"
 
@@ -35,14 +44,12 @@ export const auth = betterAuth({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     },
-    discord: {
-      clientId: process.env.DISCORD_CLIENT_ID!,
-      clientSecret: process.env.DISCORD_CLIENT_SECRET!,
-    },
   },
 })`} />
 
 <SectionSubheading id="toc-client">Client-side social sign-in</SectionSubheading>
+
+On the client, `signIn.social({ provider: "google" })` triggers a full-page redirect to the provider's consent screen. After the user authorizes, they're redirected back to your app with an active session. There's no popup window or iframe — it's the standard OAuth redirect flow that users expect.
 
 <CodeAccordion title="SocialLogin.tsx" code={`import { signIn } from "@/lib/auth-client"
 
@@ -63,30 +70,30 @@ function SocialLogin() {
   )
 }`} />
 
-<SectionSubheading id="toc-state">Passing additional OAuth state</SectionSubheading>
+<SectionSubheading id="toc-state">Passing data through the OAuth flow</SectionSubheading>
 
-Since v1.4, you can pass arbitrary data through the OAuth flow and access it in hooks:
+Since v1.4, you can attach arbitrary data to the OAuth flow via `additionalData`. This is useful for preserving context that needs to survive the redirect — referral codes, UTM parameters, onboarding flow state, or which pricing plan the user selected before signing up. The data is serialized into the OAuth state parameter and accessible in server hooks after the callback.
 
-<CodeAccordion title="auth-client.ts — Passing state" code={`await signIn.social({
+<CodeAccordion title="Client → Server: passing and accessing OAuth state" code={`// Client: attach data to the social sign-in
+await signIn.social({
   provider: "google",
   additionalData: {
     referralCode: "ABC123",
     source: "landing-page",
   },
-})`} />
+})
 
-<CodeAccordion title="auth.ts — Accessing state in server hooks" code={`import { betterAuth } from "better-auth"
+// Server: access the data in hooks
 import { getOAuthState, createAuthMiddleware } from "better-auth/api"
 
 export const auth = betterAuth({
-  // ... config
   hooks: {
     before: createAuthMiddleware(async (ctx) => {
       const data = await getOAuthState<{
         referralCode: string
         source: string
       }>()
-      console.log(data) // { referralCode: "ABC123", source: "landing-page" }
+      // data = { referralCode: "ABC123", source: "landing-page" }
     }),
   },
 })`} />

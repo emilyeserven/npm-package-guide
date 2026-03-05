@@ -11,13 +11,25 @@ linkRefs:
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
+  <TocLink id="toc-how">How plugins work</TocLink>
   <TocLink id="toc-browse">Browse plugins</TocLink>
   <TocLink id="toc-example">Example: Adding 2FA + Passkeys</TocLink>
+  <TocLink id="toc-composition">Plugin composition</TocLink>
 </Toc>
 
 <SectionIntro>
-Plugins are what make BetterAuth genuinely comprehensive. Each plugin adds server endpoints, client methods, and database schema — and the CLI handles migration for all of them.
+Plugins are what make BetterAuth genuinely comprehensive. Rather than building a monolithic auth library that ships everything, BetterAuth uses a composable plugin architecture where each feature — 2FA, passkeys, organizations, SSO — is an independent module you opt into.
 </SectionIntro>
+
+<SectionSubheading id="toc-how">How plugins work</SectionSubheading>
+
+Each plugin can do three things: add **server endpoints** (new API routes under `/api/auth/`), add **client methods** (typed functions on the auth client), and add **database tables or columns** (schema extensions). When you add a plugin to your server config, re-running `npx auth@latest generate` automatically includes the plugin's tables in your schema output.
+
+This means the workflow for adding any feature is always the same:
+
+1. Add the plugin to your **server** config (`plugins: [...]`)
+2. Add the matching client plugin to your **client** config
+3. Re-run `generate` and `migrate` to update your database schema
 
 <SectionSubheading id="toc-browse">Browse plugins</SectionSubheading>
 
@@ -25,20 +37,16 @@ Plugins are what make BetterAuth genuinely comprehensive. Each plugin adds serve
 
 <SectionSubheading id="toc-example">Example: Adding 2FA + Passkeys</SectionSubheading>
 
+Here's what it looks like in practice. The server plugins add the auth logic and database tables. The client plugins add typed methods like `twoFactor.verifyTotp()` and `passkey.register()` — these don't exist on the client until you add the plugins.
+
 <CodeAccordion title="auth.ts — Server plugins" code={`import { betterAuth } from "better-auth"
 import { twoFactor, passkey } from "better-auth/plugins"
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, { provider: "pg" }),
   plugins: [
-    twoFactor({
-      issuer: "My App",
-      // otpOptions: { digits: 6, period: 30 }
-    }),
-    passkey({
-      rpID: "myapp.com",
-      rpName: "My App",
-    }),
+    twoFactor({ issuer: "My App" }),
+    passkey({ rpID: "myapp.com", rpName: "My App" }),
   ],
 })`} />
 
@@ -46,18 +54,15 @@ export const auth = betterAuth({
 import { twoFactorClient, passkeyClient } from "better-auth/client/plugins"
 
 export const authClient = createAuthClient({
-  plugins: [
-    twoFactorClient(),
-    passkeyClient(),
-  ],
-})
-
-// Now available:
-// authClient.twoFactor.enable()
-// authClient.twoFactor.verifyTotp({ code })
-// authClient.passkey.register()
-// authClient.passkey.authenticate()`} />
+  plugins: [twoFactorClient(), passkeyClient()],
+})`} />
 
 <Gotcha title="Both server and client plugins required">
 Both server and client plugins are usually required. Adding `twoFactor()` on the server without `twoFactorClient()` on the client means you won't get the typed methods. After adding plugins, re-run `npx auth@latest generate` to update your schema.
 </Gotcha>
+
+<SectionSubheading id="toc-composition">Plugin composition</SectionSubheading>
+
+Plugins are designed to compose. The `organization` plugin adds multi-tenant workspaces. The `access` plugin adds role-based permissions. Used together, you get org-level RBAC — roles scoped to organizations, not just globally. Similarly, `twoFactor` and `passkey` can coexist, giving users a choice of second factors.
+
+This composability is why BetterAuth can match the feature set of paid services like Clerk while remaining self-hosted. You pick exactly the features you need, and each one integrates cleanly with the others through shared primitives like sessions and user records.

@@ -231,7 +231,7 @@ export const BAUTH_GUIDE_MANIFEST: GuideManifest = {
     description: 'The comprehensive TypeScript authentication framework \u2014 setup, plugins, sessions, social auth, and TanStack integration.',
     category: 'security',
     dateCreated: '2026-03-04',
-    dateModified: '2026-03-04',
+    dateModified: '2026-03-05',
     sections: BAUTH_GUIDE_SECTIONS,
   },
   startPageData: BAUTH_START_PAGE_DATA,
