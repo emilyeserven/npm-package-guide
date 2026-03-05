@@ -12,7 +12,7 @@ linkRefs:
 
 <Toc>
   <TocLink id="toc-create">Creating the client</TocLink>
-  <TocLink id="toc-signup">Sign up & sign in</TocLink>
+  <TocLink id="toc-auth">Sign up & sign in</TocLink>
   <TocLink id="toc-session">Using the session hook</TocLink>
   <TocLink id="toc-types">Type inference</TocLink>
 </Toc>
@@ -23,11 +23,14 @@ BetterAuth provides framework-specific client imports. For React, you get reacti
 
 <SectionSubheading id="toc-create">Creating the client</SectionSubheading>
 
+`createAuthClient` creates a typed wrapper around fetch that knows all your server's auth endpoints. The `baseURL` tells it where your auth handler is mounted. Importing from `better-auth/react` (instead of `better-auth/client`) gives you reactive hooks like `useSession` in addition to imperative methods.
+
+The client auto-discovers your server's capabilities. If your server config has `emailAndPassword` enabled, the client exposes `signIn.email()` and `signUp.email()`. If you add social providers, `signIn.social()` appears. Plugins extend the client the same way — add `twoFactor()` on the server, add `twoFactorClient()` on the client, and you get `authClient.twoFactor.verifyTotp()`.
+
 <CodeAccordion title="src/lib/auth-client.ts" code={`import { createAuthClient } from "better-auth/react"
 
 export const authClient = createAuthClient({
   baseURL: "http://localhost:3000",
-  // fetchOptions: { credentials: "include" }
 })
 
 // Destructure for convenience
@@ -39,32 +42,28 @@ export const {
   getSession,
 } = authClient`} />
 
-<SectionSubheading id="toc-signup">Sign up & sign in</SectionSubheading>
+<SectionSubheading id="toc-auth">Sign up & sign in</SectionSubheading>
 
-<CodeAccordion title="SignUp.tsx" code={`import { signUp } from "@/lib/auth-client"
+Auth methods return a `{ data, error }` result type rather than throwing exceptions. This makes error handling explicit — you always check `error` before using `data`. On success, `data` contains `{ user, session }`. The sign-up and sign-in APIs follow the same shape, differing only in that sign-up requires a `name` field.
 
-async function handleSignUp(email: string, password: string, name: string) {
-  const { data, error } = await signUp.email({
-    email,
-    password,
-    name,
-  })
-  if (error) {
-    console.error(error.message)
-  }
-  // data contains { user, session }
-}`} />
+<CodeAccordion title="Auth flow example" code={`import { signUp, signIn } from "@/lib/auth-client"
 
-<CodeAccordion title="SignIn.tsx" code={`import { signIn } from "@/lib/auth-client"
+// Sign up — creates user + session
+const { data, error } = await signUp.email({
+  email,
+  password,
+  name,
+})
 
-async function handleSignIn(email: string, password: string) {
-  const { data, error } = await signIn.email({
-    email,
-    password,
-  })
-}`} />
+// Sign in — looks up user, verifies password, creates session
+const { data, error } = await signIn.email({
+  email,
+  password,
+})`} />
 
 <SectionSubheading id="toc-session">Using the session hook</SectionSubheading>
+
+`useSession` subscribes to auth state changes via internal atom signals. When any auth action completes — sign-in, sign-out, token refresh — all `useSession` consumers re-render automatically. You don't need to set up context providers, pass callbacks, or manually invalidate. The hook returns `{ data, isPending, error }`, where `data` is the full session object (user, session metadata) or `null` if unauthenticated.
 
 <CodeAccordion title="Dashboard.tsx" code={`import { useSession } from "@/lib/auth-client"
 
@@ -82,22 +81,23 @@ function Dashboard() {
   )
 }`} />
 
-<SectionNote>
-The `useSession` hook is reactive — it automatically re-renders when sign-in, sign-out, or session refresh happens. Certain endpoints trigger atom signals that keep all `useSession` consumers in sync.
-</SectionNote>
-
 <SectionSubheading id="toc-types">Type inference</SectionSubheading>
 
-<CodeAccordion title="types.ts — Infer types from your config" code={`import type { auth } from "./auth" // your server auth instance
+BetterAuth's type system is one of its strongest features. Your client automatically knows about fields added by plugins — if you add the RBAC plugin, `session.user.role` appears in autocomplete without any manual type definitions. This works through the `$Infer` utility on your server auth instance.
+
+For monorepo setups where the client and server live in separate packages, pass your server's auth type as a generic to `createAuthClient`. This gives you the same end-to-end type safety without a direct import of the server module.
+
+<CodeAccordion title="Type inference patterns" code={`import type { auth } from "./auth" // your server auth instance
 
 // Infer session & user types from your config + plugins
 type Session = typeof auth.$Infer.Session
 type User = typeof auth.$Infer.Session.user
 
 // For separate client/server projects, pass the type generic
-import { createAuthClient } from "better-auth/react"
-import type { auth } from "server/auth"
-
 const authClient = createAuthClient<typeof auth>({
   baseURL: "http://localhost:3000",
 })`} />
+
+<Explainer title="Why this matters">
+Without type inference, adding a plugin like `organization()` would mean manually defining `session.user.organizationId`, `session.activeOrganization`, etc. With `$Infer`, plugin fields flow through your entire codebase automatically — the type system becomes a living document of your auth capabilities.
+</Explainer>

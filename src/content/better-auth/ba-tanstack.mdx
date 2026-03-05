@@ -13,17 +13,25 @@ linkRefs:
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
+  <TocLink id="toc-why">Why a special plugin?</TocLink>
   <TocLink id="toc-cookie">Server: TanStack Start cookie plugin</TocLink>
   <TocLink id="toc-route">Mount the handler as an API route</TocLink>
-  <TocLink id="toc-client">Client: React hooks</TocLink>
   <TocLink id="toc-ssr">Server-side session access</TocLink>
 </Toc>
 
 <SectionIntro>
-BetterAuth has first-class support for TanStack Start. A dedicated cookie plugin ensures sessions work correctly with TanStack Start's SSR cookie handling.
+BetterAuth has first-class support for TanStack Start. A dedicated cookie plugin ensures sessions work correctly with TanStack Start's SSR cookie handling, and the standard client SDK works out of the box for React hooks.
 </SectionIntro>
 
+<SectionSubheading id="toc-why">Why a special plugin?</SectionSubheading>
+
+In a client-side SPA, auth cookies are set by the browser in response to HTTP headers — the standard `Set-Cookie` flow. But in SSR frameworks like TanStack Start, the server renders the initial HTML before the browser is involved. If the server needs to set or read a cookie during rendering (e.g., to check a session in a route loader), it can't use browser APIs — it needs to go through the framework's cookie API.
+
+The `tanstackStartCookies()` plugin bridges this gap. It intercepts BetterAuth's cookie operations and routes them through TanStack Start's cookie handling, so sessions work correctly whether the page is server-rendered or client-rendered.
+
 <SectionSubheading id="toc-cookie">Server: TanStack Start cookie plugin</SectionSubheading>
+
+Add the plugin to your server config. It must be the **last plugin** in the array because it wraps all cookie operations from other plugins.
 
 <CodeAccordion title="src/lib/auth.ts" code={`import { betterAuth } from "better-auth"
 import { tanstackStartCookies } from "better-auth/tanstack-start"
@@ -45,6 +53,8 @@ The `tanstackStartCookies()` plugin was renamed from `reactStartCookies()` in v1
 
 <SectionSubheading id="toc-route">Mount the handler as an API route</SectionSubheading>
 
+TanStack Start uses file-based API routing. You create a catch-all route file at `src/routes/api/auth/$.ts` — the `$` segment acts as a wildcard, forwarding all `/api/auth/*` requests to BetterAuth's handler. This is the same pattern as mounting on Hono or Express, just expressed through file conventions.
+
 <CodeAccordion title="src/routes/api/auth/$.ts" code={`import { auth } from "@/lib/auth"
 import { createAPIFileRoute } from "@tanstack/react-start/api"
 
@@ -53,13 +63,11 @@ export const APIRoute = createAPIFileRoute("/api/auth/$")({
   POST: ({ request }) => auth.handler(request),
 })`} />
 
-<SectionSubheading id="toc-client">Client: React hooks</SectionSubheading>
-
-<CodeAccordion title="src/lib/auth-client.ts" code={`import { createAuthClient } from "better-auth/react"
-
-export const { useSession, signIn, signUp, signOut } = createAuthClient()`} />
-
 <SectionSubheading id="toc-ssr">Server-side session access</SectionSubheading>
+
+The standard pattern for auth-guarded routes in SSR frameworks is: route loader runs on server → checks session via request headers → redirects unauthenticated users or passes the session to the component. In TanStack Start, this maps to `createServerFn` (to access the server request) combined with `beforeLoad` (to gate the route).
+
+The key insight is that `auth.api.getSession()` works on the server by reading cookies from the request headers — the same session cookie the browser sends. No separate server-side session store or token validation is needed.
 
 <CodeAccordion title="src/routes/dashboard.tsx — Loader with auth guard" code={`import { createFileRoute, redirect } from "@tanstack/react-router"
 import { createServerFn } from "@tanstack/react-start"
@@ -92,6 +100,6 @@ function DashboardPage() {
   return <h1>Welcome, {session.user.name}</h1>
 }`} />
 
-<Explainer title="Route-level auth guards">
-You can use `auth.api.getSession()` in any server function or loader by passing the request headers. This pattern works great with TanStack Router's `beforeLoad` for route-level auth guards.
+<Explainer title="Client hooks still work">
+You don't need to choose between server-side and client-side session access. Use `beforeLoad` for route guards and initial data, and `useSession()` from the client SDK for reactive UI updates after the page loads. Both read from the same session cookie.
 </Explainer>

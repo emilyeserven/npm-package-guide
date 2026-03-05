@@ -13,7 +13,7 @@ linkRefs:
 <SectionTitle>{frontmatter.title}</SectionTitle>
 
 <Toc>
-  <TocLink id="toc-install">Install</TocLink>
+  <TocLink id="toc-mental-model">The mental model</TocLink>
   <TocLink id="toc-env">Environment variables</TocLink>
   <TocLink id="toc-server">Server config</TocLink>
   <TocLink id="toc-mount">Mount the handler</TocLink>
@@ -21,21 +21,23 @@ linkRefs:
 </Toc>
 
 <SectionIntro>
-Getting started is straightforward. Install the package, create a server config, mount the handler, and create a client.
+Setting up BetterAuth follows a consistent pattern regardless of framework: install the package (`pnpm add better-auth`), create a server config that describes your auth rules, mount it as an HTTP handler, and generate your database schema. This page walks through each step and explains what's happening under the hood.
 </SectionIntro>
 
-<SectionSubheading id="toc-install">Install</SectionSubheading>
+<SectionSubheading id="toc-mental-model">The mental model</SectionSubheading>
 
-<CodeAccordion title="npm" code="npm install better-auth" />
-<CodeAccordion title="pnpm" code="pnpm add better-auth" />
-<CodeAccordion title="bun" code="bun add better-auth" />
+BetterAuth's setup is a three-part pipeline: **config → handler → mount**. You describe *what* auth features you want in a config object (database, providers, plugins). BetterAuth compiles that into an HTTP handler that exposes all the necessary endpoints — sign-in, sign-up, callback, session, verify, etc. You then mount that handler on your backend framework at a catch-all route. The framework never needs to know what auth is doing; it just forwards requests.
 
 <SectionSubheading id="toc-env">Environment variables</SectionSubheading>
+
+BetterAuth needs two environment variables. `BETTER_AUTH_SECRET` is used to sign session tokens and must be a strong random string. `BETTER_AUTH_URL` tells the library where your server lives, which is needed for OAuth callback URLs and cookie domains.
 
 <CodeAccordion title=".env" code={`BETTER_AUTH_SECRET=your-random-secret-key-here
 BETTER_AUTH_URL=http://localhost:3000`} />
 
 <SectionSubheading id="toc-server">Server config</SectionSubheading>
+
+The `betterAuth()` function takes a config object and returns an auth instance. The config is where you declare everything: which database adapter to use, which auth methods to enable (email/password, social, passwordless), and which plugins to load. This is the single source of truth for your entire auth setup — every feature, table, and endpoint derives from it.
 
 <CodeAccordion title="src/lib/auth.ts" code={`import { betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
@@ -52,9 +54,9 @@ export const auth = betterAuth({
 
 <SectionSubheading id="toc-mount">Mount the handler</SectionSubheading>
 
-The handler can be mounted on any framework. Here are the three most common approaches:
+The auth instance exposes a `.handler` method that accepts a standard `Request` and returns a `Response`. You mount it at a catch-all route (typically `/api/auth/**`) so BetterAuth can own the entire auth URL namespace. All endpoints — `/api/auth/sign-in`, `/api/auth/callback/google`, `/api/auth/session`, etc. — are handled automatically. Your framework just forwards the raw request.
 
-<CodeAccordion title="Hono" code={`import { Hono } from "hono"
+<CodeAccordion title="Hono (example — works similarly in Express, Elysia, Fastify)" code={`import { Hono } from "hono"
 import { auth } from "./lib/auth"
 
 const app = new Hono()
@@ -64,26 +66,14 @@ app.on(["GET", "POST"], "/api/auth/**", (c) => {
 
 export default app`} />
 
-<CodeAccordion title="Express" code={`import express from "express"
-import { toNodeHandler } from "better-auth/node"
-import { auth } from "./lib/auth"
-
-const app = express()
-app.all("/api/auth/*", toNodeHandler(auth))`} />
-
-<CodeAccordion title="Elysia" code={`import { Elysia } from "elysia"
-import { auth } from "./lib/auth"
-
-const app = new Elysia()
-  .mount(auth.handler)
-  .listen(3000)`} />
+<Explainer title="Framework adapters">
+For frameworks that don't use the Web Standard `Request`/`Response` API (like Express), BetterAuth provides adapters such as `toNodeHandler(auth)`. The concept is the same — mount at a catch-all route and let BetterAuth handle everything under that prefix.
+</Explainer>
 
 <SectionSubheading id="toc-schema">Generate & migrate schema</SectionSubheading>
+
+BetterAuth manages its own database tables (users, sessions, accounts, verifications). Rather than shipping static SQL, the CLI inspects your config — including any plugins you've added — and generates the correct schema for your ORM. This means adding a plugin like `organization()` later is just: add the plugin to your config, re-run generate, and migrate. The schema always stays in sync with your features.
 
 <CodeAccordion title="terminal" code={`npx auth@latest generate   # generates schema for your ORM
 npx drizzle-kit generate     # create migration file
 npx drizzle-kit migrate      # apply migration`} />
-
-<Explainer title="How generate works">
-The `auth generate` command inspects your BetterAuth config (including plugins) and outputs the correct schema for your ORM. If you add the `organization()` plugin later, just re-run generate and migrate.
-</Explainer>
